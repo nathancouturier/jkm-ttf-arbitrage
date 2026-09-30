@@ -152,3 +152,79 @@ party datasets may carry extra conditions in their metadata. The gas rows name
 Bloomberg Finance L.P., World Gas Intelligence, Thomson Reuters Datastream, The
 Wall Street Journal and Official Statistics of Japan among their sources. The
 catalogue entry names no extra condition.
+
+### 14. JOGMEC's permission
+
+Raised 30 September 2026. **Open, the owner's decision: whether and how to send.**
+
+JOGMEC's survey is the only public continuation of METI's after March 2021, and
+its terms require permission for use beyond private use, education and
+quotation, and written permission for a link to its website. Until JOGMEC
+answers, the series is kept in `data/private/`. JOGMEC's contact route is a web
+form, in English at `https://www.jogmec.go.jp/form/?f=inquiry_en.html` or in
+Japanese on the journal site; both require a company name and limit the
+message to 2,000 characters. The closest subject in the English form is
+"Gathering/Providing Information (Oil and Natural Gas)". Draft:
+
+> Subject: Permission to reuse the monthly spot LNG prices for delivery to Japan
+>
+> Dear Sir or Madam,
+>
+> My name is Nathan Couturier. I am an individual building a public,
+> non-commercial study of the US LNG export arbitrage between Europe and
+> Northeast Asia. The code and results will be published in a public GitHub
+> repository (planned address: github.com/nathancouturier/jkm-ttf-arbitrage)
+> and on its GitHub Pages website.
+>
+> I would like to ask JOGMEC's permission to use the series "Monthly spot LNG
+> prices for delivery to Japan" from April 2021 onwards: the contract-based and
+> arrival-based prices, both preliminary and confirmed values, as published on
+> journal.jogmec.go.jp. The values would be stored as a data file in the
+> repository and shown in charts and tables on the website.
+>
+> Every chart, table and data file would carry the credit "Source: JOGMEC,
+> Monthly spot LNG prices for delivery to Japan", with a link to your page if you
+> allow linking. The website would state clearly that the values were edited by
+> this study (arranged into a monthly time series and compared with other
+> prices), and that JOGMEC is not responsible for the results. Months that JOGMEC
+> did not disclose would be shown as gaps.
+>
+> Nothing will be published before I receive your permission, and I will follow
+> any conditions you set.
+>
+> Thank you for your time.
+>
+> Yours faithfully,
+> Nathan Couturier
+> [email address]
+
+### 15. METI's preliminary figures
+
+Raised 30 September 2026. **Open, the owner's decision.**
+
+METI's historical workbook gives every month's latest figure and is the source
+of `meti_spot_lng_monthly`. Only the monthly PDFs carry the preliminary figures,
+and METI's site challenges automated requests after a handful of files: nine
+PDFs are held, 77 are not. They can be saved by hand from a browser, which is
+the manual step recorded in the manifest, or the study can do without METI's
+preliminary vintages before August 2020.
+
+### 16. Do METI's and JOGMEC's arrival-based series join?
+
+Raised 30 September 2026. Open.
+
+JOGMEC changed its arrival-based definition in April 2023. METI's own definition
+of arrival-based is in its overview document, which could not be read, so
+whether METI's arrival-based series continues into JOGMEC's old definition, its
+new one, or neither is not established. Until it is, the two are not drawn as
+one arrival-based line. The contract-based series are defined the same way in
+both surveys' notes.
+
+### 17. April 2026 in JOGMEC's publications
+
+Raised 30 September 2026. Open, recorded.
+
+JOGMEC's May 2026 page, in English and in Japanese, gives the confirmed
+contract-based price for April 2026 as 19.2 and says in words that it was
+revised from the preliminary 19.1. Both of JOGMEC's historical workbooks,
+modified after that page, still give 19.1. The study follows the page.

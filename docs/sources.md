@@ -25,6 +25,8 @@ was decided on the strength of it.
 | `eia_lng_exports_monthly` | US LNG exports and re-exports by destination country, MMcf, the latest release | [NG_MOVE_EXPC_S1_M.xls](https://www.eia.gov/dnav/ng/xls/NG_MOVE_EXPC_S1_M.xls) | monthly, end of month | **yes** | US public domain |
 | `eia_lng_exports_revisions` | Every value a release of the table above changed, both releases side by side | derived by this study | with each release | **yes** | US public domain |
 | `eia_henry_hub_daily` | Henry Hub spot price, daily, USD/MMBtu, credited by EIA to Refinitiv | [RNGWHHDd.xls](https://www.eia.gov/dnav/ng/hist_xls/RNGWHHDd.xls) | weekly release, daily values | **yes**, with the doubt in 2.1 | US public domain |
+| `meti_spot_lng_monthly` | Japan spot LNG price, DES, contract-based and arrival-based, monthly, March 2014 to March 2021 | [historical-data-e.xlsx](https://www.meti.go.jp/english/statistics/sho/slng/historical-data-e.xlsx), read once | ended | **yes** | METI terms, compatible with CC BY 4.0 |
+| `jogmec_spot_lng_monthly` | Japan spot LNG price, DES, contract-based and arrival-based, monthly, from April 2021 | one page per month from the [list page](https://journal.jogmec.go.jp/oilgas/nglng-en/spotprice/index.html) | monthly, 9th to 15th | **NO**, `data/private/` until JOGMEC permits | JOGMEC terms, permission requested |
 | `worldbank_gas_monthly` | Europe gas (TTF from April 2015), US gas at Henry Hub, and Japan LNG import price, monthly, USD/MMBtu, from 2015 | read from the [commodity markets page](https://www.worldbank.org/en/research/commodity-markets); the file's path changes | monthly, early in the month | **yes** | CC BY 4.0 |
 | `worldbank_gas_revisions` | Every value a Pink Sheet release changed, both releases side by side | derived by this study | with each release that changes a value | **yes** | CC BY 4.0 |
 | `h10_usd_per_eur_daily` | US dollars per euro, noon buying rate in New York, daily, from 2015 | [FRB_h10_xml.zip](https://www.federalreserve.gov/releases/h10/data/FRB_h10_xml.zip) | weekly, Mondays | **yes** | US public domain |
@@ -179,7 +181,62 @@ The financing line the study computes from SOFR is this study's derivative and
 is labelled as such. The site shows the completed notice wherever SOFR or the
 financing line appears.
 
-### 2.5 The routes, this study's computation
+### 2.5 METI, Spot LNG Price Statistics, compatible with CC BY 4.0
+
+Read at `https://www.meti.go.jp/english/other/terms_of_use.html` on 30 September
+2026, "Last updated:2025-03-10":
+
+> "Unless otherwise specified, the copyrights to the Content belong to METI, but
+> you may use the Content under the terms of use if you comply with the Public
+> Data License (Version 1.0; PDL 1.0)."
+
+> "If you edit or process the Content for use, you should include a statement
+> expressing that the Content has been edited or processed in addition to the
+> abovementioned source citation. You are not allowed to make public or use
+> edited or processed information in a way that makes it appear as if the
+> Government of Japan (or its ministries and/or agencies) created it."
+
+> "The Terms of Use are compatible with the Creative Commons Attribution License
+> 4.0 (hereinafter referred to as the CC License). This means that Content based
+> on the Terms of Use may be used under the CC License in lieu of the Terms of
+> Use."
+
+**Redistributable: yes**, citing the source and saying the data were edited.
+The appendix of content under other terms and the "Agreement for use" page could
+not be read past METI's bot challenge (section 3.7); nothing in the survey's
+files names a third party.
+
+**Attribution this project uses:** "Created by processing the information in
+the Spot LNG Price Statistics (Ministry of Economy, Trade and Industry of
+Japan) (https://www.meti.go.jp/english/statistics/sho/slng/index.html)",
+following the pattern METI's terms give.
+
+### 2.6 JOGMEC, spot LNG prices for delivery to Japan, not redistributable yet
+
+From the "Global Disclaimer" on JOGMEC's English natural gas page,
+`https://journal.jogmec.go.jp/oilgas/nglng-en/index.html`, read on 30 September
+2026:
+
+> "Use of this material beyond the scope permitted under the Copyright Act of
+> Japan, such as private use, educational use, or quotation, requires prior
+> permission from JOGMEC or the relevant copyright holders."
+
+From JOGMEC's English terms of use, `https://www.jogmec.go.jp/english/terms.html`:
+
+> "Any transfer or reproduction of this Website in whole or in part, in either
+> its existing form or modified form, is expressly prohibited except for
+> personal use or citation for nonprofit purposes permitted under copyright law
+> and other laws."
+
+> "You may not link to this website without prior written permission from
+> JOGMEC."
+
+**Redistributable: no, not without JOGMEC's permission**, which has been
+requested (`docs/open-questions.md`, question 14). The series is kept in
+`data/private/`; no value, chart or derived figure from it is published, and
+the public pages carry no link to JOGMEC until JOGMEC allows it.
+
+### 2.7 The routes, this study's computation
 
 The distances and lines in `data/seed/routes.json` and `data/seed/routes.geojson`
 were computed by this study with searoute 1.6.0
@@ -319,7 +376,50 @@ library is a development tool; it is not shipped with the site.
 * **No SOFR exists before 2 April 2018.** Nothing is filled in; how the
   financing line is treated before then is an open question.
 
-### 3.7 The routes
+### 3.7 METI spot LNG
+
+* **METI's site answers automated requests with a bot challenge** after a
+  handful of files: HTTP 202 with an empty body and the header
+  `x-amzn-waf-action: challenge`. A script that treats 202 as success writes
+  empty files. The survey ended with March 2021, so the pipeline reads the
+  workbook fetched once and never refetches.
+* **The workbook drops the preliminary figures.** Each month's PDF revises the
+  month before it (December 2020, contract-based: 8.6 preliminary, 7.4
+  detailed), and a March issue can fix the year before (February 2019 is the one
+  month labelled "Fixed"). Only the PDFs carry the earlier vintages.
+* **A month METI did not publish is a multiplication sign** (U+00D7) in the
+  workbook, never a zero or a blank.
+* **METI's own text is not always consistent.** Its release for August 2020
+  quotes July 2020 contract-based at 5.2, labelled "detailed", while its table and
+  the workbook give 4.2; its releases for January and February 2021 announce a
+  "Change" to figures that are printed unchanged.
+* **File names switch** from `YYYYMM-e.pdf` to `YYYYMM_e.pdf` in May 2018.
+
+### 3.8 JOGMEC spot LNG
+
+* **The confirmed figure has no page of its own.** It is printed in the first
+  column of the next month's page. A month undisclosed at the preliminary stage
+  can be disclosed when confirmed (July 2022 arrival-based, May 2025
+  contract-based).
+* **The arrival-based definition changed with the April 2023 release**, from
+  cargoes contracted and delivered in the month to cargoes delivered in the month
+  whenever contracted.
+* **Undisclosed is a horizontal bar**, U+2015, not a hyphen and not a zero.
+  JOGMEC withholds a month when fewer than two companies imported spot LNG:
+  26 of 65 contract-based months and 41 of 65 arrival-based months to August
+  2026.
+* **JOGMEC's publications disagree once.** April 2026 contract-based is 19.2 on
+  the May 2026 page, in English and in Japanese, and 19.1 in both historical
+  workbooks. The study follows the page, which states the revision in words.
+* **Pages are edited in place and have been renamed.** The August 2022 page was
+  updated on 12 October 2022; the pages for October and November 2025 were once
+  served without the `-preliminary` suffix. A first release can only be kept by
+  saving it when it appears.
+* **JOGMEC writes the unit as "USD/MBtu".** The same pages quote Henry Hub in
+  that unit at a level that only makes sense per million Btu, so it is read as
+  USD/MMBtu. That is an inference, not JOGMEC's statement.
+
+### 3.9 The routes
 
 * **searoute draws the Pacific crossing past -180 degrees** as one continuous
   line, down to -220.36 degrees of longitude, rather than jumping to +180. A
@@ -346,6 +446,10 @@ library is a development tool; it is not shipped with the site.
 5. **SOFR's source and licence.** This study reads the New York Fed's API under
    the New York Fed's terms, which travel with the committed cache.
 6. **Financing before 2 April 2018**, when no SOFR exists.
+7. **JOGMEC's permission**, requested with the draft in `docs/open-questions.md`,
+   question 14.
+8. **METI's monthly PDFs**, which only a person can save past METI's bot
+   challenge, and which alone carry METI's preliminary figures.
 
 ---
 
