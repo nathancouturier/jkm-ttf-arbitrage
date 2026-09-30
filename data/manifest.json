@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-30T16:35:17Z",
+  "generated_at": "2026-09-30T16:37:37Z",
   "series": [
     {
       "series": "eia_henry_hub_daily",
@@ -553,7 +553,7 @@
       "page_url": "https://github.com/genthalili/searoute-py",
       "machine_fetched": false,
       "fetched_at": null,
-      "checked_at": "2026-09-30T16:35:17Z",
+      "checked_at": "2026-09-30T16:37:37Z",
       "rows": 4,
       "observations": 4,
       "file_rows": 4,
@@ -604,34 +604,6 @@
       "licence": "CC BY 4.0",
       "observation_column": "europe_gas_usd_mmbtu",
       "unique_dates": true
-    },
-    {
-      "series": "worldbank_gas_revisions",
-      "source": "World Bank Commodity Price Data (The Pink Sheet), compared release by release",
-      "url": "https://www.worldbank.org/en/research/commodity-markets",
-      "page_url": "https://www.worldbank.org/en/research/commodity-markets",
-      "machine_fetched": true,
-      "fetched_at": "2026-09-30T16:35:17Z",
-      "checked_at": null,
-      "rows": 0,
-      "observations": 0,
-      "file_rows": 0,
-      "first_date": null,
-      "last_date": null,
-      "frequency": "monthly",
-      "gaps": [],
-      "provisional_from": null,
-      "vintage": null,
-      "method": "derived",
-      "committable": true,
-      "licence_note": "The World Bank's dataset terms: 'Unless specifically labeled otherwise, these Datasets are provided to you under a Creative Commons Attribution 4.0 International License (CC BY 4.0)', and the Pink Sheet's catalogue entry says the same. Attribute to The World Bank, Commodity Price Data (The Pink Sheet), and do not imply its endorsement. One residual, recorded: the terms say some datasets are provided by third parties and may carry extra conditions in their metadata, and the gas rows credit Bloomberg Finance L.P., World Gas Intelligence and others; the catalogue entry names no extra condition.",
-      "status": "failed",
-      "note": "data/cache/worldbank_gas_revisions.csv is not on disk. Nothing was written and nothing was removed.",
-      "file": "data/cache/worldbank_gas_revisions.csv",
-      "unit": "USD per MMBtu",
-      "licence": "CC BY 4.0",
-      "observation_column": "release_after",
-      "unique_dates": false
     }
   ],
   "manual_steps": [
@@ -663,8 +635,8 @@
   "manual_steps_note": "Work this pipeline cannot do for itself. Each entry says what it is, why it exists, what it costs to skip it and how to do it. They are repeated against the series they affect in the manual_step field of those entries.",
   "run": {
     "mode": "offline",
-    "started_at": "2026-09-30T16:35:17Z",
-    "finished_at": "2026-09-30T16:35:17Z",
+    "started_at": "2026-09-30T16:37:37Z",
+    "finished_at": "2026-09-30T16:37:37Z",
     "script": "scripts/refresh.py"
   }
 }

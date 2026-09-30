@@ -262,6 +262,7 @@ class LngExportsRevisions(Adapter):
     unique_dates = False
     required_cols = ("date", "series_id", "vintage_before", "vintage_after")
     observation_column = "vintage_after"
+    written_when_needed = True
 
     def __init__(self, additions: pd.DataFrame):
         self.additions = additions

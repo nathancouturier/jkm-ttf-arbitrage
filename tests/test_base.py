@@ -660,3 +660,12 @@ def test_head_is_refused_for_eia_because_it_answers_503_to_head(monkeypatch):
     with pytest.raises(SourceError) as caught:
         base.http_head("https://www.eia.gov/dnav/ng/xls/NG_MOVE_EXPC_S1_M.xls")
     assert "503" in str(caught.value)
+
+
+def test_manifest_remove_drops_one_entry_and_keeps_the_rest(sandbox):
+    manifest_upsert(_entry(series="a_series"))
+    manifest_upsert(_entry(series="b_series"))
+    assert base.manifest_remove("a_series") is True
+    assert [e["series"] for e in manifest_read()["series"]] == ["b_series"]
+    assert base.manifest_remove("a_series") is False
+    assert b"\r" not in base.MANIFEST.read_bytes()

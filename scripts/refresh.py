@@ -465,6 +465,13 @@ def main(argv: Sequence[str] | None = None) -> int:
                     if not valid:
                         args.failures.append({"series": adapter.name, "error": note, "traceback": ""})
                     continue
+                if adapter.written_when_needed and read_cache(
+                    adapter.name, date_col=adapter.date_col, directory=adapter.directory()
+                ) is None:
+                    removed = base.manifest_remove(adapter.name)
+                    print("        %-40s not written yet, nothing to record%s"
+                          % (adapter.name, ", stale entry removed" if removed else ""))
+                    continue
                 entry = revalidate(adapter, previous.get(adapter.name))
                 base.manifest_upsert(entry)
                 touched.append(adapter.name)

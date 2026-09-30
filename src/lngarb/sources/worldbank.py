@@ -263,6 +263,7 @@ class WorldBankGasRevisions(Adapter):
     unique_dates = False
     required_cols = ("date", "series", "release_before", "release_after")
     observation_column = "release_after"
+    written_when_needed = True
 
     def __init__(self, additions: pd.DataFrame):
         self.additions = additions

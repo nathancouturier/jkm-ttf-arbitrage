@@ -91,6 +91,7 @@ __all__ = [
     "validate_frame",
     "manifest_read",
     "manifest_upsert",
+    "manifest_remove",
     "Adapter",
     "MANIFEST_SCHEMA_VERSION",
     "STATUS_VALUES",
@@ -903,6 +904,30 @@ def manifest_read() -> dict:
     return payload
 
 
+def manifest_remove(series: str) -> bool:
+    """Drop one series entry from data/manifest.json. Returns whether it was there."""
+    payload = manifest_read()
+    kept = [e for e in payload["series"] if e.get("series") != series]
+    if len(kept) == len(payload["series"]):
+        return False
+    payload["series"] = kept
+    payload["generated_at"] = utc_now_iso()
+    manual_steps.apply(payload)
+    tmp = MANIFEST.with_name(MANIFEST.name + ".tmp.%d" % os.getpid())
+    try:
+        with open(tmp, "w", encoding="utf-8", newline="\n") as handle:
+            json.dump(payload, handle, indent=2, ensure_ascii=True, sort_keys=False)
+            handle.write("\n")
+        os.replace(tmp, MANIFEST)
+    finally:
+        if tmp.exists():
+            try:
+                tmp.unlink()
+            except OSError:
+                pass
+    return True
+
+
 def manifest_upsert(entry: Mapping[str, Any]) -> None:
     """Insert or replace one series entry in data/manifest.json.
 
@@ -1042,6 +1067,10 @@ class Adapter:
     vintage: str | None = None
     #: free text carried into the manifest on success
     note: str = ""
+    #: True for a file that exists only once there is something to record in
+    #: it, such as a revisions log before the first revision. Until then it has
+    #: no manifest entry, rather than a failed one.
+    written_when_needed: bool = False
 
     def fetch(self) -> pd.DataFrame:
         """Return a frame with a date column and the series columns.
