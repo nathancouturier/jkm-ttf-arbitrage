@@ -57,6 +57,7 @@ from lngarb import config, manual_steps, sea_routes  # noqa: E402
 from lngarb.sources import base  # noqa: E402
 from lngarb.sources.base import Adapter, read_cache, utc_now_iso, validate_frame  # noqa: E402
 from lngarb.sources.eia import HenryHubDaily, LngExportsMonthly, LngExportsRevisions  # noqa: E402
+from lngarb.sources.acer import AcerLngDaily  # noqa: E402
 from lngarb.sources.h10 import UsdPerEurDaily  # noqa: E402
 from lngarb.sources.jogmec import JogmecSpotLngMonthly  # noqa: E402
 from lngarb.sources.meti import MetiSpotLngMonthly  # noqa: E402
@@ -170,6 +171,13 @@ JOBS: tuple[Job, ...] = (
         series=("worldbank_gas_monthly", "worldbank_gas_revisions"),
         adapters=lambda: [WorldBankGasMonthly(), WorldBankGasRevisions(pd.DataFrame())],
         online=_simple(lambda: [WorldBankGasMonthly()]),
+    ),
+    Job(
+        name="acer",
+        what="ACER DES LNG assessments and EU benchmark, from ACER's main site only, never TERMINAL",
+        series=("acer_lng_daily",),
+        adapters=lambda: [AcerLngDaily()],
+        online=_simple(lambda: [AcerLngDaily()]),
     ),
     Job(
         name="meti",

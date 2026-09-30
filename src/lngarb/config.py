@@ -35,6 +35,9 @@ BOUNDS_USD_PER_EUR = (0.8, 1.7)
 BOUNDS_HIRE_USD_DAY = (-10000.0, 500000.0)
 #: ACER DES LNG spreads to the TTF front month, EUR/MWh
 BOUNDS_DES_SPREAD_EUR_MWH = (-20.0, 5.0)
+#: A DES LNG price level, EUR/MWh, as ACER assesses it. A guard against a unit
+#: or a parse error, not a range the market implies.
+BOUNDS_DES_EUR_MWH = (1.0, 400.0)
 #: SOFR, percent per year. Not a range the market implies, a guard against a
 #: unit error: a rate read in basis points would be a hundred times too large.
 BOUNDS_SOFR_PERCENT = (-1.0, 15.0)
@@ -336,7 +339,40 @@ _METI_NOTE = (
 )
 
 
+_ACER_NOTE = (
+    "ACER's legal notice: 'Information and documents made available on the "
+    "Agency's webpages are public and may be reproduced and/or distributed, "
+    "totally or in part, ... for non-commercial and commercial purposes, provided "
+    "that the Agency is always acknowledged as the source of the material', and "
+    "ACER's PDFs say 'Reproduction is authorised provided the source is "
+    "acknowledged'. One doubt, recorded: the same notice's first paragraph "
+    "prohibits reuse of 'this Licensed Material' without saying what that is. The "
+    "benchmark's TTF leg is ICE data; ACER's prices and spreads are published, a "
+    "TTF level derived from them never is."
+)
+
+
 SOURCES: Mapping[str, Source] = _registry(
+    # -- ACER -------------------------------------------------------------
+    Source(
+        series="acer_lng_daily",
+        label="ACER DES LNG assessments for NWE, SE and the EU, and the EU benchmark to TTF, daily, EUR/MWh",
+        publisher="European Union Agency for the Cooperation of Energy Regulators",
+        page_url="https://www.acer.europa.eu/gas/lng-price-assessment",
+        machine_url="https://www.acer.europa.eu/sites/default/files/documents/en/Gas/LNG_Price_Assessment/LNGPA_Correction_Notice_20241220.pdf",
+        url_note=(
+            "The daily reports are on ACER's TERMINAL platform, which this pipeline "
+            "does not fetch; they are saved by hand. Code reads only ACER's main "
+            "site: the correction notice of 20 December 2024 and the methodology's "
+            "annex of half-month roll dates."
+        ),
+        frequency="daily",
+        unit="EUR per MWh",
+        method="parsed",
+        licence="ACER legal notice, reproduction with acknowledgement",
+        licence_note=_ACER_NOTE,
+        committable=True,
+    ),
     # -- METI -------------------------------------------------------------
     Source(
         series="meti_spot_lng_monthly",

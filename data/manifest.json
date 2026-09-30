@@ -1,7 +1,46 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-30T20:44:48Z",
+  "generated_at": "2026-09-30T21:28:55Z",
   "series": [
+    {
+      "series": "acer_lng_daily",
+      "source": "European Union Agency for the Cooperation of Energy Regulators, LNG price assessment and benchmark",
+      "url": "https://www.acer.europa.eu/sites/default/files/documents/en/Gas/LNG_Price_Assessment/LNGPA_Correction_Notice_20241220.pdf",
+      "page_url": "https://www.acer.europa.eu/gas/lng-price-assessment",
+      "machine_fetched": true,
+      "fetched_at": "2026-09-30T21:28:55Z",
+      "checked_at": null,
+      "rows": 26,
+      "observations": 26,
+      "file_rows": 26,
+      "first_date": "2024-11-04",
+      "last_date": "2024-12-09",
+      "frequency": "daily",
+      "gaps": [],
+      "provisional_from": null,
+      "vintage": "correction notice of 20 December 2024; half-months from methodology 1.1 annex 1",
+      "method": "parsed",
+      "committable": true,
+      "licence_note": "ACER's legal notice: 'Information and documents made available on the Agency's webpages are public and may be reproduced and/or distributed, totally or in part, ... for non-commercial and commercial purposes, provided that the Agency is always acknowledged as the source of the material', and ACER's PDFs say 'Reproduction is authorised provided the source is acknowledged'. One doubt, recorded: the same notice's first paragraph prohibits reuse of 'this Licensed Material' without saying what that is. The benchmark's TTF leg is ICE data; ACER's prices and spreads are published, a TTF level derived from them never is.",
+      "status": "ok",
+      "note": "The only daily ACER values on ACER's main site: the corrected values of the 26 weekdays from 4 November to 9 December 2024, with the values first published kept as printed. 1 row(s) flagged. The daily reports are on ACER's TERMINAL platform, which this pipeline does not fetch; see the manual step. Source: ACER.",
+      "file": "data/cache/acer_lng_daily.csv",
+      "unit": "EUR per MWh",
+      "licence": "ACER legal notice, reproduction with acknowledgement",
+      "observation_column": "eu_benchmark_spread_eur_mwh",
+      "unique_dates": true,
+      "manual_step": [
+        {
+          "id": "acer_reports_by_hand",
+          "what": "ACER's daily LNG price assessment reports, one PDF per weekday from 13 January 2023, have to be saved from ACER's TERMINAL platform by hand, starting with the reports of 18 and 23 February 2026.",
+          "why": "The reports are published only on TERMINAL, and this pipeline does not access TERMINAL by code. ACER corrects values in place, so a report kept when it is published is also the only record of what was first printed.",
+          "cost_if_skipped": "The only observed measure of the discount of a DES cargo in Northwest Europe to TTF has 26 days, from ACER's correction notice of November and December 2024. Everywhere else the discount is a labelled assumption.",
+          "how": "Open https://aegis.acer.europa.eu/terminal/price_assessments in a browser, save each report as data/private/acer/acer_lng_YYYY-MM-DD.pdf by its publication date, then run python -m lngarb.sources.acer. A reader for the reports is written once the first saved report shows their layout.",
+          "cadence": "each weekday, or in batches if TERMINAL keeps its history",
+          "status": "outstanding"
+        }
+      ]
+    },
     {
       "series": "eia_henry_hub_daily",
       "source": "U.S. Energy Information Administration, Henry Hub Natural Gas Spot Price, credited by EIA to Refinitiv, an LSEG business",
@@ -729,6 +768,18 @@
       "status": "standing"
     },
     {
+      "id": "acer_reports_by_hand",
+      "series": [
+        "acer_lng_daily"
+      ],
+      "what": "ACER's daily LNG price assessment reports, one PDF per weekday from 13 January 2023, have to be saved from ACER's TERMINAL platform by hand, starting with the reports of 18 and 23 February 2026.",
+      "why": "The reports are published only on TERMINAL, and this pipeline does not access TERMINAL by code. ACER corrects values in place, so a report kept when it is published is also the only record of what was first printed.",
+      "cost_if_skipped": "The only observed measure of the discount of a DES cargo in Northwest Europe to TTF has 26 days, from ACER's correction notice of November and December 2024. Everywhere else the discount is a labelled assumption.",
+      "how": "Open https://aegis.acer.europa.eu/terminal/price_assessments in a browser, save each report as data/private/acer/acer_lng_YYYY-MM-DD.pdf by its publication date, then run python -m lngarb.sources.acer. A reader for the reports is written once the first saved report shows their layout.",
+      "cadence": "each weekday, or in batches if TERMINAL keeps its history",
+      "status": "outstanding"
+    },
+    {
       "id": "meti_monthly_pdfs_by_hand",
       "series": [
         "meti_spot_lng_monthly"
@@ -744,8 +795,8 @@
   "manual_steps_note": "Work this pipeline cannot do for itself. Each entry says what it is, why it exists, what it costs to skip it and how to do it. They are repeated against the series they affect in the manual_step field of those entries.",
   "run": {
     "mode": "online",
-    "started_at": "2026-09-30T20:44:32Z",
-    "finished_at": "2026-09-30T20:44:48Z",
+    "started_at": "2026-09-30T21:28:44Z",
+    "finished_at": "2026-09-30T21:28:55Z",
     "script": "scripts/refresh.py"
   }
 }

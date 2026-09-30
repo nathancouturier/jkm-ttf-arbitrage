@@ -75,6 +75,33 @@ MANUAL_STEPS: tuple[dict[str, Any], ...] = (
         "status": "standing",
     },
     {
+        "id": "acer_reports_by_hand",
+        "series": ["acer_lng_daily"],
+        "what": (
+            "ACER's daily LNG price assessment reports, one PDF per weekday from 13 "
+            "January 2023, have to be saved from ACER's TERMINAL platform by hand, "
+            "starting with the reports of 18 and 23 February 2026."
+        ),
+        "why": (
+            "The reports are published only on TERMINAL, and this pipeline does not "
+            "access TERMINAL by code. ACER corrects values in place, so a report kept "
+            "when it is published is also the only record of what was first printed."
+        ),
+        "cost_if_skipped": (
+            "The only observed measure of the discount of a DES cargo in Northwest "
+            "Europe to TTF has 26 days, from ACER's correction notice of November and "
+            "December 2024. Everywhere else the discount is a labelled assumption."
+        ),
+        "how": (
+            "Open https://aegis.acer.europa.eu/terminal/price_assessments in a browser, "
+            "save each report as data/private/acer/acer_lng_YYYY-MM-DD.pdf by its "
+            "publication date, then run python -m lngarb.sources.acer. A reader for the "
+            "reports is written once the first saved report shows their layout."
+        ),
+        "cadence": "each weekday, or in batches if TERMINAL keeps its history",
+        "status": "outstanding",
+    },
+    {
         "id": "meti_monthly_pdfs_by_hand",
         "series": ["meti_spot_lng_monthly"],
         "what": (
