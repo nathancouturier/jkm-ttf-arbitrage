@@ -35,6 +35,138 @@ BOUNDS_USD_PER_EUR = (0.8, 1.7)
 BOUNDS_HIRE_USD_DAY = (-10000.0, 500000.0)
 #: ACER DES LNG spreads to the TTF front month, EUR/MWh
 BOUNDS_DES_SPREAD_EUR_MWH = (-20.0, 5.0)
+#: US natural gas exports in one month, MMcf, any block or total. Not a range
+#: the market implies, a guard against a unit or a parse error: the largest
+#: monthly LNG total in the 31 August 2026 release is 539,203 MMcf.
+BOUNDS_EXPORTS_MMCF = (0.0, 2000000.0)
+
+# ---------------------------------------------------------------------------
+# Destination regions for the flow analysis
+# ---------------------------------------------------------------------------
+
+#: The regions US LNG exports are grouped into. JKM markets are the four
+#: countries JKM assesses delivery to.
+REGIONS: Mapping[str, str] = MappingProxyType(
+    {
+        "jkm_markets": "JKM markets (Japan, South Korea, China, Taiwan)",
+        "other_asia": "Other Asia",
+        "europe": "Europe (the EU, the UK, Norway and Turkiye)",
+        "middle_east_africa": "Middle East and Africa",
+        "americas": "The Americas",
+    }
+)
+
+
+@dataclass(frozen=True)
+class Destination:
+    """One destination country of EIA's export table and the region it counts in."""
+
+    #: the country as EIA's series names spell it
+    country: str
+    #: a key of REGIONS
+    region: str
+    #: why a borderline country sits where it does, empty when it is not borderline
+    note: str = ""
+
+    def __post_init__(self) -> None:
+        if self.region not in REGIONS:
+            raise ValueError("%s is mapped to unknown region %r" % (self.country, self.region))
+
+
+#: Every destination code in EIA's table of US natural gas exports by country,
+#: keyed by the three characters that end each series id
+#: (NGM_EPG0_EVE_NUS-NJA_MMCF is Japan). The exports adapter refuses a code that
+#: is not here, so a new destination fails loudly instead of dropping out of a
+#: regional total.
+EIA_DESTINATIONS: Mapping[str, Destination] = MappingProxyType(
+    {
+        # JKM markets
+        "NJA": Destination("Japan", "jkm_markets"),
+        "NKS": Destination("South Korea", "jkm_markets"),
+        "NCH": Destination("China", "jkm_markets"),
+        "NTW": Destination("Taiwan", "jkm_markets"),
+        # Other Asia
+        "NBG": Destination("Bangladesh", "other_asia"),
+        "NIN": Destination("India", "other_asia"),
+        "NID": Destination("Indonesia", "other_asia"),
+        "NMY": Destination("Malaysia", "other_asia"),
+        "NPK": Destination("Pakistan", "other_asia"),
+        "NRP": Destination("Philippines", "other_asia"),
+        "NSN": Destination(
+            "Singapore",
+            "other_asia",
+            "A trading and bunkering hub. Counted with other Asia, not with the JKM "
+            "markets, because JKM assesses delivery to Japan, South Korea, China and "
+            "Taiwan only.",
+        ),
+        "NTH": Destination("Thailand", "other_asia"),
+        # Europe
+        "NBE": Destination("Belgium", "europe"),
+        "NHR": Destination("Croatia", "europe"),
+        "NFI": Destination("Finland", "europe"),
+        "NFR": Destination("France", "europe"),
+        "NGM": Destination("Germany", "europe"),
+        "NGR": Destination("Greece", "europe"),
+        "NIT": Destination("Italy", "europe"),
+        "NLH": Destination("Lithuania", "europe"),
+        "NM6": Destination("Malta", "europe"),
+        "NNL": Destination("Netherlands", "europe"),
+        "NPL": Destination("Poland", "europe"),
+        "NPO": Destination("Portugal", "europe"),
+        "NSP": Destination("Spain", "europe"),
+        "NUK": Destination("United Kingdom", "europe"),
+        "NTU": Destination(
+            "Turkiye",
+            "europe",
+            "Counted with Europe, as the region is defined for this study. A cargo "
+            "from the US Gulf reaches it through the Mediterranean with no canal, "
+            "like the European destinations.",
+        ),
+        "NRS": Destination(
+            "Russia",
+            "europe",
+            "EIA's table records one volume, 1,895 MMcf in October 2007, and nothing "
+            "since. Counted with Europe for completeness; it carries no volume in the "
+            "study period, so the choice changes no result.",
+        ),
+        # Middle East and Africa
+        "NBA": Destination("Bahrain", "middle_east_africa"),
+        "NEG": Destination("Egypt", "middle_east_africa"),
+        "NIS": Destination("Israel", "middle_east_africa"),
+        "NJO": Destination("Jordan", "middle_east_africa"),
+        "NKU": Destination("Kuwait", "middle_east_africa"),
+        "NTC": Destination("United Arab Emirates", "middle_east_africa"),
+        "NMR": Destination(
+            "Mauritania",
+            "middle_east_africa",
+            "One volume in the table, 517 MMcf in July 2024, the same figure as "
+            "Senegal's that month.",
+        ),
+        "NSG": Destination("Senegal", "middle_east_africa"),
+        # The Americas
+        "NAC": Destination("Antigua and Barbuda", "americas"),
+        "NAT": Destination("Argentina", "americas"),
+        "NBF": Destination("Bahamas", "americas"),
+        "NBB": Destination("Barbados", "americas"),
+        "NBR": Destination("Brazil", "americas"),
+        "NCA": Destination(
+            "Canada",
+            "americas",
+            "In the LNG by vessel block EIA names this series 'from Canada', not "
+            "'to Canada'; it holds one value, 3,477 MMcf in January 2026. Counted "
+            "with the Americas; what the label means is an open question.",
+        ),
+        "NCI": Destination("Chile", "americas"),
+        "NCO": Destination("Colombia", "americas"),
+        "NDR": Destination("Dominican Republic", "americas"),
+        "NES": Destination("El Salvador", "americas"),
+        "NHA": Destination("Haiti", "americas"),
+        "NJM": Destination("Jamaica", "americas"),
+        "NMX": Destination("Mexico", "americas"),
+        "NNU": Destination("Nicaragua", "americas"),
+        "NPM": Destination("Panama", "americas"),
+    }
+)
 
 # ---------------------------------------------------------------------------
 # The source registry
@@ -150,7 +282,72 @@ _EIA_ROBOTS_NOTE = (
 )
 
 
+_EIA_REFINITIV_NOTE = (
+    _EIA_NOTE + " One doubt, recorded rather than resolved: EIA's definitions "
+    "page for this table credits the spot price to 'Refinitiv, an LSEG "
+    "business', and EIA's reuse page says material 'contributed or licensed by "
+    "private individuals, companies, or organizations' 'may be protected'. The "
+    "daily values are committed with that credit shown wherever they are used, "
+    "and the question is open with the owner."
+)
+
+
 SOURCES: Mapping[str, Source] = _registry(
+    # -- EIA, the data tables -------------------------------------------
+    Source(
+        series="eia_lng_exports_monthly",
+        label="US LNG exports and re-exports by destination country, monthly, MMcf, the latest release",
+        publisher="U.S. Energy Information Administration",
+        page_url="https://www.eia.gov/dnav/ng/ng_move_expc_s1_m.htm",
+        machine_url="https://www.eia.gov/dnav/ng/xls/NG_MOVE_EXPC_S1_M.xls",
+        url_note=(
+            "A legacy .xls workbook read with xlrd. Series are identified by "
+            "their source key, never by name or position. The LNG exports by "
+            "vessel block gives destinations; the re-exports block is kept "
+            "apart; N9133US2, the LNG total, includes re-exports. EIA revises "
+            "the table and keeps no old release online, so each release is a "
+            "vintage and changed values go to eia_lng_exports_revisions."
+        ),
+        frequency="monthly",
+        unit="MMcf per month",
+        method="published",
+        licence="US public domain",
+        licence_note=_EIA_NOTE,
+        committable=True,
+    ),
+    Source(
+        series="eia_lng_exports_revisions",
+        label="Every value a release of EIA's exports by country table changed, both vintages side by side",
+        publisher="U.S. Energy Information Administration, compared release by release by this study",
+        page_url="https://www.eia.gov/dnav/ng/ng_move_expc_s1_m.htm",
+        machine_url=None,
+        url_note="Written by the exports adapter when a new release differs from the committed one.",
+        frequency="monthly",
+        unit="MMcf per month",
+        method="derived",
+        licence="US public domain",
+        licence_note=_EIA_NOTE,
+        committable=True,
+    ),
+    Source(
+        series="eia_henry_hub_daily",
+        label="Henry Hub spot price, daily, USD/MMBtu",
+        publisher="U.S. Energy Information Administration, credited by EIA to Refinitiv, an LSEG business",
+        page_url="https://www.eia.gov/dnav/ng/hist/rngwhhdd.htm",
+        machine_url="https://www.eia.gov/dnav/ng/hist_xls/RNGWHHDd.xls",
+        url_note=(
+            "Series RNGWHHD. EIA's NYMEX futures series stop on 5 April 2024. "
+            "Holidays are omitted except from July 2015 to November 2017, when "
+            "rows repeat the previous business day; 1997 to 2006 are sparse; "
+            "2018-01-05 is a dated row with no value."
+        ),
+        frequency="daily",
+        unit="USD per MMBtu",
+        method="published",
+        licence="US public domain, with the third party credit doubt",
+        licence_note=_EIA_REFINITIV_NOTE,
+        committable=True,
+    ),
     # -- EIA, the weekly JKM and TTF averages -----------------------------
     Source(
         series="eia_ngwu_issue_index",
