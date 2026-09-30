@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-30T16:37:37Z",
+  "generated_at": "2026-09-30T20:42:14Z",
   "series": [
     {
       "series": "eia_henry_hub_daily",
@@ -423,6 +423,52 @@
       "unique_dates": true
     },
     {
+      "series": "meti_spot_lng_monthly",
+      "source": "Ministry of Economy, Trade and Industry of Japan, Spot LNG Price Statistics",
+      "url": "https://www.meti.go.jp/english/statistics/sho/slng/historical-data-e.xlsx",
+      "page_url": "https://www.meti.go.jp/english/statistics/sho/slng/index.html",
+      "machine_fetched": true,
+      "fetched_at": "2026-09-30T16:56:44Z",
+      "checked_at": null,
+      "rows": 79,
+      "observations": 79,
+      "file_rows": 85,
+      "first_date": "2014-03-01",
+      "last_date": "2021-03-01",
+      "frequency": "monthly",
+      "gaps": [
+        "2015-05-01",
+        "2016-03-01",
+        "2016-06-01",
+        "2016-08-01",
+        "2017-06-01",
+        "2019-11-01"
+      ],
+      "provisional_from": null,
+      "vintage": "historical workbook, series discontinued with March 2021",
+      "method": "published",
+      "committable": true,
+      "licence_note": "METI's terms: 'you may use the Content under the terms of use if you comply with the Public Data License (Version 1.0; PDL 1.0)', and 'The Terms of Use are compatible with the Creative Commons Attribution License 4.0'. Cite the source and, because the series is edited into a monthly table here, say so: 'Created by processing the information in the Spot LNG Price Statistics (Ministry of Economy, Trade and Industry of Japan)'. Edited data must not be presented as made by the Government of Japan.",
+      "status": "ok",
+      "note": "Read from METI's historical workbook, fetched from https://www.meti.go.jp/english/statistics/sho/slng/historical-data-e.xlsx at 2026-09-30T16:56:44Z and not refetched. 85 months; METI did not publish 6 contract-based and 8 arrival-based months, when fewer than two reporters imported spot LNG. Created by processing the information in the Spot LNG Price Statistics (Ministry of Economy, Trade and Industry of Japan).",
+      "file": "data/cache/meti_spot_lng_monthly.csv",
+      "unit": "USD per MMBtu, DES",
+      "licence": "METI terms of use, compatible with CC BY 4.0",
+      "observation_column": "contract_based_usd_mmbtu",
+      "unique_dates": true,
+      "manual_step": [
+        {
+          "id": "meti_monthly_pdfs_by_hand",
+          "what": "METI's monthly spot LNG releases, one PDF per month from March 2014 to March 2021, have to be saved from a browser to recover the preliminary figures. Nine are held (August 2020 to March 2021); 77 are not.",
+          "why": "METI's site answers automated requests with a bot challenge after a few files, and this pipeline does not get around a challenge. The historical workbook, read once, carries every month's latest figure but drops the preliminary ones.",
+          "cost_if_skipped": "None to the series itself, which is complete from the workbook. Without the PDFs the study cannot show how METI's preliminary figures were revised before August 2020.",
+          "how": "Open https://www.meti.go.jp/english/statistics/sho/slng/index.html in a browser and save each monthly PDF into data/private/meti/pdf/ under the name the page links it by. The PDFs stay private; a reader for them is added once they are collected.",
+          "cadence": "once, the survey has ended",
+          "status": "outstanding"
+        }
+      ]
+    },
+    {
       "series": "nyfed_sofr_daily",
       "source": "Federal Reserve Bank of New York, Secured Overnight Financing Rate",
       "url": "https://markets.newyorkfed.org/api/rates/secured/sofr/search.json?startDate=2018-04-02&endDate=today",
@@ -630,13 +676,25 @@
       "how": "python -m lngarb.sources.eia_ngwu each week after the Thursday release; the scheduled refresh does it. Past issues: open the archived issue in a browser and save it under data/private/wngsr/, a reader for which is added once the first saved copy shows what the archived page holds.",
       "cadence": "weekly, after the Thursday release, which EIA's schedule gives as 'Thursday by 5:00 p.m.' with no time zone",
       "status": "standing"
+    },
+    {
+      "id": "meti_monthly_pdfs_by_hand",
+      "series": [
+        "meti_spot_lng_monthly"
+      ],
+      "what": "METI's monthly spot LNG releases, one PDF per month from March 2014 to March 2021, have to be saved from a browser to recover the preliminary figures. Nine are held (August 2020 to March 2021); 77 are not.",
+      "why": "METI's site answers automated requests with a bot challenge after a few files, and this pipeline does not get around a challenge. The historical workbook, read once, carries every month's latest figure but drops the preliminary ones.",
+      "cost_if_skipped": "None to the series itself, which is complete from the workbook. Without the PDFs the study cannot show how METI's preliminary figures were revised before August 2020.",
+      "how": "Open https://www.meti.go.jp/english/statistics/sho/slng/index.html in a browser and save each monthly PDF into data/private/meti/pdf/ under the name the page links it by. The PDFs stay private; a reader for them is added once they are collected.",
+      "cadence": "once, the survey has ended",
+      "status": "outstanding"
     }
   ],
   "manual_steps_note": "Work this pipeline cannot do for itself. Each entry says what it is, why it exists, what it costs to skip it and how to do it. They are repeated against the series they affect in the manual_step field of those entries.",
   "run": {
-    "mode": "offline",
-    "started_at": "2026-09-30T16:37:37Z",
-    "finished_at": "2026-09-30T16:37:37Z",
+    "mode": "online",
+    "started_at": "2026-09-30T20:42:13Z",
+    "finished_at": "2026-09-30T20:42:14Z",
     "script": "scripts/refresh.py"
   }
 }

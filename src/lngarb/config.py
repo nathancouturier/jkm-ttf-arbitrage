@@ -325,7 +325,38 @@ _SOFR_NOTE = (
 )
 
 
+_METI_NOTE = (
+    "METI's terms: 'you may use the Content under the terms of use if you comply "
+    "with the Public Data License (Version 1.0; PDL 1.0)', and 'The Terms of Use are "
+    "compatible with the Creative Commons Attribution License 4.0'. Cite the source "
+    "and, because the series is edited into a monthly table here, say so: 'Created "
+    "by processing the information in the Spot LNG Price Statistics (Ministry of "
+    "Economy, Trade and Industry of Japan)'. Edited data must not be presented as "
+    "made by the Government of Japan."
+)
+
+
 SOURCES: Mapping[str, Source] = _registry(
+    # -- METI -------------------------------------------------------------
+    Source(
+        series="meti_spot_lng_monthly",
+        label="Japan spot LNG price, monthly, DES, USD/MMBtu, contract-based and arrival-based, METI, March 2014 to March 2021",
+        publisher="Ministry of Economy, Trade and Industry of Japan, Spot LNG Price Statistics",
+        page_url="https://www.meti.go.jp/english/statistics/sho/slng/index.html",
+        machine_url="https://www.meti.go.jp/english/statistics/sho/slng/historical-data-e.xlsx",
+        url_note=(
+            "The historical workbook, fetched once and not refetched: METI's site "
+            "answers automated requests with a bot challenge after a handful of "
+            "files, and the survey ended with March 2021. The monthly PDFs, which "
+            "alone carry the preliminary figures, are a manual step."
+        ),
+        frequency="monthly",
+        unit="USD per MMBtu, DES",
+        method="published",
+        licence="METI terms of use, compatible with CC BY 4.0",
+        licence_note=_METI_NOTE,
+        committable=True,
+    ),
     # -- World Bank, Federal Reserve Board, New York Fed -------------------
     Source(
         series="worldbank_gas_monthly",

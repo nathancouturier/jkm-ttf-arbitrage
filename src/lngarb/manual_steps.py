@@ -74,6 +74,34 @@ MANUAL_STEPS: tuple[dict[str, Any], ...] = (
         ),
         "status": "standing",
     },
+    {
+        "id": "meti_monthly_pdfs_by_hand",
+        "series": ["meti_spot_lng_monthly"],
+        "what": (
+            "METI's monthly spot LNG releases, one PDF per month from March 2014 to "
+            "March 2021, have to be saved from a browser to recover the preliminary "
+            "figures. Nine are held (August 2020 to March 2021); 77 are not."
+        ),
+        "why": (
+            "METI's site answers automated requests with a bot challenge after a few "
+            "files, and this pipeline does not get around a challenge. The historical "
+            "workbook, read once, carries every month's latest figure but drops the "
+            "preliminary ones."
+        ),
+        "cost_if_skipped": (
+            "None to the series itself, which is complete from the workbook. Without "
+            "the PDFs the study cannot show how METI's preliminary figures were "
+            "revised before August 2020."
+        ),
+        "how": (
+            "Open https://www.meti.go.jp/english/statistics/sho/slng/index.html in a "
+            "browser and save each monthly PDF into data/private/meti/pdf/ under the "
+            "name the page links it by. The PDFs stay private; a reader for them is "
+            "added once they are collected."
+        ),
+        "cadence": "once, the survey has ended",
+        "status": "outstanding",
+    },
 )
 
 MANUAL_STEPS_NOTE = (

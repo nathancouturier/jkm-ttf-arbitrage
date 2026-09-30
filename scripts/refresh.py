@@ -58,6 +58,7 @@ from lngarb.sources import base  # noqa: E402
 from lngarb.sources.base import Adapter, read_cache, utc_now_iso, validate_frame  # noqa: E402
 from lngarb.sources.eia import HenryHubDaily, LngExportsMonthly, LngExportsRevisions  # noqa: E402
 from lngarb.sources.h10 import UsdPerEurDaily  # noqa: E402
+from lngarb.sources.meti import MetiSpotLngMonthly  # noqa: E402
 from lngarb.sources.sofr import SofrDaily  # noqa: E402
 from lngarb.sources.worldbank import WorldBankGasMonthly, WorldBankGasRevisions  # noqa: E402
 from lngarb.sources.eia_ngwu import (  # noqa: E402
@@ -168,6 +169,13 @@ JOBS: tuple[Job, ...] = (
         series=("worldbank_gas_monthly", "worldbank_gas_revisions"),
         adapters=lambda: [WorldBankGasMonthly(), WorldBankGasRevisions(pd.DataFrame())],
         online=_simple(lambda: [WorldBankGasMonthly()]),
+    ),
+    Job(
+        name="meti",
+        what="METI spot LNG prices, monthly, 2014 to 2021, from the workbook read once, never refetched",
+        series=("meti_spot_lng_monthly",),
+        adapters=lambda: [MetiSpotLngMonthly()],
+        online=_simple(lambda: [MetiSpotLngMonthly()]),
     ),
     Job(
         name="h10",
