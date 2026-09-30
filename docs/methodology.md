@@ -83,6 +83,9 @@ independently of the Python that wrote them.
 |---|---|
 | EIA weekly JKM and TTF | the last day of the report week, a Wednesday |
 | EIA NGWU issue index | the release date of the issue, a Thursday except once |
+| METI and JOGMEC spot LNG | the month, dated on the 1st |
+| ACER DES assessments | the publication day; the half-month assessed is stored beside it |
+| EU allowance price | the month of the auctions, dated on the 1st |
 | EIA exports by destination | the month, dated on the 15th as EIA dates it |
 | EIA Henry Hub, H.10, SOFR | the trading or value day |
 | World Bank Pink Sheet | the month, dated on the 1st |
@@ -103,3 +106,7 @@ of January).
 | World Bank Europe gas | April 2015 | TTF from here; an average import border price with a spot component, including the UK, from April 2010 to March 2015 |
 | World Bank Japan LNG | every release | the last two months are estimates and are revised |
 | EIA exports by destination | every release | revisions at least fourteen months back, logged vintage against vintage |
+| Japanese spot LNG | between March and April 2021 | METI's survey ends and JOGMEC's continues it; the two are kept as two series |
+| JOGMEC arrival-based price | April 2023 | from cargoes contracted and delivered in the month to cargoes delivered in the month whenever contracted |
+| ACER DES assessments | January to March 2023 | NWE priced from 19 January 2023, SE from 20 January, the EU from 8 March, the EU benchmark to TTF from 31 March |
+| EU allowance price | after June 2025 | the Commission's latest auction report ends there; later months are missing |
