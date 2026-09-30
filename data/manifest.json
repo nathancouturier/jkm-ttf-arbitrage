@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-30T15:58:29Z",
+  "generated_at": "2026-09-30T16:06:30Z",
   "series": [
     {
       "series": "eia_henry_hub_daily",
@@ -264,6 +264,37 @@
           "status": "standing"
         }
       ]
+    },
+    {
+      "series": "routes",
+      "source": "this study, computed with searoute over Eurostat's SeaRoute maritime network",
+      "url": null,
+      "page_url": "https://github.com/genthalili/searoute-py",
+      "machine_fetched": false,
+      "fetched_at": null,
+      "checked_at": "2026-09-30T16:06:30Z",
+      "rows": 4,
+      "observations": 4,
+      "file_rows": 4,
+      "first_date": null,
+      "last_date": null,
+      "frequency": "annual",
+      "gaps": [],
+      "provisional_from": null,
+      "vintage": "searoute 1.6.0",
+      "method": "derived",
+      "committable": true,
+      "licence_note": "The distances and lines are this study's computation, published under the repository's MIT licence. searoute is released under the Apache License 2.0 and bundles Eurostat's SeaRoute maritime network, whose terms are quoted in docs/sources.md.",
+      "status": "ok",
+      "note": "4 routes computed once with searoute 1.6.0 over the Eurostat SeaRoute network and committed. Checked on every run from the committed geometry: each line's great circle length is within 0.5 percent of its recorded distance, each passes the straits it should and avoids those it should not, and each ballast leg equals its laden leg. A seed, not a time series: the schema's frequency field reads annual and no dates apply.",
+      "file": "data/seed/routes.json",
+      "unit": "nautical miles",
+      "licence": "Apache License 2.0 for searoute; the network's own terms in docs/sources.md",
+      "files": [
+        "data/seed/routes.geojson"
+      ],
+      "observation_column": null,
+      "unique_dates": true
     }
   ],
   "manual_steps": [

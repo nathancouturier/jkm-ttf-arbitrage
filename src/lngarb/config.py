@@ -293,6 +293,30 @@ _EIA_REFINITIV_NOTE = (
 
 
 SOURCES: Mapping[str, Source] = _registry(
+    # -- Seeds ------------------------------------------------------------
+    Source(
+        series="routes",
+        label="The four sea routes from Sabine Pass, their distances and their lines",
+        publisher="this study, computed with searoute over Eurostat's SeaRoute maritime network",
+        page_url="https://github.com/genthalili/searoute-py",
+        machine_url=None,
+        url_note=(
+            "Computed once by scripts/routes.py with searoute 1.6.0 and committed; "
+            "nothing computes a route at build time. The library is a development "
+            "tool only and is not shipped with the site."
+        ),
+        frequency="annual",
+        unit="nautical miles",
+        method="derived",
+        licence="Apache License 2.0 for searoute; the network's own terms in docs/sources.md",
+        licence_note=(
+            "The distances and lines are this study's computation, published under "
+            "the repository's MIT licence. searoute is released under the Apache "
+            "License 2.0 and bundles Eurostat's SeaRoute maritime network, whose "
+            "terms are quoted in docs/sources.md."
+        ),
+        committable=True,
+    ),
     # -- EIA, the data tables -------------------------------------------
     Source(
         series="eia_lng_exports_monthly",

@@ -53,7 +53,7 @@ if str(SRC) not in sys.path:
 
 import pandas as pd  # noqa: E402
 
-from lngarb import config, manual_steps  # noqa: E402
+from lngarb import config, manual_steps, sea_routes  # noqa: E402
 from lngarb.sources import base  # noqa: E402
 from lngarb.sources.base import Adapter, read_cache, utc_now_iso, validate_frame  # noqa: E402
 from lngarb.sources.eia import HenryHubDaily, LngExportsMonthly, LngExportsRevisions  # noqa: E402
@@ -86,8 +86,11 @@ class Job:
     name: str
     what: str
     series: tuple[str, ...]
-    adapters: Callable[[], list[Adapter]]
-    online: Callable[[argparse.Namespace], list[dict]]
+    adapters: Callable[[], list[Adapter]] | None = None
+    online: Callable[[argparse.Namespace], list[dict]] | None = None
+    #: a seed job checks committed files and records them; it never fetches,
+    #: so it runs the same way online and offline
+    seed: Callable[[], list[dict]] | None = None
 
 
 def _run_adapters(adapters: Sequence[Adapter], failures: list[dict]) -> list[dict]:
@@ -155,6 +158,12 @@ JOBS: tuple[Job, ...] = (
             HenryHubDaily(),
         ],
         online=_eia_tables_online,
+    ),
+    Job(
+        name="seeds",
+        what="The committed seed files, checked from their own contents: the sea routes",
+        series=("routes",),
+        seed=lambda: [sea_routes.record_routes()],
     ),
 )
 
@@ -413,6 +422,17 @@ def main(argv: Sequence[str] | None = None) -> int:
     touched: list[str] = []
     for index, job in enumerate(jobs):
         print("[%d/%d] %s, %s" % (index + 1, len(jobs), job.name, job.what))
+        if job.seed is not None:
+            try:
+                for entry in job.seed():
+                    touched.append(entry["series"])
+                    if entry["status"] != "ok":
+                        args.failures.append({"series": entry["series"], "error": entry["note"], "traceback": ""})
+                    print("        %-40s %s, %s rows" % (entry["series"], entry["status"], entry["rows"]))
+            except Exception as exc:  # noqa: BLE001
+                args.failures.append({"series": job.name, "error": "%s: %s" % (type(exc).__name__, exc), "traceback": traceback.format_exc()})
+                print("        FAILED %s" % exc)
+            continue
         if args.offline:
             for adapter in job.adapters():
                 if not adapter.committable:
