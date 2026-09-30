@@ -271,3 +271,15 @@ def test_nothing_in_this_module_can_request_the_disallowed_archive(monkeypatch):
         eia_ngwu.SUPPLEMENT_DATES_URL,
     ):
         assert base.robots_allows(rules, url), url
+
+
+def test_every_committed_week_reparses_from_its_own_item_text():
+    """The committed item text is the source of truth; the values must follow from it."""
+    committed = base.read_cache("eia_ngwu_international_weekly")
+    assert committed is not None and len(committed)
+    for _, row in committed.iterrows():
+        item = parse_ngwu_item(row["item_text"], where=row["folder"])
+        for column in ("east_asia_usd_mmbtu", "ttf_usd_mmbtu", "prior_year_east_asia_usd_mmbtu", "prior_year_ttf_usd_mmbtu"):
+            assert item[column] == row[column], (row["folder"], column)
+        assert item["east_asia_definition"] == row["east_asia_definition"]
+        assert item["ttf_definition"] == row["ttf_definition"]
