@@ -357,6 +357,28 @@ SOURCES: Mapping[str, Source] = _registry(
         licence_note=_METI_NOTE,
         committable=True,
     ),
+    Source(
+        series="jogmec_spot_lng_monthly",
+        label="Japan spot LNG price, monthly, DES, contract-based and arrival-based, JOGMEC, from April 2021, private",
+        publisher="Japan Organization for Metals and Energy Security",
+        page_url="https://journal.jogmec.go.jp/oilgas/nglng-en/spotprice/index.html",
+        machine_url="https://journal.jogmec.go.jp/oilgas/nglng-en/spotprice/index.html",
+        url_note=(
+            "One page per month, YYYYMM-preliminary.html, linked from the list page; "
+            "the confirmed figure of a month is printed on the next month's page. "
+            "Pages are edited in place and have been renamed once."
+        ),
+        frequency="monthly",
+        unit="USD per MMBtu, DES (JOGMEC writes USD/MBtu)",
+        method="parsed",
+        licence="JOGMEC terms of use, permission requested",
+        licence_note=(
+            "JOGMEC's terms do not permit use beyond private use, education and "
+            "quotation without its prior permission. Kept in data/private/ and not "
+            "published until permission is granted."
+        ),
+        committable=False,
+    ),
     # -- World Bank, Federal Reserve Board, New York Fed -------------------
     Source(
         series="worldbank_gas_monthly",

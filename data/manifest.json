@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-30T20:42:14Z",
+  "generated_at": "2026-09-30T20:44:48Z",
   "series": [
     {
       "series": "eia_henry_hub_daily",
@@ -423,6 +423,57 @@
       "unique_dates": true
     },
     {
+      "series": "jogmec_spot_lng_monthly",
+      "source": "Japan Organization for Metals and Energy Security, monthly spot LNG prices for delivery to Japan",
+      "url": "https://journal.jogmec.go.jp/oilgas/nglng-en/spotprice/index.html",
+      "page_url": "https://journal.jogmec.go.jp/oilgas/nglng-en/spotprice/index.html",
+      "machine_fetched": true,
+      "fetched_at": "2026-09-30T20:44:48Z",
+      "checked_at": null,
+      "rows": 39,
+      "observations": 39,
+      "file_rows": 65,
+      "first_date": "2021-04-01",
+      "last_date": "2026-04-01",
+      "frequency": "monthly",
+      "gaps": [
+        "2021-08-01",
+        "2022-08-01",
+        "2022-09-01",
+        "2023-01-01",
+        "2023-02-01",
+        "2023-03-01",
+        "2023-04-01",
+        "2023-05-01",
+        "2023-06-01",
+        "2023-07-01",
+        "2023-11-01",
+        "2023-12-01",
+        "2024-01-01",
+        "2024-02-01",
+        "2024-06-01",
+        "2024-08-01",
+        "2024-12-01",
+        "2025-02-01",
+        "2025-03-01",
+        "2025-04-01",
+        "2025-06-01",
+        "2025-08-01"
+      ],
+      "provisional_from": "2026-08-01",
+      "vintage": "65 pages, 64 months confirmed",
+      "method": "parsed",
+      "committable": false,
+      "licence_note": "JOGMEC's terms do not permit use beyond private use, education and quotation without its prior permission, and its English terms do not permit linking to its website without written permission. Permission has been requested. Until it is granted this series stays in data/private/ and nothing derived from it is published.",
+      "status": "ok",
+      "note": "65 monthly pages read. The latest figure of each month is the confirmed one where the next month's page exists, else the preliminary one. Undisclosed months are missing. Arrival-based figures before April 2023 use JOGMEC's old definition.",
+      "file": "data/private/jogmec_spot_lng_monthly.csv",
+      "unit": "USD per MMBtu, DES (JOGMEC writes USD/MBtu)",
+      "licence": "JOGMEC terms of use, permission requested",
+      "observation_column": "contract_usd_mmbtu",
+      "unique_dates": true
+    },
+    {
       "series": "meti_spot_lng_monthly",
       "source": "Ministry of Economy, Trade and Industry of Japan, Spot LNG Price Statistics",
       "url": "https://www.meti.go.jp/english/statistics/sho/slng/historical-data-e.xlsx",
@@ -693,8 +744,8 @@
   "manual_steps_note": "Work this pipeline cannot do for itself. Each entry says what it is, why it exists, what it costs to skip it and how to do it. They are repeated against the series they affect in the manual_step field of those entries.",
   "run": {
     "mode": "online",
-    "started_at": "2026-09-30T20:42:13Z",
-    "finished_at": "2026-09-30T20:42:14Z",
+    "started_at": "2026-09-30T20:44:32Z",
+    "finished_at": "2026-09-30T20:44:48Z",
     "script": "scripts/refresh.py"
   }
 }

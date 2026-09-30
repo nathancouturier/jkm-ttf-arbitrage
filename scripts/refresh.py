@@ -58,6 +58,7 @@ from lngarb.sources import base  # noqa: E402
 from lngarb.sources.base import Adapter, read_cache, utc_now_iso, validate_frame  # noqa: E402
 from lngarb.sources.eia import HenryHubDaily, LngExportsMonthly, LngExportsRevisions  # noqa: E402
 from lngarb.sources.h10 import UsdPerEurDaily  # noqa: E402
+from lngarb.sources.jogmec import JogmecSpotLngMonthly  # noqa: E402
 from lngarb.sources.meti import MetiSpotLngMonthly  # noqa: E402
 from lngarb.sources.sofr import SofrDaily  # noqa: E402
 from lngarb.sources.worldbank import WorldBankGasMonthly, WorldBankGasRevisions  # noqa: E402
@@ -176,6 +177,13 @@ JOBS: tuple[Job, ...] = (
         series=("meti_spot_lng_monthly",),
         adapters=lambda: [MetiSpotLngMonthly()],
         online=_simple(lambda: [MetiSpotLngMonthly()]),
+    ),
+    Job(
+        name="jogmec",
+        what="JOGMEC spot LNG prices, monthly, from April 2021, NOT committable until JOGMEC permits",
+        series=("jogmec_spot_lng_monthly",),
+        adapters=lambda: [JogmecSpotLngMonthly()],
+        online=_simple(lambda: [JogmecSpotLngMonthly()]),
     ),
     Job(
         name="h10",
