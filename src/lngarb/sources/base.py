@@ -36,7 +36,7 @@ them bear repeating because they are about hosts this project also reads:
    200 to a GET of the same URL. A liveness check with HEAD reports the source
    as down when it is up, so http_head refuses that host.
 
-2. THE USER AGENT IS NOT ONE STRING. Some hosts refuse an obvious script agent
+2. THE USER AGENT IS NOT ONE STRING. Some hosts refuse an obvious script user agent
    and at least one public data host resets the connection when sent a browser
    string. The host to user agent map lives here, once, with the measurement
    behind each exception written next to it.
@@ -149,7 +149,7 @@ _verify_repo_root(REPO_ROOT)
 # --------------------------------------------------------------------------
 
 # A real, currently shipping desktop browser string. Several sources refuse an
-# obvious script agent. Refresh the version from time to time, a very old
+# obvious script user agent. Refresh the version from time to time, a very old
 # string is itself a signal.
 USER_AGENT: str = (
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -223,11 +223,11 @@ def parse_robots(text: str, product_token: str) -> list[tuple[bool, str]]:
 
     The group whose user-agent line names the product token applies if there is
     one; otherwise the "*" group; otherwise nothing is disallowed. Several
-    groups naming the same agent are merged, as RFC 9309 section 2.2.1 asks.
+    groups naming the same product token are merged, as RFC 9309 section 2.2.1 asks.
     """
     token = product_token.lower()
     groups: list[tuple[list[str], list[tuple[bool, str]]]] = []
-    agents: list[str] = []
+    names: list[str] = []
     rules: list[tuple[bool, str]] = []
     in_rules = False
     for raw_line in text.splitlines():
@@ -238,15 +238,15 @@ def parse_robots(text: str, product_token: str) -> list[tuple[bool, str]]:
         key = key.lower()
         if key == "user-agent":
             if in_rules:
-                groups.append((agents, rules))
-                agents, rules, in_rules = [], [], False
-            agents.append(value.lower())
+                groups.append((names, rules))
+                names, rules, in_rules = [], [], False
+            names.append(value.lower())
         elif key in ("allow", "disallow"):
             in_rules = True
             if value:
                 rules.append((key == "allow", value))
-    if agents:
-        groups.append((agents, rules))
+    if names:
+        groups.append((names, rules))
 
     specific = [r for names, r in groups if token in names]
     if specific:
@@ -352,9 +352,9 @@ def user_agent_for(url: str) -> str:
     so a test can assert on it without a network call.
     """
     host = _host_of(url)
-    for registered, agent in USER_AGENT_BY_HOST.items():
+    for registered, value in USER_AGENT_BY_HOST.items():
         if _host_matches(host, registered):
-            return agent
+            return value
     return USER_AGENT
 
 
@@ -1185,8 +1185,9 @@ class Adapter:
             "unit": self.unit,
             # Declared, never inferred: tools/validate-data.mjs recounts the
             # observations from the file and needs to know which column
-            # defines one.
+            # defines one, and whether a date may repeat.
             "observation_column": self.observation_column,
+            "unique_dates": bool(self.unique_dates),
         }
 
     def run(self) -> dict:

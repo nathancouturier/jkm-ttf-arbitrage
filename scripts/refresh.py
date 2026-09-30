@@ -260,7 +260,7 @@ def finalise_manifest(mode: str, before: bytes | None, started: str) -> tuple[di
 
 #: Keys the base entry owns. Anything else in a committed entry was put there by
 #: an adapter that fetched, and offline carries it through untouched.
-_BASE_KEYS = frozenset(base.ENTRY_KEYS) | {"observation_column", "manual_step"}
+_BASE_KEYS = frozenset(base.ENTRY_KEYS) | {"observation_column", "unique_dates", "licence", "manual_step"}
 
 
 def carry_forward(entry: dict, previous: Mapping[str, Any] | None) -> dict:
@@ -286,7 +286,8 @@ def revalidate(adapter: Adapter, previous: Mapping[str, Any] | None) -> dict:
         if previous and previous.get("status") == "failed":
             # A source that failed before anything was ever cached stays failed,
             # with the note that says why, rather than a note about the file.
-            return dict(previous)
+            entry = Adapter._entry(adapter, status="failed", frame=None, note=previous.get("note") or "")
+            return carry_forward(entry, previous)
         entry = Adapter._entry(
             adapter,
             status="failed",

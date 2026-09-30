@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-30T15:52:09Z",
+  "generated_at": "2026-09-30T15:58:29Z",
   "series": [
     {
       "series": "eia_henry_hub_daily",
@@ -27,7 +27,8 @@
       "file": "data/cache/eia_henry_hub_daily.csv",
       "unit": "USD per MMBtu",
       "licence": "US public domain, with the third party credit doubt",
-      "observation_column": "henry_hub_usd_mmbtu"
+      "observation_column": "henry_hub_usd_mmbtu",
+      "unique_dates": true
     },
     {
       "series": "eia_lng_exports_monthly",
@@ -54,7 +55,8 @@
       "file": "data/cache/eia_lng_exports_monthly.csv",
       "unit": "MMcf per month",
       "licence": "US public domain",
-      "observation_column": "mmcf"
+      "observation_column": "mmcf",
+      "unique_dates": false
     },
     {
       "series": "eia_lng_exports_revisions",
@@ -81,7 +83,8 @@
       "file": "data/cache/eia_lng_exports_revisions.csv",
       "unit": "MMcf",
       "licence": "US public domain",
-      "observation_column": "vintage_after"
+      "observation_column": "vintage_after",
+      "unique_dates": false
     },
     {
       "series": "eia_ngwu_international_weekly",
@@ -109,6 +112,7 @@
       "unit": "USD per MMBtu",
       "licence": "US public domain, with the third party credit doubt",
       "observation_column": "east_asia_usd_mmbtu",
+      "unique_dates": true,
       "manual_step": [
         {
           "id": "eia_ngwu_archive_by_hand",
@@ -219,7 +223,8 @@
       "file": "data/cache/eia_ngwu_issue_index.csv",
       "unit": "none, a list of issues",
       "licence": "US public domain",
-      "observation_column": "folder"
+      "observation_column": "folder",
+      "unique_dates": true
     },
     {
       "series": "eia_wngsr_international_weekly",
@@ -247,6 +252,7 @@
       "unit": "USD per MMBtu",
       "licence": "US public domain, with the third party credit doubt",
       "observation_column": "jkm_usd_mmbtu",
+      "unique_dates": true,
       "manual_step": [
         {
           "id": "eia_wngsr_weekly_collection",
@@ -288,9 +294,9 @@
   ],
   "manual_steps_note": "Work this pipeline cannot do for itself. Each entry says what it is, why it exists, what it costs to skip it and how to do it. They are repeated against the series they affect in the manual_step field of those entries.",
   "run": {
-    "mode": "online",
-    "started_at": "2026-09-30T15:50:38Z",
-    "finished_at": "2026-09-30T15:52:09Z",
+    "mode": "offline",
+    "started_at": "2026-09-30T15:58:29Z",
+    "finished_at": "2026-09-30T15:58:29Z",
     "script": "scripts/refresh.py"
   }
 }
