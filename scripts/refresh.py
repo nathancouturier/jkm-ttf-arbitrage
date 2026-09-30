@@ -57,6 +57,9 @@ from lngarb import config, manual_steps, sea_routes  # noqa: E402
 from lngarb.sources import base  # noqa: E402
 from lngarb.sources.base import Adapter, read_cache, utc_now_iso, validate_frame  # noqa: E402
 from lngarb.sources.eia import HenryHubDaily, LngExportsMonthly, LngExportsRevisions  # noqa: E402
+from lngarb.sources.h10 import UsdPerEurDaily  # noqa: E402
+from lngarb.sources.sofr import SofrDaily  # noqa: E402
+from lngarb.sources.worldbank import WorldBankGasMonthly, WorldBankGasRevisions  # noqa: E402
 from lngarb.sources.eia_ngwu import (  # noqa: E402
     NgwuInternationalWeekly,
     NgwuIssueIndex,
@@ -158,6 +161,27 @@ JOBS: tuple[Job, ...] = (
             HenryHubDaily(),
         ],
         online=_eia_tables_online,
+    ),
+    Job(
+        name="worldbank",
+        what="World Bank Pink Sheet gas, monthly: Europe, US Henry Hub, Japan LNG import price",
+        series=("worldbank_gas_monthly", "worldbank_gas_revisions"),
+        adapters=lambda: [WorldBankGasMonthly(), WorldBankGasRevisions(pd.DataFrame())],
+        online=_simple(lambda: [WorldBankGasMonthly()]),
+    ),
+    Job(
+        name="h10",
+        what="Federal Reserve Board H.10, US dollars per euro, daily",
+        series=("h10_usd_per_eur_daily",),
+        adapters=lambda: [UsdPerEurDaily()],
+        online=_simple(lambda: [UsdPerEurDaily()]),
+    ),
+    Job(
+        name="sofr",
+        what="New York Fed SOFR, daily, for the financing line",
+        series=("nyfed_sofr_daily",),
+        adapters=lambda: [SofrDaily()],
+        online=_simple(lambda: [SofrDaily()]),
     ),
     Job(
         name="seeds",

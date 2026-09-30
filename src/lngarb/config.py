@@ -35,6 +35,9 @@ BOUNDS_USD_PER_EUR = (0.8, 1.7)
 BOUNDS_HIRE_USD_DAY = (-10000.0, 500000.0)
 #: ACER DES LNG spreads to the TTF front month, EUR/MWh
 BOUNDS_DES_SPREAD_EUR_MWH = (-20.0, 5.0)
+#: SOFR, percent per year. Not a range the market implies, a guard against a
+#: unit error: a rate read in basis points would be a hundred times too large.
+BOUNDS_SOFR_PERCENT = (-1.0, 15.0)
 #: US natural gas exports in one month, MMcf, any block or total. Not a range
 #: the market implies, a guard against a unit or a parse error: the largest
 #: monthly LNG total in the 31 August 2026 release is 539,203 MMcf.
@@ -292,7 +295,111 @@ _EIA_REFINITIV_NOTE = (
 )
 
 
+_WORLDBANK_NOTE = (
+    "The World Bank's dataset terms: 'Unless specifically labeled otherwise, these "
+    "Datasets are provided to you under a Creative Commons Attribution 4.0 "
+    "International License (CC BY 4.0)', and the Pink Sheet's catalogue entry says "
+    "the same. Attribute to The World Bank, Commodity Price Data (The Pink Sheet), "
+    "and do not imply its endorsement. One residual, recorded: the terms say some "
+    "datasets are provided by third parties and may carry extra conditions in their "
+    "metadata, and the gas rows credit Bloomberg Finance L.P., World Gas "
+    "Intelligence and others; the catalogue entry names no extra condition."
+)
+
+_H10_NOTE = (
+    "The Federal Reserve Board: 'Unless otherwise indicated, information on Board's "
+    "website is in the public domain and may be copied and distributed without "
+    "permission. Please cite to the Board as the source of the information.' "
+    "Nothing read marks the H.10 euro rate as third party material."
+)
+
+_SOFR_NOTE = (
+    "Licensed, not public domain. The New York Fed's Terms of Use grant a "
+    "non-exclusive licence to use, copy and distribute its content, on conditions: "
+    "its attribution line, the reference rate notice and disclaimer wherever the "
+    "rate is shown, redistribution 'with the same permissions, conditions, and "
+    "restrictions', modified content labelled as not the New York Fed's, and no "
+    "implied endorsement. The committed cache is distributed under those terms, not "
+    "under this repository's MIT licence. SOFR is calculated from data licensed to "
+    "the New York Fed by DTCC Solutions LLC."
+)
+
+
 SOURCES: Mapping[str, Source] = _registry(
+    # -- World Bank, Federal Reserve Board, New York Fed -------------------
+    Source(
+        series="worldbank_gas_monthly",
+        label="World Bank Pink Sheet gas prices, monthly, USD/MMBtu: Europe, US Henry Hub, Japan LNG import price",
+        publisher="The World Bank, Commodity Price Data (The Pink Sheet)",
+        page_url="https://www.worldbank.org/en/research/commodity-markets",
+        machine_url=None,
+        url_note=(
+            "CMO-Historical-Data-Monthly.xlsx, linked from the page; the document "
+            "id in its path changes, so the link is read from the page and the "
+            "adapter fails when it finds none or several. Sheet 'Monthly Prices', "
+            "series found by label and checked by unit. A hidden sheet comes first "
+            "in the workbook."
+        ),
+        frequency="monthly",
+        unit="USD per MMBtu",
+        method="published",
+        licence="CC BY 4.0",
+        licence_note=_WORLDBANK_NOTE,
+        committable=True,
+    ),
+    Source(
+        series="worldbank_gas_revisions",
+        label="Every value a Pink Sheet release changed, release against release",
+        publisher="The World Bank, compared release by release by this study",
+        page_url="https://www.worldbank.org/en/research/commodity-markets",
+        machine_url=None,
+        url_note="Written by the World Bank adapter when a new release differs from the committed one.",
+        frequency="monthly",
+        unit="USD per MMBtu",
+        method="derived",
+        licence="CC BY 4.0",
+        licence_note=_WORLDBANK_NOTE,
+        committable=True,
+    ),
+    Source(
+        series="h10_usd_per_eur_daily",
+        label="US dollars per euro, daily noon buying rate in New York, Federal Reserve H.10",
+        publisher="Board of Governors of the Federal Reserve System, H.10",
+        page_url="https://www.federalreserve.gov/releases/h10/hist/dat00_eu.htm",
+        machine_url="https://www.federalreserve.gov/releases/h10/data/FRB_h10_xml.zip",
+        url_note=(
+            "The release page's XML package, series RXI$US_N.B.EU, the route the "
+            "Board says will remain; its Data Download Program is being retired "
+            "from the week of 9 November 2026. Every weekday has a row; a day with "
+            "no rate carries OBS_STATUS ND and the sentinel OBS_VALUE -9999, which "
+            "is read as missing and never as a price. Released weekly, on Mondays."
+        ),
+        frequency="daily",
+        unit="US dollars per euro",
+        method="published",
+        licence="US public domain",
+        licence_note=_H10_NOTE,
+        committable=True,
+    ),
+    Source(
+        series="nyfed_sofr_daily",
+        label="Secured Overnight Financing Rate, daily, percent, from the New York Fed",
+        publisher="Federal Reserve Bank of New York",
+        page_url="https://www.newyorkfed.org/markets/reference-rates/additional-information-about-reference-rates",
+        machine_url="https://markets.newyorkfed.org/api/rates/secured/sofr/search.json",
+        url_note=(
+            "The New York Fed's markets API, with explicit startDate and endDate. "
+            "Rows come newest first; days with no publication have no row; the "
+            "first value date is 2 April 2018. The rate for a business day is in "
+            "the API the next morning and may be revised the same day."
+        ),
+        frequency="daily",
+        unit="percent per year",
+        method="published",
+        licence="New York Fed Terms of Use",
+        licence_note=_SOFR_NOTE,
+        committable=True,
+    ),
     # -- Seeds ------------------------------------------------------------
     Source(
         series="routes",
