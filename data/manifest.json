@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-30T21:28:55Z",
+  "generated_at": "2026-09-30T21:31:35Z",
   "series": [
     {
       "series": "acer_lng_daily",
@@ -40,6 +40,34 @@
           "status": "outstanding"
         }
       ]
+    },
+    {
+      "series": "ec_eua_auction_monthly",
+      "source": "European Commission, Auctions by the Common Auction Platform, Table 1",
+      "url": "https://climate.ec.europa.eu/areas-action/carbon-markets/eu-emissions-trading-system-eu-ets/auctioning-allowances_en",
+      "page_url": "https://climate.ec.europa.eu/areas-action/carbon-markets/eu-emissions-trading-system-eu-ets/auctioning-allowances_en",
+      "machine_fetched": true,
+      "fetched_at": "2026-09-30T21:31:35Z",
+      "checked_at": null,
+      "rows": 30,
+      "observations": 30,
+      "file_rows": 30,
+      "first_date": "2023-01-01",
+      "last_date": "2025-06-01",
+      "frequency": "monthly",
+      "gaps": [],
+      "provisional_from": null,
+      "vintage": "reports 202403 to 202506",
+      "method": "parsed",
+      "committable": true,
+      "licence_note": "The Commission's legal notice: 'Unless otherwise indicated (e.g. in individual copyright notices), content owned by the EU on this website is licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) licence', which 'means that reuse is allowed, provided appropriate credit is given and changes are indicated.' The reports carry no individual copyright notice. One doubt, recorded: the tables compile information the auction platform provides, and whether they are content owned by the EU is not stated.",
+      "status": "ok",
+      "note": "6 quarterly reports read, the latest for the quarter ending 2025-06. The Commission publishes each month's volume weighted average clearing price of general allowances; months after the latest report are missing. Source: European Commission, CC BY 4.0; months combined from several reports by this study.",
+      "file": "data/cache/ec_eua_auction_monthly.csv",
+      "unit": "EUR per tonne of CO2",
+      "licence": "CC BY 4.0",
+      "observation_column": "eua_eur_t",
+      "unique_dates": true
     },
     {
       "series": "eia_henry_hub_daily",

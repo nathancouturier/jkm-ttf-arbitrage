@@ -58,6 +58,7 @@ from lngarb.sources import base  # noqa: E402
 from lngarb.sources.base import Adapter, read_cache, utc_now_iso, validate_frame  # noqa: E402
 from lngarb.sources.eia import HenryHubDaily, LngExportsMonthly, LngExportsRevisions  # noqa: E402
 from lngarb.sources.acer import AcerLngDaily  # noqa: E402
+from lngarb.sources.ec_eua import EcEuaAuctionMonthly  # noqa: E402
 from lngarb.sources.h10 import UsdPerEurDaily  # noqa: E402
 from lngarb.sources.jogmec import JogmecSpotLngMonthly  # noqa: E402
 from lngarb.sources.meti import MetiSpotLngMonthly  # noqa: E402
@@ -178,6 +179,13 @@ JOBS: tuple[Job, ...] = (
         series=("acer_lng_daily",),
         adapters=lambda: [AcerLngDaily()],
         online=_simple(lambda: [AcerLngDaily()]),
+    ),
+    Job(
+        name="eua",
+        what="EU allowance price, monthly, from the European Commission's auction reports",
+        series=("ec_eua_auction_monthly",),
+        adapters=lambda: [EcEuaAuctionMonthly()],
+        online=_simple(lambda: [EcEuaAuctionMonthly()]),
     ),
     Job(
         name="meti",

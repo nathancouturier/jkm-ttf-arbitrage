@@ -38,6 +38,9 @@ BOUNDS_DES_SPREAD_EUR_MWH = (-20.0, 5.0)
 #: A DES LNG price level, EUR/MWh, as ACER assesses it. A guard against a unit
 #: or a parse error, not a range the market implies.
 BOUNDS_DES_EUR_MWH = (1.0, 400.0)
+#: An EU allowance price, EUR per tonne of CO2. A guard against a unit or a
+#: parse error, not a range the market implies.
+BOUNDS_EUA_EUR_T = (1.0, 200.0)
 #: SOFR, percent per year. Not a range the market implies, a guard against a
 #: unit error: a rate read in basis points would be a hundred times too large.
 BOUNDS_SOFR_PERCENT = (-1.0, 15.0)
@@ -352,7 +355,37 @@ _ACER_NOTE = (
 )
 
 
+_EC_NOTE = (
+    "The Commission's legal notice: 'Unless otherwise indicated (e.g. in individual "
+    "copyright notices), content owned by the EU on this website is licensed under "
+    "the Creative Commons Attribution 4.0 International (CC BY 4.0) licence', which "
+    "'means that reuse is allowed, provided appropriate credit is given and changes "
+    "are indicated.' The reports carry no individual copyright notice. One doubt, "
+    "recorded: the tables compile information the auction platform provides, and "
+    "whether they are content owned by the EU is not stated."
+)
+
+
 SOURCES: Mapping[str, Source] = _registry(
+    # -- European Commission, EUA -----------------------------------------
+    Source(
+        series="ec_eua_auction_monthly",
+        label="EU allowance price, monthly volume weighted average auction clearing price, EUR per tonne of CO2",
+        publisher="European Commission, Auctions by the Common Auction Platform",
+        page_url="https://climate.ec.europa.eu/areas-action/carbon-markets/eu-emissions-trading-system-eu-ets/auctioning-allowances_en",
+        machine_url=None,
+        url_note=(
+            "Quarterly PDF reports linked from the page, cap_report_YYYYMM_en.pdf, "
+            "each with a fifteen month Table 1. Read from the report for the quarter "
+            "ending March 2024. The latest on 30 September 2026 ends in June 2025."
+        ),
+        frequency="monthly",
+        unit="EUR per tonne of CO2",
+        method="parsed",
+        licence="CC BY 4.0",
+        licence_note=_EC_NOTE,
+        committable=True,
+    ),
     # -- ACER -------------------------------------------------------------
     Source(
         series="acer_lng_daily",

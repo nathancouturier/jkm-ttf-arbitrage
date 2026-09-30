@@ -98,6 +98,8 @@ const COLUMN_RULES = [
   { match: /_usd_mmbtu$/, lo: 1.0, hi: 120.0, what: "JKM, TTF or spot LNG, USD/MMBtu" },
   { match: /^usd_per_eur$/, lo: 0.8, hi: 1.7, what: "US dollars per euro" },
   { match: /^sofr_percent$/, lo: -1.0, hi: 15.0, what: "SOFR, percent per year" },
+  { match: /^eua_eur_t$/, lo: 1.0, hi: 200.0, what: "an EU allowance price, EUR per tonne of CO2" },
+  { match: /^reports_printing_it$/, lo: 1.0, hi: 20.0, what: "a count of the reports that print a month" },
   { match: /^value_(before|after)$/, lo: 0.5, hi: 120.0, what: "a Pink Sheet gas price before or after a revision, USD/MMBtu" },
   { match: /^hire_usd_day$/, lo: -10000.0, hi: 500000.0, what: "reported LNG carrier hire, USD per day" },
   { match: /_spread_eur_mwh$/, lo: -20.0, hi: 5.0, what: "a DES LNG spread to TTF, EUR/MWh" },
