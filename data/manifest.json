@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-30T15:46:32Z",
+  "generated_at": "2026-09-30T15:52:09Z",
   "series": [
     {
       "series": "eia_henry_hub_daily",
@@ -8,7 +8,7 @@
       "url": "https://www.eia.gov/dnav/ng/hist_xls/RNGWHHDd.xls",
       "page_url": "https://www.eia.gov/dnav/ng/hist/rngwhhdd.htm",
       "machine_fetched": true,
-      "fetched_at": "2026-09-30T15:46:32Z",
+      "fetched_at": "2026-09-30T15:52:09Z",
       "checked_at": null,
       "rows": 0,
       "observations": 0,
@@ -21,11 +21,12 @@
       "vintage": "release of 2026-09-23, next release 2026-09-30",
       "method": "published",
       "committable": true,
-      "licence_note": "",
+      "licence_note": "US government publications are in the public domain. EIA's reuse page says 'You may use and/or distribute any of our data, files, databases, reports, graphs, charts, and other information products', with an acknowledgment that includes the publication date. One doubt, recorded rather than resolved: EIA's definitions page for this table credits the spot price to 'Refinitiv, an LSEG business', and EIA's reuse page says material 'contributed or licensed by private individuals, companies, or organizations' 'may be protected'. The daily values are committed with that credit shown wherever they are used, and the question is open with the owner.",
       "status": "failed",
       "note": "fetch failed, previous cache kept unchanged. SourceError: eia_henry_hub_daily did not validate: 2 value(s) in 'henry_hub_usd_mmbtu' outside [0.5, 25], for example 30.72",
       "file": "data/cache/eia_henry_hub_daily.csv",
       "unit": "USD per MMBtu",
+      "licence": "US public domain, with the third party credit doubt",
       "observation_column": "henry_hub_usd_mmbtu"
     },
     {
@@ -34,7 +35,7 @@
       "url": "https://www.eia.gov/dnav/ng/xls/NG_MOVE_EXPC_S1_M.xls",
       "page_url": "https://www.eia.gov/dnav/ng/ng_move_expc_s1_m.htm",
       "machine_fetched": true,
-      "fetched_at": "2026-09-30T15:46:19Z",
+      "fetched_at": "2026-09-30T15:51:58Z",
       "checked_at": null,
       "rows": 127,
       "observations": 127,
@@ -47,11 +48,12 @@
       "vintage": "release of 2026-09-30, next release 2026-10-30",
       "method": "published",
       "committable": true,
-      "licence_note": "",
+      "licence_note": "US government publications are in the public domain. EIA's reuse page says 'You may use and/or distribute any of our data, files, databases, reports, graphs, charts, and other information products', with an acknowledgment that includes the publication date.",
       "status": "ok",
       "note": "fetched from https://www.eia.gov/dnav/ng/xls/NG_MOVE_EXPC_S1_M.xls. Months are dated on the 15th as EIA dates them, kept from 2016-01-15. The LNG total N9133US2 includes re-exports; the by vessel block does not.",
       "file": "data/cache/eia_lng_exports_monthly.csv",
       "unit": "MMcf per month",
+      "licence": "US public domain",
       "observation_column": "mmcf"
     },
     {
@@ -60,7 +62,7 @@
       "url": "https://www.eia.gov/dnav/ng/xls/NG_MOVE_EXPC_S1_M.xls",
       "page_url": "https://www.eia.gov/dnav/ng/ng_move_expc_s1_m.htm",
       "machine_fetched": true,
-      "fetched_at": "2026-09-30T15:46:19Z",
+      "fetched_at": "2026-09-30T15:51:58Z",
       "checked_at": null,
       "rows": 1,
       "observations": 1,
@@ -73,11 +75,12 @@
       "vintage": null,
       "method": "derived",
       "committable": true,
-      "licence_note": "",
+      "licence_note": "US government publications are in the public domain. EIA's reuse page says 'You may use and/or distribute any of our data, files, databases, reports, graphs, charts, and other information products', with an acknowledgment that includes the publication date.",
       "status": "ok",
-      "note": "",
+      "note": "1 value(s) changed by the release of 2026-09-30 against the release of 2026-08-31. Months a release adds are new data and are not listed.",
       "file": "data/cache/eia_lng_exports_revisions.csv",
       "unit": "MMcf",
+      "licence": "US public domain",
       "observation_column": "vintage_after"
     },
     {
@@ -86,7 +89,7 @@
       "url": "https://www.eia.gov/naturalgas/weekly/",
       "page_url": "https://www.eia.gov/naturalgas/weekly/",
       "machine_fetched": true,
-      "fetched_at": "2026-09-30T12:25:28Z",
+      "fetched_at": "2026-09-30T15:51:11Z",
       "checked_at": null,
       "rows": 1,
       "observations": 1,
@@ -99,11 +102,12 @@
       "vintage": null,
       "method": "parsed",
       "committable": true,
-      "licence_note": "",
+      "licence_note": "US government publications are in the public domain. EIA's reuse page says 'You may use and/or distribute any of our data, files, databases, reports, graphs, charts, and other information products', with an acknowledgment that includes the publication date. One doubt, recorded rather than resolved: these weekly prices are credited in the text to Bloomberg Finance L.P., and the same page says material 'contributed or licensed by private individuals, companies, or organizations' 'may be protected'. Whether figures EIA prints under a third party's credit fall under that sentence is not settled by the page. The parsed weekly values are committed with the credit shown wherever they are used, and the question is open with the owner and EIA.",
       "status": "ok",
-      "note": "",
+      "note": "1 issue(s) read: 0 saved by hand, 1 from the landing page, which still serves the final issue. Every other issue is in the archive robots.txt disallows to code; see the manual step.",
       "file": "data/cache/eia_ngwu_international_weekly.csv",
       "unit": "USD per MMBtu",
+      "licence": "US public domain, with the third party credit doubt",
       "observation_column": "east_asia_usd_mmbtu",
       "manual_step": [
         {
@@ -123,7 +127,7 @@
       "url": "https://www.eia.gov/naturalgas/weekly/includes/archive.php",
       "page_url": "https://www.eia.gov/naturalgas/weekly/",
       "machine_fetched": true,
-      "fetched_at": "2026-09-30T12:25:16Z",
+      "fetched_at": "2026-09-30T15:51:00Z",
       "checked_at": null,
       "rows": 453,
       "observations": 453,
@@ -209,11 +213,12 @@
       "vintage": null,
       "method": "parsed",
       "committable": true,
-      "licence_note": "",
+      "licence_note": "US government publications are in the public domain. EIA's reuse page says 'You may use and/or distribute any of our data, files, databases, reports, graphs, charts, and other information products', with an acknowledgment that includes the publication date.",
       "status": "ok",
-      "note": "",
+      "note": "453 issues listed from 2016, dated by the folder in each link. Weeks EIA marks 'No report released': 2024-06-20. The links point into the archive robots.txt disallows and are recorded, never followed.",
       "file": "data/cache/eia_ngwu_issue_index.csv",
       "unit": "none, a list of issues",
+      "licence": "US public domain",
       "observation_column": "folder"
     },
     {
@@ -222,7 +227,7 @@
       "url": "https://www.eia.gov/naturalgas/weekly/supplement/content/bullets_lng_2.html",
       "page_url": "https://www.eia.gov/naturalgas/weekly/supplement/",
       "machine_fetched": true,
-      "fetched_at": "2026-09-30T12:26:02Z",
+      "fetched_at": "2026-09-30T15:51:43Z",
       "checked_at": null,
       "rows": 1,
       "observations": 1,
@@ -235,11 +240,12 @@
       "vintage": null,
       "method": "parsed",
       "committable": true,
-      "licence_note": "",
+      "licence_note": "US government publications are in the public domain. EIA's reuse page says 'You may use and/or distribute any of our data, files, databases, reports, graphs, charts, and other information products', with an acknowledgment that includes the publication date. One doubt, recorded rather than resolved: these weekly prices are credited in the text to Bloomberg Finance L.P., and the same page says material 'contributed or licensed by private individuals, companies, or organizations' 'may be protected'. Whether figures EIA prints under a third party's credit fall under that sentence is not settled by the page. The parsed weekly values are committed with the credit shown wherever they are used, and the question is open with the owner and EIA.",
       "status": "ok",
-      "note": "",
+      "note": "1 week(s) collected, each while it was the current issue; the latest is the release of 2026-09-24. Earlier issues sit in the archive robots.txt disallows to code; see the manual step.",
       "file": "data/cache/eia_wngsr_international_weekly.csv",
       "unit": "USD per MMBtu",
+      "licence": "US public domain, with the third party credit doubt",
       "observation_column": "jkm_usd_mmbtu",
       "manual_step": [
         {
@@ -280,5 +286,11 @@
       "status": "standing"
     }
   ],
-  "manual_steps_note": "Work this pipeline cannot do for itself. Each entry says what it is, why it exists, what it costs to skip it and how to do it. They are repeated against the series they affect in the manual_step field of those entries."
+  "manual_steps_note": "Work this pipeline cannot do for itself. Each entry says what it is, why it exists, what it costs to skip it and how to do it. They are repeated against the series they affect in the manual_step field of those entries.",
+  "run": {
+    "mode": "online",
+    "started_at": "2026-09-30T15:50:38Z",
+    "finished_at": "2026-09-30T15:52:09Z",
+    "script": "scripts/refresh.py"
+  }
 }

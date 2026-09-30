@@ -1152,6 +1152,12 @@ class Adapter:
                 first_date = have.min().strftime("%Y-%m-%d")
                 last_date = have.max().strftime("%Y-%m-%d")
                 gaps = find_gaps(have, self.frequency)
+        # The licence travels with every entry, publishable or not, so the
+        # provenance panel can print it for each series. The adapter's own note
+        # wins; otherwise the registry's, which docs/sources.md quotes from.
+        registered = SOURCES.get(self.name)
+        licence_note = self.licence_note or (registered.licence_note if registered else "")
+        licence = registered.licence if registered else None
         return {
             "series": self.name,
             "source": self.source,
@@ -1171,7 +1177,8 @@ class Adapter:
             "vintage": self.vintage,
             "method": self.method,
             "committable": bool(self.committable),
-            "licence_note": self.licence_note,
+            "licence_note": licence_note,
+            "licence": licence,
             "status": status,
             "note": note,
             "file": self.cache_file(),

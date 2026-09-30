@@ -569,7 +569,16 @@ class NgwuIssueIndex(Adapter):
 
     def fetch(self) -> pd.DataFrame:
         response = http_get(INDEX_URL)
-        return parse_index(response.content)
+        frame = parse_index(response.content)
+        published = int((frame["status"] == "published").sum())
+        silent = frame.loc[frame["status"] != "published", "date"].dt.strftime("%Y-%m-%d")
+        self.note = (
+            "%d issues listed from %s, dated by the folder in each link. Weeks EIA marks "
+            "'No report released': %s. The links point into the archive robots.txt "
+            "disallows and are recorded, never followed."
+            % (published, INDEX_FIRST_YEAR, ", ".join(silent) or "none")
+        )
+        return frame
 
 
 class NgwuInternationalWeekly(Adapter):
@@ -654,6 +663,13 @@ class NgwuInternationalWeekly(Adapter):
         rows.append(self._row(response.content, folder=None, how="landing page", url=LANDING_URL))
         existing = read_cache(self.name, directory=self.directory())
         merged = _merge_weekly(existing, rows, key_text="item_text")
+        by_hand = int((merged["how_read"] == "saved by hand").sum())
+        self.note = (
+            "%d issue(s) read: %d saved by hand, %d from the landing page, which still "
+            "serves the final issue. Every other issue is in the archive robots.txt "
+            "disallows to code; see the manual step."
+            % (len(merged), by_hand, len(merged) - by_hand)
+        )
         return merged[list(self.COLUMNS)]
 
 
@@ -690,6 +706,11 @@ class WngsrInternationalWeekly(Adapter):
         row["page_sha256"] = _sha256(prices + source + dates)
         existing = read_cache(self.name, directory=self.directory())
         merged = _merge_weekly(existing, [row], key_text="item_text")
+        self.note = (
+            "%d week(s) collected, each while it was the current issue; the latest "
+            "is the release of %s. Earlier issues sit in the archive robots.txt "
+            "disallows to code; see the manual step." % (len(merged), row["release_date"])
+        )
         return merged[list(self.COLUMNS)]
 
 

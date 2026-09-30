@@ -269,6 +269,13 @@ class LngExportsRevisions(Adapter):
     def fetch(self) -> pd.DataFrame:
         existing = read_cache(self.name, directory=self.directory())
         frames = [self.additions] if existing is None else [existing, self.additions]
+        if len(self.additions):
+            self.note = (
+                "%d value(s) changed by the release of %s against the release of %s. "
+                "Months a release adds are new data and are not listed."
+                % (len(self.additions), self.additions["vintage_after"].iloc[0],
+                   self.additions["vintage_before"].iloc[0])
+            )
         merged = pd.concat(frames, ignore_index=True)
         merged["date"] = pd.to_datetime(merged["date"])
         merged = merged.drop_duplicates(
