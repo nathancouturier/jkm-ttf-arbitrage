@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jkm-ttf-arbitrage"
+version = "0.1.0"
+description = "US Gulf LNG netbacks to Northwest Europe and Northeast Asia, net of liquefaction, freight, boil-off, canal routing and regasification, and the JKM-TTF spread at which cargoes reroute east"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "nathancouturier" }]
+# Pinned to the exact versions the test suite and the committed caches were
+# produced with, so a rebuild on another machine reads the same numbers.
+dependencies = [
+  "pandas==2.3.3",
+  "numpy==2.4.6",
+  "requests==2.34.2",
+  "beautifulsoup4==4.15.0",
+  "lxml==6.1.2",
+  "openpyxl==3.1.5",
+  # EIA still publishes its data tables as legacy .xls, which openpyxl refuses
+  # by design. xlrd 2 reads .xls and nothing else, which is all it is for.
+  "xlrd==2.0.2",
+  "pdfplumber==0.11.10",
+]
+
+[project.optional-dependencies]
+dev = ["pytest==9.1.1"]
+
+[project.urls]
+Homepage = "https://nathancouturier.github.io/jkm-ttf-arbitrage/"
+Source = "https://github.com/nathancouturier/jkm-ttf-arbitrage"
+
+# src layout. The importable package is "lngarb", it lives at src/lngarb.
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-q"

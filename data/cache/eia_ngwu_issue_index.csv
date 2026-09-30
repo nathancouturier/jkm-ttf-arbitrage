@@ -1,0 +1,455 @@
+date,folder,status,release_day_printed,week_ending_day_printed,link_text
+2016-01-07,2016/01_07,published,7,6,Basis differential narrows in Marcellus
+2016-01-14,2016/01_14,published,14,13,EIA forecasts that the United States will be a net exporter of natural gas in mid 2017
+2016-01-21,2016/01_21,published,21,20,Consumption of natural gas for power generation at record highs
+2016-01-28,2016/01_28,published,28,27,Natural gas markets weather storm
+2016-02-04,2016/02_04,published,4,3,Chinese annual LNG imports decline for first time since imports began
+2016-02-25,2016/02_25,published,25,24,Cheniere’s Sabine Pass ships first LNG cargo from the U.S. Lower 48
+2016-03-03,2016/03_03,published,3,2,Working storage inventories remain high
+2016-03-31,2016/03_31,published,31,30,Rockies Express Pipeline (REX) wins final approval for Midwest east-to-west capacity expansion
+2016-04-07,2016/04_07,published,7,6,Natural gas stocks end heating season at record high level
+2016-04-28,2016/04_28,published,28,27,Natural gas production declines
+2016-05-05,2016/05_05,published,5,4,Explosion on Texas Eastern Pipeline in Pennsylvania cuts flows
+2016-05-26,2016/05_26,published,26,25,More U.S. vessels powered by liquefied natural gas launched
+2016-06-02,2016/06_02,published,2,1,Use of natural gas for power generation ticks upward
+2016-06-30,2016/06_30,published,30,29,Gas pipeline exports to Mexico reduce U.S. net imports
+2016-07-07,2016/07_07,published,7,6,Growing ethane demand means less left in natural gas pipelines
+2016-07-28,2016/07_28,published,28,27,First LNG tanker through expanded Panama Canal is traveling from Sabine Pass
+2016-08-04,2016/08_04,published,4,3,Use of natural gas for power generation hits record highs
+2016-08-11,2016/08_11,published,11,10,U.S. natural gas imports from Canada increase with low AECO prices
+2016-08-25,2016/08_25,published,25,24,Gulf Coast’s first ethane shipment soon to leave for Europe
+2016-09-01,2016/09_01,published,1,8/31,Hurricane activity drives declines in Gulf of Mexico natural gas production
+2016-09-08,2016/09_08,published,8,7,High natural gas summer storage inventories contribute to low prices and increased power burn
+2016-09-15,2016/09_15,published,15,14,Recent mergers change the landscape of natural gas pipeline ownership
+2016-09-22,2016/09_22,published,22,21,Price differences between Southern California natural gas trading hubs and the Henry Hub have been more volatile during summer 2016
+2016-09-29,2016/09_29,published,29,28,Sabine Pass liquefaction terminal begins first maintenance
+2016-10-06,2016/10_06,published,6,5,"The United Kingdom’s use of natural gas for power generation exceeds the three-year average in 2016, reversing previous decline"
+2016-10-13,2016/10_13,published,13,12,Winter Fuels Outlook projects higher domestic natural gas demand and prices
+2016-10-20,2016/10_20,published,20,19,United States experiences highest weekly increase in natural gas rig count in two years
+2016-10-27,2016/10_27,published,27,26,Containerized LNG broadens reach of natural gas to off-grid customers
+2016-11-03,2016/11_03,published,3,2,2016 injection season sees record natural gas demand
+2016-11-10,2016/11_10,published,10,9,Natural gas stocks end refill season at record high level
+2016-11-17,2016/11_17,published,17,16,Woodfibre LNG becomes the first Canadian LNG project to receive Final Investment Decision
+2016-12-01,2016/12_01,published,1,11/30,Unseasonably warm weather reduces U.S. heating demand
+2016-12-08,2016/12_08,published,8,7,LNG imports remain high at Mexico's Manzanillo terminal
+2016-12-15,2016/12_15,published,15,14,"Tennessee Gas Pipeline will abandon one of four natural gas lines, repurposing to southbound liquids transport"
+2016-12-22,2016/12_22,published,22,21,December natural gas consumption notably up over last year and five-year average
+2017-01-12,2017/01_12,published,12,11,"REX Zone 3 capacity expansion enters full service, increasing Northeast takeaway capacity"
+2017-01-26,2017/01_26,published,26,25,Additions to data in the EIA Weekly Natural Gas Storage Report
+2017-02-02,2017/02_02,published,2,1,The San Elizario Border Crossing Project is authorized to commence service
+2017-02-09,2017/02_09,published,9,8,Rail provides outlet for growing Appalachian HGL production
+2017-02-16,2017/02_16,published,16,15,The Federal Energy Regulatory Commission (FERC) enters a no-quorum period
+2017-02-23,2017/02_23,published,23,22,Drilling Productivity Report forecasts production rise in six out of seven shale regions
+2017-03-02,2017/03_02,published,2,1,U.S. liquefaction capacity continues to expand
+2017-03-09,2017/03_09,published,9,8,EIA reports the earliest net increase in working gas stocks on record
+2017-03-16,2017/03_16,published,16,15,Natural gas spot prices rise with forecasts of colder temperatures along the eastern seaboard
+2017-03-23,2017/03_23,published,23,22,TransCanada reduces and simplifies toll rates to remain competitive
+2017-03-30,2017/03_30,published,30,29,Thirteen gigawatts of natural gas-fired power generating capacity to be added in 2017
+2017-04-06,2017/04_06,published,6,5,Heating season spot prices in 2016[U+2013]17 averaged 52% higher than in 2015[U+2013]16
+2017-04-13,2017/04_13,published,13,12,Natural gas stocks end heating season at the third highest level in 10 years
+2017-04-20,2017/04_20,published,20,19,Proposed expansion of Alliance pipeline capacity to Chicago market hub
+2017-04-27,2017/04_27,published,27,26,Canadian drilling drops off during spring breakup
+2017-05-04,2017/05_04,published,4,3,"First world-scale, greenfield nitrogenous fertilizer plant opened in over 25 years"
+2017-05-11,2017/05_11,published,11,10,SoCalGas updates assessment of summer reliability
+2017-05-18,2017/05_18,published,18,17,First floating liquefaction facility begins operations
+2017-05-25,2017/05_25,published,25,24,"New liquefied natural gas bunkering facility in Jacksonville, Florida"
+2017-06-01,2017/06_01,published,1,5/31,The United Kingdom's largest storage facility will be unavailable for injections until May 2018 or later
+2017-06-08,2017/06_08,published,8,7,Mexico conducts its first natural gas pipeline capacity open season
+2017-06-15,2017/06_15,published,15,14,First U.S. floating LNG export facility receives approval to export to non-FTA countries
+2017-06-29,2017/06_29,published,29,28,IEnova completes construction on two pipelines bringing Permian gas into Mexico
+2017-07-27,2017/07_27,published,27,26,Record July temperatures in California coincide with price rise at regional natural gas trading hubs
+2017-08-10,2017/08_10,published,10,9,Exports of domestically sourced LNG from the East Coast expected in 4Q 2017
+2017-08-17,2017/08_17,published,17,16,Mexico deregulates natural gas prices; works on building price reporting system and market hubs
+2017-08-24,2017/08_24,published,24,23,U.S. ethane production and exports reach new high
+2017-08-31,2017/08_31,published,31,30,Federal Energy Regulatory Commission (FERC) regains quorum
+2017-09-07,2017/09_07,published,7,6,"China's LNG imports set new record in 2017, further growth expected"
+2017-09-14,2017/09_14,published,14,13,Natural gas spot prices at Henry Hub decrease slightly during the days after Hurricane Harvey
+2017-09-21,2017/09_21,published,21,20,Hurricane Irma briefly disrupts Florida’s natural gas consumption for electricity generation
+2017-09-28,2017/09_28,published,28,27,"As nuclear power plant retirements increase, natural gas-fired generation capacity grows"
+2017-10-05,2017/10_05,published,5,4,"Puerto Rico’s electricity service is slow to return after Hurricane Maria, leaving LNG imports on hold"
+2017-10-12,2017/10_12,published,12,11,Southern California natural gas pipeline outage pauses regional storage injections
+2017-10-19,2017/10_19,published,19,18,EIA’s Winter Fuels Outlook projects higher residential natural gas consumption and prices
+2017-10-26,2017/10_26,published,26,25,Sabine Pass Train 4 reaches substantial completion
+2017-11-02,2017/11_02,published,2,1,"Permitting, drilling, and infrastructure activities increase as Pennsylvania’s natural gas production reaches new highs"
+2017-11-09,2017/11_09,published,9,8,Natural gas stocks end refill season just below the five-year average
+2017-11-16,2017/11_16,published,16,15,Most Northeast natural gas pipeline projects coming online this winter are for delivery to the Midwest and Southeast
+2017-11-30,2017/11_30,published,30,29,North Dakota natural gas flaring increases in recent months
+2017-12-21,2017/12_21,published,21,20,Russia's Yamal LNG ships first cargo
+2018-01-25,2018/01_25,published,25,24,Record Ohio gas production spurs new natural gas processing and generation facilities
+2018-02-22,2018/02_22,published,22,21,Two liquefied natural gas storage tanks are removed from service at the Sabine Pass Liquefaction Terminal
+2018-03-01,2018/03_01,published,1,2/28,"Natural gas plant liquids production reaches new annual record in 2017, with projected continued growth"
+2018-03-08,2018/03_08,published,8,7,Dominion Energy’s Cove Point LNG export facility begins commercial operations
+2018-03-15,2018/03_15,published,15,14,Natural gas-fired generation gains market share in Texas
+2018-03-22,2018/03_22,published,22,21,California Public Utilities Commission directs SoCalGas to maximize storage injections for summer reliability
+2018-03-29,2018/03_29,published,29,28,Gross natural gas production in the Permian Basin has nearly doubled in the past four years
+2018-04-05,2018/04_05,published,5,4,Mexico’s Energy Regulatory Commission publishes regional natural gas prices for the first time
+2018-04-12,2018/04_12,published,12,11,Natural gas stocks end heating season at the lowest level since 2014
+2018-04-19,2018/04_19,published,19,18,Exelon to purchase Everett LNG terminal to ensure supply to Mystic Generating Station
+2018-04-26,2018/04_26,published,26,25,"FERC authorizes Rover Pipeline, LLC to place additional facilities partially in service"
+2018-05-03,2018/05_03,published,3,2,Global LNG trade increases by a record 10% in 2017
+2018-05-10,2018/05_10,published,10,9,Natural gas sold at negative prices on TransCanada’s Alberta System
+2018-05-17,2018/05_17,published,17,16,Reduced natural gas infrastructure capacity may pose summer energy reliability challenges in Southern California
+2018-05-24,2018/05_24,published,24,23,Longer well lateral lengths and higher productivity increase Utica natural gas production even as rig count fluctuates
+2018-05-31,2018/05_31,published,31,30,"Bangladesh begins LNG imports, six more countries to follow"
+2018-06-07,2018/06_07,published,7,6,U.S. natural gas exports experience significant year-over-year growth
+2018-06-14,2018/06_14,published,14,13,Explosion shuts down the Leach XPress pipeline
+2018-06-21,2018/06_21,published,21,20,Appalachia prices increase as new takeaway capacity supports higher production
+2018-06-28,2018/06_28,published,28,27,Natural gas supply and consumption grow significantly from the first half of 2017 to the first half of 2018
+2018-07-12,2018/07_12,published,12,11,Two more pipelines transporting U.S. natural gas within Mexico are placed in service
+2018-07-19,2018/07_19,published,19,18,End-of-season natural gas storage inventories are forecast to be the lowest since 2008
+2018-07-26,2018/07_26,published,26,25,"Southern California faces record natural gas prices and voluntary curtailments amid hot weather, system constraints"
+2018-08-02,2018/08_02,published,2,1,July approaches record monthly natural gas use for power generation
+2018-08-09,2018/08_09,published,9,8,Haynesville natural gas production reaches five-year high
+2018-08-16,2018/08_16,published,16,15,Ongoing pipeline maintenance limits SoCalGas's ability to import natural gas into Southern California
+2018-08-23,2018/08_23,published,23,22,New York utility gets approval for natural gas demand response pilot program
+2018-08-30,2018/08_30,published,30,29,The ethane price premium to natural gas has nearly tripled over the past three months
+2018-09-06,2018/09_06,published,6,5,Government of Trinidad and Tobago secures additional upstream supply for the Atlantic LNG project
+2018-09-13,2018/09_13,published,13,12,EIA introduces interactive dashboard detailing natural gas storage activity
+2018-09-20,2018/09_20,published,20,12,Hurricane Florence affects natural gas demand for electricity in the Carolinas
+2018-09-27,2018/09_27,published,27,16,Renewables surpass natural gas as the primary electricity-generating source in Maine
+2018-10-04,2018/10_04,published,4,3,Growth in ethane production is uneven as a result of regional infrastructure and price differences
+2018-10-11,2018/10_11,published,11,10,LNG Canada becomes first major liquefaction export project in Canada to reach Final Investment Decision
+2018-10-18,2018/10_18,published,18,17,Two new large pipelines placed into service in October are increasing Northeast takeaway capacity
+2018-10-25,2018/10_25,published,25,24,"Pipeline explosion in Canada leads to lower U.S. natural gas imports, higher regional prices"
+2018-11-01,2018/11_01,published,1,10/31,New Gulf of Mexico projects expected to reverse natural gas production declines
+2018-11-08,2018/11_08,published,8,7,Natural gas stocks end refill season lower than the five-year minimum in all regions
+2018-11-15,2018/11_15,published,15,14,January 2019 Nymex prices remain close to spot prices throughout the 2018 injection season
+2018-11-29,2018/11_29,published,29,28,Mexico’s natural gas production declines as imports from the United States increase
+2018-12-06,2018/12_06,published,6,5,"China becomes world's largest natural gas importer, overtaking Japan"
+2018-12-13,2018/12_13,published,13,12,"In Europe, utilities look to repurpose their assets in a low-carbon future"
+2018-12-20,2018/12_20,published,20,19,Low natural gas storage stocks contribute to recent natural gas futures price volatility
+2019-01-10,2019/01_10,published,10,9,"Top natural gas stories of 2018 focus on record production, consumption, and exports"
+2019-01-17,2019/01_17,published,17,16,"U.S. LNG exports increase this winter, as two new trains are placed in service"
+2019-01-24,2019/01_24,published,24,23,New methanol plants expected to boost industrial natural gas usage in 2019[U+2013]20
+2019-02-07,2019/02_07,published,7,6,Polar vortex breaks records in natural gas consumption
+2019-02-14,2019/02_14,published,14,13,"As energy markets are showing more love, ethane is feeling less rejected: ethane prices increase as new processing capacity becomes available"
+2019-02-21,2019/02_21,published,21,20,Bahrain is on track to begin LNG imports this spring
+2019-02-28,2019/02_28,published,28,27,Southern California natural gas inventories decrease significantly during colder-than-normal February
+2019-03-07,2019/03_07,published,7,6,"Following Hurricane Maria in 2017, Puerto Rico’s LNG imports return to previous levels in the second quarter of 2018"
+2019-03-14,2019/03_14,published,14,13,Pacific Northwest sees highest-recorded natural gas spot prices in the United States since 2014
+2019-03-21,2019/03_21,published,21,20,Natural gas consumption in the electric sector reaches highest-ever level in 2018
+2019-04-04,2019/04_04,published,4,3,United States has been a net exporter of natural gas for more than 12 consecutive months
+2019-04-11,2019/04_11,published,11,10,Natural gas stocks end heating season at the lowest level since 2014
+2019-04-18,2019/04_18,published,18,17,Liquefied natural gas imports played a key role in reducing price spikes in New England this winter
+2019-05-02,2019/05_02,published,2,1,Natural gas pipeline projects would expand capacity into New York City
+2019-05-09,2019/05_09,published,9,8,U.S. natural gas plant liquids production hits new record in February
+2019-05-16,2019/05_16,published,16,8,Pennsylvania’s power generation mix changes with natural gas production growth
+2019-05-23,2019/05_23,published,23,22,Sempra Energy begins LNG production at its 1.7 Bcf/d Cameron LNG export facility
+2019-05-30,2019/05_30,published,30,29,EIA publishes the U.S. Liquids Pipelines Projects Database
+2019-06-06,2019/06_06,published,6,5,U.S. LNG exports to Europe increase amid declining demand and spot LNG prices in Asia
+2019-06-13,2019/06_13,published,13,12,Mild weather and record U.S. natural gas production keep prices low despite low storage levels and high exports
+2019-06-27,2019/06_27,published,27,26,Critical notice on the Alliance pipeline rearranges flows in Midwest
+2019-07-11,2019/07_11,published,11,10,Renewable natural gas demand to increase with UPS purchase agreement
+2019-07-18,2019/07_18,published,18,17,Australia is on track to become the world's largest LNG exporter in 2019
+2019-07-25,2019/07_25,published,25,24,United States sets new daily record-high for power burn
+2019-08-01,2019/08_01,published,1,7/31,Natural gas deliveries to U.S. LNG export facilities set a record in July
+2019-08-08,2019/08_08,published,8,7,Big Bend Power Station to increase Florida’s natural gas-fired generation capacity
+2019-08-15,2019/08_15,published,15,14,Natural gas production is at record-high levels despite low prices
+2019-08-22,2019/08_22,published,22,21,Permian Basin prices up in recent weeks as the Gulf Coast Express Pipeline nears completion
+2019-08-29,2019/08_29,published,29,28,Corn crop maturity suggests late harvest and high heating fuel demand this winter
+2019-09-05,2019/09_05,published,5,4,Illinois power generation fuel mix changes with coal retirements and natural gas and renewable additions
+2019-09-12,2019/09_12,published,12,11,Freeport LNG becomes the fifth export terminal in Lower 48 states to begin operations
+2019-09-19,2019/09_19,published,19,18,China introduces new incentives for domestic production of tight and shale gas and coalbed methane
+2019-09-26,2019/09_26,published,26,25,Low natural gas spot prices in Northeast drive additional flows out of the region
+2019-10-03,2019/10_03,published,3,2,Petronet and Tellurian explore partnership in proposed Driftwood LNG facility
+2019-10-10,2019/10_10,published,10,9,EIA's Winter Fuels Outlook forecasts lower natural gas expenditures for households than last winter
+2019-10-17,2019/10_17,published,17,16,"Elba Island, the sixth U.S. LNG export terminal, begins commercial operations"
+2019-10-24,2019/10_24,published,24,23,Natural gas inventories surpass five-year average for the first time in two years
+2019-10-31,2019/10_31,published,31,30,Futures prices signal cheaper mid-winter natural gas in most regions in 2020
+2019-11-07,2019/11_07,published,7,6,Net injections post second-largest refill season on record; working gas stocks end refill season higher than the five-year average
+2019-11-14,2019/11_14,published,14,13,EIA updates heat content values for hydrocarbon gas liquids
+2019-11-21,2019/11_21,published,21,20,Natural gas-fired generation returns to pre-October levels in PJM and MISO
+2019-12-05,2019/12_05,published,5,4,SoCalGas begins December with similar natural gas stock levels but more flexibility compared with last winter
+2019-12-12,2019/12_12,published,12,11,Vessel loadings show record levels of U.S. LNG exports in October and November
+2019-12-19,2019/12_19,published,19,18,European LNG imports are at record levels this year
+2020-01-09,2020/01_09,published,9,8,"Top natural gas stories in 2019: record levels of exports, production, and electric power consumption"
+2020-01-16,2020/01_16,published,16,15,U.S. net natural gas exports grow through 2021
+2020-01-23,2020/01_23,published,23,22,"Smithfield begins renewable natural gas production at its Tar Heel, North Carolina pork processing plant"
+2020-01-30,2020/01_30,published,30,29,U.S. ethane exports rise in 2019 as China receives its first U.S. cargos
+2020-02-06,2020/02_06,published,6,5,Natural gas prices fall to lowest level since 2016 and the lowest January price in 20 years
+2020-02-13,2020/02_13,published,13,12,North Dakota provides regulatory guidance to reduce natural gas flaring
+2020-02-20,2020/02_20,published,20,19,European natural gas storage levels are higher than average
+2020-02-27,2020/02_27,published,27,26,India’s sixth LNG import terminal comes online
+2020-03-05,2020/03_05,published,5,4,Pipelines plan to increase natural gas deliverability into New England by upgrading existing infrastructure
+2020-03-12,2020/03_12,published,12,11,EIA’s Annual Energy Outlook projects continuing growth for natural gas plant liquids
+2020-03-19,2020/03_19,published,19,18,Crude oil market conditions contributing to higher natural gas prices at the Waha Hub
+2020-03-26,2020/03_26,published,26,25,Low natural gas prices and capacity additions drive 2020 power burn growth in the first quarter
+2020-04-02,2020/04_02,published,2,1,"With warm weather, U.S. residential and commercial natural gas consumption down in 2020"
+2020-04-09,2020/04_09,published,9,8,"HGL prices collapse in 2020, revealing how pricing dynamics have changed since 2008"
+2020-04-16,2020/04_16,published,16,15,Natural gas stocks post smallest heating season net withdrawals since 2015
+2020-04-23,2020/04_23,published,23,22,"Global LNG trade sets another record in 2019, recording the highest-ever annual growth"
+2020-04-30,2020/04_30,published,30,29,Natural gas rig count falls to lowest level since 2016
+2020-05-07,2020/05_07,published,7,6,Higher Western Canada spot prices lower Canada’s natural gas imports into western United States
+2020-05-14,2020/05_14,published,14,13,Natural gas surpasses coal as primary generation fuel in MISO
+2020-05-21,2020/05_21,published,21,20,Poland seeks to diversify natural gas imports
+2020-05-28,2020/05_28,published,28,27,Natural gas deliveries to U.S. LNG export facilities decline to the lowest level since October 2019
+2020-06-04,2020/06_04,published,4,3,U.S. Winter 2019[U+2013]20 Propane Consumption Lower than Last Year
+2020-06-11,2020/06_11,published,11,10,EIA forecasts record natural gas storage levels
+2020-06-18,2020/06_18,published,18,17,Myanmar becomes the newest country to begin LNG imports
+2020-06-25,2020/06_25,published,25,24,Henry Hub daily natural gas spot price reaches historic low
+2020-07-09,2020/07_09,published,9,8,EIA’s updated State Energy Data System shows which states had the most consumption and production in 2018
+2020-07-16,2020/07_16,published,16,15,Natural gas-fired power generation higher in first half of 2020
+2020-07-23,2020/07_23,published,23,22,Russia’s ethane production is expected to increase more than ten-fold by 2025
+2020-07-30,2020/07_30,published,30,29,Approximately 5 Bcf/d of natural gas pipeline capacity has entered service in 2020
+2020-08-06,2020/08_06,published,6,5,U.S. sets record for natural gas power burn
+2020-08-13,2020/08_13,published,13,12,"EIA forecasts resilient, growing ethane production through 2021"
+2020-08-20,2020/08_20,published,20,19,European Union looks to hydrogen as means of decarbonizing the iron and steel industry
+2020-08-27,2020/08_27,published,27,26,Mexico’s natural gas consumption declines amid COVID-19 mitigation efforts
+2020-09-03,2020/09_03,published,3,2,Natural gas price differentials to Henry Hub narrowed at most hubs in the first half of 2020
+2020-09-10,2020/09_10,published,10,9,U.S. net natural gas exports begin to decline in spring 2020
+2020-09-17,2020/09_17,published,17,16,Natural gas infrastructure in the Netherlands is changing in response to declining natural gas production
+2020-09-24,2020/09_24,published,24,23,Industrial sector consumption of natural gas falls amid slowing economy
+2020-10-01,2020/10_01,published,1,9/30,"After Hurricane Laura, Cameron LNG remains offline but Sabine Pass exports resume"
+2020-10-08,2020/10_08,published,8,7,"EIA forecasts increased consumption, lower production of propane in the winter of 2020[U+2013]21"
+2020-10-15,2020/10_15,published,15,14,Hurricane Delta’s impacts on U.S. LNG export facilities are minimal
+2020-10-22,2020/10_22,published,22,21,EIA forecasts higher-than-average residential natural gas consumption this winter
+2020-10-29,2020/10_29,published,29,28,Plains Midstream Canada enters into an agreement to expand ownership in North America’s largest natural gas processing center
+2020-11-05,2020/11_05,published,5,4,"As solar-powered generation increases in California, natural gas helps meet evening peak demand"
+2020-11-12,2020/11_12,published,12,11,Henry Hub price reaches $3.00 for first time since March 2019
+2020-11-19,2020/11_19,published,19,18,Lower 48 states working natural gas in underground storage inventories at the end of the refill season (April 1[U+2013]October 31)
+2020-12-03,2020/12_03,published,3,2,New pipeline capacity into New England increases deliverability of natural gas to constrained market
+2020-12-10,2020/12_10,published,10,9,Hurricane Laura led to less ethane consumption and a record stock build in September
+2020-12-17,2020/12_17,published,17,16,European consortium plans to transport hydrogen via repurposed natural gas pipelines
+2021-01-07,2021/01_07,published,7,6,U.S. LNG exports set another record in December
+2021-01-14,2021/01_14,published,14,13,U.S. natural gas production will likely fall in 2021 and rise in 2022
+2021-01-21,2021/01_21,published,21,20,EIA expects higher wholesale U.S. natural gas prices in 2021 and 2022
+2021-01-28,2021/01_28,published,28,27,Industrial sector natural gas consumption returns to pre-pandemic levels
+2021-02-04,2021/02_04,published,4,3,U.S. LNG exports exceed natural gas exports by pipeline
+2021-02-11,2021/02_11,published,11,10,Warm weather and high storage levels kept natural gas prices low this winter
+2021-02-18,2021/02_18,published,18,17,"Freeze-offs contribute to lower natural gas production, higher natural gas prices"
+2021-02-25,2021/02_25,published,25,24,Near-record cold temperatures drive near-record withdrawals from working natural gas stocks in the Lower 48 states
+2021-03-04,2021/03_04,published,4,3,U.S. LNG exports continued to grow in 2020
+2021-03-11,2021/03_11,published,11,10,Natural gas plant liquids production grows in 2020 as crude oil and natural gas production decline
+2021-03-18,2021/03_18,published,18,17,Recent completions of pipeline projects increase natural gas transportation capacity
+2021-03-25,2021/03_25,published,25,24,Qatar Petroleum makes final investment decision to expand Ras Laffan LNG export project
+2021-04-01,2021/04_01,published,1,3/31,"U.S. ammonia production is growing, and becoming less carbon intensive"
+2021-04-08,2021/04_08,published,8,7,EIA forecasts that U.S. natural gas consumption will decline through 2022
+2021-04-15,2021/04_15,published,15,14,Net withdrawals from working gas stocks exceeded the five-year average during the 2020[U+2013]21 heating season
+2021-04-22,2021/04_22,published,22,21,Natural gas storage inventories in Europe enter injection season 11% below the five-year average
+2021-04-29,2021/04_29,published,29,28,Growth in U.S. ethane consumption outpaces all other major fuels
+2021-05-06,2021/05_06,published,6,5,Natural gas generation is lower compared with a year ago
+2021-05-13,2021/05_13,published,13,12,Ethane affects gas quality on the Northern Border pipeline
+2021-05-20,2021/05_20,published,20,19,Dry natural gas production continues to grow from pandemic lows as rig count also increases
+2021-05-27,2021/05_27,published,27,26,"Alaska is a major natural gas producer, but little of the natural gas reaches market"
+2021-06-03,2021/06_03,published,3,2,New infrastructure increases takeaway capacity out of West Texas
+2021-06-10,2021/06_10,published,10,9,Ethane exports surge with additional export capacity and expanded tanker fleet
+2021-06-17,2021/06_17,published,17,16,Reduced pressure on the Texas Eastern Transmission limits southbound capacity from the Appalachia Basin
+2021-06-24,2021/06_24,published,24,23,Pacific Gas and Electric reports reclassification of working gas levels at their natural gas storage facilities in Northern California
+2021-07-01,2021/07_01,published,1,6/30,Growth in global LNG trade was flat in 2020
+2021-07-08,2021/07_08,published,8,7,Texas Legislature Responds to Energy Market Disruptions Following Historic Winter Weather
+2021-07-15,2021/07_15,published,15,14,U.S. natural gas exports to Mexico reach record highs in June 2021
+2021-07-22,2021/07_22,published,22,21,U.S. liquefied natural gas exports were at record high levels in the first half of 2021
+2021-07-29,2021/07_29,published,29,28,Japan highlights hydrogen power at the Tokyo 2020 Olympics and continues to diversify fuel sources
+2021-08-05,2021/08_05,published,5,4,Brazil increases LNG imports from the United States amid its worst drought in more than 90 years
+2021-08-12,2021/08_12,published,12,11,EIA expects below-average U.S. natural gas inventories entering the winter heating season
+2021-08-19,2021/08_19,published,19,18,Higher petrochemical demand for propane to outweigh lower demand for grain drying and space heating this winter
+2021-08-26,2021/08_26,published,26,25,"Associated natural gas production declines in 2020, following three years of growth"
+2021-09-02,2021/09_02,published,2,1,Shale natural gas production in the Appalachian Basin sets records in first half of 2021
+2021-09-09,2021/09_09,published,9,8,"Natural gas-fired power burn sets June record, driving up spot prices this summer"
+2021-09-16,2021/09_16,published,16,15,"U.S. natural gas consumption to be lower in 2021 and 2022, led by the electric power sector"
+2021-09-23,2021/09_23,published,23,22,Henry Hub prices remain higher than Northeast hubs
+2021-09-30,2021/09_30,published,30,29,Europe’s natural gas storage inventories remain relatively low during the 2021 injection season
+2021-10-07,2021/10_07,published,7,6,2021 industrial natural gas consumption on trend to exceed the 5-year average
+2021-10-14,2021/10_14,published,14,13,U.S. natural gas prices likely to remain elevated through the winter
+2021-10-21,2021/10_21,published,21,20,Growth in natural gas demand in Asia and low storage stocks in Europe lead to record-high spot prices
+2021-10-28,2021/10_28,published,28,27,Hurricane Ida reduced U.S. natural gas production more than any other hurricane over the past ten years
+2021-11-04,2021/11_04,published,4,3,"New natural gas pipeline capacity serves Gulf Coast, Northeast markets"
+2021-11-18,2021/11_18,published,18,17,Working gas stocks end refill season 3% below the five-year average
+2021-12-02,2021/12_02,published,2,1,"On completion of planned projects, U.S. LNG export capacity will be the world’s largest in 2022"
+2021-12-09,2021/12_09,published,9,8,EIA forecasts that U.S. natural gas production will increase in 2022
+2021-12-16,2021/12_16,published,16,15,China becomes world’s largest LNG importer in the first 10 months of 2021
+2022-01-06,2022/01_06,published,6,5,Highlights of 2021 U.S. natural gas
+2022-01-13,2022/01_13,published,13,12,"EIA forecasts natural gas prices to remain near $4/MMBtu in 2022, lower in 2023"
+2022-01-20,2022/01_20,published,20,19,New England natural gas prices increase due to supply constraints and high demand
+2022-01-27,2022/01_27,published,27,26,Average well productivity has increased in the Marcellus
+2022-02-03,2022/02_03,published,3,2,Natural gas-directed rigs in the Appalachian Basin plateaued in the second half of 2021
+2022-02-10,2022/02_10,published,10,9,U.S. marketed natural gas production forecast to rise in 2022 and 2023
+2022-02-17,2022/02_17,published,17,16,Natural gas interstate pipeline capacity additions in 2021 are lowest since 2016
+2022-02-24,2022/02_24,published,24,23,Fluctuating weather this winter has significantly affected natural gas prices in New England and Southern California
+2022-03-03,2022/03_03,published,3,2,Residential and commercial natural gas prices rise in 2021
+2022-03-10,2022/03_10,published,10,9,"Natural gas consumption in the U.S. industrial sector grows through 2050, driven by the bulk chemicals industry"
+2022-03-17,2022/03_17,published,17,16,"U.S. LNG exports set a new record high 2021, growing by 50% compared with 2020"
+2022-03-24,2022/03_24,published,24,23,"Most U.S. gross gas withdrawals and production growth occurred in the Appalachia, Permian, and Haynesville regions in 2021"
+2022-03-31,2022/03_31,published,31,30,EIA projects growth in natural gas liquids feedstock consumption in the bulk chemicals industry
+2022-04-07,2022/04_07,published,7,6,China became the world’s largest LNG importer in 2021
+2022-04-14,2022/04_14,published,14,13,Net withdrawals from working gas stocks exceeded the five-year average during the 2020[U+2013]21 heating season
+2022-04-21,2022/04_21,published,21,20,Gas-oil ratio continues to rise in the Bakken region
+2022-04-28,2022/04_28,published,28,27,Average well productivity has increased in the Haynesville formation
+2022-05-05,2022/05_05,published,5,4,"Calcasieu Pass, the seventh LNG export terminal in the Lower 48 states, begins production"
+2022-05-12,2022/05_12,published,12,11,Natural gas consumed for U.S. electric power sets January record in 2022
+2022-05-19,2022/05_19,published,19,18,Two pipeline projects completed in the first quarter of 2022 and additional projects approved by FERC
+2022-05-26,2022/05_26,published,26,25,EIA expects that natural gas production in the Permian Basin will increase in 2022 and 2023
+2022-06-02,2022/06_02,published,2,1,Record U.S. natural gas demand this winter led to the largest storage withdrawal in four years
+2022-06-09,2022/06_09,published,9,8,EIA forecasts that Gulf of Mexico natural gas production will decline in 2023 despite new projects
+2022-06-16,2022/06_16,published,16,15,Recent fire causes shutdown at Freeport LNG export terminal
+2022-06-23,2022/06_23,published,23,22,First-year productivity of Haynesville and Marcellus wells more than doubled between 2014 and 2020
+2022-06-30,2022/06_30,published,30,29,Global LNG trade grew by 4.5% in 2021
+2022-07-07,2022/07_07,published,7,6,U.S. average monthly Henry Hub spot price nearly doubles in 12 months
+2022-07-14,2022/07_14,published,14,13,Natural gas-fired and renewable power plants continue to lead capacity additions in Mexico
+2022-07-21,2022/07_21,published,21,20,California’s working natural gas inventories vary by region this summer
+2022-07-28,2022/07_28,published,28,27,The United States became the world’s largest LNG exporter in the first half of 2022
+2022-08-04,2022/08_04,published,4,3,United States increases natural gas pipeline exports from West Texas to Mexico
+2022-08-11,2022/08_11,published,11,10,Natural gas price volatility reached an all-time high in first-quarter 2022
+2022-08-18,2022/08_18,published,18,17,U.S. ethane production forecast to grow by 9% in second half of 2022
+2022-08-25,2022/08_25,published,25,24,U.S. LNG export capacity is set to expand further as new projects begin construction
+2022-09-01,2022/09_01,published,1,8/31,"U.S. natural gas-directed rigs rise above pre-COVID levels, raising natural gas production"
+2022-09-08,2022/09_08,published,8,7,Waha Hub natural gas price differential to Henry Hub is widening in 2022
+2022-09-15,2022/09_15,published,15,14,U.S. natural gas consumption forecast to increase in all sectors in 2022
+2022-09-22,2022/09_22,published,22,21,U.S. LNG imports reach historic lows in first half of 2022
+2022-09-29,2022/09_29,published,29,28,Number of drilled but uncompleted wells continues to decline from record-high levels in 2020
+2022-10-06,2022/10_06,published,6,5,Larger-than-normal natural gas storage injections in September improved working gas stocks ahead of winter
+2022-10-13,2022/10_13,published,13,12,U.S. natural gas bills will increase in all regions this winter
+2022-10-20,2022/10_20,published,20,19,East region working natural gas in storage is the lowest in five years ahead of the 2022[U+2013]2023 winter heating season
+2022-10-27,2022/10_27,published,27,26,United States adds more combined-cycle natural gas turbine electric generating capacity in 2022
+2022-11-03,2022/11_03,published,3,2,Natural gas imports from Canada help stabilize U.S. markets
+2022-11-10,2022/11_10,published,10,9,U.S. working natural gas stocks end refill season below five-year average
+2022-11-17,2022/11_17,published,17,16,EIA expects U.S. natural gas prices to average above $6.00/MMBtu this winter
+2022-12-01,2022/12_01,published,1,11/30,Europe’s LNG import capacity set to expand by one-third by end of 2024
+2022-12-08,2022/12_08,published,8,7,Simple-cycle natural gas turbine power plants increase capacity factor to over 20% in summer 2022
+2022-12-15,2022/12_15,published,15,14,U.S. industrial natural gas consumption expected to increase more than 3% in 2022
+2022-12-22,2022/12_22,published,22,21,Natural gas spot prices in the western United States nearly reached or exceeded $50.00/MMBtu in December
+2023-01-12,2023/01_12,published,12,11,"Natural gas consumption, production, and exports broke records in 2022 as real average prices hit 14-year high"
+2023-01-19,2023/01_19,published,19,18,U.S. natural gas consumption reaches daily record high in December 2022
+2023-01-26,2023/01_26,published,26,25,U.S. LNG sale and purchase agreements increased in 2022
+2023-02-02,2023/02_02,published,2,1,Growth in global LNG export capacity will be limited in 2023
+2023-02-09,2023/02_09,published,9,8,Horizontal wells produced 78% of all U.S. natural gas production in 2022
+2023-02-16,2023/02_16,published,16,15,The Henry Hub natural gas spot price declined 41% in January
+2023-02-23,2023/02_23,published,23,22,Natural gas pipeline capacity additions between states are the lowest since 1995
+2023-03-02,2023/03_02,published,2,1,U.S. ethane demand grew 9% in 2022 driven by petrochemical capacity additions
+2023-03-09,2023/03_09,published,9,8,Liquefied natural gas will continue to lead growth in U.S. natural gas exports
+2023-03-16,2023/03_16,published,16,15,Europe was the main destination for U.S. LNG exports in 2022
+2023-03-23,2023/03_23,published,23,22,U.S. natural gas consumption reaches five-year lows in January and February 2023
+2023-03-30,2023/03_30,published,30,29,South Central storage withdrawals set a record low this winter heating season
+2023-04-06,2023/04_06,published,6,5,Pennsylvania natural gas production fell by 2% in 2022
+2023-04-13,2023/04_13,published,13,12,Net withdrawals from working natural gas stocks were the lowest in seven years during the 2022[U+2013]23 heating season
+2023-04-20,2023/04_20,published,20,19,Haynesville natural gas production reached a record high in February 2023
+2023-04-27,2023/04_27,published,27,26,Mild 2022[U+2013]2023 winter leads to record-high end-of-season storage inventories in Europe
+2023-05-04,2023/05_04,published,4,3,U.S. natural gas power burn during the heating season was the highest on record this past winter
+2023-05-11,2023/05_11,published,11,10,New projects expected to come online in 2023 and 2024 add natural gas and crude oil production to the U.S. Gulf of Mexico
+2023-05-18,2023/05_18,published,18,17,U.S. associated natural gas production will likely grow through 2050
+2023-05-25,2023/05_25,published,24,23,China’s natural gas consumption and LNG imports declined in 2022
+2023-06-01,2023/06_01,published,1,5/31,Natural gas production in the Permian region reached an annual high in 2022
+2023-06-08,2023/06_08,published,8,7,Sustained low natural gas prices reduce estimates of economically recoverable natural gas resources in the Haynesville Formation
+2023-06-15,2023/06_15,published,15,14,Global trade in liquefied natural gas increased by 5% in 2022
+2023-06-22,2023/06_22,published,22,21,EIA explores effects of liquefied natural gas exports on the U.S. natural gas market
+2023-06-29,2023/06_29,published,29,28,"Working natural gas stocks, injections, exceed five-year average"
+2023-07-06,2023/07_06,published,6,5,"Natural gas prices fall in first half of 2023 amid high production, high storage levels"
+2023-07-13,2023/07_13,published,13,12,Natural gas deliveries to U.S. LNG export facilities increased in the first half of 2023
+2023-07-20,2023/07_20,published,20,19,Natural gas-fired electricity generation was higher in first-half 2023 than in first-half 2022
+2023-07-27,2023/07_27,published,27,26,Price difference between Houston Ship Channel and Henry Hub lowest since 2021
+2023-08-03,2023/08_03,published,3,2,U.S. natural gas exports to Mexico established a new monthly record in June 2023
+2023-08-10,2023/08_10,published,10,9,Several countries become new liquefied natural gas importers this year
+2023-08-17,2023/08_17,published,17,16,U.S. ethane production reaches record high in April 2023
+2023-08-24,2023/08_24,published,24,23,The United States exported more liquefied natural gas (LNG) than any other country in the first six months of 2023
+2023-08-31,2023/08_31,published,31,30,New natural gas-fired capacity additions expected to total 8.6 gigawatts in 2023
+2023-09-07,2023/09_07,published,7,6,California regulators approve increase in working natural gas storage capacity at Aliso Canyon
+2023-09-14,2023/09_14,published,14,13,The United States exported a record volume of natural gas in the first half of 2023
+2023-09-21,2023/09_21,published,21,20,"Higher Permian well productivity, crude prices drive U.S. marketed natural gas production growth"
+2023-09-28,2023/09_28,published,28,27,Natural gas combined-cycle power plants increased utilization with improved technology
+2023-10-05,2023/10_05,published,5,4,U.S. natural gas-directed rig count has declined 26% since start of 2023
+2023-10-12,2023/10_12,published,12,11,Average U.S. natural gas bills expected to decrease this winter
+2023-10-19,2023/10_19,published,19,18,Associated natural gas production increased 9% in 2022 due to higher crude oil production
+2023-10-26,2023/10_26,published,26,25,LNG exports from North America are set to expand with new projects
+2023-11-02,2023/11_02,published,2,1,Associated natural gas production nearly triples in the top three Permian oil plays since 2018
+2023-11-09,2023/11_09,published,9,8,More than 20 Bcf/d of natural gas pipeline capacity is being developed for new U.S. LNG export terminals
+2023-11-16,2023/11_16,published,16,15,Working natural gas stocks end refill season above five-year average
+2023-11-30,2023/11_30,published,30,29,Countries in the Middle East and North Africa supply about one-third of global LNG
+2023-12-07,2023/12_07,published,7,7,Japan and South Korea LNG storage has been at peak monthly levels for most of 2023
+2023-12-14,2023/12_14,published,14,13,U.S. monthly dry natural gas production reaches record high in November 2023
+2023-12-21,2023/12_21,published,21,20,We are excited to announce changes to Today in Energy (TIE).
+2024-01-11,2024/01_11,published,11,10,Tables and chart data for week ending January 10
+2024-01-18,2024/01_18,published,18,17,Tables and chart data for week ending January 17
+2024-01-25,2024/01_25,published,25,24,Tables and chart data for week ending January 24
+2024-02-01,2024/02_01,published,1,1/31,Tables and chart data for week ending January 31
+2024-02-08,2024/02_08,published,8,7,Tables and chart data for week ending February 7
+2024-02-15,2024/02_15,published,15,14,Tables and chart data for week ending February 14
+2024-02-22,2024/02_22,published,22,21,Tables and chart data for week ending February 21
+2024-02-29,2024/02_29,published,29,28,Tables and chart data for week ending February 28
+2024-03-07,2024/03_07,published,07,06,Tables and chart data for week ending March 6
+2024-03-14,2024/03_14,published,14,13,Tables and chart data for week ending March 13
+2024-03-21,2024/03_21,published,21,20,Tables and chart data for week ending March 20
+2024-03-28,2024/03_28,published,28,27,Tables and chart data for week ending March 27
+2024-04-04,2024/04_04,published,4,3,Tables and chart data for week ending April 3
+2024-04-11,2024/04_11,published,11,10,Tables and chart data for week ending April 10
+2024-04-18,2024/04_18,published,18,17,Tables and chart data for week ending April 17
+2024-04-25,2024/04_25,published,25,24,Tables and chart data for week ending April 24
+2024-05-02,2024/05_02,published,2,1,Tables and chart data for week ending May 1
+2024-05-09,2024/05_09,published,9,8,Tables and chart data for week ending May 8
+2024-05-16,2024/05_16,published,16,15,Tables and chart data for week ending May 15
+2024-05-23,2024/05_23,published,23,22,Tables and chart data for week ending May 22
+2024-05-30,2024/05_30,published,30,29,Tables and chart data for week ending May 29
+2024-06-06,2024/06_06,published,6,5,Tables and chart data for week ending June 5
+2024-06-13,2024/06_13,published,13,12,Tables and chart data for week ending June 12
+2024-06-20,,no report released,20,19,No report released
+2024-06-27,2024/06_27,published,27,26,Tables and chart data for week ending June 26
+2024-07-11,2024/07_11,published,11,10,Tables and chart data for week ending July 10
+2024-07-18,2024/07_18,published,18,17,Tables and chart data for week ending July 17
+2024-07-25,2024/07_25,published,25,24,Tables and chart data for week ending July 24
+2024-08-01,2024/08_01,published,1,7/31,Tables and chart data for week ending July 31
+2024-08-08,2024/08_08,published,8,7,Tables and chart data for week ending August 7
+2024-08-15,2024/08_15,published,15,14,Tables and chart data for week ending August 14
+2024-08-22,2024/08_22,published,22,21,Tables and chart data for week ending August 21
+2024-08-29,2024/08_29,published,29,28,Tables and chart data for week ending August 28
+2024-09-05,2024/09_05,published,5,4,Tables and chart data for week ending September 4
+2024-09-12,2024/09_12,published,12,11,Tables and chart data for week ending September 11
+2024-09-19,2024/09_19,published,19,18,Tables and chart data for week ending September 18
+2024-09-26,2024/09_26,published,26,25,Tables and chart data for week ending September 25
+2024-10-03,2024/10_03,published,3,2,Tables and chart data for week ending October 2
+2024-10-10,2024/10_10,published,10,9,Tables and chart data for week ending October 9
+2024-10-17,2024/10_17,published,17,16,Tables and chart data for week ending October 16
+2024-10-24,2024/10_24,published,24,23,Tables and chart data for week ending October 23
+2024-10-31,2024/10_31,published,31,30,Tables and chart data for week ending October 30
+2024-11-07,2024/11_07,published,7,6,Tables and chart data for week ending November 6
+2024-11-14,2024/11_14,published,14,13,Tables and chart data for week ending November 13
+2024-11-21,2024/11_21,published,21,20,Tables and chart data for week ending November 20
+2024-12-05,2024/12_05,published,5,4,Tables and chart data for week ending December 4
+2024-12-12,2024/12_12,published,12,11,Tables and chart data for week ending December 11
+2024-12-19,2024/12_19,published,19,18,Tables and chart data for week ending December 18
+2025-01-10,2025/01_10,published,10,8,Tables and chart data for week ending January 8
+2025-01-16,2025/01_16,published,16,15,Tables and chart data for week ending January 15
+2025-01-23,2025/01_23,published,23,22,Tables and chart data for week ending January 22
+2025-01-30,2025/01_30,published,30,29,Tables and chart data for week ending January 29
+2025-02-06,2025/02_06,published,6,5,Tables and chart data for week ending February 5
+2025-02-13,2025/02_13,published,13,12,Tables and chart data for week ending February 12
+2025-02-20,2025/02_20,published,20,19,Tables and chart data for week ending February 19
+2025-02-27,2025/02_27,published,27,26,Tables and chart data for week ending February 26
+2025-03-06,2025/03_06,published,6,5,Tables and chart data for week ending March 5
+2025-03-27,2025/03_27,published,27,26,Tables and chart data for week ending March 26
+2025-04-03,2025/04_03,published,3,2,Tables and chart data for week ending April 2
+2025-04-10,2025/04_10,published,10,9,Tables and chart data for week ending April 9
+2025-04-17,2025/04_17,published,17,16,Tables and chart data for week ending April 16
+2025-04-24,2025/04_24,published,24,23,Tables and chart data for week ending April 23
+2025-05-01,2025/05_01,published,1,4/30,Tables and chart data for week ending April 30
+2025-05-08,2025/05_08,published,8,7,Tables and chart data for week ending May 7
+2025-05-15,2025/05_15,published,15,14,Tables and chart data for week ending May 14
+2025-05-22,2025/05_22,published,22,21,Tables and chart data for week ending May 21
+2025-05-29,2025/05_29,published,29,28,Tables and chart data for week ending May 28
+2025-06-05,2025/06_05,published,5,4,Tables and chart data for week ending June 4
+2025-06-12,2025/06_12,published,12,11,Tables and chart data for week ending June 11
+2025-06-26,2025/06_26,published,26,25,Tables and chart data for week ending June 25
+2025-07-10,2025/07_10,published,10,9,Tables and chart data for week ending July 9
+2025-07-17,2025/07_17,published,17,16,Tables and chart data for week ending July 16
+2025-07-24,2025/07_24,published,24,23,Tables and chart data for week ending July 23
+2025-07-31,2025/07_31,published,31,30,Tables and chart data for week ending July 30
+2025-08-07,2025/08_07,published,7,6,Tables and chart data for week ending August 6
+2025-08-14,2025/08_14,published,14,13,Tables and chart data for week ending August 13
+2025-08-21,2025/08_21,published,21,20,Tables and chart data for week ending August 20
+2025-08-28,2025/08_28,published,28,27,Tables and chart data for week ending August 27
+2025-09-04,2025/09_04,published,4,3,Tables and chart data for week ending September 3
+2025-09-11,2025/09_11,published,11,10,Tables and chart data for week ending September 10
+2025-09-18,2025/09_18,published,18,17,Tables and chart data for week ending September 17
+2025-09-25,2025/09_25,published,25,24,Tables and chart data for week ending September 24
+2025-10-02,2025/10_02,published,2,1,Tables and chart data for week ending October 1
+2025-10-09,2025/10_09,published,9,8,Tables and chart data for week ending October 8
+2025-10-16,2025/10_16,published,16,15,Tables and chart data for week ending October 15
+2025-10-23,2025/10_23,published,23,22,Tables and chart data for week ending October 22
+2025-10-30,2025/10_30,published,30,29,Tables and chart data for week ending October 29
+2025-11-06,2025/11_06,published,6,5,Tables and chart data for week ending November 5
+2025-11-13,2025/11_13,published,13,12,Tables and chart data for week ending November 12
+2025-11-20,2025/11_20,published,20,19,Tables and chart data for week ending November 19
+2025-12-04,2025/12_04,published,4,3,Tables and chart data for week ending December 3
+2025-12-11,2025/12_11,published,11,10,Tables and chart data for week ending December 10
+2025-12-18,2025/12_18,published,18,17,Tables and chart data for week ending December 17
+2026-01-08,2026/01_08,published,8,7,Tables and chart data for week ending January 7
+2026-01-15,2026/01_15,published,15,14,Tables and chart data for week ending January 14
+2026-01-22,2026/01_22,published,22,21,Tables and chart data for week ending January 21
