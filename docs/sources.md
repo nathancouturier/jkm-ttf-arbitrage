@@ -25,6 +25,8 @@ was decided on the strength of it.
 | `eia_lng_exports_monthly` | US LNG exports and re-exports by destination country, MMcf, the latest release | [NG_MOVE_EXPC_S1_M.xls](https://www.eia.gov/dnav/ng/xls/NG_MOVE_EXPC_S1_M.xls) | monthly, end of month | **yes** | US public domain |
 | `eia_lng_exports_revisions` | Every value a release of the table above changed, both releases side by side | derived by this study | with each release | **yes** | US public domain |
 | `eia_henry_hub_daily` | Henry Hub spot price, daily, USD/MMBtu, credited by EIA to Refinitiv | [RNGWHHDd.xls](https://www.eia.gov/dnav/ng/hist_xls/RNGWHHDd.xls) | weekly release, daily values | **yes**, with the doubt in 2.1 | US public domain |
+| `acer_lng_daily` | ACER's DES LNG assessments for NWE, SE and the EU, and its EU benchmark to TTF, daily, EUR/MWh; today the 26 corrected days of its notice of 20 December 2024 | [correction notice](https://www.acer.europa.eu/sites/default/files/documents/en/Gas/LNG_Price_Assessment/LNGPA_Correction_Notice_20241220.pdf); daily reports saved by hand | fixed until reports are saved | **yes** | ACER legal notice, with the doubt in 2.7 |
+| `ec_eua_auction_monthly` | EU allowance price, monthly volume weighted average auction clearing price, EUR/t, January 2023 to June 2025 | quarterly reports linked from the [Commission's auctioning page](https://climate.ec.europa.eu/areas-action/carbon-markets/eu-emissions-trading-system-eu-ets/auctioning-allowances_en) | quarterly, lagging | **yes** | CC BY 4.0, with the doubt in 2.8 |
 | `meti_spot_lng_monthly` | Japan spot LNG price, DES, contract-based and arrival-based, monthly, March 2014 to March 2021 | [historical-data-e.xlsx](https://www.meti.go.jp/english/statistics/sho/slng/historical-data-e.xlsx), read once | ended | **yes** | METI terms, compatible with CC BY 4.0 |
 | `jogmec_spot_lng_monthly` | Japan spot LNG price, DES, contract-based and arrival-based, monthly, from April 2021 | one page per month from the [list page](https://journal.jogmec.go.jp/oilgas/nglng-en/spotprice/index.html) | monthly, 9th to 15th | **NO**, `data/private/` until JOGMEC permits | JOGMEC terms, permission requested |
 | `worldbank_gas_monthly` | Europe gas (TTF from April 2015), US gas at Henry Hub, and Japan LNG import price, monthly, USD/MMBtu, from 2015 | read from the [commodity markets page](https://www.worldbank.org/en/research/commodity-markets); the file's path changes | monthly, early in the month | **yes** | CC BY 4.0 |
@@ -236,7 +238,67 @@ requested (`docs/open-questions.md`, question 14). The series is kept in
 `data/private/`; no value, chart or derived figure from it is published, and
 the public pages carry no link to JOGMEC until JOGMEC allows it.
 
-### 2.7 The routes, this study's computation
+### 2.7 ACER, LNG price assessment and benchmark
+
+Read at `https://www.acer.europa.eu/legal-notice` on 30 September 2026, under
+"Copyright notice", its first paragraph:
+
+> "Unless otherwise stated, the Agency is the owner of copyright and database
+> rights of this website and its contents. Downloading of this Licensed Material
+> other than for personal use is prohibited. The republication, retransmission,
+> reproduction or other use of this Licensed Material is prohibited."
+
+and its second:
+
+> "Information and documents made available on the Agency's webpages are public
+> and may be reproduced and/or distributed, totally or in part, irrespective of
+> the means and/or the formats used, for non-commercial and commercial purposes,
+> provided that the Agency is always acknowledged as the source of the material.
+> Such acknowledgement must be included in each copy of the material."
+
+ACER's methodology and notices print: "Reproduction is authorised provided the
+source is acknowledged."
+
+**Redistributable: yes, with acknowledgement, on the reading that the first
+paragraph applies only to material ACER marks as licensed.** The notice does not
+say what "Licensed Material" is, and read literally its first paragraph forbids
+what its second permits; the question is open (section 4). The benchmark's TTF
+leg is ICE data: ACER's DES prices and spreads are published as ACER prints
+them, and a TTF level backed out of them is never computed.
+
+What ACER publishes, from `https://www.acer.europa.eu/gas/lng-price-assessment`:
+"From 13 January 2023, ACER publishes its LNG price assessment every weekday
+before 18.00 CET. From 31 March 2023 onwards, ACER publishes its LNG benchmark
+every weekday typically at 21.00 CET." The methodology defines the benchmark as
+"the spread between the daily LNG price assessment for DES LNG Spot EU and the
+settlement price for the TTF Gas Futures front-month contract established by
+ICE Endex Markets B.V."
+
+### 2.8 European Commission, auction reports, CC BY 4.0
+
+Read at `https://commission.europa.eu/legal-notice_en` on 30 September 2026:
+
+> "Unless otherwise indicated (e.g. in individual copyright notices), content
+> owned by the EU on this website is licensed under the Creative Commons
+> Attribution 4.0 International (CC BY 4.0) licence . This means that reuse is
+> allowed, provided appropriate credit is given and changes are indicated."
+
+> "To use or reproduce content that is not owned by the EU, you may need to seek
+> permission directly from the rightholders."
+
+The auction reports carry no individual copyright notice. **Redistributable:
+yes**, crediting the European Commission and saying that the months are
+combined from several reports by this study. One doubt, recorded: each report
+says it assembles "the information provided by the common auction platform",
+and whether its tables are content owned by the EU is not stated.
+
+EEX, which runs the auctions and publishes every result, was read and not used:
+its website terms say its contents may not be "copied, reprinted, published,
+transmitted, transferred, disseminated or distributed in any manner without the
+prior written approval of EEX AG". Its figures reproduce the Commission's
+monthly averages to the cent and are kept privately as a check.
+
+### 2.9 The routes, this study's computation
 
 The distances and lines in `data/seed/routes.json` and `data/seed/routes.geojson`
 were computed by this study with searoute 1.6.0
@@ -419,7 +481,41 @@ library is a development tool; it is not shipped with the site.
   that unit at a level that only makes sense per million Btu, so it is read as
   USD/MMBtu. That is an inference, not JOGMEC's statement.
 
-### 3.9 The routes
+### 3.9 ACER
+
+* **ACER's daily reports are on its TERMINAL platform**, at
+  `aegis.acer.europa.eu`, which this pipeline never fetches, by the owner's rule
+  for this study. That host serves no robots.txt at all (HTTP 404), so the rule
+  is not written there; it is kept as a rule of this study. ACER's main site,
+  which its robots.txt allows, publishes no report and no data file.
+* **The benchmark is EU minus TTF, not NWE minus TTF.** An NWE figure would be
+  derived by this study, not published by ACER.
+* **The series start on different days**: the first report on 13 January 2023,
+  without a price; the first NWE price on 19 January 2023; SE from 20 January
+  2023; the EU price from 8 March 2023; the benchmark from 31 March 2023.
+* **The assessed half-month rolls on dates ACER publishes as a table**, not by a
+  formula. The table in the methodology ends with the period rolling on 24
+  December 2024; for later reports the period has to be read from the report.
+* **ACER corrects published values in place**, as it did for 26 days in
+  November and December 2024. A report saved when it appears is the only record
+  of what was first printed.
+* **One row of ACER's own correction table is inconsistent**: on 18 November
+  2024 the benchmark moves by 0.475 while the EU assessment moves by 0.044, where
+  every other row moves them together. It is kept as ACER printed it and flagged.
+* **Printed differences disagree with the printed values by up to about one
+  thousandth**, because ACER rounds after computing them.
+
+### 3.10 European Commission auction reports
+
+* **Each report's Table 1 covers fifteen months**, so several editions are read
+  and each month is taken from the latest that prints it. Months printed by up
+  to five editions agree exactly.
+* **The reports lag.** On 30 September 2026 the latest covers April to June
+  2025, and no allowance price after June 2025 is in this study.
+* **A month with no auction prints dashes** (January 2021), read as missing.
+* **Annual rows sit under the monthly ones** and are not read as months.
+
+### 3.11 The routes
 
 * **searoute draws the Pacific crossing past -180 degrees** as one continuous
   line, down to -220.36 degrees of longitude, rather than jumping to +180. A
@@ -450,6 +546,11 @@ library is a development tool; it is not shipped with the site.
    question 14.
 8. **METI's monthly PDFs**, which only a person can save past METI's bot
    challenge, and which alone carry METI's preliminary figures.
+9. **ACER's reports**, which only a person can save from TERMINAL, and whether
+   the observed discount is ACER's EU benchmark or an NWE spread this study
+   derives from ACER's figures.
+10. **The EU allowance price after June 2025**, which the Commission has not yet
+    published.
 
 ---
 

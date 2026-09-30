@@ -228,3 +228,41 @@ JOGMEC's May 2026 page, in English and in Japanese, gives the confirmed
 contract-based price for April 2026 as 19.2 and says in words that it was
 revised from the preliminary 19.1. Both of JOGMEC's historical workbooks,
 modified after that page, still give 19.1. The study follows the page.
+
+### 18. ACER's reports, and which discount is observed
+
+Raised 30 September 2026. **Open, the owner's decision.**
+
+ACER's daily reports are on TERMINAL, which this study does not access by code.
+They have to be saved by hand; the manual step in the manifest says how, and
+starts with the reports of 18 and 23 February 2026, whose figures the study
+expects to reproduce. Until reports are saved, the observed discount rests on
+the 26 corrected days of ACER's notice of December 2024.
+
+ACER's benchmark is the EU DES assessment minus TTF, while the model's
+Northwest Europe discount is for a cargo into Gate. Either the EU benchmark is
+used as the observed discount, labelled as the EU's, or an NWE spread is derived
+as the benchmark plus the NWE minus EU assessments, using ACER's figures only
+but computed by this study. ACER's market monitoring reports show the NWE
+spread only as charts built on another publisher's prices; they print an
+average of 2 EUR/MWh for January to August 2023 and a range of 2 to 3 EUR/MWh
+in the months before April 2024, which can bound an assumption.
+
+### 19. What ACER's legal notice permits
+
+Raised 30 September 2026. Open, recorded.
+
+The first paragraph of ACER's copyright notice prohibits reuse of "this
+Licensed Material" without defining it; the second permits reproduction with
+acknowledgement. The study reads the first as applying to material ACER marks
+as licensed. ACER can confirm it.
+
+### 20. The EU allowance price after June 2025
+
+Raised 30 September 2026. **Open, the owner's decision.**
+
+The Commission's latest auction report covers April to June 2025. For later
+months: ask EEX in writing to republish monthly averages of its auction
+results; use the German Emissions Trading Authority's monthly reports, whose
+terms could not be read because its robots.txt disallows the pages that hold
+them; or hold a labelled assumption.
