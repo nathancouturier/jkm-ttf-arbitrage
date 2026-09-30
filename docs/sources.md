@@ -25,6 +25,10 @@ was decided on the strength of it.
 | `eia_lng_exports_monthly` | US LNG exports and re-exports by destination country, MMcf, the latest release | [NG_MOVE_EXPC_S1_M.xls](https://www.eia.gov/dnav/ng/xls/NG_MOVE_EXPC_S1_M.xls) | monthly, end of month | **yes** | US public domain |
 | `eia_lng_exports_revisions` | Every value a release of the table above changed, both releases side by side | derived by this study | with each release | **yes** | US public domain |
 | `eia_henry_hub_daily` | Henry Hub spot price, daily, USD/MMBtu, credited by EIA to Refinitiv | [RNGWHHDd.xls](https://www.eia.gov/dnav/ng/hist_xls/RNGWHHDd.xls) | weekly release, daily values | **yes**, with the doubt in 2.1 | US public domain |
+| `worldbank_gas_monthly` | Europe gas (TTF from April 2015), US gas at Henry Hub, and Japan LNG import price, monthly, USD/MMBtu, from 2015 | read from the [commodity markets page](https://www.worldbank.org/en/research/commodity-markets); the file's path changes | monthly, early in the month | **yes** | CC BY 4.0 |
+| `worldbank_gas_revisions` | Every value a Pink Sheet release changed, both releases side by side | derived by this study | with each release that changes a value | **yes** | CC BY 4.0 |
+| `h10_usd_per_eur_daily` | US dollars per euro, noon buying rate in New York, daily, from 2015 | [FRB_h10_xml.zip](https://www.federalreserve.gov/releases/h10/data/FRB_h10_xml.zip) | weekly, Mondays | **yes** | US public domain |
+| `nyfed_sofr_daily` | Secured Overnight Financing Rate, daily, percent, from 2 April 2018 | [markets API](https://markets.newyorkfed.org/api/rates/secured/sofr/search.json) | daily, next business day | **yes**, under the New York Fed's terms | New York Fed Terms of Use |
 | `routes` | The four sea routes from Sabine Pass, distances and lines | computed once by `scripts/routes.py` | fixed | **yes** | this study, MIT; searoute Apache 2.0 |
 
 ---
@@ -82,7 +86,100 @@ Imports and Exports", a US government publication.
 Administration", with the release date of the file read, and the third party
 credit EIA prints for the weekly prices and for Henry Hub.
 
-### 2.2 The routes, this study's computation
+### 2.2 World Bank Pink Sheet, CC BY 4.0
+
+Read at `https://www.worldbank.org/ext/en/legal/terms-conditions/datasets` on 30
+September 2026, "Last Updated: Mar 23, 2018":
+
+> "Unless specifically labeled otherwise, these Datasets are provided to you
+> under a Creative Commons Attribution 4.0 International License (CC BY 4.0),
+> with the additional terms below."
+
+> "Where these Dataset Terms conflict with the general Terms and Conditions,
+> these Dataset Terms shall prevail."
+
+> "You may not publicly represent or imply that The World Bank is participating
+> in, or has sponsored, approved or endorsed the manner or purpose of your use
+> or reproduction of the Datasets."
+
+The dataset's catalogue entry, "Commodity Prices - History and Projections",
+read at `https://datacatalog.worldbank.org/search/dataset/0038238`, says:
+"This dataset is licensed under Creative Commons Attribution 4.0".
+
+The general site terms, which the landing page's "Terms of use for Datasets"
+link now redirects to, carry a narrower non commercial, no derivatives clause
+for "the remainder of the Materials"; the dataset terms say they prevail over
+the general terms for datasets, and those are the terms applied here.
+
+**Redistributable: yes**, with attribution and without implying endorsement.
+One residual is recorded rather than resolved: the summary terms of use at
+`https://data.worldbank.org/summary-terms-of-use` say "Some datasets and
+indicators are provided by third parties, and may not be redistributed or
+reused without the consent of the original data provider, or may be subject to
+additional terms and conditions. Where applicable, these conditions are
+included in the dataset or indicator metadata." The workbook's Description
+sheet names the sources of the gas rows (Bloomberg Finance L.P., World Gas
+Intelligence, Thomson Reuters Datastream, The Wall Street Journal, Official
+Statistics of Japan); the catalogue entry names no extra condition.
+
+**Attribution this project uses:** "The World Bank, Commodity Price Data (The
+Pink Sheet)", with the release's "Updated on" date.
+
+### 2.3 Federal Reserve Board, H.10, US public domain
+
+Read at `https://www.federalreserve.gov/disclaimer.htm` on 30 September 2026,
+"Last Update: August 02, 2024":
+
+> "Unless otherwise indicated, information on Board's website is in the public
+> domain and may be copied and distributed without permission. Please cite to
+> the Board as the source of the information."
+
+What the rate is, from `https://www.federalreserve.gov/releases/h10/about.htm`:
+
+> "The data are noon buying rates in New York for cable transfers payable in the
+> listed currencies. The rates have been certified by the Federal Reserve Bank of
+> New York for customs purposes as required by section 522 of the amended Tariff
+> Act of 1930."
+
+**Redistributable: yes**, citing the Board.
+
+### 2.4 Federal Reserve Bank of New York, SOFR, licensed
+
+Read at `https://www.newyorkfed.org/privacy/termsofuse` on 30 September 2026,
+"Last Updated: 6/9/2023". The API's own description says use of the reference
+rates and all data accessible through it is subject to these terms.
+
+> "The New York Fed grants you a non-exclusive license, subject to the Terms, to
+> use, copy, and distribute Content for your personal or business purposes."
+
+> "If you distribute the Content, you must make the Content available with the
+> same permissions, conditions, and restrictions set forth in these Terms. You
+> may not impose more restrictive terms or conditions on the Content."
+
+> "If you use or distribute reference rate data or related information posted to
+> the website, you must include the following notice and disclaimer with your
+> presentation of that data or information: “The [NAME OF DATA or CONTENT]* is
+> subject to the Terms of Use posted at newyorkfed.org. The New York Fed is not
+> responsible for publication of the [DATA NAME] by [NAME OF PUBLISHER], does not
+> [sanction] or [endorse] any particular republication, and has no liability for
+> your use.”"
+
+> "The Secured Overnight Financing Rate (SOFR) Data and Broad General Collateral
+> Rate (BGCR) Data are calculated using data provided under a license granted to
+> the New York Fed by DTCC Solutions LLC (“Solutions”), an affiliate of The
+> Depository Trust & Clearing Corporation."
+
+The same page also requires its attribution line where no other is given, and
+that modified content be labelled so that it is not attributed to the New York
+Fed.
+
+**Redistributable: yes, under the New York Fed's terms, not this repository's.**
+The committed SOFR cache travels under those terms, not under the MIT licence.
+The financing line the study computes from SOFR is this study's derivative and
+is labelled as such. The site shows the completed notice wherever SOFR or the
+financing line appears.
+
+### 2.5 The routes, this study's computation
 
 The distances and lines in `data/seed/routes.json` and `data/seed/routes.geojson`
 were computed by this study with searoute 1.6.0
@@ -170,7 +267,59 @@ library is a development tool; it is not shipped with the site.
   dated row with no value. A monthly average must use the days present and
   must not impute.
 
-### 3.4 The routes
+### 3.4 World Bank Pink Sheet
+
+* **The workbook's path changes.** Its link is read from the landing page every
+  time, and the adapter fails when it finds none or more than one.
+* **A hidden sheet, "Mismatch Details", comes first.** Open "Monthly Prices" by
+  name, never by index, and find each series by its label, checked against the
+  unit printed below it.
+* **Three spellings of the missing value token:** an ellipsis character in the
+  Japan column before 1977, three full stops elsewhere in the file, and two in
+  the notes.
+* **The Europe series changes definition twice inside one column**: TTF from
+  April 2015, an average import border price with a spot component including the
+  UK from April 2010 to March 2015, and the same excluding the UK from June 2000.
+* **The Japan series is an import price, cif, and its last two months are
+  estimates** that the next release revises: June 2026 read 12.83 in the release
+  of 2 July 2026 and 11.79 in that of 2 September 2026.
+* **The "Terms of use for Datasets" link redirects to the general terms**, which
+  are narrower. The dataset terms are one level down.
+* **Kept from January 2015.** Earlier values (Europe 0.38 in January 1964, US
+  0.14 in January 1960) would fail the study's validation ranges, and the study's
+  monthly history starts in 2015.
+
+### 3.5 Federal Reserve H.10
+
+* **The Data Download Program is being retired.** The Board removes its "Build
+  Your Package" option the week of 9 November 2026 and plans further removals in
+  2026 and 2027. Long date ranges already return HTTP 200 with an empty body. The
+  release page XML is the route the Board says will remain.
+* **A day with no rate carries `OBS_VALUE="-9999"`** with `OBS_STATUS="ND"`. It is
+  read as missing; a parser that reads the value would publish a price of minus
+  9,999 dollars per euro.
+* **Every weekday has a row**, holidays included as no data.
+* **The rate is a New York noon rate, released weekly on Mondays**, so the latest
+  value can be about ten days old. The series is corrected after the fact: the
+  rate for 3 August 2026 was corrected on 12 August 2026.
+* **The direction of the quote is not in the data columns.** The series' short
+  description, "EMU Members Euro (USD per EUR)", is checked on every parse.
+* **Cross check:** from 2015 the XML agrees with the history page
+  `dat00_eu.htm` on all 3,062 weekdays, no data days included.
+
+### 3.6 New York Fed SOFR
+
+* **The sibling repository's SOFR series is read through FRED**, not from the
+  New York Fed. This study reads the New York Fed's API directly.
+* **SOFR's first value date is 2 April 2018**, published on 3 April 2018. A
+  start check copied from a FRED based cache would refuse the first row.
+* **Rows come newest first**, and a day with no publication has no row at all.
+* **Percentiles can be the string "NA"** (31 May 2019, 5 August 2021) and can be
+  negative. Only the rate is read.
+* **No SOFR exists before 2 April 2018.** Nothing is filled in; how the
+  financing line is treated before then is an open question.
+
+### 3.7 The routes
 
 * **searoute draws the Pacific crossing past -180 degrees** as one continuous
   line, down to -220.36 degrees of longitude, rather than jumping to +180. A
@@ -192,6 +341,11 @@ library is a development tool; it is not shipped with the site.
    committed under EIA's public domain statement.
 3. **The Henry Hub bound.** Whether the declared upper bound of 25 USD/MMBtu is
    widened, or the two January 2026 values are listed as exceptions.
+4. **The euro rate's route.** This study reads the Board's release page XML
+   rather than its Data Download Program, which the Board is retiring.
+5. **SOFR's source and licence.** This study reads the New York Fed's API under
+   the New York Fed's terms, which travel with the committed cache.
+6. **Financing before 2 April 2018**, when no SOFR exists.
 
 ---
 

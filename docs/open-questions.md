@@ -117,3 +117,38 @@ kept as test fixtures carry both, in EIA's own text. The fixtures are kept byte
 for byte, like the vendored libraries, and the dash check skips
 `tests/fixtures/` as it skips `vendor/`. Every text this study writes itself,
 including the item text stored in its caches, writes a dash as its code point.
+
+### 11. The euro rate's route
+
+Raised 30 September 2026. Decided provisionally, for the owner to confirm.
+
+The Federal Reserve Board is retiring its Data Download Program: the "Build Your
+Package" option goes the week of 9 November 2026 and the rest of the program
+later, and long date ranges already come back as an empty body. The Board says
+historical data will remain as XML on the release pages, so the study reads the
+H.10 release page package. From 2015 it agrees with the history page on every
+weekday. The Board now points users of the Data Download Program to FRED
+instead; this study keeps to the Board's own publication.
+
+### 12. SOFR is licensed, and there is none before April 2018
+
+Raised 30 September 2026. **Open, the owner's decision.**
+
+The New York Fed publishes SOFR under its Terms of Use, which allow copying and
+distribution with a required notice, redistribution on the same terms, and
+modified content labelled as such. The committed cache is published on those
+terms, not under the repository's MIT licence, and the site must show the
+notice wherever SOFR or the financing line appears. SOFR's first value date is
+2 April 2018, while the study's cargoes start in February 2016. The financing
+line before then is either left missing and said so, or built on a stated
+predecessor rate, or held at a labelled assumption.
+
+### 13. Third party sources behind the World Bank's gas rows
+
+Raised 30 September 2026. Open, recorded.
+
+The Pink Sheet is published under CC BY 4.0, and its terms add that third
+party datasets may carry extra conditions in their metadata. The gas rows name
+Bloomberg Finance L.P., World Gas Intelligence, Thomson Reuters Datastream, The
+Wall Street Journal and Official Statistics of Japan among their sources. The
+catalogue entry names no extra condition.
