@@ -1,0 +1,27 @@
+# Private working files, never committed and never deployed
+data/private/
+SPEC.md
+.claude/
+CLAUDE.md
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+
+# Packaging artifacts, produced by pip install and never committed
+build/
+dist/
+*.egg-info/
+
+# Editors and OS
+.DS_Store
+Thumbs.db
+
+# Node
+node_modules/
+
+# data/cache is deliberately not ignored. The fetched caches are committed so
+# that "make build" and the published site reproduce with no network access.
