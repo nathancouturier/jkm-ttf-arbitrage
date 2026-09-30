@@ -32,16 +32,16 @@ def test_the_annual_rows_are_not_read_as_months():
 
 
 def test_the_latest_report_wins_and_a_disagreement_is_recorded():
-    older = pd.DataFrame({"date": [pd.Timestamp("2024-04-01")], "eua_eur_t": [63.00], "report": ["202503"]})
-    newer = pd.DataFrame({"date": [pd.Timestamp("2024-04-01")], "eua_eur_t": [63.59], "report": ["202506"]})
+    older = pd.DataFrame({"date": [pd.Timestamp("2024-04-01")], "eua_eur_t": [63.00], "report": ["cap_report_202503"]})
+    newer = pd.DataFrame({"date": [pd.Timestamp("2024-04-01")], "eua_eur_t": [63.59], "report": ["cap_report_202506"]})
     combined = ec_eua.combine([older, newer])
     assert combined["eua_eur_t"].item() == 63.59
-    assert combined["report"].item() == "202506"
-    assert "202503 gives 63.00" in combined["anomaly"].item()
+    assert combined["report"].item() == "cap_report_202506"
+    assert "cap_report_202503 gives 63.00" in combined["anomaly"].item()
 
 
 def test_a_month_without_auction_is_missing_not_zero():
-    blank = pd.DataFrame({"date": [pd.Timestamp("2021-01-01")], "eua_eur_t": [math.nan], "report": ["202112"]})
+    blank = pd.DataFrame({"date": [pd.Timestamp("2021-01-01")], "eua_eur_t": [math.nan], "report": ["cap_report_202112"]})
     combined = ec_eua.combine([blank])
     assert math.isnan(combined["eua_eur_t"].item())
 

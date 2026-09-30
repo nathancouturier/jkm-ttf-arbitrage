@@ -72,11 +72,11 @@ def parse_report(pdf: bytes, *, report: str) -> pd.DataFrame:
         match = _MONTH_ROW.match(line)
         if match:
             month = pd.to_datetime("%s %s" % (match.group(1), match.group(2)), format="%b %y")
-            rows.append({"date": month, "eua_eur_t": float(match.group(9)), "report": report})
+            rows.append({"date": month, "eua_eur_t": float(match.group(9)), "report": "cap_report_%s" % report})
         elif _NO_AUCTION.match(line):
             parts = _NO_AUCTION.match(line)
             month = pd.to_datetime("%s %s" % (parts.group(1), parts.group(2)), format="%b %y")
-            rows.append({"date": month, "eua_eur_t": float("nan"), "report": report})
+            rows.append({"date": month, "eua_eur_t": float("nan"), "report": "cap_report_%s" % report})
     if len(rows) < 3:
         raise SourceError("report %s: Table 1 gives %d month rows" % (report, len(rows)))
     return pd.DataFrame(rows)

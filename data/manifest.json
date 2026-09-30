@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-30T21:31:35Z",
+  "generated_at": "2026-09-30T21:33:45Z",
   "series": [
     {
       "series": "acer_lng_daily",
@@ -47,7 +47,7 @@
       "url": "https://climate.ec.europa.eu/areas-action/carbon-markets/eu-emissions-trading-system-eu-ets/auctioning-allowances_en",
       "page_url": "https://climate.ec.europa.eu/areas-action/carbon-markets/eu-emissions-trading-system-eu-ets/auctioning-allowances_en",
       "machine_fetched": true,
-      "fetched_at": "2026-09-30T21:31:35Z",
+      "fetched_at": "2026-09-30T21:33:45Z",
       "checked_at": null,
       "rows": 30,
       "observations": 30,
@@ -823,8 +823,8 @@
   "manual_steps_note": "Work this pipeline cannot do for itself. Each entry says what it is, why it exists, what it costs to skip it and how to do it. They are repeated against the series they affect in the manual_step field of those entries.",
   "run": {
     "mode": "online",
-    "started_at": "2026-09-30T21:28:44Z",
-    "finished_at": "2026-09-30T21:28:55Z",
+    "started_at": "2026-09-30T21:33:01Z",
+    "finished_at": "2026-09-30T21:33:45Z",
     "script": "scripts/refresh.py"
   }
 }
