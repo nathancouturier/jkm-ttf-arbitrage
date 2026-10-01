@@ -298,13 +298,28 @@ transmitted, transferred, disseminated or distributed in any manner without the
 prior written approval of EEX AG". Its figures reproduce the Commission's
 monthly averages to the cent and are kept privately as a check.
 
-### 2.9 The routes, this study's computation
+### 2.9 The routes, this study's computation, and the network under them
 
 The distances and lines in `data/seed/routes.json` and `data/seed/routes.geojson`
 were computed by this study with searoute 1.6.0
-(`https://github.com/genthalili/searoute-py`), released under the Apache License
-2.0, over the Eurostat SeaRoute maritime network the library bundles. The
-library is a development tool; it is not shipped with the site.
+(`https://github.com/genthalili/searoute-py`). Its licence file, read from the
+package and from the repository on 1 October 2026, is the Apache License 2.0
+with the line "Copyright 2024 - Gent Halili". Its README warns: "Not for
+routing purposes! This library was developed to generate realistic-looking sea
+routes for visualizations of maritime routes, not for mariners to route their
+ships." The library is a development tool; it is not shipped with the site.
+
+The lines are vertices of the maritime network the library bundles, which
+carries no licence or source of its own. The README credits "Eurostat's
+Searoute Java library" (`https://github.com/eurostat/searoute`), released under
+the European Union Public Licence 1.2, whose copyleft clause requires
+derivatives to be distributed under it or a licence on its compatibility list;
+the Apache License is not on that list. Eurostat's README says its network "is
+based on the Oak Ridge National Labs CTA Transportation Network Group, Global
+Shipping Lane Network, World, 2000", whose copy on GeoCommons carries no
+licence field. **The distances are this study's computation and are published.
+Whether the committed lines may be published under this chain is an open
+question for the owner** (section 4).
 
 ---
 
@@ -517,13 +532,31 @@ library is a development tool; it is not shipped with the site.
 
 ### 3.11 The routes
 
+* **searoute measures in nautical miles only with `units="naut"`.** It also
+  accepts `units="nm"`, which returns lengths 1.32 times too long.
+* **Pass the restrictions on every call.** The network object is cached, and a
+  call with `restrictions=None` reuses the previous call's restrictions.
 * **searoute draws the Pacific crossing past -180 degrees** as one continuous
   line, down to -220.36 degrees of longitude, rather than jumping to +180. A
   distance test that wraps each vertex on its own invents a segment spanning
-  the globe. `lngarb.sea_routes` wraps each segment once.
+  the globe; `lngarb.sea_routes` wraps each segment once, and a map must split
+  the line.
+* **The line starts and ends at the network nodes nearest the terminals**, 1.4
+  to 3.9 nm away. The recorded distances exclude those gaps, as the library
+  returns them.
+* **The Suez route leaves the Straits of Florida eastwards at about 25.3 N**,
+  which reads as crossing the shallow Great Bahama Bank. Forcing it through deep
+  water adds 44 to 53 nm, 0.3 to 0.4 percent.
 * **Florida Strait and Dover Strait are not in searoute's passage list**, so
   they are tested from the geometry against reference points, with the
   distances recorded in the seed.
+* **The independent test.** Spark's methodology gives Spark30, Sabine Pass to
+  Gate and back, 25 sailing days at 17 knots; the computed round trip is 24.41
+  days, 2.4 percent shorter. EIA gives the Suez and Cape routes from the Gulf
+  Coast to Chiba as about 17 and 21 days longer than Panama; the computed extra
+  distances stand in the ratio 0.816 against EIA's 0.810, and both imply about
+  13 knots. Platts' figure for the Panama route could not be read: its site
+  refuses automated requests, even for robots.txt.
 
 ---
 
@@ -551,6 +584,8 @@ library is a development tool; it is not shipped with the site.
    derives from ACER's figures.
 10. **The EU allowance price after June 2025**, which the Commission has not yet
     published.
+11. **Whether the route lines may be published** under the licence chain in
+    2.9, or only the distances.
 
 ---
 

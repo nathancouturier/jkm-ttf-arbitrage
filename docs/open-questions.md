@@ -266,3 +266,47 @@ months: ask EEX in writing to republish monthly averages of its auction
 results; use the German Emissions Trading Authority's monthly reports, whose
 terms could not be read because its robots.txt disallows the pages that hold
 them; or hold a labelled assumption.
+
+### 21. The licence of the route lines
+
+Raised 1 October 2026. **Open, the owner's decision.**
+
+The lines in `data/seed/routes.geojson` are vertices of the network searoute
+bundles. searoute is Apache 2.0; it credits Eurostat's SeaRoute, which is EUPL
+1.2, whose copyleft clause does not list the Apache License as compatible; and
+Eurostat's network rests on a 2000 Oak Ridge dataset with no stated licence.
+Options: keep the lines with attribution to all three; publish only the
+distances and draw the map from a coarser set of waypoints this study sets
+itself; or ask the library's author how the network was derived.
+
+### 22. The Suez route over the Bahamas
+
+Raised 1 October 2026. Open.
+
+The computed Suez route crosses what reads as the shallow Great Bahama Bank,
+which no LNG carrier could use. Forced through deep water it is 44 to 53 nm
+longer, 0.3 to 0.4 percent, about a tenth of a day at 17 knots. The committed
+distance is the library's; the difference is small against every other
+uncertainty in the voyage, and is stated rather than corrected.
+
+### 23. Spark's worked example and its discharge volume
+
+Raised 1 October 2026. Recorded for the engine.
+
+Spark's note on negative freight rates prints a discharge volume of 3,501,428
+MMBtu, 14,628 MMBtu below the loaded volume less thirty days of boil-off.
+Spark's methodology of November 2022 defines the discharge volume as 98.5
+percent of capacity less the laden boil-off less a heel of 3,000 m3. With
+fifteen days of laden boil-off that definition gives 3,501,428 exactly. Why the
+note uses fifteen laden days for the volume while it uses 17.5 for hire and
+fuel is not stated in it. The engine reproduces the note's other lines on their
+own terms and does not tune anything to this one.
+
+### 24. Platts' voyage duration via Panama
+
+Raised 1 October 2026. Open.
+
+S&P Global refuses automated requests, even for its robots.txt, so Platts'
+subscriber note giving Sabine Pass to Futtsu via Panama at 23 days could not be
+read. It can be saved by hand; the routes are tested against Spark's and EIA's
+figures without it.
