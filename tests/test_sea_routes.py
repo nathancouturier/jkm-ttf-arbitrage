@@ -100,3 +100,32 @@ def test_the_seed_is_recorded_in_the_manifest_with_a_check_time_and_no_fetch_tim
     assert entry["fetched_at"] is None and entry["checked_at"]
     assert entry["files"] == ["data/seed/routes.geojson"]
     assert entry["rows"] == 4
+
+
+# --------------------------------------------------------------------------
+# Test 14, the independent half: published voyage durations
+# --------------------------------------------------------------------------
+#
+# Spark LNG Freight Methodology 3.8, page 2: "Spark30: 30 days (25 days sailing,
+# 1 day load, 1 day discharge and 3 Flex Days)" for "Sabine Pass to Gate", at
+# "Speed: 17 knots".
+# EIA, Today in Energy, 1 February 2024 (https://www.eia.gov/todayinenergy/detail.php?id=61363):
+# "A journey from the U.S. Gulf Coast to Chiba in Japan through the Suez Canal
+# adds about 17 days and one through the Cape of Good Hope adds about 21 days,
+# compared with going through the Panama Canal." The ships' speed is not given,
+# so only the ratio of the two extra distances is tested; it does not depend on
+# speed.
+
+def test_spark30_sailing_days_within_three_percent(committed):
+    document, _ = committed
+    gate = next(r for r in document["routes"] if r["id"] == "nwe_direct")
+    round_trip_days = 2 * gate["distance_nm"] / (17 * 24)
+    assert abs(round_trip_days / 25 - 1) < 0.03
+    assert round(round_trip_days, 2) == 24.41
+
+
+def test_the_eia_ratio_of_extra_days_east_within_one_hundredth(committed):
+    document, _ = committed
+    d = {r["id"]: r["distance_nm"] for r in document["routes"]}
+    computed = (d["nea_suez"] - d["nea_panama"]) / (d["nea_cape"] - d["nea_panama"])
+    assert abs(computed - 17 / 21) < 0.01

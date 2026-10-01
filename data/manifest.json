@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-30T21:33:45Z",
+  "generated_at": "2026-10-01T19:28:49Z",
   "series": [
     {
       "series": "acer_lng_daily",
@@ -159,7 +159,7 @@
       "url": "https://www.eia.gov/naturalgas/weekly/",
       "page_url": "https://www.eia.gov/naturalgas/weekly/",
       "machine_fetched": true,
-      "fetched_at": "2026-09-30T15:51:11Z",
+      "fetched_at": "2026-10-01T19:28:15Z",
       "checked_at": null,
       "rows": 1,
       "observations": 1,
@@ -198,7 +198,7 @@
       "url": "https://www.eia.gov/naturalgas/weekly/includes/archive.php",
       "page_url": "https://www.eia.gov/naturalgas/weekly/",
       "machine_fetched": true,
-      "fetched_at": "2026-09-30T15:51:00Z",
+      "fetched_at": "2026-10-01T19:28:03Z",
       "checked_at": null,
       "rows": 453,
       "observations": 453,
@@ -299,7 +299,7 @@
       "url": "https://www.eia.gov/naturalgas/weekly/supplement/content/bullets_lng_2.html",
       "page_url": "https://www.eia.gov/naturalgas/weekly/supplement/",
       "machine_fetched": true,
-      "fetched_at": "2026-09-30T15:51:43Z",
+      "fetched_at": "2026-10-01T19:28:49Z",
       "checked_at": null,
       "rows": 1,
       "observations": 1,
@@ -823,8 +823,8 @@
   "manual_steps_note": "Work this pipeline cannot do for itself. Each entry says what it is, why it exists, what it costs to skip it and how to do it. They are repeated against the series they affect in the manual_step field of those entries.",
   "run": {
     "mode": "online",
-    "started_at": "2026-09-30T21:33:01Z",
-    "finished_at": "2026-09-30T21:33:45Z",
+    "started_at": "2026-10-01T19:27:44Z",
+    "finished_at": "2026-10-01T19:28:49Z",
     "script": "scripts/refresh.py"
   }
 }
