@@ -310,3 +310,85 @@ S&P Global refuses automated requests, even for its robots.txt, so Platts'
 subscriber note giving Sabine Pass to Futtsu via Panama at 23 days could not be
 read. It can be saved by hand; the routes are tested against Spark's and EIA's
 figures without it.
+
+### 25. The Suez toll for a 174,000 m3 carrier
+
+Raised 3 October 2026. **Open, the owner's decision.**
+
+The Suez Canal Authority publishes its toll as special drawing rights (SDR) per
+ton of Suez Canal Net Tonnage (SCNT), in seven bands, laden and ballast. The
+schedule is citable; the tonnage is not. A canal agency's guidance says the
+SCNT of an LNG carrier "depends on the construction" and gives about 85,000
+for a 145,000 m3 membrane ship; no source read gives it for a 174,000 m3
+two-stroke ship. Options: find the SCNT of a named 174,000 m3 ship in a
+published particulars sheet or a written quotation, and compute the toll from
+the schedule; publish the formula with SCNT as a labelled assumption and its
+range; or price Suez only for the years before 2024, when the route was used,
+and say so. Every option needs a daily SDR to dollar rate, from the IMF, whose
+terms have not been read yet. The schedule in force before 15 January 2024 is
+read for February 2022; the step between them is consistent with a 15 percent
+rise in 2023, whose circular was not found.
+
+### 26. Whether the Suez rebate reaches the LNG surcharge
+
+Raised 3 October 2026. Open, recorded.
+
+The Authority's rebate for LNG carriers sailing from the US Gulf to Asia is a
+percentage "of Suez Canal normal tolls". Its surcharge on LNG carriers, 7
+percent from 1 March 2022 and 19 percent from 15 July 2026, is levied "from
+Suez Canal normal transit dues". No text read says whether the rebate also
+reduces the surcharge. The two readings differ by the rebate times the
+surcharge: at 75 percent and 19 percent, 14.25 percent of the normal toll.
+Until a canal agency or the Authority answers, both readings are shown.
+
+### 27. The Suez rebate on the ballast leg
+
+Raised 3 October 2026. **Open, the owner's decision.**
+
+Every rebate text since 2019 names LNG carriers "(laden/ballast)", and the
+original circular of 2017 names tankers "loaded or in ballast", so a ballast
+transit qualifies on its face. Whether the Authority reads a ballast leg from
+Japan to the US Gulf as "operating between" the two areas, and what documents
+it then asks for, is not written. From 1 January 2025 the rebate is also
+limited to carriers "directly operating" between the two areas, so a cargo
+reloaded or calling commercially on the way loses it.
+
+### 28. When the Red Sea was open to a US cargo
+
+Raised 3 October 2026. **Open, the owner's decision.**
+
+The record supports: routine use until the end of 2023; the last laden LNG
+carrier through Suez on 12 January 2024 and the last in ballast on 16 January;
+no LNG carrier across the Red Sea from mid January to June 2024; a few
+crossings by Russia linked ships in 2024, three in the first half of 2025,
+"only a handful" in 2025 as a whole and "limited" transits in the winter of
+2025 to 2026; and, from one secondary source citing data the study cannot
+reach, none at Bab el Mandeb from March to July 2026. No source read shows a
+US Gulf cargo going to Asia through Suez after January 2024. Choices: close
+the route to a US cargo from 13 January 2024, the day after the last laden
+transit, or from 15 January 2024, the day QatarEnergy's pause was reported;
+whether August and September 2026 are "closed, no evidence of return" or
+"unknown"; and whether the secondary source is accepted for March to July
+2026.
+
+### 29. The canal's monthly transit counts
+
+Raised 3 October 2026. **Open, the owner's decision.**
+
+The Authority's annual reports give LNG ship transits by year: 819 in 2023,
+119 in 2024 and 282 in 2025, both directions, laden and ballast. Its monthly
+counts by ship type appear only in an interactive report on its statistics
+page, which the study does not read by code. Reading it by hand would give a
+monthly record for 2023 to 2026, with the caveat that a canal transit is not a
+Red Sea crossing: ships entering from the north to deliver at Ain Sukhna or
+Aqaba are counted and never pass Bab el Mandeb.
+
+### 30. Quoting the Suez Canal Authority
+
+Raised 3 October 2026. **Open, the owner's decision.**
+
+The Authority's site has no terms of use page that could be found, and every
+page carries "Copyright 2017 | All Right Reserved Suez Canal Authority". The
+study quotes rates, percentages and dates from its circulars and counts from
+its annual reports, each with its source, and copies no document. Either that
+is accepted as quotation, or the Authority is asked.

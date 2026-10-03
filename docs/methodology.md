@@ -110,3 +110,99 @@ of January).
 | JOGMEC arrival-based price | April 2023 | from cargoes contracted and delivered in the month to cargoes delivered in the month whenever contracted |
 | ACER DES assessments | January to March 2023 | NWE priced from 19 January 2023, SE from 20 January, the EU from 8 March, the EU benchmark to TTF from 31 March |
 | EU allowance price | after June 2025 | the Commission's latest auction report ends there; later months are missing |
+
+---
+
+## 6. The Suez route: toll, rebate and availability
+
+What the Suez Canal Authority's own texts and the public record give the canal
+line, dated, so that a transit on any day is priced under the instruments then
+in force. The traps are in `docs/sources.md`, sections 3.12 and 3.13; what is
+still open is in `docs/open-questions.md`, questions 25 to 30.
+
+### 6.1 The toll
+
+```
+normal_dues = sum over bands of rate(band, laden or ballast) * SCNT in band   # SDR
+surcharge   = s(transit date) * normal_dues                                   # LNG carriers only
+rebate      = r(transit date, destination) * normal_dues                      # US Gulf to Asia, conditions apply
+toll_sdr    = normal_dues + surcharge - rebate                                # one reading, see open question 26
+toll_usd    = toll_sdr * usd_per_sdr(transit date)
+```
+
+Normal dues for LNG carriers ("Rate (5)"), in SDR per ton of Suez Canal Net
+Tonnage, from the schedules attached to circular 5/2021 (applicable from 1
+February 2022) and circular 7/2023 (applicable from 15 January 2024):
+
+| SCNT band | Laden, from 1 Feb 2022 | Ballast, from 1 Feb 2022 | Laden, from 15 Jan 2024 | Ballast, from 15 Jan 2024 |
+|---|---|---|---|---|
+| first 5,000 | 7.88 | 6.70 | 10.42 | 8.87 |
+| next 5,000 | 6.13 | 5.21 | 8.11 | 6.89 |
+| next 10,000 | 5.30 | 4.51 | 7.02 | 5.97 |
+| next 20,000 | 4.10 | 3.49 | 5.43 | 4.61 |
+| next 30,000 | 3.80 | 3.23 | 5.03 | 4.27 |
+| next 50,000 | 3.63 | 3.09 | 4.80 | 4.08 |
+| the rest | 3.53 | 3.00 | 4.67 | 3.97 |
+
+Both schedules say the rates "shall be applied according to the vessel's
+actual condition upon transit". The schedules in force before February 2022
+have not been read, and neither has the step in 2023 (`docs/sources.md`, 3.12).
+
+The other instruments that move an LNG carrier's toll:
+
+| From | What changes | Instrument |
+|---|---|---|
+| 1 May 2015 | general reduction for LNG carriers cut from 35 to 25 percent | circular 2/2015 |
+| 1 Oct 2017 | rebate for US Gulf cargoes to Asia begins, see 6.2 | circular 7/2017 |
+| 1 Nov 2021 | general reduction cut from 25 to 15 percent | periodical of 26 October 2021 |
+| 1 Feb 2022 | new schedule | circular 5/2021 |
+| 1 Mar 2022 | surcharge of 7 percent on normal dues, laden and ballast | circular 5/2022 |
+| 15 Mar 2022 | general reduction cancelled | periodical of 14 March 2022 |
+| 15 Jan 2024 | normal dues raised 15 percent | circular 7/2023 of 16 October 2023 |
+| 15 Jul 2026 | surcharge raised from 7 to 19 percent | periodical 20/2026 of 7 June 2026 |
+
+The rebate in 6.2 cannot be combined with any other LNG rebate, so before 15
+March 2022 a US Gulf cargo to Japan takes the larger of the two, not both.
+
+### 6.2 The rebate for a cargo from the US Gulf to Japan
+
+The rate for the band that contains Japan, from the circular and periodicals
+the Authority publishes, each read from its own record:
+
+| Transits | Rate | Band named | Instrument |
+|---|---|---|---|
+| 1 Oct 2017 to 30 Sep 2018 | 50 percent | Singapore and its eastern ports | circular 7/2017, an experimental year |
+| 1 Oct 2018 to 30 Sep 2019 | 65 percent | Singapore and its eastern ports | periodical of 25 September 2018 |
+| 1 Oct 2019 to 31 Dec 2021 | 75 percent | Singapore ports and its eastern ports | periodicals of 12 September 2019 and 31 March 2020, renewed to 31 December 2021 |
+| 1 Jan 2022 to 31 Dec 2022 | 70 percent | Singapore ports and its eastern ports | periodical of 21 December 2021, renewed 12 June 2022 |
+| 1 Jan 2023 to 30 Jun 2023 | 70 percent | Port Klang and its eastern ports | periodical of 18 December 2022 |
+| 1 Jul 2023 to 31 Dec 2026 | 75 percent | Port Klang and its eastern ports | periodical of 21 June 2023, renewed six monthly to periodical 8/2026 |
+
+From 1 January 2025 the renewals cover only LNG carriers "directly operating"
+between the US Gulf and Asia. The texts cover laden and ballast carriers
+(open question 27). Nothing published yet covers transits after 31 December
+2026. Before 1 October 2017 only the general reduction of 6.1 applies.
+
+### 6.3 When the Red Sea was open to a US cargo
+
+A US Gulf cargo to Japan through Suez must cross Bab el Mandeb. The bands below
+are those the public record supports; a period no source covers is a gap, not
+an assumption.
+
+| From | To | What the record shows | Source |
+|---|---|---|---|
+| 2021 | end of 2023 | routine use: 434 laden LNG transits of Suez in 2023, 130 of them US cargoes southbound | Oxford Institute for Energy Studies, NG 188 |
+| 1 Jan 2024 | 12 Jan 2024 | most carriers already diverting; eight laden transits, Qatari and Russian, none from the US | The National, 15 January 2024; NG 188 |
+| 13 Jan 2024 | 16 Jan 2024 | Qatari laden carriers turn south; the last ballast LNG carrier passes Suez on 16 January | The National, 15 and 16 January 2024; NG 188 |
+| 17 Jan 2024 | June 2024 | no LNG carrier crosses the Red Sea; canal transits only for Aqaba and Ain Sukhna | NG 188; IEA, Gas Market Report Q3 2025 |
+| June 2024 | September 2024 | crossings by two Russia linked ships, and a few ballast ships bound for Russia | gCaptain, 8 February 2025; IEA, Global Gas Security Review 2024 |
+| October 2024 | 7 Feb 2025 | no LNG carrier crosses | gCaptain, 8 February 2025 |
+| 8 Feb 2025 | June 2025 | three crossings in the half year; the two named are Salalah LNG, from Oman, and Trader III | IEA, Gas Market Reports Q2 and Q3 2025; Kpler, 8 May 2025 |
+| July 2025 | February 2026 | "only a handful" of crossings in 2025; "limited" in the winter | IEA, Gas Market Reports Q1 and Q2 2026 |
+| March 2026 | July 2026 | no LNG vessel at Bab el Mandeb, then one in ballast | Discovery Alert, 22 July 2026, citing S&P Global data (secondary) |
+| August 2026 | September 2026 | Suez traffic recovering, LNG carriers named among the drivers, no count of Red Sea crossings | Lloyd's List Intelligence, Red Sea briefs |
+
+No source read shows a US Gulf cargo going to Asia through Suez after 12
+January 2024. That is an absence of reports, not a count of zero. When the
+route is closed to a US cargo in the model, and on what evidence it reopens, is
+open question 28.

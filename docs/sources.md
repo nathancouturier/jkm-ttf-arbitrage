@@ -321,6 +321,56 @@ licence field. **The distances are this study's computation and are published.
 Whether the committed lines may be published under this chain is an open
 question for the owner** (section 4).
 
+### 2.10 Suez Canal Authority, circulars and annual reports
+
+Read at `https://www.suezcanal.gov.eg/` on 1 October 2026. No terms of use page
+could be found. Every page's footer reads:
+
+> "Copyright 2017 | All Right Reserved Suez Canal Authority"
+
+The study quotes rates, percentages and dates from the Authority's circulars
+and periodicals, and yearly transit counts from its annual navigation reports,
+each with the instrument or report named beside it. It copies no document and
+commits no file of the Authority's. **Redistributable: quotation only**, until
+the owner decides otherwise (section 4).
+
+Where things are. Each circular has a page under
+`https://www.suezcanal.gov.eg/English/Navigation/NavigationCirculars/Pages/`,
+but its articles are not in that page: the page's own script fetches them from
+`/SCAAPI/api/values/GetUpdatedCircularsAndArticles`, which also records which
+later instrument amended, renewed or cancelled each one. The toll schedules are
+PDFs attached to their circulars, the English schedule of circular 7/2023 under
+an `/Arabic/` path. The annual reports are PDFs under
+`/English/Downloads/DownloadsDocLibrary/Navigation Reports/`. The toll
+calculator, the tolls table and the statistics reports are interactive pages,
+and none is read by code.
+
+### 2.11 The Red Sea record, and on what terms each part is quoted
+
+The record of LNG carriers in the Red Sea since January 2024 is assembled from
+short quotations, each attributed, from these:
+
+* Oxford Institute for Energy Studies, "LNG Shipping Chokepoints", NG 188,
+  February 2024,
+  `https://www.oxfordenergy.org/wpcms/wp-content/uploads/2024/02/NG-188-LNG-Shipping-Chokepoints.pdf`,
+  read on 1 October 2026. Page i:
+
+  > "This publication may be reproduced in part for educational or non-profit
+  > purposes without special permission from the copyright holder, provided
+  > acknowledgment of the source is made."
+
+* International Energy Agency, Gas Market Reports from Q1 2024 to Q3 2026 and
+  the Global Gas Security Review 2024, read on 1 October 2026. The last page of
+  each report reads:
+
+  > "Subject to the IEA’s Notice for CC-licenced Content, this work is licenced
+  > under a Creative Commons Attribution 4.0 International Licence."
+
+* EIA, Today in Energy, US public domain (2.1).
+* Kpler, Lloyd's List Intelligence, gCaptain, The National, Discovery Alert and
+  Leth Agencies: ordinary copyright, quoted briefly with attribution. Their
+  terms pages were not read.
+
 ---
 
 ## 3. Known traps, per source
@@ -558,6 +608,82 @@ question for the owner** (section 4).
   13 knots. Platts' figure for the Panama route could not be read: its site
   refuses automated requests, even for robots.txt.
 
+### 3.12 Suez Canal Authority
+
+* **The toll is not in dollars.** It is special drawing rights per ton of Suez
+  Canal Net Tonnage, in seven bands, laden and ballast, payable in one of ten
+  currencies the schedule lists. A dollar toll embeds an SDR rate and a date.
+* **The tonnage is not the cargo capacity.** A canal agency's guidance, read
+  at `https://kadmar.com/calculator-guidelines/`, says: "For the LNG vessels the
+  SCNT depends on the construction, and the SCNT is reflected on the volume of
+  the hull, not the cargo carrying capacity." Membrane and spherical tank ships
+  of the same capacity differ.
+* **A circular's HTML page holds only its heading.** The articles come from the
+  Authority's API (2.10). Some instruments are scans with no text layer, and one
+  sets its bands in a map image.
+* **Dates disagree in small ways.** Periodical 7/2025 is listed "on 27/05/2025"
+  and dated 28 May 2025 on its page; periodical 28/2026 is listed "on 7/09/2026"
+  and dated 8 September 2026. The page date is used.
+* **The annual reports' folder name carries three zero width spaces**
+  (`Annual%20Reports%E2%80%8B%E2%80%8B%E2%80%8B`); a URL typed by hand fails.
+* **The LNG surcharge is not in the schedules.** LNG carriers, laden and
+  ballast, pay a surcharge on top of normal dues: 7 percent from 1 March 2022
+  (circular 5/2022), 19 percent from 15 July 2026 (periodical 20/2026 of 7 June
+  2026), which says the surcharges "are temporary and can be either amended or
+  cancelled".
+* **A general LNG reduction existed and is gone.** 35 percent from circular
+  8/1994, 25 percent from 1 May 2015 (circular 2/2015), 15 percent from 1
+  November 2021, cancelled from 15 March 2022. The February 2022 schedule still
+  prints the 15 percent line, and agency pages still repeat older figures.
+* **The rebate for US Gulf cargoes to Asia is often misdated.** The IEA's Gas
+  Market Report for Q1 2024 says that "In October 2023" the Authority set
+  "reductions on canal tolls ranging from 30% for destinations west of Kochi in
+  India, to 70% for Singapore and beyond". The Authority's own texts say
+  otherwise: the terms in force from 1 July 2023 were set on 21 June 2023 and
+  give 75 percent for "Port Klang" and its eastern ports; "70% for Singapore
+  and beyond" is the wording in force during 2022; the October 2023 circular,
+  7/2023, is the 15 percent toll increase from 15 January 2024. The dated rates
+  are in `docs/methodology.md`, section 6.
+* **The rebate has conditions.** From 1 January 2025 it covers only carriers
+  "directly operating" between the two areas, and since 2017 the ship "must not
+  call any port in between port of origin and port of destination for
+  commercial purposes". It excludes every other LNG rebate.
+* **The rebate is renewed half year by half year**, each periodical a few
+  weeks before its half year starts. The latest read runs to 31 December 2026;
+  nothing published covers transits after that.
+* **One link in the Authority's own records is wrong.** The cancellation of 14
+  March 2022 points to circular 5/2015, while its text cancels article two of
+  circular 2/2015. The text is followed.
+* **The 2023 increase was not found.** Every LNG rate in the schedule from 15
+  January 2024 is 1.3204 to 1.3245 times its February 2022 value, and 1.15
+  squared is 1.3225, which fits a 15 percent rise in 2023 before circular
+  7/2023's 15 percent. The 2023 schedule itself would settle it.
+
+### 3.13 The Red Sea record
+
+* **A canal transit is not a Red Sea crossing.** The Authority's yearly counts
+  of LNG ships, 819 in 2023, 119 in 2024 and 282 in 2025, include ships that
+  enter from the north to deliver at Ain Sukhna or Aqaba and never pass Bab el
+  Mandeb. Kpler counted 26 LNG transits of the canal in 2025 to 8 May, of which
+  one crossed Bab el Mandeb.
+* **Laden and ballast counts differ.** The Oxford Institute counts laden
+  carriers (434 in 2023); the Authority counts all (819 in 2023). Several of the
+  crossings after January 2024 were ballast repositionings.
+* **"QatarEnergy paused" is a report, not a statement.** The National's
+  article of 15 January 2024 reports ship tracking and says QatarEnergy did not
+  respond; the halt itself is a Reuters report cited by the Oxford Institute.
+  EIA's list of companies "pausing Red Sea transits" as of 23 January 2024 is
+  the cleanest public statement naming QatarEnergy.
+* **One source dates the halt to February 2024** (the Baker Institute, March
+  2026). The Oxford Institute's day by day account from port calls, written in
+  February 2024, puts the last laden LNG transit on 12 January.
+* **Russia linked and sanctioned ships made several of the 2024 crossings.**
+  They are not evidence that the route was open to a US cargo.
+* **The only source for March to July 2026 is secondary**: an investor
+  newsletter citing S&P Global data the study cannot read.
+* **A search engine summary of the Authority's 2025 report turned "137.0"
+  percent into "137 vessels".** The count is 282.
+
 ---
 
 ## 4. Positions the owner has to take
@@ -586,6 +712,12 @@ question for the owner** (section 4).
     published.
 11. **Whether the route lines may be published** under the licence chain in
     2.9, or only the distances.
+12. **The Suez toll** for a 174,000 m3 carrier, whose canal tonnage no source
+    gives, and whether the rebate reaches the LNG surcharge.
+13. **When the Red Sea was open to a US cargo**, and whether a secondary source
+    is accepted for March to July 2026.
+14. **Quoting the Suez Canal Authority**, whose site reserves all rights and
+    has no terms of use page.
 
 ---
 
