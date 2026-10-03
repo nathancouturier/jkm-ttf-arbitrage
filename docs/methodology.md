@@ -206,3 +206,69 @@ No source read shows a US Gulf cargo going to Asia through Suez after 12
 January 2024. That is an absence of reports, not a count of zero. When the
 route is closed to a US cargo in the model, and on what evidence it reopens, is
 open question 28.
+
+---
+
+## 7. Port costs: what the published record gives
+
+The engine needs a port cost at Sabine Pass, at Gate and at a Tokyo Bay
+discharge port. No public source prices one port alone for an LNG carrier.
+What exists is two all-in figures for a pair of ports, and the published
+components of each port's charges.
+
+### 7.1 Spark's two-port figures
+
+Spark's note on negative freight rates, undated on its pages, dates from 11 to
+14 February 2022: its worked examples use the assessment of 8 February 2022,
+its screenshots show releases of 8 and 11 February 2022, and the copy the
+Internet Archive captured on 16 February 2022 carries the same words page for
+page as the copy read in 2026. It gives:
+
+| Ports | Ship | Figure | How it is given |
+|---|---|---|---|
+| Sabine Pass and Gate | 160,000 m3 TFDE | 308,947 $ | in text, "Port costs provided by GAC on an indicative basis" |
+| Sabine Pass and Futtsu, via Panama | 160,000 m3 TFDE | 273,184 $ (0.08 $/MMBtu) | in a screenshot of Spark's Routes page, release of 8 February 2022, beside a canal cost of 923,400 $ and a total of 6,378,210 $ |
+
+The second figure is read from an image with no text layer; its four cost
+lines add up to the total it shows. Neither figure is split between the two
+ports, and neither says what it includes. Spark's methodology 3.2 (November
+2022) names the source of its port costs: "based on latest costs provided by
+GAC (as seen on the Spark platform)". Taken at face value the two figures put
+Sabine Pass and Futtsu 35,763 $ below Sabine Pass and Gate. Which of them the
+engine uses, and how a two-port figure enters a cost line written per port, are
+open questions 31 and 32.
+
+### 7.2 The components, port by port
+
+These are tariffs, read from the publishers' own documents. They are recorded
+so that the order of magnitude of each part is known; none of them is an
+all-in port cost.
+
+| Port | Charge | Rate | Basis | Document |
+|---|---|---|---|---|
+| Any Japanese open port | tonnage tax | 16 yen per entry, or 48 yen a year | per ton of net tonnage | Tonnage Tax Act, article 3 |
+| Any Japanese open port | special tonnage tax | 20 yen per entry, or 60 yen a year | per ton of net tonnage | Special Tonnage Tax Act, article 3 |
+| Kisarazu port, which contains JERA's Futtsu power station | entry dues, foreign-going ships | 2.50 yen | per gross ton | Chiba prefecture's port charges schedule |
+| Tokyo Bay | pilotage, ships of 10,000 GT and over, bay entrance to the Kisarazu port limit | cap of 65,953 yen plus 1,122 yen a step | steps of gross tonnage and draft | Minister's approved caps, as of 1 January 2024 |
+| Rotterdam | seaport dues, LNG tankers, 2024 | 0.346 euro per GT plus 0.564 euro per tonne of LNG | cargo part capped at GT times 133.7 percent times 0.564 | Port of Rotterdam general terms and port tariffs 2024 |
+| Rotterdam | seaport dues, LNG tankers, 2025 | 0.309 euro per GT, 0.597 euro per tonne, 0.065 euro per GT sustainability component | no LNG tanker row in the efficiency discount table, so no stated cap on the cargo part | the same, 2025 |
+| Rotterdam | seaport dues, LNG tankers, 2026 | 0.320 euro per GT, 0.618 euro per tonne, 0.067 euro per GT sustainability component | as in 2025 | the same, 2026 |
+| Rotterdam | towage | listed rates plus 150 percent for LNG carriers | per tug, by length | Port of Rotterdam, tariffs of third parties 2026 |
+| Sabine Pass | pilotage, Sabine Neches waterway, Zone 1 | 41.41 $ per draft foot plus 0.0339 $ per gross ton unit | the unit is length times breadth times depth times a coefficient, over 100, not the registered tonnage | Sabine Pilots, rates effective 1 January 2023 |
+| Sabine Pass | Sabine Neches Navigation District user fee | 0.20 $ per short ton of hydrocarbon cargo from 1 May 2021, adjustable to 0.35 | per short ton of cargo | the District's fact sheet |
+
+Gate charges no fee per ship call that could be found: its berthing rights are
+part of the capacity its customers buy ("throughput capacity (including
+berthing rights, storage and regasification)"), so they belong with the
+Northwest Europe discount, not with the ship's port costs.
+
+The District's user fee is a charge on the cargo at the load port. A court
+record of 2023 lists what it cost one LNG offtaker's loadings from May to
+August 2021: 15,462.21 $ to 16,357.03 $ a voyage. The cost line in the engine
+has no place for it yet (open question 33).
+
+What a Futtsu figure assembled from these would still lack: the net tonnage of
+a named ship under the Japanese measurement law, its arrival draft, the number
+of tugs and hours, line handling, agency and berth charges at JERA's jetty,
+whether an LNG carrier counts as an LNG fuelled ship for Chiba's exemption from
+entry dues (open question 34), and a dated yen to dollar rate.

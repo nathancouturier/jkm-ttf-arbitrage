@@ -302,6 +302,12 @@ note uses fifteen laden days for the volume while it uses 17.5 for hire and
 fuel is not stated in it. The engine reproduces the note's other lines on their
 own terms and does not tune anything to this one.
 
+Added 3 October 2026. The same note's screenshot of Spark's Routes page for
+Sabine Pass to Futtsu via Panama, 8 February 2022, charges fuel and hire for 54
+days, and its rounded figures in $/MMBtu fit the same definition with 27 days
+of laden boil-off, half the voyage, as fifteen is half of Spark30's thirty.
+That is a pattern in Spark's figures, not a rule Spark states.
+
 ### 24. Platts' voyage duration via Panama
 
 Raised 1 October 2026. Open.
@@ -392,3 +398,61 @@ page carries "Copyright 2017 | All Right Reserved Suez Canal Authority". The
 study quotes rates, percentages and dates from its circulars and counts from
 its annual reports, each with its source, and copies no document. Either that
 is accepted as quotation, or the Authority is asked.
+
+### 31. The Japanese port cost
+
+Raised 3 October 2026. **Open, the owner's decision.**
+
+No public source gives an all-in port cost for an LNG carrier at a Japanese
+terminal. Spark's note on negative freight rates shows, in a screenshot of its
+Routes page, 273,184 $ for Sabine Pass and Futtsu via Panama, for a 160,000 m3
+TFDE, on 8 February 2022, beside its 308,947 $ for Sabine Pass and Gate on the
+same basis. Options: use both Spark figures, labelled as Spark's, from GAC,
+indicative, early 2022 and two ports combined; set Futtsu equal to Gate,
+labelled an assumption; or assemble Futtsu from the published components in
+`docs/methodology.md`, section 7.2, which still lack several items listed
+there. Spark's pair is the only source that prices both destinations on one
+basis.
+
+### 32. Two-port figures in a cost line written per port
+
+Raised 3 October 2026. **Open, the owner's decision.**
+
+The cost line is `port(load) + port(destination)`, while Spark gives each pair
+of ports as one sum. Either the line becomes a port cost per route, or each sum
+is split under a stated assumption. Both Spark figures are also for a 160,000
+m3 TFDE in February 2022: for the 174,000 m3 two-stroke and for other years
+they are either held constant or scaled, for instance by gross tonnage, and
+either choice is an assumption to state.
+
+### 33. The Sabine Neches cargo fee
+
+Raised 3 October 2026. **Open, the owner's decision.**
+
+The Sabine Neches Navigation District charges 0.20 $ per short ton of
+hydrocarbon cargo from 1 May 2021, reviewable each year up to 0.35 $. A court
+record lists what it cost one offtaker's LNG loadings from May to August 2021:
+15,462 $ to 16,357 $ each, about 0.004 $/MMBtu on a full cargo of 160,000 to
+174,000 m3 (this study's arithmetic). The current rate was not found, and
+whether Spark's port costs include the fee is not stated. Either it is a line of its own at the load port, or it
+is taken as part of the port cost and said so.
+
+### 34. Kisarazu's entry dues and LNG fuelled ships
+
+Raised 3 October 2026. Open, recorded.
+
+Chiba prefecture exempts "LNGを燃料とする船舶" (ships using LNG as fuel) from
+entry dues at Chiba and Kisarazu ports. An LNG carrier burns its cargo's
+boil-off; whether it counts is not stated. Chiba's Kisarazu port office can
+answer. Until then the dues of 2.50 yen per gross ton are taken to apply.
+
+### 35. Rotterdam's cap on the cargo part for LNG tankers
+
+Raised 3 October 2026. Open, recorded.
+
+In 2024 Rotterdam caps an LNG tanker's cargo dues at 133.7 percent of its
+gross tonnage times the cargo rate. The 2025 and 2026 tariffs give such ratios
+for other ship types and none for LNG tankers. Whether the cargo part is
+uncapped for them, or the row is missing, is a question for the Port of
+Rotterdam Authority. It matters only if Rotterdam's dues are modelled from the
+tariff rather than taken inside a published all-in figure.

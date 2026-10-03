@@ -371,6 +371,24 @@ short quotations, each attributed, from these:
   Leth Agencies: ordinary copyright, quoted briefly with attribution. Their
   terms pages were not read.
 
+### 2.12 Port tariffs, and the documents they are read from
+
+Each rate in `docs/methodology.md`, section 7.2, is quoted from its publisher's
+own document, read on 3 October 2026, with the document named beside it. No
+file from these publishers is committed. Their terms pages were not read, so
+nothing beyond the quoted rates is reproduced.
+
+| Publisher | Document | Where |
+|---|---|---|
+| Government of Japan | Tonnage Tax Act and Special Tonnage Tax Act, article 3 of each; Pilotage Act, article 46 | `https://laws.e-gov.go.jp/` |
+| Chiba prefecture | the Kisarazu port page; the port charges schedule under the prefecture's port management ordinance; the page on entry dues for LNG fuelled ships | `https://www.pref.chiba.lg.jp/kouwan/` |
+| City of Yokohama | the Minister's approved pilotage caps for Tokyo Bay, as of 1 January 2024 | `https://www.city.yokohama.lg.jp/` |
+| Port of Rotterdam Authority | General terms and conditions including port tariffs, 2024, 2025 and 2026; tariffs of third parties 2026 | `https://www.portofrotterdam.com/en/sea-shipping/seaport-dues` |
+| Gate terminal | commercial tariff page | `https://www.gateterminal.com/en/commercial/tariff/` |
+| Sabine Pilots | rates effective 1 January 2023, Sabine Neches waterway and Sabine Bank | `https://dispatch.sabinepilots.com/portals/0/2023ratesstatebank.pdf` |
+| Sabine Neches Navigation District | user fee fact sheet | `https://navigationdistrict.org/fact_sheets/sabine-neches-waterway-user-fee/` |
+| Supreme Court of the United States | docket 22-805, the petition and its appendix, a public record | `https://www.supremecourt.gov/docket/docketfiles/html/public/22-805.html` |
+
 ---
 
 ## 3. Known traps, per source
@@ -684,6 +702,51 @@ short quotations, each attributed, from these:
 * **A search engine summary of the Authority's 2025 report turned "137.0"
   percent into "137 vessels".** The count is 282.
 
+### 3.14 Spark's note on negative freight rates
+
+* **Never read its figures from the text layer.** The layer interleaves the
+  two columns of every page and drops the last character of many lines
+  ("24,50" for 24,500). Every figure is read from the rendered page.
+* **The note is undated.** The live file's `Last-Modified` header, 10
+  September 2026, is the web site's, not the note's. The copy the Internet
+  Archive captured on 16 February 2022 carries PDF metadata of 14 February 2022
+  and the same words, page for page.
+* **The printed total is one dollar more than its printed parts.** 1,186,288 +
+  308,947 + 1,692,355 = 3,187,590, printed 3,187,591. The total uses the laden
+  fuel rounded to the dollar (exact 1,692,355.686), the laden fuel line prints
+  it truncated. Every other line is the exact value rounded to the dollar.
+* **The laden fuel line reads "17.5 (Ballast Days)"**, a slip for laden days.
+* **The discharge volume is not explained in the note.** 3,501,428 MMBtu is the
+  loaded volume less fifteen days of boil-off less a heel of 3,000 m3 (open
+  question 23).
+* **The Futtsu figure is an image.** The Routes screenshot on page 3 has no
+  text layer; 273,184 $ is read from the picture, and its cost lines add up to
+  its total.
+* **Every page reads "All data and images are copyright • Spark
+  Commodities".** Individual figures are quoted with attribution; nothing else
+  is reproduced.
+
+### 3.15 Port charges
+
+* **Net and gross tonnage are taxed differently.** Japan's two tonnage taxes
+  are on net tonnage; Kisarazu's entry dues and Tokyo Bay pilotage are on
+  gross tonnage; the Suez toll is on a third tonnage of its own.
+* **Futtsu is in Kisarazu port, not Chiba port.** Chiba prefecture's Kisarazu
+  page places JERA's Futtsu power station in the port's Futtsu district.
+* **Japanese pilotage tables are caps.** Each pilot notifies the fee actually
+  charged within the cap; no notified table for Tokyo Bay was found online.
+* **Rotterdam's dues have a cargo part per tonne**, so they depend on the cargo
+  as well as the ship, and from 2025 a sustainability component per GT is added
+  while the GT rate falls. In 2024 the cargo part of an LNG tanker is capped at
+  133.7 percent of its GT; the 2025 and 2026 efficiency discount tables give
+  ratios for other ship types and none for LNG tankers, so whether their cargo
+  part is still capped is not stated.
+* **The Sabine pilots' "gross ton unit" is computed from dimensions**, not
+  read from the ship's certificate.
+* **A capacity is not a propulsion.** GasLog's fleet list carries 174,000 m3
+  ships with tri-fuel diesel electric (TFDE) propulsion and others with
+  two-stroke engines.
+
 ---
 
 ## 4. Positions the owner has to take
@@ -718,6 +781,10 @@ short quotations, each attributed, from these:
     is accepted for March to July 2026.
 14. **Quoting the Suez Canal Authority**, whose site reserves all rights and
     has no terms of use page.
+15. **The Japanese port cost**: Spark's two-port figure for Sabine Pass and
+    Futtsu, Gate's figure as an assumption, or components still incomplete.
+16. **The Sabine Neches cargo fee**, a load port charge the cost line does not
+    yet carry.
 
 ---
 
