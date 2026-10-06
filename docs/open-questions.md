@@ -511,3 +511,58 @@ is sent to either site. The last band of the Red Sea record (`docs/methodology.m
 section 6.3) and one freight anchor rest on them. Options: drop them, and mark
 August and September 2026 as unknown; ask the publisher; or have the owner read
 and save the pages by hand, as a manual step.
+
+### 39. The Panama toll's inputs
+
+Raised 7 October 2026. **Open, the owner's decision.**
+
+The dated tolls in `docs/methodology.md`, section 8.1, leave three inputs to
+set. The capacity the canal charges on is its own admeasurement, whose rules
+were not read: the nominal capacity stands in for it, labelled an assumption,
+or the rules are read first. Before 2023 a ship returning through the canal in
+ballast within 60 days paid a roundtrip ballast rate, about 79 percent of the
+laden toll, instead of the ordinary ballast table, about 88 percent: the model
+takes one of the two, or the cheaper only when its own ballast leg is through
+Panama within 60 days. The reference ships' beams are not sourced, and from
+June 2021 they set the booking fee band; the Authority's own press releases
+give LNG carriers it handled beams of 45 to 49 m, all in the upper band.
+
+### 40. The other Panama charges
+
+Raised 7 October 2026. **Open, the owner's decision.**
+
+The fresh water surcharge has been mandatory since 15 February 2020 and is not
+yet a line of the cost model. Its percentage depends on Gatun
+Lake's level each day, which was not collected: it is either a scenario range
+(0 to 10 percent of tolls, 1 to 10 percent before 2023) or read from a daily
+series the Authority links from its advisories, after its own terms are
+checked. The booking fee is either zero by default with a booked case, or
+always charged; its amount in 2023 was not found. Auction premiums have no
+published results and stay a scenario, if shown at all. Waiting days are a
+scenario input with three cited values: two to three days in normal conditions
+and 15 days for unreserved slots in mid December 2023 (IEA), 12 days for
+unbooked vessels in late July 2023 (Spark, reported by LNG Prime).
+
+### 41. Quoting the Panama Canal Authority
+
+Raised 7 October 2026. **Open, the owner's decision.**
+
+The Authority's terms forbid copying, distribution, reproduction or
+publication of its documents "for commercial or lucrative purposes", and may
+forbid any "modification or alteration" whatever the purpose. The study quotes
+rates, item codes and dates, each with its document, commits no document of
+the Authority's, and does not use its logo or images. Either that is accepted
+as quotation for a non-commercial study, or the Authority is asked; its
+advisories name canaltolls@pancanal.com for toll questions.
+
+### 42. Where the IEA and the Panama Canal Authority disagree
+
+Raised 7 October 2026. Open, recorded.
+
+Four statements in the IEA's gas reports disagree with the Authority's own
+texts: LNG carriers given three booking slots a day from August 2024; 27
+vessels a day after early 2025; only 24 transits a day in early 2024; LNG
+carriers barred from night transits. The Authority's notices, advisories and
+press releases are followed wherever the two differ, and each difference is
+shown where the IEA is quoted. The IEA may count differently, for instance
+transits against booking slots.

@@ -47,11 +47,13 @@ usd_mmbtu = eur_mwh * usd_per_eur / 3.412142
 ```
 
 One megawatt hour is 3.6e9 joules and one British thermal unit (International
-Table) is 1,055.05585262 joules (NIST Special Publication 811, appendix B.9), so
-one MWh is 3.41214163 MMBtu. The study rounds this to 3.412142; the rounding
-moves a price by about one part in ten million. The exchange rate is quoted as
-US dollars per euro, the direction the Federal Reserve Board's H.10 release
-quotes it, and the argument is named for its direction.
+Table) is 1,055.05585262 joules exactly: NIST Special Publication 811,
+appendix B.9, footnote 9, gives "1.055 055 852 62 kJ" (the table's 1.055 056
+E+03 is rounded). So one MWh is 3.41214163 MMBtu. The study rounds this to
+3.412142; the rounding moves a price by about one part in ten million. The
+exchange rate is quoted as US dollars per euro, the direction the Federal
+Reserve Board's H.10 release quotes it, and the argument is named for its
+direction.
 
 ---
 
@@ -277,3 +279,105 @@ a named ship under the Japanese measurement law, its arrival draft, the number
 of tugs and hours, line handling, agency and berth charges at JERA's jetty,
 whether an LNG carrier counts as an LNG fuelled ship for Chiba's exemption from
 entry dues (open question 34), and a dated yen to dollar rate.
+
+---
+
+## 8. The Panama route: toll, other charges and availability
+
+What the Panama Canal Authority's own tariff documents and advisories give the
+canal line for an LNG carrier, period by period. The traps are in
+`docs/sources.md`, section 3.16; what is open is in `docs/open-questions.md`,
+questions 39 to 42.
+
+### 8.1 The toll
+
+Rates in US dollars per cubic metre of cargo capacity "as determined by the
+admeasurement performed by the Panama Canal". Until 2022 the rate falls by
+band: the first 60,000 m3, the next 30,000, the next 30,000, and the rest.
+From 2023 a fixed charge per transit is added and one rate applies to the whole
+capacity, by size category; LNG carriers of the study's sizes are neopanamax
+vessels.
+
+| From | To | Laden, per m3 | Ballast | Documents |
+|---|---|---|---|---|
+| 1 Apr 2016 | 30 Sep 2017 | 2.50, 2.15, 2.07, 1.96 by band | its own bands: 2.23, 1.88, 1.80, 1.71 | 2016 approved tolls tables, from the Internet Archive's copies; the Authority's history of tolls |
+| 1 Oct 2017 | 31 Mar 2020 | 2.88, 2.47, 2.38, 2.25 | 2.56, 2.16, 2.07, 1.97 | tolls approved 1 August 2017 |
+| 1 Apr 2020 | 31 Dec 2022 | 3.12, 2.68, 2.58, 2.44 | 2.79, 2.35, 2.26, 2.15 | the Authority's history of tolls, September 2020 and May 2023 |
+| 1 Jan 2023 | 31 Dec 2023 | 300,000 per transit plus 1.35 per m3 | 85 percent of laden | items 1010.FN02, 1010.NN01, 1010.BA01; tolls approved 12 July 2022 |
+| 1 Jan 2024 | 31 Dec 2024 | 300,000 plus 1.70 | 85 percent | the same items, 2024 tariff |
+| 1 Jan 2025 | to date | 300,000 plus 2.05 | 85 percent | the same items, 2025 tariff; still listed in February 2026 |
+
+From 2016 to 2022 a third, lower table applied to a ship returning through the
+canal in ballast within 60 days ("roundtrip ballast"): 2.00, 1.75, 1.60, 1.50
+from 2016, 2.30, 2.01, 1.84, 1.73 from October 2017, 2.48, 2.17, 1.99, 1.87
+from April 2020. From 2023 the ballast toll is 85 percent of the laden toll, on
+the fixed and capacity components, for an LNG carrier carrying at most 10
+percent of its cargo capacity.
+
+What these give, this study's arithmetic on the rates above, in US dollars per
+transit:
+
+| From | 174,000 m3 laden | 174,000 m3 ballast | 160,000 m3 laden | 160,000 m3 ballast |
+|---|---|---|---|---|
+| 1 Apr 2016 | 382,440 | 336,540 | 355,000 | 312,600 |
+| 1 Oct 2017 | 439,800 | 386,880 | 408,300 | 359,300 |
+| 1 Apr 2020 | 476,760 | 421,800 | 442,600 | 391,700 |
+| 1 Jan 2023 | 534,900 | 454,665 | 516,000 | 438,600 |
+| 1 Jan 2024 | 595,800 | 506,430 | 572,000 | 486,200 |
+| 1 Jan 2025 | 656,700 | 558,195 | 628,000 | 533,800 |
+
+The 2016 bands reproduce, to the cent, the worked example the Authority
+published with them (382,440 $ laden and 336,540 $ in ballast for 174,000 m3).
+No advisory read to 5 October 2026 announces a toll change after 2025.
+
+### 8.2 The other Panama charges
+
+* **Fresh water surcharge**, mandatory on every transit since 15 February
+  2020: 10,000 $ per transit for a ship over 300 feet, plus a percentage of the
+  tolls set daily from the level of Gatun Lake. From 15 February 2020 the
+  percentage is 0.10 / (1 + e^(0.6 (x - 82))), x the lake level in feet, with a
+  floor of 1 percent; from 1 January 2023 it ranges from 0 to 10 percent; from
+  1 October 2023 the curve is centred on 79 feet and applies to the total
+  tolls. At the 2025 toll it adds 10,000 $ to 75,670 $ to a laden transit of a
+  174,000 m3 carrier (this study's arithmetic). The lake levels of past days
+  were not collected.
+* **Booking fees for a neopanamax vessel**, paid only by a ship that books a
+  slot: 35,000 $ when neopanamax bookings opened in 2016; 70,000 $ or 85,000 $
+  by beam (under or over 42.67 m) for booking dates from 1 June 2021; 80,000 $
+  in the list of January 2024; 100,000 $ from 1 January 2025 (item 1050.IBN1).
+  The amount in force in 2023 was not found.
+* **Slot auctions and long-term allocations** are paid at the winning bid,
+  above a base of 93,500 $ in 2021 and 100,000 $ from 2024, and 200,000 $ per
+  slot for long-term allocations from 2025. The Authority publishes no auction
+  results.
+* **Waiting days** are not published by segment. The IEA gives two to three
+  days for LNG carriers in normal conditions and an average of 15 days for
+  unreserved slots in mid December 2023; Spark reported 12 days for unbooked
+  vessels in late July 2023 (LNG Prime, 28 July 2023).
+
+Two published estimates set against the tariff of their date, this study's
+arithmetic: the IEA's 0.6 to 0.7 million $ for a 170,000 m3 carrier "for
+bookings made in advance" (Gas Market Report Q1 2024) is consistent with the
+laden toll plus a booking fee of 80,000 $, the fee of the January 2024 list;
+Spark's canal cost of 923,400 $ for Sabine Pass to Futtsu via Panama on 8
+February 2022 is 89,100 $ above that date's laden and ballast tolls for a
+160,000 m3 carrier, a gap of the size of the fresh water surcharge or a booking
+fee, which Spark's figure does not break down.
+
+### 8.3 When Panama was available to an LNG carrier
+
+No band below closes the canal to LNG carriers; they describe how hard a slot
+was to get.
+
+| From | To | What the record shows | Source |
+|---|---|---|---|
+| 26 Jun 2016 | 30 Sep 2018 | the expanded locks open (first LNG carrier 25 July 2016, from Sabine Pass); daylight and encounter restrictions on LNG carriers | the Authority's press releases of 2016 and 2018 |
+| 1 Oct 2018 | 2 Jan 2023 | restrictions lifted; up to two booked LNG slots a day; auctions from January 2021; 58 LNG transits in January 2021, a record | advisory A-29-2018; press release of 3 February 2021 |
+| 3 Jan 2023 | 29 Jul 2023 | water saving measures; neopanamax draught cut in steps to 44 feet by 19 June 2023; 12 days of delay for unbooked vessels in late July | advisories of 2023; LNG Prime, 28 July 2023 |
+| 30 Jul 2023 | 31 Oct 2023 | daily transits cut to an average of 32, 10 of them neopanamax; queues of up to 163 ships and 21 days in August, all ship types | advisory A-35-2023; IEA, Global Gas Security Review 2024 |
+| 1 Nov 2023 | 15 Jan 2024 | 31 transits, 9 neopanamax, then 8, 7 and 6 neopanamax booking slots in December; unreserved LNG waits of 15 days in mid December | advisories A-48-2023 and A-53-2023; IEA, Gas Market Report Q1 2024 |
+| 16 Jan 2024 | 31 May 2024 | 24 booking slots, 7 neopanamax, full container ships ahead of LNG in the first booking period; LNG transits "almost completely dried up" by early 2024 | advisories A-54-2023 and A-08-2024; IEA |
+| 1 Jun 2024 | 14 Aug 2024 | neopanamax booking slots back to 8, 9, then 10 | advisories of 2024 |
+| 15 Aug 2024 | about November 2025 | the Authority states its commitment to return to normal operating conditions (50 feet; 36 booking slots, 10 neopanamax, from 1 September 2024); LNG use stays low | advisory A-28-2024; IEA, Gas Market Reports 2025 and Q1 2026 |
+| December 2025 | 3 Sep 2026 | water conservation; neopanamax draught cut to 48 feet by 2 September 2026; an LNG first rule for one booking slot from 4 January 2026 | the Authority's press release of 5 August 2026; advisories of 2025 and 2026 |
+| 4 Sep 2026 | to date | El Nino measures: 9 neopanamax slots a day; 10 slots and at least four LNG slots a week announced from 15 October 2026 | advisories A-29-2026 and A-36-2026 |

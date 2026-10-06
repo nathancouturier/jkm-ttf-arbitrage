@@ -445,6 +445,36 @@ The figures verified so far, each with its article, date, assessment and
 vessel basis, are kept in `data/private/` until the owner decides what may be
 committed (question 37). No article is committed.
 
+### 2.15 Panama Canal Authority, tariffs and advisories
+
+Read at `https://pancanal.com/en/terms-of-use/` on 6 October 2026, linked from
+the footer of every page of the Authority's site:
+
+> "The information, documents, reports, maps and photographs appearing on this
+> site are the property of the Panama Canal Authority; therefore, their
+> modification or alteration, as well as their copying, distribution,
+> transmission, reproduction or publication for commercial or lucrative
+> purposes is prohibited."
+
+> "Their use for commercial or lucrative purposes requires prior express
+> authorization from the Panama Canal Authority."
+
+The tariff documents and advisories carry no notice of their own. The study
+quotes rates, item codes and dates from them, each with its document, for a
+non-commercial study, and commits none of them. The terms grant no licence, do
+not address quotation, and may be read as forbidding any "modification or
+alteration" whatever the purpose. **Redistributable: quotation only**, and
+whether that is enough is open (question 41).
+
+Where things are. The tariff for each year from 2023 is a PDF deck under
+`https://pancanal.com/wp-content/uploads/`, item 1010 for tolls, and a
+consolidated list of maritime tariffs is published beside it. The documents of
+2016 and 2017 were published under an older address the current site does not
+link; they are read from the Internet Archive's copies, and the Authority's own
+histories of tolls of September 2020 and May 2023 reproduce the tables of 2016,
+2017 and 2020. Advisories to shipping are listed on the Authority's advisories
+page, one PDF each.
+
 ---
 
 ## 3. Known traps, per source
@@ -781,6 +811,37 @@ committed (question 37). No article is committed.
 * **A search engine summary of the Authority's 2025 report turned "137.0"
   percent into "137 vessels".** The count is 282.
 
+### 3.16 Panama Canal Authority
+
+* **The toll changed structure in 2023.** Until 2022, rates per m3 fall by
+  band of capacity, with a ballast table and a lower roundtrip ballast table;
+  from 2023, a fixed charge per transit plus one rate per m3, and ballast at 85
+  percent of laden on those two components only.
+* **A printed effective date is not always the date of the amount.** The fixed
+  charge prints "1-Jan-2024" with the symbol MW, a change of wording; the
+  300,000 $ dates from 1 January 2023.
+* **The rate is on capacity as the canal measures it**, "as determined by the
+  admeasurement performed by the Panama Canal", not on the cargo carried. The
+  admeasurement rules were not read; the nominal capacity stands in for the
+  admeasured one as an assumption (question 39).
+* **Size category is by dimensions.** A neopanamax vessel has a beam over
+  32.61 m and/or a length over 294.44 m; the 2025 deck also classes by draught.
+  The booking fee depended on beam from 2021.
+* **The fresh water surcharge is not in the toll tables.** It is a separate,
+  mandatory item since 15 February 2020, set daily from Gatun Lake's level.
+* **Advisories date changes by booking date or by transit date**, and some
+  were postponed after publication: the booking fees of 70,000 and 85,000 $
+  announced for 15 April 2021 took effect for booking dates from 1 June 2021.
+* **The tariff decks' item descriptions carry en dashes**, as published; they
+  are quoted around them.
+* **The IEA and the Authority disagree in places**: three LNG slots a day from
+  August 2024 (IEA) against an LNG cap of two through normal booking (the
+  Authority's notices); 27 vessels a day in 2025 (IEA) against 36 booking
+  slots from 1 September 2024; only 24 transits in early 2024 against 27
+  booking slots from March 2024; LNG carriers "prohibited from night transits"
+  (IEA) against the lifting of the daylight restriction in 2018. The
+  Authority's own texts are followed (question 42).
+
 ### 3.14 Spark's note on negative freight rates
 
 * **Never read its figures from the text layer.** The layer interleaves the
@@ -870,6 +931,11 @@ committed (question 37). No article is committed.
 18. **The freight anchors**: what of each reported charter rate may be
     committed.
 19. **Lloyd's List Intelligence's briefs**, read before its terms were.
+20. **The Panama inputs**: nominal against admeasured capacity, the ballast
+    rule before 2023, the fresh water surcharge, booking fees and waiting
+    days.
+21. **Quoting the Panama Canal Authority**, whose terms forbid commercial
+    reproduction and may forbid alteration.
 
 ---
 
