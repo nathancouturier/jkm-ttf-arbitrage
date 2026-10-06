@@ -144,23 +144,47 @@ def test_the_index_lists_every_issue_by_folder_and_the_week_nothing_was_released
     assert gap["folder"].isna().all()
 
     published = index[index["status"] == "published"]
+    assert len(published) == 488
     from_2020 = published[published["date"] >= pd.Timestamp("2020-01-01")]
-    assert len(from_2020) == 290
-    assert len(published[published["date"] >= pd.Timestamp("2018-01-01")]) == 377
+    assert len(from_2020) == 292
+    assert len(published[published["date"] >= pd.Timestamp("2018-01-01")]) == 389
+
+
+def test_the_index_reads_every_link_a_plain_scan_of_the_markup_finds():
+    index = eia_ngwu.parse_index(INDEX)
+    read = set(index["folder"].dropna())
+    assert read == eia_ngwu.listed_folders(INDEX)
+    assert len(read) == 488
+
+
+def test_the_rows_with_no_opening_tr_are_read_with_their_printed_days():
+    # 35 rows of the page have no <tr>; these are three of them.
+    index = eia_ngwu.parse_index(INDEX).set_index("folder")
+    assert index.at["2016/02_11", "release_day_printed"] == "11"
+    assert index.at["2016/02_11", "week_ending_day_printed"] == "10"
+    assert index.at["2017/12_07", "week_ending_day_printed"] == "6"
+    assert index.at["2025/03_13", "release_day_printed"] == "13"
 
 
 def test_the_index_ignores_the_rows_inside_html_comments():
+    # The 2026 tab carries a commented copy of 43 rows of 2025.
     index = eia_ngwu.parse_index(INDEX)
     in_2025 = index[(index["date"].dt.year == 2025) & (index["status"] == "published")]
-    assert len(in_2025) == 45
+    assert len(in_2025) == 47
 
 
-def test_the_friday_release_and_the_missing_march_2025_weeks_are_as_listed():
+def test_the_friday_release_and_the_march_2025_weeks_are_as_listed():
     index = eia_ngwu.parse_index(INDEX)
     dates = set(index["date"].dt.strftime("%Y-%m-%d"))
     assert "2025-01-10" in dates and "2025-01-09" not in dates
-    assert "2025-03-06" in dates and "2025-03-27" in dates
-    assert "2025-03-13" not in dates and "2025-03-20" not in dates
+    assert {"2025-03-06", "2025-03-13", "2025-03-20", "2025-03-27"} <= dates
+
+
+def test_a_link_the_table_walk_cannot_place_fails_the_parse():
+    stray = b'<p><a href="/naturalgas/weekly/archivenew_ngwu/2017/01_01">stray</a></p>'
+    with pytest.raises(ParseError) as caught:
+        eia_ngwu.parse_index(INDEX + stray)
+    assert "2017/01_01" in str(caught.value)
 
 
 # --------------------------------------------------------------------------

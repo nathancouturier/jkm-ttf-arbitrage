@@ -4,19 +4,34 @@ date,folder,status,release_day_printed,week_ending_day_printed,link_text
 2016-01-21,2016/01_21,published,21,20,Consumption of natural gas for power generation at record highs
 2016-01-28,2016/01_28,published,28,27,Natural gas markets weather storm
 2016-02-04,2016/02_04,published,4,3,Chinese annual LNG imports decline for first time since imports began
+2016-02-11,2016/02_11,published,11,10,New Northeast pipelines help boost gas production 18%
+2016-02-18,2016/02_18,published,18,17,Asian LNG imports decline in 2015 amid reduced demand for electricity and lower prices of competing fuels
 2016-02-25,2016/02_25,published,25,24,Cheniere’s Sabine Pass ships first LNG cargo from the U.S. Lower 48
 2016-03-03,2016/03_03,published,3,2,Working storage inventories remain high
+2016-03-10,2016/03_10,published,10,9,"Australia's Gorgon, one of the world's LNG megaprojects, prepares to ship first cargo"
+2016-03-17,2016/03_17,published,17,16,"Rig count at historic low, but gas production still high"
+2016-03-24,2016/03_24,published,24,23,Natural gas expected to exceed coal in power generation in 2016
 2016-03-31,2016/03_31,published,31,30,Rockies Express Pipeline (REX) wins final approval for Midwest east-to-west capacity expansion
 2016-04-07,2016/04_07,published,7,6,Natural gas stocks end heating season at record high level
+2016-04-14,2016/04_14,published,14,13,New gas-fired power plants are concentrated near major shale plays
+2016-04-21,2016/04_21,published,21,20,Algonquin expansion in New York on target for service next winter
 2016-04-28,2016/04_28,published,28,27,Natural gas production declines
 2016-05-05,2016/05_05,published,5,4,Explosion on Texas Eastern Pipeline in Pennsylvania cuts flows
+2016-05-12,2016/05_12,published,12,11,Alberta wildfires reduce natural gas demand and prices in Canada
+2016-05-19,2016/05_19,published,19,18,Sabine Pass liquefaction terminal begins commercial operations
 2016-05-26,2016/05_26,published,26,25,More U.S. vessels powered by liquefied natural gas launched
 2016-06-02,2016/06_02,published,2,1,Use of natural gas for power generation ticks upward
+2016-06-09,2016/06_09,published,9,8,Near-month futures contract indicates expectations of rising prices
+2016-06-16,2016/06_16,published,16,15,Global LNG imports using floating storage and regasification units increase 46% in 2015 over 2014 levels
+2016-06-23,2016/06_23,published,23,22,Natural gas storage injections in 2016 ahead of 2012 pace
 2016-06-30,2016/06_30,published,30,29,Gas pipeline exports to Mexico reduce U.S. net imports
 2016-07-07,2016/07_07,published,7,6,Growing ethane demand means less left in natural gas pipelines
+2016-07-14,2016/07_14,published,14,13,Russian and Norwegian natural gas pipeline exports to Europe at high levels amid lowest prices since 2004
+2016-07-21,2016/07_21,published,21,20,"With REX maintenance, Appalachian production declines this week"
 2016-07-28,2016/07_28,published,28,27,First LNG tanker through expanded Panama Canal is traveling from Sabine Pass
 2016-08-04,2016/08_04,published,4,3,Use of natural gas for power generation hits record highs
 2016-08-11,2016/08_11,published,11,10,U.S. natural gas imports from Canada increase with low AECO prices
+2016-08-18,2016/08_18,published,18,17,"Asian LNG imports increase in 2016, led by India and China"
 2016-08-25,2016/08_25,published,25,24,Gulf Coast’s first ethane shipment soon to leave for Europe
 2016-09-01,2016/09_01,published,1,8/31,Hurricane activity drives declines in Gulf of Mexico natural gas production
 2016-09-08,2016/09_08,published,8,7,High natural gas summer storage inventories contribute to low prices and increased power burn
@@ -35,6 +50,7 @@ date,folder,status,release_day_printed,week_ending_day_printed,link_text
 2016-12-15,2016/12_15,published,15,14,"Tennessee Gas Pipeline will abandon one of four natural gas lines, repurposing to southbound liquids transport"
 2016-12-22,2016/12_22,published,22,21,December natural gas consumption notably up over last year and five-year average
 2017-01-12,2017/01_12,published,12,11,"REX Zone 3 capacity expansion enters full service, increasing Northeast takeaway capacity"
+2017-01-19,2017/01_19,published,19,18,Cold winter in Asia prompts record levels of U.S. LNG exports
 2017-01-26,2017/01_26,published,26,25,Additions to data in the EIA Weekly Natural Gas Storage Report
 2017-02-02,2017/02_02,published,2,1,The San Elizario Border Crossing Project is authorized to commence service
 2017-02-09,2017/02_09,published,9,8,Rail provides outlet for growing Appalachian HGL production
@@ -56,8 +72,13 @@ date,folder,status,release_day_printed,week_ending_day_printed,link_text
 2017-06-01,2017/06_01,published,1,5/31,The United Kingdom's largest storage facility will be unavailable for injections until May 2018 or later
 2017-06-08,2017/06_08,published,8,7,Mexico conducts its first natural gas pipeline capacity open season
 2017-06-15,2017/06_15,published,15,14,First U.S. floating LNG export facility receives approval to export to non-FTA countries
+2017-06-22,2017/06_22,published,22,21,Sabal Trail Pipeline begins partial service to Florida
 2017-06-29,2017/06_29,published,29,28,IEnova completes construction on two pipelines bringing Permian gas into Mexico
+2017-07-06,2017/07_06,published,7,6,Qatar plans to increase liquefied natural gas (LNG) production capacity by 30% by 2024
+2017-07-13,2017/07_13,published,13,12,Access Northeast natural gas pipeline project withdraws from FERC pre-filing
+2017-07-20,2017/07_20,published,20,19,Natural gas-fired electricity generation increases as temperatures heat up
 2017-07-27,2017/07_27,published,27,26,Record July temperatures in California coincide with price rise at regional natural gas trading hubs
+2017-08-03,2017/08_03,published,3,2,"Bangladesh secures financing for its first regasification terminal, targeting the start of LNG imports by mid-2018"
 2017-08-10,2017/08_10,published,10,9,Exports of domestically sourced LNG from the East Coast expected in 4Q 2017
 2017-08-17,2017/08_17,published,17,16,Mexico deregulates natural gas prices; works on building price reporting system and market hubs
 2017-08-24,2017/08_24,published,24,23,U.S. ethane production and exports reach new high
@@ -74,8 +95,16 @@ date,folder,status,release_day_printed,week_ending_day_printed,link_text
 2017-11-09,2017/11_09,published,9,8,Natural gas stocks end refill season just below the five-year average
 2017-11-16,2017/11_16,published,16,15,Most Northeast natural gas pipeline projects coming online this winter are for delivery to the Midwest and Southeast
 2017-11-30,2017/11_30,published,30,29,North Dakota natural gas flaring increases in recent months
+2017-12-07,2017/12_07,published,7,6,EPIC NGL Pipeline Project is the first of several new Permian infrastructure projects to begin construction
+2017-12-14,2017/12_14,published,14,13,"Southern California natural gas consumption is down, but SoCal Citygate prices are up with supply constraints"
 2017-12-21,2017/12_21,published,21,20,Russia's Yamal LNG ships first cargo
+2018-01-04,2018/01_04,published,4,3,Below normal temperatures last week increased natural gas consumption
+2018-01-11,2018/01_11,published,11,10,Working gas stocks post all-time record weekly withdrawal
+2018-01-18,2018/01_18,published,18,17,EIA estimates that December 2017 U.S. natural gas production set a new record
 2018-01-25,2018/01_25,published,25,24,Record Ohio gas production spurs new natural gas processing and generation facilities
+2018-02-01,2018/02_01,published,2,1/31,Proposed natural gas plant liquids pipeline from North Dakota supports increased production of natural gas in the Bakken
+2018-02-08,2018/02_08,published,8,7,"U.S. natural gas prices to remain low despite increasing exports, according to AEO2018"
+2018-02-15,2018/02_15,published,15,14,The Sabal Trail Pipeline continues to face court challenges related to its emissions assessments
 2018-02-22,2018/02_22,published,22,21,Two liquefied natural gas storage tanks are removed from service at the Sabine Pass Liquefaction Terminal
 2018-03-01,2018/03_01,published,1,2/28,"Natural gas plant liquids production reaches new annual record in 2017, with projected continued growth"
 2018-03-08,2018/03_08,published,8,7,Dominion Energy’s Cove Point LNG export facility begins commercial operations
@@ -121,6 +150,7 @@ date,folder,status,release_day_printed,week_ending_day_printed,link_text
 2019-01-10,2019/01_10,published,10,9,"Top natural gas stories of 2018 focus on record production, consumption, and exports"
 2019-01-17,2019/01_17,published,17,16,"U.S. LNG exports increase this winter, as two new trains are placed in service"
 2019-01-24,2019/01_24,published,24,23,New methanol plants expected to boost industrial natural gas usage in 2019[U+2013]20
+2019-01-31,2019/01_31,published,31,30,Annual Energy Outlook 2019 projects increased natural gas production and exports in a lower price environment
 2019-02-07,2019/02_07,published,7,6,Polar vortex breaks records in natural gas consumption
 2019-02-14,2019/02_14,published,14,13,"As energy markets are showing more love, ethane is feeling less rejected: ethane prices increase as new processing capacity becomes available"
 2019-02-21,2019/02_21,published,21,20,Bahrain is on track to begin LNG imports this spring
@@ -128,9 +158,11 @@ date,folder,status,release_day_printed,week_ending_day_printed,link_text
 2019-03-07,2019/03_07,published,7,6,"Following Hurricane Maria in 2017, Puerto Rico’s LNG imports return to previous levels in the second quarter of 2018"
 2019-03-14,2019/03_14,published,14,13,Pacific Northwest sees highest-recorded natural gas spot prices in the United States since 2014
 2019-03-21,2019/03_21,published,21,20,Natural gas consumption in the electric sector reaches highest-ever level in 2018
+2019-03-28,2019/03_28,published,28,27,Renewable natural gas is being used to decarbonize California's transportation sector
 2019-04-04,2019/04_04,published,4,3,United States has been a net exporter of natural gas for more than 12 consecutive months
 2019-04-11,2019/04_11,published,11,10,Natural gas stocks end heating season at the lowest level since 2014
 2019-04-18,2019/04_18,published,18,17,Liquefied natural gas imports played a key role in reducing price spikes in New England this winter
+2019-04-25,2019/04_25,published,25,24,"Global LNG trade posts record growth again in 2018, led by the growth in spot and short-term trade"
 2019-05-02,2019/05_02,published,2,1,Natural gas pipeline projects would expand capacity into New York City
 2019-05-09,2019/05_09,published,9,8,U.S. natural gas plant liquids production hits new record in February
 2019-05-16,2019/05_16,published,16,8,Pennsylvania’s power generation mix changes with natural gas production growth
@@ -138,6 +170,7 @@ date,folder,status,release_day_printed,week_ending_day_printed,link_text
 2019-05-30,2019/05_30,published,30,29,EIA publishes the U.S. Liquids Pipelines Projects Database
 2019-06-06,2019/06_06,published,6,5,U.S. LNG exports to Europe increase amid declining demand and spot LNG prices in Asia
 2019-06-13,2019/06_13,published,13,12,Mild weather and record U.S. natural gas production keep prices low despite low storage levels and high exports
+2019-06-20,2019/06_20,published,20,19,Growth in Argentina's shale gas production leads to LNG exports
 2019-06-27,2019/06_27,published,27,26,Critical notice on the Alliance pipeline rearranges flows in Midwest
 2019-07-11,2019/07_11,published,11,10,Renewable natural gas demand to increase with UPS purchase agreement
 2019-07-18,2019/07_18,published,18,17,Australia is on track to become the world's largest LNG exporter in 2019
@@ -414,6 +447,8 @@ date,folder,status,release_day_printed,week_ending_day_printed,link_text
 2025-02-20,2025/02_20,published,20,19,Tables and chart data for week ending February 19
 2025-02-27,2025/02_27,published,27,26,Tables and chart data for week ending February 26
 2025-03-06,2025/03_06,published,6,5,Tables and chart data for week ending March 5
+2025-03-13,2025/03_13,published,13,12,Tables and chart data for week ending March 12
+2025-03-20,2025/03_20,published,20,19,Tables and chart data for week ending March 19
 2025-03-27,2025/03_27,published,27,26,Tables and chart data for week ending March 26
 2025-04-03,2025/04_03,published,3,2,Tables and chart data for week ending April 2
 2025-04-10,2025/04_10,published,10,9,Tables and chart data for week ending April 9

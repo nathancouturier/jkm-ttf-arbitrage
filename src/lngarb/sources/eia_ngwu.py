@@ -335,6 +335,18 @@ def parse_ngwu_page(html: str | bytes, *, where: str) -> dict[str, Any]:
 _FOLDER = re.compile(r"/naturalgas/weekly/archivenew_ngwu/(\d{4})/(\d{2})_(\d{2})")
 
 
+def listed_folders(html: str | bytes) -> set[str]:
+    """The folder of every issue link in the page's markup, outside HTML comments.
+
+    A plain scan of the text, independent of how a parser builds the table. It
+    is the count parse_index must reach.
+    """
+    text = html.decode("utf-8", "replace") if isinstance(html, bytes) else html
+    text = re.sub(r"<!--.*?-->", "", text, flags=re.S)
+    folders = {"%s/%s_%s" % match for match in _FOLDER.findall(text)}
+    return {folder for folder in folders if int(folder[:4]) >= INDEX_FIRST_YEAR}
+
+
 def parse_index(html: str | bytes) -> pd.DataFrame:
     """Every issue the archive index lists from INDEX_FIRST_YEAR, one row each.
 
@@ -343,6 +355,13 @@ def parse_index(html: str | bytes) -> pd.DataFrame:
     rows. A row that says "No report released" has no link; its date is the week
     after the next older issue, and must agree with the day printed in its row.
     Rows inside HTML comments are not part of the page and are not read.
+
+    The table's markup is broken: 35 rows from 2016 to 2025 have no opening
+    <tr>, so their cells sit in no row at all once the page is parsed. Rows are
+    therefore found from their last cell, the one holding the link or "No report
+    released", and the two cells before it in document order give the printed
+    release and week ending days. The folders read must equal a plain scan of
+    the markup (listed_folders), or the parse fails.
     """
     soup = BeautifulSoup(html, "lxml")
     rows: list[dict[str, Any]] = []
@@ -351,14 +370,16 @@ def parse_index(html: str | bytes) -> pd.DataFrame:
         if year < INDEX_FIRST_YEAR:
             continue
         pending: list[dict[str, Any]] = []
-        for tr in tab.find_all("tr"):
-            cells = tr.find_all("td")
-            if len(cells) != 4:
+        for cell in tab.find_all("td"):
+            link = cell.find("a")
+            text = normalise_text(cell.get_text())
+            if link is None and text != "No report released":
                 continue
-            day_printed = normalise_text(cells[1].get_text())
-            week_printed = normalise_text(cells[2].get_text())
-            link = cells[3].find("a")
-            text = normalise_text(cells[3].get_text())
+            before = cell.find_all_previous("td", limit=2)
+            if len(before) != 2:
+                raise ParseError("an index row has fewer than two cells before %r" % (text,))
+            week_printed = normalise_text(before[0].get_text())
+            day_printed = normalise_text(before[1].get_text())
             if link is not None:
                 href = re.sub(r"\s+", "", link.get("href", ""))
                 match = _FOLDER.search(href)
@@ -403,6 +424,17 @@ def parse_index(html: str | bytes) -> pd.DataFrame:
                 "the next older issue is %s" % (row["release_day_printed"], expected)
             )
         row["date"] = expected
+
+    read = [row["folder"] for row in rows if row["folder"] is not None]
+    listed = listed_folders(html)
+    if len(read) != len(set(read)) or set(read) != listed:
+        missing = sorted(listed - set(read))
+        unexpected = sorted(set(read) - listed)
+        raise ParseError(
+            "the markup links %d issues from %d outside comments but %d rows were read "
+            "(not read: %s; not in the markup: %s)"
+            % (len(listed), INDEX_FIRST_YEAR, len(read), missing[:5], unexpected[:5])
+        )
 
     frame = pd.DataFrame(rows)
     frame["date"] = pd.to_datetime(frame["date"])

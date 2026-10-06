@@ -24,7 +24,7 @@ MANUAL_STEPS: tuple[dict[str, Any], ...] = (
         "what": (
             "The archived issues of EIA's Natural Gas Weekly Update, from the first issue "
             "carrying the international futures prices item to January 2026, have to be "
-            "saved from a browser. At most 290 issues from January 2020; the index of "
+            "saved from a browser. At most 292 issues from January 2020; the index of "
             "every issue is in data/cache/eia_ngwu_issue_index.csv."
         ),
         "why": (
@@ -63,8 +63,9 @@ MANUAL_STEPS: tuple[dict[str, Any], ...] = (
             "can fill, in the only weekly JKM and TTF series EIA still publishes."
         ),
         "how": (
-            "python -m lngarb.sources.eia_ngwu each week after the Thursday release; the "
-            "scheduled refresh does it. Past issues: open the archived issue in a browser "
+            "python scripts/refresh.py --only eia-weekly each week after the Thursday "
+            "release. No scheduled job runs it yet, so until one does it is run by hand. "
+            "Past issues: open the archived issue in a browser "
             "and save it under data/private/wngsr/, a reader for which is added once the "
             "first saved copy shows what the archived page holds."
         ),

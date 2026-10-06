@@ -17,7 +17,7 @@ averages this study found, credited to Bloomberg Finance L.P. eia.gov's
 `robots.txt` disallows the archive that holds every past issue
 (`/naturalgas/weekly/archivenew_ngwu`), and the Weekly Update ended with the
 issue of 22 January 2026. Code reads only that final issue. The archive index
-lists 290 issues from January 2020 and 377 from January 2018; which one first
+lists 292 issues from January 2020 and 389 from January 2018; which one first
 carried the international prices item cannot be established without reading
 them.
 

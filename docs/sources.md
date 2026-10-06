@@ -427,8 +427,13 @@ nothing beyond the quoted rates is reproduced.
 * **The archive index needs care.** Take each issue's date from the folder in
   its link, never from the month and day cells, which are missing or wrong on
   several rows. Drop rows inside HTML comments: the 2026 tab carries a commented
-  copy of 41 rows of 2025. Expect a row that says "No report released" (release
+  copy of 43 rows of 2025. Expect a row that says "No report released" (release
   20 June 2024) and a Friday release (10 January 2025).
+* **The index table's markup is broken.** 35 of its rows from 2016 to 2025 have
+  no opening `<tr>`, so a parser that walks table rows silently drops them and
+  reports 453 issues where the page links 488. The adapter finds each row from
+  its link and checks the folders it read against a plain scan of the markup,
+  and fails if the two differ.
 * **Items carry extra sentences.** The final issue adds a sentence on EU storage
   after the prices. Parse by sentence content, never by position.
 * **Changes are printed in more than one form**, with and without "/MMBtu", in
