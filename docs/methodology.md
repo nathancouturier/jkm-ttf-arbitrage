@@ -70,6 +70,7 @@ basis points; they are not forecasts of where prices can go.
 | DES LNG spreads to the TTF front month, EUR/MWh | minus 20 to 5 | set before any ACER report was parsed; ACER's own figures will test it |
 | SOFR, percent per year | minus 1 to 15 | a rate read in basis points would be a hundred times too large |
 | US gas exports in one month, MMcf | 0 to 2,000,000 | the largest monthly LNG total in EIA's release of 31 August 2026 is 573,089, March 2026 |
+| Price of US LNG exports in one month, USD per thousand cubic feet | 0.1 to 100 | a price read per MMcf or in cents would be a thousand or a hundred times too large; from 2016 the release of 30 September 2026 runs from 1.86 to 40.44 |
 | A DES LNG price level, EUR/MWh | 1 to 400 | a guard against a unit or a parse error in ACER's assessments, not a range the market implies |
 | An EU allowance price, EUR per tonne of CO2 | 1 to 200 | a guard against a unit or a parse error, not a range the market implies |
 

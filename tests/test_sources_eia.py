@@ -164,6 +164,45 @@ def test_the_china_february_2026_revision_is_found_and_new_months_are_not_revisi
     assert korea[["mmcf_before", "mmcf_after"]].values.tolist() == [[22865.0, 21207.0]]
 
 
+def test_the_china_february_2026_price_went_with_its_volume():
+    april, _, _ = eia.parse_exports_workbook(APRIL)
+    august, _, _ = eia.parse_exports_workbook(AUGUST)
+    revisions = eia.compare_vintages(april, august)
+    china = revisions[
+        (revisions["series_id"] == VESSEL % "NCH")
+        & (revisions["date"] == pd.Timestamp("2026-02-15"))
+    ]
+    assert china["usd_per_mcf_before"].item() == 13.28
+    assert math.isnan(china["usd_per_mcf_after"].item())
+
+
+def test_every_row_carries_the_price_of_its_own_series():
+    frame, _, _ = eia.parse_exports_workbook(AUGUST)
+    assert eia.price_key("N9133US2") == "N9133US3"
+    assert eia.price_key(VESSEL % "NJA") == "NGM_EPG0_EVE_NUS-NJA_DMCF"
+    priced = frame["usd_per_mcf"].dropna()
+    assert len(priced) > 1000
+    assert priced.min() > 0
+    # Prices and volumes do not always come together. One price stands on a
+    # volume printed as 0 (Canada by truck, January 2018), and eight months of
+    # 2019 carry a volume with no price. Both are kept as EIA prints them.
+    no_volume = frame[frame["usd_per_mcf"].notna() & ~(frame["mmcf"] > 0)]
+    assert no_volume["series_id"].tolist() == ["NGM_EPG0_ETR_NUS-NCA_MMCF"]
+    assert no_volume["date"].tolist() == [pd.Timestamp("2018-01-15")]
+    assert no_volume["usd_per_mcf"].item() == 19.21
+    no_price = frame[frame["usd_per_mcf"].isna() & (frame["mmcf"] > 0)]
+    assert len(no_price) == 8
+    assert set(no_price["date"].dt.year) == {2019}
+
+
+def test_a_price_series_missing_from_data_2_stops_the_parse(monkeypatch):
+    real = eia.price_key
+    monkeypatch.setattr(eia, "price_key", lambda key: real(key) + "_GONE" if key.endswith("NJA_MMCF") else real(key))
+    with pytest.raises(eia.ParseError) as caught:
+        eia.parse_exports_workbook(AUGUST)
+    assert "NJA" in str(caught.value)
+
+
 def test_the_adapter_writes_the_latest_vintage_and_logs_what_it_revised(sandbox, tmp_path):
     april_file = tmp_path / "april.xls"
     april_file.write_bytes(APRIL)
@@ -177,6 +216,10 @@ def test_the_adapter_writes_the_latest_vintage_and_logs_what_it_revised(sandbox,
 
     second = eia.LngExportsMonthly(from_file=august_file, fetched_at="2026-09-30T11:53:09Z").run()
     assert second["vintage"].startswith("release of 2026-08-31")
+    # A copy read later records when it was fetched, not when it was read.
+    assert second["fetched_at"] == "2026-09-30T11:53:09Z"
+    logged = [e for e in base.manifest_read()["series"] if e["series"] == "eia_lng_exports_revisions"]
+    assert logged[0]["fetched_at"] == "2026-09-30T11:53:09Z"
     assert second["last_date"] == "2026-06-15"
     revisions = base.read_cache("eia_lng_exports_revisions")
     assert len(revisions) > 0

@@ -274,10 +274,14 @@ class WorldBankGasRevisions(Adapter):
         merged["date"] = pd.to_datetime(merged["date"])
         merged = merged.drop_duplicates(subset=["date", "series", "release_before", "release_after"])
         if len(self.additions):
-            self.note = "%d value(s) changed by the release of %s against the release of %s." % (
-                len(self.additions),
-                self.additions["release_after"].iloc[0],
-                self.additions["release_before"].iloc[0],
+            self.note = (
+                "%d value(s) changed by the release of %s against the release of %s. A "
+                "log of changes, not a time series: the gaps field lists months nothing "
+                "was revised in, not missing data." % (
+                    len(self.additions),
+                    self.additions["release_after"].iloc[0],
+                    self.additions["release_before"].iloc[0],
+                )
             )
         return merged.sort_values(["date", "series", "release_after"], kind="stable").reset_index(drop=True)
 
@@ -346,7 +350,9 @@ class WorldBankGasMonthly(Adapter):
     def run(self) -> dict:
         entry = super().run()
         if self.revisions is not None and len(self.revisions):
-            WorldBankGasRevisions(self.revisions).run()
+            revisions = WorldBankGasRevisions(self.revisions)
+            revisions.fetched_at = self.fetched_at
+            revisions.run()
         return entry
 
 

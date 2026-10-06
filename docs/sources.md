@@ -22,8 +22,8 @@ was decided on the strength of it.
 | `eia_ngwu_international_weekly` | Weekly averages of an East Asia LNG price and of TTF, USD/MMBtu, from the Natural Gas Weekly Update, figures credited to Bloomberg Finance L.P. | [landing page](https://www.eia.gov/naturalgas/weekly/) only; the archive is closed to code | weekly, ended with the week ending 21 January 2026 | **yes**, with the doubt in 2.1 | US public domain |
 | `eia_ngwu_issue_index` | Every issue EIA lists from 2016, the checklist for collection by hand | [archive.php](https://www.eia.gov/naturalgas/weekly/includes/archive.php) | fixed, the series has ended | **yes** | US public domain |
 | `eia_wngsr_international_weekly` | Weekly averages of JKM and TTF, USD/MMBtu, from the WNGSR Supplement, figures credited to Bloomberg Finance L.P. | [bullets_lng_2.html](https://www.eia.gov/naturalgas/weekly/supplement/content/bullets_lng_2.html) and two sibling files | weekly, Thursday, only the current issue | **yes**, with the doubt in 2.1 | US public domain |
-| `eia_lng_exports_monthly` | US LNG exports and re-exports by destination country, MMcf, the latest release | [NG_MOVE_EXPC_S1_M.xls](https://www.eia.gov/dnav/ng/xls/NG_MOVE_EXPC_S1_M.xls) | monthly, end of month | **yes** | US public domain |
-| `eia_lng_exports_revisions` | Every value a release of the table above changed, both releases side by side | derived by this study | with each release | **yes** | US public domain |
+| `eia_lng_exports_monthly` | US LNG exports and re-exports by destination country, MMcf, and their prices, USD per thousand cubic feet, the latest release | [NG_MOVE_EXPC_S1_M.xls](https://www.eia.gov/dnav/ng/xls/NG_MOVE_EXPC_S1_M.xls) | monthly, end of month | **yes** | US public domain |
+| `eia_lng_exports_revisions` | Every volume or price a release of the table above changed, both releases side by side | derived by this study | with each release | **yes** | US public domain |
 | `eia_henry_hub_daily` | Henry Hub spot price, daily, USD/MMBtu, credited by EIA to Refinitiv | [RNGWHHDd.xls](https://www.eia.gov/dnav/ng/hist_xls/RNGWHHDd.xls) | weekly release, daily values | **yes**, with the doubt in 2.1 | US public domain |
 | `acer_lng_daily` | ACER's DES LNG assessments for NWE, SE and the EU, and its EU benchmark to TTF, daily, EUR/MWh; today the 26 corrected days of its notice of 20 December 2024 | [correction notice](https://www.acer.europa.eu/sites/default/files/documents/en/Gas/LNG_Price_Assessment/LNGPA_Correction_Notice_20241220.pdf); daily reports saved by hand | fixed until reports are saved | **yes** | ACER legal notice, with the doubt in 2.7 |
 | `ec_eua_auction_monthly` | EU allowance price, monthly volume weighted average auction clearing price, EUR/t, January 2023 to June 2025 | quarterly reports linked from the [Commission's auctioning page](https://climate.ec.europa.eu/areas-action/carbon-markets/eu-emissions-trading-system-eu-ets/auctioning-allowances_en) | quarterly, lagging | **yes** | CC BY 4.0, with the doubt in 2.8 |
@@ -497,6 +497,17 @@ committed (question 37). No article is committed.
 
 ### 3.2 EIA exports by destination
 
+* **Prices are on a second sheet.** "Data 2" mirrors "Data 1" series for
+  series, in dollars per thousand cubic feet, under the same source key with
+  `_DMCF` for `_MMCF` (`N9133US3` for `N9133US2`). The definitions page says:
+  "LNG prices are a volume-weighted average of the prices reported by cargo."
+* **A price and a volume do not always come together.** In the release of 31
+  August 2026, one price stands on a volume printed as 0 (Canada by truck,
+  January 2018, 19.21 USD per thousand cubic feet), and eight months of 2019
+  carry a volume with no price. Both are kept as printed.
+* **Prices are revised more often than volumes.** The release of 30 September
+  2026 changed one LNG volume and 40 LNG prices, by 0.01 to 2.77 USD per
+  thousand cubic feet.
 * **Read series by source key**, never by name or position. Names vary between
   "Liquefied U.S." and "U.S. Liquefied", "Vessel" and "Vessels", "(MMcf)" and
   "(Million Cubic Feet)", with double spaces and a leading space in places.

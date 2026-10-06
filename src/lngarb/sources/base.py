@@ -1060,6 +1060,9 @@ class Adapter:
     #: whether this is machine fetched. False forbids a fetched_at and sends the
     #: file to data/seed.
     machine_fetched: bool = True
+    #: when the adapter reads a copy saved earlier instead of fetching, the time
+    #: that copy was fetched. None means the bytes were fetched in this run.
+    fetched_at: str | None = None
     #: the first date from which the source calls its own figures provisional
     provisional_from: str | None = None
     #: which edition of the source this came from. Set by fetch() when it can
@@ -1193,7 +1196,7 @@ class Adapter:
             "url": self.url,
             "page_url": self.page_url,
             "machine_fetched": bool(self.machine_fetched),
-            "fetched_at": utc_now_iso() if self.machine_fetched else None,
+            "fetched_at": (self.fetched_at or utc_now_iso()) if self.machine_fetched else None,
             "checked_at": None if self.machine_fetched else utc_now_iso(),
             "rows": observations,
             "observations": observations,

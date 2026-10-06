@@ -48,6 +48,11 @@ BOUNDS_SOFR_PERCENT = (-1.0, 15.0)
 #: the market implies, a guard against a unit or a parse error: the largest
 #: monthly LNG total in the 31 August 2026 release is 573,089 MMcf, March 2026.
 BOUNDS_EXPORTS_MMCF = (0.0, 2000000.0)
+#: The price of US LNG exports in one month, USD per thousand cubic feet. Not a
+#: range the market implies, a guard against a unit error: a price read per
+#: MMcf or in cents would be a thousand or a hundred times too large. From 2016
+#: the release of 30 September 2026 runs from 1.86 to 40.44.
+BOUNDS_EXPORT_PRICE_USD_MCF = (0.1, 100.0)
 
 # ---------------------------------------------------------------------------
 # Destination regions for the flow analysis
@@ -552,7 +557,7 @@ SOURCES: Mapping[str, Source] = _registry(
     # -- EIA, the data tables -------------------------------------------
     Source(
         series="eia_lng_exports_monthly",
-        label="US LNG exports and re-exports by destination country, monthly, MMcf, the latest release",
+        label="US LNG exports and re-exports by destination country, monthly, MMcf, and their prices, USD per Mcf, the latest release",
         publisher="U.S. Energy Information Administration",
         page_url="https://www.eia.gov/dnav/ng/ng_move_expc_s1_m.htm",
         machine_url="https://www.eia.gov/dnav/ng/xls/NG_MOVE_EXPC_S1_M.xls",
@@ -562,10 +567,12 @@ SOURCES: Mapping[str, Source] = _registry(
             "vessel block gives destinations; the re-exports block is kept "
             "apart; N9133US2, the LNG total, includes re-exports. EIA revises "
             "the table and keeps no old release online, so each release is a "
-            "vintage and changed values go to eia_lng_exports_revisions."
+            "vintage and changed values go to eia_lng_exports_revisions. The "
+            "sheet Data 2 gives each series' price, under the same key with "
+            "_DMCF for _MMCF."
         ),
         frequency="monthly",
-        unit="MMcf per month",
+        unit="MMcf per month; prices in USD per thousand cubic feet",
         method="published",
         licence="US public domain",
         licence_note=_EIA_NOTE,
@@ -579,7 +586,7 @@ SOURCES: Mapping[str, Source] = _registry(
         machine_url=None,
         url_note="Written by the exports adapter when a new release differs from the committed one.",
         frequency="monthly",
-        unit="MMcf per month",
+        unit="MMcf per month; prices in USD per thousand cubic feet",
         method="derived",
         licence="US public domain",
         licence_note=_EIA_NOTE,

@@ -105,6 +105,7 @@ const COLUMN_RULES = [
   { match: /_spread_eur_mwh$/, lo: -20.0, hi: 5.0, what: "a DES LNG spread to TTF, EUR/MWh" },
   { match: /_des_eur_mwh$/, lo: 1.0, hi: 400.0, what: "a DES LNG price level, EUR/MWh" },
   { match: /^mmcf(_before|_after)?$/, lo: 0.0, hi: 2000000.0, what: "US gas exports in a month, MMcf" },
+  { match: /^usd_per_mcf(_before|_after)?$/, lo: 0.1, hi: 100.0, what: "the price of US LNG exports in a month, USD per thousand cubic feet" },
 ];
 
 function ruleFor(column) {

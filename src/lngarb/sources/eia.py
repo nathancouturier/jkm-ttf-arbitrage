@@ -3,14 +3,19 @@
 Exports by destination
 ----------------------
 EIA's table "U.S. Natural Gas Exports and Re-Exports by Country" is published
-as a legacy .xls workbook, monthly, in MMcf. Its sheet "Data 1" holds 77 series
-in blocks: pipeline, LNG exports by vessel (one column per destination), LNG
-by truck, LNG re-exports of previously imported cargoes, and compressed gas.
-The study reads the LNG blocks only, identifies every series by its source key
+as a legacy .xls workbook, monthly. Its sheet "Data 1" holds 77 volume series,
+in MMcf, in blocks: pipeline, LNG exports by vessel (one column per
+destination), LNG by truck, LNG re-exports of previously imported cargoes, and
+compressed gas. Its sheet "Data 2" holds the price of each of the same series,
+in dollars per thousand cubic feet, under the same source key with _MMCF
+replaced by _DMCF (N9133US2 by N9133US3). EIA's definitions page says "LNG
+prices are a volume-weighted average of the prices reported by cargo." The
+study reads the LNG blocks only, identifies every series by its source key
 (never by its name or its position, both of which vary), and maps every
 destination code to a region through lngarb.config.EIA_DESTINATIONS. A code
 that is not mapped stops the parse, so a new destination can never drop out of
-a regional total unnoticed.
+a regional total unnoticed. Each row carries the volume and the price of one
+series in one month; a series with no price sheet column stops the parse.
 
 EIA revises the table, at least fourteen months back and including the China
 column, and does not keep old releases online. Each release is therefore a
@@ -45,6 +50,7 @@ import pandas as pd
 import xlrd
 
 from ..config import (
+    BOUNDS_EXPORT_PRICE_USD_MCF,
     BOUNDS_EXPORTS_MMCF,
     BOUNDS_HENRY_HUB_USD_MMBTU,
     EIA_DESTINATIONS,
@@ -89,6 +95,15 @@ _BLOCKS = {
 
 class ParseError(SourceError):
     """A workbook is not laid out the way this module expects."""
+
+
+def price_key(volume_key: str) -> str:
+    """The source key of the price series that matches a volume series."""
+    if volume_key == _LNG_TOTAL_KEY:
+        return "N9133US3"
+    if volume_key.endswith("_MMCF"):
+        return volume_key[: -len("_MMCF")] + "_DMCF"
+    raise ParseError("no price series is known for %s" % volume_key)
 
 
 def _release_dates(contents: xlrd.sheet.Sheet) -> tuple[date, date | None]:
@@ -143,11 +158,20 @@ def parse_exports_workbook(payload: bytes) -> tuple[pd.DataFrame, date, date | N
     """The LNG blocks of EIA's exports by country workbook, one row per month and series.
 
     Returns the long frame, the release date and the next release date.
-    Columns: date, vintage, series_id, block, code, country, region, mmcf.
+    Columns: date, vintage, series_id, block, code, country, region, mmcf,
+    usd_per_mcf. series_id is the volume series' key; the price comes from the
+    series price_key(series_id) on the sheet "Data 2".
     """
     book = xlrd.open_workbook(file_contents=payload)
     released, following = _release_dates(book.sheet_by_name("Contents"))
     keys, names, sheet = _data_sheet(book, "Data 1")
+    price_keys, price_names, prices = _data_sheet(book, "Data 2")
+    price_column = {key: col for col, key in enumerate(price_keys) if col}
+    if prices.nrows != sheet.nrows:
+        raise ParseError(
+            "Data 1 has %d rows and Data 2 has %d; the two sheets should date the same months"
+            % (sheet.nrows, prices.nrows)
+        )
 
     columns: list[tuple[int, dict[str, str]]] = []
     for col, key in enumerate(keys):
@@ -187,14 +211,29 @@ def parse_exports_workbook(payload: bytes) -> tuple[pd.DataFrame, date, date | N
     if missing:
         raise ParseError("the workbook lacks the %s block(s)" % ", ".join(sorted(missing)))
 
+    paired: list[tuple[int, int, dict[str, str]]] = []
+    for col, entry in columns:
+        wanted = price_key(entry["series_id"])
+        if wanted not in price_column:
+            raise ParseError(
+                "series %s has no price series %s on the sheet Data 2" % (entry["series_id"], wanted)
+            )
+        priced = price_column[wanted]
+        if "price" not in price_names[priced].lower():
+            raise ParseError("series %s on Data 2 is named %r, not a price" % (wanted, price_names[priced].strip()))
+        paired.append((col, priced, entry))
+
     rows: list[dict[str, Any]] = []
     for row in range(3, sheet.nrows):
         when = _cell_date(sheet, row, book.datemode)
+        if _cell_date(prices, row, book.datemode) != when:
+            raise ParseError("row %d dates a different month on Data 1 and Data 2" % (row + 1))
         if when < EXPORTS_FIRST_MONTH:
             continue
-        for col, entry in columns:
+        for col, priced, entry in paired:
             rows.append({"date": when, "vintage": released.isoformat(), **entry,
-                         "mmcf": _cell_number(sheet, row, col)})
+                         "mmcf": _cell_number(sheet, row, col),
+                         "usd_per_mcf": _cell_number(prices, row, priced)})
     frame = pd.DataFrame(rows)
     frame = frame.sort_values(["date", "series_id"], kind="stable").reset_index(drop=True)
     return frame, released, following
@@ -220,26 +259,29 @@ def compare_vintages(before: pd.DataFrame, after: pd.DataFrame) -> pd.DataFrame:
 
     A month the earlier vintage did not yet have is new data, not a revision,
     and is not listed. A value that was present and became empty, or the
-    reverse, is a revision.
+    reverse, is a revision. A row is listed when its volume, its price or both
+    changed, with both values of each side by side.
     """
     key = ["date", "series_id"]
-    old = before[key + ["vintage", "country", "mmcf"]].rename(
-        columns={"vintage": "vintage_before", "mmcf": "mmcf_before"}
+    values = ["mmcf", "usd_per_mcf"]
+    old = before[key + ["vintage", "country"] + values].rename(
+        columns={"vintage": "vintage_before", **{v: v + "_before" for v in values}}
     )
-    new = after[key + ["vintage", "country", "mmcf"]].rename(
-        columns={"vintage": "vintage_after", "mmcf": "mmcf_after", "country": "country_after"}
+    new = after[key + ["vintage", "country"] + values].rename(
+        columns={"vintage": "vintage_after", "country": "country_after", **{v: v + "_after" for v in values}}
     )
     old = old.assign(date=pd.to_datetime(old["date"]))
     new = new.assign(date=pd.to_datetime(new["date"]))
     both = old.merge(new, on=key, how="left")
-    before_value = both["mmcf_before"]
-    after_value = both["mmcf_after"]
-    same = (before_value == after_value) | (before_value.isna() & after_value.isna())
+    same = pd.Series(True, index=both.index)
+    for v in values:
+        a, b = both[v + "_before"], both[v + "_after"]
+        same &= (a == b) | (a.isna() & b.isna())
     changed = both[~same].copy()
     changed["vintage_after"] = changed["vintage_after"].fillna(after["vintage"].iloc[0])
     changed = changed[
-        ["date", "series_id", "country", "vintage_before", "mmcf_before",
-         "vintage_after", "mmcf_after"]
+        ["date", "series_id", "country", "vintage_before", "mmcf_before", "usd_per_mcf_before",
+         "vintage_after", "mmcf_after", "usd_per_mcf_after"]
     ]
     return changed.sort_values(["date", "series_id"], kind="stable").reset_index(drop=True)
 
@@ -256,7 +298,7 @@ class LngExportsRevisions(Adapter):
     source = "U.S. Energy Information Administration, U.S. Natural Gas Exports and Re-Exports by Country, compared release by release"
     url = EXPORTS_XLS_URL
     page_url = EXPORTS_PAGE_URL
-    unit = "MMcf"
+    unit = "MMcf; prices in USD per thousand cubic feet"
     frequency = "monthly"
     method = "derived"
     unique_dates = False
@@ -273,7 +315,9 @@ class LngExportsRevisions(Adapter):
         if len(self.additions):
             self.note = (
                 "%d value(s) changed by the release of %s against the release of %s. "
-                "Months a release adds are new data and are not listed."
+                "Months a release adds are new data and are not listed. A log of "
+                "changes, not a time series: the gaps field lists months nothing was "
+                "revised in, not missing data."
                 % (len(self.additions), self.additions["vintage_after"].iloc[0],
                    self.additions["vintage_before"].iloc[0])
             )
@@ -286,19 +330,19 @@ class LngExportsRevisions(Adapter):
 
 
 class LngExportsMonthly(Adapter):
-    """US LNG exports and re-exports by destination, the latest release, in MMcf."""
+    """US LNG exports and re-exports by destination, the latest release, in MMcf and USD per Mcf."""
 
     name = "eia_lng_exports_monthly"
     source = "U.S. Energy Information Administration, U.S. Natural Gas Exports and Re-Exports by Country"
     url = EXPORTS_XLS_URL
     page_url = EXPORTS_PAGE_URL
-    unit = "MMcf per month"
+    unit = "MMcf per month; prices in USD per thousand cubic feet"
     frequency = "monthly"
     method = "published"
     unique_dates = False
-    required_cols = ("date", "vintage", "series_id", "block", "country", "region", "mmcf")
-    bounds = {"mmcf": BOUNDS_EXPORTS_MMCF}
-    min_observations = {"mmcf": 1000}
+    required_cols = ("date", "vintage", "series_id", "block", "country", "region", "mmcf", "usd_per_mcf")
+    bounds = {"mmcf": BOUNDS_EXPORTS_MMCF, "usd_per_mcf": BOUNDS_EXPORT_PRICE_USD_MCF}
+    min_observations = {"mmcf": 1000, "usd_per_mcf": 1000}
     observation_column = "mmcf"
     min_rows = 1000
 
@@ -336,7 +380,9 @@ class LngExportsMonthly(Adapter):
         self.vintage = "release of %s, next release %s" % (released, following)
         self.note = (
             "%s. Months are dated on the 15th as EIA dates them, kept from %s. "
-            "The LNG total N9133US2 includes re-exports; the by vessel block does not."
+            "The LNG total N9133US2 includes re-exports; the by vessel block does not. "
+            "Prices are EIA's volume weighted averages of the prices reported by cargo, "
+            "empty where no cargo went."
             % (how, EXPORTS_FIRST_MONTH.date())
         )
         return frame
@@ -344,7 +390,9 @@ class LngExportsMonthly(Adapter):
     def run(self) -> dict:
         entry = super().run()
         if self.revisions is not None and len(self.revisions):
-            LngExportsRevisions(self.revisions).run()
+            revisions = LngExportsRevisions(self.revisions)
+            revisions.fetched_at = self.fetched_at
+            revisions.run()
         return entry
 
 
