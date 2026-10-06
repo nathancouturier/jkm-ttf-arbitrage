@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-06T16:14:04Z",
+  "generated_at": "2026-10-06T16:21:07Z",
   "series": [
     {
       "series": "acer_lng_daily",
@@ -303,13 +303,13 @@
       "url": "https://www.federalreserve.gov/releases/h10/data/FRB_h10_xml.zip",
       "page_url": "https://www.federalreserve.gov/releases/h10/hist/dat00_eu.htm",
       "machine_fetched": true,
-      "fetched_at": "2026-09-30T16:34:08Z",
+      "fetched_at": "2026-10-06T16:20:31Z",
       "checked_at": null,
-      "rows": 2933,
-      "observations": 2933,
-      "file_rows": 3062,
+      "rows": 2938,
+      "observations": 2938,
+      "file_rows": 3067,
       "first_date": "2015-01-02",
-      "last_date": "2026-09-25",
+      "last_date": "2026-10-02",
       "frequency": "daily",
       "gaps": [
         "2015-01-19",
@@ -442,7 +442,7 @@
         "2026-09-07"
       ],
       "provisional_from": null,
-      "vintage": "prepared 2026-09-28T13:35:00",
+      "vintage": "prepared 2026-10-05T18:16:50",
       "method": "published",
       "committable": true,
       "licence_note": "The Federal Reserve Board: 'Unless otherwise indicated, information on Board's website is in the public domain and may be copied and distributed without permission. Please cite to the Board as the source of the information.' Nothing read marks the H.10 euro rate as third party material.",
@@ -557,13 +557,13 @@
       "url": "https://markets.newyorkfed.org/api/rates/secured/sofr/search.json?startDate=2018-04-02&endDate=today",
       "page_url": "https://www.newyorkfed.org/markets/reference-rates/additional-information-about-reference-rates",
       "machine_fetched": true,
-      "fetched_at": "2026-10-03T00:21:30Z",
+      "fetched_at": "2026-10-06T16:20:36Z",
       "checked_at": null,
-      "rows": 2124,
-      "observations": 2124,
-      "file_rows": 2124,
+      "rows": 2126,
+      "observations": 2126,
+      "file_rows": 2126,
       "first_date": "2018-04-02",
-      "last_date": "2026-10-01",
+      "last_date": "2026-10-05",
       "frequency": "daily",
       "gaps": [
         "2018-05-28",
@@ -663,7 +663,7 @@
         "2026-09-07"
       ],
       "provisional_from": null,
-      "vintage": "value dates to 2026-10-01",
+      "vintage": "value dates to 2026-10-05",
       "method": "published",
       "committable": true,
       "licence_note": "Licensed, not public domain. The New York Fed's Terms of Use grant a non-exclusive licence to use, copy and distribute its content, on conditions: its attribution line, the reference rate notice and disclaimer wherever the rate is shown, redistribution 'with the same permissions, conditions, and restrictions', modified content labelled as not the New York Fed's, and no implied endorsement. The committed cache is distributed under those terms, not under this repository's MIT licence. SOFR is calculated from data licensed to the New York Fed by DTCC Solutions LLC.",
@@ -682,7 +682,7 @@
       "page_url": "https://github.com/genthalili/searoute-py",
       "machine_fetched": false,
       "fetched_at": null,
-      "checked_at": "2026-10-06T16:11:54Z",
+      "checked_at": "2026-10-06T16:21:07Z",
       "rows": 4,
       "observations": 4,
       "file_rows": 4,
@@ -816,8 +816,8 @@
   "manual_steps_note": "Work this pipeline cannot do for itself. Each entry says what it is, why it exists, what it costs to skip it and how to do it. They are repeated against the series they affect in the manual_step field of those entries.",
   "run": {
     "mode": "offline",
-    "started_at": "2026-10-06T16:11:53Z",
-    "finished_at": "2026-10-06T16:11:54Z",
+    "started_at": "2026-10-06T16:21:07Z",
+    "finished_at": "2026-10-06T16:21:07Z",
     "script": "scripts/refresh.py"
   }
 }
