@@ -1,0 +1,46 @@
+NOTICE
+
+The code in this repository, and the figures this study computes itself, are
+released under the MIT licence in LICENSE. Data published by others keep their
+publishers' terms, which docs/sources.md quotes in full. In particular:
+
+data/cache/nyfed_sofr_daily.csv, and tests/fixtures/nyfed_sofr_2018-01-01_to_2026-09-30.json:
+  The Secured Overnight Financing Rate (SOFR) is subject to the Terms of Use
+  posted at newyorkfed.org. The New York Fed is not responsible for
+  publication of the SOFR by Nathan Couturier, does not sanction or endorse
+  any particular republication, and has no liability for your use.
+
+data/cache/worldbank_gas_monthly.csv and data/cache/worldbank_gas_revisions.csv:
+  The World Bank, Commodity Price Data (The Pink Sheet), under the Creative
+  Commons Attribution 4.0 International licence. The selection of series and
+  the revisions log are this study's. The World Bank does not endorse this
+  study.
+
+data/cache/meti_spot_lng_monthly.csv:
+  Created by processing the information in the Spot LNG Price Statistics
+  (Ministry of Economy, Trade and Industry of Japan)
+  (https://www.meti.go.jp/english/statistics/sho/slng/index.html).
+
+data/cache/ec_eua_auction_monthly.csv:
+  European Commission, auction reports, under the Creative Commons
+  Attribution 4.0 International licence; the months are combined from
+  several reports by this study.
+
+data/cache/acer_lng_daily.csv:
+  Source: European Union Agency for the Cooperation of Energy Regulators
+  (ACER).
+
+data/cache/eia_*.csv and data/cache/h10_usd_per_eur_daily.csv:
+  Source: U.S. Energy Information Administration, and the Board of Governors
+  of the Federal Reserve System, with the release date of each file in
+  data/manifest.json. US government publications, in the public domain. EIA
+  credits the weekly JKM and TTF prices to Bloomberg Finance L.P. and the
+  Henry Hub spot price to Refinitiv, an LSEG business.
+
+data/seed/routes.json and data/seed/routes.geojson:
+  The distances are this study's computation, under the MIT licence. Whether
+  the lines may be published is open; see docs/open-questions.md, question 21.
+
+tests/fixtures/:
+  Each file is its publisher's own bytes under its publisher's terms; see
+  tests/fixtures/PROVENANCE.md.
