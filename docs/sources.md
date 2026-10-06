@@ -684,6 +684,10 @@ committed (question 37). No article is committed.
 * **The line starts and ends at the network nodes nearest the terminals**, 1.4
   to 3.9 nm away. The recorded distances exclude those gaps, as the library
   returns them.
+* **The three terminal points are this study's.** Sabine Pass (-93.87, 29.74),
+  Gate (4.03, 51.96) and Futtsu (139.82, 35.30), longitude then latitude, were
+  set for this study and are not taken from a published list; they are
+  recorded in `src/lngarb/sea_routes.py` and in the seed.
 * **The Suez route leaves the Straits of Florida eastwards at about 25.3 N**,
   which reads as crossing the shallow Great Bahama Bank. Forcing it through deep
   water adds 44 to 53 nm, 0.3 to 0.4 percent.
