@@ -9,6 +9,7 @@ exist on the machine running the tests, and skipped otherwise.
 
 from __future__ import annotations
 
+import json
 import math
 
 import pandas as pd
@@ -96,6 +97,15 @@ def test_the_arrival_definition_changes_in_april_2023():
 def test_the_series_is_never_committable():
     assert jogmec.JogmecSpotLngMonthly.committable is False
     assert jogmec.JogmecSpotLngMonthly().cache_file() == "data/private/jogmec_spot_lng_monthly.csv"
+
+
+def test_reading_the_saved_pages_offline_keeps_the_last_fetch_time(sandbox):
+    previous = {"schema_version": 1, "series": [{"series": "jogmec_spot_lng_monthly", "fetched_at": "2026-09-30T20:44:48Z"}]}
+    base.MANIFEST.write_text(json.dumps(previous), encoding="utf-8")
+    entry = jogmec.JogmecSpotLngMonthly(offline=True)._entry(status="ok", frame=None, note="")
+    assert entry["fetched_at"] == "2026-09-30T20:44:48Z"
+    online = jogmec.JogmecSpotLngMonthly()._entry(status="ok", frame=None, note="")
+    assert online["fetched_at"] != "2026-09-30T20:44:48Z"
 
 
 SAVED = base.PRIVATE / "jogmec" / "pages"

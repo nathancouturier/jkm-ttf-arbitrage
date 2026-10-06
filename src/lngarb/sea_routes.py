@@ -270,7 +270,7 @@ def record_routes() -> dict:
             note = "the committed seed fails its own checks: " + "; ".join(problems)
         else:
             note = (
-                "%d routes computed once with %s over the Eurostat SeaRoute network and "
+                "%d routes computed once with %s over the network it bundles and "
                 "committed. Checked on every run from the committed geometry: each line's "
                 "great circle length is within 0.5 percent of its recorded distance, each "
                 "passes the straits it should and avoids those it should not, and each "

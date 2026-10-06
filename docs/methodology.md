@@ -69,7 +69,9 @@ basis points; they are not forecasts of where prices can go.
 | Reported charter hire, USD per day | minus 10,000 to 500,000 | a spot charter rate can be assessed below zero; the reported figures are in the freight anchors |
 | DES LNG spreads to the TTF front month, EUR/MWh | minus 20 to 5 | set before any ACER report was parsed; ACER's own figures will test it |
 | SOFR, percent per year | minus 1 to 15 | a rate read in basis points would be a hundred times too large |
-| US gas exports in one month, MMcf | 0 to 2,000,000 | the largest monthly LNG total in EIA's release of 31 August 2026 is 539,203 |
+| US gas exports in one month, MMcf | 0 to 2,000,000 | the largest monthly LNG total in EIA's release of 31 August 2026 is 573,089, March 2026 |
+| A DES LNG price level, EUR/MWh | 1 to 400 | a guard against a unit or a parse error in ACER's assessments, not a range the market implies |
+| An EU allowance price, EUR per tonne of CO2 | 1 to 200 | a guard against a unit or a parse error, not a range the market implies |
 
 The ranges are declared once in `src/lngarb/config.py` and repeated, on
 purpose, in `tools/validate-data.mjs`, which measures the committed files
@@ -162,7 +164,8 @@ The other instruments that move an LNG carrier's toll:
 | 15 Jul 2026 | surcharge raised from 7 to 19 percent | periodical 20/2026 of 7 June 2026 |
 
 The rebate in 6.2 cannot be combined with any other LNG rebate, so before 15
-March 2022 a US Gulf cargo to Japan takes the larger of the two, not both.
+March 2022 a US Gulf cargo to Japan cannot take both. This study assumes it
+takes the larger, which the circular does not say.
 
 ### 6.2 The rebate for a cargo from the US Gulf to Japan
 
@@ -254,13 +257,14 @@ all-in port cost.
 | Rotterdam | seaport dues, LNG tankers, 2025 | 0.309 euro per GT, 0.597 euro per tonne, 0.065 euro per GT sustainability component | no LNG tanker row in the efficiency discount table, so no stated cap on the cargo part | the same, 2025 |
 | Rotterdam | seaport dues, LNG tankers, 2026 | 0.320 euro per GT, 0.618 euro per tonne, 0.067 euro per GT sustainability component | as in 2025 | the same, 2026 |
 | Rotterdam | towage | listed rates plus 150 percent for LNG carriers | per tug, by length | Port of Rotterdam, tariffs of third parties 2026 |
-| Sabine Pass | pilotage, Sabine Neches waterway, Zone 1 | 41.41 $ per draft foot plus 0.0339 $ per gross ton unit | the unit is length times breadth times depth times a coefficient, over 100, not the registered tonnage | Sabine Pilots, rates effective 1 January 2023 |
+| Sabine Pass | pilotage, Sabine Neches waterway, Zone 1 (this study's reading: the tariff does not name the terminal; Zone 1 runs from the Sabine Bar pilot station to below Beacon No. 40, Port Arthur Canal) | 41.41 $ per draft foot plus 0.0339 $ per gross ton unit | the unit is length times breadth times depth times a coefficient, over 100, not the registered tonnage | Sabine Pilots, rates effective 1 January 2023 |
 | Sabine Pass | Sabine Neches Navigation District user fee | 0.20 $ per short ton of hydrocarbon cargo from 1 May 2021, adjustable to 0.35 | per short ton of cargo | the District's fact sheet |
 
 Gate charges no fee per ship call that could be found: its berthing rights are
 part of the capacity its customers buy ("throughput capacity (including
-berthing rights, storage and regasification)"), so they belong with the
-Northwest Europe discount, not with the ship's port costs.
+berthing rights, storage and regasification)"), so this study counts them in
+the Northwest Europe discount, not in the ship's port costs. Gate's page says
+nothing about charges to ships.
 
 The District's user fee is a charge on the cargo at the load port. A court
 record of 2023 lists what it cost one LNG offtaker's loadings from May to

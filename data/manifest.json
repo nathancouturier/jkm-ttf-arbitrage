@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-06T16:07:16Z",
+  "generated_at": "2026-10-06T16:14:04Z",
   "series": [
     {
       "series": "acer_lng_daily",
@@ -21,7 +21,7 @@
       "vintage": "correction notice of 20 December 2024; half-months from methodology 1.1 annex 1",
       "method": "parsed",
       "committable": true,
-      "licence_note": "ACER's legal notice: 'Information and documents made available on the Agency's webpages are public and may be reproduced and/or distributed, totally or in part, ... for non-commercial and commercial purposes, provided that the Agency is always acknowledged as the source of the material', and ACER's PDFs say 'Reproduction is authorised provided the source is acknowledged'. One doubt, recorded: the same notice's first paragraph prohibits reuse of 'this Licensed Material' without saying what that is. The benchmark's TTF leg is ICE data; ACER's prices and spreads are published, a TTF level derived from them never is.",
+      "licence_note": "ACER's legal notice: 'Information and documents made available on the Agency's webpages are public and may be reproduced and/or distributed, totally or in part, ... for non-commercial and commercial purposes, provided that the Agency is always acknowledged as the source of the material', and ACER's methodology documents say 'Reproduction is authorised provided the source is acknowledged', a line the correction notice itself does not carry. One doubt, recorded: the same notice's first paragraph prohibits reuse of 'this Licensed Material' without saying what that is. The benchmark's TTF leg is ICE data; ACER's prices and spreads are published, a TTF level derived from them never is.",
       "status": "ok",
       "note": "The only daily ACER values on ACER's main site: the corrected values of the 26 weekdays from 4 November to 9 December 2024, with the values first published kept as printed. 1 row(s) flagged. The daily reports are on ACER's TERMINAL platform, which this pipeline does not fetch; see the manual step. Source: ACER.",
       "file": "data/cache/acer_lng_daily.csv",
@@ -496,12 +496,12 @@
       "vintage": "65 pages, 64 months confirmed",
       "method": "parsed",
       "committable": false,
-      "licence_note": "JOGMEC's terms do not permit use beyond private use, education and quotation without its prior permission, and its English terms do not permit linking to its website without written permission. Permission has been requested. Until it is granted this series stays in data/private/ and nothing derived from it is published.",
+      "licence_note": "JOGMEC's terms do not permit use beyond private use, education and quotation without its prior permission, and its English terms do not permit linking to its website without written permission. Permission has not been requested yet. Until it is granted this series stays in data/private/ and nothing derived from it is published.",
       "status": "ok",
       "note": "65 monthly pages read. The latest figure of each month is the confirmed one where the next month's page exists, else the preliminary one. Undisclosed months are missing. Arrival-based figures before April 2023 use JOGMEC's old definition.",
       "file": "data/private/jogmec_spot_lng_monthly.csv",
       "unit": "USD per MMBtu, DES (JOGMEC writes USD/MBtu)",
-      "licence": "JOGMEC terms of use, permission requested",
+      "licence": "JOGMEC terms of use, permission not yet requested",
       "observation_column": "contract_usd_mmbtu",
       "unique_dates": true
     },
@@ -677,12 +677,12 @@
     },
     {
       "series": "routes",
-      "source": "this study, computed with searoute over Eurostat's SeaRoute maritime network",
+      "source": "this study, computed with searoute 1.6.0 over the network it bundles, which its README credits to Eurostat's Searoute",
       "url": null,
       "page_url": "https://github.com/genthalili/searoute-py",
       "machine_fetched": false,
       "fetched_at": null,
-      "checked_at": "2026-10-03T00:22:05Z",
+      "checked_at": "2026-10-06T16:11:54Z",
       "rows": 4,
       "observations": 4,
       "file_rows": 4,
@@ -694,9 +694,9 @@
       "vintage": "searoute 1.6.0",
       "method": "derived",
       "committable": true,
-      "licence_note": "The distances and lines are this study's computation, published under the repository's MIT licence. searoute is released under the Apache License 2.0 and bundles Eurostat's SeaRoute maritime network, whose terms are quoted in docs/sources.md.",
+      "licence_note": "The distances are this study's computation, published under the repository's MIT licence. Whether the lines may be published is open (docs/open-questions.md, question 21): searoute is released under the Apache License 2.0 and bundles a network its README credits to Eurostat's Searoute, released under the EUPL 1.2; the chain is quoted in docs/sources.md.",
       "status": "ok",
-      "note": "4 routes computed once with searoute 1.6.0 over the Eurostat SeaRoute network and committed. Checked on every run from the committed geometry: each line's great circle length is within 0.5 percent of its recorded distance, each passes the straits it should and avoids those it should not, and each ballast leg equals its laden leg. A seed, not a time series: the schema's frequency field reads annual and no dates apply.",
+      "note": "4 routes computed once with searoute 1.6.0 over the network it bundles and committed. Checked on every run from the committed geometry: each line's great circle length is within 0.5 percent of its recorded distance, each passes the straits it should and avoids those it should not, and each ballast leg equals its laden leg. A seed, not a time series: the schema's frequency field reads annual and no dates apply.",
       "file": "data/seed/routes.json",
       "unit": "nautical miles",
       "licence": "Apache License 2.0 for searoute; the network's own terms in docs/sources.md",
@@ -815,9 +815,9 @@
   ],
   "manual_steps_note": "Work this pipeline cannot do for itself. Each entry says what it is, why it exists, what it costs to skip it and how to do it. They are repeated against the series they affect in the manual_step field of those entries.",
   "run": {
-    "mode": "online",
-    "started_at": "2026-10-06T16:06:11Z",
-    "finished_at": "2026-10-06T16:07:16Z",
+    "mode": "offline",
+    "started_at": "2026-10-06T16:11:53Z",
+    "finished_at": "2026-10-06T16:11:54Z",
     "script": "scripts/refresh.py"
   }
 }

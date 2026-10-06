@@ -217,8 +217,10 @@ JOGMEC changed its arrival-based definition in April 2023. METI's own definition
 of arrival-based is in its overview document, which could not be read, so
 whether METI's arrival-based series continues into JOGMEC's old definition, its
 new one, or neither is not established. Until it is, the two are not drawn as
-one arrival-based line. The contract-based series are defined the same way in
-both surveys' notes.
+one arrival-based line. Both surveys' notes describe the same kind of cargo:
+spot cargoes, cargo by cargo, on a DES basis, as simple averages. JOGMEC defines
+its contract-based price in the text of each month's page; METI's monthly
+notes use the term without defining it.
 
 ### 17. April 2026 in JOGMEC's publications
 
@@ -325,7 +327,8 @@ The Suez Canal Authority publishes its toll as special drawing rights (SDR) per
 ton of Suez Canal Net Tonnage (SCNT), in seven bands, laden and ballast. The
 schedule is citable; the tonnage is not. A canal agency's guidance says the
 SCNT of an LNG carrier "depends on the construction" and gives about 85,000
-for a 145,000 m3 membrane ship; no source read gives it for a 174,000 m3
+for a 145,000 m3 membrane ship and about 105,000 for a spherical tank (Moss)
+ship of the same size; no source read gives it for a 174,000 m3
 two-stroke ship. Options: find the SCNT of a named 174,000 m3 ship in a
 published particulars sheet or a written quotation, and compute the toll from
 the schedule; publish the formula with SCNT as a labelled assumption and its
@@ -456,3 +459,55 @@ for other ship types and none for LNG tankers. Whether the cargo part is
 uncapped for them, or the row is missing, is a question for the Port of
 Rotterdam Authority. It matters only if Rotterdam's dues are modelled from the
 tariff rather than taken inside a published all-in figure.
+
+### 36. Spark's figures in this study
+
+Raised 6 October 2026. **Open, the owner's decision.**
+
+Spark's terms (`docs/sources.md`, 2.13) bar publishing or reproducing Spark
+Content without a licence, except "as permitted by laws relating to fair use".
+The study already prints Spark figures: the worked example of its note on
+negative rates, which the engine is to reproduce line by line, the two port
+figures in `docs/methodology.md`, section 7.1, and the discharge volume in
+question 23; the freight anchors would add reported rates. Options: rely on
+fair use for individual figures, each attributed and none reproduced as a
+table or series; ask Spark for written permission to quote a short, named list
+(Spark gives commercial@sparkcommodities.com for licences); or keep Spark's
+figures in `data/private/` and test the engine against them privately. Only
+written permission removes the doubt.
+
+### 37. The freight anchors
+
+Raised 6 October 2026. **Open, the owner's decision.**
+
+Nine reported charter rates have been verified in readable, dated articles or
+documents, one per month, from February 2022 to October 2026. They are kept in
+`data/private/` until four things are decided.
+
+* What may be committed: the figure, its date, the assessment and the
+  article's address, or also the article's sentence, which LNG Prime, Lloyd's
+  List and Hellenic Shipping News each forbid republishing without consent.
+* Rows whose assessment day is not stated (five of the nine), or whose
+  assessment or vessel is inferred rather than stated (five of the nine, mostly
+  the same rows): kept with the gap shown, or dropped.
+* October 2022: the figure first reported, on 10 October, or the month's
+  highest, reported on 20 October.
+* April 2020, for which no readable figure was found: run that date at the
+  low, central and high hire set from the other figures, or look for a source
+  by hand.
+
+The two figures of the week to 24 July 2026 could not be verified: they sit
+behind LNG Prime's subscription.
+
+### 38. Lloyd's List Intelligence's briefs
+
+Raised 6 October 2026. **Open, the owner's decision.**
+
+Nine of Lloyd's List Intelligence's public Red Sea briefs, from 23 July to 1
+October 2026, and one Lloyd's List article were read by script before their
+publisher's terms were read. The terms forbid, without written permission,
+"bulk/batch downloading or automated scraping of Content". No further request
+is sent to either site. The last band of the Red Sea record (`docs/methodology.md`,
+section 6.3) and one freight anchor rest on them. Options: drop them, and mark
+August and September 2026 as unknown; ask the publisher; or have the owner read
+and save the pages by hand, as a manual step.

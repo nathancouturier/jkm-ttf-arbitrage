@@ -124,8 +124,10 @@ def test_spark30_sailing_days_within_three_percent(committed):
     assert round(round_trip_days, 2) == 24.41
 
 
-def test_the_eia_ratio_of_extra_days_east_within_one_hundredth(committed):
+def test_the_eia_ratio_of_extra_days_east_within_what_its_rounding_allows(committed):
+    # EIA's "about 17" and "about 21" days, each rounded to the day, allow any
+    # ratio from 16.5 / 21.5 to 17.5 / 20.5.
     document, _ = committed
     d = {r["id"]: r["distance_nm"] for r in document["routes"]}
     computed = (d["nea_suez"] - d["nea_panama"]) / (d["nea_cape"] - d["nea_panama"])
-    assert abs(computed - 17 / 21) < 0.01
+    assert 16.5 / 21.5 < computed < 17.5 / 20.5

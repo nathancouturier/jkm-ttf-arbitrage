@@ -19,7 +19,7 @@ contracted. Every arrival-based figure for a month before April 2023 is marked
 with the old definition.
 
 JOGMEC's terms permit use beyond private use, education and quotation only with
-its permission, which has been requested. Until it is granted this series is
+its permission, which has not been requested yet. Until it is granted this series is
 not committable: it is written to data/private/ and nothing derived from it is
 published.
 """
@@ -147,7 +147,7 @@ class JogmecSpotLngMonthly(Adapter):
         "JOGMEC's terms do not permit use beyond private use, education and "
         "quotation without its prior permission, and its English terms do not "
         "permit linking to its website without written permission. Permission has "
-        "been requested. Until it is granted this series stays in data/private/ and "
+        "not been requested yet. Until it is granted this series stays in data/private/ and "
         "nothing derived from it is published."
     )
     required_cols = ("date", "contract_usd_mmbtu", "arrival_usd_mmbtu", "vintage", "arrival_definition")
@@ -185,6 +185,18 @@ class JogmecSpotLngMonthly(Adapter):
             if path.exists() and month not in latest:
                 continue
             path.write_bytes(http_get(PAGE_URL.format(month=month)).content)
+
+    def _entry(self, *, status: str, frame: pd.DataFrame | None, note: str) -> dict:
+        entry = super()._entry(status=status, frame=frame, note=note)
+        if self.offline:
+            # Reading the saved pages again is not a fetch: the entry keeps the
+            # time of the last run that did fetch.
+            previous = next(
+                (e for e in base.manifest_read().get("series", []) if e.get("series") == self.name),
+                None,
+            )
+            entry["fetched_at"] = previous.get("fetched_at") if previous else None
+        return entry
 
     def fetch(self) -> pd.DataFrame:
         if not self.offline:

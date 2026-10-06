@@ -46,7 +46,7 @@ BOUNDS_EUA_EUR_T = (1.0, 200.0)
 BOUNDS_SOFR_PERCENT = (-1.0, 15.0)
 #: US natural gas exports in one month, MMcf, any block or total. Not a range
 #: the market implies, a guard against a unit or a parse error: the largest
-#: monthly LNG total in the 31 August 2026 release is 539,203 MMcf.
+#: monthly LNG total in the 31 August 2026 release is 573,089 MMcf, March 2026.
 BOUNDS_EXPORTS_MMCF = (0.0, 2000000.0)
 
 # ---------------------------------------------------------------------------
@@ -347,8 +347,9 @@ _ACER_NOTE = (
     "Agency's webpages are public and may be reproduced and/or distributed, "
     "totally or in part, ... for non-commercial and commercial purposes, provided "
     "that the Agency is always acknowledged as the source of the material', and "
-    "ACER's PDFs say 'Reproduction is authorised provided the source is "
-    "acknowledged'. One doubt, recorded: the same notice's first paragraph "
+    "ACER's methodology documents say 'Reproduction is authorised provided the "
+    "source is acknowledged', a line the correction notice itself does not carry. "
+    "One doubt, recorded: the same notice's first paragraph "
     "prohibits reuse of 'this Licensed Material' without saying what that is. The "
     "benchmark's TTF leg is ICE data; ACER's prices and spreads are published, a "
     "TTF level derived from them never is."
@@ -440,7 +441,7 @@ SOURCES: Mapping[str, Source] = _registry(
         frequency="monthly",
         unit="USD per MMBtu, DES (JOGMEC writes USD/MBtu)",
         method="parsed",
-        licence="JOGMEC terms of use, permission requested",
+        licence="JOGMEC terms of use, permission not yet requested",
         licence_note=(
             "JOGMEC's terms do not permit use beyond private use, education and "
             "quotation without its prior permission. Kept in data/private/ and not "
@@ -526,7 +527,7 @@ SOURCES: Mapping[str, Source] = _registry(
     Source(
         series="routes",
         label="The four sea routes from Sabine Pass, their distances and their lines",
-        publisher="this study, computed with searoute over Eurostat's SeaRoute maritime network",
+        publisher="this study, computed with searoute 1.6.0 over the network it bundles, which its README credits to Eurostat's Searoute",
         page_url="https://github.com/genthalili/searoute-py",
         machine_url=None,
         url_note=(
@@ -539,10 +540,12 @@ SOURCES: Mapping[str, Source] = _registry(
         method="derived",
         licence="Apache License 2.0 for searoute; the network's own terms in docs/sources.md",
         licence_note=(
-            "The distances and lines are this study's computation, published under "
-            "the repository's MIT licence. searoute is released under the Apache "
-            "License 2.0 and bundles Eurostat's SeaRoute maritime network, whose "
-            "terms are quoted in docs/sources.md."
+            "The distances are this study's computation, published under the "
+            "repository's MIT licence. Whether the lines may be published is open "
+            "(docs/open-questions.md, question 21): searoute is released under the "
+            "Apache License 2.0 and bundles a network its README credits to "
+            "Eurostat's Searoute, released under the EUPL 1.2; the chain is quoted "
+            "in docs/sources.md."
         ),
         committable=True,
     ),

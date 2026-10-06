@@ -2,7 +2,7 @@
 
 Fixture: the report for April to June 2025, published under CC BY 4.0. Its
 fifteen monthly averages were reproduced to the cent from EEX's own auction
-results during reconnaissance; four of them are anchors here.
+results when the source was assessed; four of them are anchors here.
 """
 
 from __future__ import annotations

@@ -28,12 +28,12 @@ was decided on the strength of it.
 | `acer_lng_daily` | ACER's DES LNG assessments for NWE, SE and the EU, and its EU benchmark to TTF, daily, EUR/MWh; today the 26 corrected days of its notice of 20 December 2024 | [correction notice](https://www.acer.europa.eu/sites/default/files/documents/en/Gas/LNG_Price_Assessment/LNGPA_Correction_Notice_20241220.pdf); daily reports saved by hand | fixed until reports are saved | **yes** | ACER legal notice, with the doubt in 2.7 |
 | `ec_eua_auction_monthly` | EU allowance price, monthly volume weighted average auction clearing price, EUR/t, January 2023 to June 2025 | quarterly reports linked from the [Commission's auctioning page](https://climate.ec.europa.eu/areas-action/carbon-markets/eu-emissions-trading-system-eu-ets/auctioning-allowances_en) | quarterly, lagging | **yes** | CC BY 4.0, with the doubt in 2.8 |
 | `meti_spot_lng_monthly` | Japan spot LNG price, DES, contract-based and arrival-based, monthly, March 2014 to March 2021 | [historical-data-e.xlsx](https://www.meti.go.jp/english/statistics/sho/slng/historical-data-e.xlsx), read once | ended | **yes** | METI terms, compatible with CC BY 4.0 |
-| `jogmec_spot_lng_monthly` | Japan spot LNG price, DES, contract-based and arrival-based, monthly, from April 2021 | one page per month from the [list page](https://journal.jogmec.go.jp/oilgas/nglng-en/spotprice/index.html) | monthly, 9th to 15th | **NO**, `data/private/` until JOGMEC permits | JOGMEC terms, permission requested |
+| `jogmec_spot_lng_monthly` | Japan spot LNG price, DES, contract-based and arrival-based, monthly, from April 2021 | one page per month from JOGMEC's English spot price list page | monthly, 9th to 15th | **NO**, `data/private/` until JOGMEC permits | JOGMEC terms, permission not yet requested |
 | `worldbank_gas_monthly` | Europe gas (TTF from April 2015), US gas at Henry Hub, and Japan LNG import price, monthly, USD/MMBtu, from 2015 | read from the [commodity markets page](https://www.worldbank.org/en/research/commodity-markets); the file's path changes | monthly, early in the month | **yes** | CC BY 4.0 |
 | `worldbank_gas_revisions` | Every value a Pink Sheet release changed, both releases side by side | derived by this study | with each release that changes a value | **yes** | CC BY 4.0 |
 | `h10_usd_per_eur_daily` | US dollars per euro, noon buying rate in New York, daily, from 2015 | [FRB_h10_xml.zip](https://www.federalreserve.gov/releases/h10/data/FRB_h10_xml.zip) | weekly, Mondays | **yes** | US public domain |
 | `nyfed_sofr_daily` | Secured Overnight Financing Rate, daily, percent, from 2 April 2018 | [markets API](https://markets.newyorkfed.org/api/rates/secured/sofr/search.json) | daily, next business day | **yes**, under the New York Fed's terms | New York Fed Terms of Use |
-| `routes` | The four sea routes from Sabine Pass, distances and lines | computed once by `scripts/routes.py` | fixed | **yes** | this study, MIT; searoute Apache 2.0 |
+| `routes` | The four sea routes from Sabine Pass, distances and lines | computed once by `scripts/routes.py` | fixed | **yes** | distances: this study, MIT; lines: open, question 21; searoute Apache 2.0 |
 
 ---
 
@@ -233,8 +233,9 @@ From JOGMEC's English terms of use, `https://www.jogmec.go.jp/english/terms.html
 > "You may not link to this website without prior written permission from
 > JOGMEC."
 
-**Redistributable: no, not without JOGMEC's permission**, which has been
-requested (`docs/open-questions.md`, question 14). The series is kept in
+**Redistributable: no, not without JOGMEC's permission**, which has not been
+requested yet (the draft and the decision are in `docs/open-questions.md`,
+question 14). The series is kept in
 `data/private/`; no value, chart or derived figure from it is published, and
 the public pages carry no link to JOGMEC until JOGMEC allows it.
 
@@ -256,8 +257,10 @@ and its second:
 > provided that the Agency is always acknowledged as the source of the material.
 > Such acknowledgement must be included in each copy of the material."
 
-ACER's methodology and notices print: "Reproduction is authorised provided the
-source is acknowledged."
+ACER's methodology documents (versions 1.0, 1.1 and Beta 2.0) and its complaint
+procedure print: "Reproduction is authorised provided the source is
+acknowledged." The correction notice the committed series is read from carries
+no such line.
 
 **Redistributable: yes, with acknowledgement, on the reading that the first
 paragraph applies only to material ACER marks as licensed.** The notice does not
@@ -367,9 +370,13 @@ short quotations, each attributed, from these:
   > under a Creative Commons Attribution 4.0 International Licence."
 
 * EIA, Today in Energy, US public domain (2.1).
-* Kpler, Lloyd's List Intelligence, gCaptain, The National, Discovery Alert and
-  Leth Agencies: ordinary copyright, quoted briefly with attribution. Their
-  terms pages were not read.
+* Kpler, gCaptain, The National, Discovery Alert and Leth Agencies: ordinary
+  copyright, quoted briefly with attribution. Their terms pages were not read.
+* Lloyd's List Intelligence: its Red Sea briefs were read on 1 October 2026 and
+  its terms on 3 October 2026, after the briefs. The terms forbid, "unless
+  expressly permitted by us in writing", any "bulk/batch downloading or
+  automated scraping of Content". Whether the briefs stay a source is open
+  question 38.
 
 ### 2.12 Port tariffs, and the documents they are read from
 
@@ -388,6 +395,55 @@ nothing beyond the quoted rates is reproduced.
 | Sabine Pilots | rates effective 1 January 2023, Sabine Neches waterway and Sabine Bank | `https://dispatch.sabinepilots.com/portals/0/2023ratesstatebank.pdf` |
 | Sabine Neches Navigation District | user fee fact sheet | `https://navigationdistrict.org/fact_sheets/sabine-neches-waterway-user-fee/` |
 | Supreme Court of the United States | docket 22-805, the petition and its appendix, a public record | `https://www.supremecourt.gov/docket/docketfiles/html/public/22-805.html` |
+
+### 2.13 Spark Commodities, its methodology and its note on negative rates
+
+The study quotes figures from two documents Spark publishes on its site, read
+on 1 October 2026: its LNG freight methodology (versions 3.2 and 3.8) and its
+note on negative freight rates. Every page of the note reads "All data and
+images are copyright • Spark Commodities". Spark's terms, read on 3 October
+2026 from the documents its site's terms pages redirect to:
+
+From "Spark Content Usage", last updated February 2023:
+
+> "Without a Spark Licence, you may not copy, store (hardcopy and/or electronic
+> format), adapt, alter, translate, transmit, disseminate, distribute, perform,
+> broadcast, publish, reproduce, publicly display, hyperlink, sell, licence,
+> rent, lease and/or otherwise transfer any of the Spark Content, ..."
+
+From the "Spark Terms of Use", version 2.1, February 2024:
+
+> "You must not use and/or replicate Spark Content, other than as permitted by
+> laws relating to fair use, without our prior written consent and/or without
+> authorised licence with Spark, which consent we may withhold in our absolute
+> discretion."
+
+> "Unless otherwise stated, you may not link (including, but not limited to,
+> hyperlink, in-line link or deep-link) ..."
+
+**Redistributable: no document; individual figures only as quotation, and
+whether even that is allowed is open** (question 36). No Spark document is
+committed, and Spark's documents are named, not linked.
+
+### 2.14 The trade press, for reported charter rates
+
+Spark's spot charter rates reach the public through the press. The terms of the
+publishers read so far:
+
+* LNG Prime, terms effective 22 July 2024, read on 3 October 2026: "Any
+  republication, redistribution or re-editing or other use of this material in
+  any form, including translation, is strictly prohibited without the prior
+  consent of LNG Prime." Every article of 2026 read was behind a subscription
+  after its first sentence.
+* Lloyd's List links its terms to Lloyd's List Intelligence's (2.11).
+* Hellenic Shipping News, whose republication of a Platts report is the only
+  readable copy of it, prohibits republication without the editor's written
+  authorisation. S&P Global, which publishes Platts, refuses automated requests
+  even for its robots.txt.
+
+The figures verified so far, each with its article, date, assessment and
+vessel basis, are kept in `data/private/` until the owner decides what may be
+committed (question 37). No article is committed.
 
 ---
 
@@ -628,8 +684,11 @@ nothing beyond the quoted rates is reproduced.
   days, 2.4 percent shorter. EIA gives the Suez and Cape routes from the Gulf
   Coast to Chiba as about 17 and 21 days longer than Panama; the computed extra
   distances stand in the ratio 0.816 against EIA's 0.810, and both imply about
-  13 knots. Platts' figure for the Panama route could not be read: its site
-  refuses automated requests, even for robots.txt.
+  13 knots. EIA's days are rounded, so any ratio from 0.767 to 0.854 agrees
+  with them, and its ships are LPG carriers: the test confirms the order of
+  the three routes and their rough proportion, not the distances. Platts'
+  figure for the Panama route could not be read: its site refuses automated
+  requests, even for robots.txt.
 
 ### 3.12 Suez Canal Authority
 
@@ -721,9 +780,10 @@ nothing beyond the quoted rates is reproduced.
   fuel rounded to the dollar (exact 1,692,355.686), the laden fuel line prints
   it truncated. Every other line is the exact value rounded to the dollar.
 * **The laden fuel line reads "17.5 (Ballast Days)"**, a slip for laden days.
-* **The discharge volume is not explained in the note.** 3,501,428 MMBtu is the
-  loaded volume less fifteen days of boil-off less a heel of 3,000 m3 (open
-  question 23).
+* **The discharge volume is not explained in the note.** Spark's own
+  definition of 2022 (98.5 percent of capacity, less laden boil-off, less a
+  heel of 3,000 m3) gives 3,501,428 MMBtu exactly with fifteen days of laden
+  boil-off; the note does not say which laden days it used (open question 23).
 * **The Futtsu figure is an image.** The Routes screenshot on page 3 has no
   text layer; 273,184 $ is read from the picture, and its cost lines add up to
   its total.
@@ -769,8 +829,8 @@ nothing beyond the quoted rates is reproduced.
 5. **SOFR's source and licence.** This study reads the New York Fed's API under
    the New York Fed's terms, which travel with the committed cache.
 6. **Financing before 2 April 2018**, when no SOFR exists.
-7. **JOGMEC's permission**, requested with the draft in `docs/open-questions.md`,
-   question 14.
+7. **JOGMEC's permission**, not yet requested; the draft is in
+   `docs/open-questions.md`, question 14.
 8. **METI's monthly PDFs**, which only a person can save past METI's bot
    challenge, and which alone carry METI's preliminary figures.
 9. **ACER's reports**, which only a person can save from TERMINAL, and whether
@@ -790,6 +850,11 @@ nothing beyond the quoted rates is reproduced.
     Futtsu, Gate's figure as an assumption, or components still incomplete.
 16. **The Sabine Neches cargo fee**, a load port charge the cost line does not
     yet carry.
+17. **Spark's figures**: whether the study may print them as quotation, or
+    must ask Spark first.
+18. **The freight anchors**: what of each reported charter rate may be
+    committed.
+19. **Lloyd's List Intelligence's briefs**, read before its terms were.
 
 ---
 
