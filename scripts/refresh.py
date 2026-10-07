@@ -61,6 +61,7 @@ from lngarb.sources.acer import AcerLngDaily  # noqa: E402
 from lngarb.sources.ec_eua import EcEuaAuctionMonthly  # noqa: E402
 from lngarb.sources.h10 import UsdPerEurDaily  # noqa: E402
 from lngarb.sources.jogmec import JogmecSpotLngMonthly  # noqa: E402
+from lngarb.sources.doe import DoeLngExportCargoes  # noqa: E402
 from lngarb.sources.meti import MetiSpotLngMonthly  # noqa: E402
 from lngarb.sources.sofr import SofrDaily  # noqa: E402
 from lngarb.sources.worldbank import WorldBankGasMonthly, WorldBankGasRevisions  # noqa: E402
@@ -165,6 +166,13 @@ JOBS: tuple[Job, ...] = (
             HenryHubDaily(),
         ],
         online=_eia_tables_online,
+    ),
+    Job(
+        name="doe",
+        what="DOE US LNG exports and re-exports, cargo by cargo, from January 2016",
+        series=("doe_lng_export_cargoes",),
+        adapters=lambda: [DoeLngExportCargoes()],
+        online=_simple(lambda: [DoeLngExportCargoes()]),
     ),
     Job(
         name="worldbank",

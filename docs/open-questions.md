@@ -106,13 +106,18 @@ adds to by itself.
 
 ### 8. The DOE transaction file as a source
 
-Raised 30 September 2026. **Open, the owner's decision.**
+Raised 30 September 2026. **Decided 7 October 2026.**
 
 EIA's exports table is built from DOE's "Natural Gas Imports and Exports". DOE
 also publishes a cargo by cargo file of US LNG exports, which reproduces EIA's
 country figures to the MMcf and explains, for example, that the 4,576 MMcf
 EIA shows to China in June 2026 is one whole cargo and part of another. Its
 terms have not been read. Adding it would be a new source.
+
+Decision: added, as `doe_lng_export_cargoes`, from January 2016. DOE's web
+policies put its information in the public domain with an acknowledgement
+requested (`docs/sources.md`, 2.1.1). It gives the flow analysis each cargo's
+terminal and day, so Sabine Pass cargoes can be followed on their own.
 
 ### 9. The weekly series changed product in January 2026
 

@@ -24,6 +24,7 @@ was decided on the strength of it.
 | `eia_wngsr_international_weekly` | Weekly averages of JKM and TTF, USD/MMBtu, from the WNGSR Supplement, figures credited to Bloomberg Finance L.P. | [bullets_lng_2.html](https://www.eia.gov/naturalgas/weekly/supplement/content/bullets_lng_2.html) and two sibling files | weekly, Thursday, only the current issue | **yes**, with the doubt in 2.1 | US public domain |
 | `eia_lng_exports_monthly` | US LNG exports and re-exports by destination country, MMcf, and their prices, USD per thousand cubic feet, the latest release | [NG_MOVE_EXPC_S1_M.xls](https://www.eia.gov/dnav/ng/xls/NG_MOVE_EXPC_S1_M.xls) | monthly, end of month | **yes** | US public domain |
 | `eia_lng_exports_revisions` | Every volume or price a release of the table above changed, both releases side by side | derived by this study | with each release | **yes** | US public domain |
+| `doe_lng_export_cargoes` | US LNG exports and re-exports cargo by cargo from January 2016: departure date, exporter, docket, supplier, ship, port of exit, destination, MMcf | read from the year's page on the [report list](https://www.energy.gov/hgeo/listings/natural-gas-imports-and-exports-monthly-reports); the file's path changes | monthly, with DOE's report | **yes** | US public domain |
 | `eia_henry_hub_daily` | Henry Hub spot price, daily, USD/MMBtu, credited by EIA to Refinitiv | [RNGWHHDd.xls](https://www.eia.gov/dnav/ng/hist_xls/RNGWHHDd.xls) | weekly release, daily values | **yes**, with the doubt in 2.1 | US public domain |
 | `acer_lng_daily` | ACER's DES LNG assessments for NWE, SE and the EU, and its EU benchmark to TTF, daily, EUR/MWh; today the 26 corrected days of its notice of 20 December 2024 | [correction notice](https://www.acer.europa.eu/sites/default/files/documents/en/Gas/LNG_Price_Assessment/LNGPA_Correction_Notice_20241220.pdf); daily reports saved by hand | fixed until reports are saved | **yes** | ACER legal notice, with the doubt in 2.7 |
 | `ec_eua_auction_monthly` | EU allowance price, monthly volume weighted average auction clearing price, EUR/t, January 2023 to June 2025 | quarterly reports linked from the [Commission's auctioning page](https://climate.ec.europa.eu/areas-action/carbon-markets/eu-emissions-trading-system-eu-ets/auctioning-allowances_en) | quarterly, lagging | **yes** | CC BY 4.0, with the doubt in 2.8 |
@@ -89,6 +90,20 @@ Imports and Exports", a US government publication.
 **Attribution this project uses:** "Source: U.S. Energy Information
 Administration", with the release date of the file read, and the third party
 credit EIA prints for the weekly prices and for Henry Hub.
+
+### 2.1.1 US Department of Energy, cargo by cargo exports, US public domain
+
+Read at `https://www.energy.gov/web-policies` on 7 October 2026, under
+"Copyright, Restrictions and Permissions Notice":
+
+> "Government information at DOE websites is in the public domain. Public
+> domain information may be freely distributed and copied, but it is requested
+> that in any subsequent use the Department of Energy be given appropriate
+> acknowledgement."
+
+**Redistributable: yes**, acknowledging the U.S. Department of Energy, Office
+of Fossil Energy and Carbon Management. The file names exporters, suppliers and
+ships, all published by DOE.
 
 ### 2.2 World Bank Pink Sheet, CC BY 4.0
 
@@ -559,6 +574,26 @@ page, one PDF each.
   applicable"; zeros are real zeros.
 * **Never probe eia.gov with HEAD.** It answers HTTP 503 to HEAD and HTTP 200 to
   GET on the same URL.
+
+### 3.2.1 DOE's cargo by cargo exports
+
+* **The workbook's address changes every month, and its page every year.** It
+  is read from the year's report page, found on the list of report pages, by
+  its link text "U.S. LNG Exports and Re-Exports Details (Jan 2016 - <month>
+  <year>)"; the parse fails if either link is missing or there are two.
+* **A row is a cargo or part of one.** A cargo split between destinations, or
+  between long and short term authorisations, appears as several rows with the
+  same ship and day. June 2026's 4,575.58 MMcf to China is the whole cargo of
+  the Al Fat'h from Plaquemines and part of the Clean Mistral's from Corpus
+  Christi, the rest of which is declared for South Korea.
+* **It reproduces EIA's monthly table to the MMcf** by departure month and
+  country, for exports (Japan, June 2026: 28,827.06 against EIA's 28,827).
+  Re-exports and ISO containers sit in the same sheet and are labelled.
+* **One row has no date** (an ISO container of 2.53 MMcf to Antigua and
+  Barbuda) and is left out, with the count in the manifest's note.
+* **Two ports of exit are in Mexico**, Altamira (27 rows) and Ensenada (one),
+  and their "U.S. Contiguous" field reads "Yes" like every other row; what the
+  field means for them is not stated. They are kept as printed.
 
 ### 3.3 EIA Henry Hub spot
 

@@ -53,6 +53,10 @@ BOUNDS_EXPORTS_MMCF = (0.0, 2000000.0)
 #: MMcf or in cents would be a thousand or a hundred times too large. From 2016
 #: the release of 30 September 2026 runs from 1.86 to 40.44.
 BOUNDS_EXPORT_PRICE_USD_MCF = (0.1, 100.0)
+#: One LNG cargo, or part of one, in MMcf. Not a range the market implies, a
+#: guard against a unit error: the largest row of DOE's file to July 2026 is
+#: 5,277.14 MMcf, and a volume read in Mcf would be a thousand times larger.
+BOUNDS_CARGO_MMCF = (0.0, 10000.0)
 
 # ---------------------------------------------------------------------------
 # Destination regions for the flow analysis
@@ -591,6 +595,32 @@ SOURCES: Mapping[str, Source] = _registry(
         method="derived",
         licence="US public domain",
         licence_note=_EIA_NOTE,
+        committable=True,
+    ),
+    Source(
+        series="doe_lng_export_cargoes",
+        label="US LNG exports and re-exports cargo by cargo, from January 2016, MMcf, with the terminal, ship and destination",
+        publisher="U.S. Department of Energy, Office of Fossil Energy and Carbon Management",
+        page_url="https://www.energy.gov/hgeo/listings/natural-gas-imports-and-exports-monthly-reports",
+        machine_url=None,
+        url_note=(
+            "The workbook 'U.S. LNG Exports and Re-Exports Details (Jan 2016 - "
+            "<month> <year>)' is linked from the year's report page, which is "
+            "linked from the list of report pages; both addresses change, so "
+            "both are read every time and the parse fails when either is "
+            "missing or ambiguous."
+        ),
+        frequency="monthly",
+        unit="MMcf per cargo",
+        method="published",
+        licence="US public domain",
+        licence_note=(
+            "DOE's web policies: 'Government information at DOE websites is in the "
+            "public domain. Public domain information may be freely distributed and "
+            "copied, but it is requested that in any subsequent use the Department "
+            "of Energy be given appropriate acknowledgement.' Acknowledge the U.S. "
+            "Department of Energy, Office of Fossil Energy and Carbon Management."
+        ),
         committable=True,
     ),
     Source(

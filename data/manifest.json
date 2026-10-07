@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-07T07:58:16Z",
+  "generated_at": "2026-10-07T08:02:58Z",
   "series": [
     {
       "series": "acer_lng_daily",
@@ -40,6 +40,34 @@
           "status": "outstanding"
         }
       ]
+    },
+    {
+      "series": "doe_lng_export_cargoes",
+      "source": "U.S. Department of Energy, Office of Fossil Energy and Carbon Management, U.S. LNG Exports and Re-Exports Details",
+      "url": "https://www.energy.gov/hgeo/listings/natural-gas-imports-and-exports-monthly-reports",
+      "page_url": "https://www.energy.gov/hgeo/listings/natural-gas-imports-and-exports-monthly-reports",
+      "machine_fetched": true,
+      "fetched_at": "2026-10-07T08:02:21Z",
+      "checked_at": null,
+      "rows": 3299,
+      "observations": 3299,
+      "file_rows": 12292,
+      "first_date": "2016-02-05",
+      "last_date": "2026-07-31",
+      "frequency": "monthly",
+      "gaps": [],
+      "provisional_from": null,
+      "vintage": "January 2016 to Jul 2026",
+      "method": "published",
+      "committable": true,
+      "licence_note": "DOE's web policies: 'Government information at DOE websites is in the public domain. Public domain information may be freely distributed and copied, but it is requested that in any subsequent use the Department of Energy be given appropriate acknowledgement.' Acknowledge the U.S. Department of Energy, Office of Fossil Energy and Carbon Management.",
+      "status": "ok",
+      "note": "fetched from https://www.energy.gov/sites/default/files/2026-09/3.%20U.S.%20LNG%20Exports%20and%20Re-Exports%20Details%20%28Jan%202016%20-%20Jul%202026%29.xlsx. One row per cargo or part of a cargo, dated by departure; 1 row(s) without a date are left out. Re-exports and ISO containers are kept and labelled. Acknowledgement: U.S. Department of Energy.",
+      "file": "data/cache/doe_lng_export_cargoes.csv",
+      "unit": "MMcf per cargo",
+      "licence": "US public domain",
+      "observation_column": "volume_mmcf",
+      "unique_dates": false
     },
     {
       "series": "ec_eua_auction_monthly",
@@ -2762,7 +2790,7 @@
       "page_url": "https://github.com/genthalili/searoute-py",
       "machine_fetched": false,
       "fetched_at": null,
-      "checked_at": "2026-10-07T07:58:16Z",
+      "checked_at": "2026-10-07T08:02:58Z",
       "rows": 4,
       "observations": 4,
       "file_rows": 4,
@@ -2896,8 +2924,8 @@
   "manual_steps_note": "Work this pipeline cannot do for itself. Each entry says what it is, why it exists, what it costs to skip it and how to do it. They are repeated against the series they affect in the manual_step field of those entries.",
   "run": {
     "mode": "offline",
-    "started_at": "2026-10-07T07:58:16Z",
-    "finished_at": "2026-10-07T07:58:16Z",
+    "started_at": "2026-10-07T08:02:57Z",
+    "finished_at": "2026-10-07T08:02:58Z",
     "script": "scripts/refresh.py"
   }
 }
