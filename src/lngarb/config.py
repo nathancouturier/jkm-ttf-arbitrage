@@ -18,7 +18,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from types import MappingProxyType
-from typing import Mapping
+from typing import Any, Mapping
 
 # ---------------------------------------------------------------------------
 # Validation bounds, checked on every write. See docs/methodology.md.
@@ -710,3 +710,166 @@ def source(series: str) -> Source:
         return SOURCES[series]
     except KeyError:
         raise KeyError("no source registered for series %r" % (series,)) from None
+
+
+# ---------------------------------------------------------------------------
+# Engine parameters
+# ---------------------------------------------------------------------------
+#
+# Every number the engine uses that is not market data. Each carries its value,
+# its unit, a status (published: read in the named document; derived: computed
+# from published figures; assumption: chosen by this study and labelled), the
+# document it comes from, its address and the date it was read. The site's
+# Method view prints this table, and the Model view lets a reader change each
+# value.
+
+PARAMETER_STATUSES = ("published", "derived", "assumption")
+
+
+@dataclass(frozen=True)
+class Parameter:
+    """One engine input that is not market data."""
+
+    name: str
+    value: Any
+    unit: str
+    status: str
+    source: str
+    url: str | None
+    read_on: str
+    note: str = ""
+
+
+def _parameters(*parameters: Parameter) -> Mapping[str, Parameter]:
+    out: dict[str, Parameter] = {}
+    for p in parameters:
+        if p.status not in PARAMETER_STATUSES:
+            raise ValueError("parameter %s has status %r" % (p.name, p.status))
+        if p.name in out:
+            raise ValueError("parameter %s is declared twice" % p.name)
+        out[p.name] = p
+    return MappingProxyType(out)
+
+
+_SPARK_38 = "https://static.sparkcommodities.com/documents/lng-freight/methodology/Spark-LNG-Freight-Methodology-3.8.pdf"
+_SPARK_32 = "Spark LNG Freight Methodology 3.2, 11 November 2022, read from the Internet Archive's capture of 8 December 2022"
+
+
+@dataclass(frozen=True)
+class PanamaTollPeriod:
+    """The Panama Canal Authority's toll for an LNG carrier over one period.
+
+    Before 2023 the toll is per m3 of capacity by band, the bands being the
+    first 60,000 m3, the next 30,000, the next 30,000 and the rest, with a
+    separate ballast table and a roundtrip ballast table for a ship returning
+    in ballast within 60 days. From 2023 it is a fixed charge per transit plus
+    one rate per m3 for a neopanamax vessel, ballast at a share of laden.
+    """
+
+    start: str
+    end: str | None
+    laden_bands: tuple[float, ...] = ()
+    ballast_bands: tuple[float, ...] = ()
+    roundtrip_bands: tuple[float, ...] = ()
+    fixed_usd: float = 0.0
+    rate_usd_m3: float = 0.0
+    ballast_share: float = 0.0
+    source: str = ""
+    url: str = ""
+
+
+PANAMA_BAND_SIZES_M3 = (60_000.0, 30_000.0, 30_000.0)
+
+PANAMA_TOLLS: tuple[PanamaTollPeriod, ...] = (
+    PanamaTollPeriod(
+        "2016-04-01", "2017-09-30",
+        laden_bands=(2.50, 2.15, 2.07, 1.96), ballast_bands=(2.23, 1.88, 1.80, 1.71),
+        roundtrip_bands=(2.00, 1.75, 1.60, 1.50),
+        source=("Panama Canal Authority, approved tolls tables, implementation 1 April 2016, "
+                "read from the Internet Archive's capture of 4 August 2016"),
+        url="http://www.pancanal.com/peajes/ApprovedTollsTables-v2.pdf",
+    ),
+    PanamaTollPeriod(
+        "2017-10-01", "2020-03-31",
+        laden_bands=(2.88, 2.47, 2.38, 2.25), ballast_bands=(2.56, 2.16, 2.07, 1.97),
+        roundtrip_bands=(2.30, 2.01, 1.84, 1.73),
+        source=("Panama Canal Authority, tolls approved 1 August 2017, implementation 1 October "
+                "2017, read from the Internet Archive's capture of 21 September 2017"),
+        url="http://www.pancanal.com/peajes/pdf/2018/2018-ApprovedTolls.pdf",
+    ),
+    PanamaTollPeriod(
+        "2020-04-01", "2022-12-31",
+        laden_bands=(3.12, 2.68, 2.58, 2.44), ballast_bands=(2.79, 2.35, 2.26, 2.15),
+        roundtrip_bands=(2.48, 2.17, 1.99, 1.87),
+        source="Panama Canal Authority, Tolls, September 2020, page 26",
+        url="https://pancanal.com/wp-content/uploads/2022/03/Tolls-202009-Rev.pdf",
+    ),
+    PanamaTollPeriod(
+        "2023-01-01", "2023-12-31", fixed_usd=300_000.0, rate_usd_m3=1.35, ballast_share=0.85,
+        source=("Panama Canal Authority, tariff item 1010, 1 January 2023, items 1010.FN02, "
+                "1010.NN01 and 1010.BA01"),
+        url="https://pancanal.com/wp-content/uploads/2021/08/1010-ingles.pdf",
+    ),
+    PanamaTollPeriod(
+        "2024-01-01", "2024-12-31", fixed_usd=300_000.0, rate_usd_m3=1.70, ballast_share=0.85,
+        source="Panama Canal Authority, tariff item 1010, 1 January 2024",
+        url="https://pancanal.com/wp-content/uploads/2024/01/Nuevas-tarifas-serie-1010-INGLES_efectivas-1Ene2024-V2.pdf",
+    ),
+    PanamaTollPeriod(
+        "2025-01-01", None, fixed_usd=300_000.0, rate_usd_m3=2.05, ballast_share=0.85,
+        source="Panama Canal Authority, tariff item 1010, 1 January 2025; still listed in February 2026",
+        url="https://pancanal.com/wp-content/uploads/2024/01/Nuevas-tarifas-serie-1010-INGLES_efectivas-1Ene2025-V2.pdf",
+    ),
+)
+
+PARAMETERS: Mapping[str, Parameter] = _parameters(
+    Parameter("mmbtu_per_m3_lng", 23.0, "MMBtu per m3 of LNG", "published",
+              "Spark LNG Freight Methodology 3.8, page 2, 'LNG Conversion Factor: 23'", _SPARK_38,
+              "2026-10-01", "A market convention for a lean cargo; 22 to 24 is shown as a sensitivity."),
+    Parameter("vessel_174k_capacity_m3", 174_000.0, "m3", "published",
+              "Spark LNG Freight Methodology 3.8, page 2, 'Vessel Type: 174,000 m3 2 Stroke'",
+              _SPARK_38, "2026-10-01"),
+    Parameter("vessel_174k_boil_off_per_day", 0.00085, "share of the loaded volume per day", "published",
+              "Spark LNG Freight Methodology 3.8, page 2, 'Boil Off Rate: 0.085% of cargo tanks at "
+              "98.5% capacity'", _SPARK_38, "2026-10-01"),
+    Parameter("vessel_174k_speed_kn", 17.0, "knots", "published",
+              "Spark LNG Freight Methodology 3.8, page 2, 'Speed: 17 knots'", _SPARK_38, "2026-10-01"),
+    Parameter("vessel_160k_capacity_m3", 160_000.0, "m3", "published",
+              _SPARK_32 + ", page 2, 'Vessel Type: 160,000 m3 TFDE'", None, "2026-10-01"),
+    Parameter("vessel_160k_boil_off_per_day", 0.001, "share of the loaded volume per day", "published",
+              _SPARK_32 + ", page 2, 'Boil Off Rate: 0.1% of cargo tanks at 98.5% capacity'", None,
+              "2026-10-01"),
+    Parameter("vessel_160k_speed_kn", 17.0, "knots", "published",
+              _SPARK_32 + ", page 3, 'Speed: 17 knots'", None, "2026-10-01"),
+    Parameter("fill", 0.985, "share of capacity loaded", "published",
+              "Spark LNG Freight Methodology 3.2, page 3, 'Discharge volume: 98.5% of Vessel Capacity "
+              "minus boil-off for laden leg minus a heel of 3,000 m3'", None, "2026-10-01",
+              "Spark states 98.5 percent as the basis of its boil-off and of its discharge volume, "
+              "not as a fill parameter of its own."),
+    Parameter("load_days", 1.0, "days", "published",
+              "Spark LNG Freight Methodology 3.8, page 2, '1 day load'", _SPARK_38, "2026-10-01"),
+    Parameter("discharge_days", 1.0, "days", "published",
+              "Spark LNG Freight Methodology 3.8, page 2, '1 day discharge'", _SPARK_38, "2026-10-01"),
+    Parameter("spark30_flex_days", 3.0, "days", "published",
+              "Spark LNG Freight Methodology 3.8, page 2, Spark30 '30 days (25 days sailing, 1 day "
+              "load, 1 day discharge and 3 Flex Days)'", _SPARK_38, "2026-10-01",
+              "Used only to reproduce Spark; the engine's default is no flex days."),
+    Parameter("funding_spread_bp", 150.0, "basis points over the overnight rate", "assumption",
+              "this study, the convention of its copper sibling", None, "2026-10-07",
+              "A trading house's cost of borrowing; a real desk's depends on its credit."),
+    Parameter("panama_capacity_is_nominal", True, "flag", "assumption",
+              "this study; the canal's admeasurement rules were not read", None, "2026-10-07",
+              "The canal charges on capacity as it admeasures it; the nominal capacity stands in."),
+    Parameter("panama_fresh_water_fixed_usd", 10_000.0, "USD per transit", "published",
+              "Panama Canal Authority, advisory ADV-03-2020 and tariff item 1500.RWA2",
+              "https://pancanal.com/wp-content/uploads/2021/08/Maritime-tariffs-80-cancellation-feb26.pdf",
+              "2026-10-06", "Mandatory from 15 February 2020 for ships over 300 feet."),
+    Parameter("panama_fresh_water_variable_share", 0.05, "share of tolls", "assumption",
+              "this study: the middle of the Authority's range of 0 to 10 percent", None, "2026-10-07",
+              "Set daily from Gatun Lake's level, which is not collected; 0 and 10 percent are shown. "
+              "Before 2023 the range was 1 to 10 percent."),
+    Parameter("panama_booking_fee_usd", 0.0, "USD per transit", "assumption",
+              "this study: an unbooked ship by default", None, "2026-10-07",
+              "Booked case: 35,000 $ in 2016, 85,000 $ for booking dates from 1 June 2021, 80,000 $ "
+              "in the list of January 2024, 100,000 $ from 1 January 2025."),
+)
