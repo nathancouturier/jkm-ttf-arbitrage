@@ -56,8 +56,9 @@ MANUAL_STEPS: tuple[dict[str, Any], ...] = (
         "series": ["eia_wngsr_international_weekly"],
         "what": (
             "The WNGSR Supplement's current issue has to be collected every week, after its "
-            "Thursday release. Issues released before collection started, from 29 January "
-            "2026, have to be saved by hand."
+            "Thursday release. Of the issues released before collection started, from 29 "
+            "January 2026, the five the Internet Archive captured are read from its copies; "
+            "the others can only be saved by hand."
         ),
         "why": (
             "Only the current issue is on a path robots.txt allows. Every past issue sits "
@@ -65,14 +66,17 @@ MANUAL_STEPS: tuple[dict[str, Any], ...] = (
         ),
         "cost_if_skipped": (
             "A week not collected while current becomes a gap that only a hand saved copy "
-            "can fill, in the only weekly JKM and TTF series EIA still publishes."
+            "can fill, unless the Internet Archive happened to capture the issue's files "
+            "that week, in the only weekly JKM and TTF series EIA still publishes."
         ),
         "how": (
             "python scripts/refresh.py --only eia-weekly each week after the Thursday "
             "release. No scheduled job runs it yet, so until one does it is run by hand. "
-            "Past issues: open the archived issue in a browser "
-            "and save it under data/private/wngsr/, a reader for which is added once the "
-            "first saved copy shows what the archived page holds."
+            "Past issues the Internet Archive captured: python -m lngarb.sources.eia_ngwu "
+            "--from-internet-archive saves them under data/private/wngsr/. Others: open the "
+            "archived issue in a browser and save it under data/private/wngsr/by_hand/, a "
+            "reader for which is added once the first saved copy shows what the archived "
+            "page holds."
         ),
         "cadence": (
             "weekly, after the Thursday release, which EIA's schedule gives as "

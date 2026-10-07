@@ -1,0 +1,16 @@
+{
+    "release-date" : "April 2, 2026", 
+    "next-release-date" : "April 9, 2026",
+	"data-week-ending" : "April 1, 2026",
+    "past-publications" : [
+        {"release-date" : "2026-03-26", "data-week-ending" : "2026-03-25" },
+		{"release-date" : "2026-03-19", "data-week-ending" : "2026-03-18" },
+        {"release-date" : "2026-03-12", "data-week-ending" : "2026-03-11" },
+        {"release-date" : "2026-03-05", "data-week-ending" : "2026-03-04" },
+        {"release-date" : "2026-02-26", "data-week-ending" : "2026-02-25" },
+        {"release-date" : "2026-02-19", "data-week-ending" : "2026-02-18" },
+        {"release-date" : "2026-02-12", "data-week-ending" : "2026-02-11" },
+        {"release-date" : "2026-02-05", "data-week-ending" : "2026-02-04" },
+        {"release-date" : "2026-01-29", "data-week-ending" : "2026-01-28" }
+    ]
+}

@@ -21,7 +21,7 @@ was decided on the strength of it.
 |---|---|---|---|---|---|
 | `eia_ngwu_international_weekly` | Weekly averages of an East Asia LNG price and of TTF, USD/MMBtu, from the Natural Gas Weekly Update, figures credited to Bloomberg Finance L.P. | [landing page](https://www.eia.gov/naturalgas/weekly/) for the final issue; every other issue from the Internet Archive's earliest capture of it (2.16), because eia.gov's archive is closed to code | weekly, from the week ending 15 September 2021 to the week ending 21 January 2026, ended | **yes**, with the doubt in 2.1 | US public domain |
 | `eia_ngwu_issue_index` | Every issue EIA lists from 2016, the checklist for collection | [archive.php](https://www.eia.gov/naturalgas/weekly/includes/archive.php) | fixed, the series has ended | **yes** | US public domain |
-| `eia_wngsr_international_weekly` | Weekly averages of JKM and TTF, USD/MMBtu, from the WNGSR Supplement, figures credited to Bloomberg Finance L.P. | [bullets_lng_2.html](https://www.eia.gov/naturalgas/weekly/supplement/content/bullets_lng_2.html) and two sibling files | weekly, Thursday, only the current issue | **yes**, with the doubt in 2.1 | US public domain |
+| `eia_wngsr_international_weekly` | Weekly averages of JKM and TTF, USD/MMBtu, from the WNGSR Supplement, figures credited to Bloomberg Finance L.P. | [bullets_lng_2.html](https://www.eia.gov/naturalgas/weekly/supplement/content/bullets_lng_2.html) and two sibling files; five past issues from the Internet Archive's captures of the same files (2.16) | weekly, Thursday, only the current issue | **yes**, with the doubt in 2.1 | US public domain |
 | `eia_lng_exports_monthly` | US LNG exports and re-exports by destination country, MMcf, and their prices, USD per thousand cubic feet, the latest release | [NG_MOVE_EXPC_S1_M.xls](https://www.eia.gov/dnav/ng/xls/NG_MOVE_EXPC_S1_M.xls) | monthly, end of month | **yes** | US public domain |
 | `eia_lng_exports_revisions` | Every volume or price a release of the table above changed, both releases side by side | derived by this study | with each release | **yes** | US public domain |
 | `doe_lng_export_cargoes` | US LNG exports and re-exports cargo by cargo from January 2016: departure date, exporter, docket, supplier, ship, port of exit, destination, MMcf | read from the year's page on the [report list](https://www.energy.gov/hgeo/listings/natural-gas-imports-and-exports-monthly-reports); the file's path changes | monthly, with DOE's report | **yes** | US public domain |
@@ -522,7 +522,8 @@ The terms govern access to the Archive's copies, not the works copied. Every
 page this study reads there is a US government publication or a document whose
 own terms are quoted above, and the study is research, so it reads the copies
 under these terms: one request at a time with a pause of four seconds, the
-earliest capture of each Natural Gas Weekly Update issue, and for a file the
+earliest capture of each Natural Gas Weekly Update issue and of each distinct
+Supplement prices file, and for a file the
 publisher replaces with each release, the capture holding the release named,
 each with its timestamp, address and checksum logged beside it. The saved pages stay in `data/private/`; what is committed is what
 the publisher's own terms allow, here the parsed figures and the text they were
@@ -530,8 +531,9 @@ read from, plus the issues kept byte for byte as test fixtures. The Archive is
 named as the place each such row was read from, in the row itself and on every
 page that shows it.
 
-**Used for:** every archived issue of the Natural Gas Weekly Update (3.1), the
-release of EIA's exports table of 30 April 2026 and the World Bank workbook of
+**Used for:** every archived issue of the Natural Gas Weekly Update and five
+past issues of the WNGSR Supplement (3.1), the release of EIA's exports table
+of 30 April 2026 and the World Bank workbook of
 2 July 2026 kept as fixtures, and the Panama Canal Authority's tariff documents
 of 2016 and 2017 (2.15).
 
@@ -605,9 +607,10 @@ of 2016 and 2017 (2.15).
   final publication of the Natural Gas Weekly Update." The landing page still
   serves that issue. A job polling it keeps finding the same week and must not
   append it twice.
-* **The successor is a different product.** From 29 January 2026 the WNGSR
-  Supplement prints "The Japan-Korea Marker (JKM) price" and "The price at the
-  Title Transfer Facility (TTF) in Europe", where the Weekly Update printed
+* **The successor is a different product.** The WNGSR Supplement, from 29
+  January 2026, prints "The Japan-Korea Marker (JKM) price" and "The price at
+  the Title Transfer Facility (TTF) in Europe" (without the abbreviations on 2
+  April 2026; the issues before April are not held), where the Weekly Update printed
   "weekly average front-month futures prices for liquefied natural gas (LNG)
   cargoes in East Asia" and "Natural gas futures for delivery at the Title
   Transfer Facility (TTF) in the Netherlands". Nothing EIA publishes says the
@@ -619,7 +622,27 @@ of 2016 and 2017 (2.15).
   from `content/bullets_lng_2.html`, `content/source_lng_2.html` and
   `content/release_dates.json` inside an application shell, and it is replaced
   every Thursday. A week not collected while current can only be recovered by
-  saving the archived page by hand.
+  saving the archived page by hand, or from the Internet Archive when it
+  captured the three files while the week was current. It did so five times
+  before collection began: the issues of 2 April, 28 May, 23 and 30 July and 6
+  August 2026, read from the earliest capture of each distinct prices file with
+  the other two captured beside it. For the Supplement's own archive the
+  Internet Archive holds the application shell of one issue and none of its
+  content files. Of the 36 issues from 29
+  January to 1 October 2026, seven are held; the others are gaps.
+* **The Supplement's wording varies.** The issue of 2 April 2026 prints "The
+  Japan-Korea Marker price" and "The price at the Title Transfer Facility in
+  Europe", without the abbreviations of later issues. The four held issues of
+  28 May to 6 August 2026 add a bullet comparing both prices with the week
+  ending 25 February 2026 in percent, which names both markets and gives
+  neither level; the issue of 24 September 2026 adds one on EU storage instead.
+  The stored item text keeps the week line and the two price bullets.
+* **The printed change can miss the printed levels by a cent.** Where two
+  consecutive weeks are held, the change each issue prints equals the
+  difference of the two printed averages, except TTF on 1 October 2026:
+  "$0.98/per MMBtu lower", against 24.18 less 25.15, 0.97. Probably rounding
+  of unrounded averages; the change is stored as printed and never used as a
+  value.
 * **The archive index needs care.** Take each issue's date from the folder in
   its link, never from the month and day cells, which are missing or wrong on
   several rows. Drop rows inside HTML comments: the 2026 tab carries a commented

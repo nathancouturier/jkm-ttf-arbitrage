@@ -94,6 +94,8 @@ __all__ = [
     "internet_archive_captures",
     "capture_url",
     "collect_from_internet_archive",
+    "supplement_captures",
+    "collect_supplement_from_internet_archive",
 ]
 
 LANDING_URL = "https://www.eia.gov/naturalgas/weekly/"
@@ -992,6 +994,160 @@ def collect_from_internet_archive(*, delay: float = 4.0, limit: int | None = Non
     return summary
 
 
+# --------------------------------------------------------------------------
+# Past Supplement issues, from the Internet Archive's copies
+# --------------------------------------------------------------------------
+
+#: The Internet Archive's capture index of the Supplement's content files, the
+#: current issue's own path, which robots.txt allows. Its archive path is never
+#: read, there or on eia.gov.
+SUPPLEMENT_CDX_URL = (
+    "https://web.archive.org/cdx/search/cdx?url=eia.gov/naturalgas/weekly/supplement/content/"
+    "&matchType=prefix&output=json&fl=original,timestamp,statuscode,mimetype,digest"
+    "&filter=statuscode:200&limit=5000"
+)
+
+#: The three files one Supplement issue is read from, by the names they are saved under.
+SUPPLEMENT_FILES = ("bullets_lng_2.html", "source_lng_2.html", "release_dates.json")
+
+#: The three files of one issue are captured in one visit, seconds apart. A
+#: source or dates file captured further than this from the prices fragment is
+#: not taken to belong to the same issue.
+SUPPLEMENT_CAPTURE_WINDOW_SECONDS = 600
+
+
+#: A folder of saved captures is named by the prices fragment's capture time.
+_CAPTURE_FOLDER = re.compile(r"\d{14}")
+
+
+def supplement_dir() -> Path:
+    """Where past Supplement issues are kept, one folder per capture of the prices fragment.
+
+    Only folders named by a fourteen digit capture time are read as captures;
+    a copy saved by hand goes into data/private/wngsr/by_hand/, which is not.
+    """
+    return base.PRIVATE / "wngsr"
+
+
+def _read_supplement_log() -> dict[tuple[str, str], dict[str, Any]]:
+    """(issue folder, file name) -> its latest record in the captures log."""
+    log = supplement_dir() / CAPTURES_LOG
+    records: dict[tuple[str, str], dict[str, Any]] = {}
+    if log.exists():
+        for line in log.read_text(encoding="utf-8").splitlines():
+            if line.strip():
+                record = json.loads(line)
+                records[(record["issue"], record["file"])] = record
+    return records
+
+
+def _capture_problem(folder: Path, records: dict[tuple[str, str], dict[str, Any]]) -> str | None:
+    """Why a capture folder cannot be read, or None when its three files match the log."""
+    for name in SUPPLEMENT_FILES:
+        path = folder / name
+        if not path.exists():
+            return "%s lacks %s" % (folder.name, name)
+        record = records.get((folder.name, name))
+        if record is None or record["sha256"] != _sha256(path.read_bytes()):
+            return "%s/%s is not the capture its log records" % (folder.name, name)
+    return None
+
+
+def supplement_captures(cdx_rows: list[list[str]]) -> list[dict[str, tuple[str, str]]]:
+    """One set of the three files for each distinct prices fragment the Internet Archive holds.
+
+    cdx_rows is the capture index: a header row, then original URL, timestamp,
+    status code, media type and content digest. A fragment captured more than
+    once with the same digest is one issue, read from its earliest capture that
+    has a source and a dates file captured within
+    SUPPLEMENT_CAPTURE_WINDOW_SECONDS, each the nearest to it. Each set maps a
+    file name to (timestamp, original URL); when no capture of a fragment has
+    both, its earliest capture is returned alone, and the set lacks a file.
+    """
+    if not cdx_rows or cdx_rows[0][:5] != ["original", "timestamp", "statuscode", "mimetype", "digest"]:
+        raise SourceError("the capture index does not start with the expected header")
+    by_file: dict[str, list[tuple[str, str, str]]] = {name: [] for name in SUPPLEMENT_FILES}
+    for original, timestamp, status, _mimetype, digest in (row[:5] for row in cdx_rows[1:]):
+        path = original.split("?")[0]
+        if status != "200" or "/naturalgas/weekly/supplement/content/" not in re.sub(r"/+", "/", path):
+            continue
+        name = path.rsplit("/", 1)[-1]
+        if name in by_file:
+            by_file[name].append((timestamp, original, digest))
+    def beside(timestamp: str, original: str) -> dict[str, tuple[str, str]]:
+        chosen = {"bullets_lng_2.html": (timestamp, original)}
+        when = datetime.strptime(timestamp, "%Y%m%d%H%M%S")
+        for name in ("source_lng_2.html", "release_dates.json"):
+            near = sorted(
+                (abs((datetime.strptime(t, "%Y%m%d%H%M%S") - when).total_seconds()), t, o)
+                for t, o, _d in by_file[name]
+            )
+            if near and near[0][0] <= SUPPLEMENT_CAPTURE_WINDOW_SECONDS:
+                chosen[name] = (near[0][1], near[0][2])
+        return chosen
+
+    by_digest: dict[str, list[tuple[str, str]]] = {}
+    for timestamp, original, digest in sorted(by_file["bullets_lng_2.html"]):
+        by_digest.setdefault(digest, []).append((timestamp, original))
+    sets: list[dict[str, tuple[str, str]]] = []
+    for captures in by_digest.values():
+        candidates = [beside(t, o) for t, o in captures]
+        complete = [c for c in candidates if len(c) == len(SUPPLEMENT_FILES)]
+        sets.append(complete[0] if complete else candidates[0])
+    return sorted(sets, key=lambda chosen: chosen["bullets_lng_2.html"][0])
+
+
+def collect_supplement_from_internet_archive(*, delay: float = 4.0) -> dict[str, Any]:
+    """Save every past Supplement issue the Internet Archive holds that is not yet saved.
+
+    Each issue goes into data/private/wngsr/<timestamp of the prices fragment>/
+    as its three files, and the provenance of each file is appended to the
+    captures log there. A folder whose three files match the log is done; any
+    other is fetched again. A set missing its source or dates file is not saved
+    and is reported. The batch stops at the first answer that is not a non
+    empty page.
+    """
+    directory = supplement_dir()
+    directory.mkdir(parents=True, exist_ok=True)
+    records = _read_supplement_log()
+    captures = supplement_captures(http_get(SUPPLEMENT_CDX_URL, timeout=120, delay=delay).json())
+    summary: dict[str, Any] = {"captured": len(captures), "saved": 0, "incomplete": []}
+    for chosen in captures:
+        stamp = chosen["bullets_lng_2.html"][0]
+        if len(chosen) < len(SUPPLEMENT_FILES):
+            summary["incomplete"].append(stamp)
+            continue
+        target = directory / stamp
+        if target.exists() and _capture_problem(target, records) is None:
+            continue
+        target.mkdir(parents=True, exist_ok=True)
+        for name in SUPPLEMENT_FILES:
+            timestamp, original = chosen[name]
+            address = capture_url(timestamp, original)
+            response = http_get(address, timeout=60, delay=delay)
+            payload = response.content
+            if response.status_code != 200 or not payload.strip():
+                raise SourceError(
+                    "the capture of %s at %s answered HTTP %d with %d bytes; the batch "
+                    "stopped there" % (name, address, response.status_code, len(payload))
+                )
+            (target / name).write_bytes(payload)
+            record = {
+                "issue": stamp,
+                "file": name,
+                "capture_timestamp": timestamp,
+                "original_url": original,
+                "capture_url": address,
+                "fetched_at": base.utc_now_iso(),
+                "bytes": len(payload),
+                "sha256": _sha256(payload),
+            }
+            with open(directory / CAPTURES_LOG, "a", encoding="utf-8") as log:
+                log.write(json.dumps(record) + "\n")
+        summary["saved"] += 1
+    return summary
+
+
 class NgwuIssueIndex(Adapter):
     """Every NGWU issue EIA lists, from 2016, as the checklist for collection."""
 
@@ -1175,21 +1331,75 @@ class WngsrInternationalWeekly(Adapter):
         "credit", "anomaly", "item_text",
     )
 
+    @staticmethod
+    def _row(prices: bytes, source: bytes, dates: bytes, *, how: str, url: str) -> dict[str, Any]:
+        row = parse_supplement(prices, source, dates)
+        row["release_date"] = row["release_date"].isoformat()
+        row["how_read"] = how
+        row["page_url"] = url
+        row["page_sha256"] = _sha256(prices + source + dates)
+        return row
+
+    def read_saved_captures(self) -> tuple[list[dict[str, Any]], list[str]]:
+        """Every past issue saved from the Internet Archive, parsed, and what could not be read.
+
+        Only folders named by a capture time are captures. One is read when the
+        captures log records each of its three files with the checksum of the
+        bytes on disk; otherwise, or when its issue does not parse, it is
+        skipped and the reason, naming the folder alone, is returned.
+        """
+        rows: list[dict[str, Any]] = []
+        problems: list[str] = []
+        directory = supplement_dir()
+        if not directory.exists():
+            return rows, problems
+        records = _read_supplement_log()
+        for folder in sorted(path for path in directory.iterdir() if path.is_dir()):
+            if not _CAPTURE_FOLDER.fullmatch(folder.name):
+                continue
+            problem = _capture_problem(folder, records)
+            if problem is not None:
+                problems.append(problem)
+                continue
+            payloads = {name: (folder / name).read_bytes() for name in SUPPLEMENT_FILES}
+            prices_record = records[(folder.name, "bullets_lng_2.html")]
+            try:
+                rows.append(self._row(
+                    payloads["bullets_lng_2.html"], payloads["source_lng_2.html"], payloads["release_dates.json"],
+                    how="Internet Archive capture of %s" % prices_record["capture_timestamp"],
+                    url=prices_record["capture_url"],
+                ))
+            except ParseError as exc:
+                problems.append("%s: %s" % (folder.name, exc))
+        return rows, problems
+
     def fetch(self) -> pd.DataFrame:
+        # The current issue comes first and alone decides whether the run
+        # fails: it is the one week that cannot be read again later.
         prices = http_get(SUPPLEMENT_PRICES_URL).content
         source = http_get(SUPPLEMENT_SOURCE_URL).content
         dates = http_get(SUPPLEMENT_DATES_URL).content
-        row = parse_supplement(prices, source, dates)
-        row["release_date"] = row["release_date"].isoformat()
-        row["how_read"] = "current issue"
-        row["page_url"] = SUPPLEMENT_URL
-        row["page_sha256"] = _sha256(prices + source + dates)
+        current = self._row(prices, source, dates, how="current issue", url=SUPPLEMENT_URL)
         existing = read_cache(self.name, directory=self.directory())
-        merged = _merge_weekly(existing, [row], key_text="item_text")
+        rows, problems = self.read_saved_captures()
+        try:
+            # Several captures can hold the same week; the merge keeps the first
+            # reading and refuses a later one whose text differs.
+            merged = _merge_weekly(existing, rows + [current], key_text="item_text")
+        except SourceError as exc:
+            problems.append("the saved captures were set aside: %s" % exc)
+            merged = _merge_weekly(existing, [current], key_text="item_text")
+        how = merged["how_read"].astype(str)
         self.note = (
-            "%d week(s) collected, each while it was the current issue; the latest "
-            "is the release of %s. Earlier issues sit in the archive robots.txt "
-            "disallows to code; see the manual step." % (len(merged), row["release_date"])
+            "%d week(s): %d collected while each was the current issue, the latest the "
+            "release of %s, and %d read from the Internet Archive's captures of the "
+            "current issue's own files. Every other past issue sits in the archive "
+            "robots.txt disallows to code; see the manual step.%s"
+            % (
+                len(merged), int((how == "current issue").sum()), current["release_date"],
+                int(how.str.startswith("Internet Archive capture").sum()),
+                (" Not read this run: %s." % "; ".join(problems)) if problems else "",
+            )
         )
         return merged[list(self.COLUMNS)]
 
@@ -1197,14 +1407,19 @@ class WngsrInternationalWeekly(Adapter):
 def main(argv: list[str] | None = None) -> int:
     """Run the three adapters and print what each recorded.
 
-    With --from-internet-archive, first save every listed issue not yet saved,
-    from the Internet Archive's copies.
+    With --from-internet-archive, first save every listed NGWU issue and every
+    past Supplement issue not yet saved, from the Internet Archive's copies.
     """
     if argv and "--from-internet-archive" in argv:
         summary = collect_from_internet_archive()
         print(
             "internet archive: %d listed, %d wanted, %d saved, not captured: %s"
             % (summary["listed"], summary["wanted"], summary["saved"], ", ".join(summary["not_captured"]) or "none")
+        )
+        summary = collect_supplement_from_internet_archive()
+        print(
+            "internet archive, supplement: %d issue(s) captured, %d saved, incomplete: %s"
+            % (summary["captured"], summary["saved"], ", ".join(summary["incomplete"]) or "none")
         )
     failed = 0
     for adapter in (NgwuIssueIndex(), NgwuInternationalWeekly(), WngsrInternationalWeekly()):

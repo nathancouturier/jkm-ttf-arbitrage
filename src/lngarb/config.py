@@ -694,7 +694,9 @@ SOURCES: Mapping[str, Source] = _registry(
             "and can change with any redeploy. Only the current issue is on an "
             "allowed path: robots.txt disallows /*archive/, which covers every "
             "past issue, so a week not collected while it is current can only "
-            "be recovered by hand."
+            "be recovered by hand, or from the Internet Archive's capture of the "
+            "three files if it made one that week, as it did five times from April "
+            "to August 2026."
         ),
         frequency="weekly",
         unit="USD per MMBtu",

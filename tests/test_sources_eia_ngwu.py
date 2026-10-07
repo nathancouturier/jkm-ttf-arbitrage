@@ -375,6 +375,146 @@ def test_a_supplement_whose_two_dates_disagree_is_refused():
     assert "release_dates.json" in str(caught.value)
 
 
+def supplement_capture(release: str) -> tuple[bytes, bytes, bytes]:
+    """A past Supplement issue as the Internet Archive captured its three files."""
+    return tuple(
+        (FIXTURES / ("eia_wngsr_%s_%s_wayback.%s" % (name, release, ext))).read_bytes()
+        for name, ext in (("bullets_lng_2", "html"), ("source_lng_2", "html"), ("release_dates", "json"))
+    )
+
+
+def test_the_supplement_of_2_april_2026_names_neither_abbreviation():
+    row = eia_ngwu.parse_supplement(*supplement_capture("2026-04-02"))
+    assert row["date"].isoformat() == "2026-04-01"
+    assert (row["jkm_usd_mmbtu"], row["ttf_usd_mmbtu"]) == (20.28, 17.74)
+    assert row["jkm_definition"] == "The Japan-Korea Marker price"
+    assert row["ttf_definition"] == "The price at the Title Transfer Facility in Europe"
+    assert row["anomaly"] is None
+
+
+def test_the_supplement_of_6_august_2026_and_its_comparison_bullet():
+    row = eia_ngwu.parse_supplement(*supplement_capture("2026-08-06"))
+    assert row["date"].isoformat() == "2026-08-05"
+    assert (row["jkm_usd_mmbtu"], row["ttf_usd_mmbtu"]) == (21.23, 19.14)
+    assert row["ttf_change_printed"] == "$1.03/MMBtu lower than the previous week"
+    # "this week's TTF and JKM prices are up by 74% and 99%" is about both
+    # markets and gives neither level.
+    assert row["anomaly"] == "1 further bullet(s) not about the two prices"
+
+
+SUPPLEMENT_HEADER = ["original", "timestamp", "statuscode", "mimetype", "digest"]
+CONTENT = "https://www.eia.gov/naturalgas/weekly/supplement/content//"
+
+
+def test_each_distinct_prices_fragment_is_one_issue_with_the_files_captured_beside_it():
+    rows = [
+        SUPPLEMENT_HEADER,
+        [CONTENT + "bullets_lng_2.html", "20260811051259", "200", "text/html", "D1"],
+        [CONTENT + "bullets_lng_2.html", "20260811222538", "200", "text/html", "D1"],
+        [CONTENT + "source_lng_2.html", "20260811051259", "200", "text/html", "S1"],
+        [CONTENT + "release_dates.json", "20260811051259", "200", "application/json", "R1"],
+        [CONTENT + "release_dates.json", "20260811222537", "200", "application/json", "R2"],
+        # A fragment whose source file was captured an hour away has no source.
+        [CONTENT + "bullets_lng_2.html", "20260901100000", "200", "text/html", "D2"],
+        [CONTENT + "source_lng_2.html", "20260901110000", "200", "text/html", "S1"],
+        [CONTENT + "release_dates.json", "20260901100001", "200", "application/json", "R3"],
+        # The archive path is never taken for the current issue's files.
+        ["https://www.eia.gov/naturalgas/weekly/supplement/archive/2026/03/05/bullets_lng_2.html", "20260314000000", "200", "text/html", "D3"],
+    ]
+    sets = eia_ngwu.supplement_captures(rows)
+    assert len(sets) == 2
+    assert sets[0] == {
+        "bullets_lng_2.html": ("20260811051259", CONTENT + "bullets_lng_2.html"),
+        "source_lng_2.html": ("20260811051259", CONTENT + "source_lng_2.html"),
+        "release_dates.json": ("20260811051259", CONTENT + "release_dates.json"),
+    }
+    assert set(sets[1]) == {"bullets_lng_2.html", "release_dates.json"}
+
+
+def test_a_fragment_is_read_from_its_earliest_capture_that_has_both_other_files():
+    rows = [
+        SUPPLEMENT_HEADER,
+        # Captured alone first, then again with its two siblings.
+        [CONTENT + "bullets_lng_2.html", "20260701000000", "200", "text/html", "D1"],
+        [CONTENT + "bullets_lng_2.html", "20260702000000", "200", "text/html", "D1"],
+        [CONTENT + "source_lng_2.html", "20260702000001", "200", "text/html", "S1"],
+        [CONTENT + "release_dates.json", "20260702000002", "200", "application/json", "R1"],
+    ]
+    assert eia_ngwu.supplement_captures(rows) == [{
+        "bullets_lng_2.html": ("20260702000000", CONTENT + "bullets_lng_2.html"),
+        "source_lng_2.html": ("20260702000001", CONTENT + "source_lng_2.html"),
+        "release_dates.json": ("20260702000002", CONTENT + "release_dates.json"),
+    }]
+
+
+def _save_supplement_capture(sandbox, release, stamp, *, spoil=False):
+    import hashlib
+    import json
+    folder = sandbox / "private" / "wngsr" / stamp
+    folder.mkdir(parents=True)
+    records = []
+    for name, payload in zip(eia_ngwu.SUPPLEMENT_FILES, supplement_capture(release)):
+        (folder / name).write_bytes(payload)
+        records.append({
+            "issue": stamp, "file": name, "capture_timestamp": stamp,
+            "capture_url": "https://web.archive.org/web/%sid_/%s%s" % (stamp, CONTENT, name),
+            "sha256": "0" * 64 if spoil else hashlib.sha256(payload).hexdigest(),
+        })
+    log = sandbox / "private" / "wngsr" / eia_ngwu.CAPTURES_LOG
+    with open(log, "a", encoding="utf-8") as handle:
+        handle.write("".join(json.dumps(r) + chr(10) for r in records))
+
+
+def test_past_supplement_issues_saved_from_captures_join_the_current_one(sandbox, monkeypatch):
+    prices, source, dates = SUPPLEMENT
+    serve(monkeypatch, {
+        eia_ngwu.SUPPLEMENT_PRICES_URL: prices,
+        eia_ngwu.SUPPLEMENT_SOURCE_URL: source,
+        eia_ngwu.SUPPLEMENT_DATES_URL: dates,
+    })
+    _save_supplement_capture(sandbox, "2026-04-02", "20260405021115")
+    _save_supplement_capture(sandbox, "2026-08-06", "20260811051259")
+    adapter = eia_ngwu.WngsrInternationalWeekly()
+    entry = adapter.run()
+    assert entry["observations"] == 3
+    cache = base.read_cache("eia_wngsr_international_weekly")
+    assert cache["date"].dt.strftime("%Y-%m-%d").tolist() == ["2026-04-01", "2026-08-05", "2026-09-23"]
+    assert cache["how_read"].tolist() == [
+        "Internet Archive capture of 20260405021115",
+        "Internet Archive capture of 20260811051259",
+        "current issue",
+    ]
+    assert "2 read from the Internet Archive's captures" in adapter.note
+
+
+def test_a_bad_saved_capture_is_set_aside_and_never_stops_the_current_issue(sandbox, monkeypatch):
+    prices, source, dates = SUPPLEMENT
+    serve(monkeypatch, {
+        eia_ngwu.SUPPLEMENT_PRICES_URL: prices,
+        eia_ngwu.SUPPLEMENT_SOURCE_URL: source,
+        eia_ngwu.SUPPLEMENT_DATES_URL: dates,
+    })
+    _save_supplement_capture(sandbox, "2026-04-02", "20260405021115", spoil=True)
+    # What an interrupted batch leaves: one file of three.
+    partial = sandbox / "private" / "wngsr" / "20260811051259"
+    partial.mkdir(parents=True)
+    (partial / "bullets_lng_2.html").write_bytes(supplement_capture("2026-08-06")[0])
+    # A copy saved by hand is not a capture and is not read as one.
+    (sandbox / "private" / "wngsr" / "by_hand").mkdir()
+    rows, problems = eia_ngwu.WngsrInternationalWeekly().read_saved_captures()
+    assert rows == []
+    assert problems == [
+        "20260405021115/bullets_lng_2.html is not the capture its log records",
+        # Its one file has no log line yet.
+        "20260811051259/bullets_lng_2.html is not the capture its log records",
+    ]
+    adapter = eia_ngwu.WngsrInternationalWeekly()
+    entry = adapter.run()
+    assert entry["status"] == "ok" and entry["observations"] == 1
+    assert "Not read this run: 20260405021115/bullets_lng_2.html" in adapter.note
+    assert str(sandbox) not in adapter.note
+
+
 # --------------------------------------------------------------------------
 # The adapters, with http replaced by the fixtures
 # --------------------------------------------------------------------------
