@@ -567,6 +567,31 @@ SOURCES: Mapping[str, Source] = _registry(
     ),
     # -- Seeds ------------------------------------------------------------
     Source(
+        series="freight_anchors",
+        label="Reported LNG carrier charter rates, one per month at most, each from a dated article",
+        publisher="this study, from figures reported by Spark Commodities, LNG Prime and Hellenic Shipping News",
+        page_url="https://lngprime.com/",
+        machine_url=None,
+        url_note=(
+            "Written by lngarb.freight_anchors from rows kept in the code, each read by "
+            "hand in a dated article; nothing is fetched. Never a series: no value is "
+            "interpolated between rows."
+        ),
+        frequency="annual",
+        unit="USD per day",
+        method="seed",
+        licence="individual figures quoted with attribution",
+        licence_note=(
+            "Each row is one figure quoted with its date, assessment, vessel, publisher "
+            "and address, as fair use for a non-commercial study. No article's sentence "
+            "is reproduced and no Spark document is linked or copied. Spark's terms bar "
+            "republishing its content without a licence except as fair use allows; LNG "
+            "Prime's forbid republishing its material; both are quoted in "
+            "docs/sources.md, sections 2.13 and 2.14."
+        ),
+        committable=True,
+    ),
+    Source(
         series="routes",
         label="The four sea routes from Sabine Pass, their distances and their lines",
         publisher="this study, computed with searoute 1.6.0 over the network it bundles, which its README credits to Eurostat's Searoute",

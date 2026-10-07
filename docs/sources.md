@@ -35,6 +35,7 @@ was decided on the strength of it.
 | `h10_usd_per_eur_daily` | US dollars per euro, noon buying rate in New York, daily, from 2015 | [FRB_h10_xml.zip](https://www.federalreserve.gov/releases/h10/data/FRB_h10_xml.zip) | weekly, Mondays | **yes** | US public domain |
 | `nyfed_sofr_daily` | Secured Overnight Financing Rate, daily, percent, from 2 April 2018 | [markets API](https://markets.newyorkfed.org/api/rates/secured/sofr/search.json) | daily, next business day | **yes**, under the New York Fed's terms | New York Fed Terms of Use |
 | `nyfed_effr_daily` | Effective federal funds rate, daily, percent, 4 January 2016 to 30 April 2018, the overnight rate before SOFR | [markets API](https://markets.newyorkfed.org/api/rates/unsecured/effr/search.json) | closed | **yes**, under the New York Fed's terms | New York Fed Terms of Use |
+| `freight_anchors` | Reported LNG carrier charter rates, USD per day, eight figures from February 2022 to October 2026, one per month at most, each from a dated article | written from rows kept in `lngarb.freight_anchors`; nothing fetched | as figures are verified | **yes**, figures only (2.13, 2.14) | individual figures quoted with attribution |
 | `routes` | The four sea routes from Sabine Pass, distances and lines | computed once by `scripts/routes.py` | fixed | **yes** | distances: this study, MIT; lines: EUPL 1.2; searoute Apache 2.0 |
 
 ---
@@ -446,9 +447,9 @@ From the "Spark Terms of Use", version 2.1, February 2024:
 > "Unless otherwise stated, you may not link (including, but not limited to,
 > hyperlink, in-line link or deep-link) ..."
 
-**Redistributable: no document; individual figures only as quotation, and
-whether even that is allowed is open** (question 36). No Spark document is
-committed, and Spark's documents are named, not linked.
+**Redistributable: no document; individual figures only as quotation**, as fair
+use for a non-commercial study (question 36). No Spark document is committed,
+and Spark's documents are named, not linked.
 
 ### 2.14 The trade press, for reported charter rates
 
@@ -466,9 +467,13 @@ publishers read so far:
   authorisation. S&P Global, which publishes Platts, refuses automated requests
   even for its robots.txt.
 
-The figures verified so far, each with its article, date, assessment and
-vessel basis, are kept in `data/private/` until the owner decides what may be
-committed (question 37). No article is committed.
+The eight figures verified in readable articles are committed in
+`data/seed/freight_anchors.json` (question 37): for each, the figure, the day
+it refers to or the article's date, the assessment and the vessel basis,
+marked inferred where the article does not state them, the publisher and the
+article's address. No article's sentence and no article is committed. The
+figure of 3 March 2026 is not among them, since its only source was Lloyd's
+List (question 38).
 
 ### 2.15 Panama Canal Authority, tariffs and advisories
 
@@ -1100,7 +1105,7 @@ of 2016 and 2017 (2.15).
     yet carry.
 17. **Spark's figures**: whether the study may print them as quotation, or
     must ask Spark first.
-18. **The freight anchors**: what of each reported charter rate may be
+18. **The freight anchors**: decided on 7 October 2026 (question 37); what of each reported charter rate may be
     committed.
 19. **Lloyd's List Intelligence's briefs**, read before its terms were.
 20. **The Panama inputs**: nominal against admeasured capacity, the ballast

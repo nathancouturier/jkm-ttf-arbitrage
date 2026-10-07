@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "unit": "USD per day",
+  "note": "Individual reported charter rates, never a series: no value is interpolated between them. Each row names its assessment and vessel, and says whether the article states them or this study infers them.",
+  "anchors": [
+    {
+      "month": "2022-02",
+      "rate_date": "2022-02-08",
+      "article_date": null,
+      "hire_usd_day": -750.0,
+      "assessment": "Spark30S Atlantic",
+      "assessment_stated": true,
+      "vessel": "160,000 m3 TFDE",
+      "vessel_stated": false,
+      "publisher": "Spark Commodities, note on negative freight rates",
+      "url": null,
+      "note": "The note is undated; it is named, not linked. The vessel is the one Spark's methodology of that time assesses; the note does not name it. Published rounded to the nearest 250 $/day."
+    },
+    {
+      "month": "2022-10",
+      "rate_date": "2022-10-10",
+      "article_date": "2022-10-10",
+      "hire_usd_day": 374000.0,
+      "assessment": "Spark30S Atlantic",
+      "assessment_stated": true,
+      "vessel": "160,000 m3 TFDE",
+      "vessel_stated": true,
+      "publisher": "LNG Prime, quoting Spark",
+      "url": "https://lngprime.com/americas/spark-atlantic-lng-freight-rate-hits-374000-per-day/63423/",
+      "note": "The vessel is stated in LNG Prime's article of 20 October 2022, which reports 482,250 $/day for 20 October, the month's highest; the first figure reported is kept."
+    },
+    {
+      "month": "2023-07",
+      "rate_date": null,
+      "article_date": "2023-07-28",
+      "hire_usd_day": 71250.0,
+      "assessment": "Spark30S Atlantic",
+      "assessment_stated": true,
+      "vessel": "160,000 m3 TFDE",
+      "vessel_stated": true,
+      "publisher": "LNG Prime, quoting Spark",
+      "url": "https://lngprime.com/americas/spark-lng-freight-rates-remain-at-about-71000-per-day/87422/",
+      "note": "The day is not stated: the week ending 21 or 28 July 2023. The same article reports 12 days of Panama delay for unbooked vessels."
+    },
+    {
+      "month": "2024-03",
+      "rate_date": null,
+      "article_date": "2024-03-29",
+      "hire_usd_day": 46500.0,
+      "assessment": "Spark30S Atlantic",
+      "assessment_stated": true,
+      "vessel": "174,000 m3 two-stroke",
+      "vessel_stated": true,
+      "publisher": "LNG Prime, quoting Spark",
+      "url": "https://lngprime.com/asia/spot-lng-shipping-rates-drop-below-50000-per-day/108680/",
+      "note": "The day is not stated: the week of the article."
+    },
+    {
+      "month": "2024-04",
+      "rate_date": "2024-04-18",
+      "article_date": "2024-04-22",
+      "hire_usd_day": 44500.0,
+      "assessment": "Platts Atlantic day rate",
+      "assessment_stated": true,
+      "vessel": "two-stroke, size not stated",
+      "vessel_stated": true,
+      "publisher": "Hellenic Shipping News, reporting Platts",
+      "url": "https://www.hellenicshippingnews.com/updated-transit-levels-at-panama-canal-dont-faze-lng-shippers/",
+      "note": "A secondary report; Platts' own page could not be read. The same report gives 33,000 $/day for a TFDE."
+    },
+    {
+      "month": "2026-08",
+      "rate_date": null,
+      "article_date": "2026-08-28",
+      "hire_usd_day": 11750.0,
+      "assessment": "Spark30S Atlantic",
+      "assessment_stated": false,
+      "vessel": "174,000 m3 two-stroke",
+      "vessel_stated": false,
+      "publisher": "LNG Prime, quoting Spark",
+      "url": "https://lngprime.com/asia/atlantic-spot-lng-rates-drop-to-11750-per-day/195938/",
+      "note": "Read from the article's opening paragraph, which names neither the assessment nor the vessel nor the day; Spark's Atlantic spot assessment and its current vessel are inferred."
+    },
+    {
+      "month": "2026-09",
+      "rate_date": null,
+      "article_date": "2026-09-18",
+      "hire_usd_day": 25250.0,
+      "assessment": "Spark30S Atlantic",
+      "assessment_stated": false,
+      "vessel": "174,000 m3 two-stroke",
+      "vessel_stated": false,
+      "publisher": "LNG Prime, quoting Spark",
+      "url": "https://lngprime.com/asia/atlantic-lng-rates-continue-to-increase/197077/",
+      "note": "Read from the article's opening paragraph; assessment, vessel and day inferred as for August 2026."
+    },
+    {
+      "month": "2026-10",
+      "rate_date": null,
+      "article_date": "2026-10-02",
+      "hire_usd_day": 31500.0,
+      "assessment": "Spark30S Atlantic",
+      "assessment_stated": false,
+      "vessel": "174,000 m3 two-stroke",
+      "vessel_stated": false,
+      "publisher": "LNG Prime, quoting Spark Commodities",
+      "url": "https://lngprime.com/asia/atlantic-lng-rates-rise-to-31500-per-day/197834/",
+      "note": "Read from the article's opening paragraph; assessment, vessel and day inferred as for August 2026."
+    }
+  ]
+}
