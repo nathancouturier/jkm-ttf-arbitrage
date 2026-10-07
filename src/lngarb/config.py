@@ -41,8 +41,9 @@ BOUNDS_DES_EUR_MWH = (1.0, 400.0)
 #: An EU allowance price, EUR per tonne of CO2. A guard against a unit or a
 #: parse error, not a range the market implies.
 BOUNDS_EUA_EUR_T = (1.0, 200.0)
-#: SOFR, percent per year. Not a range the market implies, a guard against a
-#: unit error: a rate read in basis points would be a hundred times too large.
+#: SOFR, and EFFR before it, percent per year. Not a range the market implies,
+#: a guard against a unit error: a rate read in basis points would be a hundred
+#: times too large.
 BOUNDS_SOFR_PERCENT = (-1.0, 15.0)
 #: US natural gas exports in one month, MMcf, any block or total. Not a range
 #: the market implies, a guard against a unit or a parse error: the largest
@@ -330,6 +331,17 @@ _H10_NOTE = (
     "Nothing read marks the H.10 euro rate as third party material."
 )
 
+_EFFR_NOTE = (
+    "Licensed, not public domain, on the same terms as SOFR: the New York Fed's "
+    "Terms of Use grant a non-exclusive licence to use, copy and distribute its "
+    "content, with its attribution line, the reference rate notice and disclaimer "
+    "wherever the rate is shown, redistribution 'with the same permissions, "
+    "conditions, and restrictions', and modified content labelled as not the New "
+    "York Fed's. The terms name no third party licence for EFFR, which is "
+    "calculated from FR 2420 reports. The committed cache is distributed under those "
+    "terms, not under this repository's MIT licence."
+)
+
 _SOFR_NOTE = (
     "Licensed, not public domain. The New York Fed's Terms of Use grant a "
     "non-exclusive licence to use, copy and distribute its content, on conditions: "
@@ -532,6 +544,25 @@ SOURCES: Mapping[str, Source] = _registry(
         method="published",
         licence="New York Fed Terms of Use",
         licence_note=_SOFR_NOTE,
+        committable=True,
+    ),
+    Source(
+        series="nyfed_effr_daily",
+        label="Effective federal funds rate, daily, percent, 2016 to April 2018, from the New York Fed",
+        publisher="Federal Reserve Bank of New York",
+        page_url="https://www.newyorkfed.org/markets/reference-rates/effr",
+        machine_url="https://markets.newyorkfed.org/api/rates/unsecured/effr/search.json",
+        url_note=(
+            "The New York Fed's markets API, one window from 1 January 2016 to 30 "
+            "April 2018, the month after SOFR began. Rows come newest first, in two "
+            "layouts either side of 1 March 2016, when the rate's source and method "
+            "changed; days with no publication have no row. The series is closed."
+        ),
+        frequency="daily",
+        unit="percent per year",
+        method="published",
+        licence="New York Fed Terms of Use",
+        licence_note=_EFFR_NOTE,
         committable=True,
     ),
     # -- Seeds ------------------------------------------------------------

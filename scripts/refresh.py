@@ -64,6 +64,7 @@ from lngarb.sources.jogmec import JogmecSpotLngMonthly  # noqa: E402
 from lngarb.sources.doe import DoeLngExportCargoes  # noqa: E402
 from lngarb.sources.meti import MetiSpotLngMonthly  # noqa: E402
 from lngarb.sources.sofr import SofrDaily  # noqa: E402
+from lngarb.sources.effr import EffrDaily  # noqa: E402
 from lngarb.sources.worldbank import WorldBankGasMonthly, WorldBankGasRevisions  # noqa: E402
 from lngarb.sources.eia_ngwu import (  # noqa: E402
     NgwuInternationalWeekly,
@@ -218,10 +219,10 @@ JOBS: tuple[Job, ...] = (
     ),
     Job(
         name="sofr",
-        what="New York Fed SOFR, daily, for the financing line",
-        series=("nyfed_sofr_daily",),
-        adapters=lambda: [SofrDaily()],
-        online=_simple(lambda: [SofrDaily()]),
+        what="New York Fed SOFR, daily, and EFFR before it, 2016 to April 2018, for the financing line",
+        series=("nyfed_sofr_daily", "nyfed_effr_daily"),
+        adapters=lambda: [SofrDaily(), EffrDaily()],
+        online=_simple(lambda: [SofrDaily(), EffrDaily()]),
     ),
     Job(
         name="seeds",

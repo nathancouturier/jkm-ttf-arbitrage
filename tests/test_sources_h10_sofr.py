@@ -13,7 +13,7 @@ import zipfile
 import pandas as pd
 import pytest
 
-from lngarb.sources import base, h10, sofr
+from lngarb.sources import base, effr, h10, sofr
 
 FIXTURES = base.REPO_ROOT / "tests" / "fixtures"
 H10_ZIP = (FIXTURES / "h10_release_2026-09-28.zip").read_bytes()
@@ -109,4 +109,47 @@ def test_the_sofr_adapter_carries_the_new_york_fed_notice(sandbox, tmp_path):
     assert entry["status"] == "ok"
     assert entry["first_date"] == "2018-04-02"
     assert "subject to the Terms of Use posted at newyorkfed.org" in entry["note"]
+    assert "not public domain" in entry["licence_note"]
+
+
+# --------------------------------------------------------------------------
+# EFFR, before SOFR
+# --------------------------------------------------------------------------
+
+EFFR_JSON = (FIXTURES / "nyfed_effr_2016-01-01_to_2018-04-30.json").read_bytes()
+
+
+def test_effr_runs_from_the_first_business_day_of_2016_to_april_2018():
+    frame = effr.parse_effr_json(EFFR_JSON)
+    assert len(frame) == 585
+    assert frame["date"].is_monotonic_increasing
+    first, last = frame.iloc[0], frame.iloc[-1]
+    assert (first["date"], first["effr_percent"]) == (pd.Timestamp("2016-01-04"), 0.36)
+    assert (last["date"], last["effr_percent"]) == (pd.Timestamp("2018-04-30"), 1.69)
+    rate = frame.set_index("date")["effr_percent"]
+    # The one row the New York Fed marks revised.
+    assert rate[pd.Timestamp("2017-05-31")] == 0.83
+    # Holidays have no row; nothing is filled in.
+    assert pd.Timestamp("2016-07-04") not in rate.index
+
+
+def test_effr_records_the_change_of_source_and_method_on_1_march_2016():
+    frame = effr.parse_effr_json(EFFR_JSON).set_index("date")
+    assert frame.at[pd.Timestamp("2016-02-29"), "method"] == "volume weighted mean of brokered trades"
+    assert frame.at[pd.Timestamp("2016-03-01"), "method"] == "volume weighted median of FR 2420 transactions"
+    assert (frame.index < pd.Timestamp("2016-03-01")).sum() == 39
+
+
+def test_an_effr_row_of_another_type_is_refused():
+    with pytest.raises(base.SourceError):
+        effr.parse_effr_json(b'{"refRates": [{"effectiveDate": "2016-01-04", "type": "OBFR", "percentRate": 0.37}]}')
+
+
+def test_the_effr_adapter_carries_the_new_york_fed_notice(sandbox, tmp_path):
+    response = tmp_path / "effr.json"
+    response.write_bytes(EFFR_JSON)
+    entry = effr.EffrDaily(from_file=response, fetched_at="2026-10-07T08:31:22Z").run()
+    assert entry["status"] == "ok"
+    assert (entry["first_date"], entry["last_date"]) == ("2016-01-04", "2018-04-30")
+    assert "The Effective Federal Funds Rate is subject to the Terms of Use posted at newyorkfed.org" in entry["note"]
     assert "not public domain" in entry["licence_note"]

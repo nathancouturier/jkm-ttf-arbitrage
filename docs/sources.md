@@ -34,6 +34,7 @@ was decided on the strength of it.
 | `worldbank_gas_revisions` | Every value a Pink Sheet release changed, both releases side by side | derived by this study | with each release that changes a value | **yes** | CC BY 4.0 |
 | `h10_usd_per_eur_daily` | US dollars per euro, noon buying rate in New York, daily, from 2015 | [FRB_h10_xml.zip](https://www.federalreserve.gov/releases/h10/data/FRB_h10_xml.zip) | weekly, Mondays | **yes** | US public domain |
 | `nyfed_sofr_daily` | Secured Overnight Financing Rate, daily, percent, from 2 April 2018 | [markets API](https://markets.newyorkfed.org/api/rates/secured/sofr/search.json) | daily, next business day | **yes**, under the New York Fed's terms | New York Fed Terms of Use |
+| `nyfed_effr_daily` | Effective federal funds rate, daily, percent, 4 January 2016 to 30 April 2018, the overnight rate before SOFR | [markets API](https://markets.newyorkfed.org/api/rates/unsecured/effr/search.json) | closed | **yes**, under the New York Fed's terms | New York Fed Terms of Use |
 | `routes` | The four sea routes from Sabine Pass, distances and lines | computed once by `scripts/routes.py` | fixed | **yes** | distances: this study, MIT; lines: EUPL 1.2; searoute Apache 2.0 |
 
 ---
@@ -162,7 +163,7 @@ What the rate is, from `https://www.federalreserve.gov/releases/h10/about.htm`:
 
 **Redistributable: yes**, citing the Board.
 
-### 2.4 Federal Reserve Bank of New York, SOFR, licensed
+### 2.4 Federal Reserve Bank of New York, SOFR and EFFR, licensed
 
 Read at `https://www.newyorkfed.org/privacy/termsofuse` on 30 September 2026,
 "Last Updated: 6/9/2023". The API's own description says use of the reference
@@ -192,8 +193,15 @@ The same page also requires its attribution line where no other is given, and
 that modified content be labelled so that it is not attributed to the New York
 Fed.
 
+The same terms were read again on 7 October 2026: the text from "Last Updated:
+6/9/2023" to the end is unchanged, character for character. The API's
+description names the effective federal funds rate (EFFR) among the reference
+rates its notice covers; the third party licence sentence names only SOFR and
+BGCR.
+
 **Redistributable: yes, under the New York Fed's terms, not this repository's.**
-The committed SOFR cache travels under those terms, not under the MIT licence.
+The committed SOFR and EFFR caches travel under those terms, not under the MIT
+licence.
 The financing line the study computes from SOFR is this study's derivative and
 is labelled as such. The site shows the completed notice wherever SOFR or the
 financing line appears.
@@ -773,8 +781,19 @@ of 2016 and 2017 (2.15).
 * **Rows come newest first**, and a day with no publication has no row at all.
 * **Percentiles can be the string "NA"** (31 May 2019, 5 August 2021) and can be
   negative. Only the rate is read.
-* **No SOFR exists before 2 April 2018.** Nothing is filled in; how the
-  financing line is treated before then is an open question.
+* **No SOFR exists before 2 April 2018.** Nothing is filled in. Before then the
+  financing line runs on EFFR (open question 12), a different rate: unsecured
+  where SOFR is secured.
+* **EFFR's source and method change inside its window.** From 1 March 2016 it
+  is a volume weighted median of FR 2420 transactions; before, a volume
+  weighted mean of brokered trades. The cache's method column says which.
+* **EFFR's API rows come in two layouts in one response**: the 39 rows before 1
+  March 2016 carry intraday figures, the rest percentiles and volume. The API's
+  own description names the rate `percent`, where every row carries
+  `percentRate`.
+* **The Board's H.15 carries the same EFFR**, public domain: on all 585 days from
+  4 January 2016 to 30 April 2018 the two agree. The New York Fed's copy is read
+  because it is the rate's publisher and the study already reads its API.
 
 ### 3.7 METI spot LNG
 

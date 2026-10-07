@@ -10,6 +10,12 @@ data/cache/nyfed_sofr_daily.csv, and tests/fixtures/nyfed_sofr_2018-01-01_to_202
   publication of the SOFR by Nathan Couturier, does not sanction or endorse
   any particular republication, and has no liability for your use.
 
+data/cache/nyfed_effr_daily.csv, and tests/fixtures/nyfed_effr_2016-01-01_to_2018-04-30.json:
+  The Effective Federal Funds Rate (EFFR) is subject to the Terms of Use
+  posted at newyorkfed.org. The New York Fed is not responsible for
+  publication of the EFFR by Nathan Couturier, does not sanction or endorse
+  any particular republication, and has no liability for your use.
+
 data/cache/worldbank_gas_monthly.csv and data/cache/worldbank_gas_revisions.csv:
   The World Bank, Commodity Price Data (The Pink Sheet), under the Creative
   Commons Attribution 4.0 International licence. The selection of series and

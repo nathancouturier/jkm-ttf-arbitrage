@@ -167,7 +167,7 @@ the Board says will remain.
 
 ### 12. SOFR is licensed, and there is none before April 2018
 
-Raised 30 September 2026. **Open, the owner's decision.**
+Raised 30 September 2026. **Decided 7 October 2026.**
 
 The New York Fed publishes SOFR under its Terms of Use, which allow copying and
 distribution with a required notice, redistribution on the same terms, and
@@ -177,6 +177,14 @@ notice wherever SOFR or the financing line appears. SOFR's first value date is
 2 April 2018, while the study's cargoes start in February 2016. The financing
 line before then is either left missing and said so, or built on a stated
 predecessor rate, or held at a labelled assumption.
+
+Decision: SOFR is published under the New York Fed's terms, with the notice
+wherever it or the financing line appears. Before 2 April 2018 the financing
+line runs on the effective federal funds rate, read from the same API under the
+same terms, 4 January 2016 to 30 April 2018, and labelled as a different rate,
+unsecured where SOFR is secured. The Board's H.15 carries the same figures in
+the public domain and agrees on every day, should the New York Fed's terms ever
+stand in the way.
 
 ### 13. Third party sources behind the World Bank's gas rows
 
