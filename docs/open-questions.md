@@ -10,7 +10,7 @@ never by deleting it.
 
 ### 1. The weekly JKM and TTF archive is closed to code
 
-Raised 30 September 2026. **Open, the owner's decision.**
+Raised 30 September 2026. **Decided 7 October 2026.**
 
 EIA's Natural Gas Weekly Update carried the only public weekly JKM and TTF
 averages this study found, credited to Bloomberg Finance L.P. eia.gov's
@@ -26,6 +26,14 @@ parser reads them and the manifest records the step); ask EIA for permission to
 fetch the archive with code, or for the series; or build the weekly analysis
 without it. Until this is settled, the six weekly anchors from 2021 to 2024 are
 unverified and no public JKM series covers April 2021 onward.
+
+Decision: the archived issues are read from the Internet Archive's earliest
+capture of each, never from eia.gov, under the Archive's terms
+(`docs/sources.md` 2.16). All 488 issues the index lists from 2016 are held
+privately; 207 carry the item, from the issue of 16 September 2021 to the
+final one, and every weekly anchor reproduces exactly. The parsed figures and
+the text they were read from are committed, the pages are not, except eleven
+kept as test fixtures.
 
 ### 2. Figures EIA prints under a third party's credit
 
@@ -691,3 +699,19 @@ carriers barred from night transits. The Authority's notices, advisories and
 press releases are followed wherever the two differ, and each difference is
 shown where the IEA is quoted. The IEA may count differently, for instance
 transits against booking slots.
+
+### 43. Two weekly issues repeat the week before
+
+Raised 7 October 2026. **Decided 7 October 2026.**
+
+The Natural Gas Weekly Update issues of 14 September 2023 and 7 March 2024
+print, under their own header, the international prices item of the issue a
+week earlier, word for word, year-earlier week included. A year later EIA
+printed figures for the two weeks as year-earlier figures: 13.36 and 10.99
+USD/MMBtu for the week ending 13 September 2023, and 8.36 and 8.38 for the
+week ending 6 March 2024.
+
+Decision: the two weeks have no value in the weekly series. Their text is kept
+and the anomaly column says why. The figures printed a year later are shown in
+the year-earlier cross-check, never used to fill the two weeks, because they
+come from a later issue on whatever basis EIA used then.

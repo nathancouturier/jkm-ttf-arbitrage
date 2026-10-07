@@ -19,8 +19,8 @@ was decided on the strength of it.
 
 | Series | What it is | Machine URL | Cadence | Cache committed | Licence |
 |---|---|---|---|---|---|
-| `eia_ngwu_international_weekly` | Weekly averages of an East Asia LNG price and of TTF, USD/MMBtu, from the Natural Gas Weekly Update, figures credited to Bloomberg Finance L.P. | [landing page](https://www.eia.gov/naturalgas/weekly/) only; the archive is closed to code | weekly, ended with the week ending 21 January 2026 | **yes**, with the doubt in 2.1 | US public domain |
-| `eia_ngwu_issue_index` | Every issue EIA lists from 2016, the checklist for collection by hand | [archive.php](https://www.eia.gov/naturalgas/weekly/includes/archive.php) | fixed, the series has ended | **yes** | US public domain |
+| `eia_ngwu_international_weekly` | Weekly averages of an East Asia LNG price and of TTF, USD/MMBtu, from the Natural Gas Weekly Update, figures credited to Bloomberg Finance L.P. | [landing page](https://www.eia.gov/naturalgas/weekly/) for the final issue; every other issue from the Internet Archive's earliest capture of it (2.16), because eia.gov's archive is closed to code | weekly, from the week ending 15 September 2021 to the week ending 21 January 2026, ended | **yes**, with the doubt in 2.1 | US public domain |
+| `eia_ngwu_issue_index` | Every issue EIA lists from 2016, the checklist for collection | [archive.php](https://www.eia.gov/naturalgas/weekly/includes/archive.php) | fixed, the series has ended | **yes** | US public domain |
 | `eia_wngsr_international_weekly` | Weekly averages of JKM and TTF, USD/MMBtu, from the WNGSR Supplement, figures credited to Bloomberg Finance L.P. | [bullets_lng_2.html](https://www.eia.gov/naturalgas/weekly/supplement/content/bullets_lng_2.html) and two sibling files | weekly, Thursday, only the current issue | **yes**, with the doubt in 2.1 | US public domain |
 | `eia_lng_exports_monthly` | US LNG exports and re-exports by destination country, MMcf, and their prices, USD per thousand cubic feet, the latest release | [NG_MOVE_EXPC_S1_M.xls](https://www.eia.gov/dnav/ng/xls/NG_MOVE_EXPC_S1_M.xls) | monthly, end of month | **yes** | US public domain |
 | `eia_lng_exports_revisions` | Every volume or price a release of the table above changed, both releases side by side | derived by this study | with each release | **yes** | US public domain |
@@ -492,17 +492,110 @@ histories of tolls of September 2020 and May 2023 reproduce the tables of 2016,
 2017 and 2020. Advisories to shipping are listed on the Authority's advisories
 page, one PDF each.
 
+### 2.16 The Internet Archive, for pages a publisher no longer serves to code
+
+Read at `https://archive.org/about/terms` on 7 October 2026, the terms of use
+dated 31 December 2014:
+
+> "Access to the Archive's Collections is provided at no cost to you and is
+> granted for scholarship and research purposes only."
+
+> "In particular, you certify that your use of any part of the Archive's
+> Collections will be limited to noninfringing or fair use under copyright
+> law."
+
+> "You agree not to interfere with the work of other users or Archive
+> personnel, servers, or resources."
+
+> "In addition, we request that, according to standard academic practice, if
+> you use the Archive's Collections for any research that results in an
+> article, a book, or other publication, you list the Archive as a resource in
+> your bibliography."
+
+`https://archive.org/robots.txt`, read the same day, disallows only `/control/`
+and `/report/` for every user agent; `https://web.archive.org/robots.txt`
+answers HTTP 404, so nothing there is disallowed. The terms page is a script
+application that serves no text to a plain request, so it was read in a
+browser.
+
+The terms govern access to the Archive's copies, not the works copied. Every
+page this study reads there is a US government publication or a document whose
+own terms are quoted above, and the study is research, so it reads the copies
+under these terms: one request at a time with a pause of four seconds, the
+earliest capture of each Natural Gas Weekly Update issue, and for a file the
+publisher replaces with each release, the capture holding the release named,
+each with its timestamp, address and checksum logged beside it. The saved pages stay in `data/private/`; what is committed is what
+the publisher's own terms allow, here the parsed figures and the text they were
+read from, plus the issues kept byte for byte as test fixtures. The Archive is
+named as the place each such row was read from, in the row itself and on every
+page that shows it.
+
+**Used for:** every archived issue of the Natural Gas Weekly Update (3.1), the
+release of EIA's exports table of 30 April 2026 and the World Bank workbook of
+2 July 2026 kept as fixtures, and the Panama Canal Authority's tariff documents
+of 2016 and 2017 (2.15).
+
 ---
 
 ## 3. Known traps, per source
 
 ### 3.1 EIA Natural Gas Weekly Update and its successor
 
-* **The archive is closed to code.** eia.gov's `robots.txt` carries
+* **The archive is closed to code on eia.gov.** eia.gov's `robots.txt` carries
   `Disallow: /naturalgas/weekly/archivenew_ngwu` for every user agent, and
   `Disallow: /*archive/`, which also covers the Supplement's archive. Nothing in
-  this repository fetches either; `lngarb.sources.base.http_get` checks
-  `robots.txt` before every request and refuses a disallowed URL.
+  this repository fetches either from eia.gov; `lngarb.sources.base.http_get`
+  checks `robots.txt` before every request and refuses a disallowed URL. The
+  archived issues are read from the Internet Archive's earliest capture of each
+  (2.16): all 488 issues the index lists from 2016, saved privately, each
+  capture logged with its timestamp, address and checksum.
+* **The prices begin on 16 September 2021.** No earlier issue carries them, and
+  no issue's own week ends before 15 September 2021. The year-earlier sentences
+  of the 39 issues to 7 July 2022 reach back to the week ending 16 September
+  2020, and are the only EIA weekly figures for September 2020 to July 2021.
+  The East Asia series reaches further back still: the issues of 28 October and
+  4 November 2021 call its record a record "since January 2020", "the first
+  year" and "the first month for which comparable data are available".
+* **The item had four forms.** The issue of 16 September 2021 prints the
+  prices inside the spot prices item; from 23 September 2021 to 10 February 2022
+  the item has no heading; from 17 February 2022 it is headed "International
+  Spot Prices", then "International spot prices"; from 14 July 2022
+  "International futures prices". The adapter finds it by its heading, or before
+  it had one as the smallest list item naming East Asia and TTF with a price in
+  USD/MMBtu.
+* **The product changed with the wording.** East Asia is a swap for a named
+  month (to the week ending 27 October 2021), for the prompt month (3 November
+  2021), for the balance of the month (17 November 2021 to 23 March 2022) and
+  for a month not named (30 March to 6 July 2022), then a futures price from the
+  week ending 13 July 2022, "front-month" from 14 December 2022. TTF is a spot
+  price with no product named for two weeks, then a day-ahead price to the week
+  ending 6 July 2022, then a futures price. The stored definition is the
+  sentence's own words; the basis column is this study's reading of it.
+* **Two issues repeat the previous issue's item word for word.** The issues of
+  14 September 2023 and 7 March 2024 carry the items of 7 September 2023 and
+  29 February 2024, year-earlier week included, under a new header. The pages
+  were captured a week and four months after their release, so the repeat is EIA's.
+  Their values are left empty and their text kept; EIA printed the two missing
+  weeks a year later as year-earlier figures, which are not used to fill them.
+* **One issue prints the wrong year-earlier week.** The issue of 26 January
+  2023 gives "week ending January 25, 2022", a Tuesday; the week a year earlier
+  ended on 26 January 2022. Stored as printed, flagged in the anomaly column,
+  and the cross-check matches weeks on the calendar.
+* **Half a year of issues prints no year-earlier figures,** the 23 issues from
+  14 July to 22 December 2022, the first of the futures basis.
+* **One issue carries no item.** The issue of 27 March 2025 has no
+  international prices; the week is a gap, not a zero.
+* **A sentence can name both markets.** The TTF sentence of 24 February 2022
+  ends "bringing the TTF price back above the price in East Asia"; a clause
+  naming both belongs to the market named before its level.
+* **A level can be restated in a sentence that names no market.** On 4 and 18
+  November 2021 the East Asia level is in a sentence beginning "The weekly
+  average", after the sentence that names the market.
+* **Two headers of 2020 print a date without its comma** ("April 16 2020",
+  "June 24 2020").
+* **Weeks without an issue** are holiday weeks and 20 June 2024, when EIA
+  released none. The issue after a skipped week still reports one week ("this
+  report week (Wednesday, July 3, to Wednesday, July 10)").
 * **Python's `urllib.robotparser` says "allowed" to every path on eia.gov.** The
   file opens with `Allow: /`, and the standard library applies the first
   matching line rather than the longest. The project's own parser implements
@@ -929,9 +1022,9 @@ page, one PDF each.
 
 ## 4. Positions the owner has to take
 
-1. **The weekly JKM and TTF archive.** The Natural Gas Weekly Update archive is
-   closed to code. Either the issues are saved by hand into
-   `data/private/ngwu/`, or EIA is asked for permission or for the series.
+1. **The weekly JKM and TTF archive.** Decided on 7 October 2026: the archived
+   issues are read from the Internet Archive's copies, never from eia.gov
+   (open question 1).
 2. **Third party figures in EIA publications.** Whether the weekly prices
    credited to Bloomberg and the spot price credited to Refinitiv may be
    committed under EIA's public domain statement.

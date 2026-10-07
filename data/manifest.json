@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-07T08:02:58Z",
+  "generated_at": "2026-10-07T14:37:43Z",
   "series": [
     {
       "series": "acer_lng_daily",
@@ -2267,22 +2267,46 @@
       "url": "https://www.eia.gov/naturalgas/weekly/",
       "page_url": "https://www.eia.gov/naturalgas/weekly/",
       "machine_fetched": true,
-      "fetched_at": "2026-10-06T16:06:42Z",
+      "fetched_at": "2026-10-07T14:37:08Z",
       "checked_at": null,
-      "rows": 1,
-      "observations": 1,
-      "file_rows": 1,
-      "first_date": "2026-01-21",
+      "rows": 205,
+      "observations": 205,
+      "file_rows": 207,
+      "first_date": "2021-09-15",
       "last_date": "2026-01-21",
       "frequency": "weekly",
-      "gaps": [],
+      "gaps": [
+        "2021-11-08",
+        "2021-11-22",
+        "2021-12-20",
+        "2021-12-27",
+        "2022-11-21",
+        "2022-12-26",
+        "2023-01-02",
+        "2023-09-11",
+        "2023-11-20",
+        "2023-12-25",
+        "2024-01-01",
+        "2024-03-04",
+        "2024-06-17",
+        "2024-07-01",
+        "2024-11-25",
+        "2024-12-23",
+        "2024-12-30",
+        "2025-03-24",
+        "2025-06-16",
+        "2025-06-30",
+        "2025-11-24",
+        "2025-12-22",
+        "2025-12-29"
+      ],
       "provisional_from": null,
       "vintage": null,
       "method": "parsed",
       "committable": true,
       "licence_note": "US government publications are in the public domain. EIA's reuse page says 'You may use and/or distribute any of our data, files, databases, reports, graphs, charts, and other information products', with an acknowledgment that includes the publication date. One doubt, recorded rather than resolved: these weekly prices are credited in the text to Bloomberg Finance L.P., and the same page says material 'contributed or licensed by private individuals, companies, or organizations' 'may be protected'. Whether figures EIA prints under a third party's credit fall under that sentence is not settled by the page. The parsed weekly values are committed with the credit shown wherever they are used, and the question is open with the owner and EIA.",
       "status": "ok",
-      "note": "1 issue(s) read: 0 saved by hand, 1 from the landing page, which still serves the final issue. Every other issue is in the archive robots.txt disallows to code; see the manual step.",
+      "note": "207 issue(s) carry the item: 206 read from the Internet Archive's earliest capture, 0 saved by hand, 1 from the landing page, which still serves the final issue. Of the 488 issues the index lists from 2016, the 280 before 2021/09_16 carry no international prices item, and neither does 2025/03_27. Code never requests the archive on eia.gov, which robots.txt disallows.",
       "file": "data/cache/eia_ngwu_international_weekly.csv",
       "unit": "USD per MMBtu",
       "licence": "US public domain, with the third party credit doubt",
@@ -2291,12 +2315,12 @@
       "manual_step": [
         {
           "id": "eia_ngwu_archive_by_hand",
-          "what": "The archived issues of EIA's Natural Gas Weekly Update, from the first issue carrying the international futures prices item to January 2026, have to be saved from a browser. At most 292 issues from January 2020; the index of every issue is in data/cache/eia_ngwu_issue_index.csv.",
-          "why": "eia.gov's robots.txt disallows /naturalgas/weekly/archivenew_ngwu for every automated client, so this pipeline does not fetch the archive. Only the final issue, still served at the landing page, is read by code.",
-          "cost_if_skipped": "The weekly JKM and TTF series has one observation, the week ending 21 January 2026. Every weekly chart and test before 2026 has no EIA data, and after March 2021 no public monthly JKM exists in this study either.",
-          "how": "Open https://www.eia.gov/naturalgas/weekly/archivenew_ngwu/YYYY/MM_DD/ for each folder in the index, save the page as HTML only to data/private/ngwu/YYYY/MM_DD.html, then run python -m lngarb.sources.eia_ngwu. The saved pages stay private; the parsed item text and values are committed.",
+          "what": "The archived issues of EIA's Natural Gas Weekly Update, every issue the index lists from 2016, are read from the Internet Archive's earliest capture of each and kept privately in data/private/ngwu/. Done on 7 October 2026: 488 issues saved, 207 of them carrying the international prices item, from 16 September 2021 to 22 January 2026.",
+          "why": "eia.gov's robots.txt disallows /naturalgas/weekly/archivenew_ngwu for every automated client, so this pipeline never requests the archive from eia.gov. The Internet Archive's copies are read instead, on its terms, which grant access for scholarship and research. The saved pages are not committed; the parsed item text and values are.",
+          "cost_if_skipped": "None while the committed cache stands: every week is in it, with the item text it was read from. A rebuild from nothing without the saved pages would have one week, the final issue the landing page still serves.",
+          "how": "python -m lngarb.sources.eia_ngwu --from-internet-archive saves every listed issue not yet saved, from its earliest capture, with a pause of four seconds between requests, logs each capture in data/private/ngwu/internet_archive_captures.jsonl, then parses the issues. An issue the Internet Archive does not hold can be saved by hand from a browser as data/private/ngwu/YYYY/MM_DD.html.",
           "cadence": "once, the series has ended",
-          "status": "outstanding"
+          "status": "done, 7 October 2026"
         }
       ]
     },
@@ -2306,7 +2330,7 @@
       "url": "https://www.eia.gov/naturalgas/weekly/includes/archive.php",
       "page_url": "https://www.eia.gov/naturalgas/weekly/",
       "machine_fetched": true,
-      "fetched_at": "2026-10-06T16:06:31Z",
+      "fetched_at": "2026-10-07T14:36:43Z",
       "checked_at": null,
       "rows": 488,
       "observations": 488,
@@ -2372,7 +2396,7 @@
       "url": "https://www.eia.gov/naturalgas/weekly/supplement/content/bullets_lng_2.html",
       "page_url": "https://www.eia.gov/naturalgas/weekly/supplement/",
       "machine_fetched": true,
-      "fetched_at": "2026-10-06T16:07:16Z",
+      "fetched_at": "2026-10-07T14:37:43Z",
       "checked_at": null,
       "rows": 2,
       "observations": 2,
@@ -2790,7 +2814,7 @@
       "page_url": "https://github.com/genthalili/searoute-py",
       "machine_fetched": false,
       "fetched_at": null,
-      "checked_at": "2026-10-07T08:02:58Z",
+      "checked_at": "2026-10-07T14:03:28Z",
       "rows": 4,
       "observations": 4,
       "file_rows": 4,
@@ -2877,12 +2901,12 @@
       "series": [
         "eia_ngwu_international_weekly"
       ],
-      "what": "The archived issues of EIA's Natural Gas Weekly Update, from the first issue carrying the international futures prices item to January 2026, have to be saved from a browser. At most 292 issues from January 2020; the index of every issue is in data/cache/eia_ngwu_issue_index.csv.",
-      "why": "eia.gov's robots.txt disallows /naturalgas/weekly/archivenew_ngwu for every automated client, so this pipeline does not fetch the archive. Only the final issue, still served at the landing page, is read by code.",
-      "cost_if_skipped": "The weekly JKM and TTF series has one observation, the week ending 21 January 2026. Every weekly chart and test before 2026 has no EIA data, and after March 2021 no public monthly JKM exists in this study either.",
-      "how": "Open https://www.eia.gov/naturalgas/weekly/archivenew_ngwu/YYYY/MM_DD/ for each folder in the index, save the page as HTML only to data/private/ngwu/YYYY/MM_DD.html, then run python -m lngarb.sources.eia_ngwu. The saved pages stay private; the parsed item text and values are committed.",
+      "what": "The archived issues of EIA's Natural Gas Weekly Update, every issue the index lists from 2016, are read from the Internet Archive's earliest capture of each and kept privately in data/private/ngwu/. Done on 7 October 2026: 488 issues saved, 207 of them carrying the international prices item, from 16 September 2021 to 22 January 2026.",
+      "why": "eia.gov's robots.txt disallows /naturalgas/weekly/archivenew_ngwu for every automated client, so this pipeline never requests the archive from eia.gov. The Internet Archive's copies are read instead, on its terms, which grant access for scholarship and research. The saved pages are not committed; the parsed item text and values are.",
+      "cost_if_skipped": "None while the committed cache stands: every week is in it, with the item text it was read from. A rebuild from nothing without the saved pages would have one week, the final issue the landing page still serves.",
+      "how": "python -m lngarb.sources.eia_ngwu --from-internet-archive saves every listed issue not yet saved, from its earliest capture, with a pause of four seconds between requests, logs each capture in data/private/ngwu/internet_archive_captures.jsonl, then parses the issues. An issue the Internet Archive does not hold can be saved by hand from a browser as data/private/ngwu/YYYY/MM_DD.html.",
       "cadence": "once, the series has ended",
-      "status": "outstanding"
+      "status": "done, 7 October 2026"
     },
     {
       "id": "eia_wngsr_weekly_collection",
@@ -2923,9 +2947,9 @@
   ],
   "manual_steps_note": "Work this pipeline cannot do for itself. Each entry says what it is, why it exists, what it costs to skip it and how to do it. They are repeated against the series they affect in the manual_step field of those entries.",
   "run": {
-    "mode": "offline",
-    "started_at": "2026-10-07T08:02:57Z",
-    "finished_at": "2026-10-07T08:02:58Z",
+    "mode": "online",
+    "started_at": "2026-10-07T14:36:22Z",
+    "finished_at": "2026-10-07T14:37:43Z",
     "script": "scripts/refresh.py"
   }
 }

@@ -144,7 +144,7 @@ JOBS: tuple[Job, ...] = (
         name="eia-weekly",
         what=(
             "EIA's weekly JKM and TTF averages: the NGWU index, its international "
-            "item (landing page and issues saved by hand), and the WNGSR Supplement"
+            "item (landing page and archived issues saved from the Internet Archive's captures), and the WNGSR Supplement"
         ),
         series=(
             "eia_ngwu_issue_index",

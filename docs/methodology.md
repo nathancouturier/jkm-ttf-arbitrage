@@ -108,6 +108,9 @@ of January).
 | Where | When | What changes |
 |---|---|---|
 | EIA weekly JKM and TTF | between the weeks ending 21 and 28 January 2026 | the Natural Gas Weekly Update ends and the WNGSR Supplement begins, with new wording for both prices. Kept as two series. |
+| EIA weekly East Asia price | between the weeks ending 6 and 13 July 2022 | from a swap (for a named month, the prompt month, the balance of the month or a month not named, each with its weeks) to a futures price, called front-month from the week ending 14 December 2022 |
+| EIA weekly TTF price | between the weeks ending 6 and 13 July 2022 | from a day-ahead price to a futures price |
+| EIA weekly year-earlier figures | issues from January 2023 | the weeks of 2022 priced as swaps and day-ahead are reprinted on the futures basis, so none of them matches what the 2022 issue printed |
 | World Bank Europe gas | April 2015 | TTF from here; an average import border price with a spot component, including the UK, from April 2010 to March 2015 |
 | World Bank Japan LNG | every release | the last two months are estimates and are revised |
 | EIA exports by destination | every release | revisions at least fourteen months back, logged vintage against vintage |
@@ -115,6 +118,34 @@ of January).
 | JOGMEC arrival-based price | April 2023 | from cargoes contracted and delivered in the month to cargoes delivered in the month whenever contracted |
 | ACER DES assessments | January to March 2023 | NWE priced from 19 January 2023, SE from 20 January, the EU from 8 March, the EU benchmark to TTF from 31 March |
 | EU allowance price | after June 2025 | the Commission's latest auction report ends there; later months are missing |
+
+### 5.1 The weekly series checked against itself
+
+Every issue prints the same week a year earlier, so each week can be read
+twice: as its own issue printed it and as the issue a year later reprinted it.
+Weeks are matched on the calendar, the week ending 364 days earlier
+(`lngarb.sources.eia_ngwu.year_earlier_check`). Of the 140 weeks read twice:
+
+* all 26 weeks of 2022 that the 2022 issues priced as a swap and a day-ahead
+  price differ, both prices, from what the 2023 issues reprint. EIA reprinted
+  them on the futures basis, which is the break in the table above seen from
+  the other side;
+* the East Asia weeks of the second half of 2022 called "futures" without a
+  month agree with the "front-month futures" the 2023 issues reprint, but for
+  the week ending 3 August 2022 (44.57 printed, 43.97 a year later); the TTF
+  futures weeks of the same half year all agree;
+* among the weeks of the futures basis from December 2022, one differs: the
+  week ending
+  10 July 2024, East Asia 12.49 then 12.40 and TTF 10.51 then 10.12. Its report
+  week is a single week, so it is not an average over the skipped holiday week.
+  These two are listed, not explained.
+
+Two weeks have no value: the issues of 14 September 2023 and 7 March 2024
+repeat the previous week's item word for word (`docs/sources.md` 3.1). The
+cross-check lists the figures EIA printed for them a year later, with no
+difference, since there is nothing to compare them with. The
+weekly figures are never stitched across a break: each carries its definition
+and its basis, and a chart that crosses a break marks it.
 
 ---
 

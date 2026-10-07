@@ -1,9 +1,11 @@
 """EIA's weekly JKM and TTF items, parsed from committed fixtures with no network.
 
-The fixtures are EIA's own bytes as served on 2026-09-30: the final Natural Gas
-Weekly Update (the only issue code may read), the archive index, and the WNGSR
-Supplement's current issue. The strings built inside this file test forms the
-parser must refuse or flag; they are never used as data.
+The fixtures are EIA's own bytes: the final Natural Gas Weekly Update as the
+landing page served it on 2026-09-30 (the only issue code may read from
+eia.gov), the archive index, the WNGSR Supplement's current issue, and eleven
+archived issues as the Internet Archive's earliest captures hold them. The
+strings built inside this file test forms the parser must refuse or flag; they
+are never used as data.
 """
 
 from __future__ import annotations
@@ -12,7 +14,7 @@ import pandas as pd
 import pytest
 
 from lngarb.sources import base, eia_ngwu
-from lngarb.sources.eia_ngwu import ParseError, parse_ngwu_item, parse_ngwu_page
+from lngarb.sources.eia_ngwu import NoItem, ParseError, parse_ngwu_item, parse_ngwu_page
 
 FIXTURES = base.REPO_ROOT / "tests" / "fixtures"
 FINAL = (FIXTURES / "eia_ngwu_final_issue_2026-01-22.html").read_bytes()
@@ -24,31 +26,61 @@ SUPPLEMENT = (
 )
 
 
+def issue(release: str) -> bytes:
+    """An archived issue by its release date, as the Internet Archive captured it."""
+    if release == "2026-01-22":
+        return FINAL
+    return (FIXTURES / ("eia_ngwu_issue_%s_wayback.html" % release)).read_bytes()
+
+
+def read(release: str) -> tuple[dict, dict]:
+    page = parse_ngwu_page(issue(release), where=release)
+    return page, parse_ngwu_item(page["item_text"], where=release)
+
+
 # --------------------------------------------------------------------------
-# The anchor: week ending 21 January 2026, the final NGWU issue
+# The anchors: seven weeks, every figure exactly, from the pages themselves
 # --------------------------------------------------------------------------
 
-def test_the_final_issue_reproduces_its_anchor_exactly():
-    page = parse_ngwu_page(FINAL, where="final issue")
-    assert page["week_ending"].isoformat() == "2026-01-21"
-    assert page["release_date"].isoformat() == "2026-01-22"
+ANCHORS = [
+    # release, week ending, East Asia, TTF, year-earlier week, its East Asia and TTF, bases
+    ("2021-12-16", "2021-12-15", 35.29, 38.10, "2020-12-16", 8.00, 5.81, "swap, balance of the month", "day-ahead"),
+    ("2022-04-07", "2022-04-06", 34.05, 36.17, "2021-04-07", 6.95, 6.84, "swap, month not named", "day-ahead"),
+    ("2023-08-10", "2023-08-09", 10.98, 10.35, "2022-08-10", 44.61, 59.16, "front-month futures", "futures, month not named"),
+    ("2023-12-07", "2023-12-06", 16.10, 12.91, "2022-12-07", 32.98, 42.95, "front-month futures", "futures, month not named"),
+    ("2023-12-21", "2023-12-20", 13.30, 10.89, "2022-12-21", 34.42, 34.99, "front-month futures", "futures, month not named"),
+    ("2024-05-30", "2024-05-29", 12.00, 10.86, "2023-05-31", 9.31, 7.98, "front-month futures", "futures, month not named"),
+    ("2026-01-22", "2026-01-21", 10.73, 12.40, "2025-01-22", 14.01, 14.57, "front-month futures", "futures, month not named"),
+]
 
-    item = parse_ngwu_item(page["item_text"], where="final issue")
-    assert item["east_asia_usd_mmbtu"] == 10.73
-    assert item["ttf_usd_mmbtu"] == 12.40
-    assert item["prior_year_week_ending"] == "2025-01-22"
-    assert item["prior_year_east_asia_usd_mmbtu"] == 14.01
-    assert item["prior_year_ttf_usd_mmbtu"] == 14.57
+
+@pytest.mark.parametrize("release,week,asia,ttf,prior_week,prior_asia,prior_ttf,asia_basis,ttf_basis", ANCHORS)
+def test_every_weekly_anchor_reproduces_exactly(release, week, asia, ttf, prior_week, prior_asia, prior_ttf, asia_basis, ttf_basis):
+    page, item = read(release)
+    assert page["release_date"].isoformat() == release
+    assert page["week_ending"].isoformat() == week
+    assert item["east_asia_usd_mmbtu"] == asia
+    assert item["ttf_usd_mmbtu"] == ttf
+    assert item["prior_year_week_ending"] == prior_week
+    assert item["prior_year_east_asia_usd_mmbtu"] == prior_asia
+    assert item["prior_year_ttf_usd_mmbtu"] == prior_ttf
+    assert item["east_asia_basis"] == asia_basis
+    assert item["ttf_basis"] == ttf_basis
+    assert item["credit"] == "Bloomberg Finance, L.P."
+
+
+def test_the_typo_of_december_2023_is_kept_as_printed_and_flagged():
+    _, item = read("2023-12-21")
+    assert item["prior_year_east_asia_printed"] == "$34.420MBtu"
+    assert "printed as '$34.420MBtu'" in item["anomaly"]
+
+
+def test_the_final_issue_prints_its_changes_and_its_definitions_word_for_word():
+    _, item = read("2026-01-22")
     assert item["east_asia_printed"] == "$10.73/MMBtu"
     assert item["ttf_printed"] == "$12.40/MMBtu"
     assert item["east_asia_change_printed"] == "increased $1.14/MMBtu"
     assert item["ttf_change_printed"] == "increased $2.18/MMBtu"
-    assert item["credit"] == "Bloomberg Finance, L.P."
-
-
-def test_the_final_issue_definitions_are_stored_word_for_word():
-    page = parse_ngwu_page(FINAL, where="final issue")
-    item = parse_ngwu_item(page["item_text"], where="final issue")
     assert item["east_asia_definition"] == (
         "weekly average front-month futures prices for liquefied natural gas "
         "(LNG) cargoes in East Asia"
@@ -62,10 +94,66 @@ def test_the_final_issue_definitions_are_stored_word_for_word():
 
 
 def test_the_storage_sentence_in_the_final_issue_is_flagged_not_dropped_silently():
-    page = parse_ngwu_page(FINAL, where="final issue")
-    item = parse_ngwu_item(page["item_text"], where="final issue")
+    page, item = read("2026-01-22")
     assert item["anomaly"] == "1 further sentence(s) not about the two prices"
     assert "AGSI+" in page["item_text"]
+
+
+# --------------------------------------------------------------------------
+# The forms the item took, each from an issue that prints it
+# --------------------------------------------------------------------------
+
+def test_the_first_issue_carries_the_prices_inside_the_spot_item_with_no_heading():
+    page, item = read("2021-09-16")
+    assert page["item_text"].startswith("Natural gas spot prices rose at most locations")
+    assert item["east_asia_usd_mmbtu"] == 18.69
+    assert item["ttf_usd_mmbtu"] == 17.96
+    assert item["east_asia_definition"] == "swap prices for October liquefied natural gas (LNG) cargos in East Asia"
+    assert item["east_asia_basis"] == "swap, delivery month named"
+    assert item["ttf_basis"] == "spot, product not named"
+    # "respectively": the year-earlier prices follow the order the markets are named in.
+    assert (item["prior_year_week_ending"], item["prior_year_east_asia_usd_mmbtu"], item["prior_year_ttf_usd_mmbtu"]) == ("2020-09-16", 4.34, 3.11)
+    # The Henry Hub sentence carries prices but no East Asia or TTF level.
+    assert item["anomaly"] == "3 further sentence(s) not about the two prices"
+
+
+def test_a_level_restated_as_the_weekly_average_belongs_to_the_market_named_before_it():
+    _, item = read("2021-11-04")
+    assert item["east_asia_usd_mmbtu"] == 31.59
+    assert item["east_asia_basis"] == "swap, prompt month"
+    assert item["east_asia_definition"].startswith("swap prices for prompt month (December)")
+    assert item["ttf_usd_mmbtu"] == 23.43
+
+
+def test_a_ttf_sentence_that_also_names_east_asia_is_read_as_ttf():
+    page, item = read("2022-02-24")
+    assert page["item_text"].startswith("International Spot Prices:")
+    assert "bringing the TTF price back above the price in East Asia" in page["item_text"]
+    assert item["ttf_usd_mmbtu"] == 25.72
+    assert item["east_asia_usd_mmbtu"] == 24.39
+    assert item["east_asia_basis"] == "swap, balance of the month"
+
+
+def test_one_sentence_giving_both_levels_is_split_and_no_year_earlier_is_none():
+    _, item = read("2022-07-14")
+    assert item["east_asia_usd_mmbtu"] == 39.13
+    assert item["ttf_usd_mmbtu"] == 51.88
+    assert item["east_asia_basis"] == item["ttf_basis"] == "futures, month not named"
+    assert item["prior_year_week_ending"] is None
+    assert item["prior_year_east_asia_usd_mmbtu"] is None
+
+
+def test_an_issue_without_the_item_raises_no_item():
+    with pytest.raises(NoItem) as caught:
+        parse_ngwu_page(issue("2025-03-27"), where="2025/03_27")
+    assert "2025/03_27" in str(caught.value)
+
+
+def test_a_header_date_printed_without_its_comma_is_read():
+    # Two 2020 issues print "April 16 2020" and "June 24 2020" in their header.
+    edited = FINAL.replace(b"January 21, 2026", b"January 21 2026", 1)
+    assert edited != FINAL
+    assert parse_ngwu_page(edited, where="edited copy")["week_ending"].isoformat() == "2026-01-21"
 
 
 # --------------------------------------------------------------------------
@@ -79,18 +167,7 @@ LEGS = (
     "Transfer Facility (TTF) in the Netherlands decreased $1.06 to a weekly average "
     "of $12.91/MMBtu."
 )
-
-
-def test_a_price_printed_with_a_typo_is_kept_as_printed_and_flagged():
-    text = (
-        LEGS + " In the same week last year (week ending December 21, 2022), the prices "
-        "were $34.420MBtu in East Asia and $34.99/MMBtu at TTF."
-    )
-    item = parse_ngwu_item(text, where="typo case")
-    assert item["prior_year_east_asia_printed"] == "$34.420MBtu"
-    assert item["prior_year_east_asia_usd_mmbtu"] == 34.42
-    assert "printed as '$34.420MBtu'" in item["anomaly"]
-    assert item["prior_year_ttf_usd_mmbtu"] == 34.99
+TTF_LEG = LEGS.split(". ")[1]
 
 
 def test_a_change_in_cents_and_in_dollars_without_a_unit_both_parse():
@@ -100,31 +177,116 @@ def test_a_change_in_cents_and_in_dollars_without_a_unit_both_parse():
     assert item["prior_year_week_ending"] is None
 
 
-def test_an_unrecognised_price_sentence_stops_the_parse():
+def test_only_the_opening_sentence_is_taken_as_the_summary():
+    opening = "International natural gas futures prices decreased this report week. "
+    assert parse_ngwu_item(opening + LEGS, where="opening")["anomaly"] is None
+    later = " International natural gas prices in Australia rose as supplies tightened."
+    assert parse_ngwu_item(opening + LEGS + later, where="later")["anomaly"] == (
+        "1 further sentence(s) not about the two prices"
+    )
+
+
+def test_a_market_named_without_a_level_stops_the_parse():
     text = "East Asia LNG swaps for the balance of the month averaged a weekly average of $35.29/MMBtu."
     with pytest.raises(ParseError) as caught:
-        parse_ngwu_item(text + " " + LEGS.split(". ")[1], where="swap case")
+        parse_ngwu_item(text + " " + TTF_LEG, where="swap case")
     assert "swap case" in str(caught.value)
-    assert "does not recognise" in str(caught.value)
+    assert "no east_asia level" in str(caught.value)
 
 
-def test_a_missing_leg_stops_the_parse():
+def test_a_price_whose_product_is_not_named_stops_the_parse():
+    text = "Bloomberg Finance, L.P. reports prices for LNG cargoes in East Asia rose to a weekly average of $9.10/MMBtu."
+    with pytest.raises(ParseError) as caught:
+        parse_ngwu_item(text + " " + TTF_LEG, where="no product")
+    assert "product is not named" in str(caught.value)
+
+
+def test_two_levels_for_one_market_stop_the_parse():
+    with pytest.raises(ParseError) as caught:
+        parse_ngwu_item(LEGS + " " + TTF_LEG, where="twice")
+    assert "two ttf levels" in str(caught.value)
+
+
+def test_a_missing_market_stops_the_parse():
     with pytest.raises(ParseError) as caught:
         parse_ngwu_item(LEGS.split(". ")[0] + ".", where="one leg")
-    assert "no ttf price sentence" in str(caught.value)
+    assert "no ttf level" in str(caught.value)
 
 
-def test_a_page_without_the_item_stops_the_parse():
-    html = FINAL.replace(b"International futures prices:", b"International prices were:")
+def test_a_year_earlier_sentence_with_one_price_stops_the_parse():
+    text = LEGS + " In the same week last year (week ending December 7, 2022), the price was $32.98/MMBtu in East Asia."
     with pytest.raises(ParseError) as caught:
-        parse_ngwu_page(html, where="edited copy")
-    assert "no 'International futures prices' item" in str(caught.value)
+        parse_ngwu_item(text, where="one price")
+    assert "1 prices" in str(caught.value)
 
 
 def test_dashes_are_stored_as_code_points_and_abbreviations_do_not_split():
     assert eia_ngwu.normalise_text("2022" + chr(0x2012) + "23 winter " + chr(0x2014) + " mild") == "2022[U+2012]23 winter [U+2014] mild"
     sentences = eia_ngwu.split_sentences("Credit to Bloomberg Finance, L.P. Prices fell. U.S. exports rose.")
     assert sentences == ["Credit to Bloomberg Finance, L.P. Prices fell.", "U.S. exports rose."]
+
+
+# --------------------------------------------------------------------------
+# Checks that need more than one issue
+# --------------------------------------------------------------------------
+
+def _two_weeks(first_text: str, second_text: str) -> pd.DataFrame:
+    return pd.DataFrame({
+        "date": pd.to_datetime(["2023-09-06", "2023-09-13"]),
+        "folder": ["2023/09_07", "2023/09_14"],
+        "item_text": [first_text, second_text],
+    })
+
+
+def test_an_item_repeated_from_an_earlier_issue_has_its_values_left_empty():
+    text = LEGS + (
+        " In the same week last year (week ending September 7, 2022), the prices "
+        "were $56.07/MMBtu in East Asia and $66.49/MMBtu at TTF."
+    )
+    frame = eia_ngwu.read_items(_two_weeks(text, text))
+    first, second = frame.iloc[0], frame.iloc[1]
+    assert first["east_asia_usd_mmbtu"] == 16.10
+    for column in eia_ngwu.VALUE_COLUMNS:
+        assert pd.isna(second[column]), column
+    assert second["east_asia_printed"] == "$16.10/MMBtu"
+    assert "repeats the one of issue 2023/09_07 word for word" in second["anomaly"]
+    assert "371 days before this week's end" in second["anomaly"]
+
+
+def test_reading_the_items_again_changes_nothing():
+    committed = base.read_cache("eia_ngwu_international_weekly")
+    again = eia_ngwu.read_items(committed)
+    for column in committed.columns:
+        left = committed[column].astype(object).where(committed[column].notna(), None).tolist()
+        right = again[column].astype(object).where(again[column].notna(), None).tolist()
+        if column == "date":
+            left = [str(pd.Timestamp(v).date()) for v in left]
+            right = [str(pd.Timestamp(v).date()) for v in right]
+        assert left == right, column
+
+
+def test_the_committed_weeks_and_the_two_repeated_issues():
+    committed = base.read_cache("eia_ngwu_international_weekly")
+    assert len(committed) == 207
+    assert committed["folder"].iloc[0] == "2021/09_16"
+    assert committed["folder"].iloc[-1] == "2026/01_22"
+    empty = committed[committed["east_asia_usd_mmbtu"].isna()]["folder"].tolist()
+    assert empty == ["2023/09_14", "2024/03_07"]
+
+
+def test_the_year_earlier_figures_differ_wherever_the_basis_changed():
+    committed = base.read_cache("eia_ngwu_international_weekly")
+    check = eia_ngwu.year_earlier_check(committed)
+    swaps_and_day_ahead = check[check["basis"].str.startswith("swap") | (check["basis"] == "day-ahead")]
+    assert len(swaps_and_day_ahead) == 52
+    assert (swaps_and_day_ahead["difference"] != 0).all()
+    futures = check[~check.index.isin(swaps_and_day_ahead.index) & check["difference"].notna()]
+    differ = futures[futures["difference"] != 0]
+    assert sorted(zip(differ["week_ending"], differ["market"], differ["difference"])) == [
+        ("2022-08-03", "east_asia", -0.6),
+        ("2024-07-10", "east_asia", -0.09),
+        ("2024-07-10", "ttf", -0.39),
+    ]
 
 
 # --------------------------------------------------------------------------
@@ -253,6 +415,53 @@ def test_the_international_adapter_reads_the_landing_page_and_saved_issues(sandb
     cache = base.read_cache("eia_ngwu_international_weekly")
     assert cache["how_read"].tolist() == ["saved by hand"]
     assert cache["east_asia_usd_mmbtu"].tolist() == [10.73]
+    assert cache["east_asia_basis"].tolist() == ["front-month futures"]
+
+
+def test_a_saved_issue_without_the_item_gives_no_row_and_is_counted(sandbox, monkeypatch):
+    serve(monkeypatch, {eia_ngwu.LANDING_URL: FINAL})
+    saved = sandbox / "private" / "ngwu" / "2025"
+    saved.mkdir(parents=True)
+    (saved / "03_27.html").write_bytes(issue("2025-03-27"))
+    base.write_cache("eia_ngwu_issue_index", pd.DataFrame({
+        "date": pd.to_datetime(["2025-03-27", "2026-01-22"]),
+        "folder": ["2025/03_27", "2026/01_22"],
+        "status": ["published", "published"],
+    }))
+    adapter = eia_ngwu.NgwuInternationalWeekly()
+    entry = adapter.run()
+    assert entry["observations"] == 1
+    assert adapter.without_item == ["2025/03_27"]
+    # The note is built from the committed index, not from the saved pages.
+    assert "Of the 2 issues the index lists from 2016, the 1 before 2026/01_22" in adapter.note
+
+
+def test_a_saved_page_matching_its_capture_log_is_labelled_with_the_capture(sandbox, monkeypatch):
+    import hashlib
+    import json
+    serve(monkeypatch, {eia_ngwu.LANDING_URL: FINAL})
+    saved = sandbox / "private" / "ngwu"
+    (saved / "2021").mkdir(parents=True)
+    (saved / "2022").mkdir(parents=True)
+    page = issue("2021-12-16")
+    (saved / "2021" / "12_16.html").write_bytes(page)
+    (saved / "2022" / "04_07.html").write_bytes(issue("2022-04-07"))
+    capture = "https://web.archive.org/web/20211216224644id_/https://www.eia.gov/naturalgas/weekly/archivenew_ngwu/2021/12_16/"
+    records = [
+        {"folder": "2021/12_16", "capture_timestamp": "20211216224644", "capture_url": capture,
+         "sha256": hashlib.sha256(page).hexdigest()},
+        # A record whose checksum is not the saved page's does not label it.
+        {"folder": "2022/04_07", "capture_timestamp": "20220408103209", "capture_url": "x",
+         "sha256": "0" * 64},
+    ]
+    log = saved / eia_ngwu.CAPTURES_LOG
+    log.write_text("".join(json.dumps(r) + chr(10) for r in records), encoding="utf-8")
+    eia_ngwu.NgwuInternationalWeekly().run()
+    cache = base.read_cache("eia_ngwu_international_weekly").set_index("folder")
+    assert cache.at["2021/12_16", "how_read"] == "Internet Archive capture of 20211216224644"
+    assert cache.at["2021/12_16", "page_url"] == capture
+    assert cache.at["2022/04_07", "how_read"] == "saved by hand"
+    assert cache.at["2022/04_07", "page_url"].endswith("archivenew_ngwu/2022/04_07/")
 
 
 def test_a_saved_issue_whose_name_disagrees_with_its_page_is_refused(sandbox, monkeypatch):
@@ -295,18 +504,6 @@ def test_nothing_in_this_module_can_request_the_disallowed_archive(monkeypatch):
         eia_ngwu.SUPPLEMENT_DATES_URL,
     ):
         assert base.robots_allows(rules, url), url
-
-
-def test_every_committed_week_reparses_from_its_own_item_text():
-    """The committed item text is the source of truth; the values must follow from it."""
-    committed = base.read_cache("eia_ngwu_international_weekly")
-    assert committed is not None and len(committed)
-    for _, row in committed.iterrows():
-        item = parse_ngwu_item(row["item_text"], where=row["folder"])
-        for column in ("east_asia_usd_mmbtu", "ttf_usd_mmbtu", "prior_year_east_asia_usd_mmbtu", "prior_year_ttf_usd_mmbtu"):
-            assert item[column] == row[column], (row["folder"], column)
-        assert item["east_asia_definition"] == row["east_asia_definition"]
-        assert item["ttf_definition"] == row["ttf_definition"]
 
 
 # --------------------------------------------------------------------------
@@ -389,3 +586,16 @@ def test_an_answer_that_is_not_an_issue_stops_the_batch(sandbox, monkeypatch):
         eia_ngwu.collect_from_internet_archive(delay=0)
     assert "batch stopped" in str(caught.value)
     assert not (sandbox / "private" / "ngwu" / "2023" / "12_14.html").exists()
+
+
+def test_the_year_earlier_check_lists_the_weeks_only_a_later_issue_prints():
+    committed = base.read_cache("eia_ngwu_international_weekly")
+    check = eia_ngwu.year_earlier_check(committed)
+    empty = check[check["value"].isna()]
+    assert sorted(zip(empty["week_ending"], empty["market"], empty["value_year_later"])) == [
+        ("2023-09-13", "east_asia", 13.36),
+        ("2023-09-13", "ttf", 10.99),
+        ("2024-03-06", "east_asia", 8.36),
+        ("2024-03-06", "ttf", 8.38),
+    ]
+    assert empty["difference"].isna().all()

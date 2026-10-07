@@ -22,29 +22,34 @@ MANUAL_STEPS: tuple[dict[str, Any], ...] = (
         "id": "eia_ngwu_archive_by_hand",
         "series": ["eia_ngwu_international_weekly"],
         "what": (
-            "The archived issues of EIA's Natural Gas Weekly Update, from the first issue "
-            "carrying the international futures prices item to January 2026, have to be "
-            "saved from a browser. At most 292 issues from January 2020; the index of "
-            "every issue is in data/cache/eia_ngwu_issue_index.csv."
+            "The archived issues of EIA's Natural Gas Weekly Update, every issue the "
+            "index lists from 2016, are read from the Internet Archive's earliest "
+            "capture of each and kept privately in data/private/ngwu/. Done on 7 October "
+            "2026: 488 issues saved, 207 of them carrying the international prices item, "
+            "from 16 September 2021 to 22 January 2026."
         ),
         "why": (
             "eia.gov's robots.txt disallows /naturalgas/weekly/archivenew_ngwu for every "
-            "automated client, so this pipeline does not fetch the archive. Only the final "
-            "issue, still served at the landing page, is read by code."
+            "automated client, so this pipeline never requests the archive from eia.gov. "
+            "The Internet Archive's copies are read instead, on its terms, which grant "
+            "access for scholarship and research. The saved pages are not committed; the "
+            "parsed item text and values are."
         ),
         "cost_if_skipped": (
-            "The weekly JKM and TTF series has one observation, the week ending 21 January "
-            "2026. Every weekly chart and test before 2026 has no EIA data, and after March "
-            "2021 no public monthly JKM exists in this study either."
+            "None while the committed cache stands: every week is in it, with the item "
+            "text it was read from. A rebuild from nothing without the saved pages would "
+            "have one week, the final issue the landing page still serves."
         ),
         "how": (
-            "Open https://www.eia.gov/naturalgas/weekly/archivenew_ngwu/YYYY/MM_DD/ for each "
-            "folder in the index, save the page as HTML only to data/private/ngwu/YYYY/MM_DD.html, "
-            "then run python -m lngarb.sources.eia_ngwu. The saved pages stay private; the "
-            "parsed item text and values are committed."
+            "python -m lngarb.sources.eia_ngwu --from-internet-archive saves every listed "
+            "issue not yet saved, from its earliest capture, with a pause of four seconds "
+            "between requests, logs each capture in "
+            "data/private/ngwu/internet_archive_captures.jsonl, then parses the issues. "
+            "An issue the Internet Archive does not hold can be saved by hand from a "
+            "browser as data/private/ngwu/YYYY/MM_DD.html."
         ),
         "cadence": "once, the series has ended",
-        "status": "outstanding",
+        "status": "done, 7 October 2026",
     },
     {
         "id": "eia_wngsr_weekly_collection",

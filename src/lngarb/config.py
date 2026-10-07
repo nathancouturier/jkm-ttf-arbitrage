@@ -294,9 +294,11 @@ _EIA_BLOOMBERG_NOTE = (
 
 _EIA_ROBOTS_NOTE = (
     "eia.gov's robots.txt disallows /naturalgas/weekly/archivenew_ngwu for every "
-    "user agent, so no archived issue is fetched by code. Code reads the landing "
-    "page, which still serves the final issue; every other issue is read from a "
-    "copy saved by hand into data/private/ngwu/YYYY/MM_DD.html."
+    "user agent, so no archived issue is fetched from eia.gov. Code reads the "
+    "landing page, which still serves the final issue; every other issue is read "
+    "from the Internet Archive's earliest capture of it, saved privately into "
+    "data/private/ngwu/YYYY/MM_DD.html, and each row carries the capture it was "
+    "read from."
 )
 
 

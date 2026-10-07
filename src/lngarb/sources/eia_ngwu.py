@@ -2,42 +2,55 @@
 
 What the series is
 ------------------
-Each issue of EIA's Natural Gas Weekly Update (NGWU) carried an item headed
-"International futures prices" giving, from Bloomberg Finance L.P., the weekly
-average of an East Asia LNG price and of TTF, both in USD/MMBtu, with the same
-week a year earlier. The NGWU ended with the issue released on 22 January 2026
-(week ending 21 January 2026), whose page says "This week is the final
-publication of the Natural Gas Weekly Update". From 29 January 2026 EIA prints
-the same two prices, from the same credited source but in new words, in the
-Weekly Natural Gas Storage Report (WNGSR) Supplement. The two are kept as two
-series, because nothing EIA publishes says the underlying Bloomberg series are
-the same, and the change of product is a structural break either way.
+From the issue of 16 September 2021, EIA's Natural Gas Weekly Update (NGWU)
+carried the weekly average of an East Asia LNG price and of TTF, both in
+USD/MMBtu, credited to Bloomberg Finance L.P., with the same week a year
+earlier. The item first sat inside the spot prices item, then stood alone with
+no heading, then under "International spot prices" and, from 14 July 2022,
+"International futures prices". The product changed with the wording: East
+Asia was a swap (for a named month, the prompt month, the balance of the month
+or no month named) until July 2022 and a futures price after, front-month from
+December 2022; TTF was a spot price with no product named for two weeks, then a
+day-ahead price until July 2022, then a futures price.
+The NGWU ended with the issue released on 22 January 2026 (week ending 21
+January 2026), whose page says "This week is the final publication of the
+Natural Gas Weekly Update". From 29 January 2026 EIA prints the same two
+prices, from the same credited source but in new words, in the Weekly Natural
+Gas Storage Report (WNGSR) Supplement. The two are kept as two series, because
+nothing EIA publishes says the underlying Bloomberg series are the same, and
+the change of product is a structural break either way.
 
 What code may and may not fetch
 -------------------------------
 eia.gov's robots.txt disallows /naturalgas/weekly/archivenew_ngwu, where every
 archived NGWU issue lives, and /*archive/, which covers the Supplement's
-archive. Code therefore reads only:
+archive. Code therefore reads from eia.gov only:
 
     the NGWU landing page, which still serves the final issue
     the NGWU archive index, a single allowed page listing every issue
     the Supplement's current issue, three small files it is assembled from
 
-Every other issue is read from a copy saved by hand into data/private/ngwu/ or
-data/private/wngsr/, a manual step recorded in the manifest. base.http_get
-enforces robots.txt, so a mistake here fails rather than fetches.
+Every other NGWU issue is read from the Internet Archive's earliest capture of
+it (collect_from_internet_archive), saved privately into data/private/ngwu/
+with its provenance logged; an issue it does not hold can be saved there by
+hand. base.http_get enforces robots.txt, so a mistake here fails rather than
+fetches.
 
 How the item is read
 --------------------
-By sentence and by the words in it, never by position. Each price sentence is
-recognised by what it names (East Asia, TTF, the same week last year) and the
-wording that defines each price is stored for every week, so a change of
-definition is visible in the data rather than hidden in a line. A sentence of a
-form this module does not recognise stops the parse with an error naming the
-issue: extending the parser is a code change with a test, never a guess.
+By sentence and by role, never by position. A clause naming one market and
+stating a week's level gives that market's price, and the wording that
+defines each price is stored for every week, with this study's reading of the
+product in a basis column, so a change of definition is visible in the data
+rather than hidden in a line. A market with no level or with two, a product
+not named, or a year-earlier sentence that cannot be read stops the parse with
+an error naming the issue: extending the parser is a code change with a test,
+never a guess.
 
 A figure printed with a typo is stored as printed in a *_printed column, next
 to the value read from it, with the correction described in the anomaly column.
+An issue that repeats an earlier issue's item word for word keeps its text and
+has its values left empty (read_items).
 """
 
 from __future__ import annotations
@@ -63,10 +76,16 @@ __all__ = [
     "INDEX_URL",
     "SUPPLEMENT_URL",
     "ParseError",
+    "NoItem",
+    "ITEM_HEADINGS",
     "normalise_text",
     "split_sentences",
     "parse_ngwu_page",
     "parse_ngwu_item",
+    "east_asia_basis",
+    "ttf_basis",
+    "read_items",
+    "year_earlier_check",
     "parse_index",
     "parse_supplement",
     "NgwuIssueIndex",
@@ -99,10 +118,7 @@ SUPPLEMENT_DATES_URL = SUPPLEMENT_URL + "content/release_dates.json"
 #: February 2016, so nothing earlier can be part of this study.
 INDEX_FIRST_YEAR = 2016
 
-#: The heading of the item, as the final issue prints it.
-ITEM_HEADING = "International futures prices"
-
-#: The credit every issue read so far carries.
+#: The credit every issue read so far carries, as the final issue prints it.
 CREDIT = "Bloomberg Finance, L.P."
 
 
@@ -146,11 +162,12 @@ def split_sentences(text: str) -> list[str]:
     return [piece.replace(_DOT, ".").strip() for piece in pieces if piece.strip()]
 
 
-_MONTH_DATE = r"([A-Z][a-z]+ \d{1,2}, \d{4})"
+#: Two 2020 issue headers print a date without its comma ("April 16 2020").
+_MONTH_DATE = r"([A-Z][a-z]+ \d{1,2},? \d{4})"
 
 
 def _parse_long_date(text: str) -> date:
-    return datetime.strptime(text.strip(), "%B %d, %Y").date()
+    return datetime.strptime(re.sub(r"(\d),? (\d{4})$", r"\1, \2", text.strip()), "%B %d, %Y").date()
 
 
 @dataclass(frozen=True)
@@ -190,127 +207,304 @@ def read_price(token: str) -> Price:
 # The NGWU item
 # --------------------------------------------------------------------------
 
-_LEG_SENTENCE = re.compile(
-    r"^(?:According to Bloomberg Finance, L\.P\., )?"
-    r"(?P<definition>.+?) "
-    r"(?P<change>(?:increased|decreased|rose|fell|climbed|declined|dropped|gained|lost)"
-    r" .+?|was unchanged|were unchanged|remained unchanged|remained flat)"
-    r" (?:to|at) a weekly average of (?P<price>\$\S+?)\.?$"
+#: The headings the item has carried, the latest first. EIA used "International
+#: Spot Prices" from 17 February 2022, "International spot prices" from 14
+#: April 2022 and "International futures prices" from 14 July 2022. From 16
+#: September 2021 to 10 February 2022 the item has no heading of its own.
+ITEM_HEADINGS = ("International futures prices", "International spot prices", "International Spot Prices")
+
+_CREDIT_PRINTED = re.compile(r"Bloomberg Finance,? L\.P\.")
+
+_PRICE = r"(\$\d[\d,]*(?:\.\d+)?[^\s,;]*)"
+
+#: Ways the item states a week's level, in no particular order; the earliest
+#: match in a clause is the level.
+_LEVEL_PATTERNS = (
+    re.compile(r"(?:to|at) a weekly average of " + _PRICE),
+    re.compile(r"\baveraged " + _PRICE),
+    re.compile(r"\b(?:flat|unchanged)\b[^$]*?\bat " + _PRICE),
+    re.compile(r"^The weekly average \w+ to " + _PRICE),
 )
 
-_PRIOR_SENTENCE = re.compile(
-    r"^In the same week last year \(week ending " + _MONTH_DATE + r"\), "
-    r"the prices were (?P<asia>\$\S+) in East Asia and (?P<ttf>\$\S+) at TTF\.?$"
+#: Clauses that carry a price for one market but not the week's level.
+_NOT_A_LEVEL = ("when it averaged",)
+
+#: The item's opening summary ("International natural gas futures prices
+#: decreased this report week."), which names no market and prints no price.
+#: Only the first sentence can be the summary; a later one is a further sentence.
+_INTRO = re.compile(r"^International natural gas (?:futures |spot )?prices?\b[^$]*$")
+
+_CHANGE = re.compile(
+    r"\b(?:increased|decreased|rose|fell|climbed|declined|dropped|gained|lost|remained|was|were|averaged)\b"
 )
 
-_INTRO_SENTENCE = re.compile(
-    r"^International natural gas futures prices [a-z ]+ this report week\.$"
+_PREFIXES = (
+    re.compile(r"^According to Bloomberg Finance,? L\.P\.,? "),
+    re.compile(r"^Bloomberg Finance,? L\.P\.,? reports(?: that)? "),
 )
 
+_MONTHS_SHORT = {"Jan.": "January", "Feb.": "February", "Mar.": "March", "Apr.": "April",
+                 "Aug.": "August", "Sep.": "September", "Sept.": "September", "Oct.": "October",
+                 "Nov.": "November", "Dec.": "December"}
 
-def _leg(sentence: str) -> str | None:
-    if "same week last year" in sentence:
+_MONTHS_LONG = ("January", "February", "March", "April", "May", "June", "July",
+                "August", "September", "October", "November", "December")
+
+_PRIOR_DATE = re.compile(r"week ending ((?:[A-Z][a-z]+\.?) \d{1,2}, \d{4})")
+
+
+def _legs_named(clause: str) -> set[str]:
+    named = set()
+    if "East Asia" in clause:
+        named.add("east_asia")
+    if "TTF" in clause or "Title Transfer" in clause:
+        named.add("ttf")
+    return named
+
+
+def _level(clause: str) -> tuple[str, int] | None:
+    if any(marker in clause for marker in _NOT_A_LEVEL):
         return None
-    if "East Asia" in sentence and "weekly average of" in sentence:
-        return "east_asia"
-    if ("Title Transfer Facility" in sentence or "(TTF)" in sentence) and (
-        "weekly average of" in sentence
-    ):
-        return "ttf"
-    return None
+    best = None
+    for pattern in _LEVEL_PATTERNS:
+        match = pattern.search(clause)
+        if match and (best is None or match.start(1) < best[1]):
+            best = (match.group(1), match.start(1))
+    return best
+
+
+def _markets(clause: str, level: tuple[str, int] | None) -> set[str]:
+    """The markets a clause is about: when it names both and states a level,
+    the one named before the level ("..., bringing the TTF price back above
+    the price in East Asia" is about TTF alone)."""
+    named = _legs_named(clause)
+    if len(named) == 2 and level is not None:
+        before = _legs_named(clause[: level[1]])
+        if len(before) == 1:
+            return before
+    return named
+
+
+def _clauses(sentence: str) -> list[str]:
+    """A sentence that states both markets' levels, split into one clause each."""
+    named = _legs_named(sentence)
+    if named == {"east_asia", "ttf"}:
+        cut = re.search(r", and (?=[^,]*(?:Title Transfer|TTF))", sentence)
+        if cut and _level(sentence[: cut.start()]) and _level(sentence[cut.end():]):
+            return [sentence[: cut.start()], sentence[cut.end():]]
+    return [sentence]
+
+
+def _definition(clause: str) -> str:
+    text = clause
+    for prefix in _PREFIXES:
+        text = prefix.sub("", text)
+    match = _CHANGE.search(text)
+    return (text[: match.start()] if match else text).strip(" ,")
+
+
+#: The words that lead from a change to the level it reached.
+_TO_LEVEL = re.compile(r"\s*(?:(?:to|at) a weekly average of|averaged|at|to)$")
+
+
+def _change(clause: str, printed: str) -> str | None:
+    """The change the clause prints before its level ("decreased 47 cents"), if any."""
+    match = _CHANGE.search(clause)
+    end = clause.find(printed)
+    if not match or match.start() >= end:
+        return None
+    words = _TO_LEVEL.sub("", clause[match.start(): end].strip(" ,")).strip(" ,")
+    return words or None
+
+
+def east_asia_basis(definition: str) -> str:
+    """The product the East Asia sentence names, in this study's words."""
+    d = definition.lower()
+    if "front-month futures" in d:
+        return "front-month futures"
+    if "futures" in d:
+        return "futures, month not named"
+    if "swap" in d:
+        if "balance of" in d or "rest of" in d:
+            return "swap, balance of the month"
+        if "prompt month" in d:
+            return "swap, prompt month"
+        if any(re.search(r"\b%s\b" % month, definition) for month in _MONTHS_LONG):
+            return "swap, delivery month named"
+        return "swap, month not named"
+    raise ParseError("an East Asia price whose product is not named: %r" % (definition,))
+
+
+def ttf_basis(definition: str) -> str:
+    """The product the TTF sentence names, in this study's words."""
+    d = definition.lower()
+    if "day-ahead" in d:
+        return "day-ahead"
+    if "futures" in d:
+        return "futures, month not named"
+    if "spot market" in d or d.endswith("prices"):
+        return "spot, product not named"
+    raise ParseError("a TTF price whose product is not named: %r" % (definition,))
+
+
+def _prior_year(sentence: str, *, where: str) -> dict[str, Any]:
+    date_match = _PRIOR_DATE.search(sentence)
+    if not date_match:
+        raise ParseError("%s: a same week last year sentence with no week ending: %r" % (where, sentence))
+    printed_date = date_match.group(1)
+    month = printed_date.split(" ")[0]
+    long_date = printed_date.replace(month, _MONTHS_SHORT.get(month, month), 1)
+    prices = [(m.group(1), m.start()) for m in re.finditer(_PRICE, sentence)]
+    if len(prices) != 2:
+        raise ParseError("%s: a same week last year sentence with %d prices: %r" % (where, len(prices), sentence))
+    asia_at, ttf_at = sentence.find("East Asia"), sentence.find("TTF")
+    if asia_at < 0 or ttf_at < 0:
+        raise ParseError("%s: a same week last year sentence that does not name both markets: %r" % (where, sentence))
+    if "respectively" in sentence:
+        first, second = ("asia", "ttf") if asia_at < ttf_at else ("ttf", "asia")
+        named = {first: prices[0][0], second: prices[1][0]}
+    else:
+        # "$X in East Asia and $Y at TTF": each price precedes its market.
+        named = {}
+        for printed, at in prices:
+            nxt = min((p for p in (asia_at, ttf_at) if p > at), default=None)
+            if nxt is None:
+                raise ParseError("%s: a price in the same week last year sentence names no market: %r" % (where, sentence))
+            named["asia" if nxt == asia_at else "ttf"] = printed
+        if set(named) != {"asia", "ttf"}:
+            raise ParseError("%s: the same week last year prices do not name both markets: %r" % (where, sentence))
+    return {
+        "week_ending": _parse_long_date(long_date),
+        "asia": read_price(named["asia"]),
+        "ttf": read_price(named["ttf"]),
+    }
 
 
 def parse_ngwu_item(item_text: str, *, where: str) -> dict[str, Any]:
     """The values, wordings and anomalies of one NGWU international prices item.
 
-    where names the issue in error messages. Raises ParseError when the item
-    lacks a price sentence, carries one twice, or words one in a form not
-    recognised here.
+    The item has been worded in many ways since it began in September 2021, so
+    it is read by role, not by template: each clause naming one market and
+    stating a week's level gives that market's price (a clause naming both
+    belongs to the one named before its level), a following clause that
+    only restates "the weekly average" belongs to the market named before it,
+    and the same week last year sentence gives the year-earlier prices in
+    whichever order it names the markets. where names the issue in error
+    messages. Raises ParseError when a market has no level or two, or when a
+    product or a year-earlier sentence cannot be read.
     """
     body = item_text
-    if body.startswith(ITEM_HEADING):
-        body = body[len(ITEM_HEADING):].lstrip(" :")
-    sentences = split_sentences(body)
+    for heading in ITEM_HEADINGS:
+        if body.startswith(heading):
+            body = body[len(heading):].lstrip(" :")
+            break
 
     legs: dict[str, dict[str, Any]] = {}
+    headline: dict[str, str] = {}
     prior: dict[str, Any] | None = None
     extra: list[str] = []
     notes: list[str] = []
+    last_leg: str | None = None
 
-    for sentence in sentences:
-        leg = _leg(sentence)
-        if leg is not None:
-            match = _LEG_SENTENCE.match(sentence)
-            if not match:
-                raise ParseError(
-                    "%s: the %s sentence is in a form this parser does not "
-                    "recognise: %r" % (where, leg, sentence)
-                )
-            if leg in legs:
-                raise ParseError("%s: two %s sentences" % (where, leg))
-            price = read_price(match.group("price"))
-            if price.note:
-                notes.append("%s %s" % (leg, price.note))
-            legs[leg] = {
-                "definition": match.group("definition"),
-                "change": match.group("change"),
-                "price": price,
-            }
-        elif "same week last year" in sentence:
-            match = _PRIOR_SENTENCE.match(sentence)
-            if not match:
-                raise ParseError(
-                    "%s: the same week last year sentence is in a form this "
-                    "parser does not recognise: %r" % (where, sentence)
-                )
+    for position, sentence in enumerate(split_sentences(body)):
+        if "same week last year" in sentence:
             if prior is not None:
                 raise ParseError("%s: two same week last year sentences" % (where,))
-            asia = read_price(match.group("asia"))
-            ttf = read_price(match.group("ttf"))
-            for leg_name, price in (("prior year east_asia", asia), ("prior year ttf", ttf)):
+            prior = _prior_year(sentence, where=where)
+            for name, price in (("prior year east_asia", prior["asia"]), ("prior year ttf", prior["ttf"])):
                 if price.note:
-                    notes.append("%s %s" % (leg_name, price.note))
-            prior = {"week_ending": _parse_long_date(match.group(1)), "asia": asia, "ttf": ttf}
-        elif _INTRO_SENTENCE.match(sentence):
+                    notes.append("%s %s" % (name, price.note))
             continue
-        else:
+        used = False
+        for clause in _clauses(sentence):
+            level = _level(clause)
+            named = _markets(clause, level)
+            if len(named) == 1:
+                leg = next(iter(named))
+                if leg not in headline:
+                    headline[leg] = clause
+                    used = True
+                last_leg = leg
+                if level is not None:
+                    if leg in legs:
+                        raise ParseError("%s: two %s levels: %r" % (where, leg, clause))
+                    legs[leg] = {"clause": clause, "price": read_price(level[0]), "headline": headline[leg]}
+                    used = True
+            elif not named and level is not None and clause.startswith("The weekly average"):
+                if last_leg is None or last_leg in legs:
+                    raise ParseError("%s: a weekly average that names no market: %r" % (where, clause))
+                legs[last_leg] = {"clause": clause, "price": read_price(level[0]), "headline": headline[last_leg]}
+                used = True
+        if not used and not (position == 0 and _INTRO.match(sentence) and not _legs_named(sentence)):
             extra.append(sentence)
 
     for required in ("east_asia", "ttf"):
         if required not in legs:
-            raise ParseError("%s: no %s price sentence in the item" % (where, required))
+            raise ParseError("%s: no %s level in the item" % (where, required))
+
+    out: dict[str, Any] = {}
+    for leg in ("east_asia", "ttf"):
+        price = legs[leg]["price"]
+        if price.note:
+            notes.append("%s %s" % (leg, price.note))
+        definition = _definition(legs[leg]["headline"])
+        out[leg + "_usd_mmbtu"] = price.value
+        out[leg + "_printed"] = price.printed
+        out[leg + "_change_printed"] = _change(legs[leg]["clause"], price.printed)
+        out[leg + "_definition"] = definition
+        out[leg + "_basis"] = east_asia_basis(definition) if leg == "east_asia" else ttf_basis(definition)
 
     if extra:
         notes.append("%d further sentence(s) not about the two prices" % len(extra))
-    credited = CREDIT in item_text
-    if not credited:
+    credit = _CREDIT_PRINTED.search(item_text)
+    if not credit:
         notes.append("no credit to %s in the item" % CREDIT)
 
-    return {
-        "east_asia_usd_mmbtu": legs["east_asia"]["price"].value,
-        "ttf_usd_mmbtu": legs["ttf"]["price"].value,
-        "east_asia_printed": legs["east_asia"]["price"].printed,
-        "ttf_printed": legs["ttf"]["price"].printed,
-        "east_asia_change_printed": legs["east_asia"]["change"],
-        "ttf_change_printed": legs["ttf"]["change"],
-        "east_asia_definition": legs["east_asia"]["definition"],
-        "ttf_definition": legs["ttf"]["definition"],
+    out.update({
         "prior_year_week_ending": prior["week_ending"].isoformat() if prior else None,
         "prior_year_east_asia_usd_mmbtu": prior["asia"].value if prior else None,
         "prior_year_ttf_usd_mmbtu": prior["ttf"].value if prior else None,
         "prior_year_east_asia_printed": prior["asia"].printed if prior else None,
         "prior_year_ttf_printed": prior["ttf"].printed if prior else None,
-        "credit": CREDIT if credited else None,
+        "credit": credit.group(0) if credit else None,
         "anomaly": "; ".join(notes) if notes else None,
-    }
+    })
+    return out
+
+
+class NoItem(ParseError):
+    """An issue that carries no international prices item."""
+
+
+def _find_item(soup: BeautifulSoup) -> Any:
+    items = []
+    for strong in soup.find_all(["strong", "b"]):
+        text = normalise_text(strong.get_text())
+        if any(text.startswith(h) for h in ITEM_HEADINGS):
+            container = strong.find_parent("li") or strong.find_parent("p")
+            if container is not None and container not in items:
+                items.append(container)
+    if len(items) > 1:
+        raise ParseError("%d international prices items on the page" % len(items))
+    if items:
+        return items[0]
+    best = None
+    for element in soup.find_all(["li", "p"]):
+        text = normalise_text(element.get_text(" "))
+        if "East Asia" in text and "MMBtu" in text and ("TTF" in text or "Title Transfer" in text):
+            if best is None or len(text) < len(normalise_text(best.get_text(" "))):
+                best = element
+    return best
 
 
 def parse_ngwu_page(html: str | bytes, *, where: str) -> dict[str, Any]:
     """The dates and the international prices item of one NGWU issue page.
 
     Returns the week ending and release date printed in the report header and
-    the item's text, normalised. Raises ParseError when either is missing or
-    ambiguous.
+    the item's text, normalised. The item is found by its heading or, before
+    it had one, as the smallest list item naming East Asia and TTF with a price
+    in USD/MMBtu. Raises NoItem when the issue has no such item, and
+    ParseError when the dates are missing or the item is ambiguous.
     """
     soup = BeautifulSoup(html, "lxml")
     header = soup.find("div", class_="report_header")
@@ -322,22 +516,16 @@ def parse_ngwu_page(html: str | bytes, *, where: str) -> dict[str, Any]:
             "%s: the report header does not carry a week ending and a release "
             "date in the expected words: %r" % (where, header_text[:200])
         )
-
-    items = []
-    for strong in soup.find_all("strong"):
-        if normalise_text(strong.get_text()).startswith(ITEM_HEADING):
-            container = strong.find_parent("li") or strong.find_parent("p")
-            if container is not None:
-                items.append(container)
-    if not items:
-        raise ParseError("%s: no %r item on the page" % (where, ITEM_HEADING))
-    if len(items) > 1:
-        raise ParseError("%s: %d %r items on the page" % (where, len(items), ITEM_HEADING))
-
+    try:
+        item = _find_item(soup)
+    except ParseError as exc:
+        raise ParseError("%s: %s" % (where, exc)) from None
+    if item is None:
+        raise NoItem("%s: no international prices item on the page" % (where,))
     return {
         "week_ending": _parse_long_date(week.group(1)),
         "release_date": _parse_long_date(release.group(1)),
-        "item_text": normalise_text(items[0].get_text(" ")),
+        "item_text": normalise_text(item.get_text(" ")),
     }
 
 
@@ -599,6 +787,109 @@ def _merge_weekly(
 
 
 # --------------------------------------------------------------------------
+# Checks that need more than one issue
+# --------------------------------------------------------------------------
+
+#: The four figures an NGWU item gives, emptied when the item is not this week's.
+VALUE_COLUMNS = (
+    "east_asia_usd_mmbtu", "ttf_usd_mmbtu",
+    "prior_year_east_asia_usd_mmbtu", "prior_year_ttf_usd_mmbtu",
+)
+
+#: Wednesday to Wednesday: the same week a year earlier ends 364 days before.
+YEAR_EARLIER_DAYS = 364
+
+
+def read_items(frame: pd.DataFrame) -> pd.DataFrame:
+    """Every NGWU row read again from its stored item text, then checked against the others.
+
+    The values, wordings, bases and anomalies of each row follow from its
+    item_text alone, so they are derived again on every run, which keeps a
+    committed row and a fresh one identical. Two checks need the other rows:
+
+    * an item that repeats an earlier issue's item word for word carries that
+      issue's figures, not this week's, so its four values are left empty;
+    * a year-earlier week that does not end 364 days before this week's end is
+      flagged, and kept as printed.
+    """
+    out = frame.copy().sort_values("date").reset_index(drop=True)
+    for column in out.columns:
+        if column != "date" and column not in VALUE_COLUMNS:
+            out[column] = out[column].astype(object)
+    seen: dict[str, str] = {}
+    for i, row in out.iterrows():
+        values = parse_ngwu_item(row["item_text"], where=str(row["folder"]))
+        anomaly = values.pop("anomaly")
+        notes = [anomaly] if anomaly else []
+        week = pd.Timestamp(row["date"]).date()
+        if values["prior_year_week_ending"] is not None:
+            printed = date.fromisoformat(values["prior_year_week_ending"])
+            days = (week - printed).days
+            if days != YEAR_EARLIER_DAYS:
+                notes.append(
+                    "the same week last year is printed as the week ending %s, %d days "
+                    "before this week's end; the week a year earlier ended %s"
+                    % (printed, days, week - timedelta(days=YEAR_EARLIER_DAYS))
+                )
+        text = str(row["item_text"])
+        if text in seen:
+            notes.append(
+                "the item repeats the one of issue %s word for word, so its figures are "
+                "that issue's; the four values are left empty" % seen[text]
+            )
+            for column in VALUE_COLUMNS:
+                values[column] = None
+        else:
+            seen[text] = str(row["folder"])
+        for column, value in values.items():
+            out.at[i, column] = value
+        out.at[i, "east_asia_basis"] = east_asia_basis(values["east_asia_definition"])
+        out.at[i, "ttf_basis"] = ttf_basis(values["ttf_definition"])
+        out.at[i, "anomaly"] = "; ".join(notes) if notes else None
+    for column in VALUE_COLUMNS:
+        out[column] = pd.to_numeric(out[column], errors="coerce")
+    return out
+
+
+def year_earlier_check(frame: pd.DataFrame) -> pd.DataFrame:
+    """Each week's figure as its own issue printed it, against the same week a year later.
+
+    Weeks are matched on the calendar (the week ending 364 days before the
+    later issue's), never on the date the later issue prints, which is wrong
+    once. One row per market and pair of issues where the later issue prints a
+    figure; difference is the year-later figure less the original, empty when
+    the original week has no value (the two repeated issues). A difference across
+    a change of basis is a definition break; one within a basis is a revision
+    or an error, and the bases are given so a reader can tell which.
+    """
+    by_week = {pd.Timestamp(d).date(): row for d, row in zip(frame["date"], frame.to_dict("records"))}
+    rows = []
+    for later_week, later in sorted(by_week.items()):
+        earlier = by_week.get(later_week - timedelta(days=YEAR_EARLIER_DAYS))
+        if earlier is None:
+            continue
+        for leg in ("east_asia", "ttf"):
+            then = earlier[leg + "_usd_mmbtu"]
+            again = later["prior_year_%s_usd_mmbtu" % leg]
+            if pd.isna(again):
+                continue
+            rows.append({
+                "week_ending": pd.Timestamp(earlier["date"]).date().isoformat(),
+                "market": leg,
+                "issue": earlier["folder"],
+                "value": then,
+                "basis": earlier[leg + "_basis"],
+                "issue_year_later": later["folder"],
+                "value_year_later": again,
+                "basis_year_later": later[leg + "_basis"],
+                "difference": round(again - then, 2) if not pd.isna(then) else None,
+            })
+    columns = ["week_ending", "market", "issue", "value", "basis", "issue_year_later",
+               "value_year_later", "basis_year_later", "difference"]
+    return pd.DataFrame(rows, columns=columns)
+
+
+# --------------------------------------------------------------------------
 # Archived issues, from the Internet Archive's copies
 # --------------------------------------------------------------------------
 
@@ -760,8 +1051,14 @@ class NgwuInternationalWeekly(Adapter):
         "prior_year_week_ending", "prior_year_east_asia_usd_mmbtu", "prior_year_ttf_usd_mmbtu",
         "east_asia_printed", "ttf_printed", "prior_year_east_asia_printed", "prior_year_ttf_printed",
         "east_asia_change_printed", "ttf_change_printed",
-        "east_asia_definition", "ttf_definition", "credit", "anomaly", "item_text",
+        "east_asia_definition", "ttf_definition", "east_asia_basis", "ttf_basis",
+        "credit", "anomaly", "item_text",
     )
+
+    def __init__(self) -> None:
+        super().__init__()
+        #: Saved issues that carry no international prices item, by folder.
+        self.without_item: list[str] = []
 
     def _row(self, payload: bytes, *, folder: str | None, how: str, url: str) -> dict[str, Any]:
         where = folder or url
@@ -786,8 +1083,14 @@ class NgwuInternationalWeekly(Adapter):
         }
 
     def read_saved_issues(self) -> list[dict[str, Any]]:
-        """Every issue the owner saved by hand, parsed. Raises on the first bad one."""
+        """Every saved issue that carries the item, parsed. Raises on the first bad one.
+
+        An issue with no international prices item (every issue before
+        September 2021, and the one of 27 March 2025) gives no row; its folder
+        is listed in without_item.
+        """
         rows = []
+        self.without_item = []
         directory = manual_dir()
         if not directory.exists():
             return rows
@@ -803,7 +1106,10 @@ class NgwuInternationalWeekly(Adapter):
                 url = record["capture_url"]
             else:
                 how, url = "saved by hand", ARCHIVE_URL.format(folder=folder)
-            rows.append(self._row(payload, folder=folder, how=how, url=url))
+            try:
+                rows.append(self._row(payload, folder=folder, how=how, url=url))
+            except NoItem:
+                self.without_item.append(folder)
         return rows
 
     def fetch(self) -> pd.DataFrame:
@@ -811,15 +1117,40 @@ class NgwuInternationalWeekly(Adapter):
         response = http_get(LANDING_URL)
         rows.append(self._row(response.content, folder=None, how="landing page", url=LANDING_URL))
         existing = read_cache(self.name, directory=self.directory())
-        merged = _merge_weekly(existing, rows, key_text="item_text")
-        by_hand = int((merged["how_read"] == "saved by hand").sum())
+        merged = read_items(_merge_weekly(existing, rows, key_text="item_text"))
+        how = merged["how_read"].astype(str)
+        captures = int(how.str.startswith("Internet Archive capture").sum())
+        by_hand = int((how == "saved by hand").sum())
+        landing = int((how == "landing page").sum())
         self.note = (
-            "%d issue(s) read: %d saved by hand, %d from the landing page, which still "
-            "serves the final issue. Every other issue is in the archive robots.txt "
-            "disallows to code; see the manual step."
-            % (len(merged), by_hand, len(merged) - by_hand)
+            "%d issue(s) carry the item: %d read from the Internet Archive's earliest "
+            "capture, %d saved by hand, %d from the landing page, which still serves the "
+            "final issue. %s Code never requests the archive on eia.gov, which robots.txt "
+            "disallows." % (len(merged), captures, by_hand, landing, self._without_item_note(merged))
         )
         return merged[list(self.COLUMNS)]
+
+    def _without_item_note(self, merged: pd.DataFrame) -> str:
+        """Which listed issues carry no item, from the committed index and rows.
+
+        Read from what is committed rather than from the saved pages, so the
+        note is the same on a machine that holds none of them.
+        """
+        index = read_cache("eia_ngwu_issue_index")
+        if index is None:
+            return "The issue index is not committed, so issues without the item are not counted."
+        listed = sorted(index["folder"].dropna().astype(str))
+        have = set(merged["folder"].astype(str))
+        first = min(have)
+        before = [f for f in listed if f < first]
+        silent = [f for f in listed if f > first and f not in have]
+        return (
+            "Of the %d issues the index lists from %d, the %d before %s carry no "
+            "international prices item, and %s." % (
+                len(listed), INDEX_FIRST_YEAR, len(before), first,
+                ("neither does " + ", ".join(silent)) if silent else "every later one does",
+            )
+        )
 
 
 class WngsrInternationalWeekly(Adapter):
