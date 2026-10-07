@@ -66,7 +66,7 @@ basis points; they are not forecasts of where prices can go.
 | Quantity | Range | Why this range |
 |---|---|---|
 | JKM, TTF and Japanese spot LNG, USD/MMBtu | 1 to 120 | the highest monthly value in the World Bank's Europe gas series is 70.04, August 2022 |
-| Henry Hub, USD/MMBtu | 0.5 to 25 | see open question 3: two daily prints of January 2026 exceed 25 |
+| Henry Hub, USD/MMBtu | 0.5 to 50 | EIA's daily spot price printed 30.72 on 23 January 2026 and 25.01 on 26 January 2026; the bound catches a price read in cents, not a high price (open question 3) |
 | US dollars per euro | 0.8 to 1.7 | the euro's range on H.10 since 1999 is 0.8270 (25 October 2000) to 1.6010 (22 April 2008) |
 | Reported charter hire, USD per day | minus 10,000 to 500,000 | a spot charter rate can be assessed below zero; the reported figures are in the freight anchors |
 | DES LNG spreads to the TTF front month, EUR/MWh | minus 20 to 5 | set before any ACER report was parsed; ACER's own figures will test it |

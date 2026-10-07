@@ -117,10 +117,15 @@ def test_out_of_bounds_value_is_caught_and_nan_is_not():
 def test_the_bounds_are_the_ones_the_methodology_names():
     """docs/methodology.md states these ranges; a change must fail here by name."""
     assert config.BOUNDS_LNG_USD_MMBTU == (1.0, 120.0)
-    assert config.BOUNDS_HENRY_HUB_USD_MMBTU == (0.5, 25.0)
+    assert config.BOUNDS_HENRY_HUB_USD_MMBTU == (0.5, 50.0)
     assert config.BOUNDS_USD_PER_EUR == (0.8, 1.7)
     assert config.BOUNDS_HIRE_USD_DAY == (-10000.0, 500000.0)
     assert config.BOUNDS_DES_SPREAD_EUR_MWH == (-20.0, 5.0)
+    assert config.BOUNDS_DES_EUR_MWH == (1.0, 400.0)
+    assert config.BOUNDS_EUA_EUR_T == (1.0, 200.0)
+    assert config.BOUNDS_SOFR_PERCENT == (-1.0, 15.0)
+    assert config.BOUNDS_EXPORTS_MMCF == (0.0, 2000000.0)
+    assert config.BOUNDS_EXPORT_PRICE_USD_MCF == (0.1, 100.0)
 
 
 def test_shrinking_row_count_is_caught():

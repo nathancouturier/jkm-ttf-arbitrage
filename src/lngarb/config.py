@@ -27,7 +27,7 @@ from typing import Mapping
 #: JKM, TTF and Japanese spot LNG, USD/MMBtu
 BOUNDS_LNG_USD_MMBTU = (1.0, 120.0)
 #: Henry Hub, USD/MMBtu
-BOUNDS_HENRY_HUB_USD_MMBTU = (0.5, 25.0)
+BOUNDS_HENRY_HUB_USD_MMBTU = (0.5, 50.0)
 #: US dollars per euro
 BOUNDS_USD_PER_EUR = (0.8, 1.7)
 #: reported LNG carrier hire, USD per day. Negative is possible: Spark's

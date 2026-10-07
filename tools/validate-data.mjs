@@ -94,7 +94,7 @@ const ISO_STAMP = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/;
 
 const COLUMN_RULES = [
   { match: /_printed$/, text: true, what: "a value kept as the source printed it, which is text" },
-  { match: /^henry_hub_usd_mmbtu$/, lo: 0.5, hi: 25.0, what: "Henry Hub, USD/MMBtu" },
+  { match: /^henry_hub_usd_mmbtu$/, lo: 0.5, hi: 50.0, what: "Henry Hub, USD/MMBtu" },
   { match: /_usd_mmbtu$/, lo: 1.0, hi: 120.0, what: "JKM, TTF or spot LNG, USD/MMBtu" },
   { match: /^usd_per_eur$/, lo: 0.8, hi: 1.7, what: "US dollars per euro" },
   { match: /^sofr_percent$/, lo: -1.0, hi: 15.0, what: "SOFR, percent per year" },

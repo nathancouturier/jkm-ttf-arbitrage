@@ -259,22 +259,32 @@ def test_henry_hub_range_and_the_one_empty_row():
     assert empty["date"].tolist() == [pd.Timestamp("2018-01-05")]
 
 
-def test_henry_hub_breaks_the_declared_upper_bound_twice_in_january_2026():
-    """Real prints above 25 USD/MMBtu. The bound is not widened here: the adapter
-    fails and keeps what is on disk until the owner decides, which is the rule."""
+def test_henry_hub_prints_above_25_twice_in_january_2026_and_the_bound_holds_them():
+    """Two real prints above 25 USD/MMBtu. The bound is a guard against a unit
+    error, set at 50 so that EIA's own prints pass and a price read in cents
+    does not."""
     frame, _, _ = eia.parse_henry_hub_workbook(HENRY_HUB)
-    high, low_bound = config.BOUNDS_HENRY_HUB_USD_MMBTU[1], config.BOUNDS_HENRY_HUB_USD_MMBTU[0]
-    outside = frame[(frame["henry_hub_usd_mmbtu"] > high) | (frame["henry_hub_usd_mmbtu"] < low_bound)]
-    assert outside["date"].dt.strftime("%Y-%m-%d").tolist() == ["2026-01-23", "2026-01-26"]
-    assert outside["henry_hub_usd_mmbtu"].tolist() == [30.72, 25.01]
+    above = frame[frame["henry_hub_usd_mmbtu"] > 25]
+    assert above["date"].dt.strftime("%Y-%m-%d").tolist() == ["2026-01-23", "2026-01-26"]
+    assert above["henry_hub_usd_mmbtu"].tolist() == [30.72, 25.01]
+    low, high = config.BOUNDS_HENRY_HUB_USD_MMBTU
+    assert frame["henry_hub_usd_mmbtu"].dropna().between(low, high).all()
 
 
-def test_the_henry_hub_adapter_refuses_the_workbook_under_the_declared_bound(sandbox, tmp_path):
+def test_the_henry_hub_adapter_writes_the_workbook_and_refuses_a_price_in_cents(sandbox, tmp_path, monkeypatch):
     workbook = tmp_path / "hh.xls"
     workbook.write_bytes(HENRY_HUB)
+    entry = eia.HenryHubDaily(from_file=workbook, fetched_at="2026-09-30T11:59:08Z").run()
+    assert entry["status"] == "ok"
+    assert entry["fetched_at"] == "2026-09-30T11:59:08Z"
+    real = eia.parse_henry_hub_workbook
+
+    def in_cents(payload):
+        frame, released, following = real(payload)
+        frame["henry_hub_usd_mmbtu"] = frame["henry_hub_usd_mmbtu"] * 100
+        return frame, released, following
+
+    monkeypatch.setattr(eia, "parse_henry_hub_workbook", in_cents)
     with pytest.raises(base.SourceError) as caught:
-        eia.HenryHubDaily(from_file=workbook, fetched_at="2026-09-30T11:59:08Z").run()
-    assert "outside [0.5, 25]" in str(caught.value)
-    entry = base.manifest_read()["series"][0]
-    assert entry["status"] == "failed"
-    assert base.read_cache("eia_henry_hub_daily") is None
+        eia.HenryHubDaily(from_file=workbook, fetched_at="x").run()
+    assert "outside [0.5, 50]" in str(caught.value)

@@ -42,13 +42,15 @@ are used. EIA's contact route on the same page is the one way to settle it.
 
 ### 3. The Henry Hub bound
 
-Raised 30 September 2026. **Open, the owner's decision.**
+Raised 30 September 2026. **Decided 7 October 2026.**
 
-The declared range for Henry Hub is 0.5 to 25 USD/MMBtu. EIA's daily spot
+The declared range for Henry Hub was 0.5 to 25 USD/MMBtu. EIA's daily spot
 series prints 30.72 on 23 January 2026 and 25.01 on 26 January 2026, so the
-adapter refuses the whole workbook and no Henry Hub cache exists. The bound is
-not widened without a decision: either widen it, or list the two values as
-known exceptions with EIA's page as the source.
+adapter refused the whole workbook and no Henry Hub cache existed.
+
+Decision: the range is 0.5 to 50 USD/MMBtu. The bounds exist to catch a unit
+or parse error, not to judge a price, and the two prints are EIA's own. A
+price read in cents would still fail.
 
 ### 4. A revision that breaks EIA's own addition
 

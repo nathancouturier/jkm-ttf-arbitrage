@@ -563,9 +563,9 @@ page, one PDF each.
 * **EIA's NYMEX futures series stop on 5 April 2024.** The data page's heading
   says "(Futures prices after April 5, 2024, are not available)".
 * **Two January 2026 values sit above 25 USD/MMBtu**: 30.72 on 23 January and
-  25.01 on 26 January. The study's declared bound for Henry Hub is 0.5 to 25,
-  so the adapter refuses the workbook and keeps nothing until that bound is
-  decided (section 4).
+  25.01 on 26 January. They are EIA's prints and are kept; the study's bound
+  for Henry Hub is 0.5 to 50, a guard against a price read in cents (open
+  question 3).
 * **Holidays are omitted, except from July 2015 to November 2017**, when rows
   repeat the previous business day. 1997 to 2006 are sparse. 2018-01-05 is a
   dated row with no value. A monthly average must use the days present and
@@ -898,8 +898,8 @@ page, one PDF each.
 2. **Third party figures in EIA publications.** Whether the weekly prices
    credited to Bloomberg and the spot price credited to Refinitiv may be
    committed under EIA's public domain statement.
-3. **The Henry Hub bound.** Whether the declared upper bound of 25 USD/MMBtu is
-   widened, or the two January 2026 values are listed as exceptions.
+3. **The Henry Hub bound.** Decided on 7 October 2026: widened to 50 USD/MMBtu
+   (open question 3).
 4. **The euro rate's route.** This study reads the Board's release page XML
    rather than its Data Download Program, which the Board is retiring.
 5. **SOFR's source and licence.** This study reads the New York Fed's API under
