@@ -38,8 +38,15 @@ data/cache/eia_*.csv and data/cache/h10_usd_per_eur_daily.csv:
   Henry Hub spot price to Refinitiv, an LSEG business.
 
 data/seed/routes.json and data/seed/routes.geojson:
-  The distances are this study's computation, under the MIT licence. Whether
-  the lines may be published is open; see docs/open-questions.md, question 21.
+  The distances are this study's computation, under the MIT licence. The route
+  lines are published under the European Union Public Licence 1.2
+  (https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12),
+  as a work derived from the maritime network the searoute library bundles
+  (searoute, https://github.com/genthalili/searoute-py, Apache License 2.0),
+  which its README credits to Eurostat's Searoute
+  (https://github.com/eurostat/searoute, EUPL 1.2), itself based on the Oak
+  Ridge National Laboratory CTA Transportation Network Group's Global Shipping
+  Lane Network, World, 2000.
 
 tests/fixtures/:
   Each file is its publisher's own bytes under its publisher's terms; see

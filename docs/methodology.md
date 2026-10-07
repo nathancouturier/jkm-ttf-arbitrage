@@ -206,7 +206,7 @@ an assumption.
 | 8 Feb 2025 | June 2025 | three crossings in the half year; the two named are Salalah LNG, from Oman, and Trader III | IEA, Gas Market Reports Q2 and Q3 2025; Kpler, 8 May 2025 |
 | July 2025 | February 2026 | "only a handful" of crossings in 2025; "limited" in the winter | IEA, Gas Market Reports Q1 and Q2 2026 |
 | March 2026 | July 2026 | no LNG vessel at Bab el Mandeb, then one in ballast | Discovery Alert, 22 July 2026, citing S&P Global data (secondary) |
-| August 2026 | September 2026 | Suez traffic recovering, LNG carriers named among the drivers, no count of Red Sea crossings | Lloyd's List Intelligence, Red Sea briefs |
+| August 2026 | September 2026 | unknown: no source this study uses reports on LNG carriers in the Red Sea | (open question 38) |
 
 No source read shows a US Gulf cargo going to Asia through Suez after 12
 January 2024. That is an absence of reports, not a count of zero. When the

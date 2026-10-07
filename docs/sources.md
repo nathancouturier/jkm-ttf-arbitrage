@@ -33,7 +33,7 @@ was decided on the strength of it.
 | `worldbank_gas_revisions` | Every value a Pink Sheet release changed, both releases side by side | derived by this study | with each release that changes a value | **yes** | CC BY 4.0 |
 | `h10_usd_per_eur_daily` | US dollars per euro, noon buying rate in New York, daily, from 2015 | [FRB_h10_xml.zip](https://www.federalreserve.gov/releases/h10/data/FRB_h10_xml.zip) | weekly, Mondays | **yes** | US public domain |
 | `nyfed_sofr_daily` | Secured Overnight Financing Rate, daily, percent, from 2 April 2018 | [markets API](https://markets.newyorkfed.org/api/rates/secured/sofr/search.json) | daily, next business day | **yes**, under the New York Fed's terms | New York Fed Terms of Use |
-| `routes` | The four sea routes from Sabine Pass, distances and lines | computed once by `scripts/routes.py` | fixed | **yes** | distances: this study, MIT; lines: open, question 21; searoute Apache 2.0 |
+| `routes` | The four sea routes from Sabine Pass, distances and lines | computed once by `scripts/routes.py` | fixed | **yes** | distances: this study, MIT; lines: EUPL 1.2; searoute Apache 2.0 |
 
 ---
 
@@ -320,9 +320,11 @@ derivatives to be distributed under it or a licence on its compatibility list;
 the Apache License is not on that list. Eurostat's README says its network "is
 based on the Oak Ridge National Labs CTA Transportation Network Group, Global
 Shipping Lane Network, World, 2000", whose copy on GeoCommons carries no
-licence field. **The distances are this study's computation and are published.
-Whether the committed lines may be published under this chain is an open
-question for the owner** (section 4).
+licence field. **The distances are this study's computation and are published
+under the MIT licence. The committed lines are published under the European
+Union Public Licence 1.2**, as a work derived from that network, with
+attribution to searoute, to Eurostat and to the Oak Ridge dataset
+(`NOTICE`; question 21).
 
 ### 2.10 Suez Canal Authority, circulars and annual reports
 
@@ -375,8 +377,8 @@ short quotations, each attributed, from these:
 * Lloyd's List Intelligence: its Red Sea briefs were read on 1 October 2026 and
   its terms on 3 October 2026, after the briefs. The terms forbid, "unless
   expressly permitted by us in writing", any "bulk/batch downloading or
-  automated scraping of Content". Whether the briefs stay a source is open
-  question 38.
+  automated scraping of Content". The briefs are therefore not a source of
+  this study (question 38).
 
 ### 2.12 Port tariffs, and the documents they are read from
 

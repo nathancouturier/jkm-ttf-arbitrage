@@ -543,14 +543,15 @@ SOURCES: Mapping[str, Source] = _registry(
         frequency="annual",
         unit="nautical miles",
         method="derived",
-        licence="Apache License 2.0 for searoute; the network's own terms in docs/sources.md",
+        licence="distances MIT; lines EUPL 1.2; searoute Apache License 2.0",
         licence_note=(
             "The distances are this study's computation, published under the "
-            "repository's MIT licence. Whether the lines may be published is open "
-            "(docs/open-questions.md, question 21): searoute is released under the "
-            "Apache License 2.0 and bundles a network its README credits to "
-            "Eurostat's Searoute, released under the EUPL 1.2; the chain is quoted "
-            "in docs/sources.md."
+            "repository's MIT licence. The lines are published under the European "
+            "Union Public Licence 1.2, as a work derived from the network searoute "
+            "bundles, which its README credits to Eurostat's Searoute (EUPL 1.2), "
+            "itself based on an Oak Ridge National Laboratory dataset. searoute is "
+            "released under the Apache License 2.0. The chain is quoted in "
+            "docs/sources.md."
         ),
         committable=True,
     ),

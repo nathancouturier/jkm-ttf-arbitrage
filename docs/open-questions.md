@@ -29,7 +29,7 @@ unverified and no public JKM series covers April 2021 onward.
 
 ### 2. Figures EIA prints under a third party's credit
 
-Raised 30 September 2026. **Open, the owner's decision.**
+Raised 30 September 2026. **Decided 7 October 2026.**
 
 EIA's publications are in the public domain, but its reuse page also says
 material "contributed or licensed by private individuals, companies, or
@@ -39,6 +39,12 @@ price is credited on EIA's definitions page to "Refinitiv, an LSEG business".
 The page does not say whether such figures fall under the protected materials
 sentence. The caches are committed with the credit carried wherever the values
 are used. EIA's contact route on the same page is the one way to settle it.
+
+Decision: the caches are committed, with the credit EIA prints carried beside
+every value they hold and on every page that shows them. EIA's reuse statement
+covers its information products; the figures are EIA's publication of them.
+Should EIA or a rights holder object, the two series move to `data/private/`
+and the site shows only what is derived from them.
 
 ### 3. The Henry Hub bound
 
@@ -64,12 +70,16 @@ denominator (question 5), so the gap is visible rather than absorbed.
 
 ### 5. The denominator of the Asian share
 
-Raised 30 September 2026. Open, to be decided with the flow analysis.
+Raised 30 September 2026. **Decided 7 October 2026.**
 
 EIA's LNG total, `N9133US2`, includes re-exports of previously imported cargoes
 and exports by truck; the by vessel total does not. They are equal in January
 and June 2026 and differ by 16 MMcf in May 2026. The share of exports going to
 Asia needs one of them, stated.
+
+Decision: shares of exports by destination are computed against the by vessel
+total, the block the destination columns belong to. The LNG total including
+re-exports is shown beside it where the two differ.
 
 ### 6. "From Canada" in the exports by vessel block
 
@@ -82,13 +92,17 @@ Americas. What the label means has not been established.
 
 ### 7. Earlier releases of the exports table
 
-Raised 30 September 2026. **Open, the owner's decision.**
+Raised 30 September 2026. **Decided 7 October 2026.**
 
 EIA keeps no old release online. The Internet Archive holds 41 captures of the
 exports workbook from 2011 to May 2026. One, the release of 30 April 2026, is a
 test fixture here and shows EIA revising back at least fourteen months,
 including China. Importing the others as earlier vintages would extend the
 revisions record; they are not imported yet.
+
+Decision: not imported. The latest release carries every month, and earlier
+captures would only extend the record of revisions, which each new release now
+adds to by itself.
 
 ### 8. The DOE transaction file as a source
 
@@ -102,13 +116,16 @@ terms have not been read. Adding it would be a new source.
 
 ### 9. The weekly series changed product in January 2026
 
-Raised 30 September 2026. Open.
+Raised 30 September 2026. **Decided 7 October 2026.**
 
 The Weekly Update's "front-month futures prices for liquefied natural gas (LNG)
 cargoes in East Asia" and the Supplement's "Japan-Korea Marker (JKM) price" may
 or may not be the same Bloomberg series. The two are kept apart, and any chart
 that joins them marks the change between the weeks ending 21 and 28 January 2026
 as a break.
+
+Decision: kept as two series, with the break marked wherever they are shown
+together.
 
 ### 10. Test fixtures are kept as the source served them
 
@@ -122,7 +139,7 @@ including the item text stored in its caches, writes a dash as its code point.
 
 ### 11. The euro rate's route
 
-Raised 30 September 2026. Decided provisionally, for the owner to confirm.
+Raised 30 September 2026. **Decided 7 October 2026.**
 
 The Federal Reserve Board is retiring its Data Download Program: the "Build Your
 Package" option goes the week of 9 November 2026 and the rest of the program
@@ -131,6 +148,9 @@ historical data will remain as XML on the release pages, so the study reads the
 H.10 release page package. From 2015 it agrees with the history page on every
 weekday. The Board now points users of the Data Download Program to FRED
 instead; this study keeps to the Board's own publication.
+
+Decision: confirmed. The study reads the H.10 release page package, the route
+the Board says will remain.
 
 ### 12. SOFR is licensed, and there is none before April 2018
 
@@ -157,7 +177,7 @@ catalogue entry names no extra condition.
 
 ### 14. JOGMEC's permission
 
-Raised 30 September 2026. **Open, the owner's decision: whether and how to send.**
+Raised 30 September 2026. **Decided 7 October 2026.**
 
 JOGMEC's survey is the only public continuation of METI's after March 2021, and
 its terms require permission for use beyond private use, education and
@@ -200,9 +220,13 @@ message to 2,000 characters. The closest subject in the English form is
 > Nathan Couturier
 > [email address]
 
+Decision: JOGMEC's series stays private and nothing derived from it is
+published. The letter in this question is ready for the owner to send; until
+JOGMEC answers, the series is used only as a private check on the public ones.
+
 ### 15. METI's preliminary figures
 
-Raised 30 September 2026. **Open, the owner's decision.**
+Raised 30 September 2026. **Decided 7 October 2026.**
 
 METI's historical workbook gives every month's latest figure and is the source
 of `meti_spot_lng_monthly`. Only the monthly PDFs carry the preliminary figures,
@@ -211,9 +235,12 @@ PDFs are held, 77 are not. They can be saved by hand from a browser, which is
 the manual step recorded in the manifest, or the study can do without METI's
 preliminary vintages before August 2020.
 
+Decision: not collected. The workbook carries every month's latest figure; the
+preliminary figures would only show METI's own revisions.
+
 ### 16. Do METI's and JOGMEC's arrival-based series join?
 
-Raised 30 September 2026. Open.
+Raised 30 September 2026. **Decided 7 October 2026.**
 
 JOGMEC changed its arrival-based definition in April 2023. METI's own definition
 of arrival-based is in its overview document, which could not be read, so
@@ -223,6 +250,9 @@ one arrival-based line. Both surveys' notes describe the same kind of cargo:
 spot cargoes, cargo by cargo, on a DES basis, as simple averages. JOGMEC defines
 its contract-based price in the text of each month's page; METI's monthly
 notes use the term without defining it.
+
+Decision: kept as two arrival-based lines, never joined, and the contract-based
+series are joined only with the change of survey marked.
 
 ### 17. April 2026 in JOGMEC's publications
 
@@ -235,7 +265,7 @@ modified after that page, still give 19.1. The study follows the page.
 
 ### 18. ACER's reports, and which discount is observed
 
-Raised 30 September 2026. **Open, the owner's decision.**
+Raised 30 September 2026. **Decided 7 October 2026.**
 
 ACER's daily reports are on TERMINAL, which this study does not access by code.
 They have to be saved by hand; the manual step in the manifest says how, and
@@ -252,14 +282,26 @@ spread only as charts built on another publisher's prices; they print an
 average of 2 EUR/MWh for January to August 2023 and a range of 2 to 3 EUR/MWh
 in the months before April 2024, which can bound an assumption.
 
+Decision: no report is collected by hand for now; the manual step stays in the
+manifest for whenever one is. The observed discount is ACER's EU benchmark on
+the 26 corrected days, labelled as the EU's. Everywhere else the Northwest
+Europe discount is a labelled assumption whose range is set from what ACER's
+monitoring reports print, about 2 EUR/MWh on average from January to August
+2023 and 2 to 3 EUR/MWh in the months before April 2024, and the verdict's
+sensitivity to it is shown.
+
 ### 19. What ACER's legal notice permits
 
-Raised 30 September 2026. Open, recorded.
+Raised 30 September 2026. **Decided 7 October 2026.**
 
 The first paragraph of ACER's copyright notice prohibits reuse of "this
 Licensed Material" without defining it; the second permits reproduction with
 acknowledgement. The study reads the first as applying to material ACER marks
 as licensed. ACER can confirm it.
+
+Decision: the study proceeds on the reading that the first paragraph covers
+only material ACER marks as licensed, and acknowledges ACER as the source of
+every value.
 
 ### 20. The EU allowance price after June 2025
 
@@ -273,7 +315,7 @@ them; or hold a labelled assumption.
 
 ### 21. The licence of the route lines
 
-Raised 1 October 2026. **Open, the owner's decision.**
+Raised 1 October 2026. **Decided 7 October 2026.**
 
 The lines in `data/seed/routes.geojson` are vertices of the network searoute
 bundles. searoute is Apache 2.0; it credits Eurostat's SeaRoute, which is EUPL
@@ -283,15 +325,23 @@ Options: keep the lines with attribution to all three; publish only the
 distances and draw the map from a coarser set of waypoints this study sets
 itself; or ask the library's author how the network was derived.
 
+Decision: the distances stay this study's and MIT. The lines in
+`data/seed/routes.geojson` are published under the European Union Public
+Licence 1.2, as a work derived from the network Eurostat's Searoute carries,
+with attribution to searoute (Apache License 2.0), to Eurostat and to the Oak
+Ridge National Laboratory dataset Eurostat names; `NOTICE` says so.
+
 ### 22. The Suez route over the Bahamas
 
-Raised 1 October 2026. Open.
+Raised 1 October 2026. **Decided 7 October 2026.**
 
 The computed Suez route crosses what reads as the shallow Great Bahama Bank,
 which no LNG carrier could use. Forced through deep water it is 44 to 53 nm
 longer, 0.3 to 0.4 percent, about a tenth of a day at 17 knots. The committed
 distance is the library's; the difference is small against every other
 uncertainty in the voyage, and is stated rather than corrected.
+
+Decision: the library's distance is kept and the difference stated.
 
 ### 23. Spark's worked example and its discharge volume
 
@@ -314,12 +364,14 @@ That is a pattern in Spark's figures, not a rule Spark states.
 
 ### 24. Platts' voyage duration via Panama
 
-Raised 1 October 2026. Open.
+Raised 1 October 2026. **Decided 7 October 2026.**
 
 S&P Global refuses automated requests, even for its robots.txt, so Platts'
 subscriber note giving Sabine Pass to Futtsu via Panama at 23 days could not be
 read. It can be saved by hand; the routes are tested against Spark's and EIA's
 figures without it.
+
+Decision: not pursued; the routes are tested against Spark's and EIA's figures.
 
 ### 25. The Suez toll for a 174,000 m3 carrier
 
@@ -342,7 +394,7 @@ rise in 2023, whose circular was not found.
 
 ### 26. Whether the Suez rebate reaches the LNG surcharge
 
-Raised 3 October 2026. Open, recorded.
+Raised 3 October 2026. **Decided 7 October 2026.**
 
 The Authority's rebate for LNG carriers sailing from the US Gulf to Asia is a
 percentage "of Suez Canal normal tolls". Its surcharge on LNG carriers, 7
@@ -352,9 +404,12 @@ reduces the surcharge. The two readings differ by the rebate times the
 surcharge: at 75 percent and 19 percent, 14.25 percent of the normal toll.
 Until a canal agency or the Authority answers, both readings are shown.
 
+Decision: the rebate is applied to normal dues only, as the texts say, and the
+surcharge is paid in full; the other reading is shown as a sensitivity.
+
 ### 27. The Suez rebate on the ballast leg
 
-Raised 3 October 2026. **Open, the owner's decision.**
+Raised 3 October 2026. **Decided 7 October 2026.**
 
 Every rebate text since 2019 names LNG carriers "(laden/ballast)", and the
 original circular of 2017 names tankers "loaded or in ballast", so a ballast
@@ -364,9 +419,12 @@ it then asks for, is not written. From 1 January 2025 the rebate is also
 limited to carriers "directly operating" between the two areas, so a cargo
 reloaded or calling commercially on the way loses it.
 
+Decision: the rebate applies to the ballast leg of a direct round trip, since
+every text since 2019 names laden and ballast carriers.
+
 ### 28. When the Red Sea was open to a US cargo
 
-Raised 3 October 2026. **Open, the owner's decision.**
+Raised 3 October 2026. **Decided 7 October 2026.**
 
 The record supports: routine use until the end of 2023; the last laden LNG
 carrier through Suez on 12 January 2024 and the last in ballast on 16 January;
@@ -382,9 +440,14 @@ whether August and September 2026 are "closed, no evidence of return" or
 "unknown"; and whether the secondary source is accepted for March to July
 2026.
 
+Decision: the route through Suez is closed to a US Gulf cargo from 13 January
+2024, the day after the last laden LNG transit, to the latest date of the data,
+since no source shows a return. Before that it is open. The secondary source
+for March to July 2026 is quoted as corroboration only; nothing rests on it.
+
 ### 29. The canal's monthly transit counts
 
-Raised 3 October 2026. **Open, the owner's decision.**
+Raised 3 October 2026. **Decided 7 October 2026.**
 
 The Authority's annual reports give LNG ship transits by year: 819 in 2023,
 119 in 2024 and 282 in 2025, both directions, laden and ballast. Its monthly
@@ -394,9 +457,12 @@ monthly record for 2023 to 2026, with the caveat that a canal transit is not a
 Red Sea crossing: ships entering from the north to deliver at Ain Sukhna or
 Aqaba are counted and never pass Bab el Mandeb.
 
+Decision: not collected; the yearly counts are enough for the record the study
+shows.
+
 ### 30. Quoting the Suez Canal Authority
 
-Raised 3 October 2026. **Open, the owner's decision.**
+Raised 3 October 2026. **Decided 7 October 2026.**
 
 The Authority's site has no terms of use page that could be found, and every
 page carries "Copyright 2017 | All Right Reserved Suez Canal Authority". The
@@ -404,9 +470,12 @@ study quotes rates, percentages and dates from its circulars and counts from
 its annual reports, each with its source, and copies no document. Either that
 is accepted as quotation, or the Authority is asked.
 
+Decision: quotation of rates, percentages, dates and counts, each with its
+source, is accepted; no document of the Authority's is copied.
+
 ### 31. The Japanese port cost
 
-Raised 3 October 2026. **Open, the owner's decision.**
+Raised 3 October 2026. **Decided 7 October 2026.**
 
 No public source gives an all-in port cost for an LNG carrier at a Japanese
 terminal. Spark's note on negative freight rates shows, in a screenshot of its
@@ -419,9 +488,13 @@ labelled an assumption; or assemble Futtsu from the published components in
 there. Spark's pair is the only source that prices both destinations on one
 basis.
 
+Decision: Spark's two-port figures are used: 308,947 $ for Sabine Pass and Gate
+and 273,184 $ for Sabine Pass and Futtsu, each labelled as Spark's, from GAC,
+indicative, February 2022, for a 160,000 m3 TFDE, two ports combined.
+
 ### 32. Two-port figures in a cost line written per port
 
-Raised 3 October 2026. **Open, the owner's decision.**
+Raised 3 October 2026. **Decided 7 October 2026.**
 
 The cost line is `port(load) + port(destination)`, while Spark gives each pair
 of ports as one sum. Either the line becomes a port cost per route, or each sum
@@ -430,9 +503,13 @@ m3 TFDE in February 2022: for the 174,000 m3 two-stroke and for other years
 they are either held constant or scaled, for instance by gross tonnage, and
 either choice is an assumption to state.
 
+Decision: the port cost becomes a cost per route, the pair Spark gives, and is
+held at Spark's figures for every year and for both ships. Both choices are
+labelled assumptions in the parameter table.
+
 ### 33. The Sabine Neches cargo fee
 
-Raised 3 October 2026. **Open, the owner's decision.**
+Raised 3 October 2026. **Decided 7 October 2026.**
 
 The Sabine Neches Navigation District charges 0.20 $ per short ton of
 hydrocarbon cargo from 1 May 2021, reviewable each year up to 0.35 $. A court
@@ -441,6 +518,9 @@ record lists what it cost one offtaker's LNG loadings from May to August 2021:
 174,000 m3 (this study's arithmetic). The current rate was not found, and
 whether Spark's port costs include the fee is not stated. Either it is a line of its own at the load port, or it
 is taken as part of the port cost and said so.
+
+Decision: no separate line. The fee is taken to be inside the port costs, and
+that is stated beside them.
 
 ### 34. Kisarazu's entry dues and LNG fuelled ships
 
@@ -464,7 +544,7 @@ tariff rather than taken inside a published all-in figure.
 
 ### 36. Spark's figures in this study
 
-Raised 6 October 2026. **Open, the owner's decision.**
+Raised 6 October 2026. **Decided 7 October 2026.**
 
 Spark's terms (`docs/sources.md`, 2.13) bar publishing or reproducing Spark
 Content without a licence, except "as permitted by laws relating to fair use".
@@ -478,9 +558,15 @@ table or series; ask Spark for written permission to quote a short, named list
 figures in `data/private/` and test the engine against them privately. Only
 written permission removes the doubt.
 
+Decision: individual figures are quoted with their attribution, as fair use for
+a non-commercial study: the worked example, which the engine reproduces as a
+check of method, the two port figures and the reported charter rates. No Spark
+document is reproduced, no Spark series is built, and Spark's documents are
+named, not linked.
+
 ### 37. The freight anchors
 
-Raised 6 October 2026. **Open, the owner's decision.**
+Raised 6 October 2026. **Decided 7 October 2026.**
 
 Nine reported charter rates have been verified in readable, dated articles or
 documents, one per month, from February 2022 to October 2026. They are kept in
@@ -501,9 +587,17 @@ documents, one per month, from February 2022 to October 2026. They are kept in
 The two figures of the week to 24 July 2026 could not be verified: they sit
 behind LNG Prime's subscription.
 
+Decision: the seed carries, for each of the verified figures, the value, the
+date it refers to (empty when the article gives none, with the article's own
+date beside it), the assessment and vessel basis (marked inferred where the
+article does not state them), the publisher and the article's address, and
+never the article's sentence. October 2022 is the figure of 10 October, the
+first reported. April 2020 is run at the low, central and high hire set from
+the other figures.
+
 ### 38. Lloyd's List Intelligence's briefs
 
-Raised 6 October 2026. **Open, the owner's decision.**
+Raised 6 October 2026. **Decided 7 October 2026.**
 
 Nine of Lloyd's List Intelligence's public Red Sea briefs, from 23 July to 1
 October 2026, and one Lloyd's List article were read by script before their
@@ -514,9 +608,15 @@ section 6.3) and one freight anchor rest on them. Options: drop them, and mark
 August and September 2026 as unknown; ask the publisher; or have the owner read
 and save the pages by hand, as a manual step.
 
+Decision: Lloyd's List Intelligence and Lloyd's List are dropped as sources.
+August and September 2026 are marked unknown in the Red Sea record, and the
+freight anchor of 3 March 2026 is dropped unless a readable source allowed by
+its publisher is found. The copies read stay private and unused, and no request
+is sent to either site.
+
 ### 39. The Panama toll's inputs
 
-Raised 7 October 2026. **Open, the owner's decision.**
+Raised 7 October 2026. **Decided 7 October 2026.**
 
 The dated tolls in `docs/methodology.md`, section 8.1, leave three inputs to
 set. The capacity the canal charges on is its own admeasurement, whose rules
@@ -529,9 +629,16 @@ Panama within 60 days. The reference ships' beams are not sourced, and from
 June 2021 they set the booking fee band; the Authority's own press releases
 give LNG carriers it handled beams of 45 to 49 m, all in the upper band.
 
+Decision: the nominal capacity stands in for the canal's admeasured capacity,
+labelled an assumption. Before 2023 the roundtrip ballast rate applies when
+both legs pass Panama, since the computed voyage returns well within 60 days;
+otherwise the ordinary ballast table. The reference ships are taken to be over
+42.67 m in beam, labelled an assumption, as every LNG carrier the Authority
+describes is.
+
 ### 40. The other Panama charges
 
-Raised 7 October 2026. **Open, the owner's decision.**
+Raised 7 October 2026. **Decided 7 October 2026.**
 
 The fresh water surcharge has been mandatory since 15 February 2020 and is not
 yet a line of the cost model. Its percentage depends on Gatun
@@ -545,9 +652,16 @@ scenario input with three cited values: two to three days in normal conditions
 and 15 days for unreserved slots in mid December 2023 (IEA), 12 days for
 unbooked vessels in late July 2023 (Spark, reported by LNG Prime).
 
+Decision: the fresh water surcharge is a line of the cost model from 15
+February 2020: the fixed 10,000 $ per transit always, and the variable part as
+a labelled assumption at the middle of its range, 5 percent of tolls, with 0
+and 10 percent shown. The booking fee and waiting days are zero by default, for
+an unbooked ship in normal conditions, with a booked case and the cited waiting
+days as scenarios.
+
 ### 41. Quoting the Panama Canal Authority
 
-Raised 7 October 2026. **Open, the owner's decision.**
+Raised 7 October 2026. **Decided 7 October 2026.**
 
 The Authority's terms forbid copying, distribution, reproduction or
 publication of its documents "for commercial or lucrative purposes", and may
@@ -556,6 +670,10 @@ rates, item codes and dates, each with its document, commits no document of
 the Authority's, and does not use its logo or images. Either that is accepted
 as quotation for a non-commercial study, or the Authority is asked; its
 advisories name canaltolls@pancanal.com for toll questions.
+
+Decision: quotation of rates, item codes and dates, each with its document, is
+accepted for a non-commercial study; no document, logo or image of the
+Authority's is copied.
 
 ### 42. Where the IEA and the Panama Canal Authority disagree
 
