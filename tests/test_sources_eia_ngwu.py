@@ -307,3 +307,85 @@ def test_every_committed_week_reparses_from_its_own_item_text():
             assert item[column] == row[column], (row["folder"], column)
         assert item["east_asia_definition"] == row["east_asia_definition"]
         assert item["ttf_definition"] == row["ttf_definition"]
+
+
+# --------------------------------------------------------------------------
+# Archived issues from the Internet Archive's copies
+# --------------------------------------------------------------------------
+
+HEADER = ["original", "timestamp", "statuscode", "mimetype"]
+
+
+def test_the_earliest_html_capture_of_each_issue_is_chosen():
+    rows = [
+        HEADER,
+        ["https://www.eia.gov/naturalgas/weekly/archivenew_ngwu/2023/12_07/", "20231210000000", "200", "text/html"],
+        ["http://www.eia.gov/naturalgas/weekly/archivenew_ngwu/2023/12_07/index.php", "20231208000000", "200", "text/html"],
+        ["https://www.eia.gov/naturalgas/weekly/archivenew_ngwu/2023/12_07/img/x.png", "20231201000000", "200", "image/png"],
+        ["https://www.eia.gov/naturalgas/weekly/archivenew_ngwu/2023/12_14/", "20231201000000", "302", "text/html"],
+    ]
+    captures = eia_ngwu.internet_archive_captures(rows)
+    assert captures == {
+        "2023/12_07": ("20231208000000", "http://www.eia.gov/naturalgas/weekly/archivenew_ngwu/2023/12_07/index.php")
+    }
+    assert eia_ngwu.capture_url(*captures["2023/12_07"]) == (
+        "https://web.archive.org/web/20231208000000id_/"
+        "http://www.eia.gov/naturalgas/weekly/archivenew_ngwu/2023/12_07/index.php"
+    )
+
+
+def test_a_capture_index_without_its_header_is_refused():
+    with pytest.raises(base.SourceError):
+        eia_ngwu.internet_archive_captures([["a", "b", "c", "d"]])
+
+
+class _Answer:
+    def __init__(self, status, body):
+        self.status_code = status
+        self.content = body
+
+    def json(self):
+        import json
+        return json.loads(self.content)
+
+
+def _index_cache(folders):
+    frame = pd.DataFrame({
+        "date": pd.to_datetime(["2023-12-07", "2023-12-14"][: len(folders)]),
+        "folder": folders,
+        "status": ["published"] * len(folders),
+    })
+    base.write_cache("eia_ngwu_issue_index", frame)
+
+
+def test_issues_are_saved_with_their_provenance_and_read_back_as_captures(sandbox, monkeypatch):
+    import json
+    _index_cache(["2023/12_07"])
+    cdx = json.dumps([HEADER, ["https://www.eia.gov/naturalgas/weekly/archivenew_ngwu/2023/12_07/", "20231208000000", "200", "text/html"]]).encode()
+    page = b"<html><title>Natural Gas Weekly Update</title></html>"
+    answers = {eia_ngwu.CDX_URL: _Answer(200, cdx)}
+    monkeypatch.setattr(eia_ngwu, "http_get", lambda url, **kw: answers.get(url, _Answer(200, page)))
+    summary = eia_ngwu.collect_from_internet_archive(delay=0)
+    assert summary["saved"] == 1
+    saved = sandbox / "private" / "ngwu" / "2023" / "12_07.html"
+    assert saved.read_bytes() == page
+    record = json.loads((sandbox / "private" / "ngwu" / eia_ngwu.CAPTURES_LOG).read_text())
+    assert record["capture_timestamp"] == "20231208000000"
+    # A second run finds nothing left to fetch and sends nothing.
+    monkeypatch.setattr(eia_ngwu, "http_get", lambda url, **kw: pytest.fail("nothing should be fetched"))
+    assert eia_ngwu.collect_from_internet_archive(delay=0)["wanted"] == 0
+
+
+def test_an_answer_that_is_not_an_issue_stops_the_batch(sandbox, monkeypatch):
+    import json
+    _index_cache(["2023/12_07", "2023/12_14"])
+    cdx = json.dumps([HEADER] + [
+        ["https://www.eia.gov/naturalgas/weekly/archivenew_ngwu/%s/" % f, "20231220000000", "200", "text/html"]
+        for f in ("2023/12_07", "2023/12_14")
+    ]).encode()
+    answers = {eia_ngwu.CDX_URL: _Answer(200, cdx)}
+    monkeypatch.setattr(eia_ngwu, "http_get", lambda url, **kw: answers.get(url, _Answer(200, b"")))
+    with pytest.raises(base.SourceError) as caught:
+        eia_ngwu.collect_from_internet_archive(delay=0)
+    assert "batch stopped" in str(caught.value)
+    assert not (sandbox / "private" / "ngwu" / "2023" / "12_14.html").exists()

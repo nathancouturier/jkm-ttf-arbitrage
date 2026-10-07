@@ -72,12 +72,25 @@ __all__ = [
     "NgwuIssueIndex",
     "NgwuInternationalWeekly",
     "WngsrInternationalWeekly",
+    "internet_archive_captures",
+    "capture_url",
+    "collect_from_internet_archive",
 ]
 
 LANDING_URL = "https://www.eia.gov/naturalgas/weekly/"
 INDEX_URL = "https://www.eia.gov/naturalgas/weekly/includes/archive.php"
 ARCHIVE_URL = "https://www.eia.gov/naturalgas/weekly/archivenew_ngwu/{folder}/"
 SUPPLEMENT_URL = "https://www.eia.gov/naturalgas/weekly/supplement/"
+#: The Internet Archive's capture index. The archived issues are read from its
+#: copies, never from eia.gov's archive path, which robots.txt disallows.
+CDX_URL = (
+    "https://web.archive.org/cdx/search/cdx?url=eia.gov/naturalgas/weekly/archivenew_ngwu/"
+    "&matchType=prefix&output=json&fl=original,timestamp,statuscode,mimetype"
+    "&filter=statuscode:200&collapse=urlkey&limit=20000"
+)
+#: Where the provenance of every issue read from the Internet Archive is logged,
+#: one JSON object per line, beside the saved pages.
+CAPTURES_LOG = "internet_archive_captures.jsonl"
 SUPPLEMENT_PRICES_URL = SUPPLEMENT_URL + "content/bullets_lng_2.html"
 SUPPLEMENT_SOURCE_URL = SUPPLEMENT_URL + "content/source_lng_2.html"
 SUPPLEMENT_DATES_URL = SUPPLEMENT_URL + "content/release_dates.json"
@@ -585,6 +598,109 @@ def _merge_weekly(
     return merged.sort_values("date").reset_index(drop=True)
 
 
+# --------------------------------------------------------------------------
+# Archived issues, from the Internet Archive's copies
+# --------------------------------------------------------------------------
+
+_CAPTURED_ISSUE = re.compile(
+    r"archivenew_ngwu/(\d{4})/(\d{2})_(\d{2})/?(?:index\.(?:php|html?))?$"
+)
+
+
+def internet_archive_captures(cdx_rows: list[list[str]]) -> dict[str, tuple[str, str]]:
+    """folder -> (timestamp, original URL) of the earliest HTML capture of each issue.
+
+    cdx_rows is the Internet Archive's CDX answer: a header row, then rows of
+    original URL, timestamp, status code and media type. An issue is often
+    captured under several addresses (with or without a trailing slash,
+    index.php, http or https); the earliest capture of any of them is the
+    closest to the page as EIA first published it.
+    """
+    if not cdx_rows or cdx_rows[0][:4] != ["original", "timestamp", "statuscode", "mimetype"]:
+        raise SourceError("the capture index does not start with the expected header")
+    best: dict[str, tuple[str, str]] = {}
+    for original, timestamp, status, mimetype in (row[:4] for row in cdx_rows[1:]):
+        if status != "200" or "html" not in mimetype:
+            continue
+        match = _CAPTURED_ISSUE.search(original.split("?")[0])
+        if not match:
+            continue
+        folder = "%s/%s_%s" % match.groups()
+        if folder not in best or timestamp < best[folder][0]:
+            best[folder] = (timestamp, original)
+    return best
+
+
+def capture_url(timestamp: str, original: str) -> str:
+    """The address of a capture's original bytes, without the archive's frame."""
+    return "https://web.archive.org/web/%sid_/%s" % (timestamp, original)
+
+
+def _read_captures_log() -> dict[str, dict[str, Any]]:
+    path = manual_dir() / CAPTURES_LOG
+    if not path.exists():
+        return {}
+    records = {}
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if line.strip():
+            record = json.loads(line)
+            records[record["folder"]] = record
+    return records
+
+
+def collect_from_internet_archive(*, delay: float = 4.0, limit: int | None = None) -> dict[str, Any]:
+    """Save every listed issue not yet saved, from the Internet Archive's earliest capture.
+
+    The list of issues is the committed index. Each page is saved as
+    data/private/ngwu/YYYY/MM_DD.html, where the adapter reads saved issues,
+    and its provenance is appended to the captures log. The batch stops at
+    the first answer that is not a non empty NGWU page.
+    """
+    index = read_cache("eia_ngwu_issue_index")
+    if index is None:
+        raise SourceError("the issue index is not committed; run the index first")
+    folders = [f for f in index["folder"].dropna().astype(str) if re.fullmatch(r"\d{4}/\d{2}_\d{2}", f)]
+    directory = manual_dir()
+    directory.mkdir(parents=True, exist_ok=True)
+    wanted = [f for f in folders if not (directory / (f + ".html")).exists()]
+    if limit is not None:
+        wanted = wanted[:limit]
+    summary: dict[str, Any] = {"listed": len(folders), "wanted": len(wanted), "saved": 0, "not_captured": []}
+    if not wanted:
+        return summary
+    captures = internet_archive_captures(http_get(CDX_URL, timeout=120).json())
+    for folder in wanted:
+        if folder not in captures:
+            summary["not_captured"].append(folder)
+            continue
+        timestamp, original = captures[folder]
+        address = capture_url(timestamp, original)
+        response = http_get(address, timeout=60, delay=delay)
+        payload = response.content
+        if response.status_code != 200 or not payload or b"Natural Gas Weekly Update" not in payload:
+            raise SourceError(
+                "the capture of %s at %s answered HTTP %d with %d bytes that are not an "
+                "NGWU page; the batch stopped there after %d saved"
+                % (folder, address, response.status_code, len(payload), summary["saved"])
+            )
+        target = directory / (folder + ".html")
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(payload)
+        record = {
+            "folder": folder,
+            "capture_timestamp": timestamp,
+            "original_url": original,
+            "capture_url": address,
+            "fetched_at": base.utc_now_iso(),
+            "bytes": len(payload),
+            "sha256": _sha256(payload),
+        }
+        with open(directory / CAPTURES_LOG, "a", encoding="utf-8") as log:
+            log.write(json.dumps(record) + "\n")
+        summary["saved"] += 1
+    return summary
+
+
 class NgwuIssueIndex(Adapter):
     """Every NGWU issue EIA lists, from 2016, as the checklist for collection."""
 
@@ -675,18 +791,19 @@ class NgwuInternationalWeekly(Adapter):
         directory = manual_dir()
         if not directory.exists():
             return rows
+        captured = _read_captures_log()
         for path in sorted(directory.glob("*/*.html")):
             folder = "%s/%s" % (path.parent.name, path.stem)
             if not re.fullmatch(r"\d{4}/\d{2}_\d{2}", folder):
                 raise ParseError("%s is not named YYYY/MM_DD.html" % path)
-            rows.append(
-                self._row(
-                    path.read_bytes(),
-                    folder=folder,
-                    how="saved by hand",
-                    url=ARCHIVE_URL.format(folder=folder),
-                )
-            )
+            payload = path.read_bytes()
+            record = captured.get(folder)
+            if record is not None and record["sha256"] == _sha256(payload):
+                how = "Internet Archive capture of %s" % record["capture_timestamp"]
+                url = record["capture_url"]
+            else:
+                how, url = "saved by hand", ARCHIVE_URL.format(folder=folder)
+            rows.append(self._row(payload, folder=folder, how=how, url=url))
         return rows
 
     def fetch(self) -> pd.DataFrame:
@@ -747,7 +864,17 @@ class WngsrInternationalWeekly(Adapter):
 
 
 def main(argv: list[str] | None = None) -> int:
-    """Run the three adapters and print what each recorded."""
+    """Run the three adapters and print what each recorded.
+
+    With --from-internet-archive, first save every listed issue not yet saved,
+    from the Internet Archive's copies.
+    """
+    if argv and "--from-internet-archive" in argv:
+        summary = collect_from_internet_archive()
+        print(
+            "internet archive: %d listed, %d wanted, %d saved, not captured: %s"
+            % (summary["listed"], summary["wanted"], summary["saved"], ", ".join(summary["not_captured"]) or "none")
+        )
     failed = 0
     for adapter in (NgwuIssueIndex(), NgwuInternationalWeekly(), WngsrInternationalWeekly()):
         try:
