@@ -109,6 +109,7 @@ of January).
 | Where | When | What changes |
 |---|---|---|
 | EIA weekly JKM and TTF | between the weeks ending 21 and 28 January 2026 | the Natural Gas Weekly Update ends and the WNGSR Supplement begins, with new wording for both prices. Kept as two series. |
+| EIA weekly JKM and TTF, wording only | the week ending 25 February 2026 | the one Supplement issue that names the product, "near-month futures", for both prices. Every change printed into and out of that week equals the difference of the levels, so it is read as the same series, not a break. |
 | EIA weekly East Asia price | between the weeks ending 6 and 13 July 2022 | from a swap (for a named month, the prompt month, the balance of the month or a month not named, each with its weeks) to a futures price, called front-month from the week ending 14 December 2022 |
 | EIA weekly TTF price | between the weeks ending 6 and 13 July 2022 | from a day-ahead price to a futures price |
 | EIA weekly year-earlier figures | issues from January 2023 | the weeks of 2022 priced as swaps and day-ahead are reprinted on the futures basis, so none of them matches what the 2022 issue printed |

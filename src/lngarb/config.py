@@ -293,7 +293,8 @@ _EIA_BLOOMBERG_NOTE = (
     "organizations' 'may be protected'. Whether figures EIA prints under a "
     "third party's credit fall under that sentence is not settled by the page. "
     "The parsed weekly values are committed with the credit shown wherever they "
-    "are used, and the question is open with the owner and EIA."
+    "are used; should EIA or a rights holder object, the series moves to "
+    "data/private/ (docs/open-questions.md, question 2)."
 )
 
 _EIA_ROBOTS_NOTE = (
@@ -311,8 +312,9 @@ _EIA_REFINITIV_NOTE = (
     "page for this table credits the spot price to 'Refinitiv, an LSEG "
     "business', and EIA's reuse page says material 'contributed or licensed by "
     "private individuals, companies, or organizations' 'may be protected'. The "
-    "daily values are committed with that credit shown wherever they are used, "
-    "and the question is open with the owner."
+    "daily values are committed with that credit shown wherever they are used; "
+    "should EIA or a rights holder object, the series moves to data/private/ "
+    "(docs/open-questions.md, question 2)."
 )
 
 
@@ -778,10 +780,12 @@ SOURCES: Mapping[str, Source] = _registry(
             "content/release_dates.json, whose names come from the page's script "
             "and can change with any redeploy. Only the current issue is on an "
             "allowed path: robots.txt disallows /*archive/, which covers every "
-            "past issue, so a week not collected while it is current can only "
-            "be recovered by hand, or from the Internet Archive's capture of the "
-            "three files if it made one that week, as it did five times from April "
-            "to August 2026."
+            "past issue, so a week not collected while it is current is read from "
+            "the Internet Archive's capture of the three files if it made one that "
+            "week, as it did five times from April to August 2026, or from EIA's "
+            "archive page in a browser, as the other 29 issues from 29 January to "
+            "17 September 2026 were on 8 October 2026; each row names the page or "
+            "capture it was read from."
         ),
         frequency="weekly",
         unit="USD per MMBtu",

@@ -4,8 +4,9 @@ The fixtures are EIA's own bytes: the final Natural Gas Weekly Update as the
 landing page served it on 2026-09-30 (the only issue code may read from
 eia.gov), the archive index, the WNGSR Supplement's current issue, and eleven
 archived issues as the Internet Archive's earliest captures hold them. The
-strings built inside this file test forms the parser must refuse or flag; they
-are never used as data.
+Supplement archive pages are records of the text a browser showed, built here
+with the words EIA printed. The other strings built inside this file test forms
+the parser must refuse or flag; they are never used as data.
 """
 
 from __future__ import annotations
@@ -516,6 +517,277 @@ def test_a_bad_saved_capture_is_set_aside_and_never_stops_the_current_issue(sand
 
 
 # --------------------------------------------------------------------------
+# Past Supplement issues read in a browser from EIA's archive pages
+# --------------------------------------------------------------------------
+
+ARCHIVE = "https://www.eia.gov/naturalgas/weekly/supplement/archive/"
+SOURCE_LINE = "Data source:  Bloomberg Finance, L.P."
+PUBLISHED = eia_ngwu.past_publications(SUPPLEMENT[2])
+
+
+def archive_record(release, week, next_release, bullets, *, read_at="2026-10-08T13:35:46Z"):
+    """One page as the archive pages log holds it: what the browser showed, and when."""
+    day = pd.Timestamp(release)
+    return {
+        "url": ARCHIVE + day.strftime("%Y/%m/%d/"),
+        "header": "For week ending %sRelease Date: %s %d, %dNext Release Date: %s" % (
+            week, day.strftime("%B"), day.day, day.year, next_release,
+        ),
+        "bullets": bullets,
+        "source": SOURCE_LINE,
+        "read_at": read_at,
+        "how": "read in a browser from the rendered page",
+    }
+
+
+APRIL_2 = archive_record("2026-04-02", "April 1, 2026", "April 9, 2026", [
+    "For the week ending April 1:",
+    "The price at the Title Transfer Facility in Europe averaged $17.74/MMBtu, $1.61 lower than the previous week.",
+    "The Japan-Korea Marker price averaged $20.28/MMBtu, 83 cents lower than the previous week.",
+])
+FEBRUARY_5 = archive_record("2026-02-05", "February 4, 2026", "February 12, 2026", [
+    "For the week ending February 4:",
+    "The price at the Title Transfer Facility in Europe averaged $12.49/MMBtu, $1.10/MMBtu lower than the previous week.",
+    "The Japan-Korea Marker price averaged $11.27/MMBtu, unchanged from the previous week.",
+    "The Japan-Korea Marker price reached an intraweek high of $11.53/MMBtu on Friday, the highest price since November 21, 2025, when the price was $11.47/MMBtu.",
+])
+FEBRUARY_26 = archive_record("2026-02-26", "February 25, 2026", "March 5, 2026", [
+    "For the week ending February 25:",
+    "The near-month futures price at the Title Transfer Facility in Europe averaged $11.01/MMBtu, remaining unchanged from the previous week.",
+    "The near-month futures price for the Japan-Korea Marker averaged $10.66/MMBtu, 7 cents higher than the previous week.",
+])
+AUGUST_20 = archive_record("2026-08-20", "August 19, 2026", "August 27, 2026", [
+    "For the week ending August 19:",
+    "The price at the Title Transfer Facility (TTF) in Europe averaged $21.11/MMBtu, $1.36 higher than the previous week. "
+    "This week" + chr(0x2019) + "s average TTF price was the highest since the week ending January 11, 2023 ($22.02/MMBtu).",
+    "The Japan-Korea Marker price averaged $21.60/MMBtu, 41 cents higher than the previous week.",
+])
+
+
+def test_the_archive_page_of_2_april_reads_as_the_captured_files_do():
+    page = eia_ngwu.parse_archive_page(APRIL_2, published=PUBLISHED)
+    captured = eia_ngwu.parse_supplement(*supplement_capture("2026-04-02"))
+    assert page == captured
+
+
+def test_an_unchanged_price_and_an_intraweek_high_on_5_february():
+    row = eia_ngwu.parse_archive_page(FEBRUARY_5, published=PUBLISHED)
+    assert (row["date"].isoformat(), row["release_date"].isoformat()) == ("2026-02-04", "2026-02-05")
+    assert (row["jkm_usd_mmbtu"], row["ttf_usd_mmbtu"]) == (11.27, 12.49)
+    assert row["jkm_change_printed"] == "unchanged from the previous week"
+    # The intraweek high names JKM but is not the week's average.
+    assert row["anomaly"] == "1 further jkm bullet(s) giving no weekly average"
+    assert "intraweek" not in row["item_text"]
+
+
+def test_the_near_month_futures_wording_of_26_february():
+    row = eia_ngwu.parse_archive_page(FEBRUARY_26, published=PUBLISHED)
+    assert (row["jkm_usd_mmbtu"], row["ttf_usd_mmbtu"]) == (10.66, 11.01)
+    assert row["ttf_definition"] == "The near-month futures price at the Title Transfer Facility in Europe"
+    assert row["jkm_definition"] == "The near-month futures price for the Japan-Korea Marker"
+    assert row["ttf_change_printed"] == "remaining unchanged from the previous week"
+
+
+def test_a_second_sentence_in_a_price_bullet_is_never_read_as_the_level():
+    row = eia_ngwu.parse_archive_page(AUGUST_20, published=PUBLISHED)
+    assert (row["jkm_usd_mmbtu"], row["ttf_usd_mmbtu"]) == (21.60, 21.11)
+    assert row["ttf_printed"] == "$21.11/MMBtu"
+    assert row["anomaly"] == "the ttf bullet says 1 more sentence(s)"
+
+
+@pytest.mark.parametrize("change,record", [
+    ("url", dict(APRIL_2, url=ARCHIVE + "2026/04/09/")),
+    ("published", dict(APRIL_2, header="For week ending March 31, 2026Release Date: April 2, 2026Next Release Date: April 9, 2026")),
+    ("read_at", dict(APRIL_2, read_at=None)),
+    ("not an archive page", dict(APRIL_2, url="https://www.eia.gov/naturalgas/weekly/supplement/")),
+])
+def test_an_archive_record_that_does_not_hold_together_is_refused(change, record):
+    with pytest.raises(ParseError):
+        eia_ngwu.parse_archive_page(record, published=PUBLISHED)
+
+
+def test_a_release_eia_does_not_list_is_refused():
+    with pytest.raises(ParseError) as caught:
+        eia_ngwu.parse_archive_page(APRIL_2, published={})
+    assert "no release on 2026-04-02" in str(caught.value)
+
+
+def test_an_average_of_something_else_is_context_not_a_stop():
+    storage = dict(FEBRUARY_26, bullets=FEBRUARY_26["bullets"] + [
+        "EU storage injections averaged 300 GWh/d this week, according to Gas Infrastructure Europe.",
+    ])
+    row = eia_ngwu.parse_archive_page(storage, published=PUBLISHED)
+    assert (row["jkm_usd_mmbtu"], row["ttf_usd_mmbtu"]) == (10.66, 11.01)
+    assert row["anomaly"] == "1 further bullet(s) not about the two prices"
+
+
+def test_a_second_level_for_a_market_stops_the_parse():
+    twice_in_a_bullet = dict(AUGUST_20, bullets=[
+        AUGUST_20["bullets"][0],
+        "The price at the Title Transfer Facility (TTF) in Europe averaged $21.11/MMBtu, $1.36 higher than the previous week. "
+        "The TTF price averaged $22.02/MMBtu, 91 cents higher than the previous week.",
+        AUGUST_20["bullets"][2],
+    ])
+    with pytest.raises(ParseError) as caught:
+        eia_ngwu.parse_archive_page(twice_in_a_bullet, published=PUBLISHED)
+    assert "two ttf levels" in str(caught.value)
+    twice_in_the_list = dict(AUGUST_20, bullets=AUGUST_20["bullets"] + [
+        "The Japan-Korea Marker (JKM) price averaged $21.70/MMBtu, 51 cents higher than the previous week.",
+    ])
+    with pytest.raises(ParseError) as caught:
+        eia_ngwu.parse_archive_page(twice_in_the_list, published=PUBLISHED)
+    assert "two jkm levels" in str(caught.value)
+
+
+def test_an_average_naming_both_markets_stops_the_parse():
+    both = dict(FEBRUARY_26, bullets=FEBRUARY_26["bullets"] + [
+        "The TTF and JKM prices averaged $10.84/MMBtu together.",
+    ])
+    with pytest.raises(ParseError) as caught:
+        eia_ngwu.parse_archive_page(both, published=PUBLISHED)
+    assert "names 2 markets" in str(caught.value)
+
+
+@pytest.mark.parametrize("printed,change", [
+    ("97 cents higher than the previous week", 0.97),
+    ("$2.11 lower than the previous week", -2.11),
+    ("$1.19/MMBtu higher than the previous week", 1.19),
+    ("$0.98/per MMBtu lower than the previous week", -0.98),
+    ("$1.05 per MMBtu lower than the previous week", -1.05),
+    ("unchanged from the previous week", 0.0),
+    ("remaining unchanged from the previous week", 0.0),
+])
+def test_the_weekly_changes_as_printed(printed, change):
+    assert eia_ngwu.read_weekly_change(printed) == change
+
+
+def _log_archive_pages(sandbox, records, *, extra_lines=()):
+    import json
+    folder = sandbox / "private" / "wngsr"
+    folder.mkdir(parents=True, exist_ok=True)
+    with open(folder / eia_ngwu.ARCHIVE_PAGES_LOG, "a", encoding="utf-8") as handle:
+        for record in records:
+            handle.write(json.dumps(record) + chr(10))
+        for line in extra_lines:
+            handle.write(line + chr(10))
+
+
+def test_archive_pages_read_twice_alike_count_once_and_unlike_are_set_aside(sandbox):
+    other = dict(FEBRUARY_26, bullets=FEBRUARY_26["bullets"][:2] + [
+        "The near-month futures price for the Japan-Korea Marker averaged $10.67/MMBtu, 8 cents higher than the previous week.",
+    ])
+    _log_archive_pages(
+        sandbox,
+        [APRIL_2, dict(APRIL_2, read_at="2026-10-09T08:00:00Z"), FEBRUARY_26, other],
+        extra_lines=["{not json"],
+    )
+    rows, problems = eia_ngwu.WngsrInternationalWeekly().read_archive_pages(PUBLISHED)
+    assert [row["date"].isoformat() for row in rows] == ["2026-04-01"]
+    assert rows[0]["how_read"] == "read in a browser from EIA's archive page on 2026-10-08"
+    assert rows[0]["page_url"] == ARCHIVE + "2026/04/02/"
+    assert problems == [
+        "line 5 of archive_pages.jsonl is not JSON",
+        ARCHIVE + "2026/02/26/ was logged twice with different text",
+    ]
+
+
+def test_archive_pages_join_the_current_issue_and_the_captures(sandbox, monkeypatch):
+    prices, source, dates = SUPPLEMENT
+    serve(monkeypatch, {
+        eia_ngwu.SUPPLEMENT_PRICES_URL: prices,
+        eia_ngwu.SUPPLEMENT_SOURCE_URL: source,
+        eia_ngwu.SUPPLEMENT_DATES_URL: dates,
+    })
+    _save_supplement_capture(sandbox, "2026-04-02", "20260405021115")
+    # The week of 1 April is held twice; the two readings agree.
+    _log_archive_pages(sandbox, [FEBRUARY_5, APRIL_2, AUGUST_20])
+    adapter = eia_ngwu.WngsrInternationalWeekly()
+    entry = adapter.run()
+    assert entry["observations"] == 4
+    cache = base.read_cache("eia_wngsr_international_weekly")
+    assert cache["date"].dt.strftime("%Y-%m-%d").tolist() == ["2026-02-04", "2026-04-01", "2026-08-19", "2026-09-23"]
+    assert cache["how_read"].tolist() == [
+        "read in a browser from EIA's archive page on 2026-10-08",
+        "Internet Archive capture of 20260405021115",
+        "read in a browser from EIA's archive page on 2026-10-08",
+        "current issue",
+    ]
+    assert "1 read from the Internet Archive's captures" in adapter.note
+    assert "2 read in a browser from EIA's archive pages" in adapter.note
+
+
+def test_a_broken_archive_log_never_stops_the_current_issue(sandbox, monkeypatch):
+    import json
+    prices, source, dates = SUPPLEMENT
+    served = json.loads(dates)
+    served["past-publications"][0]["release-date"] = "September 17, 2026"
+    serve(monkeypatch, {
+        eia_ngwu.SUPPLEMENT_PRICES_URL: prices,
+        eia_ngwu.SUPPLEMENT_SOURCE_URL: source,
+        eia_ngwu.SUPPLEMENT_DATES_URL: json.dumps(served).encode("utf-8"),
+    })
+    _log_archive_pages(sandbox, [APRIL_2], extra_lines=['["a"]'])
+    adapter = eia_ngwu.WngsrInternationalWeekly()
+    entry = adapter.run()
+    assert entry["status"] == "ok" and entry["observations"] == 1
+    assert "the archive pages were not read" in adapter.note
+    rows, problems = adapter.read_archive_pages(PUBLISHED)
+    assert len(rows) == 1 and problems == ["line 2 of archive_pages.jsonl is not a record"]
+
+
+def test_an_archive_reading_that_disagrees_with_a_capture_is_set_aside(sandbox, monkeypatch):
+    prices, source, dates = SUPPLEMENT
+    serve(monkeypatch, {
+        eia_ngwu.SUPPLEMENT_PRICES_URL: prices,
+        eia_ngwu.SUPPLEMENT_SOURCE_URL: source,
+        eia_ngwu.SUPPLEMENT_DATES_URL: dates,
+    })
+    _save_supplement_capture(sandbox, "2026-04-02", "20260405021115")
+    misread = dict(APRIL_2, bullets=[APRIL_2["bullets"][0], APRIL_2["bullets"][1].replace("17.74", "17.47"), APRIL_2["bullets"][2]])
+    _log_archive_pages(sandbox, [misread])
+    adapter = eia_ngwu.WngsrInternationalWeekly()
+    entry = adapter.run()
+    assert entry["observations"] == 2
+    assert "the archive pages read in a browser were set aside" in adapter.note
+
+
+def _committed_supplement_to_30_september():
+    committed = base.read_cache("eia_wngsr_international_weekly")
+    return committed[committed["date"] <= pd.Timestamp("2026-09-30")].reset_index(drop=True)
+
+
+def test_the_committed_supplement_weeks_follow_on_from_29_january():
+    committed = _committed_supplement_to_30_september()
+    weeks = committed["date"].tolist()
+    assert len(weeks) == 36
+    assert weeks[0] == pd.Timestamp("2026-01-28")
+    assert all((later - earlier).days == 7 for earlier, later in zip(weeks, weeks[1:]))
+    assert committed["jkm_usd_mmbtu"].notna().all() and committed["ttf_usd_mmbtu"].notna().all()
+
+
+def test_every_committed_weekly_change_matches_the_levels_to_the_cent():
+    committed = _committed_supplement_to_30_september()
+    check = eia_ngwu.weekly_change_check(committed)
+    assert len(check) == 2 * (len(committed) - 1)
+    assert check["change"].notna().all()
+    # One change misses by a cent: "$0.98/per MMBtu lower" against 25.15 then 24.18.
+    off = check[check["difference"] != 0]
+    assert off[["week_ending", "market", "difference"]].values.tolist() == [["2026-09-30", "ttf", -0.01]]
+
+
+def test_a_change_in_a_new_wording_is_left_for_a_person_not_raised():
+    frame = pd.DataFrame({
+        "date": [pd.Timestamp("2026-09-23"), pd.Timestamp("2026-09-30")],
+        "jkm_usd_mmbtu": [26.41, 25.89], "ttf_usd_mmbtu": [25.15, 24.18],
+        "jkm_change_printed": ["x", "52 cents lower than the previous week"],
+        "ttf_change_printed": ["x", "flat from the previous week"],
+    })
+    check = eia_ngwu.weekly_change_check(frame).set_index("market")
+    assert check.loc["jkm", "difference"] == 0.0
+    assert pd.isna(check.loc["ttf", "change"]) and pd.isna(check.loc["ttf", "difference"])
+
+
+# --------------------------------------------------------------------------
 # The adapters, with http replaced by the fixtures
 # --------------------------------------------------------------------------
 
@@ -636,6 +908,7 @@ def test_nothing_in_this_module_can_request_the_disallowed_archive(monkeypatch):
         (FIXTURES / "eia_robots_2026-09-30.txt").read_text(encoding="utf-8"), "Mozilla"
     )
     assert not base.robots_allows(rules, eia_ngwu.ARCHIVE_URL.format(folder="2023/12_07"))
+    assert not base.robots_allows(rules, "https://www.eia.gov/naturalgas/weekly/supplement/archive/2026/04/02/")
     for url in (
         eia_ngwu.LANDING_URL,
         eia_ngwu.INDEX_URL,

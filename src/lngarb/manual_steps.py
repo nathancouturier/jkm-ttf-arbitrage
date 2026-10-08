@@ -56,27 +56,32 @@ MANUAL_STEPS: tuple[dict[str, Any], ...] = (
         "series": ["eia_wngsr_international_weekly"],
         "what": (
             "The WNGSR Supplement's current issue has to be collected every week, after its "
-            "Thursday release. Of the issues released before collection started, from 29 "
-            "January 2026, the five the Internet Archive captured are read from its copies; "
-            "the others can only be saved by hand."
+            "Thursday release. Of the 34 issues released before collection started, from "
+            "29 January to 17 September 2026, five are read from the Internet Archive's "
+            "copies and the other 29 were read in a browser from EIA's archive pages on 8 "
+            "October 2026 (the issue of 2 April both ways, with the same text); none is "
+            "missing."
         ),
         "why": (
             "Only the current issue is on a path robots.txt allows. Every past issue sits "
             "under /naturalgas/weekly/supplement/archive/, which /*archive/ disallows."
         ),
         "cost_if_skipped": (
-            "A week not collected while current becomes a gap that only a hand saved copy "
-            "can fill, unless the Internet Archive happened to capture the issue's files "
+            "A week not collected while current has to be read from its archive page in a "
+            "browser, unless the Internet Archive happened to capture the issue's files "
             "that week, in the only weekly JKM and TTF series EIA still publishes."
         ),
         "how": (
             "python scripts/refresh.py --only eia-weekly each week after the Thursday "
             "release. No scheduled job runs it yet, so until one does it is run by hand. "
             "Past issues the Internet Archive captured: python -m lngarb.sources.eia_ngwu "
-            "--from-internet-archive saves them under data/private/wngsr/. Others: open the "
-            "archived issue in a browser and save it under data/private/wngsr/by_hand/, a "
-            "reader for which is added once the first saved copy shows what the archived "
-            "page holds."
+            "--from-internet-archive saves them under data/private/wngsr/. Others: open "
+            "https://www.eia.gov/naturalgas/weekly/supplement/archive/YYYY/MM/DD/ (the "
+            "release day) in a browser and append the text it shows, as one JSON line "
+            "with url, header (the line from 'For week ending' to the next release "
+            "date), bullets (the items of the list holding the two prices), source (the "
+            "'Data source' line) and read_at (UTC), to "
+            "data/private/wngsr/archive_pages.jsonl; the next run reads it."
         ),
         "cadence": (
             "weekly, after the Thursday release, which EIA's schedule gives as "

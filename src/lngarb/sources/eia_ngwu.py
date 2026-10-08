@@ -33,8 +33,13 @@ archive. Code therefore reads from eia.gov only:
 Every other NGWU issue is read from the Internet Archive's earliest capture of
 it (collect_from_internet_archive), saved privately into data/private/ngwu/
 with its provenance logged; an issue it does not hold can be saved there by
-hand. base.http_get enforces robots.txt, so a mistake here fails rather than
-fetches.
+hand. Past Supplement issues are read from the Internet Archive's captures of
+the current issue's three files where it made them
+(collect_supplement_from_internet_archive), and from EIA's own archive pages
+read in a browser, as the manual step: the text each page showed is logged in
+data/private/wngsr/archive_pages.jsonl, in batches of a few pages, with the
+time each batch was logged (parse_archive_page). base.http_get enforces robots.txt, so a mistake
+here fails rather than fetches.
 
 How the item is read
 --------------------
@@ -88,6 +93,10 @@ __all__ = [
     "year_earlier_check",
     "parse_index",
     "parse_supplement",
+    "parse_archive_page",
+    "past_publications",
+    "read_weekly_change",
+    "weekly_change_check",
     "NgwuIssueIndex",
     "NgwuInternationalWeekly",
     "WngsrInternationalWeekly",
@@ -652,71 +661,108 @@ def parse_index(html: str | bytes) -> pd.DataFrame:
 # --------------------------------------------------------------------------
 
 _SUPPLEMENT_SENTENCE = re.compile(
-    r"^(?P<definition>The .+?) averaged (?P<price>\$\S+?), (?P<change>.+? than the previous week)\.?$"
+    r"^(?P<definition>The .+?) averaged (?P<price>\$\S+?), "
+    r"(?P<change>.+? (?:than|from) the previous week)\.?$"
 )
 
+#: How the Supplement names each market: in full, and from April 2026 with the
+#: abbreviation as well.
+_SUPPLEMENT_MARKETS = {
+    "jkm": re.compile(r"Japan-Korea Marker|\bJKM\b"),
+    "ttf": re.compile(r"Title Transfer Facility|\bTTF\b"),
+}
 
-def parse_supplement(
-    prices_html: str | bytes, source_html: str | bytes, dates_json: str | bytes
-) -> dict[str, Any]:
-    """The JKM and TTF weekly averages of one WNGSR Supplement issue.
 
-    The week is read from release_dates.json and must agree with the month and
-    day the prices fragment prints ("For the week ending September 23:").
+def _supplement_levels(bullets: list[str]) -> tuple[dict[str, dict[str, Any]], list[str]]:
+    """Each market's level, and notes on what else the list says.
+
+    A level is a sentence that names one market and says what its price
+    "averaged"; the bullet holding it is that market's text. The bullet's other
+    sentences, a bullet about one market that states no level (an intraweek
+    high), and every other bullet, an average of something else included, are
+    counted in the notes. A sentence saying "averaged" that names both markets,
+    one naming one market in a form not recognised, or a second level for a
+    market stops the parse.
     """
-    dates = json.loads(dates_json)
-    week_ending = _parse_long_date(dates["data-week-ending"])
-    release = _parse_long_date(dates["release-date"])
-
-    soup = BeautifulSoup(prices_html, "lxml")
-    bullets = [normalise_text(li.get_text(" ")) for li in soup.find_all("li")]
-    header = [b for b in bullets if b.startswith("For the week ending")]
-    if len(header) != 1:
-        raise ParseError("the Supplement prices fragment does not name one week: %r" % header)
-    printed_week = re.match(r"For the week ending ([A-Z][a-z]+ \d{1,2}):", header[0])
-    if not printed_week:
-        raise ParseError("the Supplement week line is in an unrecognised form: %r" % header[0])
-    if printed_week.group(1) != "%s %d" % (week_ending.strftime("%B"), week_ending.day):
-        raise ParseError(
-            "the Supplement prices fragment prints %r but release_dates.json says "
-            "the week ended %s" % (printed_week.group(1), week_ending)
-        )
-
     legs: dict[str, dict[str, Any]] = {}
+    notes: list[str] = []
     extra = 0
+    without_level = {"jkm": 0, "ttf": 0}
     for bullet in bullets:
-        if bullet is header[0]:
+        sentences = split_sentences(bullet)
+        found: list[tuple[str, re.Match[str]]] = []
+        for sentence in sentences:
+            if " averaged " not in sentence:
+                continue
+            named = [leg for leg, pattern in _SUPPLEMENT_MARKETS.items() if pattern.search(sentence)]
+            if not named:
+                continue
+            if len(named) > 1:
+                raise ParseError(
+                    "a Supplement sentence states an average and names %d markets: %r"
+                    % (len(named), sentence)
+                )
+            match = _SUPPLEMENT_SENTENCE.match(sentence)
+            if not match:
+                raise ParseError("the Supplement %s sentence is in an unrecognised form: %r" % (named[0], sentence))
+            if named[0] in legs or any(leg == named[0] for leg, _ in found):
+                raise ParseError("the Supplement carries two %s levels" % named[0])
+            found.append((named[0], match))
+        if not found:
+            named = [leg for leg, pattern in _SUPPLEMENT_MARKETS.items() if pattern.search(bullet)]
+            if len(named) == 1:
+                without_level[named[0]] += 1
+            else:
+                extra += 1
             continue
-        if "Japan-Korea Marker" in bullet or "(JKM)" in bullet:
-            leg = "jkm"
-        elif "Title Transfer Facility" in bullet or "(TTF)" in bullet:
-            leg = "ttf"
-        else:
-            extra += 1
-            continue
-        match = _SUPPLEMENT_SENTENCE.match(bullet)
-        if not match:
-            raise ParseError("the Supplement %s bullet is in an unrecognised form: %r" % (leg, bullet))
-        if leg in legs:
-            raise ParseError("the Supplement carries two %s bullets" % leg)
+        if len(found) > 1:
+            raise ParseError("one Supplement bullet states two levels: %r" % bullet)
+        leg, match = found[0]
         legs[leg] = {
             "definition": match.group("definition"),
             "change": match.group("change"),
             "price": read_price(match.group("price")),
             "text": bullet,
         }
+        if len(sentences) > 1:
+            notes.append("the %s bullet says %d more sentence(s)" % (leg, len(sentences) - 1))
     for required in ("jkm", "ttf"):
         if required not in legs:
-            raise ParseError("the Supplement carries no %s bullet" % required)
+            raise ParseError("the Supplement carries no %s level" % required)
+    for leg, count in without_level.items():
+        if count:
+            notes.append("%d further %s bullet(s) giving no weekly average" % (count, leg))
+    if extra:
+        notes.append("%d further bullet(s) not about the two prices" % extra)
+    return legs, notes
 
-    credit_text = normalise_text(BeautifulSoup(source_html, "lxml").get_text(" "))
+
+def _supplement_issue(
+    week_ending: date, release: date, bullets: list[str], credit_text: str, *, dated_by: str
+) -> dict[str, Any]:
+    """One Supplement issue from its week, its list of bullets and its source line.
+
+    The week must agree with the month and day the list prints ("For the week
+    ending September 23:"); dated_by names where the week was read from.
+    """
+    header = [b for b in bullets if b.startswith("For the week ending")]
+    if len(header) != 1:
+        raise ParseError("the Supplement prices list does not name one week: %r" % header)
+    printed_week = re.match(r"For the week ending ([A-Z][a-z]+ \d{1,2}):", header[0])
+    if not printed_week:
+        raise ParseError("the Supplement week line is in an unrecognised form: %r" % header[0])
+    if printed_week.group(1) != "%s %d" % (week_ending.strftime("%B"), week_ending.day):
+        raise ParseError(
+            "the Supplement prices list prints %r but %s says the week ended %s"
+            % (printed_week.group(1), dated_by, week_ending)
+        )
+    legs, further = _supplement_levels([b for b in bullets if b != header[0]])
     notes = [
         "%s %s" % (leg, legs[leg]["price"].note) for leg in ("jkm", "ttf") if legs[leg]["price"].note
     ]
-    if extra:
-        notes.append("%d further bullet(s) not about the two prices" % extra)
+    notes += further
     if CREDIT not in credit_text:
-        notes.append("the source fragment does not credit %s: %r" % (CREDIT, credit_text))
+        notes.append("the source line does not credit %s: %r" % (CREDIT, credit_text))
 
     return {
         "date": week_ending,
@@ -733,6 +779,147 @@ def parse_supplement(
         "credit": CREDIT if CREDIT in credit_text else None,
         "anomaly": "; ".join(notes) if notes else None,
     }
+
+
+def parse_supplement(
+    prices_html: str | bytes, source_html: str | bytes, dates_json: str | bytes
+) -> dict[str, Any]:
+    """The JKM and TTF weekly averages of one WNGSR Supplement issue, from its three files.
+
+    The week is read from release_dates.json and must agree with the month and
+    day the prices fragment prints ("For the week ending September 23:").
+    """
+    dates = json.loads(dates_json)
+    soup = BeautifulSoup(prices_html, "lxml")
+    bullets = [normalise_text(li.get_text(" ")) for li in soup.find_all("li")]
+    credit_text = normalise_text(BeautifulSoup(source_html, "lxml").get_text(" "))
+    return _supplement_issue(
+        _parse_long_date(dates["data-week-ending"]), _parse_long_date(dates["release-date"]),
+        bullets, credit_text, dated_by="release_dates.json",
+    )
+
+
+def past_publications(dates_json: str | bytes) -> dict[date, date]:
+    """Release day to week ending day, for every issue a release_dates.json lists, its own included."""
+    dates = json.loads(dates_json)
+    listed = {
+        date.fromisoformat(entry["release-date"]): date.fromisoformat(entry["data-week-ending"])
+        for entry in dates.get("past-publications", [])
+    }
+    listed[_parse_long_date(dates["release-date"])] = _parse_long_date(dates["data-week-ending"])
+    return listed
+
+
+#: Where EIA keeps each past Supplement issue, by its release day. robots.txt
+#: disallows the path to code; the pages are read in a browser.
+_ARCHIVE_PAGE = re.compile(
+    r"^https://www\.eia\.gov/naturalgas/weekly/supplement/archive/(\d{4})/(\d{2})/(\d{2})/$"
+)
+_ARCHIVE_HEADER = re.compile(
+    r"^For week ending (?P<week>[A-Z][a-z]+ \d{1,2}, \d{4}) ?"
+    r"Release Date: (?P<release>[A-Z][a-z]+ \d{1,2}, \d{4}) ?"
+    r"Next Release Date: [A-Z][a-z]+ \d{1,2}, \d{4}$"
+)
+_READ_AT = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
+
+
+def parse_archive_page(record: dict[str, Any], *, published: dict[date, date]) -> dict[str, Any]:
+    """The JKM and TTF weekly averages of a past Supplement issue, from the text its archive page showed.
+
+    record is one line of the archive pages log: the page's address (url), its
+    header as the page rendered it ("For week ending ...Release Date:
+    ...Next Release Date: ..."), the items of the list holding the two prices
+    (bullets), the "Data source" line (source) and when it was read (read_at).
+    The release day the header prints must be the one the address names, and
+    the pair of days one that published lists, release day to week ending day,
+    from the current issue's release_dates.json (past_publications).
+    """
+    url = str(record.get("url") or "")
+    address = _ARCHIVE_PAGE.match(url)
+    if not address:
+        raise ParseError("not a Supplement archive page: %r" % url)
+    if not _READ_AT.match(str(record.get("read_at") or "")):
+        raise ParseError("%s: the record does not say when the page was read" % url)
+    header = _ARCHIVE_HEADER.match(normalise_text(str(record.get("header") or "")))
+    if not header:
+        raise ParseError("%s: the page header is in an unrecognised form: %r" % (url, record.get("header")))
+    week_ending = _parse_long_date(header.group("week"))
+    release = _parse_long_date(header.group("release"))
+    if release != date(*(int(part) for part in address.groups())):
+        raise ParseError("%s: the page header gives the release day %s" % (url, release))
+    if release not in published:
+        raise ParseError("%s: EIA's list of past publications has no release on %s" % (url, release))
+    if published[release] != week_ending:
+        raise ParseError(
+            "%s: the page header gives the week ending %s, EIA's list of past "
+            "publications %s" % (url, week_ending, published[release])
+        )
+    bullets = [normalise_text(str(bullet)) for bullet in record.get("bullets") or []]
+    credit_text = normalise_text(str(record.get("source") or ""))
+    return _supplement_issue(week_ending, release, bullets, credit_text, dated_by="the page header")
+
+
+def archive_page_text(record: dict[str, Any]) -> str:
+    """What a logged archive page showed, as one canonical string: the basis of its checksum."""
+    return json.dumps(
+        {key: record.get(key) for key in ("url", "header", "bullets", "source")},
+        sort_keys=True, ensure_ascii=True,
+    )
+
+
+_WEEKLY_CHANGE = re.compile(
+    r"^(?:(?P<cents>\d+) cents?|\$(?P<dollars>\d+(?:\.\d+)?)(?:/MMBtu|/per MMBtu| per MMBtu)?) "
+    r"(?P<way>higher|lower) than the previous week$"
+)
+_UNCHANGED = re.compile(r"^(?:remaining )?unchanged from the previous week$")
+
+
+def read_weekly_change(printed: str) -> float:
+    """The change a Supplement prints against the previous week, in USD/MMBtu."""
+    text = str(printed).strip()
+    if _UNCHANGED.match(text):
+        return 0.0
+    match = _WEEKLY_CHANGE.match(text)
+    if not match:
+        raise ParseError("a weekly change in an unrecognised form: %r" % text)
+    size = int(match.group("cents")) / 100 if match.group("cents") else float(match.group("dollars"))
+    return size if match.group("way") == "higher" else -size
+
+
+def weekly_change_check(frame: pd.DataFrame) -> pd.DataFrame:
+    """Each change the Supplement prints, against the two levels it links.
+
+    One row per market and week whose previous week, seven days earlier, is in
+    the frame. difference is the change printed less the change in the two
+    printed levels, to the cent: anything else than zero means a level or the
+    change was misprinted, or rounded from unrounded averages. A change in a
+    wording read_weekly_change does not know leaves change and difference
+    empty, for a person to read.
+    """
+    by_week = {pd.Timestamp(d).date(): row for d, row in zip(frame["date"], frame.to_dict("records"))}
+    rows = []
+    for week, row in sorted(by_week.items()):
+        before = by_week.get(week - timedelta(days=7))
+        if before is None:
+            continue
+        for leg in ("jkm", "ttf"):
+            printed = row[leg + "_change_printed"]
+            try:
+                change: float | None = read_weekly_change(printed)
+            except ParseError:
+                change = None
+            moved = round(row[leg + "_usd_mmbtu"] - before[leg + "_usd_mmbtu"], 2)
+            rows.append({
+                "week_ending": week.isoformat(),
+                "market": leg,
+                "value": row[leg + "_usd_mmbtu"],
+                "previous_value": before[leg + "_usd_mmbtu"],
+                "change_printed": printed,
+                "change": change,
+                "difference": None if change is None else round(change - moved, 2),
+            })
+    columns = ["week_ending", "market", "value", "previous_value", "change_printed", "change", "difference"]
+    return pd.DataFrame(rows, columns=columns)
 
 
 # --------------------------------------------------------------------------
@@ -1006,6 +1193,10 @@ SUPPLEMENT_CDX_URL = (
     "&matchType=prefix&output=json&fl=original,timestamp,statuscode,mimetype,digest"
     "&filter=statuscode:200&limit=5000"
 )
+
+#: The log of past Supplement issues read in a browser from EIA's archive pages,
+#: one JSON record per page read, kept in supplement_dir().
+ARCHIVE_PAGES_LOG = "archive_pages.jsonl"
 
 #: The three files one Supplement issue is read from, by the names they are saved under.
 SUPPLEMENT_FILES = ("bullets_lng_2.html", "source_lng_2.html", "release_dates.json")
@@ -1373,6 +1564,53 @@ class WngsrInternationalWeekly(Adapter):
                 problems.append("%s: %s" % (folder.name, exc))
         return rows, problems
 
+    def read_archive_pages(self, published: dict[date, date]) -> tuple[list[dict[str, Any]], list[str]]:
+        """Every past issue read in a browser from EIA's archive pages, parsed, and what could not be read.
+
+        The log holds one record per page read (parse_archive_page). A page
+        logged more than once is read from its first record, and set aside when
+        a later one shows different text; a record that does not parse is
+        skipped. Each reason is returned, naming the page alone.
+        """
+        rows: list[dict[str, Any]] = []
+        problems: list[str] = []
+        log = supplement_dir() / ARCHIVE_PAGES_LOG
+        if not log.exists():
+            return rows, problems
+        first: dict[str, dict[str, Any]] = {}
+        differs: set[str] = set()
+        for number, line in enumerate(log.read_text(encoding="utf-8").splitlines(), start=1):
+            if not line.strip():
+                continue
+            try:
+                record = json.loads(line)
+            except json.JSONDecodeError:
+                problems.append("line %d of %s is not JSON" % (number, ARCHIVE_PAGES_LOG))
+                continue
+            if not isinstance(record, dict):
+                problems.append("line %d of %s is not a record" % (number, ARCHIVE_PAGES_LOG))
+                continue
+            url = str(record.get("url"))
+            if url not in first:
+                first[url] = record
+            elif archive_page_text(record) != archive_page_text(first[url]):
+                differs.add(url)
+        for url, record in first.items():
+            if url in differs:
+                problems.append("%s was logged twice with different text" % url)
+                continue
+            try:
+                row = parse_archive_page(record, published=published)
+            except ParseError as exc:
+                problems.append(str(exc))
+                continue
+            row["release_date"] = row["release_date"].isoformat()
+            row["how_read"] = "read in a browser from EIA's archive page on %s" % record["read_at"][:10]
+            row["page_url"] = url
+            row["page_sha256"] = _sha256(archive_page_text(record).encode("ascii"))
+            rows.append(row)
+        return rows, problems
+
     def fetch(self) -> pd.DataFrame:
         # The current issue comes first and alone decides whether the run
         # fails: it is the one week that cannot be read again later.
@@ -1381,23 +1619,30 @@ class WngsrInternationalWeekly(Adapter):
         dates = http_get(SUPPLEMENT_DATES_URL).content
         current = self._row(prices, source, dates, how="current issue", url=SUPPLEMENT_URL)
         existing = read_cache(self.name, directory=self.directory())
-        rows, problems = self.read_saved_captures()
+        merged = _merge_weekly(existing, [current], key_text="item_text")
+        captured, problems = self.read_saved_captures()
         try:
-            # Several captures can hold the same week; the merge keeps the first
-            # reading and refuses a later one whose text differs.
-            merged = _merge_weekly(existing, rows + [current], key_text="item_text")
-        except SourceError as exc:
-            problems.append("the saved captures were set aside: %s" % exc)
-            merged = _merge_weekly(existing, [current], key_text="item_text")
+            browsed, unread = self.read_archive_pages(past_publications(dates))
+        except (ValueError, KeyError, TypeError) as exc:
+            browsed, unread = [], ["the archive pages were not read: %s" % exc]
+        problems += unread
+        # Several readings can hold the same week; the merge keeps the first and
+        # refuses a later one whose text differs, setting that group aside.
+        for what, rows in (("the saved captures", captured), ("the archive pages read in a browser", browsed)):
+            try:
+                merged = _merge_weekly(merged, rows, key_text="item_text")
+            except SourceError as exc:
+                problems.append("%s were set aside: %s" % (what, exc))
         how = merged["how_read"].astype(str)
         self.note = (
             "%d week(s): %d collected while each was the current issue, the latest the "
-            "release of %s, and %d read from the Internet Archive's captures of the "
-            "current issue's own files. Every other past issue sits in the archive "
-            "robots.txt disallows to code; see the manual step.%s"
+            "release of %s, %d read from the Internet Archive's captures of the "
+            "current issue's own files, and %d read in a browser from EIA's archive "
+            "pages, which robots.txt closes to code, as the manual step.%s"
             % (
                 len(merged), int((how == "current issue").sum()), current["release_date"],
                 int(how.str.startswith("Internet Archive capture").sum()),
+                int(how.str.startswith("read in a browser").sum()),
                 (" Not read this run: %s." % "; ".join(problems)) if problems else "",
             )
         )
