@@ -352,15 +352,19 @@ results; use the German Emissions Trading Authority's monthly reports, whose
 terms could not be read because its robots.txt disallows the pages that hold
 them; or hold a labelled assumption.
 
-Decision: the committed series stays the Commission's auction reports, January
-2023 to June 2025, and later months are empty in the data. The engine holds the
-last published month, 72.06 EUR/t for June 2025, for every later month,
-labelled an assumption, and shows the result at 61 and 86 EUR/t, the range of
-2025 the Commission's electricity market report for the fourth quarter of 2025
-prints for a secondary market price. The German auction office (DEHSt)
-publishes monthly averages to August 2026, but its terms of use sit on a path
-its robots.txt closes to code; reading them is a step for the owner, as are
-written requests to EEX and to the Commission on reports after June 2025.
+Decision: the Commission's auction reports stay the series to June 2025. After
+it, the engine takes the monthly average of Germany's auctions as DEHSt reports
+it, a labelled proxy, committed as `dehst_eua_german_auction_monthly`: DEHSt's
+terms, read in a browser on 8 October 2026, put its texts under CC BY-NC-ND
+4.0, which lets the contents of a database be shared for non-commercial
+purposes, unchanged (`docs/sources.md` 2.23). Over the 18 months both cover,
+the German average is 0.10 EUR/t above the Commission's on average and 1.40 at
+most. After DEHSt's last month, August 2026, 82.31 EUR/t, that month is held,
+labelled an assumption, and the result is shown at 61 and 86 EUR/t, the range
+of 2025 the Commission's electricity market report for the fourth quarter of
+2025 prints for a secondary market price. Should DEHSt or EEX object, the
+series moves to `data/private/`. Written requests to EEX and to the Commission
+on reports after June 2025 remain a step for the owner.
 
 ### 21. The licence of the route lines
 

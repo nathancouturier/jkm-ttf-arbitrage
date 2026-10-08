@@ -191,23 +191,40 @@ def overnight_rate_on(when: date | str) -> tuple[float, str]:
     return value, "effective federal funds rate of %s, New York Fed, before SOFR" % seen
 
 
-def eua_eur_t_in(when: date | str) -> tuple[float, str]:
-    """The month's average auction price of an EU allowance, from the Commission's reports.
+def _month_price(frame: pd.DataFrame, day: date) -> float | None:
+    rows = frame[(frame["date"].dt.year == day.year) & (frame["date"].dt.month == day.month)]
+    if rows.empty or pd.isna(rows.iloc[0]["eua_eur_t"]):
+        return None
+    return float(rows.iloc[0]["eua_eur_t"])
 
-    After the last month the reports cover, that month's price held, the
-    labelled assumption of the parameter table; a month missing before it is
-    missing.
+
+def eua_eur_t_in(when: date | str) -> tuple[float, str]:
+    """The month's average auction price of an EU allowance.
+
+    The Commission's average for the common auction platform where its reports
+    cover the month. After its last month, the average of Germany's auctions as
+    DEHSt reports it, a proxy for the EU price. After the last month DEHSt
+    covers, that month's price held, the labelled assumption of the parameter
+    table. A month missing before then is missing.
     """
     day = _day(when)
-    frame = read_cache("ec_eua_auction_monthly")
-    rows = frame[(frame["date"].dt.year == day.year) & (frame["date"].dt.month == day.month)]
-    if not rows.empty and not pd.isna(rows.iloc[0]["eua_eur_t"]):
-        return float(rows.iloc[0]["eua_eur_t"]), "European Commission auction report, %s average" % day.strftime("%B %Y")
-    held = frame[frame["eua_eur_t"].notna()].iloc[-1]
-    if pd.Timestamp(day) > held["date"]:
-        return float(held["eua_eur_t"]), (
-            "assumption: the last published monthly auction price, %s, held; no published price "
-            "for %s" % (held["date"].strftime("%B %Y"), day.strftime("%B %Y")))
+    month = pd.Timestamp(day.year, day.month, 1)
+    common = read_cache("ec_eua_auction_monthly")
+    price = _month_price(common, day)
+    if price is not None:
+        return price, "European Commission auction report, %s average" % day.strftime("%B %Y")
+    if month > common.loc[common["eua_eur_t"].notna(), "date"].max():
+        german = read_cache("dehst_eua_german_auction_monthly")
+        price = _month_price(german, day)
+        if price is not None:
+            return price, (
+                "German auctions on EEX, %s average, a proxy for the EU price (source: EEX, "
+                "DEHSt)" % day.strftime("%B %Y"))
+        held = german[german["eua_eur_t"].notna()].iloc[-1]
+        if month > held["date"]:
+            return float(held["eua_eur_t"]), (
+                "assumption: the last published monthly auction price, German auctions on EEX, "
+                "%s, held; no published price for %s" % (held["date"].strftime("%B %Y"), day.strftime("%B %Y")))
     raise MissingInput("no EU allowance auction price for %s" % day.strftime("%B %Y"))
 
 

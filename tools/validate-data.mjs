@@ -101,6 +101,8 @@ const COLUMN_RULES = [
   { match: /^effr_percent$/, lo: -1.0, hi: 15.0, what: "EFFR, percent per year" },
   { match: /^usd_per_sdr$/, lo: 1.0, hi: 2.0, what: "US dollars per SDR" },
   { match: /^eua_eur_t$/, lo: 1.0, hi: 200.0, what: "an EU allowance price, EUR per tonne of CO2" },
+  { match: /^auction_volume$/, lo: 0.0, hi: 50000000.0, what: "allowances Germany auctioned in a month" },
+  { match: /^revenue_eur$/, lo: 0.0, hi: 5000000000.0, what: "the revenue of Germany's auctions in a month, EUR" },
   { match: /^reports_printing_it$/, lo: 1.0, hi: 20.0, what: "a count of the reports that print a month" },
   { match: /^value_(before|after)$/, lo: 0.5, hi: 120.0, what: "a Pink Sheet gas price before or after a revision, USD/MMBtu" },
   { match: /^hire_usd_day$/, lo: -10000.0, hi: 500000.0, what: "reported LNG carrier hire, USD per day" },

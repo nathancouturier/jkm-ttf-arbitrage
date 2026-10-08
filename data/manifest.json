@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-08T14:14:02Z",
+  "generated_at": "2026-10-08T19:50:42Z",
   "series": [
     {
       "series": "acer_lng_daily",
@@ -40,6 +40,34 @@
           "status": "outstanding"
         }
       ]
+    },
+    {
+      "series": "dehst_eua_german_auction_monthly",
+      "source": "German Emissions Trading Authority (DEHSt) at the German Environment Agency, auctioning reports; source EEX, DEHSt",
+      "url": "https://www.dehst.de/EN/Topics/EU-ETS-1/EU-ETS-1-Information/Analyses-and-Reports/analysis-and-reports_node.html",
+      "page_url": "https://www.dehst.de/EN/Topics/EU-ETS-1/EU-ETS-1-Information/Analyses-and-Reports/analysis-and-reports_node.html",
+      "machine_fetched": true,
+      "fetched_at": "2026-10-08T14:20:29Z",
+      "checked_at": null,
+      "rows": 32,
+      "observations": 32,
+      "file_rows": 32,
+      "first_date": "2024-01-01",
+      "last_date": "2026-08-01",
+      "frequency": "monthly",
+      "gaps": [],
+      "provisional_from": null,
+      "vintage": "2024_report_Q4, 2025_report_Q4, 2026_report_08",
+      "method": "parsed",
+      "committable": true,
+      "licence_note": "DEHSt's editorial information, read in a browser on 8 October 2026 (robots.txt closes the page to code): 'Unless otherwise indicated, objects, graphics, sound documents, video sequences and texts created by DEHSt on this website are under a Creative Commons Attribution' non-commercial, no derivatives '4.0 international license.' The table read, 'Overview of the entire year', names 'Source: EEX, DEHSt'; other tables and figures of the reports also credit ICE, Nasdaq OMX, Refinitiv or LSEG and LEBA, and each cover credits a photo library; none of them is kept. The monthly averages are kept unchanged and credited to EEX and DEHSt, for this non-commercial study, as the licence allows for the contents of a database; should DEHSt or EEX object, the series moves to data/private/ (docs/open-questions.md, question 20).",
+      "status": "ok",
+      "note": "German auctions on EEX only, a proxy for the EU price: each month's average price as DEHSt's latest report of each year prints it (2024_report_Q4, 2025_report_Q4, 2026_report_08). Source: EEX, DEHSt; DEHSt's texts are licensed CC BY-NC-ND 4.0, and the figures are kept unchanged for non-commercial use.",
+      "file": "data/cache/dehst_eua_german_auction_monthly.csv",
+      "unit": "EUR per tonne of CO2",
+      "licence": "CC BY-NC-ND 4.0 for DEHSt's reports, figures credited to EEX and DEHSt; non-commercial use",
+      "observation_column": "eua_eur_t",
+      "unique_dates": true
     },
     {
       "series": "doe_lng_export_cargoes",
@@ -2436,7 +2464,7 @@
       "page_url": "https://lngprime.com/",
       "machine_fetched": false,
       "fetched_at": null,
-      "checked_at": "2026-10-08T14:14:02Z",
+      "checked_at": "2026-10-08T19:50:42Z",
       "rows": 8,
       "observations": 8,
       "file_rows": 8,
@@ -3066,7 +3094,7 @@
       "page_url": "https://github.com/genthalili/searoute-py",
       "machine_fetched": false,
       "fetched_at": null,
-      "checked_at": "2026-10-08T14:14:02Z",
+      "checked_at": "2026-10-08T19:50:42Z",
       "rows": 4,
       "observations": 4,
       "file_rows": 4,
@@ -3200,8 +3228,8 @@
   "manual_steps_note": "Work this pipeline cannot do for itself. Each entry says what it is, why it exists, what it costs to skip it and how to do it. They are repeated against the series they affect in the manual_step field of those entries.",
   "run": {
     "mode": "offline",
-    "started_at": "2026-10-08T14:14:01Z",
-    "finished_at": "2026-10-08T14:14:02Z",
+    "started_at": "2026-10-08T19:50:41Z",
+    "finished_at": "2026-10-08T19:50:42Z",
     "script": "scripts/refresh.py"
   }
 }

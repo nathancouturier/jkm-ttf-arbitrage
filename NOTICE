@@ -41,6 +41,16 @@ data/cache/ec_eua_auction_monthly.csv:
   Attribution 4.0 International licence; the months are combined from
   several reports by this study.
 
+data/cache/dehst_eua_german_auction_monthly.csv, and
+tests/fixtures/dehst_reports_page_2026-10-07.html:
+  Source: EEX, DEHSt. German Emissions Trading Authority (DEHSt) at the German
+  Environment Agency, auctioning reports
+  (https://www.dehst.de/EN/Topics/EU-ETS-1/EU-ETS-1-Information/Analyses-and-Reports/analysis-and-reports_node.html),
+  licensed under the Creative Commons Attribution NonCommercial NoDerivatives
+  4.0 International licence (https://creativecommons.org/licenses/by-nc-nd/4.0/).
+  The monthly averages are reproduced unchanged; they may be reused for
+  non-commercial purposes only.
+
 data/cache/acer_lng_daily.csv:
   Source: European Union Agency for the Cooperation of Energy Regulators
   (ACER).

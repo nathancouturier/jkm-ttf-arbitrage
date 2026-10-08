@@ -4,9 +4,11 @@ from __future__ import annotations
 
 from datetime import date
 
+import pandas as pd
 import pytest
 
 from lngarb import canals, cases, config, worked
+from lngarb.sources import base
 from lngarb.worked import WORKED_DATES, MissingInput
 
 
@@ -52,15 +54,29 @@ def test_methane_and_nitrous_oxide_count_from_2026():
 
 
 def test_the_allowance_price_after_the_last_report_is_the_labelled_assumption():
-    value, source = worked.eua_eur_t_in(date(2026, 9, 30))
-    assert value == 72.06
-    assert source.startswith("assumption") and "June 2025" in source
-    # The parameter table states the value held; it must be the last month published.
-    assert config.PARAMETERS["eua_eur_t_after_published"].value == value
+    german = base.read_cache("dehst_eua_german_auction_monthly").dropna(subset=["eua_eur_t"])
+    last = german.iloc[-1]
+    after = (last["date"] + pd.DateOffset(months=1)).date()
+    value, source = worked.eua_eur_t_in(after)
+    assert value == last["eua_eur_t"]
+    assert source.startswith("assumption") and "German auctions" in source
+    assert last["date"].strftime("%B %Y") in source
+    assert config.PARAMETERS["eua_eur_t_after_published"].value == "the last published month"
     value, source = worked.eua_eur_t_in(date(2024, 3, 27))
     assert value == 57.7 and source.startswith("European Commission")
     with pytest.raises(MissingInput):
         worked.eua_eur_t_in(date(2022, 6, 1))
+
+
+def test_the_german_auctions_follow_the_commission_reports():
+    # June 2025 is the Commission's last month; the German average stands in after it.
+    value, source = worked.eua_eur_t_in(date(2025, 6, 30))
+    assert value == 72.06 and source.startswith("European Commission")
+    value, source = worked.eua_eur_t_in(date(2025, 7, 1))
+    assert value == 70.01 and source.startswith("German auctions on EEX, July 2025")
+    assert "proxy" in source and "EEX, DEHSt" in source
+    value, _ = worked.eua_eur_t_in(date(2026, 8, 31))
+    assert value == 82.31
 
 
 # --------------------------------------------------------------------------

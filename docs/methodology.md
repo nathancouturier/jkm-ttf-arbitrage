@@ -119,7 +119,7 @@ of January).
 | Japanese spot LNG | between March and April 2021 | METI's survey ends and JOGMEC's continues it; the two are kept as two series |
 | JOGMEC arrival-based price | April 2023 | from cargoes contracted and delivered in the month to cargoes delivered in the month whenever contracted |
 | ACER DES assessments | January to March 2023 | NWE priced from 19 January 2023, SE from 20 January, the EU from 8 March, the EU benchmark to TTF from 31 March |
-| EU allowance price | after June 2025 | the Commission's latest auction report ends there; later months are missing |
+| EU allowance price | after June 2025 | the Commission's latest auction report ends there; DEHSt's average of the German auctions stands in, a proxy 0.10 EUR/t above the Commission's on average over the 18 months both cover |
 
 ### 5.1 The weekly series checked against itself
 
@@ -560,7 +560,8 @@ begin, METI's contract-based monthly price as a labelled proxy for JKM and the
 World Bank's TTF; Henry Hub as the loading month's average of EIA's daily spot;
 the euro rate of H.10 on or before the day; SOFR, or the effective federal funds
 rate before 2 April 2018; the EU allowance price of the month from the
-Commission's auction reports, and after June 2025 the last published month
+Commission's auction reports, after June 2025 the average of the German
+auctions DEHSt reports, a labelled proxy, and after August 2026 that month
 held, the labelled assumption of section 11; the reported charter rate nearest
 the date, within 14 days, from the freight anchors, dated by the day it refers
 to or else by its article, or, where none is that close, the low, central and
@@ -633,7 +634,7 @@ the range it is shown at:
 | Panama capacity charged | the nominal capacity | none | the canal's admeasurement rules were not read (open question 39) |
 | Panama booking fee | none, an unbooked ship | none | the booked case is a scenario (open question 40) |
 | hire where no rate was reported within 14 days | 38,000 $/day | -750 and 374,000 | the median, lowest and highest of the freight anchors |
-| EU allowance price after June 2025 | 72.06 EUR/t | 61 and 86 | the last published month, and the Commission's range for 2025 |
+| EU allowance price after the last published month | the last month published, held (on 8 October 2026 August 2026, 82.31 EUR/t, German auctions) | 61 and 86 | the last published month held, and the Commission's range for 2025 |
 | funding spread | 150 bp | none | the convention of the study's copper sibling |
 | Panama variable fresh water surcharge | 5 percent of tolls | 0 and 10 | the middle of the Authority's range |
 | Suez closed to a US cargo | from 13 January 2024 | none | the day after the last laden LNG transit |

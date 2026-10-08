@@ -41,6 +41,13 @@ BOUNDS_DES_EUR_MWH = (1.0, 400.0)
 #: An EU allowance price, EUR per tonne of CO2. A guard against a unit or a
 #: parse error, not a range the market implies.
 BOUNDS_EUA_EUR_T = (1.0, 200.0)
+#: Allowances Germany auctioned in one month. Not a range the market implies, a
+#: guard against a parse error: the largest month of 2024 to August 2026 is
+#: 9,432,500, November 2024.
+BOUNDS_AUCTION_VOLUME_EUA = (0.0, 50000000.0)
+#: The revenue of Germany's auctions in one month, EUR. A guard against a parse
+#: error: the largest month of 2024 to August 2026 is 633,208,900, August 2024.
+BOUNDS_AUCTION_REVENUE_EUR = (0.0, 5000000000.0)
 #: SOFR, and EFFR before it, percent per year. Not a range the market implies,
 #: a guard against a unit error: a rate read in basis points would be a hundred
 #: times too large.
@@ -395,6 +402,21 @@ _EC_NOTE = (
 )
 
 
+_DEHST_NOTE = (
+    "DEHSt's editorial information, read in a browser on 8 October 2026 (robots.txt "
+    "closes the page to code): 'Unless otherwise indicated, objects, graphics, sound "
+    "documents, video sequences and texts created by DEHSt on this website are under "
+    "a Creative Commons Attribution' non-commercial, no derivatives '4.0 international "
+    "license.' The table read, 'Overview of the entire year', names 'Source: EEX, "
+    "DEHSt'; other tables and figures of the reports also credit ICE, Nasdaq OMX, "
+    "Refinitiv or LSEG and LEBA, and each cover credits a photo library; none of them "
+    "is kept. The monthly averages are kept unchanged and credited to EEX and DEHSt, for "
+    "this non-commercial study, "
+    "as the licence allows for the contents of a database; should DEHSt or EEX object, "
+    "the series moves to data/private/ (docs/open-questions.md, question 20)."
+)
+
+
 SOURCES: Mapping[str, Source] = _registry(
     # -- European Commission, EUA -----------------------------------------
     Source(
@@ -413,6 +435,27 @@ SOURCES: Mapping[str, Source] = _registry(
         method="parsed",
         licence="CC BY 4.0",
         licence_note=_EC_NOTE,
+        committable=True,
+    ),
+    # -- DEHSt, EUA --------------------------------------------------------
+    Source(
+        series="dehst_eua_german_auction_monthly",
+        label="EU allowance price, German auctions on EEX, monthly average, EUR per tonne of CO2, a proxy for the EU price",
+        publisher="German Emissions Trading Authority (DEHSt) at the German Environment Agency; source EEX, DEHSt",
+        page_url="https://www.dehst.de/EN/Topics/EU-ETS-1/EU-ETS-1-Information/Analyses-and-Reports/analysis-and-reports_node.html",
+        machine_url=None,
+        url_note=(
+            "Monthly and quarterly PDF reports linked from the page, "
+            "SharedDocs/downloads/EN/auctioning/YYYY/YYYY_report_MM.pdf or _Qn.pdf; "
+            "the latest report of each year from 2024 is read for its table "
+            "'Overview of the entire year'. robots.txt asks for thirty seconds "
+            "between requests."
+        ),
+        frequency="monthly",
+        unit="EUR per tonne of CO2",
+        method="parsed",
+        licence="CC BY-NC-ND 4.0 for DEHSt's reports, figures credited to EEX and DEHSt; non-commercial use",
+        licence_note=_DEHST_NOTE,
         committable=True,
     ),
     # -- ACER -------------------------------------------------------------
@@ -1191,14 +1234,17 @@ PARAMETERS: Mapping[str, Parameter] = _parameters(
               "GIIGNL's table could not be read by code. Spark's 23 MMBtu per m3 at the manual's 0.45 t "
               "per m3 gives 51.11, 0.9 percent less. Used only to turn the gas burnt into tonnes for "
               "the EU ETS."),
-    Parameter("eua_eur_t_after_published", 72.06, "EUR per tonne of CO2", "assumption",
-              "this study: the Commission's last published monthly auction price, June 2025, held for "
-              "every later month",
-              "https://climate.ec.europa.eu/areas-action/carbon-markets/eu-emissions-trading-system-eu-ets/auctioning-allowances_en",
-              "2026-10-07",
-              "No source with a clear licence gives a monthly price from July 2025 (open question 20). "
-              "Shown at 61 and 86, the range of 2025 the Commission's electricity market report for "
-              "the fourth quarter of 2025 prints for a secondary market price."),
+    Parameter("eua_eur_t_after_published", "the last published month", "EUR per tonne of CO2",
+              "assumption",
+              "this study: the last published monthly auction price, German auctions on EEX, held for "
+              "every later month; on 8 October 2026 August 2026, 82.31 EUR/t, as DEHSt's report for "
+              "August 2026 prints it",
+              "https://www.dehst.de/EN/Topics/EU-ETS-1/EU-ETS-1-Information/Analyses-and-Reports/analysis-and-reports_node.html",
+              "2026-10-08",
+              "The Commission's reports stop in June 2025; DEHSt's German auction averages follow, "
+              "as a proxy, to August 2026 (open question 20). Over the 18 months both cover, January "
+              "2024 to June 2025, the German average is 0.10 EUR/t above the Commission's on average, "
+              "0.64 in absolute terms and 1.40 at most."),
     Parameter("suez_scnt_per_m3", 85_000.0 / 145_000.0, "tons of Suez Canal Net Tonnage per m3 of capacity",
               "assumption",
               "this study, from a canal agency's approximation, 'ca 85.000 SCNT (145.000m3; 75.000dwt)' "

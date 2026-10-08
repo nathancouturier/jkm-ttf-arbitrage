@@ -28,6 +28,7 @@ was decided on the strength of it.
 | `eia_henry_hub_daily` | Henry Hub spot price, daily, USD/MMBtu, credited by EIA to Refinitiv | [RNGWHHDd.xls](https://www.eia.gov/dnav/ng/hist_xls/RNGWHHDd.xls) | weekly release, daily values | **yes**, with the doubt in 2.1 | US public domain |
 | `acer_lng_daily` | ACER's DES LNG assessments for NWE, SE and the EU, and its EU benchmark to TTF, daily, EUR/MWh; today the 26 corrected days of its notice of 20 December 2024 | [correction notice](https://www.acer.europa.eu/sites/default/files/documents/en/Gas/LNG_Price_Assessment/LNGPA_Correction_Notice_20241220.pdf); daily reports saved by hand | fixed until reports are saved | **yes** | ACER legal notice, with the doubt in 2.7 |
 | `ec_eua_auction_monthly` | EU allowance price, monthly volume weighted average auction clearing price, EUR/t, January 2023 to June 2025 | quarterly reports linked from the [Commission's auctioning page](https://climate.ec.europa.eu/areas-action/carbon-markets/eu-emissions-trading-system-eu-ets/auctioning-allowances_en) | quarterly, lagging | **yes** | CC BY 4.0, with the doubt in 2.8 |
+| `dehst_eua_german_auction_monthly` | EU allowance price in Germany's auctions on EEX, monthly average, EUR/t, January 2024 to August 2026, the proxy after June 2025 | the latest report of each year linked from [DEHSt's reports page](https://www.dehst.de/EN/Topics/EU-ETS-1/EU-ETS-1-Information/Analyses-and-Reports/analysis-and-reports_node.html) | monthly, about a month after | **yes**, for non-commercial use, with the doubt in 2.23 | CC BY-NC-ND 4.0, figures credited to EEX and DEHSt |
 | `meti_spot_lng_monthly` | Japan spot LNG price, DES, contract-based and arrival-based, monthly, March 2014 to March 2021 | [historical-data-e.xlsx](https://www.meti.go.jp/english/statistics/sho/slng/historical-data-e.xlsx), read once | ended | **yes** | METI terms, compatible with CC BY 4.0 |
 | `jogmec_spot_lng_monthly` | Japan spot LNG price, DES, contract-based and arrival-based, monthly, from April 2021 | one page per month from JOGMEC's English spot price list page | monthly, 9th to 15th | **NO**, `data/private/` until JOGMEC permits | JOGMEC terms, permission not yet requested |
 | `worldbank_gas_monthly` | Europe gas (TTF from April 2015), US gas at Henry Hub, and Japan LNG import price, monthly, USD/MMBtu, from 2015 | read from the [commodity markets page](https://www.worldbank.org/en/research/commodity-markets); the file's path changes | monthly, early in the month | **yes** | CC BY 4.0 |
@@ -673,6 +674,38 @@ kept as a test fixture. **Redistributable: yes, with attribution.**
 
 ---
 
+### 2.23 DEHSt, the German auctions, CC BY-NC-ND 4.0
+
+The German Emissions Trading Authority (DEHSt) at the German Environment Agency
+reports the results of Germany's own allowance auctions, held weekly on EEX,
+month by month. Its editorial information,
+`https://www.dehst.de/EN/Service/Editorial-information/editorial-information_node.html`,
+sits on a path its robots.txt closes to code and was read in a browser on 8
+October 2026:
+
+> "Unless otherwise indicated, objects, graphics, sound documents, video
+> sequences and texts created by DEHSt on this website are under a Creative
+> Commons Attribution, non-commercial, no derivatives 4.0 international
+> license."
+
+(the three parts of the licence's name are joined by dashes in the original).
+The licence's section on database rights, read on creativecommons.org the same
+day, grants "the right to extract, reuse, reproduce, and Share all or a
+substantial portion of the contents of the database for NonCommercial purposes
+only and provided You do not Share Adapted Material". The reports carry no
+licence sentence of their own. The one table the study reads, "Overview of the
+entire year", names "Source: EEX, DEHSt"; other tables and figures credit ICE,
+Nasdaq OMX, Refinitiv or LSEG and LEBA besides, and each cover credits a photo
+library, so no report is committed, not even as a test fixture: the tests
+rebuild the year tables as text. The study keeps each month's average
+unchanged, credited to EEX and DEHSt, and is non-commercial.
+**Redistributable: yes, for non-commercial use, credited to EEX and DEHSt.**
+One doubt, recorded: EEX's own terms (2.8) forbid distributing its contents
+without its approval, and whether a monthly average DEHSt computes and
+publishes from EEX's results carries EEX's rights is not stated. Should DEHSt
+or EEX object, the series moves to `data/private/`. robots.txt asks for
+"Crawl-delay: 30"; the study waits 31 seconds between requests to dehst.de.
+
 ## 3. Known traps, per source
 
 ### 3.1 EIA Natural Gas Weekly Update and its successor
@@ -1016,10 +1049,33 @@ kept as a test fixture. **Redistributable: yes, with attribution.**
 * **Each report's Table 1 covers fifteen months**, so several editions are read
   and each month is taken from the latest that prints it. Months printed by up
   to five editions agree exactly.
-* **The reports lag.** On 30 September 2026 the latest covers April to June
-  2025, and no allowance price after June 2025 is in this study.
+* **The reports lag.** On 8 October 2026 the latest covers April to June 2025;
+  after June 2025 the study uses DEHSt's averages of the German auctions, a
+  labelled proxy (3.10.1).
 * **A month with no auction prints dashes** (January 2021), read as missing.
 * **Annual rows sit under the monthly ones** and are not read as months.
+
+### 3.10.1 DEHSt's auctioning reports
+
+* **German auctions only, a proxy for the EU price.** Germany auctions its
+  share weekly on EEX, apart from the common auction platform. Over the 18
+  months both cover, January 2024 to June 2025, the German average is 0.10
+  EUR/t above the Commission's on average, 0.64 EUR/t in absolute terms and
+  1.40 EUR/t at most (May 2024). Used only after the Commission's last month.
+* **The average changes kind.** A month marked "*" is a simple average of its
+  auctions, "**" a volume weighted one (August and December of each year read);
+  the `average` column keeps the mark.
+* **Reports to 2024 add a type column.** Aviation allowances (EUAA) were
+  auctioned in some months, in rows of their own; October 2024 prints its name
+  on a line between its EUA and EUAA rows. Only EUA rows are read.
+* **One report a year is enough.** Each report's year table carries every month
+  of the year so far, so the latest report of each year is read, a quarter
+  counting to its third month. On 8 October 2026 these are the fourth quarter
+  of 2024 and of 2025 and August 2026.
+* **Every month's volume times its price gives its revenue** to within half a
+  cent per allowance; a month that did not would be noted in `anomaly`.
+* **The page's dates are not used.** The January 2026 report is dated
+  "07/04/2025" on the page.
 
 ### 3.11 The routes
 
@@ -1244,9 +1300,10 @@ the study runs without it, on the labelled position given.
 8. **ACER's reports**: **owner**, saving them from TERMINAL by hand; until then
    the observed discount is the 26 corrected days, and elsewhere a labelled
    assumption (question 18).
-9. **The EU allowance price after June 2025** is the last published month held,
-   labelled, shown at 61 and 86 EUR/t; **owner**: read DEHSt's terms, and write
-   to EEX and the Commission (question 20).
+9. **The EU allowance price after June 2025** is the monthly average of
+   Germany's auctions DEHSt reports, a labelled proxy, to August 2026, and that
+   month held after it, shown at 61 and 86 EUR/t; **owner**: write to EEX and
+   the Commission (question 20).
 10. **The route lines** are published under the EUPL 1.2 (question 21).
 11. **The Suez toll** is computed from the Authority's schedules with the
     tonnage a labelled assumption (question 25), the rebate on normal dues only
