@@ -35,6 +35,7 @@ was decided on the strength of it.
 | `h10_usd_per_eur_daily` | US dollars per euro, noon buying rate in New York, daily, from 2015 | [FRB_h10_xml.zip](https://www.federalreserve.gov/releases/h10/data/FRB_h10_xml.zip) | weekly, Mondays | **yes** | US public domain |
 | `nyfed_sofr_daily` | Secured Overnight Financing Rate, daily, percent, from 2 April 2018 | [markets API](https://markets.newyorkfed.org/api/rates/secured/sofr/search.json) | daily, next business day | **yes**, under the New York Fed's terms | New York Fed Terms of Use |
 | `nyfed_effr_daily` | Effective federal funds rate, daily, percent, 4 January 2016 to 30 April 2018, the overnight rate before SOFR | [markets API](https://markets.newyorkfed.org/api/rates/unsecured/effr/search.json) | closed | **yes**, under the New York Fed's terms | New York Fed Terms of Use |
+| `imf_usd_per_sdr_daily` | US dollars per special drawing right, daily, from 2016, the IMF's rate as the Bundesbank republishes it, for the Suez toll | [Bundesbank API](https://api.statistiken.bundesbank.de/rest/download/BBEX3/D.USD.XDR.DA.AC.000?format=csv&lang=en) | daily | **NO**, `data/private/` until the IMF's terms are read | IMF terms, not yet read |
 | `freight_anchors` | Reported LNG carrier charter rates, USD per day, eight figures from February 2022 to October 2026, one per month at most, each from a dated article | written from rows kept in `lngarb.freight_anchors`; nothing fetched | as figures are verified | **yes**, figures only (2.13, 2.14) | individual figures quoted with attribution |
 | `routes` | The four sea routes from Sabine Pass, distances and lines | computed once by `scripts/routes.py` | fixed | **yes** | distances: this study, MIT; lines: EUPL 1.2; searoute Apache 2.0 |
 
@@ -549,6 +550,75 @@ past issues of the WNGSR Supplement (3.1), the release of EIA's exports table
 of 30 April 2026 and the World Bank workbook of
 2 July 2026 kept as fixtures, and the Panama Canal Authority's tariff documents
 of 2016 and 2017 (2.15).
+
+### 2.17 EUR-Lex and the Commission, for the EU ETS rules on shipping
+
+The shares of a voyage's emissions, the phase-in by year, the emission factor
+of LNG and the global warming potentials are read from the legal texts on
+EUR-Lex: Directive 2003/87/EC as amended by Directive (EU) 2023/959, Regulation
+(EU) 2015/757 as amended by Delegated Regulation (EU) 2023/2776, and Delegated
+Regulation (EU) 2020/1044, all read on 7 October 2026. EUR-Lex's legal notice,
+read the same day:
+
+> "Unless otherwise specified, you can re-use the legal documents published in
+> EUR-Lex for commercial or non-commercial purposes."
+
+The Commission's FAQ on maritime transport in the EU ETS, updated 24 November
+2025, is read under the Commission's legal notice (2.8). **Redistributable:
+yes.** The study quotes articles and figures, each with its text.
+
+### 2.18 The IEA and Eurostat's Energy Statistics Manual, for MMBtu per tonne
+
+One conversion factor, 51,560 Btu per kilogramme of LNG on a gross calorific
+basis, is read from Annex 3, Table A3.9, of the Energy Statistics Manual the IEA
+and Eurostat published in 2004, on Eurostat's site, read on 7 October 2026.
+Eurostat's copyright notice:
+
+> "Reuse of statistical data, metadata, publications, and other dissemination
+> tools published on this website for commercial or non-commercial purposes is
+> authorised provided the source is acknowledged."
+
+> "The permission granted above does not extend to any material whose copyright
+> is identified as belonging to a third-party"
+
+The manual carries an OECD/IEA copyright of 2004 and asks for permission to
+reproduce all or part of it. **Redistributable: the one factor, cited; the
+manual is not committed.**
+
+### 2.19 Platts' JKM roll and the Japan Exchange Group's JKM contract
+
+The rule that JKM rolls on the 16th of the month is read from Platts' press
+release of 16 June 2015 as Mondo Visione republished it ("The Platts JKM rolls
+on the 16th of each calendar month"), since S&P Global refuses automated
+requests. Mondo Visione's terms govern its paid service and its disclaimer
+limits its liability; neither addresses quotation. The settlement window of a
+futures contract on JKM is read from the Japan Exchange Group's specification of
+its LNG (Platts JKM) futures, updated 4 November 2024, read on 7 October 2026,
+whose terms say:
+
+> "The collection of data or secondary use of information from this website
+> for commercial purposes is strictly prohibited, unless JPX has granted prior
+> permission or authorized such use under a paid contract."
+
+**Redistributable: the rules as quotation, for a non-commercial study.** No
+price from either source is used. ICE's and CME's own contract rules could not
+be read: their terms forbid automated reading (open question 44).
+
+### 2.20 Deutsche Bundesbank, the IMF's SDR rate, private
+
+The IMF's daily US dollars per SDR, which the Suez toll needs, is read from the
+Bundesbank's statistics API, series BBEX3.D.USD.XDR.DA.AC.000, whose file names
+the "International Monetary Fund (IMF), Washington" as its source. The IMF's
+own hosts refuse automated requests, even for robots.txt, so its terms have not
+been read. The Bundesbank's terms of reuse of statistics, read on 7 October
+2026:
+
+> "2) The right of free reuse does not apply to third-party data without a
+> prior permission from the originator."
+
+**Redistributable: no, not yet.** The series is kept in `data/private/` until a
+person has read the IMF's terms (open question 46); only the tolls computed
+from it on the study's dates are shown, each with the rate used.
 
 ---
 
