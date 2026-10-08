@@ -630,7 +630,7 @@ the range it is shown at:
 | Suez rebate on the surcharge | not applied | applied | the rebate is written on normal tolls (open question 26) |
 | Panama capacity charged | the nominal capacity | none | the canal's admeasurement rules were not read (open question 39) |
 | Panama booking fee | none, an unbooked ship | none | the booked case is a scenario (open question 40) |
-| hire where no rate was reported | 38,000 $/day | -750 and 374,000 | the median, lowest and highest of the freight anchors |
+| hire where no rate was reported within 14 days | 38,000 $/day | -750 and 374,000 | the median, lowest and highest of the freight anchors |
 | EU allowance price after June 2025 | 72.06 EUR/t | 61 and 86 | the last published month, and the Commission's range for 2025 |
 | funding spread | 150 bp | none | the convention of the study's copper sibling |
 | Panama variable fresh water surcharge | 5 percent of tolls | 0 and 10 | the middle of the Authority's range |

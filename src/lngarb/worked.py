@@ -238,13 +238,14 @@ def _anchor_day(anchor) -> date:
     return date.fromisoformat(anchor.rate_date or anchor.article_date)
 
 
-def nearest_hire(when: date | str, *, max_days: int = 14) -> tuple[float | None, str]:
+def nearest_hire(when: date | str, *, max_days: int | None = None) -> tuple[float | None, str]:
     """The reported charter rate nearest the day, within max_days, from the freight anchors.
 
     Each figure is dated by the day it refers to, or by its article when no day
     is stated. None when no figure lies within max_days.
     """
     day = _day(when)
+    max_days = _p("hire_anchor_max_days") if max_days is None else max_days
     near = sorted((abs((_anchor_day(a) - day).days), _anchor_day(a), a) for a in ANCHORS)
     gap, dated, anchor = near[0]
     if gap > max_days:

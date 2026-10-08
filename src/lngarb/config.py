@@ -1065,6 +1065,11 @@ PARAMETERS: Mapping[str, Parameter] = _parameters(
               "'exceeded 35 EUR/MWh during most days from end-July to mid-October 2022', so a date "
               "in that span is also shown at -35. Observed directly only on ACER's 26 corrected days "
               "of November and December 2024."),
+    Parameter("hire_anchor_max_days", 14, "days", "assumption",
+              "this study: a reported charter rate stands for a date at most two weeks away", None,
+              "2026-10-08",
+              "Spark assessed twice a week until April 2022 and daily after; a figure further away is "
+              "not taken to describe the date, which is then run at the low, central and high hire."),
     Parameter("delta_nwe_wide_window", ("2022-07-25", "2022-10-15"), "dates, first and last", "assumption",
               "this study's reading of ACER, European LNG market developments, April 2024, page 38: "
               "the spread 'exceeded 35 EUR/MWh during most days from end-July to mid-October 2022'",
