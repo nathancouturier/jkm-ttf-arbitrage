@@ -620,6 +620,25 @@ been read. The Bundesbank's terms of reuse of statistics, read on 7 October
 person has read the IMF's terms (open question 46); only the tolls computed
 from it on the study's dates are shown, each with the rate used.
 
+### 2.21 Cheniere's filings, for the contract terms
+
+The price formula of a US Gulf contract, the fixed fee and its range, the
+inflation indexation and the right to suspend cargoes are read from Cheniere
+Energy Partners' and Cheniere Energy's filings with the Securities and Exchange
+Commission, as their investor sites republish them, read on 7 October 2026:
+the sale and purchase agreements with Centrica (2013) and Woodside (2014), filed
+as exhibits, the Form 10-K for 2015, 2017 and 2025, and a presentation of
+August 2012. SEC.gov answered the study's first request with HTTP 403, so
+EDGAR itself was not read; the accession numbers let anyone find the same
+documents there. The investor sites' "Terms" link leads to Cheniere's website
+disclaimer, read first, which says nothing on reuse or automated access:
+
+> "The information and materials on this website are provided for
+> informational purposes only."
+
+**Redistributable: quotation of public filings.** Contract figures are quoted
+with their document and section; no filing is committed.
+
 ---
 
 ## 3. Known traps, per source
@@ -1145,52 +1164,56 @@ from it on the study's dates are shown, each with the rate used.
 
 ---
 
-## 4. Positions the owner has to take
+## 4. Positions taken, and what is left to the owner
 
-1. **The weekly JKM and TTF archive.** Decided on 7 October 2026: the archived
-   issues are read from the Internet Archive's copies, never from eia.gov
-   (open question 1).
-2. **Third party figures in EIA publications.** Whether the weekly prices
-   credited to Bloomberg and the spot price credited to Refinitiv may be
-   committed under EIA's public domain statement.
-3. **The Henry Hub bound.** Decided on 7 October 2026: widened to 50 USD/MMBtu
-   (open question 3).
-4. **The euro rate's route.** This study reads the Board's release page XML
-   rather than its Data Download Program, which the Board is retiring.
-5. **SOFR's source and licence.** This study reads the New York Fed's API under
-   the New York Fed's terms, which travel with the committed cache.
-6. **Financing before 2 April 2018**, when no SOFR exists.
-7. **JOGMEC's permission**, not yet requested; the draft is in
-   `docs/open-questions.md`, question 14.
-8. **METI's monthly PDFs**, which only a person can save past METI's bot
-   challenge, and which alone carry METI's preliminary figures.
-9. **ACER's reports**, which only a person can save from TERMINAL, and whether
-   the observed discount is ACER's EU benchmark or an NWE spread this study
-   derives from ACER's figures.
-10. **The EU allowance price after June 2025**, which the Commission has not yet
-    published.
-11. **Whether the route lines may be published** under the licence chain in
-    2.9, or only the distances.
-12. **The Suez toll** for a 174,000 m3 carrier, whose canal tonnage no source
-    gives, and whether the rebate reaches the LNG surcharge.
-13. **When the Red Sea was open to a US cargo**, and whether a secondary source
-    is accepted for March to July 2026.
-14. **Quoting the Suez Canal Authority**, whose site reserves all rights and
-    has no terms of use page.
-15. **The Japanese port cost**: Spark's two-port figure for Sabine Pass and
-    Futtsu, Gate's figure as an assumption, or components still incomplete.
-16. **The Sabine Neches cargo fee**, a load port charge the cost line does not
-    yet carry.
-17. **Spark's figures**: whether the study may print them as quotation, or
-    must ask Spark first.
-18. **The freight anchors**: decided on 7 October 2026 (question 37); what of each reported charter rate may be
-    committed.
-19. **Lloyd's List Intelligence's briefs**, read before its terms were.
-20. **The Panama inputs**: nominal against admeasured capacity, the ballast
-    rule before 2023, the fresh water surcharge, booking fees and waiting
-    days.
-21. **Quoting the Panama Canal Authority**, whose terms forbid commercial
-    reproduction and may forbid alteration.
+Every position this study takes on a source, with the open question that
+records it. Those marked **owner** need a step only the owner can take, and
+the study runs without it, on the labelled position given.
+
+1. **The weekly JKM and TTF archive** is read from the Internet Archive's
+   copies, never from eia.gov (question 1).
+2. **Third party figures in EIA publications** are committed with the credit
+   EIA prints, and move to `data/private/` should EIA or a rights holder object
+   (question 2).
+3. **The Henry Hub bound** is 0.5 to 50 USD/MMBtu (question 3).
+4. **The euro rate** is read from the H.10 release page package (question 11).
+5. **SOFR** is published under the New York Fed's terms with its notice, and
+   the **effective federal funds rate** stands in before 2 April 2018 on the
+   same terms (question 12).
+6. **JOGMEC's series** stays private; **owner**: send the permission request
+   drafted in question 14.
+7. **METI's monthly PDFs**: **owner**, saving them by hand would add the
+   preliminary figures; the series is complete without them.
+8. **ACER's reports**: **owner**, saving them from TERMINAL by hand; until then
+   the observed discount is the 26 corrected days, and elsewhere a labelled
+   assumption (question 18).
+9. **The EU allowance price after June 2025** is the last published month held,
+   labelled, shown at 61 and 86 EUR/t; **owner**: read DEHSt's terms, and write
+   to EEX and the Commission (question 20).
+10. **The route lines** are published under the EUPL 1.2 (question 21).
+11. **The Suez toll** is computed from the Authority's schedules with the
+    tonnage a labelled assumption (question 25), the rebate on normal dues only
+    (question 26) and on the ballast leg too (question 27); **owner**: read the
+    IMF's terms, without which the SDR rate stays private (question 46).
+12. **The Red Sea** is closed to a US cargo from 13 January 2024 (question 28).
+13. **The Suez Canal Authority and the Panama Canal Authority** are quoted for
+    rates, dates and counts, with no document copied (questions 30 and 41).
+14. **Port costs** are Spark's two pairs, held for every year and both ships
+    (questions 31 to 33).
+15. **Spark's figures** are quoted individually as fair use (question 36), and
+    **the freight anchors** commit figures, never sentences (question 37).
+16. **Lloyd's List and Lloyd's List Intelligence** are dropped (question 38).
+17. **The Panama inputs** are the nominal capacity, the roundtrip ballast table
+    before 2023, the fresh water surcharge at 5 percent of tolls, and no booking
+    fee or waiting days by default (questions 39 and 40).
+18. **The contract terms** come from Cheniere's filings as its investor sites
+    republish them; **owner**: decide whether EDGAR is to be read with a contact
+    address in the user agent (2.21).
+19. **The TTF expiry rule** is the two business days the study applies;
+    **owner**: save ICE Endex's contract specification by hand (question 44).
+20. **Methane slip** is off by default (question 45), and **MMBtu per tonne** is
+    the IEA and Eurostat's factor; **owner**: GIIGNL's report, saved by hand,
+    could replace it (question 47).
 
 ---
 
