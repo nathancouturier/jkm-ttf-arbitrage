@@ -1028,10 +1028,18 @@ from it on the study's dates are shown, each with the rate used.
 * **One link in the Authority's own records is wrong.** The cancellation of 14
   March 2022 points to circular 5/2015, while its text cancels article two of
   circular 2/2015. The text is followed.
-* **The 2023 increase was not found.** Every LNG rate in the schedule from 15
-  January 2024 is 1.3204 to 1.3245 times its February 2022 value, and 1.15
-  squared is 1.3225, which fits a 15 percent rise in 2023 before circular
-  7/2023's 15 percent. The 2023 schedule itself would settle it.
+* **The 2023 increase sits in a circular of 2022.** Circular 14/2022, dated 18
+  September 2022, raised normal dues 15 percent from 1 January 2023; its LNG
+  row is the earlier one times 1.15 to within 0.01. Searching the circulars of
+  2023 does not find it.
+* **The LNG row did not move from 2014 to 2022.** The schedules of 1 May 2015, 1
+  April 2020 and 1 February 2022 print the same figures; circular 5/2021
+  raised other dues 6 percent "excluding ... LNG Carriers". The schedule of
+  2015 is a sideways scan with no text layer, read by eye.
+* **The general reduction moved in 2020.** It was 30 percent from 1 April to
+  30 June 2020, then 25 percent again, before the cut to 15 percent in
+  November 2021. A US Gulf cargo to Japan took the larger route rebate
+  instead, which cannot be combined with it.
 
 ### 3.13 The Red Sea record
 

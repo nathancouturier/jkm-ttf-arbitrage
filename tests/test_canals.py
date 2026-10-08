@@ -74,8 +74,28 @@ def test_the_surcharge_rebate_and_reduction_follow_their_dates():
 
 
 def test_a_day_no_schedule_covers_is_not_priced():
-    assert canals.suez_toll_sdr("2023-05-01", 100_000, laden=True) is None
-    assert canals.suez_round_trip("2023-05-01", 174_000) is None
+    assert canals.suez_toll_sdr("2015-04-30", 100_000, laden=True) is None
+    assert canals.suez_round_trip("2015-04-30", 174_000) is None
+
+
+def test_the_schedule_of_2023_is_the_one_before_raised_fifteen_percent():
+    before = canals.suez_schedule("2022-12-31")
+    after = canals.suez_schedule("2023-01-01")
+    for old, new in zip(before.laden + before.ballast, after.laden + after.ballast):
+        assert abs(new - 1.15 * old) <= 0.01
+    assert canals.suez_schedule("2016-06-01") is before
+    assert canals.suez_schedule("2024-01-15").laden[0] == 10.42
+
+
+def test_in_april_2020_the_route_rebate_replaces_the_larger_general_reduction():
+    assert canals.suez_rate_on(config.SUEZ_LNG_GENERAL_REDUCTION, "2020-04-15")[0] == 0.30
+    assert canals.suez_rate_on(config.SUEZ_LNG_GENERAL_REDUCTION, "2020-07-01")[0] == 0.25
+    toll = canals.suez_toll_sdr("2020-04-15", 100_000, laden=True)
+    assert toll["toll_sdr"] == pytest.approx(toll["normal_sdr"] * (1 - 0.75), rel=1e-12)
+    assert "periodical of 12 September 2019" in toll["rebate"]
+    # Before the route rebate began, only the general reduction applies.
+    early = canals.suez_toll_sdr("2017-06-01", 100_000, laden=True)
+    assert early["toll_sdr"] == pytest.approx(early["normal_sdr"] * 0.75, rel=1e-12)
 
 
 def test_the_round_trip_is_converted_at_the_rate_of_the_day(monkeypatch):

@@ -406,7 +406,7 @@ Decision: not pursued; the routes are tested against Spark's and EIA's figures.
 
 ### 25. The Suez toll for a 174,000 m3 carrier
 
-Raised 3 October 2026. **Open, the owner's decision.**
+Raised 3 October 2026. **Decided 8 October 2026.**
 
 The Suez Canal Authority publishes its toll as special drawing rights (SDR) per
 ton of Suez Canal Net Tonnage (SCNT), in seven bands, laden and ballast. The
@@ -422,6 +422,16 @@ and say so. Every option needs a daily SDR to dollar rate, from the IMF, whose
 terms have not been read yet. The schedule in force before 15 January 2024 is
 read for February 2022; the step between them is consistent with a 15 percent
 rise in 2023, whose circular was not found.
+
+Decision: the toll is computed from the Authority's schedules, every one now
+read from 2015 (`docs/methodology.md`, section 6.1), with the tonnage a
+labelled assumption: the agency's ratio of 85,000 SCNT to 145,000 m3 applied
+to the capacity, 102,000 SCNT for 174,000 m3 and 93,793 for 160,000 m3, shown
+also at 85,000 and at 112,148, the Authority's net tonnage per LNG transit in
+2023. The SDR is converted at the IMF's rate of the day as the Bundesbank
+republishes it, kept private until the IMF's terms are read (question 46). The
+route is priced on every date and offered to a US cargo only while it was open
+(question 28).
 
 ### 26. Whether the Suez rebate reaches the LNG surcharge
 

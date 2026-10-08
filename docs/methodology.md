@@ -168,22 +168,27 @@ toll_usd    = toll_sdr * usd_per_sdr(transit date)
 ```
 
 Normal dues for LNG carriers ("Rate (5)"), in SDR per ton of Suez Canal Net
-Tonnage, from the schedules attached to circular 5/2021 (applicable from 1
-February 2022) and circular 7/2023 (applicable from 15 January 2024):
+Tonnage, laden and ballast, from the schedules the Authority attaches to its
+circulars:
 
-| SCNT band | Laden, from 1 Feb 2022 | Ballast, from 1 Feb 2022 | Laden, from 15 Jan 2024 | Ballast, from 15 Jan 2024 |
-|---|---|---|---|---|
-| first 5,000 | 7.88 | 6.70 | 10.42 | 8.87 |
-| next 5,000 | 6.13 | 5.21 | 8.11 | 6.89 |
-| next 10,000 | 5.30 | 4.51 | 7.02 | 5.97 |
-| next 20,000 | 4.10 | 3.49 | 5.43 | 4.61 |
-| next 30,000 | 3.80 | 3.23 | 5.03 | 4.27 |
-| next 50,000 | 3.63 | 3.09 | 4.80 | 4.08 |
-| the rest | 3.53 | 3.00 | 4.67 | 3.97 |
+| SCNT band | 1 May 2015 to 31 Dec 2022 | 1 Jan 2023 to 14 Jan 2024 | from 15 Jan 2024 |
+|---|---|---|---|
+| first 5,000 | 7.88 / 6.70 | 9.06 / 7.71 | 10.42 / 8.87 |
+| next 5,000 | 6.13 / 5.21 | 7.05 / 5.99 | 8.11 / 6.89 |
+| next 10,000 | 5.30 / 4.51 | 6.10 / 5.19 | 7.02 / 5.97 |
+| next 20,000 | 4.10 / 3.49 | 4.72 / 4.01 | 5.43 / 4.61 |
+| next 30,000 | 3.80 / 3.23 | 4.37 / 3.71 | 5.03 / 4.27 |
+| next 50,000 | 3.63 / 3.09 | 4.17 / 3.55 | 4.80 / 4.08 |
+| the rest | 3.53 / 3.00 | 4.06 / 3.45 | 4.67 / 3.97 |
 
-Both schedules say the rates "shall be applied according to the vessel's
-actual condition upon transit". The schedules in force before February 2022
-have not been read, and neither has the step in 2023 (`docs/sources.md`, 3.12).
+The first column is the schedule applicable from 1 May 2015, whose circular
+(2/2015) keeps the dues "unchanged the same as in 2014"; the schedules of 1
+April 2020 (circular 2/2020) and 1 February 2022 (circular 5/2021, whose 6
+percent increase excludes "LNG Carriers") print the same row. The second is
+circular 14/2022 of 18 September 2022, which raised normal dues 15 percent from
+1 January 2023; the third is circular 7/2023. No circular found changes the LNG
+row between those dates. The schedules say the rates "shall be applied
+according to the vessel's actual condition upon transit".
 
 The other instruments that move an LNG carrier's toll:
 
@@ -191,16 +196,20 @@ The other instruments that move an LNG carrier's toll:
 |---|---|---|
 | 1 May 2015 | general reduction for LNG carriers cut from 35 to 25 percent | circular 2/2015 |
 | 1 Oct 2017 | rebate for US Gulf cargoes to Asia begins, see 6.2 | circular 7/2017 |
+| 1 Apr 2020 | general reduction raised to 30 percent, to 30 June 2020 | periodical of 31 March 2020 |
+| 1 Jul 2020 | general reduction back to 25 percent | periodical of 21 June 2020 |
 | 1 Nov 2021 | general reduction cut from 25 to 15 percent | periodical of 26 October 2021 |
 | 1 Feb 2022 | new schedule | circular 5/2021 |
 | 1 Mar 2022 | surcharge of 7 percent on normal dues, laden and ballast | circular 5/2022 |
 | 15 Mar 2022 | general reduction cancelled | periodical of 14 March 2022 |
+| 1 Jan 2023 | normal dues raised 15 percent | circular 14/2022 of 18 September 2022 |
 | 15 Jan 2024 | normal dues raised 15 percent | circular 7/2023 of 16 October 2023 |
 | 15 Jul 2026 | surcharge raised from 7 to 19 percent | periodical 20/2026 of 7 June 2026 |
 
-The rebate in 6.2 cannot be combined with any other LNG rebate, so before 15
-March 2022 a US Gulf cargo to Japan cannot take both. This study assumes it
-takes the larger, which the circular does not say.
+The rebate in 6.2 cannot be combined with any other LNG rebate: circular
+7/2017 says the carrier "has no right to benefit from other rebates granted by
+SCA to LNG tankers, beside that rebate subject of this circular". The study
+takes the larger of the two, which is always the route rebate.
 
 ### 6.2 The rebate for a cargo from the US Gulf to Japan
 

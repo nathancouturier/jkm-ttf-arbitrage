@@ -928,12 +928,24 @@ class SuezSchedule:
 SUEZ_BAND_SIZES_SCNT = (5_000.0, 5_000.0, 10_000.0, 20_000.0, 30_000.0, 50_000.0)
 
 SUEZ_SCHEDULES: tuple[SuezSchedule, ...] = (
+    # The same row in the schedules applicable from 1 May 2015 (circular 2/2015,
+    # dues "unchanged the same as in 2014"), from 1 April 2020 (circular 2/2020,
+    # LNG unchanged) and from 1 February 2022 (circular 5/2021, which excludes
+    # LNG carriers from its increase).
     SuezSchedule(
-        "2022-02-01", "2022-12-31",
+        "2015-05-01", "2022-12-31",
         laden=(7.88, 6.13, 5.30, 4.10, 3.80, 3.63, 3.53),
         ballast=(6.70, 5.21, 4.51, 3.49, 3.23, 3.09, 3.00),
-        source="Suez Canal Authority, circular 5/2021, transit dues schedules applicable from 1 February 2022",
-        url="https://www.suezcanal.gov.eg/English/Navigation/NavigationCirculars/Documents/Cirular%205-2021/Circular%205.%202021%20Suez%20Canal%20Transit%20Dues%20as%20of%20the%20First%20of%20February%202022%20-EN.pdf",
+        source=("Suez Canal Authority, rates of transit dues to be applied from 1 May 2015, unchanged "
+                "for LNG carriers in the schedules of 1 April 2020 and 1 February 2022"),
+        url="https://www.suezcanal.gov.eg/English/Navigation/NavigationCirculars/Documents/Transit%20dues%202015.pdf",
+    ),
+    SuezSchedule(
+        "2023-01-01", "2024-01-14",
+        laden=(9.06, 7.05, 6.10, 4.72, 4.37, 4.17, 4.06),
+        ballast=(7.71, 5.99, 5.19, 4.01, 3.71, 3.55, 3.45),
+        source="Suez Canal Authority, circular 14/2022 of 18 September 2022, schedules applicable from 1 January 2023",
+        url="https://www.suezcanal.gov.eg/English/Navigation/NavigationCirculars/Documents/Cir_14-2022_tables_EN.pdf",
     ),
     SuezSchedule(
         "2024-01-15", None,
@@ -953,6 +965,8 @@ SUEZ_LNG_SURCHARGE: tuple[tuple[str, float, str], ...] = (
 #: The general reduction for LNG carriers, from the date named.
 SUEZ_LNG_GENERAL_REDUCTION: tuple[tuple[str, float, str], ...] = (
     ("2015-05-01", 0.25, "circular 2/2015"),
+    ("2020-04-01", 0.30, "periodical of 31 March 2020"),
+    ("2020-07-01", 0.25, "periodical of 21 June 2020"),
     ("2021-11-01", 0.15, "periodical of 26 October 2021"),
     ("2022-03-15", 0.0, "periodical of 14 March 2022, the reduction cancelled"),
 )
