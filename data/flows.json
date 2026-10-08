@@ -1,0 +1,2006 @@
+{
+ "schema_version": 1,
+ "first": "2016-02-01",
+ "last": "2026-07-01",
+ "months": [
+  {
+   "month": "2016-02-01",
+   "total_mmcf": 1995.0,
+   "jkm_markets_mmcf": 0.0,
+   "asia_mmcf": 0.0,
+   "share_jkm": 0.0,
+   "share_asia": 0.0,
+   "anomaly": null,
+   "arb": {
+    "low": 2.776492,
+    "central": 2.098147,
+    "high": -2.290917
+   }
+  },
+  {
+   "month": "2016-03-01",
+   "total_mmcf": 9507.0,
+   "jkm_markets_mmcf": 0.0,
+   "asia_mmcf": 2844.0,
+   "share_jkm": 0.0,
+   "share_asia": 0.299148,
+   "anomaly": null,
+   "arb": {
+    "low": null,
+    "central": null,
+    "high": null
+   }
+  },
+  {
+   "month": "2016-04-01",
+   "total_mmcf": 10013.0,
+   "jkm_markets_mmcf": 0.0,
+   "asia_mmcf": 0.0,
+   "share_jkm": 0.0,
+   "share_asia": 0.0,
+   "anomaly": null,
+   "arb": {
+    "low": 0.66306,
+    "central": -0.015285,
+    "high": -4.421199
+   }
+  },
+  {
+   "month": "2016-05-01",
+   "total_mmcf": 9841.0,
+   "jkm_markets_mmcf": 0.0,
+   "asia_mmcf": 0.0,
+   "share_jkm": 0.0,
+   "share_asia": 0.0,
+   "anomaly": null,
+   "arb": {
+    "low": 0.220461,
+    "central": -0.457884,
+    "high": -4.861107
+   }
+  },
+  {
+   "month": "2016-06-01",
+   "total_mmcf": 16423.0,
+   "jkm_markets_mmcf": 0.0,
+   "asia_mmcf": 3617.0,
+   "share_jkm": 0.0,
+   "share_asia": 0.22024,
+   "anomaly": null,
+   "arb": {
+    "low": null,
+    "central": null,
+    "high": null
+   }
+  },
+  {
+   "month": "2016-07-01",
+   "total_mmcf": 15711.0,
+   "jkm_markets_mmcf": 3132.0,
+   "asia_mmcf": 3132.0,
+   "share_jkm": 0.199351,
+   "share_asia": 0.199351,
+   "anomaly": null,
+   "arb": {
+    "low": 1.445384,
+    "central": 1.174768,
+    "high": -0.747341
+   }
+  },
+  {
+   "month": "2016-08-01",
+   "total_mmcf": 25984.0,
+   "jkm_markets_mmcf": 0.0,
+   "asia_mmcf": 3701.0,
+   "share_jkm": 0.0,
+   "share_asia": 0.142434,
+   "anomaly": null,
+   "arb": {
+    "low": null,
+    "central": null,
+    "high": null
+   }
+  },
+  {
+   "month": "2016-09-01",
+   "total_mmcf": 16729.0,
+   "jkm_markets_mmcf": 0.0,
+   "asia_mmcf": 3639.0,
+   "share_jkm": 0.0,
+   "share_asia": 0.217526,
+   "anomaly": null,
+   "arb": {
+    "low": 1.769618,
+    "central": 1.499001,
+    "high": -0.423108
+   }
+  },
+  {
+   "month": "2016-10-01",
+   "total_mmcf": 2957.0,
+   "jkm_markets_mmcf": 0.0,
+   "asia_mmcf": 0.0,
+   "share_jkm": 0.0,
+   "share_asia": 0.0,
+   "anomaly": null,
+   "arb": {
+    "low": 1.074461,
+    "central": 0.803844,
+    "high": -1.118265
+   }
+  },
+  {
+   "month": "2016-11-01",
+   "total_mmcf": 32928.0,
+   "jkm_markets_mmcf": 7341.0,
+   "asia_mmcf": 10456.0,
+   "share_jkm": 0.222941,
+   "share_asia": 0.317541,
+   "anomaly": null,
+   "arb": {
+    "low": 1.576342,
+    "central": 1.305725,
+    "high": -0.616384
+   }
+  },
+  {
+   "month": "2016-12-01",
+   "total_mmcf": 41784.0,
+   "jkm_markets_mmcf": 28050.0,
+   "asia_mmcf": 28050.0,
+   "share_jkm": 0.67131,
+   "share_asia": 0.67131,
+   "anomaly": null,
+   "arb": {
+    "low": 2.770599,
+    "central": 2.499983,
+    "high": 0.577874
+   }
+  },
+  {
+   "month": "2017-01-01",
+   "total_mmcf": 51257.0,
+   "jkm_markets_mmcf": 13924.0,
+   "asia_mmcf": 17547.0,
+   "share_jkm": 0.271651,
+   "share_asia": 0.342334,
+   "anomaly": null,
+   "arb": {
+    "low": 2.46504,
+    "central": 2.194423,
+    "high": 0.272314
+   }
+  },
+  {
+   "month": "2017-02-01",
+   "total_mmcf": 51998.0,
+   "jkm_markets_mmcf": 14043.0,
+   "asia_mmcf": 17442.0,
+   "share_jkm": 0.270068,
+   "share_asia": 0.335436,
+   "anomaly": null,
+   "arb": {
+    "low": 2.646629,
+    "central": 2.376013,
+    "high": 0.453904
+   }
+  },
+  {
+   "month": "2017-03-01",
+   "total_mmcf": 43489.0,
+   "jkm_markets_mmcf": 7042.0,
+   "asia_mmcf": 13321.0,
+   "share_jkm": 0.161926,
+   "share_asia": 0.306307,
+   "anomaly": null,
+   "arb": {
+    "low": 1.385046,
+    "central": 1.11443,
+    "high": -0.807679
+   }
+  },
+  {
+   "month": "2017-04-01",
+   "total_mmcf": 50599.0,
+   "jkm_markets_mmcf": 10693.0,
+   "asia_mmcf": 10693.0,
+   "share_jkm": 0.211328,
+   "share_asia": 0.211328,
+   "anomaly": null,
+   "arb": {
+    "low": 0.993652,
+    "central": 0.723036,
+    "high": -1.199073
+   }
+  },
+  {
+   "month": "2017-05-01",
+   "total_mmcf": 60756.0,
+   "jkm_markets_mmcf": 16948.0,
+   "asia_mmcf": 16948.0,
+   "share_jkm": 0.278952,
+   "share_asia": 0.278952,
+   "anomaly": null,
+   "arb": {
+    "low": 0.965136,
+    "central": 0.694519,
+    "high": -1.22759
+   }
+  },
+  {
+   "month": "2017-06-01",
+   "total_mmcf": 52443.0,
+   "jkm_markets_mmcf": 11114.0,
+   "asia_mmcf": 14527.0,
+   "share_jkm": 0.211925,
+   "share_asia": 0.277006,
+   "anomaly": null,
+   "arb": {
+    "low": null,
+    "central": null,
+    "high": null
+   }
+  },
+  {
+   "month": "2017-07-01",
+   "total_mmcf": 53548.0,
+   "jkm_markets_mmcf": 21456.0,
+   "asia_mmcf": 21456.0,
+   "share_jkm": 0.400687,
+   "share_asia": 0.400687,
+   "anomaly": null,
+   "arb": {
+    "low": 0.955189,
+    "central": 0.684573,
+    "high": -1.237536
+   }
+  },
+  {
+   "month": "2017-08-01",
+   "total_mmcf": 45435.0,
+   "jkm_markets_mmcf": 13934.0,
+   "asia_mmcf": 13934.0,
+   "share_jkm": 0.30668,
+   "share_asia": 0.30668,
+   "anomaly": null,
+   "arb": {
+    "low": 0.694622,
+    "central": 0.424005,
+    "high": -1.498103
+   }
+  },
+  {
+   "month": "2017-09-01",
+   "total_mmcf": 54679.0,
+   "jkm_markets_mmcf": 27570.0,
+   "asia_mmcf": 27570.0,
+   "share_jkm": 0.504216,
+   "share_asia": 0.504216,
+   "anomaly": null,
+   "arb": {
+    "low": 1.275936,
+    "central": 1.00532,
+    "high": -0.916789
+   }
+  },
+  {
+   "month": "2017-10-01",
+   "total_mmcf": 79708.0,
+   "jkm_markets_mmcf": 56011.0,
+   "asia_mmcf": 56011.0,
+   "share_jkm": 0.702702,
+   "share_asia": 0.702702,
+   "anomaly": null,
+   "arb": {
+    "low": 2.278264,
+    "central": 2.007647,
+    "high": 0.085539
+   }
+  },
+  {
+   "month": "2017-11-01",
+   "total_mmcf": 80013.0,
+   "jkm_markets_mmcf": 44946.0,
+   "asia_mmcf": 52003.0,
+   "share_jkm": 0.561734,
+   "share_asia": 0.649932,
+   "anomaly": null,
+   "arb": {
+    "low": 2.541064,
+    "central": 2.270448,
+    "high": 0.348339
+   }
+  },
+  {
+   "month": "2017-12-01",
+   "total_mmcf": 82499.0,
+   "jkm_markets_mmcf": 58136.0,
+   "asia_mmcf": 61563.0,
+   "share_jkm": 0.704687,
+   "share_asia": 0.746227,
+   "anomaly": null,
+   "arb": {
+    "low": 3.244828,
+    "central": 2.974212,
+    "high": 1.052103
+   }
+  },
+  {
+   "month": "2018-01-01",
+   "total_mmcf": 72358.0,
+   "jkm_markets_mmcf": 38485.0,
+   "asia_mmcf": 45449.0,
+   "share_jkm": 0.531869,
+   "share_asia": 0.628113,
+   "anomaly": null,
+   "arb": {
+    "low": 4.493109,
+    "central": 4.222493,
+    "high": 2.300384
+   }
+  },
+  {
+   "month": "2018-02-01",
+   "total_mmcf": 73613.0,
+   "jkm_markets_mmcf": 48977.0,
+   "asia_mmcf": 48977.0,
+   "share_jkm": 0.665331,
+   "share_asia": 0.665331,
+   "anomaly": null,
+   "arb": {
+    "low": 4.075004,
+    "central": 3.804387,
+    "high": 1.882278
+   }
+  },
+  {
+   "month": "2018-03-01",
+   "total_mmcf": 91486.0,
+   "jkm_markets_mmcf": 21818.0,
+   "asia_mmcf": 35760.0,
+   "share_jkm": 0.238485,
+   "share_asia": 0.390879,
+   "anomaly": null,
+   "arb": {
+    "low": 2.370968,
+    "central": 2.100351,
+    "high": 0.178243
+   }
+  },
+  {
+   "month": "2018-04-01",
+   "total_mmcf": 85680.0,
+   "jkm_markets_mmcf": 46472.0,
+   "asia_mmcf": 52984.0,
+   "share_jkm": 0.54239,
+   "share_asia": 0.618394,
+   "anomaly": null,
+   "arb": {
+    "low": 2.432442,
+    "central": 2.161825,
+    "high": 0.239716
+   }
+  },
+  {
+   "month": "2018-05-01",
+   "total_mmcf": 94791.0,
+   "jkm_markets_mmcf": 40933.0,
+   "asia_mmcf": 51273.0,
+   "share_jkm": 0.431824,
+   "share_asia": 0.540906,
+   "anomaly": null,
+   "arb": {
+    "low": 1.003878,
+    "central": 0.733262,
+    "high": -1.188847
+   }
+  },
+  {
+   "month": "2018-06-01",
+   "total_mmcf": 73518.0,
+   "jkm_markets_mmcf": 30008.0,
+   "asia_mmcf": 36725.0,
+   "share_jkm": 0.408172,
+   "share_asia": 0.499538,
+   "anomaly": null,
+   "arb": {
+    "low": 2.075989,
+    "central": 1.805373,
+    "high": -0.116736
+   }
+  },
+  {
+   "month": "2018-07-01",
+   "total_mmcf": 98213.0,
+   "jkm_markets_mmcf": 41356.0,
+   "asia_mmcf": 47274.0,
+   "share_jkm": 0.421085,
+   "share_asia": 0.481342,
+   "anomaly": null,
+   "arb": {
+    "low": 2.599692,
+    "central": 2.329075,
+    "high": 0.406966
+   }
+  },
+  {
+   "month": "2018-08-01",
+   "total_mmcf": 91493.0,
+   "jkm_markets_mmcf": 31341.0,
+   "asia_mmcf": 31341.0,
+   "share_jkm": 0.342551,
+   "share_asia": 0.342551,
+   "anomaly": null,
+   "arb": {
+    "low": 2.779692,
+    "central": 2.509076,
+    "high": 0.586967
+   }
+  },
+  {
+   "month": "2018-09-01",
+   "total_mmcf": 81361.0,
+   "jkm_markets_mmcf": 40877.0,
+   "asia_mmcf": 46787.0,
+   "share_jkm": 0.502415,
+   "share_asia": 0.575054,
+   "anomaly": null,
+   "arb": {
+    "low": 1.300962,
+    "central": 1.030345,
+    "high": -0.891764
+   }
+  },
+  {
+   "month": "2018-10-01",
+   "total_mmcf": 89855.0,
+   "jkm_markets_mmcf": 45209.0,
+   "asia_mmcf": 52340.0,
+   "share_jkm": 0.503133,
+   "share_asia": 0.582494,
+   "anomaly": null,
+   "arb": {
+    "low": 2.102777,
+    "central": 1.83216,
+    "high": -0.089948
+   }
+  },
+  {
+   "month": "2018-11-01",
+   "total_mmcf": 107470.0,
+   "jkm_markets_mmcf": 44921.0,
+   "asia_mmcf": 44921.0,
+   "share_jkm": 0.417986,
+   "share_asia": 0.417986,
+   "anomaly": null,
+   "arb": {
+    "low": 2.687768,
+    "central": 2.417152,
+    "high": 0.495043
+   }
+  },
+  {
+   "month": "2018-12-01",
+   "total_mmcf": 122673.0,
+   "jkm_markets_mmcf": 54565.0,
+   "asia_mmcf": 65400.0,
+   "share_jkm": 0.4448,
+   "share_asia": 0.533125,
+   "anomaly": null,
+   "arb": {
+    "low": 1.445085,
+    "central": 1.174468,
+    "high": -0.747641
+   }
+  },
+  {
+   "month": "2019-01-01",
+   "total_mmcf": 126854.0,
+   "jkm_markets_mmcf": 37863.0,
+   "asia_mmcf": 44893.0,
+   "share_jkm": 0.298477,
+   "share_asia": 0.353895,
+   "anomaly": null,
+   "arb": {
+    "low": 1.199835,
+    "central": 0.929219,
+    "high": -0.99289
+   }
+  },
+  {
+   "month": "2019-02-01",
+   "total_mmcf": 102817.0,
+   "jkm_markets_mmcf": 31534.0,
+   "asia_mmcf": 49137.0,
+   "share_jkm": 0.3067,
+   "share_asia": 0.477907,
+   "anomaly": null,
+   "arb": {
+    "low": 2.315088,
+    "central": 2.044472,
+    "high": 0.122363
+   }
+  },
+  {
+   "month": "2019-03-01",
+   "total_mmcf": 130741.0,
+   "jkm_markets_mmcf": 25156.0,
+   "asia_mmcf": 42515.0,
+   "share_jkm": 0.192411,
+   "share_asia": 0.325185,
+   "anomaly": null,
+   "arb": {
+    "low": 1.507063,
+    "central": 1.236447,
+    "high": -0.685662
+   }
+  },
+  {
+   "month": "2019-04-01",
+   "total_mmcf": 126795.0,
+   "jkm_markets_mmcf": 33359.0,
+   "asia_mmcf": 40421.0,
+   "share_jkm": 0.263094,
+   "share_asia": 0.31879,
+   "anomaly": null,
+   "arb": {
+    "low": 0.653292,
+    "central": 0.345856,
+    "high": -1.576253
+   }
+  },
+  {
+   "month": "2019-05-01",
+   "total_mmcf": 144837.0,
+   "jkm_markets_mmcf": 28527.0,
+   "asia_mmcf": 49267.0,
+   "share_jkm": 0.196959,
+   "share_asia": 0.340155,
+   "anomaly": null,
+   "arb": {
+    "low": 1.396587,
+    "central": 1.095539,
+    "high": -0.82657
+   }
+  },
+  {
+   "month": "2019-06-01",
+   "total_mmcf": 141864.0,
+   "jkm_markets_mmcf": 34984.0,
+   "asia_mmcf": 41634.0,
+   "share_jkm": 0.246602,
+   "share_asia": 0.293478,
+   "anomaly": null,
+   "arb": {
+    "low": 2.220401,
+    "central": 1.921909,
+    "high": -0.000199
+   }
+  },
+  {
+   "month": "2019-07-01",
+   "total_mmcf": 156764.0,
+   "jkm_markets_mmcf": 53905.0,
+   "asia_mmcf": 64616.0,
+   "share_jkm": 0.343861,
+   "share_asia": 0.412186,
+   "anomaly": null,
+   "arb": {
+    "low": 1.457191,
+    "central": 1.133204,
+    "high": -0.788905
+   }
+  },
+  {
+   "month": "2019-08-01",
+   "total_mmcf": 138465.0,
+   "jkm_markets_mmcf": 41708.0,
+   "asia_mmcf": 49002.0,
+   "share_jkm": 0.301217,
+   "share_asia": 0.353894,
+   "anomaly": null,
+   "arb": {
+    "low": 1.943246,
+    "central": 1.63783,
+    "high": -0.284279
+   }
+  },
+  {
+   "month": "2019-09-01",
+   "total_mmcf": 160169.0,
+   "jkm_markets_mmcf": 38902.0,
+   "asia_mmcf": 63003.0,
+   "share_jkm": 0.242881,
+   "share_asia": 0.393353,
+   "anomaly": null,
+   "arb": {
+    "low": 1.516374,
+    "central": 1.214805,
+    "high": -0.707304
+   }
+  },
+  {
+   "month": "2019-10-01",
+   "total_mmcf": 177813.0,
+   "jkm_markets_mmcf": 69875.0,
+   "asia_mmcf": 83771.0,
+   "share_jkm": 0.392969,
+   "share_asia": 0.471119,
+   "anomaly": null,
+   "arb": {
+    "low": 0.779791,
+    "central": 0.480759,
+    "high": -1.44135
+   }
+  },
+  {
+   "month": "2019-11-01",
+   "total_mmcf": 190523.0,
+   "jkm_markets_mmcf": 46301.0,
+   "asia_mmcf": 60179.0,
+   "share_jkm": 0.243021,
+   "share_asia": 0.315862,
+   "anomaly": null,
+   "arb": {
+    "low": null,
+    "central": null,
+    "high": null
+   }
+  },
+  {
+   "month": "2019-12-01",
+   "total_mmcf": 220247.0,
+   "jkm_markets_mmcf": 63023.0,
+   "asia_mmcf": 80307.0,
+   "share_jkm": 0.286147,
+   "share_asia": 0.364622,
+   "anomaly": null,
+   "arb": {
+    "low": 2.042977,
+    "central": 1.772001,
+    "high": -0.150108
+   }
+  },
+  {
+   "month": "2020-01-01",
+   "total_mmcf": 249571.0,
+   "jkm_markets_mmcf": 85612.0,
+   "asia_mmcf": 95884.0,
+   "share_jkm": 0.343037,
+   "share_asia": 0.384195,
+   "anomaly": null,
+   "arb": {
+    "low": 2.548936,
+    "central": 2.254477,
+    "high": 0.332369
+   }
+  },
+  {
+   "month": "2020-02-01",
+   "total_mmcf": 225699.0,
+   "jkm_markets_mmcf": 39546.0,
+   "asia_mmcf": 46548.0,
+   "share_jkm": 0.175216,
+   "share_asia": 0.206239,
+   "anomaly": null,
+   "arb": {
+    "low": 0.930773,
+    "central": 0.547893,
+    "high": -1.374216
+   }
+  },
+  {
+   "month": "2020-03-01",
+   "total_mmcf": 244145.0,
+   "jkm_markets_mmcf": 74626.0,
+   "asia_mmcf": 106264.0,
+   "share_jkm": 0.305663,
+   "share_asia": 0.43525,
+   "anomaly": null,
+   "arb": {
+    "low": 1.12975,
+    "central": 0.7388,
+    "high": -1.183309
+   }
+  },
+  {
+   "month": "2020-04-01",
+   "total_mmcf": 210443.0,
+   "jkm_markets_mmcf": 63785.0,
+   "asia_mmcf": 94842.0,
+   "share_jkm": 0.303099,
+   "share_asia": 0.450678,
+   "anomaly": null,
+   "arb": {
+    "low": 0.786185,
+    "central": 0.352342,
+    "high": -1.569767
+   }
+  },
+  {
+   "month": "2020-05-01",
+   "total_mmcf": 182420.0,
+   "jkm_markets_mmcf": 55847.0,
+   "asia_mmcf": 77184.0,
+   "share_jkm": 0.306145,
+   "share_asia": 0.423112,
+   "anomaly": null,
+   "arb": {
+    "low": 1.122491,
+    "central": 0.682281,
+    "high": -1.239827
+   }
+  },
+  {
+   "month": "2020-06-01",
+   "total_mmcf": 108941.0,
+   "jkm_markets_mmcf": 52960.0,
+   "asia_mmcf": 63060.0,
+   "share_jkm": 0.486135,
+   "share_asia": 0.578845,
+   "anomaly": null,
+   "arb": {
+    "low": 2.455669,
+    "central": 2.06653,
+    "high": 0.144421
+   }
+  },
+  {
+   "month": "2020-07-01",
+   "total_mmcf": 96128.0,
+   "jkm_markets_mmcf": 31468.0,
+   "asia_mmcf": 49430.0,
+   "share_jkm": 0.327355,
+   "share_asia": 0.51421,
+   "anomaly": null,
+   "arb": {
+    "low": 2.782694,
+    "central": 2.406474,
+    "high": 0.484365
+   }
+  },
+  {
+   "month": "2020-08-01",
+   "total_mmcf": 110220.0,
+   "jkm_markets_mmcf": 50054.0,
+   "asia_mmcf": 66752.0,
+   "share_jkm": 0.454128,
+   "share_asia": 0.605625,
+   "anomaly": null,
+   "arb": {
+    "low": 1.038046,
+    "central": 0.636662,
+    "high": -1.285447
+   }
+  },
+  {
+   "month": "2020-09-01",
+   "total_mmcf": 151055.0,
+   "jkm_markets_mmcf": 59233.0,
+   "asia_mmcf": 79600.0,
+   "share_jkm": 0.392129,
+   "share_asia": 0.52696,
+   "anomaly": null,
+   "arb": {
+    "low": 0.990533,
+    "central": 0.624004,
+    "high": -1.298104
+   }
+  },
+  {
+   "month": "2020-10-01",
+   "total_mmcf": 222650.0,
+   "jkm_markets_mmcf": 84544.0,
+   "asia_mmcf": 115731.0,
+   "share_jkm": 0.379717,
+   "share_asia": 0.519789,
+   "anomaly": null,
+   "arb": {
+    "low": 1.447097,
+    "central": 1.128878,
+    "high": -0.793231
+   }
+  },
+  {
+   "month": "2020-11-01",
+   "total_mmcf": 280630.0,
+   "jkm_markets_mmcf": 133369.0,
+   "asia_mmcf": 158467.0,
+   "share_jkm": 0.475249,
+   "share_asia": 0.564683,
+   "anomaly": null,
+   "arb": {
+    "low": 2.238859,
+    "central": 1.946372,
+    "high": 0.024263
+   }
+  },
+  {
+   "month": "2020-12-01",
+   "total_mmcf": 304209.0,
+   "jkm_markets_mmcf": 151616.0,
+   "asia_mmcf": 161857.0,
+   "share_jkm": 0.498394,
+   "share_asia": 0.532059,
+   "anomaly": null,
+   "arb": {
+    "low": 1.817162,
+    "central": 1.543818,
+    "high": -0.378291
+   }
+  },
+  {
+   "month": "2021-01-01",
+   "total_mmcf": 305113.0,
+   "jkm_markets_mmcf": 169526.0,
+   "asia_mmcf": 200411.0,
+   "share_jkm": 0.555617,
+   "share_asia": 0.656842,
+   "anomaly": null,
+   "arb": {
+    "low": 11.009688,
+    "central": 10.739072,
+    "high": 8.816963
+   }
+  },
+  {
+   "month": "2021-02-01",
+   "total_mmcf": 208331.0,
+   "jkm_markets_mmcf": 39780.0,
+   "asia_mmcf": 53556.0,
+   "share_jkm": 0.190946,
+   "share_asia": 0.257072,
+   "anomaly": null,
+   "arb": {
+    "low": 6.566755,
+    "central": 6.296139,
+    "high": 4.37403
+   }
+  },
+  {
+   "month": "2021-03-01",
+   "total_mmcf": 321004.0,
+   "jkm_markets_mmcf": 101802.0,
+   "asia_mmcf": 129473.0,
+   "share_jkm": 0.317136,
+   "share_asia": 0.403338,
+   "anomaly": null,
+   "arb": {
+    "low": 0.804316,
+    "central": 0.505336,
+    "high": -1.416773
+   }
+  },
+  {
+   "month": "2021-04-01",
+   "total_mmcf": 306755.0,
+   "jkm_markets_mmcf": 107507.0,
+   "asia_mmcf": 145849.0,
+   "share_jkm": 0.350465,
+   "share_asia": 0.475458,
+   "anomaly": null,
+   "arb": {
+    "low": null,
+    "central": null,
+    "high": null
+   }
+  },
+  {
+   "month": "2021-05-01",
+   "total_mmcf": 314855.0,
+   "jkm_markets_mmcf": 118979.0,
+   "asia_mmcf": 160728.0,
+   "share_jkm": 0.377885,
+   "share_asia": 0.510483,
+   "anomaly": null,
+   "arb": {
+    "low": null,
+    "central": null,
+    "high": null
+   }
+  },
+  {
+   "month": "2021-06-01",
+   "total_mmcf": 271256.0,
+   "jkm_markets_mmcf": 141117.0,
+   "asia_mmcf": 164489.0,
+   "share_jkm": 0.520235,
+   "share_asia": 0.606398,
+   "anomaly": null,
+   "arb": {
+    "low": null,
+    "central": null,
+    "high": null
+   }
+  },
+  {
+   "month": "2021-07-01",
+   "total_mmcf": 300030.0,
+   "jkm_markets_mmcf": 127084.0,
+   "asia_mmcf": 157051.0,
+   "share_jkm": 0.423571,
+   "share_asia": 0.523451,
+   "anomaly": null,
+   "arb": {
+    "low": null,
+    "central": null,
+    "high": null
+   }
+  },
+  {
+   "month": "2021-08-01",
+   "total_mmcf": 298097.0,
+   "jkm_markets_mmcf": 128470.0,
+   "asia_mmcf": 163173.0,
+   "share_jkm": 0.430967,
+   "share_asia": 0.547382,
+   "anomaly": null,
+   "arb": {
+    "low": null,
+    "central": null,
+    "high": null
+   }
+  },
+  {
+   "month": "2021-09-01",
+   "total_mmcf": 284645.0,
+   "jkm_markets_mmcf": 96038.0,
+   "asia_mmcf": 134015.0,
+   "share_jkm": 0.337396,
+   "share_asia": 0.470815,
+   "anomaly": null,
+   "arb": {
+    "low": 2.411549,
+    "central": 2.140933,
+    "high": 0.218824
+   }
+  },
+  {
+   "month": "2021-10-01",
+   "total_mmcf": 297929.0,
+   "jkm_markets_mmcf": 120827.0,
+   "asia_mmcf": 134990.0,
+   "share_jkm": 0.405556,
+   "share_asia": 0.453095,
+   "anomaly": null,
+   "arb": {
+    "low": 2.645419,
+    "central": 2.374802,
+    "high": 0.452694
+   }
+  },
+  {
+   "month": "2021-11-01",
+   "total_mmcf": 306229.0,
+   "jkm_markets_mmcf": 118366.0,
+   "asia_mmcf": 139847.0,
+   "share_jkm": 0.386528,
+   "share_asia": 0.456675,
+   "anomaly": null,
+   "arb": {
+    "low": null,
+    "central": null,
+    "high": null
+   }
+  },
+  {
+   "month": "2021-12-01",
+   "total_mmcf": 345195.0,
+   "jkm_markets_mmcf": 91582.0,
+   "asia_mmcf": 96003.0,
+   "share_jkm": 0.265305,
+   "share_asia": 0.278112,
+   "anomaly": null,
+   "arb": {
+    "low": 1.894618,
+    "central": 1.624002,
+    "high": -0.298107
+   }
+  },
+  {
+   "month": "2022-01-01",
+   "total_mmcf": 353631.0,
+   "jkm_markets_mmcf": 49562.0,
+   "asia_mmcf": 59918.0,
+   "share_jkm": 0.140152,
+   "share_asia": 0.169437,
+   "anomaly": null,
+   "arb": {
+    "low": 2.194545,
+    "central": 1.923928,
+    "high": 0.001819
+   }
+  },
+  {
+   "month": "2022-02-01",
+   "total_mmcf": 316605.0,
+   "jkm_markets_mmcf": 47175.0,
+   "asia_mmcf": 65878.0,
+   "share_jkm": 0.149003,
+   "share_asia": 0.208076,
+   "anomaly": null,
+   "arb": {
+    "low": -1.069787,
+    "central": -1.340404,
+    "high": -3.262513
+   }
+  },
+  {
+   "month": "2022-03-01",
+   "total_mmcf": 363971.0,
+   "jkm_markets_mmcf": 56674.0,
+   "asia_mmcf": 77258.0,
+   "share_jkm": 0.15571,
+   "share_asia": 0.212264,
+   "anomaly": null,
+   "arb": {
+    "low": -5.343827,
+    "central": -5.614444,
+    "high": -7.536552
+   }
+  },
+  {
+   "month": "2022-04-01",
+   "total_mmcf": 330326.0,
+   "jkm_markets_mmcf": 46802.0,
+   "asia_mmcf": 64099.0,
+   "share_jkm": 0.141684,
+   "share_asia": 0.194048,
+   "anomaly": null,
+   "arb": {
+    "low": -2.182097,
+    "central": -2.452714,
+    "high": -4.374822
+   }
+  },
+  {
+   "month": "2022-05-01",
+   "total_mmcf": 351325.0,
+   "jkm_markets_mmcf": 57537.0,
+   "asia_mmcf": 71454.0,
+   "share_jkm": 0.163771,
+   "share_asia": 0.203384,
+   "anomaly": null,
+   "arb": {
+    "low": -4.978719,
+    "central": -5.249336,
+    "high": -7.171445
+   }
+  },
+  {
+   "month": "2022-06-01",
+   "total_mmcf": 300546.0,
+   "jkm_markets_mmcf": 60836.0,
+   "asia_mmcf": 81761.0,
+   "share_jkm": 0.202418,
+   "share_asia": 0.272042,
+   "anomaly": null,
+   "arb": {
+    "low": -3.409867,
+    "central": -3.680483,
+    "high": -5.602592
+   }
+  },
+  {
+   "month": "2022-07-01",
+   "total_mmcf": 300339.0,
+   "jkm_markets_mmcf": 62668.0,
+   "asia_mmcf": 82845.0,
+   "share_jkm": 0.208658,
+   "share_asia": 0.275838,
+   "anomaly": null,
+   "arb": {
+    "low": -11.54456,
+    "central": -11.815176,
+    "high": -13.737285
+   }
+  },
+  {
+   "month": "2022-08-01",
+   "total_mmcf": 300112.0,
+   "jkm_markets_mmcf": 75362.0,
+   "asia_mmcf": 90201.0,
+   "share_jkm": 0.251113,
+   "share_asia": 0.300558,
+   "anomaly": null,
+   "arb": {
+    "low": -16.892745,
+    "central": -17.163362,
+    "high": -19.08547
+   }
+  },
+  {
+   "month": "2022-09-01",
+   "total_mmcf": 295285.0,
+   "jkm_markets_mmcf": 46769.0,
+   "asia_mmcf": 61479.0,
+   "share_jkm": 0.158386,
+   "share_asia": 0.208202,
+   "anomaly": null,
+   "arb": {
+    "low": -11.48555,
+    "central": -11.756167,
+    "high": -13.678276
+   }
+  },
+  {
+   "month": "2022-10-01",
+   "total_mmcf": 309629.0,
+   "jkm_markets_mmcf": 81167.0,
+   "asia_mmcf": 95425.0,
+   "share_jkm": 0.262143,
+   "share_asia": 0.308191,
+   "anomaly": null,
+   "arb": {
+    "low": -7.530603,
+    "central": -7.80122,
+    "high": -9.723329
+   }
+  },
+  {
+   "month": "2022-11-01",
+   "total_mmcf": 302455.0,
+   "jkm_markets_mmcf": 59365.0,
+   "asia_mmcf": 70008.0,
+   "share_jkm": 0.196277,
+   "share_asia": 0.231466,
+   "anomaly": null,
+   "arb": {
+    "low": -6.836441,
+    "central": -7.107058,
+    "high": -9.029166
+   }
+  },
+  {
+   "month": "2022-12-01",
+   "total_mmcf": 339792.0,
+   "jkm_markets_mmcf": 61430.0,
+   "asia_mmcf": 78825.0,
+   "share_jkm": 0.180787,
+   "share_asia": 0.23198,
+   "anomaly": null,
+   "arb": {
+    "low": -6.704589,
+    "central": -6.975206,
+    "high": -8.897315
+   }
+  },
+  {
+   "month": "2023-01-01",
+   "total_mmcf": 337022.0,
+   "jkm_markets_mmcf": 63570.0,
+   "asia_mmcf": 78438.0,
+   "share_jkm": 0.188623,
+   "share_asia": 0.232739,
+   "anomaly": null,
+   "arb": {
+    "low": 4.080589,
+    "central": 3.809972,
+    "high": 1.887863
+   }
+  },
+  {
+   "month": "2023-02-01",
+   "total_mmcf": 326169.0,
+   "jkm_markets_mmcf": 45852.0,
+   "asia_mmcf": 61745.0,
+   "share_jkm": 0.140577,
+   "share_asia": 0.189304,
+   "anomaly": null,
+   "arb": {
+    "low": 0.639766,
+    "central": 0.369149,
+    "high": -1.552959
+   }
+  },
+  {
+   "month": "2023-03-01",
+   "total_mmcf": 366450.0,
+   "jkm_markets_mmcf": 46352.0,
+   "asia_mmcf": 60831.0,
+   "share_jkm": 0.126489,
+   "share_asia": 0.166001,
+   "anomaly": null,
+   "arb": {
+    "low": -0.118425,
+    "central": -0.389042,
+    "high": -2.311151
+   }
+  },
+  {
+   "month": "2023-04-01",
+   "total_mmcf": 375779.0,
+   "jkm_markets_mmcf": 51621.0,
+   "asia_mmcf": 70431.0,
+   "share_jkm": 0.137371,
+   "share_asia": 0.187427,
+   "anomaly": null,
+   "arb": {
+    "low": 0.063213,
+    "central": -0.207403,
+    "high": -2.129512
+   }
+  },
+  {
+   "month": "2023-05-01",
+   "total_mmcf": 366742.0,
+   "jkm_markets_mmcf": 59021.0,
+   "asia_mmcf": 69722.0,
+   "share_jkm": 0.160933,
+   "share_asia": 0.190112,
+   "anomaly": null,
+   "arb": {
+    "low": 0.595529,
+    "central": 0.324913,
+    "high": -1.597196
+   }
+  },
+  {
+   "month": "2023-06-01",
+   "total_mmcf": 327821.0,
+   "jkm_markets_mmcf": 72184.0,
+   "asia_mmcf": 104547.0,
+   "share_jkm": 0.220193,
+   "share_asia": 0.318915,
+   "anomaly": null,
+   "arb": {
+    "low": 0.580937,
+    "central": 0.310321,
+    "high": -1.611788
+   }
+  },
+  {
+   "month": "2023-07-01",
+   "total_mmcf": 349258.0,
+   "jkm_markets_mmcf": 108905.0,
+   "asia_mmcf": 137959.0,
+   "share_jkm": 0.311818,
+   "share_asia": 0.395006,
+   "anomaly": null,
+   "arb": {
+    "low": 1.097698,
+    "central": 0.827081,
+    "high": -1.095028
+   }
+  },
+  {
+   "month": "2023-08-01",
+   "total_mmcf": 353031.0,
+   "jkm_markets_mmcf": 94603.0,
+   "asia_mmcf": 134354.0,
+   "share_jkm": 0.267974,
+   "share_asia": 0.380573,
+   "anomaly": null,
+   "arb": {
+    "low": 1.158181,
+    "central": 0.887564,
+    "high": -1.034544
+   }
+  },
+  {
+   "month": "2023-09-01",
+   "total_mmcf": 346553.0,
+   "jkm_markets_mmcf": 80910.0,
+   "asia_mmcf": 112500.0,
+   "share_jkm": 0.233471,
+   "share_asia": 0.324626,
+   "anomaly": null,
+   "arb": {
+    "low": 1.906955,
+    "central": 1.636339,
+    "high": -0.28577
+   }
+  },
+  {
+   "month": "2023-10-01",
+   "total_mmcf": 384376.0,
+   "jkm_markets_mmcf": 77280.0,
+   "asia_mmcf": 105173.0,
+   "share_jkm": 0.201053,
+   "share_asia": 0.27362,
+   "anomaly": null,
+   "arb": {
+    "low": 1.985958,
+    "central": 1.715341,
+    "high": -0.206767
+   }
+  },
+  {
+   "month": "2023-11-01",
+   "total_mmcf": 386229.0,
+   "jkm_markets_mmcf": 79741.0,
+   "asia_mmcf": 101448.0,
+   "share_jkm": 0.20646,
+   "share_asia": 0.262663,
+   "anomaly": null,
+   "arb": {
+    "low": 2.638916,
+    "central": 2.368299,
+    "high": 0.446191
+   }
+  },
+  {
+   "month": "2023-12-01",
+   "total_mmcf": 422908.0,
+   "jkm_markets_mmcf": 83252.0,
+   "asia_mmcf": 110530.0,
+   "share_jkm": 0.196856,
+   "share_asia": 0.261357,
+   "anomaly": null,
+   "arb": {
+    "low": 2.561775,
+    "central": 2.291158,
+    "high": 0.369049
+   }
+  },
+  {
+   "month": "2024-01-01",
+   "total_mmcf": 396240.0,
+   "jkm_markets_mmcf": 54479.0,
+   "asia_mmcf": 76262.0,
+   "share_jkm": 0.13749,
+   "share_asia": 0.192464,
+   "anomaly": null,
+   "arb": {
+    "low": 0.868798,
+    "central": 0.603557,
+    "high": -1.1639
+   }
+  },
+  {
+   "month": "2024-02-01",
+   "total_mmcf": 358942.0,
+   "jkm_markets_mmcf": 68483.0,
+   "asia_mmcf": 97673.0,
+   "share_jkm": 0.190791,
+   "share_asia": 0.272114,
+   "anomaly": "the countries add up to 359549 MMcf against a total of 358942",
+   "arb": {
+    "low": 0.634416,
+    "central": 0.32976,
+    "high": -1.437696
+   }
+  },
+  {
+   "month": "2024-03-01",
+   "total_mmcf": 369885.0,
+   "jkm_markets_mmcf": 77696.0,
+   "asia_mmcf": 116587.0,
+   "share_jkm": 0.210054,
+   "share_asia": 0.315198,
+   "anomaly": null,
+   "arb": {
+    "low": 0.593856,
+    "central": 0.291653,
+    "high": -1.475803
+   }
+  },
+  {
+   "month": "2024-04-01",
+   "total_mmcf": 303754.0,
+   "jkm_markets_mmcf": 63056.0,
+   "asia_mmcf": 110147.0,
+   "share_jkm": 0.207589,
+   "share_asia": 0.362619,
+   "anomaly": null,
+   "arb": {
+    "low": 0.627907,
+    "central": 0.349933,
+    "high": -1.417523
+   }
+  },
+  {
+   "month": "2024-05-01",
+   "total_mmcf": 367695.0,
+   "jkm_markets_mmcf": 105675.0,
+   "asia_mmcf": 172682.0,
+   "share_jkm": 0.287399,
+   "share_asia": 0.469634,
+   "anomaly": null,
+   "arb": {
+    "low": 0.98271,
+    "central": 0.733705,
+    "high": -1.033752
+   }
+  },
+  {
+   "month": "2024-06-01",
+   "total_mmcf": 356399.0,
+   "jkm_markets_mmcf": 95402.0,
+   "asia_mmcf": 142076.0,
+   "share_jkm": 0.267683,
+   "share_asia": 0.398643,
+   "anomaly": null,
+   "arb": {
+    "low": 0.727104,
+    "central": 0.478261,
+    "high": -1.289195
+   }
+  },
+  {
+   "month": "2024-07-01",
+   "total_mmcf": 323853.0,
+   "jkm_markets_mmcf": 97160.0,
+   "asia_mmcf": 147005.0,
+   "share_jkm": 0.300013,
+   "share_asia": 0.453925,
+   "anomaly": null,
+   "arb": {
+    "low": 1.391669,
+    "central": 1.142826,
+    "high": -0.624631
+   }
+  },
+  {
+   "month": "2024-08-01",
+   "total_mmcf": 363559.0,
+   "jkm_markets_mmcf": 110995.0,
+   "asia_mmcf": 158303.0,
+   "share_jkm": 0.305301,
+   "share_asia": 0.435426,
+   "anomaly": null,
+   "arb": {
+    "low": 0.591178,
+    "central": 0.342335,
+    "high": -1.425121
+   }
+  },
+  {
+   "month": "2024-09-01",
+   "total_mmcf": 363017.0,
+   "jkm_markets_mmcf": 99149.0,
+   "asia_mmcf": 137467.0,
+   "share_jkm": 0.273125,
+   "share_asia": 0.378679,
+   "anomaly": null,
+   "arb": {
+    "low": 1.388618,
+    "central": 1.139775,
+    "high": -0.627681
+   }
+  },
+  {
+   "month": "2024-10-01",
+   "total_mmcf": 376200.0,
+   "jkm_markets_mmcf": 72374.0,
+   "asia_mmcf": 125122.0,
+   "share_jkm": 0.192382,
+   "share_asia": 0.332594,
+   "anomaly": null,
+   "arb": {
+    "low": 0.27481,
+    "central": 0.025968,
+    "high": -1.741489
+   }
+  },
+  {
+   "month": "2024-11-01",
+   "total_mmcf": 376045.0,
+   "jkm_markets_mmcf": 64151.0,
+   "asia_mmcf": 95723.0,
+   "share_jkm": 0.170594,
+   "share_asia": 0.254552,
+   "anomaly": null,
+   "arb": {
+    "low": 0.138157,
+    "central": -0.110686,
+    "high": -1.878142
+   }
+  },
+  {
+   "month": "2024-12-01",
+   "total_mmcf": 410776.0,
+   "jkm_markets_mmcf": 47556.0,
+   "asia_mmcf": 68737.0,
+   "share_jkm": 0.115771,
+   "share_asia": 0.167335,
+   "anomaly": null,
+   "arb": {
+    "low": 0.133877,
+    "central": -0.114966,
+    "high": -1.882422
+   }
+  },
+  {
+   "month": "2025-01-01",
+   "total_mmcf": 414951.0,
+   "jkm_markets_mmcf": 17599.0,
+   "asia_mmcf": 31519.0,
+   "share_jkm": 0.042412,
+   "share_asia": 0.075958,
+   "anomaly": null,
+   "arb": {
+    "low": -0.287796,
+    "central": -0.536639,
+    "high": -2.304095
+   }
+  },
+  {
+   "month": "2025-02-01",
+   "total_mmcf": 409181.0,
+   "jkm_markets_mmcf": 19686.0,
+   "asia_mmcf": 33283.0,
+   "share_jkm": 0.048111,
+   "share_asia": 0.081341,
+   "anomaly": null,
+   "arb": {
+    "low": -1.431129,
+    "central": -1.679972,
+    "high": -3.447428
+   }
+  },
+  {
+   "month": "2025-03-01",
+   "total_mmcf": 457660.0,
+   "jkm_markets_mmcf": 43406.0,
+   "asia_mmcf": 68284.0,
+   "share_jkm": 0.094843,
+   "share_asia": 0.149202,
+   "anomaly": null,
+   "arb": {
+    "low": 0.320184,
+    "central": 0.071341,
+    "high": -1.696115
+   }
+  },
+  {
+   "month": "2025-04-01",
+   "total_mmcf": 448223.0,
+   "jkm_markets_mmcf": 71176.0,
+   "asia_mmcf": 96280.0,
+   "share_jkm": 0.158796,
+   "share_asia": 0.214804,
+   "anomaly": null,
+   "arb": {
+    "low": 0.436845,
+    "central": 0.188003,
+    "high": -1.579454
+   }
+  },
+  {
+   "month": "2025-05-01",
+   "total_mmcf": 435289.0,
+   "jkm_markets_mmcf": 59651.0,
+   "asia_mmcf": 95815.0,
+   "share_jkm": 0.137038,
+   "share_asia": 0.220118,
+   "anomaly": null,
+   "arb": {
+    "low": 0.452157,
+    "central": 0.198734,
+    "high": -1.568723
+   }
+  },
+  {
+   "month": "2025-06-01",
+   "total_mmcf": 406028.0,
+   "jkm_markets_mmcf": 47815.0,
+   "asia_mmcf": 75559.0,
+   "share_jkm": 0.117763,
+   "share_asia": 0.186093,
+   "anomaly": null,
+   "arb": {
+    "low": 0.48833,
+    "central": 0.239487,
+    "high": -1.527969
+   }
+  },
+  {
+   "month": "2025-07-01",
+   "total_mmcf": 436824.0,
+   "jkm_markets_mmcf": 53635.0,
+   "asia_mmcf": 90252.0,
+   "share_jkm": 0.122784,
+   "share_asia": 0.20661,
+   "anomaly": null,
+   "arb": {
+    "low": 0.763414,
+    "central": 0.514571,
+    "high": -1.252885
+   }
+  },
+  {
+   "month": "2025-08-01",
+   "total_mmcf": 451130.0,
+   "jkm_markets_mmcf": 57988.0,
+   "asia_mmcf": 82874.0,
+   "share_jkm": 0.128539,
+   "share_asia": 0.183703,
+   "anomaly": null,
+   "arb": {
+    "low": 0.313865,
+    "central": 0.056246,
+    "high": -1.71121
+   }
+  },
+  {
+   "month": "2025-09-01",
+   "total_mmcf": 451735.0,
+   "jkm_markets_mmcf": 53660.0,
+   "asia_mmcf": 85690.0,
+   "share_jkm": 0.118786,
+   "share_asia": 0.189691,
+   "anomaly": null,
+   "arb": {
+    "low": 0.303292,
+    "central": 0.036165,
+    "high": -1.731292
+   }
+  },
+  {
+   "month": "2025-10-01",
+   "total_mmcf": 503456.0,
+   "jkm_markets_mmcf": 69896.0,
+   "asia_mmcf": 92428.0,
+   "share_jkm": 0.138832,
+   "share_asia": 0.183587,
+   "anomaly": null,
+   "arb": {
+    "low": 0.311682,
+    "central": 0.039682,
+    "high": -1.727774
+   }
+  },
+  {
+   "month": "2025-11-01",
+   "total_mmcf": 525089.0,
+   "jkm_markets_mmcf": 57251.0,
+   "asia_mmcf": 78883.0,
+   "share_jkm": 0.109031,
+   "share_asia": 0.150228,
+   "anomaly": null,
+   "arb": {
+    "low": 0.492268,
+    "central": 0.223472,
+    "high": -1.543984
+   }
+  },
+  {
+   "month": "2025-12-01",
+   "total_mmcf": 569254.0,
+   "jkm_markets_mmcf": 49957.0,
+   "asia_mmcf": 68186.0,
+   "share_jkm": 0.087759,
+   "share_asia": 0.119781,
+   "anomaly": null,
+   "arb": {
+    "low": 1.103151,
+    "central": 0.821544,
+    "high": -0.945913
+   }
+  },
+  {
+   "month": "2026-01-01",
+   "total_mmcf": 539203.0,
+   "jkm_markets_mmcf": 24377.0,
+   "asia_mmcf": 31244.0,
+   "share_jkm": 0.045209,
+   "share_asia": 0.057945,
+   "anomaly": null,
+   "arb": {
+    "low": -0.748387,
+    "central": -1.032171,
+    "high": -2.799627
+   }
+  },
+  {
+   "month": "2026-02-01",
+   "total_mmcf": 493596.0,
+   "jkm_markets_mmcf": 42660.0,
+   "asia_mmcf": 71808.0,
+   "share_jkm": 0.086427,
+   "share_asia": 0.145479,
+   "anomaly": null,
+   "arb": {
+    "low": -0.411323,
+    "central": -0.689653,
+    "high": -2.457109
+   }
+  },
+  {
+   "month": "2026-03-01",
+   "total_mmcf": 573089.0,
+   "jkm_markets_mmcf": 84321.0,
+   "asia_mmcf": 143571.0,
+   "share_jkm": 0.147134,
+   "share_asia": 0.250521,
+   "anomaly": null,
+   "arb": {
+    "low": 0.63404,
+    "central": 0.385197,
+    "high": -1.382259
+   }
+  },
+  {
+   "month": "2026-04-01",
+   "total_mmcf": 537936.0,
+   "jkm_markets_mmcf": 85405.0,
+   "asia_mmcf": 163106.0,
+   "share_jkm": 0.158764,
+   "share_asia": 0.303207,
+   "anomaly": null,
+   "arb": {
+    "low": 1.805951,
+    "central": 1.557108,
+    "high": -0.210348
+   }
+  },
+  {
+   "month": "2026-05-01",
+   "total_mmcf": 502796.0,
+   "jkm_markets_mmcf": 126834.0,
+   "asia_mmcf": 207566.0,
+   "share_jkm": 0.252257,
+   "share_asia": 0.412823,
+   "anomaly": null,
+   "arb": {
+    "low": 1.084496,
+    "central": 0.835653,
+    "high": -0.931803
+   }
+  },
+  {
+   "month": "2026-06-01",
+   "total_mmcf": 521059.0,
+   "jkm_markets_mmcf": 108630.0,
+   "asia_mmcf": 201897.0,
+   "share_jkm": 0.208479,
+   "share_asia": 0.387474,
+   "anomaly": null,
+   "arb": {
+    "low": 1.401163,
+    "central": 1.15232,
+    "high": -0.615136
+   }
+  },
+  {
+   "month": "2026-07-01",
+   "total_mmcf": 518719.0,
+   "jkm_markets_mmcf": 106355.0,
+   "asia_mmcf": 198033.0,
+   "share_jkm": 0.205034,
+   "share_asia": 0.381773,
+   "anomaly": null,
+   "arb": {
+    "low": 0.977124,
+    "central": 0.728282,
+    "high": -1.039175
+   }
+  }
+ ],
+ "regressions": [
+  {
+   "n": 115,
+   "lags": 4,
+   "intercept": 0.25188,
+   "slope": 0.015022,
+   "se_intercept": 0.023727,
+   "se_slope": 0.007329,
+   "t_slope": 2.049568,
+   "r2": 0.098452,
+   "share": "share_jkm",
+   "hire_level": "low",
+   "sample": "all months",
+   "first_month": "2016-02",
+   "last_month": "2026-07",
+   "months_open": 99,
+   "open_above": 55,
+   "closed_below": 14,
+   "median_share": 0.233471
+  },
+  {
+   "n": 115,
+   "lags": 4,
+   "intercept": 0.25616,
+   "slope": 0.015218,
+   "se_intercept": 0.023722,
+   "se_slope": 0.007417,
+   "t_slope": 2.051768,
+   "r2": 0.100823,
+   "share": "share_jkm",
+   "hire_level": "central",
+   "sample": "all months",
+   "first_month": "2016-02",
+   "last_month": "2026-07",
+   "months_open": 94,
+   "open_above": 55,
+   "closed_below": 19,
+   "median_share": 0.233471
+  },
+  {
+   "n": 115,
+   "lags": 4,
+   "intercept": 0.28735,
+   "slope": 0.016254,
+   "se_intercept": 0.027573,
+   "se_slope": 0.007859,
+   "t_slope": 2.06822,
+   "r2": 0.11656,
+   "share": "share_jkm",
+   "hire_level": "high",
+   "sample": "all months",
+   "first_month": "2016-02",
+   "last_month": "2026-07",
+   "months_open": 26,
+   "open_above": 21,
+   "closed_below": 53,
+   "median_share": 0.233471
+  },
+  {
+   "n": 115,
+   "lags": 4,
+   "intercept": 0.325158,
+   "slope": 0.017011,
+   "se_intercept": 0.025142,
+   "se_slope": 0.007335,
+   "t_slope": 2.319252,
+   "r2": 0.111845,
+   "share": "share_asia",
+   "hire_level": "low",
+   "sample": "all months",
+   "first_month": "2016-02",
+   "last_month": "2026-07",
+   "months_open": 99,
+   "open_above": 57,
+   "closed_below": 16,
+   "median_share": 0.318915
+  },
+  {
+   "n": 115,
+   "lags": 4,
+   "intercept": 0.329996,
+   "slope": 0.017254,
+   "se_intercept": 0.025095,
+   "se_slope": 0.007433,
+   "t_slope": 2.321361,
+   "r2": 0.114811,
+   "share": "share_asia",
+   "hire_level": "central",
+   "sample": "all months",
+   "first_month": "2016-02",
+   "last_month": "2026-07",
+   "months_open": 94,
+   "open_above": 57,
+   "closed_below": 21,
+   "median_share": 0.318915
+  },
+  {
+   "n": 115,
+   "lags": 4,
+   "intercept": 0.365929,
+   "slope": 0.0188,
+   "se_intercept": 0.02797,
+   "se_slope": 0.008171,
+   "t_slope": 2.300828,
+   "r2": 0.138138,
+   "share": "share_asia",
+   "hire_level": "high",
+   "sample": "all months",
+   "first_month": "2016-02",
+   "last_month": "2026-07",
+   "months_open": 26,
+   "open_above": 21,
+   "closed_below": 53,
+   "median_share": 0.318915
+  },
+  {
+   "n": 84,
+   "lags": 3,
+   "intercept": 0.186955,
+   "slope": 0.05074,
+   "se_intercept": 0.029934,
+   "se_slope": 0.018586,
+   "t_slope": 2.729951,
+   "r2": 0.23622,
+   "share": "share_jkm",
+   "hire_level": "low",
+   "sample": "without 2020, 2022, 2026",
+   "first_month": "2016-02",
+   "last_month": "2025-12",
+   "months_open": 81,
+   "open_above": 42,
+   "closed_below": 3,
+   "median_share": 0.240683
+  },
+  {
+   "n": 84,
+   "lags": 3,
+   "intercept": 0.199875,
+   "slope": 0.051947,
+   "se_intercept": 0.026968,
+   "se_slope": 0.019098,
+   "t_slope": 2.719933,
+   "r2": 0.248604,
+   "share": "share_jkm",
+   "hire_level": "central",
+   "sample": "without 2020, 2022, 2026",
+   "first_month": "2016-02",
+   "last_month": "2025-12",
+   "months_open": 76,
+   "open_above": 42,
+   "closed_below": 8,
+   "median_share": 0.240683
+  },
+  {
+   "n": 84,
+   "lags": 3,
+   "intercept": 0.303373,
+   "slope": 0.053941,
+   "se_intercept": 0.029948,
+   "se_slope": 0.018279,
+   "t_slope": 2.950942,
+   "r2": 0.296503,
+   "share": "share_jkm",
+   "hire_level": "high",
+   "sample": "without 2020, 2022, 2026",
+   "first_month": "2016-02",
+   "last_month": "2025-12",
+   "months_open": 21,
+   "open_above": 16,
+   "closed_below": 37,
+   "median_share": 0.240683
+  },
+  {
+   "n": 84,
+   "lags": 3,
+   "intercept": 0.25517,
+   "slope": 0.05165,
+   "se_intercept": 0.032276,
+   "se_slope": 0.018121,
+   "t_slope": 2.850292,
+   "r2": 0.230414,
+   "share": "share_asia",
+   "hire_level": "low",
+   "sample": "without 2020, 2022, 2026",
+   "first_month": "2016-02",
+   "last_month": "2025-12",
+   "months_open": 81,
+   "open_above": 42,
+   "closed_below": 3,
+   "median_share": 0.324905
+  },
+  {
+   "n": 84,
+   "lags": 3,
+   "intercept": 0.267816,
+   "slope": 0.053271,
+   "se_intercept": 0.029527,
+   "se_slope": 0.018804,
+   "t_slope": 2.832979,
+   "r2": 0.24611,
+   "share": "share_asia",
+   "hire_level": "central",
+   "sample": "without 2020, 2022, 2026",
+   "first_month": "2016-02",
+   "last_month": "2025-12",
+   "months_open": 76,
+   "open_above": 42,
+   "closed_below": 8,
+   "median_share": 0.324905
+  },
+  {
+   "n": 84,
+   "lags": 3,
+   "intercept": 0.375518,
+   "slope": 0.05763,
+   "se_intercept": 0.029529,
+   "se_slope": 0.019078,
+   "t_slope": 3.020787,
+   "r2": 0.318593,
+   "share": "share_asia",
+   "hire_level": "high",
+   "sample": "without 2020, 2022, 2026",
+   "first_month": "2016-02",
+   "last_month": "2025-12",
+   "months_open": 21,
+   "open_above": 17,
+   "closed_below": 38,
+   "median_share": 0.324905
+  }
+ ],
+ "excluded_years": [
+  2020,
+  2022,
+  2026
+ ]
+}

@@ -1,0 +1,411 @@
+{
+ "schema_version": 1,
+ "as_of": "2026-10-07",
+ "not_priced": [],
+ "week": {
+  "first": "2026-10-01",
+  "last": "2026-10-07",
+  "alignment": "aligned",
+  "aligned_share": 1.0,
+  "series": "wngsr",
+  "basis": "Supplement: JKM product not named; TTF product not named"
+ },
+ "inputs": {
+  "jkm": {
+   "value": 25.79,
+   "unit": "USD/MMBtu",
+   "source": "EIA WNGSR Supplement, JKM, week ending 2026-10-07",
+   "date": "2026-10-07"
+  },
+  "ttf": {
+   "value": 24.78,
+   "unit": "USD/MMBtu",
+   "source": "EIA WNGSR Supplement, TTF, week ending 2026-10-07",
+   "date": "2026-10-07",
+   "eur_mwh": 75.09803602451373
+  },
+  "henry_hub": {
+   "value": 2.9724999999999997,
+   "unit": "USD/MMBtu",
+   "source": "EIA Henry Hub spot, average of 4 days in October 2026, an incomplete month: the data end on 2026-10-06",
+   "incomplete_month": true
+  },
+  "hire": {
+   "value": 31500.0,
+   "unit": "USD/day",
+   "source": "Spark30S Atlantic, inferred, 174,000 m3 two-stroke, inferred, article of 2026-10-02 (LNG Prime, quoting Spark Commodities), 5 days from the date",
+   "reported": true,
+   "nearest_reported": {
+    "value": 31500.0,
+    "date": "2026-10-02",
+    "publisher": "LNG Prime, quoting Spark Commodities"
+   },
+   "levels": {
+    "low": -750.0,
+    "central": 45500.0,
+    "high": 374000.0
+   }
+  },
+  "regas_discount": {
+   "value": -1.182409776615393,
+   "unit": "USD/MMBtu",
+   "eur_mwh": -3.5834,
+   "source": "ACER, DES North-West Europe less the TTF front month, mean of 5 of the 5 weekdays from 2026-10-01 to 2026-10-07, computed by this study from ACER's assessments and EU benchmark; -3.583 EUR/MWh at 1.1259 USD per EUR",
+   "observed": true
+  },
+  "usd_per_eur": {
+   "value": 1.1259,
+   "source": "Federal Reserve Board H.10, noon buying rate of 2026-10-02"
+  },
+  "eua": {
+   "value": 82.31,
+   "unit": "EUR/t",
+   "source": "assumption: the last published monthly auction price, German auctions on EEX, August 2026, held; no published price for October 2026",
+   "assumption": true
+  },
+  "overnight_rate": {
+   "value": 3.9,
+   "unit": "percent",
+   "source": "SOFR of 2026-10-06, New York Fed"
+  },
+  "vessel": {
+   "value": "174,000 m3 two-stroke"
+  }
+ },
+ "engine_inputs": {
+  "day": "2026-10-07",
+  "vessel": {
+   "name": "174,000 m3 two-stroke",
+   "capacity_m3": 174000.0,
+   "fill": 0.985,
+   "boil_off_per_day": 0.00085,
+   "speed_kn": 17.0,
+   "load_days": 1.0,
+   "discharge_days": 1.0
+  },
+  "routes": {
+   "nwe_direct": {
+    "distance_nm": 4979.2,
+    "open": true,
+    "why_closed": "",
+    "canal_laden_usd": 0.0,
+    "canal_ballast_usd": 0.0,
+    "canal_days": 0.0,
+    "wait_days": 0.0,
+    "slot_premium_usd": 0.0,
+    "canal_note": "",
+    "ballast_distance_nm": null,
+    "ballast_canal_days": null,
+    "ballast_wait_days": null
+   },
+   "nea_panama": {
+    "distance_nm": 9305.9,
+    "open": true,
+    "why_closed": "",
+    "canal_laden_usd": 699535.0,
+    "canal_ballast_usd": 596104.75,
+    "canal_days": 0.0,
+    "wait_days": 0.0,
+    "slot_premium_usd": 0.0,
+    "canal_note": "Panama toll, laden transit 2026-10-11 under Panama Canal Authority, tariff item 1010, 1 January 2025; still listed in February 2026, 656,700; ballast transit 2026-11-19 under Panama Canal Authority, tariff item 1010, 1 January 2025; still listed in February 2026, 558,195; each with the fresh water surcharge from 15 February 2020",
+    "ballast_distance_nm": null,
+    "ballast_canal_days": null,
+    "ballast_wait_days": null
+   },
+   "nea_suez": {
+    "distance_nm": 14624.2,
+    "open": false,
+    "why_closed": "laden transit 2026-10-24: no US Gulf cargo through the Red Sea after 12 January 2024",
+    "canal_laden_usd": 342669.28542000003,
+    "canal_ballast_usd": 291151.387296,
+    "canal_days": 0.0,
+    "wait_days": 0.0,
+    "slot_premium_usd": 0.0,
+    "canal_note": "Suez toll for 102,000 SCNT. Laden transit 2026-10-24: Suez Canal Authority, circular 7/2023, transit dues schedules applicable from 15 January 2024; surcharge 19.0 percent, periodical 20/2026; rebate 75.0 percent, periodical of 21 June 2023, renewed six monthly to 31 December 2026; 253,418 SDR at 1.35219 USD per SDR of 2026-10-07. Ballast transit 2026-12-03: surcharge 19.0 percent, periodical 20/2026; rebate 75.0 percent, periodical of 21 June 2023, renewed six monthly to 31 December 2026; 215,318 SDR at 1.35219 USD per SDR of 2026-10-07. SDR rates of the IMF, through the Bundesbank",
+    "ballast_distance_nm": null,
+    "ballast_canal_days": null,
+    "ballast_wait_days": null
+   },
+   "nea_cape": {
+    "distance_nm": 15824.8,
+    "open": true,
+    "why_closed": "",
+    "canal_laden_usd": 0.0,
+    "canal_ballast_usd": 0.0,
+    "canal_days": 0.0,
+    "wait_days": 0.0,
+    "slot_premium_usd": 0.0,
+    "canal_note": "",
+    "ballast_distance_nm": null,
+    "ballast_canal_days": null,
+    "ballast_wait_days": null
+   }
+  },
+  "ets_by_year": {
+   "2026": [
+    1.0,
+    2.77915
+   ],
+   "2027": [
+    1.0,
+    2.77915
+   ]
+  },
+  "sources": {
+   "jkm": "EIA WNGSR Supplement, JKM, week ending 2026-10-07",
+   "ttf": "EIA WNGSR Supplement, TTF, week ending 2026-10-07",
+   "fx": "Federal Reserve Board H.10, noon buying rate of 2026-10-02",
+   "henry_hub": "EIA Henry Hub spot, average of 4 days in October 2026, an incomplete month: the data end on 2026-10-06",
+   "rate": "SOFR of 2026-10-06, New York Fed",
+   "hire": "given",
+   "eua": "assumption: the last published monthly auction price, German auctions on EEX, August 2026, held; no published price for October 2026",
+   "vessel": "174,000 m3 two-stroke",
+   "delta_nwe": "ACER, DES North-West Europe less the TTF front month, mean of 5 of the 5 weekdays from 2026-10-01 to 2026-10-07, computed by this study from ACER's assessments and EU benchmark; -3.583 EUR/MWh at 1.1259 USD per EUR"
+  },
+  "mmbtu_per_m3": 23.0,
+  "jkm": 25.79,
+  "ttf": 24.78,
+  "delta_nwe": -1.182409776615393,
+  "hire_usd_day": 31500.0,
+  "henry_hub": 2.9724999999999997,
+  "hh_multiple": 1.15,
+  "liquefaction_fee": 3.0,
+  "port_west_usd": 308947.0,
+  "port_east_usd": 273184.0,
+  "rate_percent": 3.9,
+  "spread_bp": 150.0,
+  "eua_usd_t": 92.672829,
+  "ets_phase": 1.0,
+  "tco2_per_t_lng": 2.77915,
+  "mmbtu_per_t_lng": 51.56,
+  "ets_voyage_share": 0.5,
+  "ets_berth_share": 1.0
+ },
+ "result": {
+  "day": "2026-10-07",
+  "spread": 1.009999999999998,
+  "west": {
+   "route": "nwe_direct",
+   "open": true,
+   "why_closed": "",
+   "distance_nm": 4979.2,
+   "days_laden": 14.20392156862745,
+   "days_ballast": 12.20392156862745,
+   "days_total": 26.4078431372549,
+   "q_load_mmbtu": 3941970.0,
+   "gas_used_mmbtu": 88484.08659999998,
+   "q_delivered_mmbtu": 3853485.9134,
+   "hire_usd": 831847.0588235294,
+   "port_usd": 308947.0,
+   "canal_laden_usd": 0.0,
+   "canal_ballast_usd": 0.0,
+   "slot_premium_usd": 0.0,
+   "ets_usd": 220997.15168930966,
+   "financing_usd": 28316.669983294276,
+   "canal_note": "",
+   "cost_without_hire_usd": 558260.821672604,
+   "cost_usd": 1390107.8804961334,
+   "p_des": 23.597590223384607,
+   "netback": 22.7152600439633,
+   "freight_conventional": 0.9025903235506064,
+   "netback_conventional": 22.694999899834002
+  },
+  "east": {
+   "nea_panama": {
+    "route": "nea_panama",
+    "open": true,
+    "why_closed": "",
+    "distance_nm": 9305.9,
+    "days_laden": 24.80857843137255,
+    "days_ballast": 22.80857843137255,
+    "days_total": 47.6171568627451,
+    "q_load_mmbtu": 3941970.0,
+    "gas_used_mmbtu": 159549.59326249998,
+    "q_delivered_mmbtu": 3782420.4067375,
+    "hire_usd": 1499940.4411764706,
+    "port_usd": 273184.0,
+    "canal_laden_usd": 699535.0,
+    "canal_ballast_usd": 596104.75,
+    "slot_premium_usd": 0.0,
+    "ets_usd": 0.0,
+    "financing_usd": 49457.91377414176,
+    "canal_note": "Panama toll, laden transit 2026-10-11 under Panama Canal Authority, tariff item 1010, 1 January 2025; still listed in February 2026, 656,700; ballast transit 2026-11-19 under Panama Canal Authority, tariff item 1010, 1 January 2025; still listed in February 2026, 558,195; each with the fresh water surcharge from 15 February 2020",
+    "cost_without_hire_usd": 1618281.6637741418,
+    "cost_usd": 3118222.1049506124,
+    "p_des": 25.79,
+    "netback": 23.955129081350062,
+    "freight_conventional": 1.9122692184894554,
+    "netback_conventional": 23.877730781510543,
+    "arb": 1.239869037386761,
+    "s_star": -0.28216904091399186,
+    "boil_off": 0.46557575989171907,
+    "regas": -1.2046253266658815,
+    "voyage": 0.4568805258601732,
+    "h_star_usd_day": 261942.4656340233,
+    "waterfall": {
+     "start": 22.7152600439633,
+     "spread": 0.9691206708333314,
+     "boil_off": -0.4467317750000006,
+     "regas": 1.1558686184962994,
+     "hire": -0.1694821072592996,
+     "canals": -0.32867823702362015,
+     "slot_premium": -0.0,
+     "ports": 0.009072367369614686,
+     "carbon": 0.056062616328716265,
+     "financing": -0.005363116358279612,
+     "end": 23.955129081350062
+    }
+   },
+   "nea_suez": {
+    "route": "nea_suez",
+    "open": false,
+    "why_closed": "laden transit 2026-10-24: no US Gulf cargo through the Red Sea after 12 January 2024",
+    "distance_nm": 14624.2,
+    "days_laden": 37.84362745098039,
+    "days_ballast": 35.84362745098039,
+    "days_total": 73.68725490196078,
+    "q_load_mmbtu": 3941970.0,
+    "gas_used_mmbtu": 246902.00597499998,
+    "q_delivered_mmbtu": 3695067.994025,
+    "hire_usd": 2321148.529411765,
+    "port_usd": 273184.0,
+    "canal_laden_usd": 342669.28542000003,
+    "canal_ballast_usd": 291151.387296,
+    "slot_premium_usd": 0.0,
+    "ets_usd": 0.0,
+    "financing_usd": 75444.34150263327,
+    "canal_note": "Suez toll for 102,000 SCNT. Laden transit 2026-10-24: Suez Canal Authority, circular 7/2023, transit dues schedules applicable from 15 January 2024; surcharge 19.0 percent, periodical 20/2026; rebate 75.0 percent, periodical of 21 June 2023, renewed six monthly to 31 December 2026; 253,418 SDR at 1.35219 USD per SDR of 2026-10-07. Ballast transit 2026-12-03: surcharge 19.0 percent, periodical 20/2026; rebate 75.0 percent, periodical of 21 June 2023, renewed six monthly to 31 December 2026; 215,318 SDR at 1.35219 USD per SDR of 2026-10-07. SDR rates of the IMF, through the Bundesbank",
+    "cost_without_hire_usd": 982449.0142186334,
+    "cost_usd": 3303597.5436303983,
+    "p_des": 25.79,
+    "netback": 23.336607336502905,
+    "freight_conventional": 2.6173267429352247,
+    "netback_conventional": 23.172673257064773,
+    "arb": 0.6213472925396033,
+    "s_star": 0.3471346912335669,
+    "boil_off": 1.0623880395327692,
+    "regas": -1.2331029971360872,
+    "voyage": 0.5178496488368866,
+    "h_star_usd_day": 83305.47505459395,
+    "waterfall": {
+     "start": 22.7152600439633,
+     "spread": 0.9467394916666648,
+     "boil_off": -0.9958462500000004,
+     "regas": 1.1558686184962994,
+     "hire": -0.3778063939066597,
+     "canals": -0.160787797146097,
+     "slot_premium": -0.0,
+     "ports": 0.009072367369614686,
+     "carbon": 0.056062616328716265,
+     "financing": -0.011955360268936342,
+     "end": 23.336607336502905
+    }
+   },
+   "nea_cape": {
+    "route": "nea_cape",
+    "open": true,
+    "why_closed": "",
+    "distance_nm": 15824.8,
+    "days_laden": 40.78627450980392,
+    "days_ballast": 38.78627450980392,
+    "days_total": 79.57254901960783,
+    "q_load_mmbtu": 3941970.0,
+    "gas_used_mmbtu": 266621.71089999995,
+    "q_delivered_mmbtu": 3675348.2891,
+    "hire_usd": 2506535.2941176468,
+    "port_usd": 273184.0,
+    "canal_laden_usd": 0.0,
+    "canal_ballast_usd": 0.0,
+    "slot_premium_usd": 0.0,
+    "ets_usd": 0.0,
+    "financing_usd": 81310.74714556933,
+    "canal_note": "",
+    "cost_without_hire_usd": 354494.7471455693,
+    "cost_usd": 2861030.041263216,
+    "p_des": 25.79,
+    "netback": 23.319863503432494,
+    "freight_conventional": 2.6493282267293936,
+    "netback_conventional": 23.140671773270604,
+    "arb": 0.6046034594691925,
+    "s_star": 0.3615366404343128,
+    "boil_off": 1.201042726547949,
+    "regas": -1.239719085009384,
+    "voyage": 0.4002129988957521,
+    "h_star_usd_day": 76329.15234023487,
+    "waterfall": {
+     "start": 22.7152600439633,
+     "spread": 0.941686966666665,
+     "boil_off": -1.1198081999999987,
+     "regas": 1.1558686184962994,
+     "hire": -0.4248353577764715,
+     "canals": -0.0,
+     "slot_premium": -0.0,
+     "ports": 0.009072367369614686,
+     "carbon": 0.056062616328716265,
+     "financing": -0.013443551615632553,
+     "end": 23.319863503432494
+    }
+   }
+  },
+  "best_route_east": "nea_panama",
+  "best_destination": "NEA",
+  "best_route": "nea_panama",
+  "best_netback": 23.955129081350062,
+  "lift_margin": 20.53675408135006,
+  "full_margin": 17.53675408135006,
+  "cancel": false
+ },
+ "at_levels": {
+  "low": {
+   "hire_usd_day": -750.0,
+   "best_route_east": "nea_panama",
+   "best_destination": "NEA",
+   "best_netback": 24.344694021931428,
+   "lift_margin": 20.926319021931427,
+   "arb": {
+    "nea_panama": 1.4133864329141375,
+    "nea_suez": 1.0081490767773715,
+    "nea_cape": 1.039553944811768
+   },
+   "s_star": {
+    "nea_panama": -0.463005725918304,
+    "nea_suez": -0.06551293308006834,
+    "nea_cape": -0.10496656683743666
+   }
+  },
+  "central": {
+   "hire_usd_day": 45500.0,
+   "best_route_east": "nea_panama",
+   "best_destination": "NEA",
+   "best_netback": 23.786015618772105,
+   "lift_margin": 20.367640618772107,
+   "arb": {
+    "nea_panama": 1.1645436563826266,
+    "nea_suez": 0.45343333969219657,
+    "nea_cape": 0.4157877449018734
+   },
+   "s_star": {
+    "nea_panama": -0.2036662939353775,
+    "nea_suez": 0.5262685436487899,
+    "nea_cape": 0.5640496606453027
+   }
+  },
+  "high": {
+   "hire_usd_day": 374000.0,
+   "best_route_east": "nea_panama",
+   "best_destination": "NWE",
+   "best_netback": 20.420801619746523,
+   "lift_margin": 17.002426619746522,
+   "arb": {
+    "nea_panama": -0.6029126050357796,
+    "nea_suez": -3.486547625334392,
+    "nea_cape": -4.014638129052759
+   },
+   "s_star": {
+    "nea_panama": 1.6383445905271152,
+    "nea_suez": 4.72951643782023,
+    "nea_cape": 5.315873027738924
+   }
+  }
+ }
+}

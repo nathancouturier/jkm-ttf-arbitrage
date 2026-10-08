@@ -138,3 +138,19 @@ def test_with_nothing_but_prices_the_netbacks_are_the_prices():
         # With no other cost, the ship is worth the spread on the cargo per extra day.
         extra_days = lines["days_total"] - result["west"]["days_total"]
         assert lines["h_star_usd_day"] == pytest.approx(1.0 * lines["q_load_mmbtu"] / extra_days, rel=1e-12)
+
+
+def test_the_waterfall_steps_add_up_to_the_arb():
+    import math
+    from lngarb import worked
+    from lngarb.cases import WATERFALL_STEPS, evaluate
+    from datetime import date
+    for day, hire in ((date(2026, 9, 30), 31_500.0), (date(2024, 3, 27), 46_500.0), (date(2022, 10, 12), 374_000.0)):
+        inputs = worked.inputs_on(day, 20.0, 18.0, {"jkm": "test", "ttf": "test"}, hire_usd_day=hire)
+        out = evaluate(inputs)
+        for route, lines in out["east"].items():
+            steps = lines["waterfall"]
+            total = steps["start"] + math.fsum(steps[k] for k in WATERFALL_STEPS)
+            assert total == pytest.approx(steps["end"], abs=1e-12)
+            assert steps["end"] - steps["start"] == pytest.approx(lines["arb"], abs=1e-12)
+

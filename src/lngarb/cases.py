@@ -21,7 +21,7 @@ from typing import Any, Mapping
 from . import engine
 from .engine import CostStack, Leg, Vessel, Voyage
 
-__all__ = ["WEST", "EAST", "RouteInput", "Inputs", "evaluate"]
+__all__ = ["WEST", "EAST", "RouteInput", "Inputs", "evaluate", "waterfall", "WATERFALL_STEPS"]
 
 #: The route to Northwest Europe and the three to Northeast Asia, as the routes seed names them.
 WEST = "nwe_direct"
@@ -42,6 +42,10 @@ class RouteInput:
     slot_premium_usd: float = 0.0
     #: what the canal charges are made of, for the table
     canal_note: str = ""
+    #: the ballast leg when the ship returns another way (None: the laden leg's)
+    ballast_distance_nm: float | None = None
+    ballast_canal_days: float | None = None
+    ballast_wait_days: float | None = None
 
 
 @dataclass(frozen=True)
@@ -81,8 +85,13 @@ class Inputs:
 
 
 def _voyage(inputs: Inputs, route: RouteInput) -> Voyage:
-    leg = Leg(route.distance_nm, canal_days=route.canal_days, wait_days=route.wait_days)
-    return Voyage(inputs.vessel, laden=leg, ballast=leg, mmbtu_per_m3=inputs.mmbtu_per_m3)
+    laden = Leg(route.distance_nm, canal_days=route.canal_days, wait_days=route.wait_days)
+    ballast = Leg(
+        route.distance_nm if route.ballast_distance_nm is None else route.ballast_distance_nm,
+        canal_days=route.canal_days if route.ballast_canal_days is None else route.ballast_canal_days,
+        wait_days=route.wait_days if route.ballast_wait_days is None else route.ballast_wait_days,
+    )
+    return Voyage(inputs.vessel, laden=laden, ballast=ballast, mmbtu_per_m3=inputs.mmbtu_per_m3)
 
 
 def _year_days(start: float, end: float, day: date) -> dict[int, float]:
@@ -188,6 +197,36 @@ def _route_lines(inputs: Inputs, route_id: str, *, to_europe: bool) -> dict[str,
     }
 
 
+#: The steps from the Northwest Europe netback to a Northeast Asia one, in order.
+WATERFALL_STEPS = ("spread", "boil_off", "regas", "hire", "canals", "slot_premium", "ports", "carbon", "financing")
+
+
+def waterfall(inputs: Inputs, west: Mapping[str, Any], east: Mapping[str, Any]) -> dict[str, float]:
+    """The arb of one route east as steps from the Northwest Europe netback, USD/MMBtu loaded.
+
+    NB(E) - NB(W) = [(JKM - TTF) Q_del(E) - TTF (Q_del(W) - Q_del(E)) - delta Q_del(W)
+    - (C(E) - C(W))] / Q_load: the spread on the cargo delivered east, the gas
+    lost on the longer voyage at the TTF price, the European DES discount the
+    cargo escapes, then each cost line east less west. The steps add up to the
+    arb exactly.
+    """
+    q_load = west["q_load_mmbtu"]
+    qw, qe = west["q_delivered_mmbtu"], east["q_delivered_mmbtu"]
+    steps = {
+        "spread": (inputs.jkm - inputs.ttf) * qe / q_load,
+        "boil_off": -inputs.ttf * (qw - qe) / q_load,
+        "regas": -inputs.delta_nwe * qw / q_load,
+        "hire": -(east["hire_usd"] - west["hire_usd"]) / q_load,
+        "canals": -((east["canal_laden_usd"] + east["canal_ballast_usd"])
+                    - (west["canal_laden_usd"] + west["canal_ballast_usd"])) / q_load,
+        "slot_premium": -(east["slot_premium_usd"] - west["slot_premium_usd"]) / q_load,
+        "ports": -(east["port_usd"] - west["port_usd"]) / q_load,
+        "carbon": -(east["ets_usd"] - west["ets_usd"]) / q_load,
+        "financing": -(east["financing_usd"] - west["financing_usd"]) / q_load,
+    }
+    return {"start": west["netback"], **{k: steps[k] for k in WATERFALL_STEPS}, "end": east["netback"]}
+
+
 def evaluate(inputs: Inputs) -> dict[str, Any]:
     """Every line of one date. Closed routes are computed too, and flagged, never chosen."""
     west = _route_lines(inputs, WEST, to_europe=True)
@@ -202,6 +241,7 @@ def evaluate(inputs: Inputs) -> dict[str, Any]:
             inputs.jkm, inputs.ttf, inputs.delta_nwe, west["_voyage"], west["_costs"],
             lines["_voyage"], lines["_costs"],
         )
+        lines["waterfall"] = waterfall(inputs, west, lines)
     open_east = {r: lines for r, lines in east.items() if lines["open"]}
     best_east = max(open_east, key=lambda r: open_east[r]["netback"]) if open_east else None
     candidates = [("NWE", WEST, west["netback"])] + [("NEA", r, l["netback"]) for r, l in open_east.items()]

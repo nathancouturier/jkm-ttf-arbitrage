@@ -130,7 +130,11 @@ def test_henry_hub_is_the_loading_month_average():
     assert 1.0 < value < 2.5
 
 
-def test_a_month_the_data_do_not_finish_says_so():
+def test_a_month_the_data_do_not_finish_says_so(monkeypatch):
+    # The daily series cut after 29 September 2026, as it stood on 8 October.
+    full = worked.read_cache("eia_henry_hub_daily")
+    cut = full[full["date"] <= pd.Timestamp("2026-09-29")]
+    monkeypatch.setattr(worked, "read_cache", lambda name, **kw: cut.copy() if name == "eia_henry_hub_daily" else full)
     _, source = worked.henry_hub_month(date(2026, 9, 30))
     assert "an incomplete month: the data end on 2026-09-29" in source
 

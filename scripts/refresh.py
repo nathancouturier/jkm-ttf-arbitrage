@@ -544,6 +544,19 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     payload, changed = finalise_manifest(mode, before, started)
 
+    # The site's data follows the data layer on every run, offline included;
+    # it is written from the committed caches and is byte identical when they are.
+    try:
+        from lngarb import export
+        written = export.write_all()
+        print("")
+        print("site data written: %s" % ", ".join(p.name for p in written))
+    except Exception as exc:  # noqa: BLE001
+        args.failures.append({"series": "site data", "error": "%s: %s" % (type(exc).__name__, exc),
+                              "traceback": traceback.format_exc()})
+        print("")
+        print("site data FAILED: %s" % exc)
+
     print("")
     for line in print_summary(payload, touched):
         print(line)
