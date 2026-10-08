@@ -326,13 +326,23 @@ every value.
 
 ### 20. The EU allowance price after June 2025
 
-Raised 30 September 2026. **Open, the owner's decision.**
+Raised 30 September 2026. **Decided 8 October 2026.**
 
 The Commission's latest auction report covers April to June 2025. For later
 months: ask EEX in writing to republish monthly averages of its auction
 results; use the German Emissions Trading Authority's monthly reports, whose
 terms could not be read because its robots.txt disallows the pages that hold
 them; or hold a labelled assumption.
+
+Decision: the committed series stays the Commission's auction reports, January
+2023 to June 2025, and later months are empty in the data. The engine holds the
+last published month, 72.06 EUR/t for June 2025, for every later month,
+labelled an assumption, and shows the result at 61 and 86 EUR/t, the range of
+2025 the Commission's electricity market report for the fourth quarter of 2025
+prints for a secondary market price. The German auction office (DEHSt)
+publishes monthly averages to August 2026, but its terms of use sit on a path
+its robots.txt closes to code; reading them is a step for the owner, as are
+written requests to EEX and to the Commission on reports after June 2025.
 
 ### 21. The licence of the route lines
 
@@ -723,3 +733,58 @@ Decision: the two weeks have no value in the weekly series. Their text is kept
 and the anomaly column says why. The figures printed a year later are shown in
 the year-earlier cross-check, never used to fill the two weeks, because they
 come from a later issue on whatever basis EIA used then.
+
+### 44. The TTF expiry rule, from ICE's own documents
+
+Raised 8 October 2026. Open, the owner's step.
+
+The delivery month a front-month TTF price names depends on when ICE Endex's
+Dutch TTF futures stop trading, which the study takes as two business days
+before the delivery month, on weekdays. ICE's terms of use forbid "any data
+mining, robots or similar data gathering or extraction methods" and CME's
+forbid scripts, so neither exchange's contract rules were read, and the CFTC's
+robots.txt closes its copies of the rule filings to this study's client. The
+JKM side is sourced: Platts' roll on the 16th from its press release of June
+2015, and the settlement window from the Japan Exchange Group's contract on
+Platts JKM. Settling the TTF side takes a person reading ICE Endex's contract
+specification in a browser, with its holiday calendar.
+
+### 45. Which engines the benchmark ships have, for methane slip
+
+Raised 8 October 2026. **Decided 8 October 2026.**
+
+From 2026 the EU ETS counts methane, and the regulation gives a default slip by
+engine class: 3.1 percent of the LNG for a dual fuel medium speed Otto engine,
+1.7 percent for a slow speed Otto, 0.2 percent for a slow speed Diesel. Spark
+calls its ship "2 Stroke" and its older one "TFDE", which name no class.
+
+Decision: methane slip is off by default, as a toggle. When on, the 174,000 m3
+two-stroke is taken as a slow speed Otto engine (1.7 percent) and the 160,000
+m3 TFDE as a medium speed Otto engine (3.1 percent), each labelled an
+assumption, with the Diesel figure named beside the first.
+
+### 46. The SDR rate, for the Suez toll in dollars
+
+Raised 8 October 2026. Open, the owner's step.
+
+The Suez Canal Authority's tolls are in special drawing rights. The IMF's daily
+rate is read by code only through the Deutsche Bundesbank's copy, which names
+the IMF as its source; the Bundesbank's terms exclude third party data from
+their permission, and the IMF's own hosts refuse automated requests, even for
+robots.txt, so the IMF's terms have not been read. Until a person reads them at
+the IMF's copyright and terms page, the rate is kept in `data/private/` and only
+the tolls computed from it on the study's dates are shown, each with the rate
+used.
+
+### 47. MMBtu per tonne of LNG
+
+Raised 8 October 2026. **Decided 8 October 2026.**
+
+The EU ETS counts tonnes of fuel, so the gas burnt needs a factor from MMBtu to
+tonnes. GIIGNL's annual report, the usual reference, sits in a document store
+whose robots.txt answers HTTP 403, and its older reports are for members only.
+
+Decision: 51.56 MMBtu per tonne, gross, from the IEA and Eurostat's Energy
+Statistics Manual (2004, Table A3.9), 0.9 percent above what Spark's 23 MMBtu
+per m3 gives at the manual's density. GIIGNL's figure can replace it if the
+owner saves the report by hand.

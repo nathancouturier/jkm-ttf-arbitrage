@@ -65,6 +65,7 @@ from lngarb.sources.doe import DoeLngExportCargoes  # noqa: E402
 from lngarb.sources.meti import MetiSpotLngMonthly  # noqa: E402
 from lngarb.sources.sofr import SofrDaily  # noqa: E402
 from lngarb.sources.effr import EffrDaily  # noqa: E402
+from lngarb.sources.sdr import UsdPerSdrDaily  # noqa: E402
 from lngarb.sources.worldbank import WorldBankGasMonthly, WorldBankGasRevisions  # noqa: E402
 from lngarb.sources.eia_ngwu import (  # noqa: E402
     NgwuInternationalWeekly,
@@ -223,6 +224,13 @@ JOBS: tuple[Job, ...] = (
         series=("nyfed_sofr_daily", "nyfed_effr_daily"),
         adapters=lambda: [SofrDaily(), EffrDaily()],
         online=_simple(lambda: [SofrDaily(), EffrDaily()]),
+    ),
+    Job(
+        name="sdr",
+        what="US dollars per SDR, daily, the IMF's rate through the Bundesbank, for the Suez toll, NOT committable until the IMF's terms are read",
+        series=("imf_usd_per_sdr_daily",),
+        adapters=lambda: [UsdPerSdrDaily()],
+        online=_simple(lambda: [UsdPerSdrDaily()]),
     ),
     Job(
         name="seeds",

@@ -70,6 +70,7 @@ basis points; they are not forecasts of where prices can go.
 | US dollars per euro | 0.8 to 1.7 | the euro's range on H.10 since 1999 is 0.8270 (25 October 2000) to 1.6010 (22 April 2008) |
 | Reported charter hire, USD per day | minus 10,000 to 500,000 | a spot charter rate can be assessed below zero; the reported figures are in the freight anchors |
 | DES LNG spreads to the TTF front month, EUR/MWh | minus 20 to 5 | set before any ACER report was parsed; ACER's own figures will test it |
+| US dollars per SDR | 1 to 2 | a rate read the other way up, SDR per dollar, would be below 1 |
 | SOFR, and EFFR before it, percent per year | minus 1 to 15 | a rate read in basis points would be a hundred times too large |
 | US gas exports in one month, MMcf | 0 to 2,000,000 | the largest monthly LNG total in EIA's release of 31 August 2026 is 573,089, March 2026 |
 | Price of US LNG exports in one month, USD per thousand cubic feet | 0.1 to 100 | a price read per MMcf or in cents would be a thousand or a hundred times too large; from 2016 the release of 30 September 2026 runs from 1.86 to 40.44 |

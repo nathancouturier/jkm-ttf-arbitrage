@@ -45,6 +45,9 @@ BOUNDS_EUA_EUR_T = (1.0, 200.0)
 #: a guard against a unit error: a rate read in basis points would be a hundred
 #: times too large.
 BOUNDS_SOFR_PERCENT = (-1.0, 15.0)
+#: US dollars per SDR. Not a range the rate implies, a guard against a rate read
+#: the other way up, SDR per dollar, which would be below 1.
+BOUNDS_USD_PER_SDR = (1.0, 2.0)
 #: US natural gas exports in one month, MMcf, any block or total. Not a range
 #: the market implies, a guard against a unit or a parse error: the largest
 #: monthly LNG total in the 31 August 2026 release is 573,089 MMcf, March 2026.
@@ -565,6 +568,29 @@ SOURCES: Mapping[str, Source] = _registry(
         licence_note=_EFFR_NOTE,
         committable=True,
     ),
+    Source(
+        series="imf_usd_per_sdr_daily",
+        label="US dollars per special drawing right, daily, from 2016, the IMF's rate through the Bundesbank, private",
+        publisher="International Monetary Fund, as republished by the Deutsche Bundesbank",
+        page_url="https://www.bundesbank.de/en/homepage/user-information/terms-of-use-642972",
+        machine_url="https://api.statistiken.bundesbank.de/rest/download/BBEX3/D.USD.XDR.DA.AC.000?format=csv&lang=en",
+        url_note=(
+            "The Bundesbank's statistics API, series BBEX3.D.USD.XDR.DA.AC.000, no key. "
+            "The IMF's own hosts refuse automated requests. Days with no rate are rows "
+            "with '.', never zero."
+        ),
+        frequency="daily",
+        unit="US dollars per SDR",
+        method="published",
+        licence="IMF terms, not yet read; private",
+        licence_note=(
+            "The IMF's terms have not been read: its hosts refuse automated requests. "
+            "The Bundesbank's terms do not cover third party data without the "
+            "originator's permission. Kept in data/private/ and not published until a "
+            "person has read the IMF's terms."
+        ),
+        committable=False,
+    ),
     # -- Seeds ------------------------------------------------------------
     Source(
         series="freight_anchors",
@@ -882,6 +908,67 @@ PANAMA_TOLLS: tuple[PanamaTollPeriod, ...] = (
     ),
 )
 
+@dataclass(frozen=True)
+class SuezSchedule:
+    """The Suez Canal Authority's normal transit dues for LNG carriers ("Rate (5)") over one period.
+
+    SDR per ton of Suez Canal Net Tonnage, by band: the first 5,000 tons, the
+    next 5,000, the next 10,000, the next 20,000, the next 30,000, the next
+    50,000 and the rest.
+    """
+
+    start: str
+    end: str | None
+    laden: tuple[float, ...]
+    ballast: tuple[float, ...]
+    source: str
+    url: str
+
+
+SUEZ_BAND_SIZES_SCNT = (5_000.0, 5_000.0, 10_000.0, 20_000.0, 30_000.0, 50_000.0)
+
+SUEZ_SCHEDULES: tuple[SuezSchedule, ...] = (
+    SuezSchedule(
+        "2022-02-01", "2022-12-31",
+        laden=(7.88, 6.13, 5.30, 4.10, 3.80, 3.63, 3.53),
+        ballast=(6.70, 5.21, 4.51, 3.49, 3.23, 3.09, 3.00),
+        source="Suez Canal Authority, circular 5/2021, transit dues schedules applicable from 1 February 2022",
+        url="https://www.suezcanal.gov.eg/English/Navigation/NavigationCirculars/Documents/Cirular%205-2021/Circular%205.%202021%20Suez%20Canal%20Transit%20Dues%20as%20of%20the%20First%20of%20February%202022%20-EN.pdf",
+    ),
+    SuezSchedule(
+        "2024-01-15", None,
+        laden=(10.42, 8.11, 7.02, 5.43, 5.03, 4.80, 4.67),
+        ballast=(8.87, 6.89, 5.97, 4.61, 4.27, 4.08, 3.97),
+        source="Suez Canal Authority, circular 7/2023, transit dues schedules applicable from 15 January 2024",
+        url="https://www.suezcanal.gov.eg/Arabic/Navigation/NavigationCirculars/Documents/english72023.pdf",
+    ),
+)
+
+#: The surcharge on LNG carriers' normal dues, from the date named.
+SUEZ_LNG_SURCHARGE: tuple[tuple[str, float, str], ...] = (
+    ("2022-03-01", 0.07, "circular 5/2022"),
+    ("2026-07-15", 0.19, "periodical 20/2026"),
+)
+
+#: The general reduction for LNG carriers, from the date named.
+SUEZ_LNG_GENERAL_REDUCTION: tuple[tuple[str, float, str], ...] = (
+    ("2015-05-01", 0.25, "circular 2/2015"),
+    ("2021-11-01", 0.15, "periodical of 26 October 2021"),
+    ("2022-03-15", 0.0, "periodical of 14 March 2022, the reduction cancelled"),
+)
+
+#: The rebate for an LNG carrier between the US Gulf and the band holding Japan,
+#: on normal dues, from the date named; no text covers transits after the last end.
+SUEZ_US_GULF_JAPAN_REBATE: tuple[tuple[str, float, str], ...] = (
+    ("2017-10-01", 0.50, "circular 7/2017"),
+    ("2018-10-01", 0.65, "periodical of 25 September 2018"),
+    ("2019-10-01", 0.75, "periodical of 12 September 2019"),
+    ("2022-01-01", 0.70, "periodical of 21 December 2021"),
+    ("2023-07-01", 0.75, "periodical of 21 June 2023"),
+)
+SUEZ_US_GULF_JAPAN_REBATE_END = "2026-12-31"
+
+
 PARAMETERS: Mapping[str, Parameter] = _parameters(
     Parameter("mmbtu_per_m3_lng", 23.0, "MMBtu per m3 of LNG", "published",
               "Spark LNG Freight Methodology 3.8, page 2, 'LNG Conversion Factor: 23'", _SPARK_38,
@@ -1069,6 +1156,15 @@ PARAMETERS: Mapping[str, Parameter] = _parameters(
               "No source with a clear licence gives a monthly price from July 2025 (open question 20). "
               "Shown at 61 and 86, the range of 2025 the Commission's electricity market report for "
               "the fourth quarter of 2025 prints for a secondary market price."),
+    Parameter("suez_scnt_per_m3", 85_000.0 / 145_000.0, "tons of Suez Canal Net Tonnage per m3 of capacity",
+              "assumption",
+              "this study, from a canal agency's approximation, 'ca 85.000 SCNT (145.000m3; 75.000dwt)' "
+              "for an LNG carrier of the integrated (membrane) type",
+              "https://kadmar.com/calculator-guidelines/", "2026-10-01",
+              "No source gives the tonnage of a 174,000 m3 or 160,000 m3 ship; the agency's ratio is "
+              "applied to the capacity, 102,000 for 174,000 m3. The agency warns the tonnage 'depends on "
+              "the construction'. Shown at 85,000 and at 112,148, the Authority's net tonnage per LNG "
+              "transit in 2023 (open question 25)."),
     Parameter("panama_booking_fee_usd", 0.0, "USD per transit", "assumption",
               "this study: an unbooked ship by default", None, "2026-10-07",
               "Booked case: 35,000 $ in 2016, 85,000 $ for booking dates from 1 June 2021, 80,000 $ "
