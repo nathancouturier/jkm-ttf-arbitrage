@@ -63,12 +63,12 @@ ANCHORS: tuple[Anchor, ...] = (
     ),
     Anchor(
         "2022-10", "2022-10-10", "2022-10-10", 374_000.0, "Spark30S Atlantic", True,
-        "160,000 m3 TFDE", True,
+        "160,000 m3 TFDE", False,
         "LNG Prime, quoting Spark",
         "https://lngprime.com/americas/spark-atlantic-lng-freight-rate-hits-374000-per-day/63423/",
-        "The vessel is stated in LNG Prime's article of 20 October 2022, which reports "
-        "482,250 $/day for 20 October, the month's highest; the first figure reported "
-        "is kept.",
+        "The article does not name the vessel for this figure; LNG Prime's article of 20 "
+        "October 2022 does, and reports 482,250 $/day for 20 October, the highest figure "
+        "reported that month in the articles read. The first figure reported is kept.",
     ),
     Anchor(
         "2023-07", None, "2023-07-28", 71_250.0, "Spark30S Atlantic", True,

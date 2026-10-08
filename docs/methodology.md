@@ -167,6 +167,13 @@ toll_sdr    = normal_dues + surcharge - rebate                                # 
 toll_usd    = toll_sdr * usd_per_sdr(transit date)
 ```
 
+Each transit is dated from the loading day: the laden transit after the load
+day and the sea distance from Sabine Pass to the canal, measured along the
+route's line; the ballast transit after the whole laden leg and the distance
+back from Futtsu to the canal. At 17 knots a cargo through Suez transits about
+17 days after loading, laden, and 57 days after in ballast; through Panama,
+about 5 and 44 days after.
+
 Normal dues for LNG carriers ("Rate (5)"), in SDR per ton of Suez Canal Net
 Tonnage, laden and ballast, from the schedules the Authority attaches to its
 circulars:
@@ -463,20 +470,30 @@ For a destination d and a route r, in US dollars:
 * **Port costs** are one figure per destination, each a pair of ports: Spark's
   308,947 $ for Sabine Pass and Gate and 273,184 $ for Sabine Pass and Futtsu,
   held for every year and both ships (section 7.1).
-* **Canals.** Panama from the dated tolls of section 8.1, with the roundtrip
-  ballast table before 2023 when both legs pass the canal, and the fresh water
-  surcharge from 15 February 2020: 10,000 $ a transit and 5 percent of tolls.
-  Suez from section 6, when the route is open. Slot premiums and waiting days
-  are zero by default.
+* **Canals.** Each transit is priced on its own day (section 6.1). Panama from
+  the dated tolls of section 8.1, with the roundtrip ballast table before 2023
+  when both legs pass the canal, and the fresh water surcharge from 15
+  February 2020: 10,000 $ a transit and 5 percent of tolls. Suez from section
+  6. A canal route is offered only if its laden transit falls while the canal
+  is open to a US cargo, and the ballast leg is taken to return the same way.
+  Suez is offered only where its toll can be priced; without the SDR rate it
+  is shown and not offered, never priced at zero. Slot premiums and waiting
+  days are zero by default.
 * **EU ETS**, on the voyage to Northwest Europe only:
-  `eua_usd x phase(year) x tCO2 per t x (b x days / MMBtu per t)`, where the
-  laden voyage and the ballast leg count at the voyage share and the discharge
-  day at Gate at the berth share. The load day at Sabine Pass is outside the
-  scheme. The phase is zero before 2024.
-* **Financing**: the cargo's purchase cost, `(1.15 x HH + fee) x Q_load`, at the
-  overnight rate plus a spread, for the laden days, on an actual over 365 basis.
-  The overnight rate is SOFR from 2 April 2018 and the effective federal funds
-  rate before it.
+  `eua_usd x phase(year) x tCO2e per t(year) x (b x days / MMBtu per t)`, where
+  the laden voyage and the ballast leg count at the voyage share and the
+  discharge day at Gate at the berth share. The load day at Sabine Pass is
+  outside the scheme. Each day's emissions take the phase and the gases of
+  their own calendar year, since a year's surrender covers that year's
+  emissions: a cargo loaded in late December reaches Gate in the next year. The
+  phase is zero before 2024; methane and nitrous oxide count from 2026. The EU
+  allowance price is that of the loading month.
+* **Financing**: the part of the cargo's purchase cost paid only when it is
+  lifted, `1.15 x HH x Q_load`, at the overnight rate plus a spread, for the
+  laden days, on an actual over 365 basis. The fixed fee, and its carrying
+  cost, are owed whether or not the cargo is lifted, so they are left out, as
+  the lift test requires. The overnight rate is SOFR from 2 April 2018 and the
+  effective federal funds rate before it.
 
 `C0` is the same stack without hire.
 
@@ -542,13 +559,17 @@ begin, METI's contract-based monthly price as a labelled proxy for JKM and the
 World Bank's TTF; Henry Hub as the loading month's average of EIA's daily spot;
 the euro rate of H.10 on or before the day; SOFR, or the effective federal funds
 rate before 2 April 2018; the EU allowance price of the month from the
-Commission's auction reports, and after June 2025 the labelled assumption of
-section 11; the reported charter rate nearest the date from the freight
-anchors, or, where none was reported, the low, central and high hire they give;
-the benchmark ship of the day; and the routes open that day (Panama from 26
-June 2016, Suez closed to a US cargo from 13 January 2024). An input the data
-do not hold is reported missing, never filled. `scripts/worked_table.py` prints
-every input with its source and every line of the result for the worked dates.
+Commission's auction reports, and after June 2025 the last published month
+held, the labelled assumption of section 11; the reported charter rate nearest
+the date, within 14 days, from the freight anchors, dated by the day it refers
+to or else by its article, or, where none is that close, the low, central and
+high hire they give; the benchmark ship of the day; and the routes offered for
+the laden transits that loading implies (Panama from 26 June 2016, Suez to a
+laden transit on 12 January 2024). The Henry Hub average of a month the data
+do not yet finish says so. An input the data do not hold is reported missing,
+never filled. `scripts/worked_table.py` prints every input with its source,
+every line of the result and the sensitivities of section 11 for the worked
+dates.
 
 ### 9.9 Delivery months
 
@@ -603,8 +624,12 @@ the range it is shown at:
 | Parameter | Value | Shown at | Why |
 |---|---|---|---|
 | liquefaction fee | 3.00 $/MMBtu | 2.25 and 3.50, both published | the fee most Sabine Pass contracts carry |
-| regas discount in Northwest Europe | -2 EUR/MWh | -3, 0, and -35 from end-July to mid-October 2022 | ACER's printed average and range (section 7 and open question 18) |
-| port costs | Spark's two pairs | none | the only source pricing both destinations on one basis |
+| regas discount in Northwest Europe | -2 EUR/MWh | -3, 0, and -35 for a loading from 25 July to 15 October 2022 | ACER's printed average and range (open question 18) |
+| port costs | Spark's two pairs | none | the only source pricing both destinations on one basis; held for every year and both ships |
+| Suez net tonnage | 85,000 SCNT per 145,000 m3, scaled to the capacity | 85,000 and 112,148 | a canal agency's approximation; the Authority's net tonnage per LNG transit in 2023 (open question 25) |
+| Suez rebate on the surcharge | not applied | applied | the rebate is written on normal tolls (open question 26) |
+| Panama capacity charged | the nominal capacity | none | the canal's admeasurement rules were not read (open question 39) |
+| Panama booking fee | none, an unbooked ship | none | the booked case is a scenario (open question 40) |
 | hire where no rate was reported | 38,000 $/day | -750 and 374,000 | the median, lowest and highest of the freight anchors |
 | EU allowance price after June 2025 | 72.06 EUR/t | 61 and 86 | the last published month, and the Commission's range for 2025 |
 | funding spread | 150 bp | none | the convention of the study's copper sibling |

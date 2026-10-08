@@ -4,9 +4,10 @@ Usage, from the repository root:
 
     PYTHONPATH=src python scripts/worked_table.py
 
-Reads only committed data and the parameter table; fetches nothing and writes
-nothing. A date with no reported charter rate is shown at the low, central and
-high hire the freight anchors give.
+Reads the committed data, the parameter table and, for the Suez toll, the SDR
+rate kept in data/private/; without that rate Suez is shown and not offered.
+Fetches nothing and writes nothing. A date with no reported charter rate within
+two weeks is shown at the low, central and high hire the freight anchors give.
 """
 
 from __future__ import annotations
@@ -16,7 +17,9 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from lngarb import cases, config, worked  # noqa: E402
+from datetime import date  # noqa: E402
+
+from lngarb import cases, config, delivery, worked  # noqa: E402
 from lngarb.freight_anchors import hire_levels  # noqa: E402
 
 ROUTES = (cases.WEST,) + cases.EAST
@@ -80,17 +83,24 @@ def summary(result: dict) -> str:
 
 def one_date(item: worked.WorkedDate) -> list[str]:
     out = ["## %s, %s" % (item.label, item.day), ""]
-    hires = [None] if item.hire_month else [hire_levels()["central"]]
-    inputs = worked.inputs_for(item, hire_usd_day=hires[0])
+    reported, _ = worked.nearest_hire(item.day)
+    hire = None if reported is not None else hire_levels()["central"]
+    inputs = worked.inputs_for(item, hire_usd_day=hire)
     out.append("Inputs:")
     out.append("")
     out.append("* JKM %s $/MMBtu: %s" % (price(inputs.jkm), inputs.sources["jkm"]))
     out.append("* TTF %s $/MMBtu: %s" % (price(inputs.ttf), inputs.sources["ttf"]))
     out.append("* regas discount %s $/MMBtu: %s" % (price(inputs.delta_nwe), inputs.sources["delta_nwe"]))
-    out.append("* hire %s $/day: %s" % (money(inputs.hire_usd_day), inputs.sources["hire"] if item.hire_month
-                                         else "no reported rate; the central of the freight anchors"))
+    out.append("* hire %s $/day: %s" % (money(inputs.hire_usd_day), inputs.sources["hire"] if reported is not None
+                                         else "no reported rate within two weeks; the central of the freight anchors"))
     out.append("* Henry Hub %s $/MMBtu: %s" % (price(inputs.henry_hub), inputs.sources["henry_hub"]))
     out.append("* ship: %s" % inputs.vessel.name)
+    if item.prices != "monthly":
+        tag, share = delivery.week_alignment(date.fromisoformat(item.day))
+        out.append("* delivery months of the week's front-month prices: %s (%s of the trading days name "
+                   "the same month for JKM and TTF)" % (tag, format(share, ".0%")))
+    else:
+        out.append("* delivery months: monthly averages, no front-month alignment applies")
     out.append("* EUR/USD: %s" % inputs.sources["fx"])
     out.append("* overnight rate %s %% plus %s bp: %s" % (inputs.rate_percent, inputs.spread_bp, inputs.sources["rate"]))
     out.append("* EU ETS phase %s, %s $/t, %s t CO2e per t of LNG: %s" % (
@@ -107,19 +117,30 @@ def one_date(item: worked.WorkedDate) -> list[str]:
     out.append("")
     out.append("Sensitivity:")
     out.append("")
-    if not item.hire_month:
-        for level, hire in hire_levels().items():
-            r = cases.evaluate(worked.inputs_for(item, hire_usd_day=hire))
-            out.append("* hire %s (%s $/day): %s" % (level, money(hire), summary(r)))
-    deltas = [-3.0, 0.0] + ([-35.0] if item.day.startswith("2022-") else [])
+    if reported is None:
+        for level, value in hire_levels().items():
+            r = cases.evaluate(worked.inputs_for(item, hire_usd_day=value))
+            out.append("* hire %s (%s $/day): %s" % (level, money(value), summary(r)))
+    deltas = [-3.0, 0.0] + ([-35.0] if worked.wide_regas_discount_on(item.day) else [])
     for delta in deltas:
-        r = cases.evaluate(worked.inputs_for(item, hire_usd_day=hires[0], delta_nwe_eur_mwh=delta))
+        r = cases.evaluate(worked.inputs_for(item, hire_usd_day=hire, delta_nwe_eur_mwh=delta))
         s_star = ", ".join("%s S* %s" % (NAMES[k], price(v["s_star"])) for k, v in r["east"].items())
-        out.append("* regas discount %s EUR/MWh: %s %s" % (delta, s_star, summary(r)))
+        out.append("* regas discount %s EUR/MWh: %s. %s" % (delta, s_star, summary(r)))
     for name in ("liquefaction_fee_low_usd_mmbtu", "liquefaction_fee_high_usd_mmbtu"):
         fee = config.PARAMETERS[name].value
-        out.append("* fixed fee %s $/MMBtu: full margin %s $/MMBtu" % (
-            fee, price(result["lift_margin"] - fee)))
+        r = cases.evaluate(worked.inputs_for(item, hire_usd_day=hire, liquefaction_fee=fee))
+        out.append("* fixed fee %s $/MMBtu: lift margin %s, full margin %s $/MMBtu" % (
+            fee, price(r["lift_margin"]), price(r["full_margin"])))
+    if inputs.routes["nea_suez"].canal_laden_usd:
+        for scnt in (85_000.0, 112_148.0):
+            r = cases.evaluate(worked.inputs_for(item, hire_usd_day=hire, suez_scnt=scnt))
+            suez = r["east"]["nea_suez"]
+            out.append("* Suez tonnage %s SCNT: Suez canal cost %s $, S* %s" % (
+                money(scnt), money(suez["canal_laden_usd"] + suez["canal_ballast_usd"]), price(suez["s_star"])))
+        r = cases.evaluate(worked.inputs_for(item, hire_usd_day=hire, suez_rebate_on_surcharge=True))
+        suez = r["east"]["nea_suez"]
+        out.append("* Suez rebate also on the surcharge: Suez canal cost %s $, S* %s" % (
+            money(suez["canal_laden_usd"] + suez["canal_ballast_usd"]), price(suez["s_star"])))
     out.append("")
     return out
 

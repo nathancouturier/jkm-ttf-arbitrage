@@ -76,12 +76,27 @@ def test_carbon_is_charged_on_the_european_voyage_only():
     assert before_2024["west"]["ets_usd"] == 0
 
 
-def test_financing_is_on_the_fob_price_for_the_laden_days():
+def test_financing_is_on_the_variable_price_for_the_laden_days():
+    # The fixed fee, owed whether or not the cargo is lifted, is not financed.
     result = cases.evaluate(inputs())
     west = result["west"]
-    fob = 1.15 * 3.0 + 2.5
+    fob = 1.15 * 3.0
     expected = fob * west["q_load_mmbtu"] * (4.0 + 1.5) / 100 * west["days_laden"] / 365.0
     assert west["financing_usd"] == pytest.approx(expected, rel=1e-12)
+
+
+def test_each_year_of_emissions_takes_its_own_phase():
+    # A cargo loaded on 20 December 2023 reaches Gate in January 2024: its berth
+    # day and ballast leg are 2024 emissions, at 40 percent.
+    by_year = {2023: (0.0, 2.75), 2024: (0.40, 2.75)}
+    result = cases.evaluate(inputs(day=date(2023, 12, 20), ets_by_year=by_year, eua_usd_t=80.0))
+    west = result["west"]
+    assert west["ets_usd"] > 0
+    every_day_2024 = cases.evaluate(inputs(day=date(2024, 3, 1), ets_by_year=by_year, eua_usd_t=80.0))["west"]["ets_usd"]
+    assert west["ets_usd"] < every_day_2024
+    # Wholly in one year, the split equals the single phase.
+    single = cases.evaluate(inputs(day=date(2024, 3, 1), ets_phase=0.40, tco2_per_t_lng=2.75, eua_usd_t=80.0))
+    assert every_day_2024 == pytest.approx(single["west"]["ets_usd"], rel=1e-12)
 
 
 def test_a_closed_route_is_computed_but_never_chosen():
@@ -92,6 +107,13 @@ def test_a_closed_route_is_computed_but_never_chosen():
     assert result["east"]["nea_suez"]["netback"] > result["east"]["nea_panama"]["netback"]
     assert result["best_route_east"] != "nea_suez"
     assert result["best_route"] != "nea_suez"
+
+
+def test_the_fixed_fee_moves_no_netback_and_no_lift_margin():
+    low, high = cases.evaluate(inputs(liquefaction_fee=2.25)), cases.evaluate(inputs(liquefaction_fee=3.5))
+    assert low["best_netback"] == high["best_netback"]
+    assert low["lift_margin"] == high["lift_margin"]
+    assert low["full_margin"] - high["full_margin"] == pytest.approx(1.25, abs=1e-12)
 
 
 def test_the_lift_test_never_counts_the_fixed_fee():

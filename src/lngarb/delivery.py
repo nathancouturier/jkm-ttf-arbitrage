@@ -17,8 +17,8 @@ The two therefore name the same month from the 1st to the 15th, and again
 after the TTF expiry at the end of the month, and different months from the
 16th until the TTF expiry. A week's prices are tagged aligned when every trading
 day of it names the same month for both, misaligned when none does, and mixed
-otherwise. The business day calendars are parameters (lngarb.config), so a
-holiday list can be added without changing the rules.
+otherwise. Business days are weekdays: each function takes a list of holidays,
+empty by default, so a calendar can be added without changing the rules.
 """
 
 from __future__ import annotations

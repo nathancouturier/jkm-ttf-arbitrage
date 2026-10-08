@@ -24,7 +24,7 @@ from .config import (
 )
 
 __all__ = ["panama_period", "panama_toll", "panama_fresh_water_surcharge", "suez_schedule", "suez_rate_on",
-           "suez_toll_sdr", "suez_round_trip"]
+           "suez_toll_sdr", "suez_round_trip", "suez_transits"]
 
 
 def _as_date(when: date | str) -> date:
@@ -107,11 +107,12 @@ def suez_rate_on(table: tuple[tuple[str, float, str], ...], when: date | str) ->
     return rate, instrument
 
 
-def suez_toll_sdr(when: date | str, scnt: float, *, laden: bool) -> dict | None:
+def suez_toll_sdr(when: date | str, scnt: float, *, laden: bool, rebate_on_surcharge: bool = False) -> dict | None:
     """One transit's Suez toll in SDR for an LNG carrier from the US Gulf to Japan, line by line.
 
     normal dues by band; the surcharge on normal dues, paid in full (open question
-    26); the rebate for the US Gulf to Japan on normal dues, which cannot be
+    26), or with rebate_on_surcharge, reduced by the rebate too, the other
+    reading; the rebate for the US Gulf to Japan on normal dues, which cannot be
     combined with the general reduction, so the larger of the two is taken.
     None where no schedule covers the day.
     """
@@ -131,11 +132,12 @@ def suez_toll_sdr(when: date | str, scnt: float, *, laden: bool) -> dict | None:
     if _as_date(when) > date.fromisoformat(SUEZ_US_GULF_JAPAN_REBATE_END):
         route, route_from = 0.0, "no rebate text covers the day"
     rebate, rebate_from = (route, route_from) if route >= general else (general, general_from)
+    rebated = normal * (1.0 + surcharge) if rebate_on_surcharge else normal
     return {
         "normal_sdr": normal,
         "surcharge_sdr": normal * surcharge,
-        "rebate_sdr": normal * rebate,
-        "toll_sdr": normal * (1.0 + surcharge - rebate),
+        "rebate_sdr": rebated * rebate,
+        "toll_sdr": normal * (1.0 + surcharge) - rebated * rebate,
         "schedule": schedule.source,
         "surcharge": "%s percent, %s" % (round(surcharge * 100, 1), surcharge_from or "none"),
         "rebate": "%s percent, %s" % (round(rebate * 100, 1), rebate_from or "none"),
@@ -156,25 +158,34 @@ def _usd_per_sdr(day: date) -> tuple[float, date] | None:
     return float(rows.iloc[-1]["usd_per_sdr"]), rows.iloc[-1]["date"].date()
 
 
-def suez_round_trip(when: date | str, capacity_m3: float, *, scnt: float | None = None) -> tuple[float, float, str] | None:
-    """Laden and ballast Suez tolls in USD for a round trip through the canal, and what they are made of.
+def suez_transits(laden_day: date | str, ballast_day: date | str, capacity_m3: float, *, scnt: float | None = None,
+                  rebate_on_surcharge: bool = False) -> tuple[float, float, str] | None:
+    """Laden and ballast Suez tolls in USD, each priced on its own transit day, and what they are made of.
 
-    None where no schedule covers the day or no SDR rate is held: the route is
-    then shown without a toll and flagged, never priced at zero.
+    Each transit takes the schedule, surcharge, rebate and SDR rate of its day.
+    None where no schedule covers a day or no SDR rate is held: the route is
+    then not offered, never priced at zero.
     """
-    day = _as_date(when)
+    laden_day, ballast_day = _as_date(laden_day), _as_date(ballast_day)
     if scnt is None:
         scnt = config.PARAMETERS["suez_scnt_per_m3"].value * capacity_m3
-    laden = suez_toll_sdr(day, scnt, laden=True)
-    ballast = suez_toll_sdr(day, scnt, laden=False)
-    rate = _usd_per_sdr(day)
-    if laden is None or ballast is None or rate is None:
+    laden = suez_toll_sdr(laden_day, scnt, laden=True, rebate_on_surcharge=rebate_on_surcharge)
+    ballast = suez_toll_sdr(ballast_day, scnt, laden=False, rebate_on_surcharge=rebate_on_surcharge)
+    laden_rate, ballast_rate = _usd_per_sdr(laden_day), _usd_per_sdr(ballast_day)
+    if laden is None or ballast is None or laden_rate is None or ballast_rate is None:
         return None
-    usd_per_sdr, seen = rate
     note = (
-        "Suez toll for %s SCNT, %s; surcharge %s; rebate %s; laden %s SDR and ballast %s SDR at %s "
-        "USD per SDR of %s (IMF, through the Bundesbank)" % (
-            format(scnt, ",.0f"), laden["schedule"], laden["surcharge"], laden["rebate"],
-            format(laden["toll_sdr"], ",.0f"), format(ballast["toll_sdr"], ",.0f"), usd_per_sdr, seen))
-    return laden["toll_sdr"] * usd_per_sdr, ballast["toll_sdr"] * usd_per_sdr, note
+        "Suez toll for %s SCNT%s. Laden transit %s: %s; surcharge %s; rebate %s; %s SDR at %s USD per "
+        "SDR of %s. Ballast transit %s: surcharge %s; rebate %s; %s SDR at %s USD per SDR of %s. SDR "
+        "rates of the IMF, through the Bundesbank" % (
+            format(scnt, ",.0f"), ", the rebate also on the surcharge" if rebate_on_surcharge else "",
+            laden_day, laden["schedule"], laden["surcharge"], laden["rebate"], format(laden["toll_sdr"], ",.0f"),
+            laden_rate[0], laden_rate[1], ballast_day, ballast["surcharge"], ballast["rebate"],
+            format(ballast["toll_sdr"], ",.0f"), ballast_rate[0], ballast_rate[1]))
+    return laden["toll_sdr"] * laden_rate[0], ballast["toll_sdr"] * ballast_rate[0], note
+
+
+def suez_round_trip(when: date | str, capacity_m3: float, *, scnt: float | None = None) -> tuple[float, float, str] | None:
+    """Laden and ballast Suez tolls in USD with both transits priced on one day; see suez_transits."""
+    return suez_transits(when, when, capacity_m3, scnt=scnt)
 

@@ -31,6 +31,8 @@ __all__ = [
     "EARTH_RADIUS_NM",
     "polyline_length_nm",
     "nearest_distance_nm",
+    "distance_to_point_nm",
+    "canal_distances",
     "check_geometry",
     "route_problems",
     "write_json",
@@ -161,6 +163,49 @@ def nearest_distance_nm(coordinates: Sequence[Sequence[float]], reference: Mappi
         t = 0.0 if span == 0 else max(0.0, min(1.0, -(ax * dx + ay * dy) / span))
         best = min(best, math.hypot(ax + t * dx, ay + t * dy))
     return best
+
+
+def distance_to_point_nm(coordinates: Sequence[Sequence[float]], reference: Mapping[str, float],
+                         total_nm: float) -> float:
+    """How far along a line, from its start, it comes nearest a reference point, in nautical miles.
+
+    The point on the line nearest the reference is found as in
+    nearest_distance_nm; the length of the line up to it is scaled to the
+    route's recorded distance, total_nm, which the line matches within half a
+    percent.
+    """
+    lon0, lat0 = reference["lon"], reference["lat"]
+    scale = 60.0 * math.cos(math.radians(lat0))
+    best, best_index, best_t = math.inf, 0, 0.0
+    for index, (a, b) in enumerate(zip(coordinates, coordinates[1:])):
+        da = (a[0] - lon0 + 540.0) % 360.0 - 180.0
+        db = da + (b[0] - a[0])
+        ax, ay = da * scale, (a[1] - lat0) * 60.0
+        bx, by = db * scale, (b[1] - lat0) * 60.0
+        dx, dy = bx - ax, by - ay
+        span = dx * dx + dy * dy
+        t = 0.0 if span == 0 else max(0.0, min(1.0, -(ax * dx + ay * dy) / span))
+        distance = math.hypot(ax + t * dx, ay + t * dy)
+        if distance < best:
+            best, best_index, best_t = distance, index, t
+    before = polyline_length_nm(coordinates[: best_index + 1])
+    segment = _haversine_nm(coordinates[best_index], coordinates[best_index + 1])
+    return (before + best_t * segment) * total_nm / polyline_length_nm(coordinates)
+
+
+def canal_distances() -> dict[str, float]:
+    """Route id to the distance from Sabine Pass to its canal, for the routes through one."""
+    geojson = json.loads(routes_geojson().read_text(encoding="utf-8"))
+    canals = {"nea_panama": "Panama Canal", "nea_suez": "Suez Canal"}
+    out = {}
+    for feature in geojson["features"]:
+        route_id = feature["properties"]["id"]
+        if route_id in canals:
+            out[route_id] = distance_to_point_nm(
+                feature["geometry"]["coordinates"], REFERENCE_POINTS[canals[route_id]],
+                float(feature["properties"]["distance_nm"]),
+            )
+    return out
 
 
 def check_geometry(spec: Mapping[str, Any], coordinates: Sequence[Sequence[float]]) -> dict[str, Any]:

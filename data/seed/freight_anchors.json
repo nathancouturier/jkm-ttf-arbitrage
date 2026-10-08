@@ -24,10 +24,10 @@
       "assessment": "Spark30S Atlantic",
       "assessment_stated": true,
       "vessel": "160,000 m3 TFDE",
-      "vessel_stated": true,
+      "vessel_stated": false,
       "publisher": "LNG Prime, quoting Spark",
       "url": "https://lngprime.com/americas/spark-atlantic-lng-freight-rate-hits-374000-per-day/63423/",
-      "note": "The vessel is stated in LNG Prime's article of 20 October 2022, which reports 482,250 $/day for 20 October, the month's highest; the first figure reported is kept."
+      "note": "The article does not name the vessel for this figure; LNG Prime's article of 20 October 2022 does, and reports 482,250 $/day for 20 October, the highest figure reported that month in the articles read. The first figure reported is kept."
     },
     {
       "month": "2023-07",

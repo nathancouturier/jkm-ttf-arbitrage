@@ -837,7 +837,8 @@ def _parameters(*parameters: Parameter) -> Mapping[str, Parameter]:
     return MappingProxyType(out)
 
 
-_SPARK_38 = "https://static.sparkcommodities.com/documents/lng-freight/methodology/Spark-LNG-Freight-Methodology-3.8.pdf"
+#: Spark's terms forbid linking to its documents, so they are named and never linked.
+_SPARK_38 = None
 _SPARK_32 = "Spark LNG Freight Methodology 3.2, 11 November 2022, read from the Internet Archive's capture of 8 December 2022"
 
 
@@ -977,8 +978,10 @@ SUEZ_US_GULF_JAPAN_REBATE: tuple[tuple[str, float, str], ...] = (
     ("2017-10-01", 0.50, "circular 7/2017"),
     ("2018-10-01", 0.65, "periodical of 25 September 2018"),
     ("2019-10-01", 0.75, "periodical of 12 September 2019"),
+    ("2020-04-01", 0.75, "periodical of 31 March 2020, renewed to 31 December 2021"),
     ("2022-01-01", 0.70, "periodical of 21 December 2021"),
-    ("2023-07-01", 0.75, "periodical of 21 June 2023"),
+    ("2023-01-01", 0.70, "periodical of 18 December 2022"),
+    ("2023-07-01", 0.75, "periodical of 21 June 2023, renewed six monthly to 31 December 2026"),
 )
 SUEZ_US_GULF_JAPAN_REBATE_END = "2026-12-31"
 
@@ -1033,18 +1036,24 @@ PARAMETERS: Mapping[str, Parameter] = _parameters(
               "Spark LNG Freight Methodology 3.8, page 7, change log: '3.5 2 January 2024 - Vessel "
               "Type updated to 174,000 m3 2 Stroke'", _SPARK_38, "2026-10-01",
               "The study prices a date before it with the 160,000 m3 TFDE and from it with the "
-              "174,000 m3 two-stroke, as the benchmark freight rates do."),
-    Parameter("port_cost_west_usd", 308_947.0, "USD per round trip, Sabine Pass and Gate together", "published",
-              "Spark, note on negative freight rates, February 2022: 'Port costs provided by GAC on "
-              "an indicative basis', for a 160,000 m3 TFDE", None, "2026-10-01",
-              "Held for every year and both ships, an assumption (open question 32). Taken to "
-              "include the Sabine Neches cargo fee (open question 33)."),
-    Parameter("port_cost_east_usd", 273_184.0, "USD per round trip, Sabine Pass and Futtsu together", "published",
-              "Spark, note on negative freight rates, February 2022: a screenshot of its Routes page, "
-              "release of 8 February 2022, Sabine Pass to Futtsu via Panama, for a 160,000 m3 TFDE",
+              "174,000 m3 two-stroke, as the benchmark freight rates do. Methodology 3.2 announced "
+              "the change for 1 January 2024, a UK holiday on which Spark does not assess; 2 January "
+              "is the date of version 3.5 and the first assessment on the new ship."),
+    Parameter("port_cost_west_usd", 308_947.0, "USD per round trip, Sabine Pass and Gate together", "assumption",
+              "this study, Spark's published figure held: Spark, note on negative freight rates, "
+              "February 2022, 'Port costs provided by GAC on an indicative basis', for a 160,000 m3 "
+              "TFDE", None, "2026-10-01",
+              "Held for every year and both ships (open question 32). Taken to include the Sabine "
+              "Neches cargo fee (open question 33)."),
+    Parameter("port_cost_east_usd", 273_184.0, "USD per round trip, taken as Sabine Pass and Futtsu together",
+              "assumption",
+              "this study, Spark's published figure held: Spark, note on negative freight rates, "
+              "February 2022, a screenshot of its Routes page, release of 8 February 2022, 'Port Cost' "
+              "for Sabine Pass to Futtsu via Panama, for a 160,000 m3 TFDE",
               None, "2026-10-01",
-              "Read from an image; used for every route east, every year and both ships, an "
-              "assumption (open questions 31 and 32)."),
+              "Read from an image. That the figure covers both ports is this study's reading, by "
+              "analogy with the figure for Gate. Used for every route east, every year and both "
+              "ships (open questions 31 and 32)."),
     Parameter("delta_nwe_eur_mwh", -2.0, "EUR per MWh, DES Northwest Europe less TTF front month", "assumption",
               "this study, from ACER, Gas market trends and price drivers, October 2023, page 13: 'the "
               "average price difference between TTF front-month products and the EU LNG spot "
@@ -1056,9 +1065,17 @@ PARAMETERS: Mapping[str, Parameter] = _parameters(
               "'exceeded 35 EUR/MWh during most days from end-July to mid-October 2022', so a date "
               "in that span is also shown at -35. Observed directly only on ACER's 26 corrected days "
               "of November and December 2024."),
+    Parameter("delta_nwe_wide_window", ("2022-07-25", "2022-10-15"), "dates, first and last", "assumption",
+              "this study's reading of ACER, European LNG market developments, April 2024, page 38: "
+              "the spread 'exceeded 35 EUR/MWh during most days from end-July to mid-October 2022'",
+              "https://www.acer.europa.eu/sites/default/files/documents/Publications/ACER_2024_MMR_European_LNG_market_developments.pdf",
+              "2026-09-30",
+              "A loading date in this span is also shown with a regas discount of -35 EUR/MWh."),
     Parameter("panama_open_to_lng_from", "2016-06-26", "date", "published",
-              "Panama Canal Authority, press release of 26 June 2016, the expanded locks open; the "
-              "first LNG carrier, from Sabine Pass, transited on 25 July 2016", None, "2026-10-06",
+              "Panama Canal Authority, press release of 26 June 2016, 'Inaugural transit of the expanded "
+              "Panama Canal begins'; its release of 25 July 2016 reports the first LNG carrier, from "
+              "Sabine Pass, through the expanded canal",
+              "https://pancanal.com/en/inaugural-transit-of-the-expanded-panama-canal-begins/", "2026-10-06",
               "No later band closes the canal to LNG carriers; docs/methodology.md, section 8.3."),
     Parameter("suez_closed_to_us_cargo_from", "2024-01-13", "date", "assumption",
               "this study, from OIES NG-188: the last laden LNG carrier through Suez on 12 January "
