@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-08T21:43:59Z",
+  "generated_at": "2026-10-08T22:00:32Z",
   "series": [
     {
       "series": "acer_lng_daily",
@@ -199,13 +199,13 @@
       "url": "https://www.eia.gov/dnav/ng/hist_xls/RNGWHHDd.xls",
       "page_url": "https://www.eia.gov/dnav/ng/hist/rngwhhdd.htm",
       "machine_fetched": true,
-      "fetched_at": "2026-10-07T07:51:43Z",
+      "fetched_at": "2026-10-08T22:00:32Z",
       "checked_at": null,
-      "rows": 5697,
-      "observations": 5697,
-      "file_rows": 5698,
+      "rows": 5702,
+      "observations": 5702,
+      "file_rows": 5703,
       "first_date": "1997-01-07",
-      "last_date": "2026-09-29",
+      "last_date": "2026-10-06",
       "frequency": "daily",
       "gaps": [
         "1997-01-22",
@@ -2269,7 +2269,7 @@
         "2026-09-07"
       ],
       "provisional_from": null,
-      "vintage": "release of 2026-09-30, next release 2026-10-07",
+      "vintage": "release of 2026-10-07, next release 2026-10-15",
       "method": "published",
       "committable": true,
       "licence_note": "US government publications are in the public domain. EIA's reuse page says 'You may use and/or distribute any of our data, files, databases, reports, graphs, charts, and other information products', with an acknowledgment that includes the publication date. One doubt, recorded rather than resolved: EIA's definitions page for this table credits the spot price to 'Refinitiv, an LSEG business', and EIA's reuse page says material 'contributed or licensed by private individuals, companies, or organizations' 'may be protected'. The daily values are committed with that credit shown wherever they are used; should EIA or a rights holder object, the series moves to data/private/ (docs/open-questions.md, question 2).",
@@ -2287,7 +2287,7 @@
       "url": "https://www.eia.gov/dnav/ng/xls/NG_MOVE_EXPC_S1_M.xls",
       "page_url": "https://www.eia.gov/dnav/ng/ng_move_expc_s1_m.htm",
       "machine_fetched": true,
-      "fetched_at": "2026-10-07T07:51:31Z",
+      "fetched_at": "2026-10-08T22:00:20Z",
       "checked_at": null,
       "rows": 127,
       "observations": 127,
@@ -3344,8 +3344,8 @@
   "manual_steps_note": "Work this pipeline cannot do for itself. Each entry says what it is, why it exists, what it costs to skip it and how to do it. They are repeated against the series they affect in the manual_step field of those entries.",
   "run": {
     "mode": "online",
-    "started_at": "2026-10-08T21:43:57Z",
-    "finished_at": "2026-10-08T21:43:59Z",
+    "started_at": "2026-10-08T21:59:59Z",
+    "finished_at": "2026-10-08T22:00:32Z",
     "script": "scripts/refresh.py"
   }
 }
