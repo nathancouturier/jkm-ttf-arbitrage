@@ -33,8 +33,11 @@ BOUNDS_USD_PER_EUR = (0.8, 1.7)
 #: reported LNG carrier hire, USD per day. Negative is possible: Spark's
 #: Atlantic rate was assessed negative on 8 February 2022.
 BOUNDS_HIRE_USD_DAY = (-10000.0, 500000.0)
-#: ACER DES LNG spreads to the TTF front month, EUR/MWh
-BOUNDS_DES_SPREAD_EUR_MWH = (-20.0, 5.0)
+#: ACER DES LNG spreads to the TTF front month, EUR/MWh. A guard against a unit
+#: or a parse error, not a range the market implies: the EU benchmark ran from
+#: -23.938 on 3 March 2026, when TTF jumped and the assessed half-month did not,
+#: to +7.687 in June 2026.
+BOUNDS_DES_SPREAD_EUR_MWH = (-40.0, 20.0)
 #: A DES LNG price level, EUR/MWh, as ACER assesses it. A guard against a unit
 #: or a parse error, not a range the market implies.
 BOUNDS_DES_EUR_MWH = (1.0, 400.0)
@@ -461,15 +464,17 @@ SOURCES: Mapping[str, Source] = _registry(
     # -- ACER -------------------------------------------------------------
     Source(
         series="acer_lng_daily",
-        label="ACER DES LNG assessments for NWE, SE and the EU, and the EU benchmark to TTF, daily, EUR/MWh",
+        label="ACER DES LNG assessments for NWE, SE and the EU, the EU benchmark to TTF, and the NWE spread to TTF computed from them, daily, EUR/MWh",
         publisher="European Union Agency for the Cooperation of Energy Regulators",
         page_url="https://www.acer.europa.eu/gas/lng-price-assessment",
         machine_url="https://www.acer.europa.eu/sites/default/files/documents/en/Gas/LNG_Price_Assessment/LNGPA_Correction_Notice_20241220.pdf",
         url_note=(
-            "The daily reports are on ACER's TERMINAL platform, which this pipeline "
-            "does not fetch; they are saved by hand. Code reads only ACER's main "
-            "site: the correction notice of 20 December 2024 and the methodology's "
-            "annex of half-month roll dates."
+            "The daily values come from TERMINAL's historical download, which the "
+            "owner saves by hand into data/private/acer/ (this pipeline does not "
+            "access TERMINAL); code reads only ACER's main site: the correction "
+            "notice of 20 December 2024, whose 26 days keep the corrected values with "
+            "the values first published beside them, and the methodology's annex of "
+            "half-month roll dates."
         ),
         frequency="daily",
         unit="EUR per MWh",
@@ -494,6 +499,24 @@ SOURCES: Mapping[str, Source] = _registry(
         frequency="monthly",
         unit="USD per MMBtu, DES",
         method="published",
+        licence="METI terms of use, compatible with CC BY 4.0",
+        licence_note=_METI_NOTE,
+        committable=True,
+    ),
+    Source(
+        series="meti_spot_lng_releases",
+        label="Japan spot LNG price, monthly, DES, USD/MMBtu, every figure METI's monthly releases printed, preliminary, detailed and fixed, with the day of each release",
+        publisher="Ministry of Economy, Trade and Industry of Japan, Spot LNG Price Statistics",
+        page_url="https://www.meti.go.jp/english/statistics/sho/slng/index.html",
+        machine_url=None,
+        url_note=(
+            "The monthly release PDFs, saved by hand from METI's page into "
+            "data/private/meti/pdf/ (the manual step): METI's site answers "
+            "automated requests with a bot challenge after a handful of files."
+        ),
+        frequency="monthly",
+        unit="USD per MMBtu, DES",
+        method="parsed",
         licence="METI terms of use, compatible with CC BY 4.0",
         licence_note=_METI_NOTE,
         committable=True,
@@ -1104,7 +1127,7 @@ PARAMETERS: Mapping[str, Parameter] = _parameters(
               "Read from an image. That the figure covers both ports is this study's reading, by "
               "analogy with the figure for Gate. Used for every route east, every year and both "
               "ships (open questions 31 and 32)."),
-    Parameter("delta_nwe_eur_mwh", -2.0, "EUR per MWh, DES Northwest Europe less TTF front month", "assumption",
+    Parameter("delta_nwe_eur_mwh", -2.0, "EUR per MWh, DES Northwest Europe less TTF front month, where ACER published nothing (before 31 March 2023)", "assumption",
               "this study, from ACER, Gas market trends and price drivers, October 2023, page 13: 'the "
               "average price difference between TTF front-month products and the EU LNG spot "
               "reference price was 2 EUR/MWh in 2023 (1 January to 31 August 2023)'",
@@ -1113,8 +1136,14 @@ PARAMETERS: Mapping[str, Parameter] = _parameters(
               "Shown at -3, from ACER's LNG market developments, April 2024, page 38 ('in the range "
               "between 2 EUR/MWh and 3 EUR/MWh'), and at 0. The same report says the spread "
               "'exceeded 35 EUR/MWh during most days from end-July to mid-October 2022', so a date "
-              "in that span is also shown at -35. Observed directly only on ACER's 26 corrected days "
-              "of November and December 2024."),
+              "in that span is also shown at -35. Observed from 31 March 2023 as ACER's NWE spread "
+              "(acer_lng_daily); this value applies only where ACER covers too little of a price's "
+              "span (delta_nwe_min_coverage)."),
+    Parameter("delta_nwe_min_coverage", 0.5, "share of the weekdays a price spans", "assumption",
+              "this study: ACER's spread stands for a price's week or month only when ACER published "
+              "it on at least half of the weekdays in it", None, "2026-10-08",
+              "Otherwise the assumption above applies: before 31 March 2023, in March 2023 (one day), "
+              "and after the last TERMINAL download held."),
     Parameter("hire_anchor_max_days", 14, "days", "assumption",
               "this study: a reported charter rate stands for a date at most two weeks away", None,
               "2026-10-08",

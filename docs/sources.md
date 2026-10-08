@@ -26,10 +26,11 @@ was decided on the strength of it.
 | `eia_lng_exports_revisions` | Every volume or price a release of the table above changed, both releases side by side | derived by this study | with each release | **yes** | US public domain |
 | `doe_lng_export_cargoes` | US LNG exports and re-exports cargo by cargo from January 2016: departure date, exporter, docket, supplier, ship, port of exit, destination, MMcf | read from the year's page on the [report list](https://www.energy.gov/hgeo/listings/natural-gas-imports-and-exports-monthly-reports); the file's path changes | monthly, with DOE's report | **yes** | US public domain |
 | `eia_henry_hub_daily` | Henry Hub spot price, daily, USD/MMBtu, credited by EIA to Refinitiv | [RNGWHHDd.xls](https://www.eia.gov/dnav/ng/hist_xls/RNGWHHDd.xls) | weekly release, daily values | **yes**, with the doubt in 2.1 | US public domain |
-| `acer_lng_daily` | ACER's DES LNG assessments for NWE, SE and the EU, and its EU benchmark to TTF, daily, EUR/MWh; today the 26 corrected days of its notice of 20 December 2024 | [correction notice](https://www.acer.europa.eu/sites/default/files/documents/en/Gas/LNG_Price_Assessment/LNGPA_Correction_Notice_20241220.pdf); daily reports saved by hand | fixed until reports are saved | **yes** | ACER legal notice, with the doubt in 2.7 |
+| `acer_lng_daily` | ACER's DES LNG assessments for NWE, SE and the EU, its EU benchmark to TTF, and the NWE spread to TTF this study computes from them, daily, EUR/MWh, from 19 January 2023 | TERMINAL's historical download, saved by hand, with the [correction notice](https://www.acer.europa.eu/sites/default/files/documents/en/Gas/LNG_Price_Assessment/LNGPA_Correction_Notice_20241220.pdf) | each weekday; extended when the download is saved again | **yes** | ACER legal notice, with the doubt in 2.7 |
 | `ec_eua_auction_monthly` | EU allowance price, monthly volume weighted average auction clearing price, EUR/t, January 2023 to June 2025 | quarterly reports linked from the [Commission's auctioning page](https://climate.ec.europa.eu/areas-action/carbon-markets/eu-emissions-trading-system-eu-ets/auctioning-allowances_en) | quarterly, lagging | **yes** | CC BY 4.0, with the doubt in 2.8 |
 | `dehst_eua_german_auction_monthly` | EU allowance price in Germany's auctions on EEX, monthly average, EUR/t, January 2024 to August 2026, the proxy after June 2025 | the latest report of each year linked from [DEHSt's reports page](https://www.dehst.de/EN/Topics/EU-ETS-1/EU-ETS-1-Information/Analyses-and-Reports/analysis-and-reports_node.html) | monthly, about a month after | **yes**, for non-commercial use, with the doubt in 2.23 | CC BY-NC-ND 4.0, figures credited to EEX and DEHSt |
 | `meti_spot_lng_monthly` | Japan spot LNG price, DES, contract-based and arrival-based, monthly, March 2014 to March 2021 | [historical-data-e.xlsx](https://www.meti.go.jp/english/statistics/sho/slng/historical-data-e.xlsx), read once | ended | **yes** | METI terms, compatible with CC BY 4.0 |
+| `meti_spot_lng_releases` | Every figure METI's monthly releases printed, preliminary, detailed and fixed, with the day of each release, for the releases of October 2019 to March 2021 | the release PDFs, saved by hand from [METI's page](https://www.meti.go.jp/english/statistics/sho/slng/index.html) | fixed, the survey has ended | **yes** | METI terms of use, compatible with CC BY 4.0 |
 | `jogmec_spot_lng_monthly` | Japan spot LNG price, DES, contract-based and arrival-based, monthly, from April 2021 | one page per month from JOGMEC's English spot price list page | monthly, 9th to 15th | **NO**, `data/private/` until JOGMEC permits | JOGMEC terms, permission not yet requested |
 | `worldbank_gas_monthly` | Europe gas (TTF from April 2015), US gas at Henry Hub, and Japan LNG import price, monthly, USD/MMBtu, from 2015 | read from the [commodity markets page](https://www.worldbank.org/en/research/commodity-markets); the file's path changes | monthly, early in the month | **yes** | CC BY 4.0 |
 | `worldbank_gas_revisions` | Every value a Pink Sheet release changed, both releases side by side | derived by this study | with each release that changes a value | **yes** | CC BY 4.0 |
@@ -239,6 +240,14 @@ the Spot LNG Price Statistics (Ministry of Economy, Trade and Industry of
 Japan) (https://www.meti.go.jp/english/statistics/sho/slng/index.html)",
 following the pattern METI's terms give.
 
+The monthly release PDFs carry what the workbook drops: each month's
+preliminary figure as first published, and the day of each release. The
+owner saved the releases for October 2019 to March 2021 from a browser on 8
+October 2026 (the manual step); every figure they print is committed as
+`meti_spot_lng_releases`, with METI's own label, and the PDFs stay private
+except two kept as test fixtures. Every detailed and fixed figure they print
+equals the workbook's.
+
 ### 2.6 JOGMEC, spot LNG prices for delivery to Japan, not redistributable yet
 
 From the "Global Disclaimer" on JOGMEC's English natural gas page,
@@ -285,8 +294,17 @@ and its second:
 
 ACER's methodology documents (versions 1.0, 1.1 and Beta 2.0) and its complaint
 procedure print: "Reproduction is authorised provided the source is
-acknowledged." The correction notice the committed series is read from carries
-no such line.
+acknowledged." The correction notice carries no such line.
+
+Most of the committed values come from TERMINAL's historical download, saved
+by hand. TERMINAL's home page, as the owner read it on 8 October 2026, carries
+no legal notice or terms of its own: it describes the application as
+publishing the LNG price assessment and benchmark under REMIT, lists among its
+features the "Possibility to download historical data in the CSV format", and
+points to ACER's website. ACER's methodology refers to a legal notice of
+TERMINAL's own, which the page does not show. The study applies ACER's legal
+notice above to the downloaded values, with the same acknowledgement, and
+records the doubt in question 19.
 
 **Redistributable: yes, with acknowledgement, on the reading that the first
 paragraph applies only to material ACER marks as licensed.** The notice does not
@@ -1037,6 +1055,13 @@ S&P Global's own pages are never requested (2.14).
   the workbook give 4.2; its releases for January and February 2021 announce a
   "Change" to figures that are printed unchanged.
 * **File names switch** from `YYYYMM-e.pdf` to `YYYYMM_e.pdf` in May 2018.
+* **A release prints two months, or three**: the survey month as Preliminary,
+  the month before as Detailed and, where METI corrected one again, a month of the year
+  before as Fixed, each marked with one, two or three asterisks against a key
+  under the table; the release for March 2020 prints a Fixed month, that for
+  March 2021 does not. The detailed release of March 2021, the last, has no
+  preliminary row. The preliminary figure can move by a dollar or more: July
+  2020, 5.2 then 4.2; December 2020, 8.6 then 7.4.
 
 ### 3.8 JOGMEC spot LNG
 
@@ -1069,6 +1094,25 @@ S&P Global's own pages are never requested (2.14).
   for this study. That host serves no robots.txt at all (HTTP 404), so the rule
   is not written there; it is kept as a rule of this study. ACER's main site,
   which its robots.txt allows, publishes no report and no data file.
+* **TERMINAL offers the whole history as one CSV file**, "PA historical", with
+  the three assessments and the benchmark for every day ACER published, newest
+  first, and an empty cell for a value not published. ACER publishes on its
+  working days only, its holidays set by a decision TERMINAL links; the
+  benchmark also needs ICE's settlement. The days with no row (68 weekdays to 8
+  October 2026, Christmas and Easter among them) are listed as gaps. The owner saved it by hand on 8 October 2026;
+  the benchmark of that day itself was not yet published. On the 26 days of
+  the correction notice it gives the corrected values exactly on 25 days; on 4
+  December 2024 its EU assessment, 47.322, differs from the notice's 47.323 by a
+  thousandth, which is noted.
+* **The NWE spread is computed, not published**: the EU benchmark plus the NWE
+  assessment less the EU one, the NWE assessment's spread to the TTF front
+  month. No TTF level is computed. From April to August 2023 it averages -2.33
+  EUR/MWh, against the about 2 EUR/MWh ACER's monitoring report prints for the
+  EU spread from January to August 2023.
+* **A jump in TTF opens a spread the assessment cannot follow at once**: on 2
+  and 3 March 2026 the EU benchmark was -14.095 and -23.938 EUR/MWh, the TTF
+  front month having jumped while the assessed half-month had not yet moved.
+  The engine takes the spread's mean over the week or month a price spans.
 * **The benchmark is EU minus TTF, not NWE minus TTF.** An NWE figure would be
   derived by this study, not published by ACER.
 * **The series start on different days**: the first report on 13 January 2023,
@@ -1337,11 +1381,15 @@ the study runs without it, on the labelled position given.
    same terms (question 12).
 6. **JOGMEC's series** stays private; **owner**: send the permission request
    drafted in question 14.
-7. **METI's monthly PDFs**: **owner**, saving them by hand would add the
-   preliminary figures; the series is complete without them.
-8. **ACER's reports**: **owner**, saving them from TERMINAL by hand; until then
-   the observed discount is the 26 corrected days, and elsewhere a labelled
-   assumption (question 18).
+7. **METI's monthly PDFs**: the releases of October 2019 to March 2021 were
+   saved by hand and their figures are committed; the 67 earlier ones would add
+   older preliminary figures (**owner**, optional).
+8. **ACER's history**: TERMINAL's download, saved by hand on 8 October 2026,
+   gives the observed Northwest Europe discount from 31 March 2023; before it
+   the discount is a labelled assumption (question 18). TERMINAL shows no terms
+   of its own, so ACER's legal notice is applied (question 19); **owner**: save
+   the download again to extend it, and record TERMINAL's legal notice should
+   one appear.
 9. **The EU allowance price after June 2025** is the monthly average of
    Germany's auctions DEHSt reports, a labelled proxy, to August 2026, and that
    month held after it, shown at 61 and 86 EUR/t; **owner**: write to EEX and

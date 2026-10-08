@@ -25,7 +25,7 @@ from .freight_anchors import ANCHORS, hire_levels
 from .sea_routes import canal_distances, routes_json
 from .sources.base import read_cache
 
-__all__ = ["MissingInput", "inputs_on", "vessel_on", "distances", "transit_days", "routes_on", "henry_hub_month",
+__all__ = ["MissingInput", "inputs_on", "delta_nwe_on", "delta_nwe_between", "vessel_on", "distances", "transit_days", "routes_on", "henry_hub_month",
            "usd_per_eur_on", "overnight_rate_on", "eua_eur_t_in", "ets_phase", "ets_tco2e_per_t", "nearest_hire",
            "wide_regas_discount_on", "WorkedDate", "WORKED_DATES", "inputs_for"]
 
@@ -274,6 +274,42 @@ def nearest_hire(when: date | str, *, max_days: int | None = None) -> tuple[floa
         anchor.vessel + ("" if anchor.vessel_stated else ", inferred"), when_said, anchor.publisher, gap)
 
 
+def delta_nwe_between(start: date, end: date) -> tuple[float, str] | None:
+    """ACER's North-West Europe spread to the TTF front month, averaged over the days from start to end.
+
+    None when ACER published it on fewer than the parameter table's share of
+    the span's weekdays: before 31 March 2023, in March 2023 (one day), or
+    after the last day of the download held.
+    """
+    frame = read_cache("acer_lng_daily")
+    if frame is None or "nwe_benchmark_spread_eur_mwh" not in frame.columns:
+        return None
+    span = frame[(frame["date"] >= pd.Timestamp(start)) & (frame["date"] <= pd.Timestamp(end))]
+    values = span["nwe_benchmark_spread_eur_mwh"].dropna()
+    weekdays = len(pd.bdate_range(start, end))
+    if values.empty or weekdays == 0 or len(values) < _p("delta_nwe_min_coverage") * weekdays:
+        return None
+    return float(values.mean()), (
+        "ACER, DES North-West Europe less the TTF front month, mean of %d of the %d weekdays from %s to %s, "
+        "computed by this study from ACER's assessments and EU benchmark" % (len(values), weekdays, start, end))
+
+
+def delta_nwe_on(when: date | str, window: tuple[date, date] | None = None) -> tuple[float, str]:
+    """The DES discount in Northwest Europe for a cargo loading on the day, EUR/MWh, and its label.
+
+    ACER's spread averaged over the window, by default the week to the day;
+    where ACER published nothing in it, the parameter table's assumption.
+    """
+    day = _day(when)
+    start, end = window if window is not None else (day - timedelta(days=6), day)
+    observed = delta_nwe_between(start, end)
+    if observed is not None:
+        return observed
+    return float(_p("delta_nwe_eur_mwh")), (
+        "assumption: %s EUR/MWh, ACER's spread held on too few days from %s to %s" % (
+            _p("delta_nwe_eur_mwh"), start, end))
+
+
 def wide_regas_discount_on(when: date | str) -> bool:
     """Whether the day falls in the span when ACER saw the discount above 35 EUR/MWh on most days."""
     start, end = _p("delta_nwe_wide_window")
@@ -347,19 +383,30 @@ def inputs_for(worked: WorkedDate, *, hire_usd_day: float | None = None,
                suez_scnt: float | None = None, suez_rebate_on_surcharge: bool = False) -> Inputs:
     """Every input of a worked date. The reported hire nearest the date unless one is given."""
     jkm, ttf, sources = _prices(worked)
-    return inputs_on(worked.day, jkm, ttf, sources, hire_usd_day=hire_usd_day,
+    day = _day(worked.day)
+    if worked.prices == "monthly":
+        first = date(day.year, day.month, 1)
+        last = date(day.year, day.month, calendar.monthrange(day.year, day.month)[1])
+        delta_window = (first, last)
+    else:
+        delta_window = (day - timedelta(days=6), day)
+    return inputs_on(worked.day, jkm, ttf, sources, hire_usd_day=hire_usd_day, delta_window=delta_window,
                      delta_nwe_eur_mwh=delta_nwe_eur_mwh, liquefaction_fee=liquefaction_fee,
                      suez_scnt=suez_scnt, suez_rebate_on_surcharge=suez_rebate_on_surcharge)
 
 
 def inputs_on(when: date | str, jkm: float, ttf: float, price_sources: dict[str, str], *,
               hire_usd_day: float | None = None, delta_nwe_eur_mwh: float | None = None,
+              delta_window: tuple[date, date] | None = None,
               liquefaction_fee: float | None = None, suez_scnt: float | None = None,
               suez_rebate_on_surcharge: bool = False) -> Inputs:
     """Every input of a cargo loading on the day, at the JKM and TTF given, in USD/MMBtu.
 
     The prices come with their source labels; everything else is read from the
     data for that day. The reported hire nearest the date unless one is given.
+    The Northwest Europe discount is ACER's spread over delta_window (the week
+    to the day by default, which a weekly price spans), the assumption where
+    ACER published nothing, or the value given.
     """
     day = _day(when)
     sources = dict(price_sources)
@@ -373,7 +420,10 @@ def inputs_on(when: date | str, jkm: float, ttf: float, price_sources: dict[str,
             raise MissingInput(hire_source + "; give a hire, such as one of %s" % hire_levels())
     else:
         hire_source = "given"
-    delta_eur = _p("delta_nwe_eur_mwh") if delta_nwe_eur_mwh is None else delta_nwe_eur_mwh
+    if delta_nwe_eur_mwh is None:
+        delta_eur, delta_source = delta_nwe_on(day, delta_window)
+    else:
+        delta_eur, delta_source = float(delta_nwe_eur_mwh), "given"
     # The voyage can run into the next calendar year: each year's emissions are
     # priced at that year's phase and gases (lngarb.cases).
     slip = _slip(vessel) if _p("methane_slip_on") else None
@@ -386,7 +436,7 @@ def inputs_on(when: date | str, jkm: float, ttf: float, price_sources: dict[str,
     sources.update({
         "fx": fx_source, "henry_hub": hh_source, "rate": rate_source, "hire": hire_source,
         "eua": eua_source, "vessel": vessel.name,
-        "delta_nwe": "%s EUR/MWh at %s USD per EUR" % (delta_eur, usd_per_eur),
+        "delta_nwe": "%s; %s EUR/MWh at %s USD per EUR" % (delta_source, round(delta_eur, 3), usd_per_eur),
     })
     return Inputs(
         day=day,

@@ -63,7 +63,7 @@ from lngarb.sources.ec_eua import EcEuaAuctionMonthly  # noqa: E402
 from lngarb.sources.h10 import UsdPerEurDaily  # noqa: E402
 from lngarb.sources.jogmec import JogmecSpotLngMonthly  # noqa: E402
 from lngarb.sources.doe import DoeLngExportCargoes  # noqa: E402
-from lngarb.sources.meti import MetiSpotLngMonthly  # noqa: E402
+from lngarb.sources.meti import MetiSpotLngMonthly, MetiSpotLngReleases  # noqa: E402
 from lngarb.sources.sofr import SofrDaily  # noqa: E402
 from lngarb.sources.effr import EffrDaily  # noqa: E402
 from lngarb.sources.sdr import UsdPerSdrDaily  # noqa: E402
@@ -203,10 +203,13 @@ JOBS: tuple[Job, ...] = (
     ),
     Job(
         name="meti",
-        what="METI spot LNG prices, monthly, 2014 to 2021, from the workbook read once, never refetched",
-        series=("meti_spot_lng_monthly",),
-        adapters=lambda: [MetiSpotLngMonthly()],
-        online=_simple(lambda: [MetiSpotLngMonthly()]),
+        what=(
+            "METI spot LNG prices, monthly, 2014 to 2021, from the workbook read once, never "
+            "refetched, and every figure of the monthly releases saved by hand"
+        ),
+        series=("meti_spot_lng_monthly", "meti_spot_lng_releases"),
+        adapters=lambda: [MetiSpotLngMonthly(), MetiSpotLngReleases()],
+        online=_simple(lambda: [MetiSpotLngMonthly(), MetiSpotLngReleases()]),
     ),
     Job(
         name="jogmec",

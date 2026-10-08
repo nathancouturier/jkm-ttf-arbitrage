@@ -72,3 +72,50 @@ def test_the_adapter_never_fetches_meti(sandbox, monkeypatch):
     with pytest.raises(base.SourceError) as caught:
         meti.MetiSpotLngMonthly(from_file=sandbox / "absent.xlsx").run()
     assert "not fetched by this pipeline" in str(caught.value)
+
+
+
+# --------------------------------------------------------------------------
+# The monthly releases
+# --------------------------------------------------------------------------
+
+RELEASE_JULY = (base.REPO_ROOT / "tests" / "fixtures" / "meti_spot_lng_release_2020-07.pdf").read_bytes()
+RELEASE_MARCH = (base.REPO_ROOT / "tests" / "fixtures" / "meti_spot_lng_release_2020-03.pdf").read_bytes()
+
+
+def test_the_july_2020_release_prints_the_preliminary_figure_later_corrected():
+    rows = meti.parse_release(RELEASE_JULY, name="202007_e.pdf")
+    by_month = {(r["date"], r["figure"]): r for r in rows}
+    july = by_month[(pd.Timestamp("2020-07-01"), "Preliminary")]
+    assert (july["contract_based_usd_mmbtu"], july["arrival_based_usd_mmbtu"]) == (5.2, 4.1)
+    assert july["release_date"] == pd.Timestamp("2020-08-12")
+    june = by_month[(pd.Timestamp("2020-06-01"), "Detailed")]
+    assert june["contract_based_usd_mmbtu"] == 3.8
+    # The workbook holds the figure corrected a month later.
+    assert meti.parse_workbook(WORKBOOK).set_index("date").loc[pd.Timestamp("2020-07-01"), "contract_based_usd_mmbtu"] == 4.2
+
+
+def test_a_march_release_also_prints_a_fixed_figure_and_an_unpublished_one():
+    rows = meti.parse_release(RELEASE_MARCH, name="202003_e.pdf")
+    marks = {(r["date"].strftime("%Y-%m"), r["figure"]) for r in rows}
+    assert marks == {("2020-02", "Detailed"), ("2020-03", "Preliminary"), ("2019-02", "Fixed")}
+    march = next(r for r in rows if r["figure"] == "Preliminary")
+    assert march["contract_based_usd_mmbtu"] == 3.4 and math.isnan(march["arrival_based_usd_mmbtu"])
+
+
+def test_a_release_without_its_title_or_key_is_refused():
+    text = "Trend of the price of spot-LNG\n(Preliminary Figures for July 2020)\nAugust 12, 2020\n2020 July ** 5.2 4.1\n"
+    with pytest.raises(base.SourceError):
+        meti.parse_release_text(text, name="test")
+    with pytest.raises(base.SourceError):
+        meti.parse_release_text(text.replace("(Preliminary Figures for July 2020)\n", "") + "*Detailed ** Preliminary\n",
+                                name="test")
+
+
+def test_the_releases_adapter_keeps_each_figure_as_first_published(sandbox):
+    adapter = meti.MetiSpotLngReleases(releases={"202003_e.pdf": RELEASE_MARCH, "202007_e.pdf": RELEASE_JULY})
+    entry = adapter.run()
+    assert entry["status"] == "ok"
+    cache = base.read_cache("meti_spot_lng_releases")
+    assert len(cache) == 5
+    assert set(cache["figure"]) == {"Preliminary", "Detailed", "Fixed"}

@@ -9,8 +9,11 @@ H1 is days 1 to 15 of a month, H2 day 16 to its end, and the dates on which the
 period rolls are a published table, not a formula.
 
 The daily reports live on ACER's TERMINAL platform, which this pipeline does not
-fetch; saving them is a manual step. What code reads here is on ACER's main
-site, whose robots.txt allows it:
+fetch; saving them is a manual step. TERMINAL also offers the history of the
+three assessments and the benchmark as one CSV file, which the owner downloads
+by hand into data/private/acer/ (parse_terminal_history); the latest such file
+is read. What code fetches here is on ACER's main site, whose robots.txt
+allows it:
 
     the correction notice of 20 December 2024, whose table gives the published
     and the corrected values of all four series for 26 weekdays, 4 November to
@@ -20,8 +23,12 @@ site, whose robots.txt allows it:
     December 2024
 
 The corrected values are the series; the values first published are kept in
-the revised_from column as printed. ACER's figures are published; a TTF level is
-never backed out of them, because the TTF leg is ICE's.
+the revised_from column as printed, and on those 26 days TERMINAL's download
+must give the corrected values. ACER's figures are published; a TTF level is
+never backed out of them, because the TTF leg is ICE's. The one figure this
+study computes from them is the spread of the North-West Europe assessment to
+the TTF front month, the EU benchmark plus the NWE assessment less the EU one:
+a spread, never a TTF level.
 """
 
 from __future__ import annotations
@@ -29,12 +36,14 @@ from __future__ import annotations
 import io
 import re
 import sys
+from pathlib import Path
 from typing import Any
 
 import pandas as pd
 import pdfplumber
 
 from ..config import BOUNDS_DES_EUR_MWH, BOUNDS_DES_SPREAD_EUR_MWH
+from . import base
 from .base import Adapter, SourceError, http_get
 
 __all__ = [
@@ -44,6 +53,8 @@ __all__ = [
     "parse_roll_dates",
     "period_for",
     "parse_correction_notice",
+    "parse_terminal_history",
+    "latest_terminal_file",
     "AcerLngDaily",
 ]
 
@@ -77,8 +88,13 @@ def parse_roll_dates(methodology_pdf: bytes) -> list[tuple[pd.Timestamp, str]]:
 
 
 def period_for(day: pd.Timestamp, rolls: list[tuple[pd.Timestamp, str]]) -> str | None:
-    """The half-month assessed on a day, or None outside the published table."""
-    if day < rolls[0][0] or day > rolls[-1][0] + pd.Timedelta(days=20):
+    """The half-month assessed on a day, or None outside the published table.
+
+    After the table's last roll the period is known only until the next roll
+    could have come: within the shortest gap between two rolls in the table.
+    """
+    shortest = min(b[0] - a[0] for a, b in zip(rolls, rolls[1:]))
+    if day < rolls[0][0] or day >= rolls[-1][0] + shortest:
         return None
     current = None
     for start, label in rolls:
@@ -147,6 +163,64 @@ def _row(record: dict[str, Any], rolls) -> dict[str, Any]:
     }
 
 
+#: The header of TERMINAL's historical download, as served on 8 October 2026.
+TERMINAL_HEADER = [
+    "DATE", "NORTH-WEST EUROPE PRICE (EUR/MWh)", "SOUTH EUROPE PRICE (EUR/MWh)",
+    "EU PRICE (EUR/MWh)", "LNG BENCHMARK (EUR/MWh)",
+]
+_TERMINAL_FILE = re.compile(r"^TERMINAL - PA historical - (\d{4}-\d{2}-\d{2})\.csv$")
+
+
+def latest_terminal_file(directory: Path | None = None) -> tuple[Path, str] | None:
+    """The latest TERMINAL download saved by hand, and the day in its name, or None."""
+    directory = base.PRIVATE / "acer" if directory is None else directory
+    if not directory.exists():
+        return None
+    found = sorted((m.group(1), path) for path in directory.iterdir()
+                   if (m := _TERMINAL_FILE.match(path.name)))
+    if not found:
+        return None
+    day, path = found[-1]
+    return path, day
+
+
+def parse_terminal_history(payload: bytes) -> pd.DataFrame:
+    """TERMINAL's historical download: one row per day ACER published, the three assessments and the EU benchmark.
+
+    An empty cell is a value not published that day (the series start on
+    different days, the benchmark of the download's own day comes later), kept
+    missing. The header must be the one this parser knows, the days unique and
+    weekdays.
+    """
+    text = payload.decode("utf-8-sig")
+    frame = pd.read_csv(io.StringIO(text), dtype=str, keep_default_na=False)
+    if list(frame.columns) != TERMINAL_HEADER:
+        raise SourceError("TERMINAL's download has the header %r, not the one this parser knows" % list(frame.columns))
+    out = pd.DataFrame({"date": pd.to_datetime(frame["DATE"], format="%Y-%m-%d")})
+    names = {
+        "NORTH-WEST EUROPE PRICE (EUR/MWh)": "nwe_des_eur_mwh",
+        "SOUTH EUROPE PRICE (EUR/MWh)": "se_des_eur_mwh",
+        "EU PRICE (EUR/MWh)": "eu_des_eur_mwh",
+        "LNG BENCHMARK (EUR/MWh)": "eu_benchmark_spread_eur_mwh",
+    }
+    for column, name in names.items():
+        out[name] = pd.to_numeric(frame[column].replace("", None), errors="raise")
+    if out["date"].duplicated().any():
+        raise SourceError("TERMINAL's download repeats a day")
+    if (out["date"].dt.weekday >= 5).any():
+        raise SourceError("TERMINAL's download holds a weekend day")
+    return out.sort_values("date").reset_index(drop=True)
+
+
+def nwe_spread(frame: pd.DataFrame) -> pd.Series:
+    """The North-West Europe assessment's spread to the TTF front month: the EU benchmark plus NWE less EU.
+
+    Computed by this study from ACER's three figures of the day, rounded to the
+    thousandth ACER prints; empty where any of them is.
+    """
+    return (frame["eu_benchmark_spread_eur_mwh"] + frame["nwe_des_eur_mwh"] - frame["eu_des_eur_mwh"]).round(3)
+
+
 class AcerLngDaily(Adapter):
     """ACER's DES LNG assessments and EU benchmark, daily, as far as the main site gives them."""
 
@@ -157,19 +231,25 @@ class AcerLngDaily(Adapter):
     unit = "EUR per MWh"
     frequency = "daily"
     method = "parsed"
-    required_cols = ("date", "delivery_period", "eu_des_eur_mwh", "nwe_des_eur_mwh", "se_des_eur_mwh", "eu_benchmark_spread_eur_mwh")
+    required_cols = ("date", "delivery_period", "eu_des_eur_mwh", "nwe_des_eur_mwh", "se_des_eur_mwh",
+                     "eu_benchmark_spread_eur_mwh", "nwe_benchmark_spread_eur_mwh")
     bounds = {
         "eu_des_eur_mwh": BOUNDS_DES_EUR_MWH,
         "nwe_des_eur_mwh": BOUNDS_DES_EUR_MWH,
         "se_des_eur_mwh": BOUNDS_DES_EUR_MWH,
         "eu_benchmark_spread_eur_mwh": BOUNDS_DES_SPREAD_EUR_MWH,
+        "nwe_benchmark_spread_eur_mwh": BOUNDS_DES_SPREAD_EUR_MWH,
     }
     min_observations = {name: 20 for name in bounds}
     observation_column = "eu_benchmark_spread_eur_mwh"
 
-    def __init__(self, *, notice_pdf: bytes | None = None, methodology_pdf: bytes | None = None):
+    def __init__(self, *, notice_pdf: bytes | None = None, methodology_pdf: bytes | None = None,
+                 terminal_csv: tuple[bytes, str] | None = None):
+        # terminal_csv stands in for the file saved by hand: its bytes and the
+        # day it was downloaded
         self.notice_pdf = notice_pdf
         self.methodology_pdf = methodology_pdf
+        self.terminal_csv = terminal_csv
 
     def fetch(self) -> pd.DataFrame:
         notice = self.notice_pdf if self.notice_pdf is not None else http_get(NOTICE_URL, timeout=60).content
@@ -179,16 +259,79 @@ class AcerLngDaily(Adapter):
         rolls = parse_roll_dates(methodology)
         records = parse_correction_notice(notice)
         frame = pd.DataFrame([_row(r, rolls) for r in records.to_dict("records")])
+        terminal = self.terminal_csv
+        if terminal is None:
+            saved = latest_terminal_file()
+            if saved is not None:
+                terminal = (saved[0].read_bytes(), saved[1])
+        downloaded = None
+        if terminal is not None:
+            payload, downloaded = terminal
+            history = parse_terminal_history(payload)
+            frame = self._merge(frame, history, rolls, downloaded)
+        frame["nwe_benchmark_spread_eur_mwh"] = nwe_spread(frame)
+        frame = frame.sort_values("date").reset_index(drop=True)
         flagged = int(frame["anomaly"].notna().sum())
-        self.vintage = "correction notice of 20 December 2024; half-months from methodology 1.1 annex 1"
-        self.note = (
-            "The only daily ACER values on ACER's main site: the corrected values of the "
-            "26 weekdays from 4 November to 9 December 2024, with the values first "
-            "published kept as printed. %d row(s) flagged. The daily reports are on "
-            "ACER's TERMINAL platform, which this pipeline does not fetch; see the "
-            "manual step. Source: ACER." % flagged
-        )
+        if downloaded is None:
+            self.vintage = "correction notice of 20 December 2024; half-months from methodology 1.1 annex 1"
+            self.note = (
+                "The only daily ACER values on ACER's main site: the corrected values of the "
+                "26 weekdays from 4 November to 9 December 2024, with the values first "
+                "published kept as printed. %d row(s) flagged. The daily reports are on "
+                "ACER's TERMINAL platform, which this pipeline does not fetch; see the "
+                "manual step. Source: ACER." % flagged
+            )
+        else:
+            self.vintage = "TERMINAL's historical download of %s; correction notice of 20 December 2024" % downloaded
+            self.note = (
+                "ACER's daily assessments and EU benchmark from TERMINAL's historical download, "
+                "saved by hand on %s (the manual step), with the 26 days of the correction "
+                "notice of 20 December 2024 and the values first published then. The NWE "
+                "spread to the TTF front month is computed by this study as the EU benchmark "
+                "plus the NWE assessment less the EU one. %d row(s) flagged. Source: ACER."
+                % (downloaded, flagged)
+            )
         return frame
+
+    @staticmethod
+    def _merge(notice: pd.DataFrame, history: pd.DataFrame, rolls, downloaded: str) -> pd.DataFrame:
+        """TERMINAL's days, with the notice's 26 days kept as the notice prints them and checked against it.
+
+    Both print three decimals, so a difference of a thousandth is a difference
+    and is noted.
+    """
+        legs = ("eu_des_eur_mwh", "nwe_des_eur_mwh", "se_des_eur_mwh", "eu_benchmark_spread_eur_mwh")
+        by_day = notice.set_index("date")
+        rows = []
+        for r in history.to_dict("records"):
+            day = r["date"]
+            if day in by_day.index:
+                kept = by_day.loc[day].to_dict()
+                kept["date"] = day
+                differ = ["%s %s against %s" % (leg.split("_")[0], r[leg], kept[leg]) for leg in legs
+                          if not (abs(r[leg] - kept[leg]) < 0.0005)]
+                if differ:
+                    note = "TERMINAL's download of %s differs from the notice's corrected value: %s" % (
+                        downloaded, ", ".join(differ))
+                    kept["anomaly"] = "; ".join(n for n in (kept.get("anomaly"), note) if n)
+                rows.append(kept)
+                continue
+            rows.append({
+                "date": day,
+                "delivery_period": period_for(day, rolls),
+                **{leg: r[leg] for leg in legs},
+                "source_document": "ACER TERMINAL, historical price assessments, downloaded by hand on %s" % downloaded,
+                "revised_from": None,
+                "anomaly": None,
+            })
+        missing = sorted(set(by_day.index) - set(history["date"]))
+        for day in missing:
+            kept = by_day.loc[day].to_dict()
+            kept["date"] = day
+            kept["anomaly"] = "; ".join(n for n in (kept.get("anomaly"),
+                                                      "not in TERMINAL's download of %s" % downloaded) if n)
+            rows.append(kept)
+        return pd.DataFrame(rows)
 
 
 def main() -> int:

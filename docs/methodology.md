@@ -69,7 +69,7 @@ basis points; they are not forecasts of where prices can go.
 | Henry Hub, USD/MMBtu | 0.5 to 50 | EIA's daily spot price printed 30.72 on 23 January 2026 and 25.01 on 26 January 2026; the bound catches a price read in cents, not a high price (open question 3) |
 | US dollars per euro | 0.8 to 1.7 | the euro's range on H.10 since 1999 is 0.8270 (25 October 2000) to 1.6010 (22 April 2008) |
 | Reported charter hire, USD per day | minus 10,000 to 500,000 | a spot charter rate can be assessed below zero; the reported figures are in the freight anchors |
-| DES LNG spreads to the TTF front month, EUR/MWh | minus 20 to 5 | set before any ACER report was parsed; ACER's own figures will test it |
+| DES LNG spreads to the TTF front month, EUR/MWh | minus 40 to 20 | widened when ACER's history was read: its EU benchmark ran from minus 23.938 on 3 March 2026, when TTF jumped and the assessed half-month did not, to 7.687 in June 2026 |
 | US dollars per SDR | 1 to 2 | a rate read the other way up, SDR per dollar, would be below 1 |
 | SOFR, and EFFR before it, percent per year | minus 1 to 15 | a rate read in basis points would be a hundred times too large |
 | US gas exports in one month, MMcf | 0 to 2,000,000 | the largest monthly LNG total in EIA's release of 31 August 2026 is 573,089, March 2026 |
@@ -90,7 +90,7 @@ independently of the Python that wrote them.
 | EIA weekly JKM and TTF | the last day of the report week, a Wednesday |
 | EIA NGWU issue index | the release date of the issue, a Thursday except once |
 | METI and JOGMEC spot LNG | the month, dated on the 1st |
-| ACER DES assessments | the publication day; the half-month assessed is stored beside it |
+| ACER DES assessments | the publication day; the half-month assessed is stored beside it where ACER's roll table gives it (31 March 2023 to early January 2025) |
 | EU allowance price | the month of the auctions, dated on the 1st |
 | EIA exports by destination | the month, dated on the 15th as EIA dates it |
 | EIA Henry Hub, H.10, SOFR | the trading or value day |
@@ -500,7 +500,7 @@ For a destination d and a route r, in US dollars:
 
 ### 9.3 Netbacks and the arb
 
-    P_des(NWE) = TTF + delta_nwe        delta_nwe <= 0, the DES discount
+    P_des(NWE) = TTF + delta_nwe        delta_nwe, the DES discount, usually negative
     P_des(NEA) = JKM                    JKM is already a DES price
     NB(d, r)   = (P_des(d) x Q_del(r) - C(d, r)) / Q_load
     arb(r)     = NB(NEA, r) - NB(NWE, direct)
@@ -559,7 +559,13 @@ the Supplement for the week ending that day, or, before the weekly prices
 begin, METI's contract-based monthly price as a labelled proxy for JKM and the
 World Bank's TTF; Henry Hub as the loading month's average of EIA's daily spot;
 the euro rate of H.10 on or before the day; SOFR, or the effective federal funds
-rate before 2 April 2018; the EU allowance price of the month from the
+rate before 2 April 2018; the Northwest Europe DES discount as ACER's NWE
+spread to the TTF front month (the EU benchmark plus the NWE assessment less
+the EU one, computed from ACER's figures), averaged over the days the price
+spans, the week to the day for a weekly price and the calendar month for a
+monthly one, where ACER published it on at least half of the span's weekdays,
+and otherwise (before 31 March 2023, in March 2023, after the last download
+held) the labelled assumption of section 11; the EU allowance price of the month from the
 Commission's auction reports, after June 2025 the average of the German
 auctions DEHSt reports, a labelled proxy, and after August 2026 that month
 held, the labelled assumption of section 11; the reported charter rate nearest
@@ -627,7 +633,7 @@ published values used as scenarios, each with the range it is shown at:
 | Parameter | Value | Shown at | Why |
 |---|---|---|---|
 | liquefaction fee | 3.00 $/MMBtu | 2.25 and 3.50, both published | the fee most Sabine Pass contracts carry |
-| regas discount in Northwest Europe | -2 EUR/MWh | -3, 0, and -35 for a loading from 25 July to 15 October 2022 | ACER's printed average and range (open question 18) |
+| regas discount in Northwest Europe, before 31 March 2023 | -2 EUR/MWh | -3, 0, and -35 for a loading from 25 July to 15 October 2022 | ACER's printed average and range (open question 18); ACER's own NWE spread averages -2.33 from April to August 2023 |
 | port costs | Spark's two pairs | none | the only source pricing both destinations on one basis; held for every year and both ships |
 | Suez net tonnage | 85,000 SCNT per 145,000 m3, scaled to the capacity | 85,000 and 112,148 | a canal agency's approximation; the Authority's net tonnage per LNG transit in 2023 (open question 25) |
 | Suez rebate on the surcharge | not applied | applied | the rebate is written on normal tolls (open question 26) |
@@ -675,7 +681,9 @@ result. Nothing is fitted: no parameter is searched and nothing is forecast.
 * **Breaks**: every week whose stored basis changes, the change of series, the
   ship of 2 January 2024, the routes (Panama from 26 June 2016, Suez closed to
   a US cargo from 13 January 2024), the EU ETS phase-in and the allowance price
-  sources (`analysis.breaks`). A change where the product is named on one side
+  sources (`analysis.breaks`). The regas discount becomes observed from 31
+  March 2023 (ACER), an input change rather than a break in a price series. A
+  change where the product is named on one side
   only is kept as a naming change, not a definition break: the Weekly Update's
   TTF before 29 September 2021 and the Supplement's week of near-month futures
   (section 5).
@@ -717,11 +725,14 @@ Henry Hub's spot averaged over M-2 to the notice day in place of the futures
 for the loading month, which this study does not hold. On the notice date JKM
 futures name the loading month itself, since they stop trading in M-1; METI's
 price, a monthly average of Japanese spot contracts, stands in for them and
-lags a falling market. METI's figure is the one it finalised a month later,
-which this study holds; the preliminary published by the notice day can
-differ (for July 2020, 5.2 against 4.2), and the preliminaries before August
-2020 are not held. A loading month whose notice day has no price published in
-the data held is listed with the reason. The margins are set beside the cancellations EIA
+lags a falling market. METI's figure is the one its latest release before the
+notice day printed, usually the preliminary figure for M-3, from the releases
+saved by hand (`meti_spot_lng_releases`); it can differ from the figure METI
+finalised later (for July 2020, 5.2 against 4.2). Where that release printed
+no figure for its survey month, the latest month it did print is taken (for
+February 2020, October 2019), with the World Bank's TTF of the same month. A
+loading month whose notice day has no price published in the data held is
+listed with the reason. The margins are set beside the cancellations EIA
 reported for June to September 2020 and the monthly exports by vessel
 (2.24 of `docs/sources.md`).
 

@@ -177,6 +177,26 @@ def test_each_observation_is_worked_at_the_three_levels_and_at_a_reported_hire(r
     assert week["panama_h_star"].nunique() == 1
 
 
+def test_each_observation_takes_the_regas_discount_of_its_own_span(rows):
+    week = rows[(rows["frequency"] == "weekly") & (rows["day"] == pd.Timestamp("2026-09-30"))
+                & (rows["hire_level"] == "central")].iloc[0]
+    assert "ACER" in week["delta_nwe_source"] and "2026-09-24 to 2026-09-30" in week["delta_nwe_source"]
+    month = rows[(rows["frequency"] == "monthly") & (rows["day"] == pd.Timestamp("2026-03-15"))
+                 & (rows["hire_level"] == "central")].iloc[0]
+    assert "2026-03-01 to 2026-03-31" in month["delta_nwe_source"]
+    assert analysis.window(pd.Timestamp("2026-02-15"), "monthly") == (date(2026, 2, 1), date(2026, 2, 28))
+
+
+def test_before_acer_the_discount_is_the_labelled_assumption():
+    value, label = worked.delta_nwe_on(date(2022, 10, 12))
+    assert value == -2.0 and label.startswith("assumption")
+    # March 2023 holds one day of ACER's spread, 31 March: too little for the month.
+    value, label = worked.delta_nwe_on(date(2023, 3, 15), (date(2023, 3, 1), date(2023, 3, 31)))
+    assert value == -2.0 and label.startswith("assumption")
+    value, label = worked.delta_nwe_on(date(2026, 2, 18), (date(2026, 2, 18), date(2026, 2, 18)))
+    assert value == pytest.approx(-3.327 + 28.232 - 28.154, abs=1e-9) and "ACER" in label
+
+
 def test_reading_once_puts_the_reader_back():
     original = base.read_cache
     with pytest.raises(RuntimeError):
@@ -236,10 +256,17 @@ def test_the_notice_date_uses_what_was_published_by_then():
     hh = base.read_cache("eia_henry_hub_daily")
     april = hh[(hh["date"] >= "2020-04-01") & (hh["date"] <= "2020-04-20")]["henry_hub_usd_mmbtu"].dropna()
     assert at_notice["henry_hub"] == pytest.approx(april.mean(), abs=1e-12)
-    # February 2020 is cancelled by 20 December 2019, when METI's November 2019
-    # price is missing: listed with the reason, not dropped.
-    february = margins[(margins["month"] == pd.Timestamp("2020-02-01")) & (margins["prices"] == "at the notice date")]
-    assert len(february) == 1 and "November 2019" in february.iloc[0]["note"]
+    # February 2020 is cancelled by 20 December 2019. METI's release of 10
+    # December printed no contract-based price for November 2019, so the latest
+    # published is October's detailed figure.
+    february = margins[(margins["month"] == pd.Timestamp("2020-02-01")) & (margins["prices"] == "at the notice date")
+                       & (margins["hire_level"] == "central")].iloc[0]
+    assert february["jkm"] == 5.5 and february["ttf"] == wb[pd.Timestamp("2019-10-01")]
+    # October 2020 is cancelled by 20 August 2020, when METI had published July's
+    # preliminary 5.2; the 4.2 it holds now came out on 9 September.
+    october = margins[(margins["month"] == pd.Timestamp("2020-10-01")) & (margins["prices"] == "at the notice date")
+                      & (margins["hire_level"] == "central")].iloc[0]
+    assert october["jkm"] == 5.2
 
 
 def test_panama_and_the_cape_net_the_same_at_the_breakeven_wait_and_premium():

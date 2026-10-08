@@ -329,6 +329,13 @@ monitoring reports print, about 2 EUR/MWh on average from January to August
 2023 and 2 to 3 EUR/MWh in the months before April 2024, and the verdict's
 sensitivity to it is shown.
 
+Revised 8 October 2026: the owner saved TERMINAL's historical download, every
+day ACER published from 19 January 2023. The Northwest Europe discount is now observed
+from 31 March 2023, as the EU benchmark plus the NWE assessment less the EU
+one, computed from ACER's figures and averaged over the days each price spans;
+the assumption of -2 EUR/MWh stays for earlier dates. Over April to August 2023
+the observed NWE spread averages -2.33 EUR/MWh, close to the assumption.
+
 ### 19. What ACER's legal notice permits
 
 Raised 30 September 2026. **Decided 7 October 2026.**
@@ -341,6 +348,15 @@ as licensed. ACER can confirm it.
 Decision: the study proceeds on the reading that the first paragraph covers
 only material ACER marks as licensed, and acknowledges ACER as the source of
 every value.
+
+Revised 8 October 2026: most of the committed values now come from TERMINAL's
+historical download. TERMINAL's home page carries no legal notice or terms of
+its own, offers the CSV download as a feature and points to ACER's website,
+while ACER's methodology mentions a TERMINAL legal notice the page does not
+show. The same reading of ACER's legal notice is applied to the download, with
+ACER acknowledged as the source; should a TERMINAL notice turn up that forbids
+it, the series moves to `data/private/` and only what is derived from it is
+shown.
 
 ### 20. The EU allowance price after June 2025
 

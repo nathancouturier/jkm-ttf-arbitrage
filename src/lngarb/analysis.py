@@ -42,9 +42,9 @@ from .freight_anchors import hire_levels
 from .sources import base
 
 __all__ = [
-    "ROUTES", "observations", "months_without_observation", "work", "breaks", "export_shares",
+    "ROUTES", "observations", "months_without_observation", "window", "work", "breaks", "export_shares",
     "monthly_arb", "newey_west", "flows_test", "sign_table", "lift_margins_2020", "route_choice",
-    "panama_wait_breakeven", "reported_waits",
+    "panama_wait_breakeven", "reported_waits", "published_jkm_proxy",
 ]
 
 #: The three routes east, by the short name the result columns use.
@@ -225,6 +225,7 @@ def _flatten(out: Mapping[str, Any], inputs: Inputs) -> dict[str, Any]:
         "vessel": inputs.vessel.name,
         "henry_hub": inputs.henry_hub,
         "delta_nwe": inputs.delta_nwe,
+        "delta_nwe_source": inputs.sources.get("delta_nwe"),
         "spread": out["spread"],
         "west_netback": west["netback"],
         "west_days": west["days_total"],
@@ -256,6 +257,14 @@ def _flatten(out: Mapping[str, Any], inputs: Inputs) -> dict[str, Any]:
     return row
 
 
+def window(day: pd.Timestamp, frequency: str) -> tuple[date, date]:
+    """The days a price of the frequency spans: the week to its last day, or its calendar month."""
+    if frequency == "weekly":
+        return (day - pd.Timedelta(days=6)).date(), day.date()
+    first = day.replace(day=1)
+    return first.date(), (first + pd.offsets.MonthEnd(0)).date()
+
+
 def _hires(day: date, levels: Mapping[str, float]) -> list[tuple[str, float, str]]:
     out = [(name, float(value), "%s of the freight anchors" % name) for name, value in levels.items()]
     reported, source = worked.nearest_hire(day)
@@ -280,7 +289,7 @@ def work(obs: pd.DataFrame | None = None, *, levels: Mapping[str, float] | None 
             try:
                 inputs = worked.inputs_on(
                     day, o.jkm, o.ttf, {"jkm": o.jkm_source, "ttf": o.ttf_source},
-                    hire_usd_day=levels["central"],
+                    hire_usd_day=levels["central"], delta_window=window(o.day, o.frequency),
                 )
             except worked.MissingInput as exc:
                 missing.append({"day": o.day, "frequency": o.frequency, "series": o.series, "reason": str(exc)})
@@ -517,22 +526,53 @@ def notice_day(month: pd.Timestamp) -> date:
     return date(before.year, before.month, int(_p("cancellation_notice_day")))
 
 
+def published_jkm_proxy(day: date) -> tuple[pd.Timestamp, float, str] | None:
+    """METI's latest contract-based figure published by the day: its month, the figure and a label.
+
+    From the monthly releases saved by hand (meti_spot_lng_releases): the latest
+    release on or before the day, and in it the latest month with a figure, the
+    preliminary one first. None when no release before the day is held.
+    """
+    releases = base.read_cache("meti_spot_lng_releases")
+    if releases is None:
+        return None
+    releases["release_date"] = pd.to_datetime(releases["release_date"])
+    out = releases[releases["release_date"] <= pd.Timestamp(day)]
+    if out.empty:
+        return None
+    released = out["release_date"].max()
+    latest = out[out["release_date"] == released].dropna(subset=["contract_based_usd_mmbtu"])
+    if latest.empty:
+        return None
+    row = latest.sort_values("date").iloc[-1]
+    return row["date"], float(row["contract_based_usd_mmbtu"]), (
+        "METI spot LNG, contract-based, %s figure for %s, released on %s, the latest published by %s" % (
+            row["figure"].lower(), row["date"].strftime("%B %Y"), released.date(), day))
+
+
 def _notice_prices(month: pd.Timestamp) -> tuple[float, float, float, dict[str, str]] | None:
     """The prices published by the cancellation notice day of a cargo loading in month M.
 
-    On the 20th of M-2, METI has published month M-3 (its release for a month
-    came out around the 12th of the next) and so has the World Bank (early in
-    the next month), and Henry Hub's daily spot is held to the notice day.
-    METI's price is the figure it finalised a month later, the one this study
-    holds; the preliminary figure published by the notice day can differ (for
-    July 2020, 5.2 against 4.2, docs/sources.md 3.7), and the preliminaries
-    before August 2020 are not held.
+    The JKM proxy is METI's figure as its latest release before the 20th of M-2
+    printed it (published_jkm_proxy): usually the preliminary figure for M-3,
+    released around the 12th of M-2, which can differ from the figure METI
+    finalised later (for July 2020, 5.2 against 4.2). Where no release before
+    the notice day is held, the figure finalised later for M-3, labelled so.
+    The World Bank's TTF is for the same month, published early in the next,
+    and Henry Hub's daily spot is held to the notice day.
     """
     notice = notice_day(month)
-    published = month - pd.DateOffset(months=3)
-    meti = base.read_cache("meti_spot_lng_monthly").set_index("date")["contract_based_usd_mmbtu"]
+    published = published_jkm_proxy(notice)
+    if published is not None:
+        priced, jkm, jkm_label = published
+    else:
+        priced = month - pd.DateOffset(months=3)
+        meti = base.read_cache("meti_spot_lng_monthly").set_index("date")["contract_based_usd_mmbtu"]
+        jkm = meti.get(priced)
+        jkm_label = ("METI spot LNG, contract-based, %s, at the figure finalised later: no release before %s "
+                     "is held" % (priced.strftime("%B %Y"), notice))
     wb = base.read_cache("worldbank_gas_monthly").set_index("date")["europe_gas_usd_mmbtu"]
-    jkm, ttf = meti.get(published), wb.get(published)
+    ttf = wb.get(priced)
     if jkm is None or ttf is None or pd.isna(jkm) or pd.isna(ttf):
         return None
     hh = base.read_cache("eia_henry_hub_daily")
@@ -541,10 +581,8 @@ def _notice_prices(month: pd.Timestamp) -> tuple[float, float, float, dict[str, 
     if days.empty:
         return None
     return float(jkm), float(ttf), float(days.mean()), {
-        "jkm": "METI spot LNG, contract-based, %s, the latest month published by %s, at the figure "
-               "finalised later" % (published.strftime("%B %Y"), notice),
-        "ttf": "World Bank Pink Sheet, Europe gas (TTF), %s, the latest month published by %s" % (
-            published.strftime("%B %Y"), notice),
+        "jkm": jkm_label,
+        "ttf": "World Bank Pink Sheet, Europe gas (TTF), %s, published by %s" % (priced.strftime("%B %Y"), notice),
         "henry_hub": "EIA Henry Hub spot, average of the %d days of %s to %s, in place of the futures for "
                      "the loading month" % (len(days), notice.strftime("%B %Y"), notice),
     }
@@ -555,10 +593,10 @@ def lift_margins_2020(year: int = 2020, *, levels: Mapping[str, float] | None = 
 
     At loading: the month's own prices, as every monthly observation. At the
     notice date, the parameter table's day two months before: the prices
-    published by then (_notice_prices), METI's contract-based price and the
-    World Bank's TTF of month M-3, and Henry Hub's spot averaged over month M-2
-    to the notice day, in place of the futures for month M, which this study
-    does not hold. On the notice day the JKM front month names M itself, since
+    published by then (_notice_prices), METI's contract-based figure as its
+    latest release had printed it and the World Bank's TTF of the same month,
+    and Henry Hub's spot averaged over month M-2 to the notice day, in place of
+    the futures for month M, which this study does not hold. On the notice day the JKM front month names M itself, since
     JKM futures for M stop trading in M-1; METI's price stands in for it. The
     ship, routes, euro rate and overnight rate are those of the loading day.
     """
@@ -576,14 +614,14 @@ def lift_margins_2020(year: int = 2020, *, levels: Mapping[str, float] | None = 
                 inputs = worked.inputs_on(day, float(meti[month]), float(wb[month]),
                                           {"jkm": "METI contract-based, %s" % month.strftime("%B %Y"),
                                            "ttf": "World Bank TTF, %s" % month.strftime("%B %Y")},
-                                          hire_usd_day=levels["central"])
+                                          hire_usd_day=levels["central"],
+                                          delta_window=window(pd.Timestamp(day), "monthly"))
                 cases_["at loading"] = inputs
             notice = _notice_prices(month)
             if notice is None:
                 rows.append({"month": month, "prices": "at the notice date", "priced_on": notice_day(month),
-                             "note": "no price published by the notice day for %s in the data held: METI's "
-                                     "contract-based price or the World Bank's TTF is missing"
-                                     % (month - pd.DateOffset(months=3)).strftime("%B %Y")})
+                             "note": "no price published by the notice day in the data held: METI's "
+                                     "contract-based figure or the World Bank's TTF is missing"})
             else:
                 jkm, ttf, hh, sources = notice
                 inputs = worked.inputs_on(day, jkm, ttf, sources, hire_usd_day=levels["central"])
@@ -653,7 +691,7 @@ def route_choice(rows: pd.DataFrame, *, level: str = "central") -> pd.DataFrame:
         for r in monthly.itertuples(index=False):
             day = r.day.date()
             inputs = worked.inputs_on(day, r.jkm, r.ttf, {"jkm": r.jkm_source, "ttf": r.ttf_source},
-                                      hire_usd_day=r.hire_usd_day)
+                                      hire_usd_day=r.hire_usd_day, delta_window=window(r.day, "monthly"))
             row = {"month": r.day.to_period("M").to_timestamp(), "best_route_east": r.best_route_east,
                    "panama_open": r.panama_open, "cape_open": r.cape_open}
             if r.panama_open and r.cape_open:
@@ -683,7 +721,7 @@ def reported_waits(rows: pd.DataFrame) -> pd.DataFrame:
             chosen = rows[(rows["frequency"] == "monthly") & (rows["day"] == day)]
             for r in chosen.itertuples(index=False):
                 inputs = worked.inputs_on(day.date(), r.jkm, r.ttf, {"jkm": r.jkm_source, "ttf": r.ttf_source},
-                                          hire_usd_day=r.hire_usd_day)
+                                          hire_usd_day=r.hire_usd_day, delta_window=window(day, "monthly"))
                 routes = dict(inputs.routes)
                 routes["nea_panama"] = replace(routes["nea_panama"], wait_days=float(days))
                 waited = evaluate(replace(inputs, routes=routes))

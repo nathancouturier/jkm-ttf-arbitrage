@@ -120,7 +120,7 @@ def test_the_bounds_are_the_ones_the_methodology_names():
     assert config.BOUNDS_HENRY_HUB_USD_MMBTU == (0.5, 50.0)
     assert config.BOUNDS_USD_PER_EUR == (0.8, 1.7)
     assert config.BOUNDS_HIRE_USD_DAY == (-10000.0, 500000.0)
-    assert config.BOUNDS_DES_SPREAD_EUR_MWH == (-20.0, 5.0)
+    assert config.BOUNDS_DES_SPREAD_EUR_MWH == (-40.0, 20.0)
     assert config.BOUNDS_DES_EUR_MWH == (1.0, 400.0)
     assert config.BOUNDS_EUA_EUR_T == (1.0, 200.0)
     assert config.BOUNDS_SOFR_PERCENT == (-1.0, 15.0)

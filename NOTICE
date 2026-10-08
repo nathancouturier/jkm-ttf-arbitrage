@@ -31,7 +31,7 @@ data/cache/worldbank_gas_monthly.csv and data/cache/worldbank_gas_revisions.csv:
   the revisions log are this study's. The World Bank does not endorse this
   study.
 
-data/cache/meti_spot_lng_monthly.csv:
+data/cache/meti_spot_lng_monthly.csv and data/cache/meti_spot_lng_releases.csv:
   Created by processing the information in the Spot LNG Price Statistics
   (Ministry of Economy, Trade and Industry of Japan)
   (https://www.meti.go.jp/english/statistics/sho/slng/index.html).

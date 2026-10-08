@@ -1,27 +1,904 @@
-date,delivery_period,eu_des_eur_mwh,nwe_des_eur_mwh,se_des_eur_mwh,eu_benchmark_spread_eur_mwh,source_document,revised_from,anomaly
-2024-11-04,H2 NOV 24,37.677,41.126,37.08,-2.624,"ACER correction notice of 20 December 2024, table 1","first published EU 38.044, NWE 41.384, SE 37.537, benchmark -2.257",
-2024-11-05,H2 NOV 24,38.568,39.762,37.765,-1.924,"ACER correction notice of 20 December 2024, table 1","first published EU 38.674, NWE 39.894, SE 37.991, benchmark -1.818",
-2024-11-06,H2 NOV 24,38.904,39.762,38.618,-1.484,"ACER correction notice of 20 December 2024, table 1","first published EU 38.975, NWE 39.895, SE 38.725, benchmark -1.413",
-2024-11-07,H2 NOV 24,39.025,39.636,38.542,-2.251,"ACER correction notice of 20 December 2024, table 1","first published EU 39.063, NWE 39.695, SE 38.621, benchmark -2.213",
-2024-11-08,H1 DEC 24,39.291,39.513,38.842,-3.118,"ACER correction notice of 20 December 2024, table 1","first published EU 39.308, NWE 39.533, SE 38.877, benchmark -3.101",
-2024-11-11,H1 DEC 24,40.228,40.422,40.373,-3.5,"ACER correction notice of 20 December 2024, table 1","first published EU 40.274, NWE 40.472, SE 40.432, benchmark -3.454",
-2024-11-12,H1 DEC 24,40.232,40.429,40.379,-4.023,"ACER correction notice of 20 December 2024, table 1","first published EU 40.273, NWE 40.474, SE 40.431, benchmark -3.982",
-2024-11-13,H1 DEC 24,42.364,42.492,42.576,-1.302,"ACER correction notice of 20 December 2024, table 1","first published EU 42.376, NWE 42.504, SE 42.589, benchmark -1.290",
-2024-11-14,H1 DEC 24,43.25,43.232,43.385,-2.974,"ACER correction notice of 20 December 2024, table 1","first published EU 43.272, NWE 43.234, SE 43.414, benchmark -2.952",
-2024-11-15,H1 DEC 24,43.65,43.749,43.747,-2.901,"ACER correction notice of 20 December 2024, table 1","first published EU 43.708, NWE 43.797, SE 43.812, benchmark -2.843",
-2024-11-18,H1 DEC 24,44.803,44.557,44.882,-2.097,"ACER correction notice of 20 December 2024, table 1","first published EU 44.759, NWE 44.599, SE 44.832, benchmark -2.572",the benchmark moved by 0.475 and the EU assessment by 0.044; with the TTF settlement unchanged they would move together
-2024-11-19,H1 DEC 24,44.69,44.554,44.76,-0.978,"ACER correction notice of 20 December 2024, table 1","first published EU 44.761, NWE 44.600, SE 44.834, benchmark -0.907",
-2024-11-20,H1 DEC 24,45.24,45.321,45.076,-1.556,"ACER correction notice of 20 December 2024, table 1","first published EU 45.330, NWE 45.408, SE 45.150, benchmark -1.466",
-2024-11-21,H1 DEC 24,45.307,45.44,45.056,-2.996,"ACER correction notice of 20 December 2024, table 1","first published EU 45.389, NWE 45.543, SE 45.107, benchmark -2.914",
-2024-11-22,H1 DEC 24,45.977,45.983,45.937,-1.041,"ACER correction notice of 20 December 2024, table 1","first published EU 46.131, NWE 46.150, SE 46.089, benchmark -0.887",
-2024-11-25,H2 DEC 24,46.083,46.113,46.013,-1.65,"ACER correction notice of 20 December 2024, table 1","first published EU 46.277, NWE 46.323, SE 46.204, benchmark -1.456",
-2024-11-26,H2 DEC 24,46.08,46.111,46.013,-1.136,"ACER correction notice of 20 December 2024, table 1","first published EU 46.283, NWE 46.331, SE 46.214, benchmark -0.933",
-2024-11-27,H2 DEC 24,46.934,47.042,46,0.172,"ACER correction notice of 20 December 2024, table 1","first published EU 47.013, NWE 47.108, SE 46.240, benchmark 0.251",
-2024-11-28,H2 DEC 24,46.748,46.77,46.134,0.488,"ACER correction notice of 20 December 2024, table 1","first published EU 46.983, NWE 47.005, SE 46.541, benchmark 0.723",
-2024-11-29,H2 DEC 24,46.538,46.66,46.477,-1.273,"ACER correction notice of 20 December 2024, table 1","first published EU 46.625, NWE 46.800, SE 46.539, benchmark -1.186",
-2024-12-02,H2 DEC 24,46.507,46.542,46.515,-2.148,"ACER correction notice of 20 December 2024, table 1","first published EU 46.598, NWE 46.654, SE 46.540, benchmark -2.057",
-2024-12-03,H2 DEC 24,46.953,46.925,47.22,-1.604,"ACER correction notice of 20 December 2024, table 1","first published EU 47.252, NWE 47.235, SE 47.548, benchmark -1.305",
-2024-12-04,H2 DEC 24,47.323,47.131,47.426,0.277,"ACER correction notice of 20 December 2024, table 1","first published EU 47.662, NWE 47.472, SE 47.776, benchmark 0.616",
-2024-12-05,H2 DEC 24,47.073,46.865,47.466,0.522,"ACER correction notice of 20 December 2024, table 1","first published EU 47.410, NWE 47.195, SE 47.808, benchmark 0.859",
-2024-12-06,H2 DEC 24,47.232,47.023,47.624,0.752,"ACER correction notice of 20 December 2024, table 1","first published EU 47.410, NWE 47.195, SE 47.808, benchmark 0.930",
-2024-12-09,H1 JAN 25,46.707,47.193,46.47,1.852,"ACER correction notice of 20 December 2024, table 1","first published EU 46.715, NWE 47.195, SE 46.480, benchmark 1.860",
+date,delivery_period,eu_des_eur_mwh,nwe_des_eur_mwh,se_des_eur_mwh,eu_benchmark_spread_eur_mwh,source_document,revised_from,anomaly,nwe_benchmark_spread_eur_mwh
+2023-01-19,,,56.77,,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-01-20,,,57.01,56.22,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-01-23,,,56.55,53.14,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-01-24,,,56.55,53.77,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-01-25,,,56.55,54.17,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-01-26,,,54.98,52.65,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-01-27,,,54.77,53.08,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-01-30,,,54.18,52.86,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-01-31,,,53.09,53.01,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-02-01,,,54.42,53.01,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-02-02,,,54.66,53.01,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-02-03,,,53.81,53.01,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-02-06,,,53.85,53.01,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-02-07,,,53.85,53.01,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-02-09,,,53.85,53.01,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-02-10,,,53.85,53.01,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-02-13,,,53.85,53.01,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-02-14,,,53.85,53.01,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-02-15,,,53.85,48.29,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-02-16,,,48.57,48.45,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-02-17,,,47.88,48.25,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-02-20,,,47.96,49.03,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-02-21,,,46.43,49.03,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-02-22,,,44.87,49.03,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-02-23,,,44.12,49.03,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-02-24,,,44.8,49.03,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-02-27,,,45.62,46.48,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-02-28,,,45.44,46.71,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-03-01,,,44.33,46.71,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-03-02,,,43.59,46.71,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-03-03,,,43.59,46.71,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-03-06,,,43.59,46.71,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-03-07,,,43.59,46.26,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-03-08,,42.73,40.79,43.19,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-03-09,,39.97,37.99,41.3,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-03-10,,40.26,39.33,41.32,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-03-13,,42.12,42.29,42.83,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-03-14,,43.73,43.51,44.45,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-03-15,,42.9,42.32,44.64,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-03-16,,41.62,41.03,41.52,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-03-17,,41.55,40.95,41.43,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-03-20,,41.5,40.92,41.34,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-03-21,,36.62,38.28,36.17,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-03-22,,35.24,35.21,35.83,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-03-23,,36.46,36.58,36.12,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-03-24,,36.39,36.51,36.07,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-03-27,,37.9,36.87,38.21,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-03-28,,37.92,37.63,37.87,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-03-29,,37.83,37.65,37.87,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-03-30,,37.53,38.05,35.65,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,
+2023-03-31,H2 APR 23,38.274,38.533,35.648,-9.569,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-9.31
+2023-04-03,H2 APR 23,39.395,39.599,40.34,-11.972,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-11.768
+2023-04-04,H2 APR 23,43.521,43.735,40.354,-3.047,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.833
+2023-04-05,H2 APR 23,40.553,40.583,40.582,-4.022,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.992
+2023-04-11,H1 MAY 23,38.495,38.76,38.266,-5.197,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.932
+2023-04-12,H1 MAY 23,36.089,36.096,38.264,-6.791,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-6.784
+2023-04-13,H1 MAY 23,35.089,35.669,34.566,-7.004,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-6.424
+2023-04-14,H1 MAY 23,34.441,34.587,34.609,-6.708,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-6.562
+2023-04-17,H1 MAY 23,34.63,34.485,34.893,-6.497,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-6.642
+2023-04-18,H1 MAY 23,34.814,34.786,34.985,-7.908,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-7.936
+2023-04-19,H1 MAY 23,35.48,35.549,34.846,-4.818,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.749
+2023-04-20,H1 MAY 23,35.82,35.605,35.683,-4.745,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.96
+2023-04-21,H1 MAY 23,34.166,34.73,33.948,-5.998,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-5.434
+2023-04-24,H2 MAY 23,35.373,35.83,33.961,-4.552,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.095
+2023-04-25,H2 MAY 23,34.851,35.076,33.961,-4.982,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.757
+2023-04-26,H2 MAY 23,33.466,33.486,33.951,-5.085,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-5.065
+2023-04-28,H2 MAY 23,33.127,33.132,33.116,-5.411,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-5.406
+2023-05-02,H2 MAY 23,32.359,32.358,32.666,-5.17,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-5.171
+2023-05-03,H2 MAY 23,32.483,32.353,32.674,-4.299,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.429
+2023-05-04,H2 MAY 23,30.877,30.565,32.673,-4.776,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-5.088
+2023-05-05,H2 MAY 23,30.138,30.076,29.884,-6.436,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-6.498
+2023-05-08,H2 MAY 23,31.371,31.465,31.319,-5.503,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-5.409
+2023-05-10,H1 JUN 23,31.445,31.744,30.997,-3.548,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.249
+2023-05-11,H1 JUN 23,30.285,30.55,30.32,-4.708,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.443
+2023-05-12,H1 JUN 23,30.225,30.481,30.231,-2.542,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.286
+2023-05-15,H1 JUN 23,30.265,30.528,30.297,-2.049,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.786
+2023-05-16,H1 JUN 23,28.696,28.695,30.278,-3.125,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.126
+2023-05-17,H1 JUN 23,28.195,28.18,30.2,-3.758,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.773
+2023-05-22,H1 JUN 23,27.175,27.139,30.2,-2.536,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.572
+2023-05-23,H1 JUN 23,26.603,26.827,26.395,-2.524,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.3
+2023-05-24,H1 JUN 23,26.583,26.805,26.395,-1.202,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.98
+2023-05-25,H2 JUN 23,25.119,25.121,26.395,-0.333,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.331
+2023-05-26,H2 JUN 23,25.258,25.261,26.395,0.738,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.741
+2023-05-30,H2 JUN 23,24.363,24.357,26.395,-0.318,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.324
+2023-05-31,H2 JUN 23,23.944,24.319,26.395,-2.908,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.533
+2023-06-01,H2 JUN 23,23.41,23.399,26.395,0.307,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.296
+2023-06-02,H2 JUN 23,23.171,23.14,26.395,-0.518,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.549
+2023-06-05,H2 JUN 23,22.568,22.521,26.395,-5.91,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-5.957
+2023-06-06,H2 JUN 23,22.524,22.498,26.395,-2.336,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.362
+2023-06-07,H2 JUN 23,25.091,22.357,26.395,-1.24,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.974
+2023-06-08,H2 JUN 23,26.028,25.992,26.395,-0.917,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.953
+2023-06-09,H1 JUL 23,27.775,27.98,28.79,-4.274,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.069
+2023-06-12,H1 JUL 23,27.806,28.015,28.834,-3.23,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.021
+2023-06-13,H1 JUL 23,27.797,28.005,28.82,-8.254,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-8.046
+2023-06-14,H1 JUL 23,28.945,28.523,30.481,-9.367,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-9.789
+2023-06-15,H1 JUL 23,32.035,32.099,30.485,-9.11,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-9.046
+2023-06-16,H1 JUL 23,33.533,33.624,30.485,-1.475,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.384
+2023-06-19,H1 JUL 23,32.714,32.755,30.485,-2.184,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.143
+2023-06-20,H1 JUL 23,32.729,32.764,30.485,-5.979,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-5.944
+2023-06-21,H1 JUL 23,34.892,33.876,30.485,-1.851,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.867
+2023-06-22,H1 JUL 23,34.642,34.095,36.364,0.545,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.002
+2023-06-23,H1 JUL 23,34.703,34.54,36.364,2.196,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,2.033
+2023-06-26,H2 JUL 23,34.994,34.84,36.364,3.019,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,2.865
+2023-06-27,H2 JUL 23,32.931,33.558,36.364,-1.575,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.948
+2023-06-28,H2 JUL 23,33.227,33.345,36.364,-0.898,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.78
+2023-06-29,H2 JUL 23,32.98,33.004,32.867,-2.2,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.176
+2023-06-30,H2 JUL 23,33.046,33.068,33.031,-4.057,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.035
+2023-07-03,H2 JUL 23,33.41,33.282,33.477,-0.519,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.647
+2023-07-04,H2 JUL 23,33.392,33.263,33.463,-2.018,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.147
+2023-07-05,H2 JUL 23,33.131,33.035,33.464,-1.242,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.338
+2023-07-06,H2 JUL 23,32.325,33.225,31.603,-0.023,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.877
+2023-07-07,H2 JUL 23,32.318,33.214,31.603,-1.16,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.264
+2023-07-10,H1 AUG 23,32.146,32.338,31.618,1.919,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,2.111
+2023-07-11,H1 AUG 23,31.178,31.066,31.903,2.117,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,2.005
+2023-07-12,H1 AUG 23,30.907,30.747,31.897,4.268,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,4.108
+2023-07-13,H1 AUG 23,31.1,30.974,31.89,4.493,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,4.367
+2023-07-14,H1 AUG 23,31.077,30.956,31.89,5.12,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,4.999
+2023-07-17,H1 AUG 23,26.696,27.142,26.14,1.595,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,2.041
+2023-07-18,H1 AUG 23,26.393,26.645,26.201,-0.676,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.424
+2023-07-19,H1 AUG 23,26.355,26.459,26.403,-0.608,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.504
+2023-07-20,H1 AUG 23,26.729,26.903,26.946,-1.289,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.115
+2023-07-21,H1 AUG 23,26.713,26.89,26.945,-1.451,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.274
+2023-07-24,H1 AUG 23,27.655,27.342,28.122,-2.902,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.215
+2023-07-25,H2 AUG 23,27.7,27.356,28.332,-4.948,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-5.292
+2023-07-26,H2 AUG 23,28.807,27.374,29.477,-0.468,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.901
+2023-07-27,H2 AUG 23,29.56,29.572,29.479,1.126,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.138
+2023-07-28,H2 AUG 23,29.623,29.687,29.493,3.782,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,3.846
+2023-07-31,H2 AUG 23,29.357,29.657,29.313,0.991,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.291
+2023-08-01,H2 AUG 23,29.369,29.728,29.32,2.246,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,2.605
+2023-08-02,H2 AUG 23,29.373,29.741,29.325,0.631,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.999
+2023-08-03,H2 AUG 23,26.924,26.829,27.194,-3.549,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.644
+2023-08-04,H2 AUG 23,27.5,27.434,27.729,-1.353,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.419
+2023-08-07,H2 AUG 23,28.485,28.626,28.718,-2.002,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.861
+2023-08-08,H2 AUG 23,28.95,29.113,28.649,-2.116,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.953
+2023-08-09,H1 SEP 23,29.972,30.068,28.652,-9.851,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-9.755
+2023-08-10,H1 SEP 23,34.546,34.665,28.728,-2.51,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.391
+2023-08-11,H1 SEP 23,36.065,36.095,36.669,0.765,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.795
+2023-08-14,H1 SEP 23,35.89,36.035,36.081,1.456,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.601
+2023-08-16,H1 SEP 23,35.552,35.577,36.129,-2.232,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.207
+2023-08-17,H1 SEP 23,37.934,38.022,36.714,1.109,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.197
+2023-08-18,H1 SEP 23,36.804,36.827,36.717,0.394,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.417
+2023-08-21,H1 SEP 23,36.885,36.908,36.717,-3.897,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.874
+2023-08-22,H1 SEP 23,37.355,37.376,36.717,-5.553,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-5.532
+2023-08-23,H1 SEP 23,39.323,37.476,39.69,2.537,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.69
+2023-08-24,H1 SEP 23,36.16,34.386,39.256,4.222,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,2.448
+2023-08-25,H2 SEP 23,34.801,34.599,39.256,0.024,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.178
+2023-08-28,H2 SEP 23,33.617,33.26,39.256,-4.797,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-5.154
+2023-08-29,H2 SEP 23,33.617,33.26,39.256,-1.578,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.935
+2023-08-30,H2 SEP 23,34.996,34.908,39.256,-0.996,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.084
+2023-08-31,H2 SEP 23,35.076,34.988,39.256,0.047,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.041
+2023-09-01,H2 SEP 23,35.691,34.994,35.847,0.074,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.623
+2023-09-04,H2 SEP 23,35.905,35.352,36.056,2.334,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.781
+2023-09-05,H2 SEP 23,32.895,35.365,32.837,-1.554,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.916
+2023-09-06,H2 SEP 23,32.621,34.93,32.563,1.546,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,3.855
+2023-09-07,H2 SEP 23,32.437,34.706,32.465,-0.318,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.951
+2023-09-08,H2 SEP 23,32.512,34.706,32.513,-1.996,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.198
+2023-09-11,H1 OCT 23,32.565,34.706,32.566,-3.283,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.142
+2023-09-12,H1 OCT 23,34.05,34.706,32.389,-0.651,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.005
+2023-09-13,H1 OCT 23,33.434,34.706,32.451,-3.383,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.111
+2023-09-14,H1 OCT 23,33.416,34.706,32.451,-2.105,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.815
+2023-09-15,H1 OCT 23,34.873,34.715,32.451,-1.61,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.768
+2023-09-18,H1 OCT 23,35.239,35.121,35.517,0.764,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.646
+2023-09-19,H1 OCT 23,34.838,34.767,35.157,-1.944,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.015
+2023-09-20,H1 OCT 23,35.678,35.803,35.19,-1.606,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.481
+2023-09-21,H1 OCT 23,36.133,35.832,37.241,-2.972,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.273
+2023-09-22,H1 OCT 23,36.732,36.659,37.045,-3.059,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.132
+2023-09-25,H2 OCT 23,38.014,38.012,38.003,-6.428,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-6.43
+2023-09-26,H2 OCT 23,40.162,40.671,38.548,-0.16,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.349
+2023-09-27,H2 OCT 23,39.993,40.126,38.533,0.697,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.83
+2023-09-28,H2 OCT 23,40.558,40.675,38.516,0.822,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.939
+2023-09-29,H2 OCT 23,40.563,40.68,38.516,-1.296,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.179
+2023-10-02,H2 OCT 23,39.287,39.314,37.199,-0.048,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.021
+2023-10-03,H2 OCT 23,36.846,38.37,34.362,-0.141,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.383
+2023-10-04,H2 OCT 23,34.65,38.189,32.029,-3.791,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.252
+2023-10-05,H2 OCT 23,33.696,35.228,32.516,-2.511,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.979
+2023-10-06,H2 OCT 23,32.369,32.645,32.401,-5.862,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-5.586
+2023-10-09,H1 NOV 23,32.245,34.621,32.066,-11.708,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-9.332
+2023-10-10,H1 NOV 23,33.926,34.931,33.39,-15.529,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-14.524
+2023-10-11,H1 NOV 23,39.137,40.717,38.656,-6.931,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-5.351
+2023-10-12,H1 NOV 23,42.194,42.501,41.849,-10.808,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-10.501
+2023-10-13,H1 NOV 23,45.398,46.711,42.038,-8.584,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-7.271
+2023-10-16,H1 NOV 23,47.554,48.559,45.884,-0.913,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.092
+2023-10-17,H1 NOV 23,47.73,48.413,45.821,-1.166,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.483
+2023-10-18,H1 NOV 23,47.159,47.561,45.704,-3.674,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.272
+2023-10-19,H1 NOV 23,47.983,48.228,48.407,-2.189,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.944
+2023-10-20,H1 NOV 23,47.968,48.172,48.345,-3.144,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.94
+2023-10-23,H1 NOV 23,48.05,48.239,48.423,-3.226,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.037
+2023-10-24,H1 NOV 23,48.225,48.378,48.423,-1.039,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.886
+2023-10-25,H2 NOV 23,48.167,47.316,52.05,-1.757,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.608
+2023-10-26,H2 NOV 23,47.329,47.249,47.748,-3.48,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.56
+2023-10-27,H2 NOV 23,48.634,48.704,48.583,-1.898,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.828
+2023-10-30,H2 NOV 23,48.571,48.615,48.546,-1.976,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.932
+2023-10-31,H2 NOV 23,45.727,48.554,43.881,-2.279,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.548
+2023-11-03,H2 NOV 23,42.952,43.198,42.513,-5.105,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.859
+2023-11-06,H2 NOV 23,42.398,42.436,42.891,-2.434,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.396
+2023-11-07,H2 NOV 23,40.157,40.055,41.301,-5.9,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-6.002
+2023-11-08,H2 NOV 23,40.216,40.12,41.365,-5.561,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-5.657
+2023-11-09,H1 DEC 23,42.568,42.43,42.739,-5.561,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-5.699
+2023-11-10,H1 DEC 23,42.445,42.304,42.431,-4.187,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.328
+2023-11-13,H1 DEC 23,43.045,42.519,43.757,-4.828,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-5.354
+2023-11-14,H1 DEC 23,43.099,42.672,43.68,-4.509,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.936
+2023-11-15,H1 DEC 23,42.539,42.558,42.582,-4.498,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.479
+2023-11-16,H1 DEC 23,42.739,42.804,42.557,-3.11,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.045
+2023-11-17,H1 DEC 23,43.769,43.812,43.578,-1.295,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.252
+2023-11-20,H1 DEC 23,42.544,42.542,42.37,-3.277,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.279
+2023-11-21,H1 DEC 23,42.591,42.589,42.425,-1.474,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.476
+2023-11-22,H1 DEC 23,42.516,42.513,42.333,-2.1,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.103
+2023-11-23,H1 DEC 23,43.424,43.426,41.878,-3.41,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.408
+2023-11-24,H2 DEC 23,44.578,44.58,42.721,-2.079,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.077
+2023-11-27,H2 DEC 23,44.054,44.687,41.703,0.07,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.703
+2023-11-28,H2 DEC 23,44.198,44.584,41.685,1.424,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.81
+2023-11-29,H2 DEC 23,43.413,43.585,41.684,3.053,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,3.225
+2023-11-30,H2 DEC 23,43.381,43.553,41.684,1.29,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.462
+2023-12-01,H2 DEC 23,43.389,43.562,41.684,-0.107,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.066
+2023-12-04,H2 DEC 23,43.93,44.096,41.684,3.826,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,3.992
+2023-12-05,H2 DEC 23,43.721,43.877,41.684,5.588,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,5.744
+2023-12-06,H2 DEC 23,37.562,37.553,41.684,-1.751,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.76
+2023-12-07,H2 DEC 23,37.644,37.919,41.684,-2.324,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.049
+2023-12-08,H2 DEC 23,37.623,37.919,41.684,-0.975,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.679
+2023-12-11,H1 JAN 24,37.623,37.919,41.684,1.505,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.801
+2023-12-12,H1 JAN 24,34.165,37.919,41.684,-0.538,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,3.216
+2023-12-13,H1 JAN 24,33.992,33.841,34.043,-1.82,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.971
+2023-12-14,H1 JAN 24,32.821,32.612,33.117,-2.029,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.238
+2023-12-15,H1 JAN 24,32.777,32.661,33.117,-0.412,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.528
+2023-12-18,H1 JAN 24,32.546,32.469,32.443,-2.976,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.053
+2023-12-19,H1 JAN 24,31.846,31.706,31.849,-0.722,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.862
+2023-12-20,H1 JAN 24,32.384,32.128,32.378,-1.137,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.393
+2023-12-21,H1 JAN 24,33.281,33.532,32.381,-0.922,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.671
+2023-12-22,H1 JAN 24,33.071,32.89,33.17,-1.103,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.284
+2024-01-03,H2 JAN 24,29.403,29.353,33.17,-3.392,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.442
+2024-01-04,H2 JAN 24,29.395,29.353,33.17,-4.015,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.057
+2024-01-05,H2 JAN 24,29.993,29.353,33.17,-4.558,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-5.198
+2024-01-08,H2 JAN 24,30.615,29.353,30.276,-0.965,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.227
+2024-01-09,H1 FEB 24,30.609,29.353,30.421,-0.032,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.288
+2024-01-10,H1 FEB 24,29.712,29.432,29.486,-1.23,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.51
+2024-01-11,H1 FEB 24,29.08,28.997,29.045,-1.737,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.82
+2024-01-12,H1 FEB 24,28.865,28.706,28.995,-3.126,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.285
+2024-01-15,H1 FEB 24,28.924,28.847,29.027,-0.999,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.076
+2024-01-16,H1 FEB 24,29.413,29.399,29.261,-0.243,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.257
+2024-01-17,H1 FEB 24,28.353,28.144,28.603,0.645,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.436
+2024-01-18,H1 FEB 24,27.16,26.733,28.024,-0.733,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.16
+2024-01-19,H1 FEB 24,27.235,26.69,27.818,-1.194,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.739
+2024-01-22,H1 FEB 24,26.962,26.53,27.758,-0.302,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.734
+2024-01-23,H1 FEB 24,26.665,26.658,26.498,-0.562,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.569
+2024-01-24,H1 FEB 24,26.059,25.943,25.992,-2.87,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.986
+2024-01-25,H2 FEB 24,27.335,26.261,27.896,-0.449,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.523
+2024-01-26,H2 FEB 24,26.993,26.925,27.098,-1.086,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.154
+2024-01-29,H2 FEB 24,26.814,26.67,26.803,-1.36,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.504
+2024-01-30,H2 FEB 24,26.851,26.672,26.895,-2.54,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.719
+2024-01-31,H2 FEB 24,26.761,26.636,26.911,-3.474,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.599
+2024-02-01,H2 FEB 24,27.138,27.165,27.39,-1.853,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.826
+2024-02-02,H2 FEB 24,28.28,28.42,28.929,-1.024,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.884
+2024-02-05,H2 FEB 24,28.289,28.426,28.94,-0.052,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.085
+2024-02-06,H2 FEB 24,27.13,27.133,27.663,-1.477,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.474
+2024-02-07,H2 FEB 24,26.807,26.803,27.664,-1.379,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.383
+2024-02-08,H1 MAR 24,26.833,26.81,27.012,-0.979,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.002
+2024-02-09,H1 MAR 24,26.827,26.801,26.998,-0.29,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.316
+2024-02-12,H1 MAR 24,26.671,26.813,26.42,0.942,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.084
+2024-02-13,H1 MAR 24,26.107,26.062,26.417,0.671,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.626
+2024-02-14,H1 MAR 24,26.025,25.974,26.011,1.168,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.117
+2024-02-15,H1 MAR 24,24.174,24.117,24.745,-0.792,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.849
+2024-02-16,H1 MAR 24,23.65,23.67,23.664,-1.172,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.152
+2024-02-19,H1 MAR 24,23.329,23.23,23.592,-0.375,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.474
+2024-02-20,H1 MAR 24,23.533,23.229,23.669,-0.635,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.939
+2024-02-21,H1 MAR 24,22.872,22.452,23.711,-1.105,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.525
+2024-02-22,H2 MAR 24,22.894,22.479,23.738,-0.299,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.714
+2024-02-23,H2 MAR 24,22.421,22.815,22.145,-0.513,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.119
+2024-02-26,H2 MAR 24,22.278,22.464,22.136,-1.731,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.545
+2024-02-27,H2 MAR 24,22.298,22.494,22.146,-2.094,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.898
+2024-02-28,H2 MAR 24,22.571,22.838,22.145,-3.048,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.781
+2024-02-29,H2 MAR 24,22.539,22.792,22.128,-2.326,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.073
+2024-03-01,H2 MAR 24,24.021,24.087,25.053,-1.788,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.722
+2024-03-04,H2 MAR 24,24.195,24.236,25.061,-2.69,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.649
+2024-03-05,H2 MAR 24,25.479,25.641,24.308,-1.989,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.827
+2024-03-06,H2 MAR 24,25.484,25.644,24.323,-1.088,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.928
+2024-03-07,H2 MAR 24,25.921,25.871,24.323,-0.071,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.121
+2024-03-08,H1 APR 24,25.387,25.62,25.142,-1.005,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.772
+2024-03-11,H1 APR 24,25.458,25.633,25.142,0.528,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.703
+2024-03-12,H1 APR 24,25.217,25.262,25.139,0.442,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.487
+2024-03-13,H1 APR 24,23.975,23.894,23.824,-0.928,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.009
+2024-03-14,H1 APR 24,23.974,23.892,23.822,-2.075,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.157
+2024-03-15,H1 APR 24,23.895,23.891,23.814,-3.131,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.135
+2024-03-18,H1 APR 24,23.895,23.89,23.82,-4.927,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.932
+2024-03-19,H1 APR 24,23.844,23.852,23.765,-5.022,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-5.014
+2024-03-20,H1 APR 24,23.962,23.956,23.959,-3.78,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.786
+2024-03-21,H1 APR 24,27.596,28.319,25.94,1.194,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.917
+2024-03-22,H1 APR 24,26.049,26.045,25.778,-1.727,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.731
+2024-03-25,H2 APR 24,26.126,26.201,25.86,-2.363,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.288
+2024-03-26,H2 APR 24,26.581,26.449,26.725,-0.551,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.683
+2024-03-27,H2 APR 24,26.942,26.948,26.727,-0.745,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.739
+2024-04-02,H2 APR 24,27.21,27.379,27.393,1.007,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.176
+2024-04-03,H2 APR 24,25.874,26.663,25.623,0.311,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.1
+2024-04-04,H2 APR 24,25.205,25.183,25.235,-1.001,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.023
+2024-04-05,H2 APR 24,25.281,25.173,25.397,-1.325,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.433
+2024-04-08,H1 MAY 24,25.353,25.215,25.438,-2.555,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.693
+2024-04-09,H1 MAY 24,26.195,26.316,26.419,-1.156,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.035
+2024-04-10,H1 MAY 24,26.194,26.315,26.419,-0.906,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.785
+2024-04-11,H1 MAY 24,26.959,26.329,27.092,-2.418,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.048
+2024-04-12,H1 MAY 24,26.99,26.333,27.117,-3.742,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.399
+2024-04-15,H1 MAY 24,28.6,26.334,28.695,-2.543,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.809
+2024-04-16,H1 MAY 24,30.282,30.803,29.882,-2.857,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.336
+2024-04-17,H1 MAY 24,31.309,32.103,31.373,0.02,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.814
+2024-04-18,H1 MAY 24,30.401,32.103,30.208,-1.908,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.206
+2024-04-19,H1 MAY 24,30.661,30.773,30.247,-0.097,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.015
+2024-04-22,H1 MAY 24,30.68,30.773,30.306,1.37,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.463
+2024-04-23,H2 MAY 24,30.162,30.773,28.898,1.745,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,2.356
+2024-04-24,H2 MAY 24,30.154,30.773,28.898,1.136,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.755
+2024-04-25,H2 MAY 24,28.818,30.773,28.248,-0.953,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.002
+2024-04-26,H2 MAY 24,28.989,29.168,28.447,0.103,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.282
+2024-04-29,H2 MAY 24,28.969,29.15,28.447,0.975,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.156
+2024-04-30,H2 MAY 24,27.792,29.15,28.447,-1.326,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.032
+2024-05-02,H2 MAY 24,28.777,30.007,28.768,-2.136,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.906
+2024-05-03,H2 MAY 24,28.536,28.913,28.769,-1.992,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.615
+2024-05-06,H2 MAY 24,28.534,28.911,28.77,-3.267,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.89
+2024-05-07,H2 MAY 24,28.534,28.911,28.77,-2.533,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.156
+2024-05-08,H1 JUN 24,28.55,28.929,28.793,-2.059,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.68
+2024-05-13,H1 JUN 24,30.205,30.346,30.244,0.627,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.768
+2024-05-14,H1 JUN 24,30.302,30.374,30.262,0.633,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.705
+2024-05-15,H1 JUN 24,30.299,30.374,30.269,0.565,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.64
+2024-05-16,H1 JUN 24,29.221,30.374,29.132,-1.027,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.126
+2024-05-17,H1 JUN 24,29.393,29.382,29.316,-1.376,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.387
+2024-05-21,H1 JUN 24,30.371,30.543,30.427,-2.633,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.461
+2024-05-22,H1 JUN 24,30.741,30.549,30.938,-3.648,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.84
+2024-05-23,H1 JUN 24,31.548,30.547,31.879,-3.68,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.681
+2024-05-24,H2 JUN 24,31.576,30.588,31.909,-2.539,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.527
+2024-05-27,H2 JUN 24,35.038,35.02,35.2,-0.205,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.223
+2024-05-28,H2 JUN 24,35.041,35.02,35.202,1.507,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.486
+2024-05-29,H2 JUN 24,35.102,35.02,35.267,1.223,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.141
+2024-05-30,H2 JUN 24,32.589,32.426,33.755,-2.603,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.766
+2024-05-31,H2 JUN 24,32.605,32.461,33.799,-1.618,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.762
+2024-06-03,H2 JUN 24,32.615,32.471,33.82,-3.399,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.543
+2024-06-04,H2 JUN 24,35.298,35.322,33.837,1.501,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.525
+2024-06-05,H2 JUN 24,35.215,35.502,34.633,1.86,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,2.147
+2024-06-06,H2 JUN 24,34.772,35.119,34.284,1.086,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.433
+2024-06-07,H2 JUN 24,33.794,33.972,33.768,0.685,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.863
+2024-06-10,H1 JUL 24,33.728,33.797,33.829,-0.53,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.461
+2024-06-11,H1 JUL 24,33.567,33.569,33.56,-0.718,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.716
+2024-06-12,H1 JUL 24,33.725,33.75,33.755,-1.569,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.544
+2024-06-13,H1 JUL 24,34.877,34.948,34.891,-0.847,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.776
+2024-06-14,H1 JUL 24,35.023,34.942,35.095,-0.337,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.418
+2024-06-17,H1 JUL 24,35.178,35.167,35.091,0.968,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.957
+2024-06-18,H1 JUL 24,35.093,35.084,35.089,0.393,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.384
+2024-06-19,H1 JUL 24,35.052,35.042,35.09,-0.286,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.296
+2024-06-20,H1 JUL 24,35.111,35.099,35.131,0.647,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.635
+2024-06-21,H1 JUL 24,35.122,35.103,35.131,1.186,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.167
+2024-06-24,H2 JUL 24,35.293,35.282,35.131,1.213,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.202
+2024-06-26,H2 JUL 24,35.293,35.282,35.131,1.469,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.458
+2024-06-27,H2 JUL 24,35.293,35.282,35.131,0.728,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.717
+2024-06-28,H2 JUL 24,35.293,35.282,35.131,0.813,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.802
+2024-07-01,H2 JUL 24,34.759,35.282,35.131,1.274,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.797
+2024-07-02,H2 JUL 24,34.916,34.961,35.131,1.231,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.276
+2024-07-03,H2 JUL 24,34.155,33.856,35.131,1.464,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.165
+2024-07-04,H2 JUL 24,33.708,33.455,33.722,0.462,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.209
+2024-07-05,H2 JUL 24,33.126,32.937,33.056,0.059,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.13
+2024-07-08,H1 AUG 24,33.073,32.937,33.017,0.787,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.651
+2024-07-09,H1 AUG 24,33.072,32.936,33.016,1.737,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.601
+2024-07-10,H1 AUG 24,32.351,32.477,32.32,1.567,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.693
+2024-07-11,H1 AUG 24,31.73,31.845,31.883,0.618,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.733
+2024-07-12,H1 AUG 24,30.844,30.766,31.483,-0.875,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.953
+2024-07-15,H1 AUG 24,31.157,30.771,31.92,-0.214,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.6
+2024-07-16,H1 AUG 24,31.83,30.77,32.148,-0.967,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.027
+2024-07-17,H1 AUG 24,31.872,30.797,32.124,-0.021,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.096
+2024-07-18,H1 AUG 24,31.961,31.913,32.484,-0.713,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.761
+2024-07-19,H1 AUG 24,31.982,31.894,32.386,-0.188,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.276
+2024-07-22,H1 AUG 24,32.132,32.12,32.386,0.293,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.281
+2024-07-23,H1 AUG 24,31.893,31.859,32.385,0.271,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.237
+2024-07-24,H2 AUG 24,31.901,31.867,32.411,-0.72,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.754
+2024-07-25,H2 AUG 24,32.735,32.757,32.471,0.956,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.978
+2024-07-26,H2 AUG 24,32.723,32.745,32.475,0.248,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.27
+2024-07-29,H2 AUG 24,31.867,31.864,32.475,-2.006,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.009
+2024-07-30,H2 AUG 24,31.886,31.883,32.475,-2.475,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.478
+2024-07-31,H2 AUG 24,34.414,34.277,32.475,-1.454,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.591
+2024-08-01,H2 AUG 24,34.721,34.866,32.475,-2.248,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.103
+2024-08-02,H2 AUG 24,36.007,34.885,32.475,-0.642,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.764
+2024-08-05,H2 AUG 24,36.327,36.334,32.475,0.829,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.836
+2024-08-06,H2 AUG 24,36.312,36.315,32.475,-0.364,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.361
+2024-08-07,H2 AUG 24,36.377,36.399,32.475,-2.074,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.052
+2024-08-08,H1 SEP 24,36.403,36.409,32.475,-3.692,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.686
+2024-08-09,H1 SEP 24,37.151,37.164,32.475,-3.245,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.232
+2024-08-12,H1 SEP 24,38.552,37.164,39.26,-1.106,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.494
+2024-08-13,H1 SEP 24,38.838,38.695,39.26,-0.642,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.785
+2024-08-14,H1 SEP 24,39.137,39.06,39.284,0.17,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.093
+2024-08-16,H1 SEP 24,39.132,39.052,39.3,-0.512,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.592
+2024-08-19,H1 SEP 24,38.999,38.968,39.003,-0.846,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.877
+2024-08-20,H1 SEP 24,39.366,39.243,39.343,1.409,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.286
+2024-08-21,H1 SEP 24,39.28,39.224,39.257,2.27,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,2.214
+2024-08-22,H1 SEP 24,37.428,37.015,37.317,0.841,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.428
+2024-08-23,H1 SEP 24,37.22,36.997,37.273,0.357,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.134
+2024-08-26,H2 SEP 24,37.532,37.272,37.491,-0.124,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.384
+2024-08-27,H2 SEP 24,37.525,37.272,37.485,-1.164,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.417
+2024-08-28,H2 SEP 24,38.207,38.209,37.519,-0.313,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.311
+2024-08-29,H2 SEP 24,38.21,38.211,37.529,-0.391,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.39
+2024-08-30,H2 SEP 24,38.21,38.211,37.5,-1.613,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.612
+2024-09-02,H2 SEP 24,38.573,38.211,37.5,-0.007,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.369
+2024-09-03,H2 SEP 24,38.655,38.56,37.5,1.462,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.367
+2024-09-04,H2 SEP 24,37.189,36.918,37.883,1.391,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.12
+2024-09-05,H2 SEP 24,36.582,36.47,37.883,0.387,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.275
+2024-09-06,H2 SEP 24,35.942,36.254,35.656,-0.537,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.225
+2024-09-09,H1 OCT 24,35.911,36.079,35.748,-1.422,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.254
+2024-09-10,H1 OCT 24,36.11,36.136,36.016,0.828,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.854
+2024-09-11,H1 OCT 24,36.077,36.081,35.967,-0.065,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.061
+2024-09-12,H1 OCT 24,35.112,36.253,34.742,-0.079,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.062
+2024-09-13,H1 OCT 24,35.081,36.16,34.735,-0.567,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.512
+2024-09-16,H1 OCT 24,35.117,36.286,34.744,1.036,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,2.205
+2024-09-17,H1 OCT 24,34.343,34.203,35.1,-1.204,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.344
+2024-09-18,H1 OCT 24,34.282,34.292,34.3,-0.963,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.953
+2024-09-19,H1 OCT 24,34.223,34.282,34.163,1.14,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.199
+2024-09-20,H1 OCT 24,34.097,34.067,34.16,-0.347,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.377
+2024-09-23,H2 OCT 24,33.224,33.062,32.921,-2.987,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.149
+2024-09-24,H2 OCT 24,34.299,33.073,34.3,-1.114,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.34
+2024-09-25,H2 OCT 24,34.937,35.305,34.624,-2.382,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.014
+2024-09-26,H2 OCT 24,35.338,35.377,35.242,-2.552,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.513
+2024-09-27,H2 OCT 24,35.86,36.166,35.847,-2.254,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.948
+2024-09-30,H2 OCT 24,35.849,36.018,35.84,-3.195,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.026
+2024-10-01,H2 OCT 24,36.882,36.399,36.943,-2.391,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.874
+2024-10-02,H2 OCT 24,37.013,36.761,37.094,-1.604,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.856
+2024-10-03,H2 OCT 24,38.225,38.161,38.286,-1.687,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.751
+2024-10-04,H2 OCT 24,37.791,37.822,37.611,-3.189,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.158
+2024-10-07,H2 OCT 24,38.643,38.697,38.56,-1.601,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.547
+2024-10-08,H1 NOV 24,38.778,38.828,38.684,-0.141,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.091
+2024-10-09,H1 NOV 24,38.905,38.888,38.698,0.564,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.547
+2024-10-10,H1 NOV 24,38.998,39.02,38.861,-1.295,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.273
+2024-10-11,H1 NOV 24,38.721,39.032,38.493,-1.158,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.847
+2024-10-14,H1 NOV 24,38.915,39.13,38.494,-1.644,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.429
+2024-10-15,H1 NOV 24,39.163,39.307,39.169,-0.81,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.666
+2024-10-16,H1 NOV 24,39.748,39.831,39.577,0.507,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.59
+2024-10-17,H1 NOV 24,39.755,39.834,39.588,0.105,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.184
+2024-10-18,H1 NOV 24,39.779,39.86,39.62,0.575,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.656
+2024-10-21,H1 NOV 24,39.774,39.855,39.612,-0.25,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.169
+2024-10-22,H1 NOV 24,38.935,39.035,38.55,-1.769,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.669
+2024-10-23,H1 NOV 24,39.06,39.039,38.815,-2.32,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.341
+2024-10-24,H2 NOV 24,39.25,39.243,39.008,-2.904,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.911
+2024-10-25,H2 NOV 24,39.271,39.267,39.008,-4.242,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.246
+2024-10-28,H2 NOV 24,41.068,41.144,39.008,-1.451,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.375
+2024-10-29,H2 NOV 24,41.476,41.545,39.008,-1.393,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.324
+2024-10-30,H2 NOV 24,41.887,41.539,42.334,0.984,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.636
+2024-10-31,H2 NOV 24,41.742,41.526,42.002,1.154,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.938
+2024-11-04,H2 NOV 24,37.677,41.126,37.08,-2.624,"ACER correction notice of 20 December 2024, table 1","first published EU 38.044, NWE 41.384, SE 37.537, benchmark -2.257",,0.825
+2024-11-05,H2 NOV 24,38.568,39.762,37.765,-1.924,"ACER correction notice of 20 December 2024, table 1","first published EU 38.674, NWE 39.894, SE 37.991, benchmark -1.818",,-0.73
+2024-11-06,H2 NOV 24,38.904,39.762,38.618,-1.484,"ACER correction notice of 20 December 2024, table 1","first published EU 38.975, NWE 39.895, SE 38.725, benchmark -1.413",,-0.626
+2024-11-07,H2 NOV 24,39.025,39.636,38.542,-2.251,"ACER correction notice of 20 December 2024, table 1","first published EU 39.063, NWE 39.695, SE 38.621, benchmark -2.213",,-1.64
+2024-11-08,H1 DEC 24,39.291,39.513,38.842,-3.118,"ACER correction notice of 20 December 2024, table 1","first published EU 39.308, NWE 39.533, SE 38.877, benchmark -3.101",,-2.896
+2024-11-11,H1 DEC 24,40.228,40.422,40.373,-3.5,"ACER correction notice of 20 December 2024, table 1","first published EU 40.274, NWE 40.472, SE 40.432, benchmark -3.454",,-3.306
+2024-11-12,H1 DEC 24,40.232,40.429,40.379,-4.023,"ACER correction notice of 20 December 2024, table 1","first published EU 40.273, NWE 40.474, SE 40.431, benchmark -3.982",,-3.826
+2024-11-13,H1 DEC 24,42.364,42.492,42.576,-1.302,"ACER correction notice of 20 December 2024, table 1","first published EU 42.376, NWE 42.504, SE 42.589, benchmark -1.290",,-1.174
+2024-11-14,H1 DEC 24,43.25,43.232,43.385,-2.974,"ACER correction notice of 20 December 2024, table 1","first published EU 43.272, NWE 43.234, SE 43.414, benchmark -2.952",,-2.992
+2024-11-15,H1 DEC 24,43.65,43.749,43.747,-2.901,"ACER correction notice of 20 December 2024, table 1","first published EU 43.708, NWE 43.797, SE 43.812, benchmark -2.843",,-2.802
+2024-11-18,H1 DEC 24,44.803,44.557,44.882,-2.097,"ACER correction notice of 20 December 2024, table 1","first published EU 44.759, NWE 44.599, SE 44.832, benchmark -2.572",the benchmark moved by 0.475 and the EU assessment by 0.044; with the TTF settlement unchanged they would move together,-2.343
+2024-11-19,H1 DEC 24,44.69,44.554,44.76,-0.978,"ACER correction notice of 20 December 2024, table 1","first published EU 44.761, NWE 44.600, SE 44.834, benchmark -0.907",,-1.114
+2024-11-20,H1 DEC 24,45.24,45.321,45.076,-1.556,"ACER correction notice of 20 December 2024, table 1","first published EU 45.330, NWE 45.408, SE 45.150, benchmark -1.466",,-1.475
+2024-11-21,H1 DEC 24,45.307,45.44,45.056,-2.996,"ACER correction notice of 20 December 2024, table 1","first published EU 45.389, NWE 45.543, SE 45.107, benchmark -2.914",,-2.863
+2024-11-22,H1 DEC 24,45.977,45.983,45.937,-1.041,"ACER correction notice of 20 December 2024, table 1","first published EU 46.131, NWE 46.150, SE 46.089, benchmark -0.887",,-1.035
+2024-11-25,H2 DEC 24,46.083,46.113,46.013,-1.65,"ACER correction notice of 20 December 2024, table 1","first published EU 46.277, NWE 46.323, SE 46.204, benchmark -1.456",,-1.62
+2024-11-26,H2 DEC 24,46.08,46.111,46.013,-1.136,"ACER correction notice of 20 December 2024, table 1","first published EU 46.283, NWE 46.331, SE 46.214, benchmark -0.933",,-1.105
+2024-11-27,H2 DEC 24,46.934,47.042,46,0.172,"ACER correction notice of 20 December 2024, table 1","first published EU 47.013, NWE 47.108, SE 46.240, benchmark 0.251",,0.28
+2024-11-28,H2 DEC 24,46.748,46.77,46.134,0.488,"ACER correction notice of 20 December 2024, table 1","first published EU 46.983, NWE 47.005, SE 46.541, benchmark 0.723",,0.51
+2024-11-29,H2 DEC 24,46.538,46.66,46.477,-1.273,"ACER correction notice of 20 December 2024, table 1","first published EU 46.625, NWE 46.800, SE 46.539, benchmark -1.186",,-1.151
+2024-12-02,H2 DEC 24,46.507,46.542,46.515,-2.148,"ACER correction notice of 20 December 2024, table 1","first published EU 46.598, NWE 46.654, SE 46.540, benchmark -2.057",,-2.113
+2024-12-03,H2 DEC 24,46.953,46.925,47.22,-1.604,"ACER correction notice of 20 December 2024, table 1","first published EU 47.252, NWE 47.235, SE 47.548, benchmark -1.305",,-1.632
+2024-12-04,H2 DEC 24,47.323,47.131,47.426,0.277,"ACER correction notice of 20 December 2024, table 1","first published EU 47.662, NWE 47.472, SE 47.776, benchmark 0.616",TERMINAL's download of 2026-10-08 differs from the notice's corrected value: eu 47.322 against 47.323,0.085
+2024-12-05,H2 DEC 24,47.073,46.865,47.466,0.522,"ACER correction notice of 20 December 2024, table 1","first published EU 47.410, NWE 47.195, SE 47.808, benchmark 0.859",,0.314
+2024-12-06,H2 DEC 24,47.232,47.023,47.624,0.752,"ACER correction notice of 20 December 2024, table 1","first published EU 47.410, NWE 47.195, SE 47.808, benchmark 0.930",,0.543
+2024-12-09,H1 JAN 25,46.707,47.193,46.47,1.852,"ACER correction notice of 20 December 2024, table 1","first published EU 46.715, NWE 47.195, SE 46.480, benchmark 1.860",,2.338
+2024-12-10,H1 JAN 25,46.214,47.193,45.971,0.662,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.641
+2024-12-11,H1 JAN 25,45.125,44.749,45.952,0.431,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.055
+2024-12-12,H1 JAN 25,45.124,44.749,45.95,2.32,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.945
+2024-12-13,H1 JAN 25,45.11,44.73,45.942,3.895,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,3.515
+2024-12-16,H1 JAN 25,42.314,42.234,42.135,2.037,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.957
+2024-12-17,H1 JAN 25,41.766,42.161,41.321,-0.299,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.096
+2024-12-18,H1 JAN 25,40.268,40.234,40.232,-0.739,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.773
+2024-12-19,H1 JAN 25,40.237,40.201,40.198,-2.841,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.877
+2024-12-20,H1 JAN 25,41.047,41.121,40.485,-3.083,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.009
+2025-01-03,,41.047,41.121,40.485,-8.575,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-8.501
+2025-01-06,,41.047,41.121,40.485,-6.279,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-6.205
+2025-01-07,,46.306,46.308,40.485,-1.168,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.166
+2025-01-08,,46.48,46.481,40.485,0.921,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.922
+2025-01-09,,46.745,46.671,46.781,1.758,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.684
+2025-01-10,,44.847,44.84,44.822,-0.161,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.168
+2025-01-13,,44.751,44.719,44.711,-3.51,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.542
+2025-01-14,,44.582,44.537,44.483,-2.365,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.41
+2025-01-15,,45.965,45.967,46.037,-1.041,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.039
+2025-01-16,,46.089,45.948,46.126,-0.152,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.293
+2025-01-17,,45.871,46.034,45.87,-1.016,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.853
+2025-01-20,,45.803,45.83,45.891,-2.05,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.023
+2025-01-21,,46.003,45.886,46.267,-4.024,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.141
+2025-01-22,,46.946,47.034,46.403,-1.77,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.682
+2025-01-23,,47.595,47.234,47.876,-1.528,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.889
+2025-01-24,,47.767,47.341,48.26,-1.935,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.361
+2025-01-27,,47.704,47.354,48,-0.158,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.508
+2025-01-28,,47.861,47.653,47.944,-0.363,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.571
+2025-01-29,,47.602,47.209,47.564,-3.554,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.947
+2025-01-30,,47.637,47.385,47.629,-4.089,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.341
+2025-01-31,,49.145,48.96,48.931,-4.092,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.277
+2025-02-03,,49.371,49.168,49.273,-4.423,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.626
+2025-02-04,,50.275,50.449,49.334,-1.773,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.599
+2025-02-05,,51.132,50.84,51.171,-2.306,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.598
+2025-02-06,,50.34,50.181,50.168,-4.162,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.321
+2025-02-07,,50.944,50.676,50.564,-4.779,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-5.047
+2025-02-10,,50.95,50.683,50.57,-7.09,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-7.357
+2025-02-11,,54.334,54.311,54.691,-3.432,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.455
+2025-02-12,,54.953,54.954,55.168,-0.708,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.707
+2025-02-13,,54.642,54.941,54.733,3.259,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,3.558
+2025-02-14,,54.417,54.32,54.83,3.732,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,3.635
+2025-02-17,,51.802,52,51.763,3.666,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,3.864
+2025-02-18,,51.744,52.364,51.477,2.529,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,3.149
+2025-02-19,,47.512,47.173,47.724,-0.752,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.091
+2025-02-20,,47.689,47.534,47.827,0.195,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.04
+2025-02-21,,46.841,46.745,46.076,-0.354,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.45
+2025-02-24,,46.041,46.041,45.233,-1.103,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.103
+2025-02-25,,45.467,45.435,45.09,1.176,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.144
+2025-02-26,,43.627,43.562,42.865,2.291,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,2.226
+2025-02-27,,42.071,43.559,41.459,-2.859,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.371
+2025-02-28,,42.057,43.552,41.442,-2.263,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.768
+2025-03-03,,42.759,43.569,41.437,-2.454,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.644
+2025-03-04,,42.608,43.756,42.022,-0.856,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.292
+2025-03-05,,41.98,42.011,42.059,0.472,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.503
+2025-03-06,,41.108,40.92,41.012,2.868,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,2.68
+2025-03-07,,40.859,40.644,40.993,0.888,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.673
+2025-03-10,,38.585,38.116,39.33,-2.647,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.116
+2025-03-11,,38.784,38.79,39.051,-3.926,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.92
+2025-03-12,,38.783,38.79,39.052,-3.471,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.464
+2025-03-13,,39.978,40.133,39.48,-2.098,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.943
+2025-03-14,,39.927,40.101,39.835,-2.363,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.189
+2025-03-17,,39.799,39.81,39.641,-1.449,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.438
+2025-03-18,,40.101,40.298,39.417,-0.654,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.457
+2025-03-19,,39.553,39.527,39.099,-3.802,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.828
+2025-03-20,,39.405,39.359,39.101,-3.45,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.496
+2025-03-21,,40.101,40.142,40.095,-2.504,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.463
+2025-03-24,,40.145,40.158,40.161,-2.603,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.59
+2025-03-25,,39.632,39.452,40.205,-1.923,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.103
+2025-03-26,,39.895,39.825,40.21,-0.975,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.045
+2025-03-27,,39.525,39.908,39.214,-1.677,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.294
+2025-03-28,,38.967,39.131,38.781,-1.62,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.456
+2025-03-31,,38.831,38.984,38.661,-1.836,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.683
+2025-04-01,,38.345,38.194,38.338,-4.105,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.256
+2025-04-02,,38.357,38.205,38.351,-2.906,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.058
+2025-04-03,,38.355,38.197,38.35,-0.848,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.006
+2025-04-04,,38.711,38.781,38.556,2.31,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,2.38
+2025-04-07,,37.961,37.877,38.767,0.961,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.877
+2025-04-08,,35.526,35.393,35.867,-0.705,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.838
+2025-04-09,,35.531,35.398,35.876,1.865,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.732
+2025-04-10,,33.395,33.389,33.802,0.102,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.096
+2025-04-11,,32.549,32.561,33.676,-0.914,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.902
+2025-04-14,,32.178,32.192,32.057,-2.321,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.307
+2025-04-15,,32.117,31.738,33.245,-2.29,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.669
+2025-04-16,,31.977,31.719,32.336,-3.335,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.593
+2025-04-22,,32.489,32.398,32.311,-1.755,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.846
+2025-04-23,,32.385,32.259,32.164,-1.775,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.901
+2025-04-24,,32.554,32.767,32.08,-1.02,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.807
+2025-04-25,,32.664,32.776,32.5,0.232,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.344
+2025-04-28,,31.053,30.831,31.234,-1.345,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.567
+2025-04-29,,30.548,30.637,30.529,-1.308,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.219
+2025-04-30,,30.351,30.307,30.535,-1.966,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.01
+2025-05-05,,30.058,30.027,30.021,-2.872,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.903
+2025-05-06,,30.927,30.549,31.097,-3.816,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.194
+2025-05-07,,32.184,30.706,32.356,-2.347,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.825
+2025-05-08,,32.516,32.173,32.397,-2.825,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.168
+2025-05-12,,32.918,32.907,32.509,-2.472,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.483
+2025-05-13,,32.925,32.911,32.52,-2.819,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.833
+2025-05-14,,33.681,33.328,33.692,-1.367,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.72
+2025-05-15,,33.589,33.303,33.701,-1.705,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.991
+2025-05-16,,33.385,33.368,33.839,-1.771,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.788
+2025-05-19,,33.443,33.33,33.892,-1.782,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.895
+2025-05-20,,33.529,33.464,34.03,-3.45,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.515
+2025-05-21,,34.206,34.235,33.997,-2.415,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.386
+2025-05-22,,34.536,34.575,34.005,-1.82,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.781
+2025-05-23,,35.132,34.678,35.664,-1.318,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.772
+2025-05-26,,35.015,34.861,35.114,-2.238,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.392
+2025-05-27,,35.333,35.295,35.117,-1.673,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.711
+2025-05-28,,35.145,35.121,35.169,-1.542,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.566
+2025-06-02,,34.177,34.294,34.209,-0.838,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.721
+2025-06-03,,33.952,33.822,34.214,-1.896,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.026
+2025-06-04,,33.9,33.862,33.899,-1.75,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.788
+2025-06-05,,34.257,34.158,34.198,-2.136,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.235
+2025-06-06,,34.344,34.267,34.292,-1.907,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.984
+2025-06-10,,34.567,34.509,34.573,-0.071,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.129
+2025-06-11,,34.077,34.5,33.952,-1.836,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.413
+2025-06-12,,34.455,34.379,34.493,-1.722,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.798
+2025-06-13,,34.72,34.806,34.782,-3.174,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.088
+2025-06-16,,34.567,34.598,34.697,-3.339,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.308
+2025-06-17,,36.239,36.283,35.387,-3.07,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.026
+2025-06-18,,37.116,37.209,35.42,-1.577,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.484
+2025-06-19,,37.598,37.399,37.649,-4.03,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.229
+2025-06-20,,38.404,38.529,38.797,-2.525,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.4
+2025-06-23,,39.314,39.134,39.479,-1.208,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.388
+2025-06-24,,39.575,39.556,39.536,3.96,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,3.941
+2025-06-26,,36.147,35.704,36.236,2.123,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.68
+2025-06-27,,35.619,35.218,35.565,2.532,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,2.131
+2025-06-30,,35.601,35.204,35.546,2.703,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,2.306
+2025-07-01,,33.795,33.988,34.182,0.102,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.295
+2025-07-02,,33.35,33.298,33.627,-0.241,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.293
+2025-07-03,,32.598,32.63,32.588,-1.023,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.991
+2025-07-04,,32.331,32.364,32.377,-1.138,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.105
+2025-07-07,,32.135,32.042,32.098,-1.486,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.579
+2025-07-08,,32.423,32.409,32.281,-1.796,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.81
+2025-07-09,,32.458,32.44,32.326,-1.846,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.864
+2025-07-10,,33.074,33.097,32.832,-2.096,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.073
+2025-07-11,,33.498,33.391,33.596,-2.063,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.17
+2025-07-14,,33.535,33.486,33.806,-1.919,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.968
+2025-07-15,,33.907,33.909,33.917,-0.538,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.536
+2025-07-16,,33.655,33.746,33.456,-1.154,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.063
+2025-07-17,,33.771,33.859,33.478,-0.636,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.548
+2025-07-18,,33.629,33.672,33.446,0.034,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.077
+2025-07-21,,33.634,33.676,33.485,0.475,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.517
+2025-07-22,,33.271,33.238,33.469,0.16,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.127
+2025-07-23,,32.932,32.874,33.483,0.242,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.184
+2025-07-24,,32.554,32.496,33.483,0.196,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.138
+2025-07-25,,31.601,31.557,33.443,-0.898,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.942
+2025-07-28,,31.57,31.53,31.166,-1.329,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.369
+2025-07-29,,31.71,31.2,32.579,-2.393,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.903
+2025-07-30,,31.616,31.368,32.564,-2.921,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.169
+2025-07-31,,32.574,31.4,32.834,-2.705,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.879
+2025-08-01,,33.043,33.028,33.143,-0.929,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.944
+2025-08-04,,33.133,33.179,33.058,-1.15,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.104
+2025-08-05,,33.124,33.212,33.015,-1.282,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.194
+2025-08-06,,33.309,33.404,33.2,0.052,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.147
+2025-08-07,,32.412,32.335,32.315,-0.539,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.616
+2025-08-08,,32.188,32.1,32.337,-0.258,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.346
+2025-08-11,,32.12,32.144,32.12,-0.879,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.855
+2025-08-12,,32.037,32.036,31.96,-0.372,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.373
+2025-08-13,,31.419,31.395,31.868,-1.181,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.205
+2025-08-14,,31.331,31.318,31.85,-0.81,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.823
+2025-08-15,,31.221,31.216,31.57,0.19,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.185
+2025-08-18,,31.193,31.19,31.65,-0.079,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.082
+2025-08-19,,30.462,30.49,30.586,-0.765,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.737
+2025-08-20,,30.33,30.417,30.359,-1.576,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.489
+2025-08-21,,30.336,30.373,30.197,-2.839,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.802
+2025-08-22,,30.372,30.396,30.296,-3.201,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.177
+2025-08-25,,30.565,30.599,30.178,-3.209,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.175
+2025-08-26,,31.063,30.898,31.164,-2.397,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.562
+2025-08-27,,31.55,31.534,31.165,-1.001,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.017
+2025-08-28,,31.365,31.54,31.303,-0.194,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.019
+2025-08-29,,31.1,31.139,31.121,-0.522,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.483
+2025-09-01,,30.619,30.598,30.811,-1.442,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.463
+2025-09-02,,30.457,30.608,30.5,-1.315,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.164
+2025-09-03,,30.487,30.55,30.304,-1.625,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.562
+2025-09-04,,30.384,30.409,30.324,-2.028,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.003
+2025-09-05,,30.463,30.473,30.298,-1.506,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.496
+2025-09-08,,30.559,30.566,30.312,-2.505,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.498
+2025-09-09,,30.617,30.623,30.794,-2.314,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.308
+2025-09-10,,30.719,30.724,30.989,-2.403,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.398
+2025-09-11,,30.594,30.595,30.603,-1.729,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.728
+2025-09-12,,30.419,30.42,30.577,-2.243,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.242
+2025-09-15,,30.795,30.961,30.424,-1.359,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.193
+2025-09-16,,30.546,30.537,30.576,-1.783,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.792
+2025-09-17,,30.465,30.454,30.57,-1.936,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.947
+2025-09-18,,30.535,30.513,30.628,-2.417,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.439
+2025-09-19,,30.925,30.841,31.033,-1.383,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.467
+2025-09-22,,31.195,31.151,31.285,-0.649,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.693
+2025-09-23,,31.171,31.13,31.249,-1.094,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.135
+2025-09-24,,30.751,30.719,30.756,-1.152,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.184
+2025-09-25,,30.382,30.508,30.283,-2.074,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.948
+2025-09-26,,30.606,30.72,30.533,-2.091,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.977
+2025-09-29,,30.531,30.646,30.305,-1.529,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.414
+2025-09-30,,30.51,30.565,30.646,-0.901,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.846
+2025-10-01,,30.539,30.595,30.493,-0.796,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.74
+2025-10-02,,30.063,30.053,29.957,-1.392,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.402
+2025-10-03,,29.495,29.549,29.331,-1.943,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.889
+2025-10-06,,29.543,29.528,29.451,-3.573,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.588
+2025-10-07,,29.737,29.785,29.767,-3.509,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.461
+2025-10-08,,30.116,30.219,29.992,-2.584,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.481
+2025-10-09,,30.496,30.636,30.537,-1.867,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.727
+2025-10-10,,30.516,30.578,30.446,-1.654,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.592
+2025-10-13,,30.526,30.588,30.478,-0.949,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.887
+2025-10-14,,29.921,30.569,29.637,-1.88,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.232
+2025-10-15,,29.577,29.603,29.408,-2.249,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.223
+2025-10-16,,29.832,29.851,29.75,-2.546,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.527
+2025-10-17,,29.975,29.95,29.92,-1.841,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.866
+2025-10-20,,30.107,30.2,29.786,-1.632,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.539
+2025-10-21,,30.019,29.988,29.924,-2.181,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.212
+2025-10-22,,29.882,29.936,29.76,-1.886,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.832
+2025-10-23,,30.509,30.398,30.568,-1.945,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.056
+2025-10-24,,30.379,30.392,30.371,-1.637,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.624
+2025-10-27,,30.455,30.472,30.378,-0.945,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.928
+2025-10-28,,30.413,30.422,30.377,-1.081,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.072
+2025-10-29,,30.413,30.422,30.382,-1.456,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.447
+2025-10-30,,30.257,30.264,30.125,-0.791,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.784
+2025-11-03,,29.902,29.762,30.006,-1.839,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.979
+2025-11-04,,29.873,29.83,29.999,-2.678,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.721
+2025-11-05,,29.958,29.955,29.973,-1.861,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.864
+2025-11-06,,29.941,29.85,29.94,-1.607,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.698
+2025-11-07,,29.942,29.864,29.992,-1.259,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.337
+2025-11-10,,30.154,30.105,30.223,-0.917,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.966
+2025-11-11,,29.724,29.656,30.202,-1.378,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.446
+2025-11-12,,29.719,29.655,29.9,-1.214,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.278
+2025-11-13,,29.544,29.509,29.459,-0.914,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.949
+2025-11-14,,29.34,29.366,29.3,-1.91,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.884
+2025-11-17,,29.555,29.541,29.565,-1.863,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.877
+2025-11-18,,29.801,29.756,29.873,-1.893,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.938
+2025-11-19,,29.938,29.934,30.025,-1.002,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.006
+2025-11-20,,29.928,29.93,30.141,-1.231,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.229
+2025-11-21,,29.829,29.845,29.825,-0.369,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.353
+2025-11-24,,29.838,29.858,29.848,0.091,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.111
+2025-11-25,,29.649,29.628,29.848,0.263,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.242
+2025-11-26,,29.093,29.155,29.458,-0.275,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.213
+2025-11-27,,28.688,28.778,28.581,-0.333,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.243
+2025-11-28,,28.41,28.373,28.385,-0.407,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.444
+2025-12-01,,28.247,28.076,28.612,0.02,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.151
+2025-12-02,,28.208,28.053,28.666,0.158,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.003
+2025-12-03,,28.204,28.049,28.655,-0.002,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.157
+2025-12-04,,27.828,28.03,27.713,0.74,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.942
+2025-12-05,,27.193,27.073,26.969,-0.073,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.193
+2025-12-08,,26.304,26.168,26.264,-0.567,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.703
+2025-12-09,,26.16,26.05,26.25,-1.329,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.439
+2025-12-10,,25.895,25.804,26.163,-0.707,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.798
+2025-12-11,,25.922,25.901,26.154,-0.883,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.904
+2025-12-12,,25.585,25.657,25.459,-2.099,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.027
+2025-12-15,,26.1,26.209,25.46,-1.325,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.216
+2025-12-16,,26.084,26.136,25.859,-0.68,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.628
+2025-12-17,,25.965,25.979,25.947,-1.392,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.378
+2025-12-18,,25.843,25.849,25.787,-1.809,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.803
+2025-12-19,,26.361,26.386,26.457,-1.8,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.775
+2025-12-22,,26.525,26.572,26.598,-1.162,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.115
+2025-12-23,,26.776,26.547,26.906,-0.956,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.185
+2026-01-05,,27.695,27.698,26.906,0.296,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.299
+2026-01-06,,27.729,27.733,26.906,-0.343,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.339
+2026-01-07,,27.729,27.733,26.906,-1.048,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.044
+2026-01-08,,27.729,27.733,26.906,0.03,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.034
+2026-01-09,,27.495,27.501,27.434,-0.879,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.873
+2026-01-12,,27.235,27.187,27.251,-3.011,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.059
+2026-01-13,,27.939,28.116,27.683,-3.534,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.357
+2026-01-14,,29.193,29.056,29.408,-2.62,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.757
+2026-01-15,,30.04,30.002,29.83,-3.118,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.156
+2026-01-16,,30.744,30.816,29.776,-6.135,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-6.063
+2026-01-19,,32.574,32.653,33.584,-2.821,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.742
+2026-01-20,,33.346,33.247,34.372,-2.541,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.64
+2026-01-21,,34.154,33.751,34.545,-5.054,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-5.457
+2026-01-22,,34.87,34.828,34.85,-3.208,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.25
+2026-01-23,,36.24,35.782,36.664,-3.799,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.257
+2026-01-26,,36.374,36.096,36.787,-2.738,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.016
+2026-01-27,,36.86,36.819,37.53,-1.901,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.942
+2026-01-28,,36.752,36.692,37.47,-2.109,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.169
+2026-01-29,,37.73,37.701,37.805,-2.383,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.412
+2026-01-30,,37.785,37.785,37.902,-1.5,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.5
+2026-02-02,,37.907,37.761,38.145,3.962,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,3.816
+2026-02-03,,36.635,36.241,36.39,3.775,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,3.381
+2026-02-04,,33.278,32.943,32.566,-0.223,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.558
+2026-02-05,,32.342,32.664,31.897,-1.393,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.071
+2026-02-06,,31.23,31.117,31.151,-4.464,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.577
+2026-02-09,,31.577,31.308,31.58,-1.919,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.188
+2026-02-10,,31.74,31.581,31.553,-0.106,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.265
+2026-02-11,,30.938,30.75,31.558,-1.229,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.417
+2026-02-12,,30.506,30.401,30.612,-2.488,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.593
+2026-02-13,,29.991,29.914,30.6,-2.509,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.586
+2026-02-16,,30.047,30.023,28.186,-0.856,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.88
+2026-02-17,,29.841,29.901,29.233,0.019,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.079
+2026-02-18,,28.154,28.232,27.295,-3.327,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.249
+2026-02-19,,27.884,27.916,27.292,-5.639,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-5.607
+2026-02-20,,28.207,28.043,27.775,-3.822,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.986
+2026-02-23,,28.339,28.181,27.875,-3.495,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.653
+2026-02-24,,28.438,28.393,27.823,-2.453,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.498
+2026-02-25,,28.734,28.679,28.546,-2.316,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.371
+2026-02-26,,28.015,27.898,28.288,-4.209,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.326
+2026-02-27,,28.776,28.367,28.925,-3.183,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.592
+2026-03-02,,30.411,28.673,30.984,-14.095,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-15.833
+2026-03-03,,30.352,28.935,30.827,-23.938,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-25.355
+2026-03-04,,41.877,44.821,41.563,-6.89,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.946
+2026-03-05,,44.288,46.089,44.348,-6.443,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.642
+2026-03-06,,45.015,46.097,45.313,-8.37,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-7.288
+2026-03-09,,48.895,49.425,48.856,-7.558,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-7.028
+2026-03-10,,51.19,51.608,51.484,3.797,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,4.215
+2026-03-11,,50.942,52.657,49.889,0.953,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,2.668
+2026-03-12,,50.48,50.947,50.048,-0.39,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.077
+2026-03-13,,50.121,50.336,49.629,0.006,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.221
+2026-03-16,,50.007,50.143,50.271,-0.88,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.744
+2026-03-17,,49.721,50.239,49.726,-1.838,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.32
+2026-03-18,,50.213,50.206,50.363,-4.449,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.456
+2026-03-19,,52.174,51.854,53.565,-9.678,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-9.998
+2026-03-20,,52.691,52.688,53.398,-6.564,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-6.567
+2026-03-23,,52.36,52.389,52.906,-4.323,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.294
+2026-03-24,,53.15,52.235,53.318,-0.891,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.806
+2026-03-25,,55.206,52.93,55.352,2.39,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.114
+2026-03-26,,53.929,52.289,54.19,-1.289,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.929
+2026-03-27,,53.337,52.806,53.48,-0.84,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.371
+2026-03-30,,53.455,52.988,53.458,-1.359,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.826
+2026-03-31,,53.393,53.114,53.315,2.636,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,2.357
+2026-04-01,,52.046,51.56,53.457,4.536,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,4.05
+2026-04-07,,49.315,49.746,49.495,-3.932,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.501
+2026-04-08,,49.288,49.725,49.453,3.987,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,4.424
+2026-04-09,,51.41,51.301,51.504,5.235,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,5.126
+2026-04-10,,45.558,44.355,51.485,1.92,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.717
+2026-04-13,,44.961,44.336,47.926,-1.452,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.077
+2026-04-14,,44.803,44.733,45.261,1.438,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.368
+2026-04-15,,43.479,43.296,45.194,2.08,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.897
+2026-04-16,,43.038,43.363,43,0.616,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.941
+2026-04-17,,41.829,41.664,42.729,3.06,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,2.895
+2026-04-20,,40.328,40.025,39.496,0.036,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.267
+2026-04-21,,39.267,39.667,38.7,-2.664,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.264
+2026-04-22,,40.139,40.216,39.626,-3.413,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.336
+2026-04-23,,41.373,41.657,42.084,-3.123,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.839
+2026-04-24,,42.891,43.036,42.885,-1.97,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.825
+2026-04-28,,43.038,43.307,42.669,-0.556,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.287
+2026-04-29,,42.886,42.986,42.473,-3.967,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.867
+2026-04-30,,43.843,44.124,43.95,-2.144,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.863
+2026-05-04,,44.859,44.856,44.912,-3.284,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.287
+2026-05-05,,44.835,44.827,44.913,-2.091,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.099
+2026-05-06,,44.886,44.856,44.916,0.984,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.954
+2026-05-07,,45.744,45.634,45.784,2.183,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,2.073
+2026-05-08,,44.79,44.367,45.092,0.647,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.224
+2026-05-11,,43.692,43.483,44.111,-2.541,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.75
+2026-05-12,,44.52,43.489,44.924,-2.164,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.195
+2026-05-13,,45.004,44.804,44.997,-1.916,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.116
+2026-05-18,,46.226,46.211,45.968,-4.024,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.039
+2026-05-19,,48.516,48.739,48.667,-3.3,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.077
+2026-05-20,,49.378,49.537,49.449,-0.047,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.112
+2026-05-21,,49.359,49.509,49.413,-0.049,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.101
+2026-05-22,,49.338,49.487,49.355,0.655,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.804
+2026-05-26,,49.447,49.6,49.442,1.975,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,2.128
+2026-05-27,,47.913,47.892,49.717,1.5,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.479
+2026-05-28,,47.434,47.021,48.081,0.513,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.1
+2026-05-29,,46.778,46.548,47.668,0.777,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.547
+2026-06-01,,46.855,46.707,47.38,-2.235,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.383
+2026-06-02,,46.841,46.625,46.952,-0.766,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.982
+2026-06-03,,47.308,47.269,46.994,-1.556,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.595
+2026-06-04,,47.491,47.365,47.452,-1.261,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.387
+2026-06-05,,48.126,48.144,47.528,-0.37,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.352
+2026-06-08,,49.032,49.143,49.408,-0.794,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.683
+2026-06-09,,49.557,49.257,49.959,0.813,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.513
+2026-06-10,,49.614,48.998,50.018,-0.375,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.991
+2026-06-11,,49.187,49.786,49.953,-0.503,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.096
+2026-06-12,,50.052,50.05,51.028,3.279,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,3.277
+2026-06-15,,49.588,49.564,49.933,7.081,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,7.057
+2026-06-16,,49.456,49.423,49.761,7.687,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,7.654
+2026-06-17,,43.222,42.815,45.481,1.307,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.9
+2026-06-18,,42.623,42.56,42.57,2.1,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,2.037
+2026-06-19,,41.746,41.545,42.351,-0.346,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.547
+2026-06-22,,42.245,41.978,42.799,0.358,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.091
+2026-06-23,,42.344,42.236,42.758,0.33,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.222
+2026-06-24,,42.347,42.204,42.806,1.471,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.328
+2026-06-29,,40.935,40.929,42.079,-1.63,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.636
+2026-06-30,,41.168,41.173,43.095,-2.276,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.271
+2026-07-01,,42.443,42.213,43.327,-0.336,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.566
+2026-07-02,,42.437,42.372,43.035,-1.578,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.643
+2026-07-03,,42.417,42.359,43.064,-2.684,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.742
+2026-07-06,,43.684,43.414,44.005,-0.447,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.717
+2026-07-07,,44.129,44.069,44.469,-2.447,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.507
+2026-07-08,,44.434,44.581,44.45,-4.588,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.441
+2026-07-09,,45.682,46.018,44.471,-4.42,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.084
+2026-07-10,,47.029,47.361,47.479,-1.626,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.294
+2026-07-13,,47.312,47.614,47.395,-3.963,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.661
+2026-07-14,,48.039,48.244,47.454,-4.92,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.715
+2026-07-15,,52.098,52.239,47.51,-2.255,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.114
+2026-07-16,,53.706,52.526,54.218,-1.079,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.259
+2026-07-17,,54.622,54.096,55.14,-2.773,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.299
+2026-07-20,,55.078,54.989,55.143,-3.664,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.753
+2026-07-21,,56.066,56.437,56.726,-3.597,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.226
+2026-07-22,,58.336,57.6,58.915,-4.201,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.937
+2026-07-23,,59.162,58.922,59.373,-2.736,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.976
+2026-07-24,,59.178,58.928,59.408,-4.397,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.647
+2026-07-27,,61.871,62.185,62.334,3.618,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,3.932
+2026-07-28,,62.703,62.783,62.952,4.966,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,5.046
+2026-07-29,,60.549,59.741,62.292,0.129,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.679
+2026-07-30,,59.44,59.08,59.753,1.259,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,0.899
+2026-07-31,,59.4,58.738,60.102,0.329,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.333
+2026-08-03,,59.044,58.8,59.328,1.539,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.295
+2026-08-04,,59.025,58.598,59.187,3.104,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,2.677
+2026-08-05,,56.977,56.337,56.705,4.573,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,3.933
+2026-08-06,,55.68,55.473,55.277,-0.089,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.296
+2026-08-07,,55.222,55.069,55.061,-0.322,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.475
+2026-08-10,,54.76,54.865,54.462,-6.038,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-5.933
+2026-08-11,,54.693,54.809,54.374,-4.042,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.926
+2026-08-12,,57.278,58.094,54.416,-3.743,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.927
+2026-08-13,,57.947,58.724,57.235,-2.453,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.676
+2026-08-14,,59.377,59.68,59.411,-2.047,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.744
+2026-08-17,,60.067,60.192,59.861,-1.69,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.565
+2026-08-18,,60.161,60.237,60.104,-3.485,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.409
+2026-08-19,,61.121,61.161,61.128,-2.26,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.22
+2026-08-20,,62.207,62.227,61.862,-3.088,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.068
+2026-08-21,,62.241,62.25,61.891,-3.624,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.615
+2026-08-24,,63.019,62.737,63.406,-5.301,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-5.583
+2026-08-25,,63.046,62.772,63.429,-3.542,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.816
+2026-08-26,,63.028,62.749,63.413,-2.598,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-2.877
+2026-08-27,,63.872,63.871,63.505,-4.223,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.224
+2026-08-28,,65.142,65.194,65.652,-1.837,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.785
+2026-08-31,,65.952,65.99,66,-3.857,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.819
+2026-09-01,,65.956,65.996,66.003,-6.262,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-6.222
+2026-09-02,,69.143,69.807,66.066,-4.491,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.827
+2026-09-03,,70.92,70.696,70.949,-0.89,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.114
+2026-09-04,,70.836,70.563,70.813,-1.116,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.389
+2026-09-07,,70.54,70.156,70.779,-2.766,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.15
+2026-09-08,,71.115,71.037,71.437,-4.726,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.804
+2026-09-09,,72.14,72.291,72.625,-7.106,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-6.955
+2026-09-10,,73.18,73.549,73.932,-8.867,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-8.498
+2026-09-11,,77.15,75.475,78.047,-2.37,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.045
+2026-09-14,,77.6,75.469,78.5,-4.966,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-7.097
+2026-09-15,,79.647,79.616,80.418,-0.413,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-0.444
+2026-09-16,,80.546,80.641,80.503,2.516,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,2.611
+2026-09-17,,80.073,80.669,79.728,3.721,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,4.317
+2026-09-18,,78.223,78.404,78.307,-1.295,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.114
+2026-09-21,,78.221,78.413,78.307,4.968,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,5.16
+2026-09-22,,78.291,78.33,78.332,4.951,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,4.99
+2026-09-23,,73.767,73.371,74.093,1.757,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.361
+2026-09-24,,73.764,73.366,74.089,-1.342,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.74
+2026-09-25,,74.114,73.351,74.316,2.043,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.28
+2026-09-28,,74.621,74.872,74.757,1.184,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,1.435
+2026-09-29,,72.485,71.855,73.432,3.016,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,2.386
+2026-09-30,,71.679,71.333,71.895,-0.678,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.024
+2026-10-01,,69.692,69.503,70.786,-4.246,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.435
+2026-10-02,,70.759,70.773,71.551,-4.001,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.987
+2026-10-05,,71.811,71.865,72.203,-1.702,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-1.648
+2026-10-06,,71.875,71.928,72.269,-3.816,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-3.763
+2026-10-07,,74.058,73.996,74.558,-4.022,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,-4.084
+2026-10-08,,74.242,73.687,74.724,,"ACER TERMINAL, historical price assessments, downloaded by hand on 2026-10-08",,,

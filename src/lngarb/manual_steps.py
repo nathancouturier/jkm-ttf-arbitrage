@@ -93,36 +93,37 @@ MANUAL_STEPS: tuple[dict[str, Any], ...] = (
         "id": "acer_reports_by_hand",
         "series": ["acer_lng_daily"],
         "what": (
-            "ACER's daily LNG price assessment reports, one PDF per weekday from 13 "
-            "January 2023, have to be saved from ACER's TERMINAL platform by hand, "
-            "starting with the reports of 18 and 23 February 2026."
+            "ACER's daily LNG price assessments are on its TERMINAL platform only. "
+            "TERMINAL's historical download, one CSV file with every day ACER published "
+            "from 19 January 2023, has to be saved by hand; the download of 8 October "
+            "2026 is held."
         ),
         "why": (
-            "The reports are published only on TERMINAL, and this pipeline does not "
-            "access TERMINAL by code. ACER corrects values in place, so a report kept "
-            "when it is published is also the only record of what was first printed."
+            "This pipeline does not access TERMINAL by code. ACER corrects values in "
+            "place, so a download kept is also the record of what was published then."
         ),
         "cost_if_skipped": (
-            "The only observed measure of the discount of a DES cargo in Northwest "
-            "Europe to TTF has 26 days, from ACER's correction notice of November and "
-            "December 2024. Everywhere else the discount is a labelled assumption."
+            "Without a new download the observed Northwest Europe discount stops at the "
+            "last day held, and later dates take the labelled assumption."
         ),
         "how": (
             "Open https://aegis.acer.europa.eu/terminal/price_assessments in a browser, "
-            "save each report as data/private/acer/acer_lng_YYYY-MM-DD.pdf by its "
-            "publication date, then run python -m lngarb.sources.acer. A reader for the "
-            "reports is written once the first saved report shows their layout."
+            "download the price assessments history ('PA historical') into "
+            "data/private/acer/ keeping TERMINAL's file name, then run python "
+            "scripts/refresh.py --only acer."
         ),
-        "cadence": "each weekday, or in batches if TERMINAL keeps its history",
-        "status": "outstanding",
+        "cadence": "whenever the history should be extended, ideally each month",
+        "status": "done, 8 October 2026; repeat to extend",
     },
     {
         "id": "meti_monthly_pdfs_by_hand",
-        "series": ["meti_spot_lng_monthly"],
+        "series": ["meti_spot_lng_monthly", "meti_spot_lng_releases"],
         "what": (
             "METI's monthly spot LNG releases, one PDF per month from March 2014 to "
             "March 2021, have to be saved from a browser to recover the preliminary "
-            "figures. Nine are held (August 2020 to March 2021); 77 are not."
+            "figures. Nineteen are held, the releases for October 2019 to March 2021 "
+            "and the detailed one for March 2021, which cover the cancellation notices "
+            "of every cargo loading in 2020; the 67 earlier ones are not."
         ),
         "why": (
             "METI's site answers automated requests with a bot challenge after a few "
@@ -131,18 +132,20 @@ MANUAL_STEPS: tuple[dict[str, Any], ...] = (
             "preliminary ones."
         ),
         "cost_if_skipped": (
-            "None to the series itself, which is complete from the workbook. Without "
-            "the PDFs the study cannot show how METI's preliminary figures were "
-            "revised before August 2020."
+            "None to the monthly series, which is complete from the workbook. The "
+            "releases series holds only the releases saved: without the earlier PDFs the "
+            "study cannot show how METI's preliminary figures were revised before "
+            "October 2019."
         ),
         "how": (
             "Open https://www.meti.go.jp/english/statistics/sho/slng/index.html in a "
             "browser and save each monthly PDF into data/private/meti/pdf/ under the "
-            "name the page links it by. The PDFs stay private; a reader for them is "
-            "added once they are collected."
+            "name the page links it by, then run python scripts/refresh.py --only meti. "
+            "The PDFs stay private; the figures they print are committed as "
+            "meti_spot_lng_releases."
         ),
         "cadence": "once, the survey has ended",
-        "status": "outstanding",
+        "status": "partly done, 8 October 2026: 19 of 86 releases saved",
     },
 )
 

@@ -106,7 +106,7 @@ const COLUMN_RULES = [
   { match: /^reports_printing_it$/, lo: 1.0, hi: 20.0, what: "a count of the reports that print a month" },
   { match: /^value_(before|after)$/, lo: 0.5, hi: 120.0, what: "a Pink Sheet gas price before or after a revision, USD/MMBtu" },
   { match: /^hire_usd_day$/, lo: -10000.0, hi: 500000.0, what: "reported LNG carrier hire, USD per day" },
-  { match: /_spread_eur_mwh$/, lo: -20.0, hi: 5.0, what: "a DES LNG spread to TTF, EUR/MWh" },
+  { match: /_spread_eur_mwh$/, lo: -40.0, hi: 20.0, what: "a DES LNG spread to TTF, EUR/MWh" },
   { match: /_des_eur_mwh$/, lo: 1.0, hi: 400.0, what: "a DES LNG price level, EUR/MWh" },
   { match: /^mmcf(_before|_after)?$/, lo: 0.0, hi: 2000000.0, what: "US gas exports in a month, MMcf" },
   { match: /^volume_mmcf$/, lo: 0.0, hi: 10000.0, what: "one LNG cargo or part of one, MMcf" },
