@@ -570,9 +570,9 @@ SOURCES: Mapping[str, Source] = _registry(
     ),
     Source(
         series="imf_usd_per_sdr_daily",
-        label="US dollars per special drawing right, daily, from 2016, the IMF's rate through the Bundesbank, private",
+        label="US dollars per special drawing right, daily, from 2016, the IMF's rate through the Bundesbank",
         publisher="International Monetary Fund, as republished by the Deutsche Bundesbank",
-        page_url="https://www.bundesbank.de/en/homepage/user-information/terms-of-use-642972",
+        page_url="https://www.imf.org/external/np/fin/data/param_rms_mth.aspx",
         machine_url="https://api.statistiken.bundesbank.de/rest/download/BBEX3/D.USD.XDR.DA.AC.000?format=csv&lang=en",
         url_note=(
             "The Bundesbank's statistics API, series BBEX3.D.USD.XDR.DA.AC.000, no key. "
@@ -582,14 +582,17 @@ SOURCES: Mapping[str, Source] = _registry(
         frequency="daily",
         unit="US dollars per SDR",
         method="published",
-        licence="IMF terms, not yet read; private",
+        licence="IMF terms for its data, attribution required",
         licence_note=(
-            "The IMF's terms have not been read: its hosts refuse automated requests. "
-            "The Bundesbank's terms do not cover third party data without the "
-            "originator's permission. Kept in data/private/ and not published until a "
-            "person has read the IMF's terms."
+            "Exchange rate data of the International Monetary Fund, read through the "
+            "Deutsche Bundesbank. The IMF's terms (Copyright and Usage, effective 11 "
+            "October 2024): 'You may download, extract, copy, create derivative works, "
+            "publish, distribute, and use Data obtained from IMF Sites', 'Whether "
+            "obtained directly from the IMF or another party', with attribution to the "
+            "IMF as the source. Source: International Monetary Fund, exchange rate data, "
+            "SDR valuation."
         ),
-        committable=False,
+        committable=True,
     ),
     # -- Seeds ------------------------------------------------------------
     Source(

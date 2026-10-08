@@ -574,18 +574,19 @@ dates.
 ### 9.9 Delivery months
 
 `lngarb.delivery` gives the delivery month each front-month price names on a
-day. Platts rolls JKM on the 16th of the month, the next business day when the
-16th is not one, to the month after next ("The Platts JKM rolls on the 16th of
-each calendar month", Platts' press release of 16 June 2015); the JPX contract
-on Platts JKM settles on the assessments from "the 16th of the two month prior
-to the contract month to the 15th of the prior month". TTF futures stop trading
-two business days before their delivery month: the rule the study applies, not
-yet read in ICE Endex's own documents, whose terms forbid reading them by code.
-The two front months name the same month from the 1st to the 15th and after
-the TTF expiry at the end of the month, and different months from the 16th to
-the expiry. A week is aligned when every trading day of it names the same
-month, misaligned when none does, and mixed otherwise. Business days are
-weekdays; no holiday calendar is applied yet.
+day. JKM futures for month M stop trading on the 15th of M-1, or the business
+day before, and settle on Platts' JKM from the 16th of M-2 to the 15th of M-1
+(ICE Futures Europe and the Japan Exchange Group; "The Platts JKM rolls on the
+16th of each calendar month", Platts' press release of 16 June 2015). Dutch TTF
+futures stop trading "two UK Business Days prior to the first calendar day of
+the delivery month" (ICE Endex). Business days are UK business days: weekdays
+that are not bank holidays in England and Wales (`lngarb.calendars`), whose
+rule reproduces every day gov.uk lists for 2019 to 2028 and, with the TTF rule,
+every one of the 134 last trading days ICE Endex lists for November 2026 to
+December 2037. The two front months name the same month from the 1st to the
+15th and after the TTF expiry at the end of the month, and different months
+from the 16th to the expiry. A week is aligned when every trading day of it
+names the same month, misaligned when none does, and mixed otherwise.
 
 ---
 

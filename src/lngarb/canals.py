@@ -147,7 +147,7 @@ def suez_toll_sdr(when: date | str, scnt: float, *, laden: bool, rebate_on_surch
 def _usd_per_sdr(day: date) -> tuple[float, date] | None:
     from .sources.base import read_cache
 
-    frame = read_cache("imf_usd_per_sdr_daily", directory="private")
+    frame = read_cache("imf_usd_per_sdr_daily")
     if frame is None:
         return None
     import pandas as pd

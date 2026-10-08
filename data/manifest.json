@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-08T07:36:04Z",
+  "generated_at": "2026-10-08T13:29:31Z",
   "series": [
     {
       "series": "acer_lng_daily",
@@ -2637,17 +2637,17 @@
     },
     {
       "series": "imf_usd_per_sdr_daily",
-      "source": "International Monetary Fund, as republished by the Deutsche Bundesbank",
+      "source": "International Monetary Fund, exchange rate data, as republished by the Deutsche Bundesbank",
       "url": "https://api.statistiken.bundesbank.de/rest/download/BBEX3/D.USD.XDR.DA.AC.000?format=csv&lang=en",
-      "page_url": "https://www.bundesbank.de/en/homepage/user-information/terms-of-use-642972",
+      "page_url": "https://www.imf.org/external/np/fin/data/param_rms_mth.aspx",
       "machine_fetched": true,
-      "fetched_at": "2026-10-08T07:36:04Z",
+      "fetched_at": "2026-10-08T13:29:31Z",
       "checked_at": null,
-      "rows": 2662,
-      "observations": 2662,
-      "file_rows": 3932,
+      "rows": 2663,
+      "observations": 2663,
+      "file_rows": 3933,
       "first_date": "2016-01-04",
-      "last_date": "2026-10-06",
+      "last_date": "2026-10-07",
       "frequency": "daily",
       "gaps": [
         "2016-01-18",
@@ -2797,15 +2797,15 @@
         "2026-09-07"
       ],
       "provisional_from": null,
-      "vintage": "last update 2026-10-07 11:43:47",
+      "vintage": "last update 2026-10-08 12:05:57",
       "method": "published",
-      "committable": false,
-      "licence_note": "The IMF's terms have not been read: its hosts refuse automated requests. The Bundesbank's terms do not cover third party data without the originator's permission. Kept in data/private/ and not published until a person has read the IMF's terms; only tolls computed from it are shown, each with the rate used.",
+      "committable": true,
+      "licence_note": "Exchange rate data of the International Monetary Fund, read through the Deutsche Bundesbank. The IMF's terms (Copyright and Usage, effective 11 October 2024): 'You may download, extract, copy, create derivative works, publish, distribute, and use Data obtained from IMF Sites', 'Whether obtained directly from the IMF or another party', with attribution to the IMF as the source. Source: International Monetary Fund, exchange rate data, SDR valuation.",
       "status": "ok",
       "note": "fetched from the Bundesbank's statistics API, series BBEX3.D.USD.XDR.DA.AC.000, the IMF's US dollars per SDR. 1270 days from 2016-01-01 carry no rate (weekends and the IMF's closing days) and are kept as rows with no value.",
-      "file": "data/private/imf_usd_per_sdr_daily.csv",
+      "file": "data/cache/imf_usd_per_sdr_daily.csv",
       "unit": "US dollars per SDR",
-      "licence": "IMF terms, not yet read; private",
+      "licence": "IMF terms for its data, attribution required",
       "observation_column": "usd_per_sdr",
       "unique_dates": true
     },
@@ -3221,8 +3221,8 @@
   "manual_steps_note": "Work this pipeline cannot do for itself. Each entry says what it is, why it exists, what it costs to skip it and how to do it. They are repeated against the series they affect in the manual_step field of those entries.",
   "run": {
     "mode": "online",
-    "started_at": "2026-10-08T07:35:51Z",
-    "finished_at": "2026-10-08T07:36:04Z",
+    "started_at": "2026-10-08T13:29:17Z",
+    "finished_at": "2026-10-08T13:29:31Z",
     "script": "scripts/refresh.py"
   }
 }

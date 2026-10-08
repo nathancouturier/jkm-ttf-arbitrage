@@ -16,6 +16,15 @@ data/cache/nyfed_effr_daily.csv, and tests/fixtures/nyfed_effr_2016-01-01_to_201
   publication of the EFFR by Nathan Couturier, does not sanction or endorse
   any particular republication, and has no liability for your use.
 
+data/cache/imf_usd_per_sdr_daily.csv:
+  Source: International Monetary Fund, exchange rate data, SDR valuation
+  (https://www.imf.org/external/np/fin/data/param_rms_mth.aspx), read through
+  the Deutsche Bundesbank's statistics API, series BBEX3.D.USD.XDR.DA.AC.000.
+
+tests/fixtures/govuk_bank_holidays_2026-10-08.json:
+  Contains public sector information licensed under the Open Government
+  Licence v3.0 (https://www.gov.uk/bank-holidays.json).
+
 data/cache/worldbank_gas_monthly.csv and data/cache/worldbank_gas_revisions.csv:
   The World Bank, Commodity Price Data (The Pink Sheet), under the Creative
   Commons Attribution 4.0 International licence. The selection of series and

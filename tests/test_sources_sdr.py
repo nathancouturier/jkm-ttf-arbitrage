@@ -1,4 +1,4 @@
-"""The IMF's SDR rate through the Bundesbank, from a file built here: the series itself is private."""
+"""The IMF's SDR rate through the Bundesbank, from a file built here with made up rates."""
 
 from __future__ import annotations
 
@@ -9,8 +9,7 @@ import pytest
 
 from lngarb.sources import base, sdr
 
-# The layout of the Bundesbank's file, with made up rates: the real series may
-# not be committed until the IMF's terms are read.
+# The layout of the Bundesbank's file, with made up rates.
 HEADER = (
     '"",BBEX3.D.USD.XDR.DA.AC.000,BBEX3.D.USD.XDR.DA.AC.000_FLAGS\n'
     '"",Value of the special drawing right / XDR 1 = USD ...,\n'
@@ -45,7 +44,17 @@ def test_a_file_of_another_series_or_unit_is_refused():
         sdr.parse_bbk_csv((HEADER.replace("unit,USD,", "unit,EUR,") + ROWS).encode())
 
 
-def test_the_series_is_private():
+def test_the_series_is_committed_with_the_imf_credited():
+    from lngarb import config
+
     adapter = sdr.UsdPerSdrDaily()
-    assert adapter.committable is False
-    assert adapter.directory() == "private"
+    assert adapter.committable is True and adapter.directory() == "cache"
+    assert "Source: International Monetary Fund" in config.SOURCES["imf_usd_per_sdr_daily"].licence_note
+
+
+def test_the_committed_rates_on_days_read_from_the_imf():
+    rates = base.read_cache("imf_usd_per_sdr_daily").set_index("date")["usd_per_sdr"]
+    assert rates[pd.Timestamp("2022-10-12")] == 1.2759
+    assert rates[pd.Timestamp("2026-09-30")] == 1.35975
+    # 10 October 2022, a day the IMF published no rate.
+    assert math.isnan(rates[pd.Timestamp("2022-10-10")])

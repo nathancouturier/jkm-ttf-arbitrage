@@ -35,7 +35,7 @@ was decided on the strength of it.
 | `h10_usd_per_eur_daily` | US dollars per euro, noon buying rate in New York, daily, from 2015 | [FRB_h10_xml.zip](https://www.federalreserve.gov/releases/h10/data/FRB_h10_xml.zip) | weekly, Mondays | **yes** | US public domain |
 | `nyfed_sofr_daily` | Secured Overnight Financing Rate, daily, percent, from 2 April 2018 | [markets API](https://markets.newyorkfed.org/api/rates/secured/sofr/search.json) | daily, next business day | **yes**, under the New York Fed's terms | New York Fed Terms of Use |
 | `nyfed_effr_daily` | Effective federal funds rate, daily, percent, 4 January 2016 to 30 April 2018, the overnight rate before SOFR | [markets API](https://markets.newyorkfed.org/api/rates/unsecured/effr/search.json) | closed | **yes**, under the New York Fed's terms | New York Fed Terms of Use |
-| `imf_usd_per_sdr_daily` | US dollars per special drawing right, daily, from 2016, the IMF's rate as the Bundesbank republishes it, for the Suez toll | [Bundesbank API](https://api.statistiken.bundesbank.de/rest/download/BBEX3/D.USD.XDR.DA.AC.000?format=csv&lang=en) | daily | **NO**, `data/private/` until the IMF's terms are read | IMF terms, not yet read |
+| `imf_usd_per_sdr_daily` | US dollars per special drawing right, daily, from 2016, the IMF's rate as the Bundesbank republishes it, for the Suez toll | [Bundesbank API](https://api.statistiken.bundesbank.de/rest/download/BBEX3/D.USD.XDR.DA.AC.000?format=csv&lang=en) | daily | **yes**, with the IMF credited (2.20) | IMF terms for its data |
 | `freight_anchors` | Reported LNG carrier charter rates, USD per day, eight figures from February 2022 to October 2026, one per month at most, each from a dated article | written from rows kept in `lngarb.freight_anchors`; nothing fetched | as figures are verified | **yes**, figures only (2.13, 2.14) | individual figures quoted with attribution |
 | `routes` | The four sea routes from Sabine Pass, distances and lines | computed once by `scripts/routes.py` | fixed | **yes** | distances: this study, MIT; lines: EUPL 1.2; searoute Apache 2.0 |
 
@@ -585,40 +585,62 @@ The manual carries an OECD/IEA copyright of 2004 and asks for permission to
 reproduce all or part of it. **Redistributable: the one factor, cited; the
 manual is not committed.**
 
-### 2.19 Platts' JKM roll and the Japan Exchange Group's JKM contract
+### 2.19 The JKM and TTF contract rules: ICE, Platts and the Japan Exchange Group
 
-The rule that JKM rolls on the 16th of the month is read from Platts' press
-release of 16 June 2015 as Mondo Visione republished it ("The Platts JKM rolls
-on the 16th of each calendar month"), since S&P Global refuses automated
-requests. Mondo Visione's terms govern its paid service and its disclaimer
-limits its liability; neither addresses quotation. The settlement window of a
-futures contract on JKM is read from the Japan Exchange Group's specification of
-its LNG (Platts JKM) futures, updated 4 November 2024, read on 7 October 2026,
-whose terms say:
+The delivery month a front-month price names follows from when its futures stop
+trading. ICE's product pages, read in a browser on 8 October 2026, give both
+rules. Dutch TTF Natural Gas Futures, ICE Endex:
+
+> "Trading will cease at 18:00 CET two UK Business Days prior to the first
+> calendar day of the delivery month, quarter, season, or calendar."
+
+JKM LNG (Platts) Future, ICE Futures Europe:
+
+> "Trading will cease on the 15th calendar day of the calendar month prior to
+> the contract month. If the 15th calendar day is not a business day then
+> trading will cease on the next preceding business day."
+
+The TTF page's expiry details list the last trading day of 134 live contracts,
+November 2026 to December 2037; the study's rule with the UK calendar of 2.22
+gives every one of them. ICE's terms of use say their licence "does not include
+use of any data mining, robots or similar data gathering or extraction
+methods"; nothing was read from ICE by code. The rule that Platts rolls JKM on
+the 16th is also in Platts' press release of 16 June 2015 as Mondo Visione
+republished it ("The Platts JKM rolls on the 16th of each calendar month"), and
+the Japan Exchange Group's specification of its LNG (Platts JKM) futures,
+updated 4 November 2024, gives the same settlement window; its terms say:
 
 > "The collection of data or secondary use of information from this website
 > for commercial purposes is strictly prohibited, unless JPX has granted prior
 > permission or authorized such use under a paid contract."
 
 **Redistributable: the rules as quotation, for a non-commercial study.** No
-price from either source is used. ICE's and CME's own contract rules could not
-be read: their terms forbid automated reading (open question 44).
+price from these sources is used.
 
-### 2.20 Deutsche Bundesbank, the IMF's SDR rate, private
+### 2.20 The IMF's SDR rate, through the Deutsche Bundesbank
 
 The IMF's daily US dollars per SDR, which the Suez toll needs, is read from the
 Bundesbank's statistics API, series BBEX3.D.USD.XDR.DA.AC.000, whose file names
-the "International Monetary Fund (IMF), Washington" as its source. The IMF's
-own hosts refuse automated requests, even for robots.txt, so its terms have not
-been read. The Bundesbank's terms of reuse of statistics, read on 7 October
-2026:
+the "International Monetary Fund (IMF), Washington" as its source; the IMF's own
+hosts refuse automated requests. The IMF's terms, "Copyright and Usage",
+effective 11 October 2024, read in a browser at
+`https://www.imf.org/en/about/copyright-and-terms` on 8 October 2026, govern
+its "Exchange Rate Data" under "The Use of IMF Data":
 
-> "2) The right of free reuse does not apply to third-party data without a
-> prior permission from the originator."
+> "You may download, extract, copy, create derivative works, publish,
+> distribute, and use Data obtained from IMF Sites, subject to the following
+> conditions:"
 
-**Redistributable: no, not yet.** The series is kept in `data/private/` until a
-person has read the IMF's terms (open question 46); only the tolls computed
-from it on the study's dates are shown, each with the rate used.
+> "Whether obtained directly from the IMF or another party, when Data is
+> distributed or reproduced in any manner, it must appear accurately with
+> attribution to the IMF as the source, e.g. "Source: International Monetary
+> Fund, Database Name, <<link to the dataset>>.""
+
+The Bundesbank's terms leave third party data to its originator's permission,
+which these terms give. On the 41 days of October 2022 and September 2026
+compared with the IMF's own monthly tables, every Bundesbank rate is the IMF's
+to the sixth decimal, and the IMF's closing days are missing from both.
+**Redistributable: yes, with the IMF credited.**
 
 ### 2.21 Cheniere's filings, for the contract terms
 
@@ -638,6 +660,16 @@ disclaimer, read first, which says nothing on reuse or automated access:
 
 **Redistributable: quotation of public filings.** Contract figures are quoted
 with their document and section; no filing is committed.
+
+### 2.22 gov.uk, the UK bank holidays
+
+The exchanges count UK business days. The bank holidays of England and Wales
+for 2019 to 2028 are read from `https://www.gov.uk/bank-holidays.json` on 8
+October 2026, under the Open Government Licence v3.0: the footer of gov.uk's
+bank holidays page reads "All content is available under the Open Government
+Licence v3.0, except where otherwise stated". The study builds earlier
+years from the same rule, which reproduces every day gov.uk lists. The file is
+kept as a test fixture. **Redistributable: yes, with attribution.**
 
 ---
 
@@ -1193,8 +1225,9 @@ the study runs without it, on the labelled position given.
 10. **The route lines** are published under the EUPL 1.2 (question 21).
 11. **The Suez toll** is computed from the Authority's schedules with the
     tonnage a labelled assumption (question 25), the rebate on normal dues only
-    (question 26) and on the ballast leg too (question 27); **owner**: read the
-    IMF's terms, without which the SDR rate stays private (question 46).
+    (question 26) and on the ballast leg too (question 27), converted at the
+    IMF's SDR rate of each transit day, committed with the IMF credited
+    (question 46).
 12. **The Red Sea** is closed to a US cargo from 13 January 2024 (question 28).
 13. **The Suez Canal Authority and the Panama Canal Authority** are quoted for
     rates, dates and counts, with no document copied (questions 30 and 41).
@@ -1209,8 +1242,8 @@ the study runs without it, on the labelled position given.
 18. **The contract terms** come from Cheniere's filings as its investor sites
     republish them; **owner**: decide whether EDGAR is to be read with a contact
     address in the user agent (2.21).
-19. **The TTF expiry rule** is the two business days the study applies;
-    **owner**: save ICE Endex's contract specification by hand (question 44).
+19. **The TTF and JKM expiry rules** are ICE's, with the UK calendar
+    (question 44).
 20. **Methane slip** is off by default (question 45), and **MMBtu per tonne** is
     the IEA and Eurostat's factor; **owner**: GIIGNL's report, saved by hand,
     could replace it (question 47).

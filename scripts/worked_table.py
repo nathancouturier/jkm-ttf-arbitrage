@@ -4,9 +4,8 @@ Usage, from the repository root:
 
     PYTHONPATH=src python scripts/worked_table.py
 
-Reads the committed data, the parameter table and, for the Suez toll, the SDR
-rate kept in data/private/; without that rate Suez is shown and not offered.
-Fetches nothing and writes nothing. A date with no reported charter rate within
+Reads only the committed data and the parameter table; fetches nothing and
+writes nothing. A date with no reported charter rate within
 two weeks is shown at the low, central and high hire the freight anchors give.
 """
 

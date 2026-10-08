@@ -68,13 +68,18 @@ price read in cents would still fail.
 
 ### 4. A revision that breaks EIA's own addition
 
-Raised 30 September 2026. Open, recorded.
+Raised 30 September 2026. **Decided 8 October 2026.**
 
 In the release of 30 September 2026, United Kingdom exports for February 2024
 move from 34,117 to 34,724 MMcf while the by vessel total does not move, so the
 destinations of that month sum to 607 MMcf more than the total. The study keeps
 both figures as EIA publishes them. Shares are computed against a stated
 denominator (question 5), so the gap is visible rather than absorbed.
+
+Decision: the two figures are kept as EIA publishes them. Shares use the by
+vessel total of question 5, so the 607 MMcf by which February 2024's
+destinations exceed it is visible in the revisions log rather than absorbed,
+and no share for that month is recomputed from the sum.
 
 ### 5. The denominator of the Asian share
 
@@ -91,12 +96,17 @@ re-exports is shown beside it where the two differ.
 
 ### 6. "From Canada" in the exports by vessel block
 
-Raised 30 September 2026. Open.
+Raised 30 September 2026. **Decided 8 October 2026.**
 
 The series EIA's page lists as Canada in the LNG exports by vessel block is
 named "U.S. Liquefied Natural Gas Exports by Vessel from Canada" in the
 workbook, with one value, 3,477 MMcf in January 2026. It is counted with the
 Americas. What the label means has not been established.
+
+Decision: the series is counted with the Americas under the name the workbook
+gives it. Its one value, 3,477 MMcf in January 2026, is under one percent of
+that month's total, so either reading leaves every share the study shows
+unchanged at the precision printed.
 
 ### 7. Earlier releases of the exports table
 
@@ -142,7 +152,7 @@ together.
 
 ### 10. Test fixtures are kept as the source served them
 
-Raised 30 September 2026. Recorded.
+Raised 30 September 2026. **Decided 30 September 2026.**
 
 The house rule is that no file carries an em or an en dash. Two of EIA's pages
 kept as test fixtures carry both, in EIA's own text. The fixtures are kept byte
@@ -188,13 +198,17 @@ stand in the way.
 
 ### 13. Third party sources behind the World Bank's gas rows
 
-Raised 30 September 2026. Open, recorded.
+Raised 30 September 2026. **Decided 8 October 2026.**
 
 The Pink Sheet is published under CC BY 4.0, and its terms add that third
 party datasets may carry extra conditions in their metadata. The gas rows name
 Bloomberg Finance L.P., World Gas Intelligence, Thomson Reuters Datastream, The
 Wall Street Journal and Official Statistics of Japan among their sources. The
 catalogue entry names no extra condition.
+
+Decision: the Pink Sheet is used under the CC BY 4.0 licence its catalogue
+entry declares, which names no extra condition, and the World Bank is credited
+with the sources it names beside each gas row.
 
 ### 14. JOGMEC's permission
 
@@ -277,12 +291,16 @@ series are joined only with the change of survey marked.
 
 ### 17. April 2026 in JOGMEC's publications
 
-Raised 30 September 2026. Open, recorded.
+Raised 30 September 2026. **Decided 8 October 2026.**
 
 JOGMEC's May 2026 page, in English and in Japanese, gives the confirmed
 contract-based price for April 2026 as 19.2 and says in words that it was
 revised from the preliminary 19.1. Both of JOGMEC's historical workbooks,
 modified after that page, still give 19.1. The study follows the page.
+
+Decision: the page is followed, 19.2, since it says in words that the
+preliminary figure was revised; the workbook's 19.1 is kept beside it. The
+series is private either way (question 14).
 
 ### 18. ACER's reports, and which discount is observed
 
@@ -376,7 +394,7 @@ Decision: the library's distance is kept and the difference stated.
 
 ### 23. Spark's worked example and its discharge volume
 
-Raised 1 October 2026. Recorded for the engine.
+Raised 1 October 2026. **Decided 8 October 2026.**
 
 Spark's note on negative freight rates prints a discharge volume of 3,501,428
 MMBtu, 14,628 MMBtu below the loaded volume less thirty days of boil-off.
@@ -392,6 +410,10 @@ Sabine Pass to Futtsu via Panama, 8 February 2022, charges fuel and hire for 54
 days, and its rounded figures in $/MMBtu fit the same definition with 27 days
 of laden boil-off, half the voyage, as fifteen is half of Spark30's thirty.
 That is a pattern in Spark's figures, not a rule Spark states.
+
+Decision: nothing is tuned to the discharge volume. The engine reproduces every
+other line of the note within a dollar, and the volume is shown with the
+definition and the fifteen laden days that reproduce it.
 
 ### 24. Platts' voyage duration via Panama
 
@@ -565,16 +587,20 @@ that is stated beside them.
 
 ### 34. Kisarazu's entry dues and LNG fuelled ships
 
-Raised 3 October 2026. Open, recorded.
+Raised 3 October 2026. **Decided 8 October 2026.**
 
 Chiba prefecture exempts "LNGを燃料とする船舶" (ships using LNG as fuel) from
 entry dues at Chiba and Kisarazu ports. An LNG carrier burns its cargo's
 boil-off; whether it counts is not stated. Chiba's Kisarazu port office can
 answer. Until then the dues of 2.50 yen per gross ton are taken to apply.
 
+Decision: not needed. The port cost line is Spark's all-in figure for each pair
+of ports (question 32), so no Japanese port due is computed from a tariff and
+the exemption changes no figure the study shows.
+
 ### 35. Rotterdam's cap on the cargo part for LNG tankers
 
-Raised 3 October 2026. Open, recorded.
+Raised 3 October 2026. **Decided 8 October 2026.**
 
 In 2024 Rotterdam caps an LNG tanker's cargo dues at 133.7 percent of its
 gross tonnage times the cargo rate. The 2025 and 2026 tariffs give such ratios
@@ -582,6 +608,9 @@ for other ship types and none for LNG tankers. Whether the cargo part is
 uncapped for them, or the row is missing, is a question for the Port of
 Rotterdam Authority. It matters only if Rotterdam's dues are modelled from the
 tariff rather than taken inside a published all-in figure.
+
+Decision: not needed, for the same reason as question 34: Rotterdam's dues are
+not computed from its tariff.
 
 ### 36. Spark's figures in this study
 
@@ -718,7 +747,7 @@ Authority's is copied.
 
 ### 42. Where the IEA and the Panama Canal Authority disagree
 
-Raised 7 October 2026. Open, recorded.
+Raised 7 October 2026. **Decided 8 October 2026.**
 
 Four statements in the IEA's gas reports disagree with the Authority's own
 texts: LNG carriers given three booking slots a day from August 2024; 27
@@ -727,6 +756,10 @@ carriers barred from night transits. The Authority's notices, advisories and
 press releases are followed wherever the two differ, and each difference is
 shown where the IEA is quoted. The IEA may count differently, for instance
 transits against booking slots.
+
+Decision: the Authority's own notices, advisories and press releases are
+followed wherever the two differ, and each difference is shown where the IEA is
+quoted.
 
 ### 43. Two weekly issues repeat the week before
 
@@ -746,7 +779,7 @@ come from a later issue on whatever basis EIA used then.
 
 ### 44. The TTF expiry rule, from ICE's own documents
 
-Raised 8 October 2026. Open, the owner's step.
+Raised 8 October 2026. **Decided 8 October 2026.**
 
 The delivery month a front-month TTF price names depends on when ICE Endex's
 Dutch TTF futures stop trading, which the study takes as two business days
@@ -758,6 +791,13 @@ JKM side is sourced: Platts' roll on the 16th from its press release of June
 2015, and the settlement window from the Japan Exchange Group's contract on
 Platts JKM. Settling the TTF side takes a person reading ICE Endex's contract
 specification in a browser, with its holiday calendar.
+
+Decision: settled on 8 October 2026 from ICE's own pages, read in a browser:
+Dutch TTF futures stop trading "two UK Business Days prior to the first
+calendar day of the delivery month", and JKM futures on the 15th of the month
+before, or the preceding business day. The study applies both with the bank
+holidays of England and Wales, which reproduce every day gov.uk lists and every
+last trading day ICE Endex lists for its live contracts.
 
 ### 45. Which engines the benchmark ships have, for methane slip
 
@@ -775,7 +815,7 @@ assumption, with the Diesel figure named beside the first.
 
 ### 46. The SDR rate, for the Suez toll in dollars
 
-Raised 8 October 2026. Open, the owner's step.
+Raised 8 October 2026. **Decided 8 October 2026.**
 
 The Suez Canal Authority's tolls are in special drawing rights. The IMF's daily
 rate is read by code only through the Deutsche Bundesbank's copy, which names
@@ -786,15 +826,8 @@ the IMF's copyright and terms page, the rate is kept in `data/private/` and only
 the tolls computed from it on the study's dates are shown, each with the rate
 used.
 
-### 47. MMBtu per tonne of LNG
-
-Raised 8 October 2026. **Decided 8 October 2026.**
-
-The EU ETS counts tonnes of fuel, so the gas burnt needs a factor from MMBtu to
-tonnes. GIIGNL's annual report, the usual reference, sits in a document store
-whose robots.txt answers HTTP 403, and its older reports are for members only.
-
-Decision: 51.56 MMBtu per tonne, gross, from the IEA and Eurostat's Energy
-Statistics Manual (2004, Table A3.9), 0.9 percent above what Spark's 23 MMBtu
-per m3 gives at the manual's density. GIIGNL's figure can replace it if the
-owner saves the report by hand.
+Decision: settled on 8 October 2026. The IMF's terms, read in a browser, let
+its exchange rate data be copied and published with the IMF credited "whether
+obtained directly from the IMF or another party". The series is committed,
+read from the Bundesbank, credited to the IMF, and checked against the IMF's
+own tables on 41 days.

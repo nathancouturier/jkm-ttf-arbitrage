@@ -2,12 +2,13 @@
 
 The Suez Canal Authority sets its tolls in special drawing rights (SDR), so a
 toll in dollars needs the rate of the day. The IMF publishes the rate, but its
-hosts refuse automated requests, even for robots.txt, so its terms of use have
-not been read. The Bundesbank republishes the series, naming the IMF as its
-source, on an API its robots.txt allows. Its own terms exclude third party data
-from their permission, so the series is kept in data/private/ until a person has
-read the IMF's terms, and only the tolls computed from it on the study's dates
-are shown, each with the rate used.
+hosts refuse automated requests, even for robots.txt; the Bundesbank
+republishes the series, naming the IMF as its source, on an API its robots.txt
+allows. The IMF's terms, read in a browser on 8 October 2026, let its exchange
+rate data be copied and published with the IMF credited, "whether obtained
+directly from the IMF or another party", so the cache is committed with that
+credit. On the 41 days of October 2022 and September 2026 compared with the
+IMF's own monthly tables, every rate is the same to the sixth decimal.
 
 The file is a CSV with nine header rows (title, decimals, source, unit, last
 update) before one row per calendar day. A day with no rate carries "." and the
@@ -31,9 +32,8 @@ from .base import Adapter, SourceError, http_get
 __all__ = ["API_URL", "FIRST_DAY", "parse_bbk_csv", "UsdPerSdrDaily"]
 
 API_URL = "https://api.statistiken.bundesbank.de/rest/download/BBEX3/D.USD.XDR.DA.AC.000?format=csv&lang=en"
-#: The Bundesbank publishes no address for the series page that was read; the
-#: terms of use page is the human readable link.
-PAGE_URL = "https://www.bundesbank.de/en/homepage/user-information/terms-of-use-642972"
+#: The IMF's own page for the rates, where a reader can check any day.
+PAGE_URL = "https://www.imf.org/external/np/fin/data/param_rms_mth.aspx"
 FIRST_DAY = pd.Timestamp("2016-01-01")
 SERIES = "BBEX3.D.USD.XDR.DA.AC.000"
 
@@ -78,22 +78,15 @@ def parse_bbk_csv(payload: bytes | str) -> tuple[pd.DataFrame, str]:
 
 
 class UsdPerSdrDaily(Adapter):
-    """US dollars per SDR, daily from 2016, the IMF's rate through the Bundesbank. Not committable."""
+    """US dollars per SDR, daily from 2016, the IMF's rate through the Bundesbank."""
 
     name = "imf_usd_per_sdr_daily"
-    source = "International Monetary Fund, as republished by the Deutsche Bundesbank"
+    source = "International Monetary Fund, exchange rate data, as republished by the Deutsche Bundesbank"
     url = API_URL
     page_url = PAGE_URL
     unit = "US dollars per SDR"
     frequency = "daily"
     method = "published"
-    committable = False
-    licence_note = (
-        "The IMF's terms have not been read: its hosts refuse automated requests. The "
-        "Bundesbank's terms do not cover third party data without the originator's "
-        "permission. Kept in data/private/ and not published until a person has read the "
-        "IMF's terms; only tolls computed from it are shown, each with the rate used."
-    )
     required_cols = ("date", "usd_per_sdr", "flag")
     bounds = {"usd_per_sdr": BOUNDS_USD_PER_SDR}
     min_observations = {"usd_per_sdr": 2500}

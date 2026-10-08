@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from datetime import date
 
+import pytest
+
 from lngarb import delivery
 
 
@@ -54,3 +56,42 @@ def test_weeks_are_tagged_by_the_share_of_their_trading_days():
     # Thursday 10 to Wednesday 16 September 2026: four days before the roll, one on it.
     tag, share = delivery.week_alignment(date(2026, 9, 16))
     assert tag == "mixed" and share == 0.8
+
+
+# --------------------------------------------------------------------------
+# The UK business day calendar the two exchanges count
+# --------------------------------------------------------------------------
+
+def test_the_bank_holiday_rule_gives_every_day_gov_uk_publishes():
+    import json
+
+    from lngarb import calendars
+    from lngarb.sources import base
+
+    served = json.loads((base.REPO_ROOT / "tests" / "fixtures" / "govuk_bank_holidays_2026-10-08.json").read_text(encoding="utf-8"))
+    published = {date.fromisoformat(e["date"]) for e in served["england-and-wales"]["events"]}
+    assert len(published) == 83
+    assert calendars.uk_holidays_between(2019, 2028) == published
+
+
+@pytest.mark.parametrize("contract,last_trading_day", [
+    # ICE Endex's expiry details for Dutch TTF futures, read on 8 October 2026.
+    ("2026-11", "2026-10-29"), ("2027-01", "2026-12-30"), ("2027-04", "2027-03-30"),
+    # 31 May 2027 and 30 August 2027 are bank holidays.
+    ("2027-06", "2027-05-27"), ("2027-09", "2027-08-27"),
+    ("2028-03", "2028-02-28"), ("2033-06", "2033-05-27"), ("2037-12", "2037-11-27"),
+])
+def test_ttf_expiries_are_the_ones_ice_endex_publishes(contract, last_trading_day):
+    month = date.fromisoformat(contract + "-01")
+    assert delivery.ttf_expiry(month) == date.fromisoformat(last_trading_day)
+
+
+def test_a_weekday_calendar_would_miss_the_spring_bank_holiday():
+    assert delivery.ttf_expiry(date(2027, 6, 1), holidays=()) == date(2027, 5, 28)
+
+
+def test_jkm_futures_stop_on_the_15th_or_the_business_day_before():
+    # 15 August 2026 is a Saturday: the September 2026 contract stops on Friday 14 August.
+    assert delivery.jkm_last_trading_day(date(2026, 9, 1)) == date(2026, 8, 14)
+    assert delivery.jkm_front_month(date(2026, 8, 14)) == date(2026, 9, 1)
+    assert delivery.jkm_front_month(date(2026, 8, 17)) == date(2026, 10, 1)
