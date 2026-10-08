@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-08T19:50:42Z",
+  "generated_at": "2026-10-08T19:52:44Z",
   "series": [
     {
       "series": "acer_lng_daily",
@@ -2464,10 +2464,10 @@
       "page_url": "https://lngprime.com/",
       "machine_fetched": false,
       "fetched_at": null,
-      "checked_at": "2026-10-08T19:50:42Z",
-      "rows": 8,
-      "observations": 8,
-      "file_rows": 8,
+      "checked_at": "2026-10-08T19:52:44Z",
+      "rows": 10,
+      "observations": 10,
+      "file_rows": 10,
       "first_date": null,
       "last_date": null,
       "frequency": "annual",
@@ -2478,7 +2478,7 @@
       "committable": true,
       "licence_note": "Each row is one figure quoted with its date, assessment, vessel, publisher and address, as fair use for a non-commercial study. No article's sentence is reproduced and no Spark document is linked or copied. Spark's terms bar republishing its content without a licence except as fair use allows; LNG Prime's forbid republishing its material; both are quoted in docs/sources.md, sections 2.13 and 2.14.",
       "status": "ok",
-      "note": "8 reported charter rates from 2022-02 to 2026-10, one per month at most, each from a dated article, never interpolated. Low, central and high hire for a date with no figure of its own: -750, 38,000 and 374,000 $/day, the lowest, the median and the highest. A seed, not a time series.",
+      "note": "10 reported charter rates from 2022-02 to 2026-10, one per month at most, each from a dated article, never interpolated. Low, central and high hire for a date with no figure of its own: -750, 45,500 and 374,000 $/day, the lowest, the median and the highest. A seed, not a time series.",
       "file": "data/seed/freight_anchors.json",
       "unit": "USD per day",
       "licence": "individual figures quoted with attribution",
@@ -3094,7 +3094,7 @@
       "page_url": "https://github.com/genthalili/searoute-py",
       "machine_fetched": false,
       "fetched_at": null,
-      "checked_at": "2026-10-08T19:50:42Z",
+      "checked_at": "2026-10-08T19:52:44Z",
       "rows": 4,
       "observations": 4,
       "file_rows": 4,
@@ -3227,9 +3227,9 @@
   ],
   "manual_steps_note": "Work this pipeline cannot do for itself. Each entry says what it is, why it exists, what it costs to skip it and how to do it. They are repeated against the series they affect in the manual_step field of those entries.",
   "run": {
-    "mode": "offline",
-    "started_at": "2026-10-08T19:50:41Z",
-    "finished_at": "2026-10-08T19:50:42Z",
+    "mode": "online",
+    "started_at": "2026-10-08T19:52:44Z",
+    "finished_at": "2026-10-08T19:52:44Z",
     "script": "scripts/refresh.py"
   }
 }

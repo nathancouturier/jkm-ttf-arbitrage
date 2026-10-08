@@ -94,6 +94,25 @@ ANCHORS: tuple[Anchor, ...] = (
         "33,000 $/day for a TFDE.",
     ),
     Anchor(
+        "2026-03", "2026-03-03", "2026-03-03", 161_750.0, "Spark30S Atlantic", False,
+        "174,000 m3 two-stroke", False,
+        "LNG Prime, quoting Spark Commodities",
+        "https://lngprime.com/europe/atlantic-lng-rates-surge-to-161750-per-day/179110/",
+        "The first figure reported in March 2026, read from the article's opening "
+        "paragraph, which gives the Atlantic rate for Tuesday 3 March and credits Spark "
+        "Commodities; the assessment and vessel are inferred, as for August 2026. LNG "
+        "Prime's article of 4 March gives 278,250 $/day for Wednesday 4 March.",
+    ),
+    Anchor(
+        "2026-04", None, "2026-04-03", 92_000.0, "Spark30S Atlantic", False,
+        "174,000 m3 two-stroke", False,
+        "LNG Prime, quoting Spark Commodities and Fearnley LNG",
+        "https://lngprime.com/asia/atlantic-lng-rates-down-to-92000-per-day/182236/",
+        "The first figure reported in April 2026, read from the article's headline; its "
+        "opening paragraph credits Spark Commodities and Fearnley LNG for the week's rates "
+        "and gives no figure. The assessment, the vessel and the day are inferred.",
+    ),
+    Anchor(
         "2026-08", None, "2026-08-28", 11_750.0, "Spark30S Atlantic", False,
         "174,000 m3 two-stroke", False,
         "LNG Prime, quoting Spark",

@@ -667,7 +667,14 @@ date beside it), the assessment and vessel basis (marked inferred where the
 article does not state them), the publisher and the article's address, and
 never the article's sentence. October 2022 is the figure of 10 October, the
 first reported. April 2020 is run at the low, central and high hire set from
-the other figures.
+the other figures. On 8 October 2026 the figures first reported in March and
+April 2026 were added from LNG Prime: 161,750 $/day for 3 March, as the
+conflict with Iran intensified, and 92,000 $/day in the article of 3 April.
+Under the 14-day window the first stands for the weeks ending 18 February to
+11 March 2026, all with the arb east closed, two of them before the conflict,
+when LNG Prime put Atlantic rates above 30,000 and 40,000 $/day: those two
+weeks' reported hire overstates it. The second stands for the weeks ending 25
+March to 15 April, in which the arb east was open.
 
 ### 38. Lloyd's List Intelligence's briefs
 

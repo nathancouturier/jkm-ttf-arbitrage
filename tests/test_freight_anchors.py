@@ -11,7 +11,7 @@ from lngarb.freight_anchors import ANCHORS
 
 def test_the_rows_keep_their_rules():
     assert freight_anchors.problems() == []
-    assert len(ANCHORS) == 8
+    assert len(ANCHORS) == 10
     assert [a.month for a in ANCHORS][0] == "2022-02"
     assert [a.month for a in ANCHORS][-1] == "2026-10"
 
@@ -38,7 +38,7 @@ def test_no_row_rests_on_a_source_the_study_dropped_or_links_spark():
 
 
 def test_low_central_and_high_hire_are_the_lowest_median_and_highest():
-    assert freight_anchors.hire_levels() == {"low": -750.0, "central": 38_000.0, "high": 374_000.0}
+    assert freight_anchors.hire_levels() == {"low": -750.0, "central": 45_500.0, "high": 374_000.0}
 
 
 def test_a_row_dated_in_another_month_or_out_of_range_is_reported():

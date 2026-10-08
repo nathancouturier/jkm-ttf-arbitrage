@@ -37,7 +37,7 @@ was decided on the strength of it.
 | `nyfed_sofr_daily` | Secured Overnight Financing Rate, daily, percent, from 2 April 2018 | [markets API](https://markets.newyorkfed.org/api/rates/secured/sofr/search.json) | daily, next business day | **yes**, under the New York Fed's terms | New York Fed Terms of Use |
 | `nyfed_effr_daily` | Effective federal funds rate, daily, percent, 4 January 2016 to 30 April 2018, the overnight rate before SOFR | [markets API](https://markets.newyorkfed.org/api/rates/unsecured/effr/search.json) | closed | **yes**, under the New York Fed's terms | New York Fed Terms of Use |
 | `imf_usd_per_sdr_daily` | US dollars per special drawing right, daily, from 2016, the IMF's rate as the Bundesbank republishes it, for the Suez toll | [Bundesbank API](https://api.statistiken.bundesbank.de/rest/download/BBEX3/D.USD.XDR.DA.AC.000?format=csv&lang=en) | daily | **yes**, with the IMF credited (2.20) | IMF terms for its data |
-| `freight_anchors` | Reported LNG carrier charter rates, USD per day, eight figures from February 2022 to October 2026, one per month at most, each from a dated article | written from rows kept in `lngarb.freight_anchors`; nothing fetched | as figures are verified | **yes**, figures only (2.13, 2.14) | individual figures quoted with attribution |
+| `freight_anchors` | Reported LNG carrier charter rates, USD per day, ten figures from February 2022 to October 2026, one per month at most, each from a dated article | written from rows kept in `lngarb.freight_anchors`; nothing fetched | as figures are verified | **yes**, figures only (2.13, 2.14) | individual figures quoted with attribution |
 | `routes` | The four sea routes from Sabine Pass, distances and lines | computed once by `scripts/routes.py` | fixed | **yes** | distances: this study, MIT; lines: EUPL 1.2; searoute Apache 2.0 |
 
 ---
@@ -469,13 +469,14 @@ publishers read so far:
   authorisation. S&P Global, which publishes Platts, refuses automated requests
   even for its robots.txt.
 
-The eight figures verified in readable articles are committed in
+The ten figures verified in readable articles are committed in
 `data/seed/freight_anchors.json` (question 37): for each, the figure, the day
 it refers to or the article's date, the assessment and the vessel basis,
 marked inferred where the article does not state them, the publisher and the
 article's address. No article's sentence and no article is committed. The
-figure of 3 March 2026 is not among them, since its only source was Lloyd's
-List (question 38).
+figure of 3 March 2026, 161,750 $/day, is taken from LNG Prime's article of that
+day, never from Lloyd's List (question 38). Where a month has more than one
+reported figure, the first reported is kept, as for October 2022.
 
 ### 2.15 Panama Canal Authority, tariffs and advisories
 
@@ -705,6 +706,47 @@ without its approval, and whether a monthly average DEHSt computes and
 publishes from EEX's results carries EEX's rights is not stated. Should DEHSt
 or EEX object, the series moves to `data/private/`. robots.txt asks for
 "Crawl-delay: 30"; the study waits 31 seconds between requests to dehst.de.
+
+### 2.24 Figures others reported, which the analysis is set against
+
+`lngarb.reported` keeps a few counts and assessments read in dated, readable
+documents, none of them an input to the engine: each as a figure with its
+publisher, the document's address and the day it was read, never as a
+sentence. All were read on 8 October 2026.
+
+* **EIA, Today in Energy of 11 August 2020**, "U.S. liquefied natural gas
+  exports remain at low levels this summer"
+  (`https://www.eia.gov/todayinenergy/detail.php?id=44697`): about 46 cargoes
+  cancelled in June 2020 and about 50 in July, EIA's estimates from the cargoes
+  loaded and the capacity in operation, and 45 for August and an estimated 30
+  for September, from trade press reports it cites. US public domain (2.1).
+* **Platts, republished by Hellenic Shipping News on 22 April 2024** (2.14, the
+  same report as the freight anchor of April 2024): a record 27 US LNG cargoes
+  to Asia via the Cape of Good Hope in March 2024, in S&P Global's data. The
+  page sits behind a bot check that an automated browser did not pass; it was
+  read in the owner's own browser, where it loaded with no check to answer.
+* **Platts, republished by the World Ports Organization on 29 March 2024**: 14
+  US LNG cargoes reached Asia via the Panama Canal in 2024 to 27 March, one of
+  them in March, against 40 in the same period of 2023. The World Ports
+  Organization's terms, effective 1 January 2021: "You may view and share
+  individual articles for personal, non-commercial use, provided attribution
+  and a link to the original remain."
+* **Platts, republished by Cyprus Shipping News on 5 May 2026**: Platts'
+  arbitrage of US to North Asia against US to the Atlantic assessed at +53.3
+  cents/MMBtu via the Panama Canal and -67.7 cents via the Cape of Good Hope on
+  28 April 2026, and 31 of 34 LNG cargoes from US facilities to Asia-Pacific
+  routed round the Cape, the period not stated; Platts' sources said auctioned
+  Panama Canal slots had made the route impractical for spot cargoes, most of
+  its traffic being tied to long-term contracts. Cyprus Shipping News' terms,
+  last updated 1 September 2026, give "a strictly limited, non-exclusive,
+  personal, and non-commercial license to view, read, and listen to the
+  content", and forbid "Any republication, reproduction, distribution,
+  modification, adaptation, translation, commercial exploitation, or creation
+  of derivative works from any part of the Website without the prior written
+  consent of the rights holder". The figures are quoted individually, as for
+  Spark's (question 36).
+
+S&P Global's own pages are never requested (2.14).
 
 ## 3. Known traps, per source
 
@@ -1329,6 +1371,9 @@ the study runs without it, on the labelled position given.
 20. **Methane slip** is off by default (question 45), and **MMBtu per tonne** is
     the IEA and Eurostat's factor; **owner**: GIIGNL's report, saved by hand,
     could replace it (question 47).
+21. **Figures others reported** (cancellations, route use, Platts'
+    assessments) are quoted individually with their source and never used as
+    inputs (2.24).
 
 ---
 

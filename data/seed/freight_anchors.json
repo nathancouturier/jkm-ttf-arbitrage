@@ -69,6 +69,32 @@
       "note": "A secondary report; Platts' own page could not be read. The same report gives 33,000 $/day for a TFDE."
     },
     {
+      "month": "2026-03",
+      "rate_date": "2026-03-03",
+      "article_date": "2026-03-03",
+      "hire_usd_day": 161750.0,
+      "assessment": "Spark30S Atlantic",
+      "assessment_stated": false,
+      "vessel": "174,000 m3 two-stroke",
+      "vessel_stated": false,
+      "publisher": "LNG Prime, quoting Spark Commodities",
+      "url": "https://lngprime.com/europe/atlantic-lng-rates-surge-to-161750-per-day/179110/",
+      "note": "The first figure reported in March 2026, read from the article's opening paragraph, which gives the Atlantic rate for Tuesday 3 March and credits Spark Commodities; the assessment and vessel are inferred, as for August 2026. LNG Prime's article of 4 March gives 278,250 $/day for Wednesday 4 March."
+    },
+    {
+      "month": "2026-04",
+      "rate_date": null,
+      "article_date": "2026-04-03",
+      "hire_usd_day": 92000.0,
+      "assessment": "Spark30S Atlantic",
+      "assessment_stated": false,
+      "vessel": "174,000 m3 two-stroke",
+      "vessel_stated": false,
+      "publisher": "LNG Prime, quoting Spark Commodities and Fearnley LNG",
+      "url": "https://lngprime.com/asia/atlantic-lng-rates-down-to-92000-per-day/182236/",
+      "note": "The first figure reported in April 2026, read from the article's headline; its opening paragraph credits Spark Commodities and Fearnley LNG for the week's rates and gives no figure. The assessment, the vessel and the day are inferred."
+    },
+    {
       "month": "2026-08",
       "rate_date": null,
       "article_date": "2026-08-28",

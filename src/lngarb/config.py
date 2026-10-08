@@ -1258,4 +1258,27 @@ PARAMETERS: Mapping[str, Parameter] = _parameters(
               "this study: an unbooked ship by default", None, "2026-10-07",
               "Booked case: 35,000 $ in 2016, 85,000 $ for booking dates from 1 June 2021, 80,000 $ "
               "in the list of January 2024, 100,000 $ from 1 January 2025."),
+    Parameter("panama_waits_reported", {"2023-07": 12.0, "2023-12": 15.0}, "days of waiting per Panama transit, by month",
+              "published",
+              "12 days of delay for unbooked vessels in late July 2023 (LNG Prime, 28 July 2023, "
+              "quoting Spark); 15 days for unreserved slots in mid December 2023 (IEA, Gas Market "
+              "Report Q1 2024)", None, "2026-10-07",
+              "Applied only in the month each was reported, to the laden and the ballast transit "
+              "alike, to set Panama against the Cape; the default everywhere stays no wait "
+              "(docs/methodology.md, the Panama table)."),
+    # -- The analysis -------------------------------------------------------
+    Parameter("analysis_monthly_loading_day", 15, "day of the month", "assumption",
+              "this study: a monthly observation loads in the middle of its month", None, "2026-10-08",
+              "The day fixes the ship, the routes, the euro rate and the overnight rate of a month."),
+    Parameter("analysis_min_weeks_per_month", 3, "weekly averages", "assumption",
+              "this study: a month's mean of weekly averages needs at least three weeks", None,
+              "2026-10-08", "A month with fewer is left without a monthly observation."),
+    Parameter("analysis_first_month", "2016-01", "month", "assumption",
+              "this study: the first month of the monthly history", None, "2026-10-08",
+              "Sabine Pass shipped its first cargo in February 2016, and the overnight rate the "
+              "financing line needs is held from January 2016."),
+    Parameter("analysis_excluded_years", (2020, 2022, 2026), "calendar years", "assumption",
+              "this study: the flows test is also run without the years of the cancellations (2020), "
+              "of the European gas crisis (2022) and of the Strait of Hormuz (2026)", None, "2026-10-08",
+              "A robustness check, never a choice of the sample that suits."),
 )

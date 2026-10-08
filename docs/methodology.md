@@ -621,8 +621,8 @@ Every number the engine uses that is not market data is a named entry in
 `lngarb.config.PARAMETERS`, with its value, unit, status (published: read in
 the named document; derived: computed from published figures; assumption:
 chosen by this study and labelled), the document, its address and the date it
-was read. The site's Method view prints that table. The assumptions, each with
-the range it is shown at:
+was read. The site's Method view prints that table. The assumptions, and the
+published values used as scenarios, each with the range it is shown at:
 
 | Parameter | Value | Shown at | Why |
 |---|---|---|---|
@@ -633,9 +633,108 @@ the range it is shown at:
 | Suez rebate on the surcharge | not applied | applied | the rebate is written on normal tolls (open question 26) |
 | Panama capacity charged | the nominal capacity | none | the canal's admeasurement rules were not read (open question 39) |
 | Panama booking fee | none, an unbooked ship | none | the booked case is a scenario (open question 40) |
-| hire where no rate was reported within 14 days | 38,000 $/day | -750 and 374,000 | the median, lowest and highest of the freight anchors |
+| hire where no rate was reported within 14 days | 45,500 $/day | -750 and 374,000 | the median, lowest and highest of the freight anchors |
 | EU allowance price after the last published month | the last month published, held (on 8 October 2026 August 2026, 82.31 EUR/t, German auctions) | 61 and 86 | the last published month held, and the Commission's range for 2025 |
 | funding spread | 150 bp | none | the convention of the study's copper sibling |
 | Panama variable fresh water surcharge | 5 percent of tolls | 0 and 10 | the middle of the Authority's range |
 | Suez closed to a US cargo | from 13 January 2024 | none | the day after the last laden LNG transit |
 | methane slip | off | 1.7 percent (174,000 m3), 3.1 percent (160,000 m3) | the regulation's defaults for the likely engine classes |
+| monthly loading day | the 15th | none | a monthly observation loads in the middle of its month |
+| weeks a monthly mean needs | 3 | none | fewer leave the month without an observation |
+| first month of the monthly history | January 2016 | none | the first overnight rate held; Sabine Pass's first cargo followed in February 2016 |
+| years the flows test is also run without | 2020, 2022, 2026 | none | the cancellations, the European gas crisis, the Strait of Hormuz |
+| Panama waiting days reported, published | 12 per transit in July 2023, 15 in December 2023 | in those months only, against no wait | Spark in late July 2023, the IEA in mid December 2023 |
+
+---
+
+## 12. The analysis
+
+`lngarb.analysis` works every price observation the study holds through the
+engine as a cargo loading on its day; `scripts/analysis_report.py` prints the
+result. Nothing is fitted: no parameter is searched and nothing is forecast.
+
+### 12.1 The observations
+
+* **Weekly**: the Weekly Update's East Asia and TTF averages from the week
+  ending 15 September 2021, then the Supplement's JKM and TTF from the week
+  ending 28 January 2026, each loading on the week's last day, the Wednesday,
+  and tagged aligned, mixed or misaligned by its delivery months (9.9).
+* **Monthly**, loading on the 15th: METI's contract-based price, a proxy for
+  JKM, with the World Bank's TTF, January 2016 to March 2021; then the mean of
+  each month's weekly averages, for a month holding three weeks or more. April
+  to August 2021 have no public JKM: METI's survey ended and JOGMEC's
+  continuation stays private (open question 14). The monthly JKM is therefore
+  a Japanese spot price to March 2021 and a JKM-type price after it, a
+  definition break the history marks. On 8 October 2026 the other months with
+  no monthly observation are March, June and August 2016, June 2017 and
+  November 2019, when METI published no contract-based price, and November
+  2021, which holds two weekly averages (`analysis.months_without_observation`).
+* **Hire**: each observation at the low, central and high hire of the freight
+  anchors (the lowest, median and highest reported figure), and at the figure
+  reported nearest its date where one lies within 14 days.
+* **Breaks**: every week whose stored basis changes, the change of series, the
+  ship of 2 January 2024, the routes (Panama from 26 June 2016, Suez closed to
+  a US cargo from 13 January 2024), the EU ETS phase-in and the allowance price
+  sources (`analysis.breaks`). A change where the product is named on one side
+  only is kept as a naming change, not a definition break: the Weekly Update's
+  TTF before 29 September 2021 and the Supplement's week of near-month futures
+  (section 5).
+
+Every other input of a date is what 9.8 describes; a date the data cannot
+price is listed with the input it lacks, never filled.
+
+### 12.2 Did the cargoes follow
+
+The share of US LNG exports by vessel going to the JKM markets (Japan, South
+Korea, China, Taiwan) and to Asia as a whole, month by month, from EIA's
+exports by destination: the block of exports by vessel, its own total row and
+its countries summed by region (trucks to Canada and Mexico and re-exports of
+foreign LNG are left out). The signal is the arb at loading at the best open
+route east, at each hire level. The test is a least squares regression of the
+share on the arb, with Newey-West standard errors (Bartlett kernel, L =
+floor(4 (n/100)^(2/9)) lags, no small sample correction; a pair of residuals
+enters the lag l term only when its months are l apart, so a gap in the sample
+is never taken for adjacency), and a table of months by the sign of the arb
+against the share above or below its median. Both are run on every month that
+has an observation and an export figure, and again without 2020, 2022 and 2026.
+
+What the test cannot separate: long-term contracts with Asian buyers, whose
+cargoes move whatever the spot economics; Panama's slot constraints; China's
+tariff on US LNG from February 2025; the gap between spot hire and the cost of
+a ship already on term charter; and the month, which is coarser than the
+decisions. A month's cargo is also decided weeks before it loads, on the
+prices of then.
+
+### 12.3 2020
+
+Each loading month of 2020 is worked twice: with its own monthly prices, and
+with those published by the cancellation notice date, the 20th of the month
+two months before (Sabine Pass's agreement with Centrica, section 5.7). By
+then METI and the World Bank had published month M-3 (METI released a month
+around the 12th of the next, the World Bank early in it), so the notice date
+test takes METI's contract-based price and the World Bank's TTF of M-3, and
+Henry Hub's spot averaged over M-2 to the notice day in place of the futures
+for the loading month, which this study does not hold. On the notice date JKM
+futures name the loading month itself, since they stop trading in M-1; METI's
+price, a monthly average of Japanese spot contracts, stands in for them and
+lags a falling market. METI's figure is the one it finalised a month later,
+which this study holds; the preliminary published by the notice day can
+differ (for July 2020, 5.2 against 4.2), and the preliminaries before August
+2020 are not held. A loading month whose notice day has no price published in
+the data held is listed with the reason. The margins are set beside the cancellations EIA
+reported for June to September 2020 and the monthly exports by vessel
+(2.24 of `docs/sources.md`).
+
+### 12.4 The route
+
+The best open route east each month, and two breakevens against the Cape:
+the slot premium for the round trip at which Panama nets what the Cape does,
+Panama's lead times the cargo loaded, and the waiting days per Panama transit,
+laden and ballast alike, at which they net the same, found by bisection on the
+engine. The waits reported in 2023 are applied only in the months they were
+reported: 12 days per transit in July 2023 and 15 in December 2023. The
+result is set beside the route use Platts reported: a record 27 US cargoes to
+Asia via the Cape in March 2024, against one via Panama in that month to 27
+March, and 31 of 34 round the Cape in data running to 28 April 2026, over a
+period not stated, when auctioned slots had made Panama impractical for spot
+cargoes according to Platts' sources (2.24 of `docs/sources.md`).

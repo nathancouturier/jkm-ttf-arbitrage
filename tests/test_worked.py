@@ -150,7 +150,7 @@ def test_the_reported_hire_is_the_nearest_within_two_weeks():
 
 def test_every_worked_date_reads_its_prices_and_its_hire():
     for item in WORKED_DATES:
-        hire = None if worked.nearest_hire(item.day)[0] is not None else 38_000.0
+        hire = None if worked.nearest_hire(item.day)[0] is not None else 45_500.0
         inputs = worked.inputs_for(item, hire_usd_day=hire)
         assert inputs.jkm > 0 and inputs.ttf > 0
     october = worked.inputs_for(next(w for w in WORKED_DATES if w.day == "2022-10-12"))

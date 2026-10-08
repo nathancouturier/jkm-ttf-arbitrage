@@ -25,7 +25,7 @@ from .freight_anchors import ANCHORS, hire_levels
 from .sea_routes import canal_distances, routes_json
 from .sources.base import read_cache
 
-__all__ = ["MissingInput", "vessel_on", "distances", "transit_days", "routes_on", "henry_hub_month",
+__all__ = ["MissingInput", "inputs_on", "vessel_on", "distances", "transit_days", "routes_on", "henry_hub_month",
            "usd_per_eur_on", "overnight_rate_on", "eua_eur_t_in", "ets_phase", "ets_tco2e_per_t", "nearest_hire",
            "wide_regas_discount_on", "WorkedDate", "WORKED_DATES", "inputs_for"]
 
@@ -346,8 +346,23 @@ def inputs_for(worked: WorkedDate, *, hire_usd_day: float | None = None,
                delta_nwe_eur_mwh: float | None = None, liquefaction_fee: float | None = None,
                suez_scnt: float | None = None, suez_rebate_on_surcharge: bool = False) -> Inputs:
     """Every input of a worked date. The reported hire nearest the date unless one is given."""
-    day = _day(worked.day)
     jkm, ttf, sources = _prices(worked)
+    return inputs_on(worked.day, jkm, ttf, sources, hire_usd_day=hire_usd_day,
+                     delta_nwe_eur_mwh=delta_nwe_eur_mwh, liquefaction_fee=liquefaction_fee,
+                     suez_scnt=suez_scnt, suez_rebate_on_surcharge=suez_rebate_on_surcharge)
+
+
+def inputs_on(when: date | str, jkm: float, ttf: float, price_sources: dict[str, str], *,
+              hire_usd_day: float | None = None, delta_nwe_eur_mwh: float | None = None,
+              liquefaction_fee: float | None = None, suez_scnt: float | None = None,
+              suez_rebate_on_surcharge: bool = False) -> Inputs:
+    """Every input of a cargo loading on the day, at the JKM and TTF given, in USD/MMBtu.
+
+    The prices come with their source labels; everything else is read from the
+    data for that day. The reported hire nearest the date unless one is given.
+    """
+    day = _day(when)
+    sources = dict(price_sources)
     vessel = vessel_on(day)
     usd_per_eur, fx_source = usd_per_eur_on(day)
     hh, hh_source = henry_hub_month(day)
@@ -368,7 +383,6 @@ def inputs_for(worked: WorkedDate, *, hire_usd_day: float | None = None,
     if any(phase > 0 for phase, _ in ets_by_year.values()):
         eua_eur, eua_source = eua_eur_t_in(day)
         eua_usd = eua_eur * usd_per_eur
-    sources = dict(sources)
     sources.update({
         "fx": fx_source, "henry_hub": hh_source, "rate": rate_source, "hire": hire_source,
         "eua": eua_source, "vessel": vessel.name,
