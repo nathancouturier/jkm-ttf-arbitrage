@@ -1,7 +1,7 @@
 # Methodology
 
 How this study turns published figures into the numbers it shows. This document
-grows with the study; this version covers the data layer. The engine, the
+grows with the study; this version covers the data layer and the engine. The
 analysis and the site are added as they are built.
 
 ---
@@ -271,9 +271,9 @@ lines add up to the total it shows. Neither figure is split between the two
 ports, and neither says what it includes. Spark's methodology 3.2 (November
 2022) names the source of its port costs: "based on latest costs provided by
 GAC (as seen on the Spark platform)". Taken at face value the two figures put
-Sabine Pass and Futtsu 35,763 $ below Sabine Pass and Gate. Which of them the
-engine uses, and how a two-port figure enters a cost line written per port, are
-open questions 31 and 32.
+Sabine Pass and Futtsu 35,763 $ below Sabine Pass and Gate. The engine uses
+both as they stand, one per destination, for every route, every year and both
+ships, each an assumption in the parameter table (open questions 31 and 32).
 
 ### 7.2 The components, port by port
 
@@ -412,3 +412,192 @@ was to get.
 | 15 Aug 2024 | about November 2025 | the Authority states its commitment to return to normal operating conditions (50 feet; 36 booking slots, 10 neopanamax, from 1 September 2024); LNG use stays low | advisory A-28-2024; IEA, Gas Market Reports 2025 and Q1 2026 |
 | December 2025 | 3 Sep 2026 | water conservation; neopanamax draught cut to 48 feet by 2 September 2026; an LNG first rule for one booking slot from 4 January 2026 | the Authority's press release of 5 August 2026; advisories of 2025 and 2026 |
 | 4 Sep 2026 | to date | El Nino measures: 9 neopanamax slots a day; 10 slots and at least four LNG slots a week announced from 15 October 2026 | advisories A-29-2026 and A-36-2026 |
+
+---
+
+## 9. The engine
+
+`src/lngarb/engine.py` holds the formulas, `src/lngarb/cases.py` applies them
+to every route of one loading date, and `src/lngarb/worked.py` reads the inputs
+of a date from the committed data and the parameter table. Every parameter that
+is not market data is a named entry in `lngarb.config.PARAMETERS`, with its
+value, unit, status, source and the date it was read (section 11).
+
+### 9.1 Volumes and days
+
+A cargo of capacity V m3, loaded to the share `fill` and converted at K MMBtu
+per m3, loads `Q_load = V x fill x K`. The ship boils off or burns
+`b = Q_load x BOR` MMBtu a day, on laden and ballast days alike, the basis
+Spark states for its boil-off rate. Each leg takes its sea distance over 24
+times the speed, plus canal and waiting days; the laden leg adds a day to load,
+a day to discharge and any flex days, which are zero except to reproduce Spark.
+The gas used over the round trip is `G = b x T_total`, and the cargo delivered
+is `Q_del = Q_load - G`: the heel for the ballast leg stays on board. Laden and
+ballast routes are set separately; a worked date sends both legs the same way.
+
+The ship is the benchmark freight rates' own: the 160,000 m3 TFDE, at 0.1
+percent a day, before 2 January 2024, and the 174,000 m3 two-stroke, at 0.085
+percent a day, from that date, when Spark's methodology changed its vessel.
+
+### 9.2 The cost stack
+
+For a destination d and a route r, in US dollars:
+
+    C(d, r) = hire x T_total + port(d) + canal(r, laden) + canal(r, ballast)
+              + slot premium(r) + ets(d, r) + financing(r)
+
+* **Hire** runs for the whole round trip, until the ship is back at the load
+  port. Spark defines its rate as the charterer's payment less the ballast fuel,
+  over the round trip's days, so a Spark rate used as round trip hire, with the
+  ballast heel inside G, counts nothing twice.
+* **Port costs** are one figure per destination, each a pair of ports: Spark's
+  308,947 $ for Sabine Pass and Gate and 273,184 $ for Sabine Pass and Futtsu,
+  held for every year and both ships (section 7.1).
+* **Canals.** Panama from the dated tolls of section 8.1, with the roundtrip
+  ballast table before 2023 when both legs pass the canal, and the fresh water
+  surcharge from 15 February 2020: 10,000 $ a transit and 5 percent of tolls.
+  Suez from section 6, when the route is open. Slot premiums and waiting days
+  are zero by default.
+* **EU ETS**, on the voyage to Northwest Europe only:
+  `eua_usd x phase(year) x tCO2 per t x (b x days / MMBtu per t)`, where the
+  laden voyage and the ballast leg count at the voyage share and the discharge
+  day at Gate at the berth share. The load day at Sabine Pass is outside the
+  scheme. The phase is zero before 2024.
+* **Financing**: the cargo's purchase cost, `(1.15 x HH + fee) x Q_load`, at the
+  overnight rate plus a spread, for the laden days, on an actual over 365 basis.
+  The overnight rate is SOFR from 2 April 2018 and the effective federal funds
+  rate before it.
+
+`C0` is the same stack without hire.
+
+### 9.3 Netbacks and the arb
+
+    P_des(NWE) = TTF + delta_nwe        delta_nwe <= 0, the DES discount
+    P_des(NEA) = JKM                    JKM is already a DES price
+    NB(d, r)   = (P_des(d) x Q_del(r) - C(d, r)) / Q_load
+    arb(r)     = NB(NEA, r) - NB(NWE, direct)
+
+The gas used on the way is simply not sold, so it is valued at the delivered
+price without a separate fuel line. A route that is closed on the date is
+computed and shown, and never chosen.
+
+### 9.4 The breakeven spread
+
+The JKM - TTF spread at which a cargo pays the same east and west:
+
+    S*(r)    = (TTF + delta_nwe) x Q_del(NWE) / Q_del(r) + (C(NEA, r) - C(NWE)) / Q_del(r) - TTF
+    boil-off = TTF x (Q_del(NWE) / Q_del(r) - 1)
+    regas    = delta_nwe x Q_del(NWE) / Q_del(r)
+    voyage   = (C(NEA, r) - C(NWE)) / Q_del(r)
+
+The three parts add up to S*. The arb and the breakeven are tied exactly:
+`arb(r) = (JKM - TTF - S*(r)) x Q_del(r) / Q_load`.
+
+### 9.5 The breakeven hire
+
+    H*(r) = [JKM x Q_del(r) - (TTF + delta_nwe) x Q_del(NWE) - (C0(NEA, r) - C0(NWE))]
+            / (T_total(r) - T_total(NWE))
+
+the hire at which east and west net back the same. A negative H* means the
+route east does not pay even with a free ship. "Was the arb open?" becomes "was
+the reported hire below H*?", which a reader can check against each reported
+figure.
+
+### 9.6 The lift test
+
+    best_netback = max over destinations and open routes of NB(d, r)
+    lift_margin  = best_netback - 1.15 x HH(loading month)
+    full_margin  = lift_margin - liquefaction fee       shown, never used to decide
+    cancel       = lift_margin < 0
+
+The fee is owed whether or not the cargo is lifted, so it never decides. HH is
+EIA's daily Henry Hub spot averaged over the loading month, standing in for the
+NYMEX final settlement the contracts name, which EIA stopped publishing after 5
+April 2024.
+
+### 9.7 Exact and conventional freight
+
+The market quotes freight per delivered MMBtu with the fuel valued at a
+reference price: `F_conv = (C + P_ref x G) / Q_del` and
+`NB_conv = P_des - F_conv`. With `P_ref = P_des`, as Platts does, the two
+netbacks differ by exactly `G x (P_des x G + C) / (Q_load x Q_del)`, a second
+order term that grows with the voyage and the price. The study uses the exact
+form everywhere and shows both for the latest date.
+
+### 9.8 The inputs of a date
+
+`lngarb.worked` reads, for a loading date: JKM and TTF from the Weekly Update or
+the Supplement for the week ending that day, or, before the weekly prices
+begin, METI's contract-based monthly price as a labelled proxy for JKM and the
+World Bank's TTF; Henry Hub as the loading month's average of EIA's daily spot;
+the euro rate of H.10 on or before the day; SOFR, or the effective federal funds
+rate before 2 April 2018; the EU allowance price of the month from the
+Commission's auction reports, and after June 2025 the labelled assumption of
+section 11; the reported charter rate nearest the date from the freight
+anchors, or, where none was reported, the low, central and high hire they give;
+the benchmark ship of the day; and the routes open that day (Panama from 26
+June 2016, Suez closed to a US cargo from 13 January 2024). An input the data
+do not hold is reported missing, never filled. `scripts/worked_table.py` prints
+every input with its source and every line of the result for the worked dates.
+
+### 9.9 Delivery months
+
+`lngarb.delivery` gives the delivery month each front-month price names on a
+day. Platts rolls JKM on the 16th of the month, the next business day when the
+16th is not one, to the month after next ("The Platts JKM rolls on the 16th of
+each calendar month", Platts' press release of 16 June 2015); the JPX contract
+on Platts JKM settles on the assessments from "the 16th of the two month prior
+to the contract month to the 15th of the prior month". TTF futures stop trading
+two business days before their delivery month: the rule the study applies, not
+yet read in ICE Endex's own documents, whose terms forbid reading them by code.
+The two front months name the same month from the 1st to the 15th and after
+the TTF expiry at the end of the month, and different months from the 16th to
+the expiry. A week is aligned when every trading day of it names the same
+month, misaligned when none does, and mixed otherwise. Business days are
+weekdays; no holiday calendar is applied yet.
+
+---
+
+## 10. The tests that pin the engine
+
+| # | Test | Where |
+|---|---|---|
+| 1 | Units: 30 EUR/MWh at 1.10 $/EUR is 9.671344 $/MMBtu | `tests/test_units.py` |
+| 2 | Volumes: 174,000 m3 at 98.5 percent loads 3,941,970 MMBtu and boils off 3,350.6745 a day | `tests/test_engine.py` |
+| 3 | Spark's worked example, every line within a dollar, both rates and the unit freight | `tests/test_engine.py` |
+| 4 | Null: no costs, netbacks are the prices and S* is zero | `tests/test_engine.py`, `tests/test_cases.py` |
+| 5 | Symmetry: equal voyages break even at the regas discount | `tests/test_engine.py` |
+| 6 | Linearity in hire | `tests/test_engine.py` |
+| 7 | Round trip: JKM = TTF + S*, and hire = H*, close the arb | `tests/test_engine.py`, `tests/test_cases.py` |
+| 8 | The three parts add up to S* | `tests/test_engine.py`, `tests/test_cases.py` |
+| 9 | Exact against conventional netback | `tests/test_engine.py` |
+| 10 | Monotonicity of S* | `tests/test_engine.py` |
+| 11 | Panama tolls: 656,700 $ laden and 558,195 $ in ballast for 174,000 m3 from 1 January 2025 | `tests/test_canals.py` |
+| 12 | EU ETS: phase by year, Asian voyages free, berth in full | `tests/test_worked.py`, `tests/test_cases.py` |
+| 13 | Delivery months: 18 September 2026 gives November against October | `tests/test_delivery.py` |
+| 14 | Distances against searoute and published durations | `tests/test_sea_routes.py` |
+| 15 | Anchors of every parser | `tests/test_sources_*.py` |
+| 16 | Every exported destination has a region | `tests/test_sources_eia.py`, `tests/test_sources_doe.py` |
+
+---
+
+## 11. Parameters
+
+Every number the engine uses that is not market data is a named entry in
+`lngarb.config.PARAMETERS`, with its value, unit, status (published: read in
+the named document; derived: computed from published figures; assumption:
+chosen by this study and labelled), the document, its address and the date it
+was read. The site's Method view prints that table. The assumptions, each with
+the range it is shown at:
+
+| Parameter | Value | Shown at | Why |
+|---|---|---|---|
+| liquefaction fee | 3.00 $/MMBtu | 2.25 and 3.50, both published | the fee most Sabine Pass contracts carry |
+| regas discount in Northwest Europe | -2 EUR/MWh | -3, 0, and -35 from end-July to mid-October 2022 | ACER's printed average and range (section 7 and open question 18) |
+| port costs | Spark's two pairs | none | the only source pricing both destinations on one basis |
+| hire where no rate was reported | 38,000 $/day | -750 and 374,000 | the median, lowest and highest of the freight anchors |
+| EU allowance price after June 2025 | 72.06 EUR/t | 61 and 86 | the last published month, and the Commission's range for 2025 |
+| funding spread | 150 bp | none | the convention of the study's copper sibling |
+| Panama variable fresh water surcharge | 5 percent of tolls | 0 and 10 | the middle of the Authority's range |
+| Suez closed to a US cargo | from 13 January 2024 | none | the day after the last laden LNG transit |
+| methane slip | off | 1.7 percent (174,000 m3), 3.1 percent (160,000 m3) | the regulation's defaults for the likely engine classes |

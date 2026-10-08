@@ -928,6 +928,147 @@ PARAMETERS: Mapping[str, Parameter] = _parameters(
               "this study: the middle of the Authority's range of 0 to 10 percent", None, "2026-10-07",
               "Set daily from Gatun Lake's level, which is not collected; 0 and 10 percent are shown. "
               "Before 2023 the range was 1 to 10 percent."),
+    Parameter("vessel_174k_from", "2024-01-02", "date", "published",
+              "Spark LNG Freight Methodology 3.8, page 7, change log: '3.5 2 January 2024 - Vessel "
+              "Type updated to 174,000 m3 2 Stroke'", _SPARK_38, "2026-10-01",
+              "The study prices a date before it with the 160,000 m3 TFDE and from it with the "
+              "174,000 m3 two-stroke, as the benchmark freight rates do."),
+    Parameter("port_cost_west_usd", 308_947.0, "USD per round trip, Sabine Pass and Gate together", "published",
+              "Spark, note on negative freight rates, February 2022: 'Port costs provided by GAC on "
+              "an indicative basis', for a 160,000 m3 TFDE", None, "2026-10-01",
+              "Held for every year and both ships, an assumption (open question 32). Taken to "
+              "include the Sabine Neches cargo fee (open question 33)."),
+    Parameter("port_cost_east_usd", 273_184.0, "USD per round trip, Sabine Pass and Futtsu together", "published",
+              "Spark, note on negative freight rates, February 2022: a screenshot of its Routes page, "
+              "release of 8 February 2022, Sabine Pass to Futtsu via Panama, for a 160,000 m3 TFDE",
+              None, "2026-10-01",
+              "Read from an image; used for every route east, every year and both ships, an "
+              "assumption (open questions 31 and 32)."),
+    Parameter("delta_nwe_eur_mwh", -2.0, "EUR per MWh, DES Northwest Europe less TTF front month", "assumption",
+              "this study, from ACER, Gas market trends and price drivers, October 2023, page 13: 'the "
+              "average price difference between TTF front-month products and the EU LNG spot "
+              "reference price was 2 EUR/MWh in 2023 (1 January to 31 August 2023)'",
+              "https://www.acer.europa.eu/sites/default/files/documents/Publications/ACER_MMR_2023_Gas_market_trends_price_drivers.pdf",
+              "2026-09-30",
+              "Shown at -3, from ACER's LNG market developments, April 2024, page 38 ('in the range "
+              "between 2 EUR/MWh and 3 EUR/MWh'), and at 0. The same report says the spread "
+              "'exceeded 35 EUR/MWh during most days from end-July to mid-October 2022', so a date "
+              "in that span is also shown at -35. Observed directly only on ACER's 26 corrected days "
+              "of November and December 2024."),
+    Parameter("panama_open_to_lng_from", "2016-06-26", "date", "published",
+              "Panama Canal Authority, press release of 26 June 2016, the expanded locks open; the "
+              "first LNG carrier, from Sabine Pass, transited on 25 July 2016", None, "2026-10-06",
+              "No later band closes the canal to LNG carriers; docs/methodology.md, section 8.3."),
+    Parameter("suez_closed_to_us_cargo_from", "2024-01-13", "date", "assumption",
+              "this study, from OIES NG-188: the last laden LNG carrier through Suez on 12 January "
+              "2024", "https://www.oxfordenergy.org/wpcms/wp-content/uploads/2024/02/NG-188-LNG-Shipping-Chokepoints.pdf",
+              "2026-10-01",
+              "Closed to the latest date of the data, since no source shows a US Gulf cargo to Asia "
+              "through Suez after January 2024 (open question 28)."),
+    # -- The US Gulf contract ---------------------------------------------
+    Parameter("spa_henry_hub_multiple", 1.15, "multiple of Henry Hub", "published",
+              "Sabine Pass Liquefaction and Centrica, LNG sale and purchase agreement of 22 March 2013, "
+              "section 9.1.1: 'CSP = (1.15 x HH) + X y', with HH the NYMEX Henry Hub final settlement "
+              "for the month in which the cargo's delivery window is scheduled to begin; Cheniere "
+              "Energy Partners, Form 10-K for 2025: 'a variable fee per MMBtu of LNG generally equal to "
+              "115% of Henry Hub'",
+              "https://cqpir.cheniere.com/sec-filings/all-sec-filings/content/0001383650-13-000038/exhibit101centricaspa.htm",
+              "2026-10-07"),
+    Parameter("liquefaction_fee_usd_mmbtu", 3.00, "USD per MMBtu", "assumption",
+              "this study: the fixed fee most Sabine Pass contracts carry at signing, 3.00 $/MMBtu for "
+              "KOGAS, GAIL, Total, Centrica, BG's added volumes and Cheniere Marketing (Cheniere Energy "
+              "Partners, Form 10-K for 2015, pages 9 and 88)",
+              "https://cqpir.cheniere.com/sec-filings/annual-reports/content/0001383650-16-000087/0001383650-16-000087.pdf",
+              "2026-10-07",
+              "Sunk once the contract is signed: shown in the full margin, never in the lift "
+              "decision. 11.5 to 15 percent of it is indexed to US CPI each year, which the study "
+              "does not apply."),
+    Parameter("liquefaction_fee_low_usd_mmbtu", 2.25, "USD per MMBtu", "published",
+              "Cheniere Energy Partners, Form 10-K for 2015, page 9: BG Gulf Coast LNG, Train 1 volumes, "
+              "'a fixed fee of $2.25 per MMBtu'",
+              "https://cqpir.cheniere.com/sec-filings/annual-reports/content/0001383650-16-000087/0001383650-16-000087.pdf",
+              "2026-10-07", "The low end of the range of published fees."),
+    Parameter("liquefaction_fee_high_usd_mmbtu", 3.50, "USD per MMBtu", "published",
+              "Corpus Christi Liquefaction and Woodside, LNG sale and purchase agreement of 30 June "
+              "2014, section 1.1: X0 'equal to USD three decimal fifty per MMBtu (US$3.50/MMBtu)'",
+              "https://lngir.cheniere.com/sec-filings/all-sec-filings/content/0000003570-14-000139/cei2014form8kex101woodside.htm",
+              "2026-10-07", "The high end of the range of published fees."),
+    Parameter("cancellation_notice_day", 20, "day of the month two months before the loading month",
+              "published",
+              "Sabine Pass Liquefaction and Centrica, sale and purchase agreement, section 5.7: notice "
+              "'on or prior to the twentieth (20th) Day of the Month that is two (2) Months prior to "
+              "the Month for which Buyer is suspending deliveries'",
+              "https://cqpir.cheniere.com/sec-filings/all-sec-filings/content/0001383650-13-000038/exhibit101centricaspa.htm",
+              "2026-10-07"),
+    # -- EU ETS on shipping ------------------------------------------------
+    Parameter("ets_voyage_share", 0.5, "share of a voyage's emissions, between an EU and a non-EU port",
+              "published",
+              "Directive 2003/87/EC, Article 3ga(1), inserted by Directive (EU) 2023/959: 'fifty percent "
+              "(50 %) of the emissions from ships performing voyages departing from a port of call "
+              "outside the jurisdiction of a Member State and arriving at a port of call under the "
+              "jurisdiction of a Member State'",
+              "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32023L0959", "2026-10-07"),
+    Parameter("ets_berth_share", 1.0, "share of emissions within an EU port of call", "published",
+              "Directive 2003/87/EC, Article 3ga(1): 'one hundred percent (100 %) of emissions from ships "
+              "within a port of call under the jurisdiction of a Member State'",
+              "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32023L0959", "2026-10-07"),
+    Parameter("ets_phase_in_by_year", {"2024": 0.40, "2025": 0.70, "2026": 1.00},
+              "share of a year's verified emissions surrendered, from the year named", "published",
+              "Directive 2003/87/EC, Article 3gb, inserted by Directive (EU) 2023/959: 40 % of verified "
+              "emissions reported for 2024, 70 % for 2025, 100 % for 2026 and each year thereafter",
+              "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32023L0959", "2026-10-07",
+              "Nothing before 2024."),
+    Parameter("tco2_per_t_lng", 2.750, "tonnes of CO2 per tonne of LNG burnt", "published",
+              "Regulation (EU) 2015/757, Annex I, as replaced by Delegated Regulation (EU) 2023/2776, "
+              "which applies from 1 January 2024: the emission factor of LNG, 2.750 t CO2 per t of fuel",
+              "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32023R2776", "2026-10-07"),
+    Parameter("tn2o_per_t_lng", 0.00011, "tonnes of N2O per tonne of LNG burnt", "published",
+              "Regulation (EU) 2015/757, Annex I, as replaced by Delegated Regulation (EU) 2023/2776: "
+              "N2O 0.00011 g per g of LNG",
+              "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32023R2776", "2026-10-07"),
+    Parameter("ets_ch4_n2o_from", "2026-01-01", "date", "published",
+              "Directive 2003/87/EC, Annex I, maritime row, as amended by Directive (EU) 2023/959: "
+              "'Carbon dioxide From 1 January 2026, methane and nitrous oxide'",
+              "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32023L0959", "2026-10-07"),
+    Parameter("gwp_ch4", 28.0, "tonnes of CO2e per tonne of CH4, 100 years", "published",
+              "Delegated Regulation (EU) 2020/1044, Annex, by reference from Regulation (EU) 2015/757, Annex I",
+              "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32020R1044", "2026-10-07"),
+    Parameter("gwp_n2o", 265.0, "tonnes of CO2e per tonne of N2O, 100 years", "published",
+              "Delegated Regulation (EU) 2020/1044, Annex",
+              "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32020R1044", "2026-10-07"),
+    Parameter("methane_slip_174k", 0.017, "share of LNG mass not burnt", "assumption",
+              "this study: the default for an LNG Otto dual fuel slow speed engine, 1.7 %, in "
+              "Regulation (EU) 2015/757, Annex I, as replaced by Delegated Regulation (EU) 2023/2776",
+              "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32023R2776", "2026-10-07",
+              "Spark names the ship '2 Stroke' only; a Diesel cycle slow speed engine has 0.2 %. Used "
+              "only when methane slip is switched on."),
+    Parameter("methane_slip_160k", 0.031, "share of LNG mass not burnt", "assumption",
+              "this study: the default for an LNG Otto dual fuel medium speed engine, 3.1 %, the class "
+              "of a TFDE ship's engines, in Regulation (EU) 2015/757, Annex I, as replaced by Delegated "
+              "Regulation (EU) 2023/2776",
+              "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32023R2776", "2026-10-07",
+              "Used only when methane slip is switched on; no ETS applies before 2024, when this ship "
+              "is the benchmark."),
+    Parameter("methane_slip_on", False, "flag", "assumption",
+              "this study: off by default, as a toggle", None, "2026-10-07",
+              "On, from 2026 the slipped mass counts as methane at its global warming potential and "
+              "leaves the CO2 term."),
+    Parameter("mmbtu_per_t_lng", 51.56, "MMBtu, gross, per tonne of LNG", "published",
+              "IEA and Eurostat, Energy Statistics Manual, 2004, Annex 3, Table A3.9, page 182: LNG, "
+              "51,560 Btu per kilogramme, gross calorific value",
+              "https://ec.europa.eu/eurostat/documents/3859598/5885369/NRG-2004-EN.PDF.pdf/b3c4b86f-8e88-4ca6-9188-b95320900b3f?t=1414781129000",
+              "2026-10-07",
+              "GIIGNL's table could not be read by code. Spark's 23 MMBtu per m3 at the manual's 0.45 t "
+              "per m3 gives 51.11, 0.9 percent less. Used only to turn the gas burnt into tonnes for "
+              "the EU ETS."),
+    Parameter("eua_eur_t_after_published", 72.06, "EUR per tonne of CO2", "assumption",
+              "this study: the Commission's last published monthly auction price, June 2025, held for "
+              "every later month",
+              "https://climate.ec.europa.eu/areas-action/carbon-markets/eu-emissions-trading-system-eu-ets/auctioning-allowances_en",
+              "2026-10-07",
+              "No source with a clear licence gives a monthly price from July 2025 (open question 20). "
+              "Shown at 61 and 86, the range of 2025 the Commission's electricity market report for "
+              "the fourth quarter of 2025 prints for a secondary market price."),
     Parameter("panama_booking_fee_usd", 0.0, "USD per transit", "assumption",
               "this study: an unbooked ship by default", None, "2026-10-07",
               "Booked case: 35,000 $ in 2016, 85,000 $ for booking dates from 1 June 2021, 80,000 $ "
