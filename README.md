@@ -146,8 +146,9 @@ python scripts/refresh.py --only eia-weekly  one job; --list names them
 A failed fetch keeps the old cache and marks the series failed; nothing is
 ever filled in. `.github/workflows/refresh.yml` runs the public jobs on
 Thursday evening, after EIA's release, and again on Friday, rebuilds the
-artifacts and runs the gate; it commits and publishes only if everything
-passes, and opens an issue if anything fails.
+artifacts and runs the gate; it commits and publishes only when an
+observation is new or revised and everything passes, and opens an issue if
+anything fails.
 
 ### The manual steps
 
