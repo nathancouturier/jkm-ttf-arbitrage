@@ -72,7 +72,7 @@ const REQUIRED_ENTRY_KEYS = [
   "checked_at", "rows", "observations", "file_rows", "first_date", "last_date",
   "frequency", "gaps", "provisional_from", "vintage", "method", "committable",
   "licence_note", "status", "note", "file", "unit", "observation_column",
-  "unique_dates",
+  "unique_dates", "linkable",
 ];
 
 const REQUIRED_MANUAL_STEP_KEYS = ["id", "what", "why", "cost_if_skipped", "how", "cadence", "status"];
@@ -302,6 +302,7 @@ check("every entry carries the required keys and a known status, method and freq
     if (!FREQUENCY_VALUES.has(entry.frequency)) problems.push(name + " frequency " + JSON.stringify(entry.frequency));
     if (typeof entry.committable !== "boolean") problems.push(name + " committable is not a boolean");
     if (typeof entry.unique_dates !== "boolean") problems.push(name + " unique_dates is not a boolean");
+    if (typeof entry.linkable !== "boolean") problems.push(name + " linkable is not a boolean");
     if (!Array.isArray(entry.gaps)) problems.push(name + " gaps is not an array");
     for (const key of ["first_date", "last_date"]) {
       if (entry[key] !== null && !ISO_DATE.test(String(entry[key]))) problems.push(name + " " + key + " is not yyyy-mm-dd");
@@ -325,7 +326,25 @@ check("provenance is consistent, and what may not be redistributed says so in wo
     if (entry.committable === false && !/not|prohibit|forbid/i.test(String(entry.licence_note || ""))) {
       problems.push(name + " is not committable but its licence_note never says what is not permitted");
     }
-    if (!String(entry.page_url || "").startsWith("http")) problems.push(name + " has no linkable page_url");
+    if (entry.linkable !== false && !String(entry.page_url || "").startsWith("http")) problems.push(name + " has no linkable page_url");
+  }
+  return problems;
+});
+
+check("a publisher whose terms forbid links is never linked: no URL in its entry, plain text in the provenance table", () => {
+  const problems = [];
+  const forbidden = entries.filter((e) => e.linkable === false);
+  for (const entry of forbidden) {
+    for (const key of ["url", "page_url"]) {
+      if (entry[key] !== null) problems.push(entry.series + " " + key + " is " + JSON.stringify(entry[key]) + ", not null");
+    }
+  }
+  const provenancePath = path.join(ROOT, "data", "provenance.json");
+  if (!existsSync(provenancePath)) return problems;
+  const rows = JSON.parse(readFileSync(provenancePath, "utf8")).series || [];
+  for (const entry of forbidden) {
+    const row = rows.find((r) => r.id === entry.series);
+    if (row && row.page_url !== null) problems.push("the provenance row of " + entry.series + " carries page_url " + JSON.stringify(row.page_url));
   }
   return problems;
 });

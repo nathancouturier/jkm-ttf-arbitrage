@@ -272,7 +272,12 @@ From JOGMEC's English terms of use, `https://www.jogmec.go.jp/english/terms.html
 requested yet (the draft and the decision are in `docs/open-questions.md`,
 question 14). The series is kept in
 `data/private/`; no value, chart or derived figure from it is published, and
-the public pages carry no link to JOGMEC until JOGMEC allows it.
+the public pages carry no link to JOGMEC until JOGMEC allows it. The
+registry marks the source `linkable=False`: its manifest entry carries no URL,
+the provenance table names JOGMEC in plain text, and the data validator and a
+test fail if its domain reaches the page or any data file the page reads. Its
+addresses appear only as plain text, never as links, in this document, in the
+open questions and in the code that reads the series privately.
 
 ### 2.7 ACER, LNG price assessment and benchmark
 

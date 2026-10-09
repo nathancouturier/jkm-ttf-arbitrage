@@ -234,7 +234,8 @@ class Source:
     label: str
     #: who published it
     publisher: str
-    #: the human readable page, always present, always linkable
+    #: the human readable page, always present. It is linked from the site
+    #: unless linkable is False.
     page_url: str
     #: the machine readable file, or None when it has to be discovered
     machine_url: str | None
@@ -253,6 +254,10 @@ class Source:
     #: whether the cache may be committed to a public repository. False sends
     #: the cache to data/private/ and keeps it out of the deploy.
     committable: bool
+    #: whether the publisher's terms let a public page link to it. False keeps
+    #: every URL of the source out of the manifest and the site's data, and the
+    #: provenance table names the publisher in plain text.
+    linkable: bool = True
 
     def __post_init__(self) -> None:
         if self.frequency not in FREQUENCIES:
@@ -538,10 +543,13 @@ SOURCES: Mapping[str, Source] = _registry(
         licence="JOGMEC terms of use, permission not yet requested",
         licence_note=(
             "JOGMEC's terms do not permit use beyond private use, education and "
-            "quotation without its prior permission. Kept in data/private/ and not "
-            "published until permission is granted."
+            "quotation without its prior permission, and its English terms do not "
+            "permit linking to its website without written permission. Permission has "
+            "not been requested yet. Until it is granted this series stays in data/private/ and "
+            "nothing derived from it is published."
         ),
         committable=False,
+        linkable=False,
     ),
     # -- World Bank, Federal Reserve Board, New York Fed -------------------
     Source(

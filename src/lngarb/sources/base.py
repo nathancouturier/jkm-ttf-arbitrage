@@ -872,11 +872,36 @@ ENTRY_KEYS = (
     "method",
     "committable",
     "licence_note",
+    "linkable",
     "status",
     "note",
     "file",
     "unit",
 )
+
+
+def link_terms(entry: dict) -> dict:
+    """Apply the registry's linkable flag to one manifest entry, in place.
+
+    A publisher whose terms forbid links to its website gets no URL in the
+    manifest, which the site serves: url and page_url are None and the entry
+    says linkable false. The registry keeps the address, for the code that
+    reads the source privately.
+    """
+    registered = SOURCES.get(str(entry.get("series")))
+    linkable = registered.linkable if registered is not None else True
+    entry["linkable"] = linkable
+    if not linkable:
+        entry["url"] = None
+        entry["page_url"] = None
+    # The base keys in their order, then whatever an adapter added, as
+    # manifest_upsert writes them, so an entry carried through and one
+    # rewritten come out byte for byte the same.
+    ordered = {key: entry.get(key) for key in ENTRY_KEYS}
+    ordered.update({k: v for k, v in entry.items() if k not in ENTRY_KEYS})
+    entry.clear()
+    entry.update(ordered)
+    return entry
 
 
 def manifest_read() -> dict:
@@ -981,6 +1006,7 @@ def manifest_upsert(entry: Mapping[str, Any]) -> None:
     record = {key: entry.get(key) for key in ENTRY_KEYS}
     extra = {k: v for k, v in entry.items() if k not in ENTRY_KEYS}
     record.update(extra)
+    link_terms(record)
 
     payload = manifest_read()
     kept = [e for e in payload["series"] if e.get("series") != record["series"]]
@@ -1120,7 +1146,9 @@ class Adapter:
                 "%s declares committable %r, which must be True or False"
                 % (self.name, self.committable)
             )
-        if not self.committable and not self.licence_note:
+        registered = SOURCES.get(self.name)
+        note = self.licence_note or (registered.licence_note if registered is not None else "")
+        if not self.committable and not note:
             raise SourceError(
                 "%s is not committable and carries no licence_note. The flag "
                 "keeps the bytes out of the repository, the sentence tells a "

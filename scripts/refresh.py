@@ -292,7 +292,9 @@ def manifest_is_unchanged(before: bytes | None, payload: Mapping[str, Any]) -> b
         previous = json.loads(before.decode("utf-8"))
     except (ValueError, UnicodeDecodeError):
         return False
-    return _without_volatile(previous) == _without_volatile(payload)
+    # Compared as text, so a change in key order is a change: the bytes are
+    # what is committed.
+    return _serialise(_without_volatile(previous)) == _serialise(_without_volatile(payload))
 
 
 def _write_manifest_bytes(raw: bytes) -> None:
@@ -329,6 +331,10 @@ def existing_entries() -> dict[str, dict]:
 def finalise_manifest(mode: str, before: bytes | None, started: str) -> tuple[dict, bool]:
     """Attach the manual steps and the run block, then write, or restore the old bytes."""
     payload = manual_steps.apply(base.manifest_read())
+    # Entries carried through from the committed manifest (a private cache
+    # absent from this machine) meet the link terms too.
+    for entry in payload["series"]:
+        base.link_terms(entry)
     payload["generated_at"] = utc_now_iso()
     payload["run"] = {
         "mode": mode,

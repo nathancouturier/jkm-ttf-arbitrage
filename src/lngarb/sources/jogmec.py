@@ -143,13 +143,7 @@ class JogmecSpotLngMonthly(Adapter):
     frequency = "monthly"
     method = "parsed"
     committable = False
-    licence_note = (
-        "JOGMEC's terms do not permit use beyond private use, education and "
-        "quotation without its prior permission, and its English terms do not "
-        "permit linking to its website without written permission. Permission has "
-        "not been requested yet. Until it is granted this series stays in data/private/ and "
-        "nothing derived from it is published."
-    )
+    # licence_note: the registry's, in lngarb.config.SOURCES
     required_cols = ("date", "contract_usd_mmbtu", "arrival_usd_mmbtu", "vintage", "arrival_definition")
     bounds = {
         "contract_usd_mmbtu": BOUNDS_LNG_USD_MMBTU,

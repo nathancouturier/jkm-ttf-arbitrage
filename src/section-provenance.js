@@ -35,9 +35,12 @@ export function render(inner, data) {
         ]);
       }
       if (column.id === "source") {
-        return el("td", { class: "manifest__words" }, [
-          el("a", { class: "text-link", text: row.publisher, attrs: { href: row.page_url, rel: "noopener" } }),
-        ]);
+        // A publisher whose terms forbid links arrives with no page_url and
+        // is named in plain text.
+        const publisher = row.page_url
+          ? el("a", { class: "text-link", text: row.publisher, attrs: { href: row.page_url, rel: "noopener" } })
+          : el("span", { text: row.publisher });
+        return el("td", { class: "manifest__words" }, [publisher]);
       }
       return el("td", { class: "manifest__words", text: row[column.id] });
     });

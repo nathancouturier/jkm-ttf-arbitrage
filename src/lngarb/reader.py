@@ -1006,7 +1006,10 @@ def provenance(manifest: Mapping[str, Any], sources: Mapping[str, Any], credits:
             "id": entry["series"],
             "label": source.label if source is not None else entry["series"],
             "publisher": source.publisher if source is not None else entry.get("source", ""),
-            "page_url": entry.get("page_url") or (source.page_url if source is not None else ""),
+            # None when the publisher's terms forbid a link: the table then
+            # names it in plain text.
+            "page_url": (None if (source is not None and not source.linkable) or entry.get("linkable") is False
+                         else entry.get("page_url") or (source.page_url if source is not None else "")),
             "status": status,
             "status_words": status_words,
             "range_words": range_words,

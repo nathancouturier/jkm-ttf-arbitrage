@@ -324,7 +324,7 @@
    "id": "jogmec_spot_lng_monthly",
    "label": "Japan spot LNG price, monthly, DES, contract-based and arrival-based, JOGMEC, from April 2021, private",
    "publisher": "Japan Organization for Metals and Energy Security",
-   "page_url": "https://journal.jogmec.go.jp/oilgas/nglng-en/spotprice/index.html",
+   "page_url": null,
    "status": "ok",
    "status_words": "checked",
    "range_words": "April 2021 to April 2026, monthly",

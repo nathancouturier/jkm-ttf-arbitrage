@@ -60,3 +60,35 @@ def test_no_text_file_holds_a_control_character():
         if any(byte < 32 and byte not in (9, 10, 13) for byte in data):
             bad.append(name)
     assert bad == []
+
+
+def test_a_publisher_whose_terms_forbid_links_is_linked_from_nothing_the_page_reads():
+    """JOGMEC's terms forbid linking to its website without its permission.
+
+    Its address stays in the registry, for the code that reads it privately,
+    and its domain appears in nothing the page loads or links to.
+    """
+    from urllib.parse import urlsplit
+
+    from lngarb.config import SOURCES
+
+    # the registrable domain, so a link to any of the publisher's hosts fails
+    domains = {".".join(urlsplit(s.page_url).hostname.split(".")[-3:]) for s in SOURCES.values() if not s.linkable}
+    assert domains == {"jogmec.go.jp"}
+    page = [ROOT / "index.html", ROOT / "README.md", ROOT / "NOTICE",
+            *sorted((ROOT / "data").glob("*.json")), *sorted((ROOT / "src").glob("*.js"))]
+    for path in page:
+        text = path.read_text(encoding="utf-8")
+        for domain in domains:
+            assert domain not in text, "%s carries %s" % (path.relative_to(ROOT), domain)
+
+
+def test_the_provenance_row_of_an_unlinkable_publisher_has_no_page_url():
+    import json
+
+    rows = json.loads((ROOT / "data" / "provenance.json").read_text(encoding="utf-8"))["series"]
+    row = next(r for r in rows if r["id"] == "jogmec_spot_lng_monthly")
+    assert row["page_url"] is None
+    entries = base.manifest_read()["series"]
+    entry = next(e for e in entries if e["series"] == "jogmec_spot_lng_monthly")
+    assert (entry["linkable"], entry["url"], entry["page_url"]) == (False, None, None)

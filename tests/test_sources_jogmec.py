@@ -121,3 +121,12 @@ def test_the_anchors_on_the_saved_pages():
     assert frame.loc[pd.Timestamp("2026-02-01"), "contract_preliminary_usd_mmbtu"] == 11.0
     assert frame.loc[pd.Timestamp("2026-01-01"), "contract_confirmed_usd_mmbtu"] == 11.3
     assert frame.index[0] == pd.Timestamp("2021-04-01")
+
+
+def test_the_adapter_takes_its_licence_note_from_the_registry_and_passes_its_declarations():
+    from lngarb.config import SOURCES
+    from lngarb.sources.jogmec import JogmecSpotLngMonthly
+
+    adapter = JogmecSpotLngMonthly()
+    adapter._check_declarations()
+    assert SOURCES[adapter.name].licence_note.startswith("JOGMEC's terms")
