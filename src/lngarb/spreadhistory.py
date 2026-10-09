@@ -382,13 +382,17 @@ def _parts_heading(points: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
         if values:
             counts[max(values, key=lambda k: abs(values[k]))] += 1
     order = sorted(counts, key=lambda k: -counts[k])
-    out = [reader.T("The three parts of S* at the central hire: the largest was "),
-           reader.W("first_part", PART_WORDS[order[0]]), reader.T(" in "), reader.N("first_count", counts[order[0]], "count"),
-           reader.T(" weeks, "), reader.W("second_part", PART_WORDS[order[1]]), reader.T(" in "),
-           reader.N("second_count", counts[order[1]], "count"), reader.T(" and "),
-           reader.W("third_part", PART_WORDS[order[2]]), reader.T(" in "),
-           reader.N("third_count", counts[order[2]], "count"), reader.T(".")]
-    return out
+
+    def clause(index: int) -> list[dict[str, Any]]:
+        part = order[index]
+        if not counts[part]:
+            return [reader.W("part_%d" % index, PART_WORDS[part]), reader.T(" never")]
+        words = [reader.W("part_%d" % index, PART_WORDS[part]), reader.T(" in "),
+                 reader.N("count_%d" % index, counts[part], "count")]
+        return words + [reader.T(" weeks")] if index == 0 else words
+
+    return [reader.T("The three parts of S* at the central hire: the largest in size was "), *clause(0),
+            reader.T(", "), *clause(1), reader.T(" and "), *clause(2), reader.T(".")]
 
 
 def _regas_heading(points: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:

@@ -638,6 +638,7 @@ def lift_margins_2020(year: int = 2020, *, levels: Mapping[str, float] | None = 
                         "priced_on": notice_day(month) if when == "at the notice date" else day,
                         "hire_level": level, "hire_usd_day": hire,
                         "jkm": inputs.jkm, "ttf": inputs.ttf, "henry_hub": inputs.henry_hub,
+                        "jkm_source": inputs.sources.get("jkm"),
                         "best_destination": out["best_destination"],
                         "best_route": ROUTES.get(out["best_route"], out["best_route"]),
                         "best_netback": out["best_netback"], "lift_margin": out["lift_margin"],

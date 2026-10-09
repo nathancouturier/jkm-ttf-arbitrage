@@ -109,6 +109,15 @@ def _test(regressions: Sequence[Mapping[str, Any]], excluded: Sequence[int]) -> 
                        "median."}
 
 
+def _meti_words(label: str | None) -> str:
+    """METI's figure as the notice took it, from the analysis's source label: the
+    month it is for and how it was published, without the file's own terms."""
+    if not label:
+        return "METI's figure"
+    words = label.replace("METI spot LNG, contract-based, ", "METI's contract-based price, the ")
+    return words.split(", the latest published by")[0]
+
+
 def _y2020(levels: Mapping[str, float]) -> dict[str, Any]:
     frame = analysis.lift_margins_2020(levels=levels)
     cancelled = {r.period: r for r in reported("cancellations")}
@@ -125,6 +134,7 @@ def _y2020(levels: Mapping[str, float]) -> dict[str, Any]:
         notice_rows = rows[rows["prices"] == "at the notice date"]
         notice_central = rows[(rows["prices"] == "at the notice date") & (rows["hire_level"] == "central")]
         months.append({
+            "notice_jkm_source": None if notice_central.empty else notice_central.iloc[0]["jkm_source"],
             "notice_jkm": None if notice_central.empty else _finite(notice_central.iloc[0]["jkm"]),
             "notice_ttf": None if notice_central.empty else _finite(notice_central.iloc[0]["ttf"]),
             "month": _iso(month), "label": reader.MONTH_NAMES[pd.Timestamp(month).month - 1],
@@ -157,8 +167,9 @@ def _y2020(levels: Mapping[str, float]) -> dict[str, Any]:
     for index, m in enumerate(above):
         why += [reader.T(" For " if index else " Where it fails: for "), reader.W("why_month", m["label"]),
                 reader.T(", the notice of "), reader.D("why_notice_" + m["month"][:7], m["notice_day"]),
-                reader.T(" took METI's latest Japanese spot price as first released, "),
-                reader.N("why_jkm_" + m["month"][:7], m["notice_jkm"], "usd_mmbtu"),
+                reader.T(" took "), reader.W("why_source_" + m["month"][:7],
+                                             reader.dates_in_words(_meti_words(m["notice_jkm_source"]))),
+                reader.T(", "), reader.N("why_jkm_" + m["month"][:7], m["notice_jkm"], "usd_mmbtu"),
                 reader.T(" $/MMBtu, against TTF's "), reader.N("why_ttf_" + m["month"][:7], m["notice_ttf"], "usd_mmbtu"),
                 reader.T(".")]
     if above:
@@ -166,6 +177,12 @@ def _y2020(levels: Mapping[str, float]) -> dict[str, Any]:
                          "stands in for JKM, which this study does not hold for that year: the test fails where "
                          "that average stayed far enough above TTF to pay for the voyage while cargoes were "
                          "cancelled.")]
+    unreported = [m for m in months if m["cancelled"] is None and m["notice"]["central"] is not None
+                  and m["notice"]["central"] < 0]
+    if unreported:
+        why += [reader.T(" The margin at the notice date was also below zero for "),
+                reader.W("unreported", reader.listed([m["label"] for m in unreported])),
+                reader.T(", for which no cancellation was reported in the documents read.")]
     at_loading = [m for m in months if m["loading"]["central"] is not None and m["loading"]["central"] < 0]
     why += [reader.T(" With each loading month's own prices the margin was below zero in "),
             reader.W("loading_below", reader.listed([m["label"] for m in at_loading]) or "no month"), reader.T(".")]
@@ -179,8 +196,8 @@ def _y2020(levels: Mapping[str, float]) -> dict[str, Any]:
         "ticks": ticks(date.fromisoformat(months[0]["month"]), date.fromisoformat(months[-1]["month"])),
         "desc": "Two lines over the loading months of 2020: the lift margin at the central hire with the prices "
                 "published by the notice date, in ink over the band from the low to the high hire, and with the "
-                "month's own prices, dashed. Bars at the foot mark the months EIA reported cargoes cancelled, "
-                "each with the count.",
+                "month's own prices, dashed. Bars at the foot mark the months for which EIA estimated, or cited the "
+                "trade press for, cargoes cancelled, each with the approximate count.",
         # The months EIA reported cancellations, as bars at the foot, labelled with the count.
         "cancelled_marks": [{"day": _iso(pd.Timestamp(m["month"]) - pd.Timedelta(days=14)),
                              "end": _iso(pd.Timestamp(m["month"]) + pd.Timedelta(days=14)),
@@ -450,7 +467,8 @@ def page(rows: pd.DataFrame, months: Sequence[Mapping[str, Any]], regressions: S
                             "opened on the data, Europe's DES spread as ACER assessed it.",
             "y2020_legend": "The ink line is the lift margin at the notice date at the central hire, over the "
                             "band from the low to the high hire; the dashed line, the margin with the month's own "
-                            "prices; the bars at the foot, the months EIA reported cargoes cancelled, with the count.",
+                            "prices; the bars at the foot, the months for which EIA estimated or cited cancellations, with the "
+                            "approximate count.",
             "y2020_caption": "The lift margin of each loading month of the year, at the notice date at each hire "
                              "and at loading at the central hire, and the cargoes reported cancelled.",
             "waits_caption": "Panama against the Cape in the months a wait was reported for LNG: the wait "

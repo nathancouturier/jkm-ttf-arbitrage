@@ -146,3 +146,39 @@ def test_the_ticks_fall_inside_their_range(history):
     for chart_range in page["weekly"]["ranges"]:
         assert all(chart_range["first"] <= t["day"] <= chart_range["last"] for t in chart_range["ticks"])
     assert all(page["monthly"]["first"] <= t["day"] <= page["monthly"]["last"] for t in page["monthly"]["ticks"])
+
+
+def _counts_by_part(points):
+    counts = {"boil_off": 0, "regas": 0, "voyage": 0}
+    for p in points:
+        parts = {k: p[k] for k in counts if p[k] is not None}
+        if parts:
+            counts[max(parts, key=lambda k: abs(parts[k]))] += 1
+    return counts
+
+
+def test_the_parts_of_s_star_add_up_and_each_range_counts_the_largest(history):
+    weekly = history["page"]["weekly"]
+    keys = ("day", "boil_off", "regas", "voyage", "s_central")
+    points = [dict(zip(keys, values)) for values in zip(*(weekly[k] for k in keys)) if values[0] is not None]
+    for p in points:
+        if p["s_central"] is not None:
+            # values are rounded to six places in the artifact
+            assert p["boil_off"] + p["regas"] + p["voyage"] == pytest.approx(p["s_central"], abs=2e-6)
+    for r in weekly["ranges"]:
+        chosen = [p for p in points if r["first"] <= p["day"] <= r["last"]]
+        counts = _counts_by_part(chosen)
+        named = [s["value"] for s in r["parts_heading_segments"] if s.get("format") == "count"]
+        assert named == [c for c in sorted(counts.values(), reverse=True) if c], r["id"]
+
+
+def test_the_regas_panel_counts_weeks_observed_and_the_assumption_equals_the_spread_where_unobserved(history):
+    weekly = history["page"]["weekly"]
+    keys = ("day", "delta_nwe", "assumed_delta_nwe", "delta_observed")
+    points = [dict(zip(keys, values)) for values in zip(*(weekly[k] for k in keys)) if values[0] is not None]
+    for p in points:
+        if p["delta_observed"] is False:
+            assert p["delta_nwe"] == pytest.approx(p["assumed_delta_nwe"], abs=2e-6)
+    every = next(r for r in weekly["ranges"] if r["id"] == "all")
+    observed = next(s["value"] for s in every["regas_heading_segments"] if s.get("field") == "observed_weeks")
+    assert observed == sum(1 for p in points if p["delta_observed"])

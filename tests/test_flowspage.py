@@ -102,3 +102,15 @@ def test_no_sentence_holds_a_figure_in_its_words(flows):
         for segment in segments:
             if "text" in segment:
                 assert not re.search(r"\d", segment["text"]), segment["text"]
+
+
+def test_the_2020_sentence_names_where_the_notice_test_fails_and_the_marks_carry_the_counts(flows):
+    y2020 = flows["page"]["y2020"]
+    failing = [m for m in y2020["months"] if m["cancelled"] is not None and m["notice"]["central"] >= 0]
+    named = [s["value"] for s in y2020["heading_segments"] if s.get("field") == "why_month"]
+    assert named == [m["label"] for m in failing]
+    for m in failing:
+        jkm = next(s["value"] for s in y2020["heading_segments"] if s.get("field") == "why_jkm_" + m["month"][:7])
+        assert jkm == m["notice_jkm"]
+    reported = [m for m in y2020["months"] if m["cancelled"] is not None]
+    assert [mark["letter"] for mark in y2020["cancelled_marks"]] == [str(int(m["cancelled"])) for m in reported]

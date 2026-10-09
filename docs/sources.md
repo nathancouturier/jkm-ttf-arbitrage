@@ -806,6 +806,19 @@ any source is reproduced. The documents and the terms they are read under:
 An event no readable document supports is not a row; the module lists it with
 the reason, and the History view prints that list (question 48).
 
+### 2.26 The optional private layer
+
+`lngarb.sources.user_csv` reads settlements and a freight series the owner
+exports himself from a licensed source into `data/private/user/`, as CSV files
+with exactly the columns `date, series, contract_month, value, unit, source`.
+The series it takes are JKM, TTF and Henry Hub settlements by contract month,
+in USD/MMBtu, and a freight rate in USD/day; a file that breaks a rule (a
+column, a date, a unit, a value out of bounds or missing, a contract month
+missing or out of place, no source) is refused whole, with every problem named.
+It never fetches; nothing it reads is committed or deployed, `data/private/`
+being ignored by git. Nothing the site shows changes when the layer is present
+(question 53).
+
 ## 3. Known traps, per source
 
 ### 3.1 EIA Natural Gas Weekly Update and its successor

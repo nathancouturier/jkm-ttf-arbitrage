@@ -273,8 +273,8 @@ preliminary vintages before August 2020.
 Decision: not collected. The workbook carries every month's latest figure; the
 preliminary figures would only show METI's own revisions.
 
-Revised 8 October 2026: the owner saved 19 of the monthly PDFs, October 2019 to
-July 2020, by hand. They are parsed into `meti_spot_lng_releases`, every figure
+Revised 8 October 2026: the owner saved 19 of the monthly PDFs by hand, the
+releases for October 2019 to March 2021 and the detailed release for March 2021. They are parsed into `meti_spot_lng_releases`, every figure
 each release printed with the day of the release, and the 2020 notice test on
 the Flows view uses METI's figure as first released by each notice day. The
 other releases are not held.
@@ -931,7 +931,7 @@ Raised 9 October 2026. **Decided 9 October 2026.**
 
 The brief's layout has seed files for the canal tariffs, the ships and the
 contract terms. They live in `src/lngarb/config.py` instead: the Panama and Suez
-tariffs as dated tables with the document and page of each, the ships and the
+tariffs as dated tables with the document each comes from, the ships and the
 contract terms as parameters with their source, status and the day they were
 read, all shown on the Method view. A seed file would hold the same figures
 without the types and checks the code gives them; the seeds that are kept are
@@ -953,4 +953,19 @@ Decision: the engine adds no wait and no slot premium unless one is typed; the
 Flows view sets the two reported waits against the wait at which Panama stops
 netting more than the Cape, and the Model view takes waiting days and a slot
 premium per route.
+
+### 53. What the private layer may change
+
+Raised 9 October 2026. **Decided 9 October 2026.**
+
+The brief asks for an importer of settlements and licensed freight the owner
+exports himself, never fetched, committed or deployed, and that the site publish
+nothing from it but the fact that the comparison was run.
+
+Decision: the importer reads and checks the files and computes, privately, JKM
+over TTF for the same contract month day by day. The site publishes nothing from
+it, not even the fact that it ran: the committed artifacts are rebuilt on every
+machine and checked byte for byte, and a flag present on one machine only would
+break that check. The lift test keeps EIA's daily Henry Hub as its proxy for the
+settlement on every machine.
 

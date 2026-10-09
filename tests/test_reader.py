@@ -290,3 +290,19 @@ def test_a_plural_step_takes_a_plural_verb():
     assert {"canals", "ports", "carbon"} <= reader.PLURAL_STEPS
     for step in reader.PLURAL_STEPS:
         assert not reader.STEP_SHORT[step].endswith("fee")
+
+
+def test_the_now_view_says_when_the_arb_closes_east_and_for_the_cargo():
+    import json
+
+    from lngarb.sources import base
+
+    now = json.loads((base.REPO_ROOT / "data" / "now.json").read_text(encoding="utf-8"))
+    closing = now["closing"]
+    values = {s["field"]: s.get("value") for s in closing["segments"] if "field" in s}
+    result = now["result"]
+    assert values["lift_margin"] == pytest.approx(abs(result["lift_margin"]), abs=1e-6)
+    assert values["spread"] == pytest.approx(result["spread"], abs=1e-6)
+    assert values["room"] == pytest.approx(abs(values["spread"] - values["s_star"]), abs=1e-6)
+    assert values["cancelled_from"] == "2020-06-01" and values["cancelled_to"] == "2020-09-01"
+    assert closing["link_view"] == "flows"

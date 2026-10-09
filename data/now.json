@@ -307,7 +307,7 @@
     "signed": true
    },
    {
-    "text": ", stays above the breakeven of the cheapest open route, "
+    "text": " $/MMBtu, stays above the breakeven of the cheapest open route, "
    },
    {
     "field": "s_star",
@@ -332,7 +332,7 @@
     "format": "usd_mmbtu"
    },
    {
-    "text": ". "
+    "text": " $/MMBtu. "
    },
    {
     "text": "For the cargo itself, it is lifted while the best netback covers "
@@ -352,6 +352,9 @@
     "field": "lift_margin",
     "value": 20.536800549856522,
     "format": "usd_mmbtu"
+   },
+   {
+    "text": " $/MMBtu"
    },
    {
     "text": ", and below zero the cargo is cancelled"
@@ -376,7 +379,7 @@
     "text": "."
    }
   ],
-  "link_words": "How the arb closed in 2020, on the Flows view",
+  "link_words": "How the arb closed in 2020: the third chart of the Flows view",
   "link_view": "flows"
  },
  "data_dates": [

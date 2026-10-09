@@ -49,7 +49,8 @@ const NOT_READ = Object.freeze({
 // The fields the page's modules read, by artifact, as dotted paths.
 const REQUIRED = Object.freeze({
   now: [
-    "verdict.segments", "data_dates", "sections",
+    "verdict.segments", "data_dates", "sections", "regas_sensitivity.segments",
+    "closing.heading", "closing.segments", "closing.link_words", "closing.link_view",
     "netbacks.scale.low", "netbacks.scale.high", "netbacks.scale_segments", "netbacks.threshold", "netbacks.rows",
     "netbacks.table_caption", "netbacks.source_segments",
     "cost.rows", "cost.heading_segments", "cost.scale.low", "cost.scale.high", "cost.start_segments",
@@ -64,6 +65,8 @@ const REQUIRED = Object.freeze({
   model: [
     "presets", "unavailable", "vessels.tfde_160k", "vessels.two_stroke_174k", "route_names", "route_short", "part_words",
     "part_words_premium", "units.mmbtu_per_mwh", "units.percent_per_one", "limits", "title_segments",
+    "carbon.tco2_per_t_lng", "carbon.tn2o_per_t_lng", "carbon.gwp_ch4", "carbon.gwp_n2o", "carbon.ch4_n2o_from_year",
+    "carbon.slip.tfde_160k", "carbon.slip.two_stroke_174k", "carbon.on",
   ],
   routes: [
     "heading_segments", "map.width", "map.height", "map.land", "map.start_x", "map.routes", "map.ports", "map.desc",
@@ -81,6 +84,11 @@ const REQUIRED = Object.freeze({
     "page.monthly.ticks", "page.monthly.heading_segments", "page.monthly.desc_segments",
     "page.monthly.caption_segments", "page.monthly.years",
     "page.breaks", "page.rules", "page.breaks_lead_segments", "page.anchors", "page.divisor", "page.source_segments",
+    "page.weekly.boil_off", "page.weekly.regas", "page.weekly.voyage", "page.weekly.delta_nwe",
+    "page.weekly.assumed_delta_nwe", "page.words.parts_legend", "page.words.parts.s_star", "page.words.parts.boil_off",
+    "page.words.parts.regas", "page.words.parts.voyage", "page.words.regas_legend", "page.words.regas.observed",
+    "page.words.regas.assumed", "page.words.events_caption", "page.words.events_heading", "page.words.left_out_heading",
+    "page.events", "page.event_marks", "page.events_lead_segments", "page.events_left_out",
   ],
   flows: [
     "page.whole.months", "page.whole.heading_segments", "page.whole.ticks", "page.whole.ticks_narrow",
@@ -89,7 +97,8 @@ const REQUIRED = Object.freeze({
     "page.y2020.desc", "page.y2020.caption_segments",
     "page.y2026.heading_segments", "page.y2026.days", "page.y2026.spread", "page.y2026.panama", "page.y2026.cape",
     "page.y2026.y.low", "page.y2026.ticks", "page.y2026.desc", "page.y2026.compare", "page.y2026.reported",
-    "page.y2026.assessment_day", "page.y2026.assessment_week",
+    "page.y2026.assessment_day", "page.y2026.assessment_week", "page.y2026.story_segments", "page.y2026.source_segments",
+    "page.y2020.cancelled_marks",
     "page.waits.heading_segments", "page.waits.rows", "page.waits.source", "page.limits_segments",
     "page.words.panama_route", "page.words.cape_route", "page.words.y2026_legend", "page.words.y2020_legend", "page.words.y2020_caption",
     "page.y2026.compare_caption_segments", "page.words.waits_caption",
@@ -101,6 +110,8 @@ const REQUIRED = Object.freeze({
   method: [
     "title_segments", "formulas", "parameters", "parameters_caption", "units", "units_segments", "delivery_segments",
     "limits", "documents", "type_words", "credits",
+    "k_sensitivity.rows", "k_sensitivity.routes", "k_sensitivity.route_names", "k_sensitivity.caption_segments",
+    "conventional.rows", "conventional.caption_segments",
   ],
   provenance: [
     "columns", "series", "summary_segments", "table_caption", "manual_heading", "manual_intro", "manual_steps",
@@ -123,7 +134,7 @@ const ROW_FIELDS = Object.freeze({
   },
   model: {
     presets: ["id", "label", "day", "inputs", "result", "lead_segments", "verdict_segments", "usd_per_eur", "eua_eur_t",
-      "source_words", "closed_words", "vessel_key", "route_tolls", "assumed"],
+      "source_words", "closed_words", "vessel_key", "route_tolls", "assumed", "alignment"],
   },
   routes: {
     "map.routes": ["id", "d", "pattern", "accent", "open", "label", "label_x", "label_y"],
@@ -133,7 +144,11 @@ const ROW_FIELDS = Object.freeze({
   },
   history: {
     "page.weekly.ranges": ["id", "label", "first", "last", "y", "hstar", "ticks", "heading_segments", "desc_segments",
-      "caption_segments", "hstar_heading_segments", "hstar_desc_segments", "hstar_caption_segments", "accent_day", "years"],
+      "caption_segments", "hstar_heading_segments", "hstar_desc_segments", "hstar_caption_segments", "accent_day", "years",
+      "parts_y", "parts_heading_segments", "regas_y", "regas_heading_segments"],
+    "page.events": ["letter", "day", "end", "what", "publisher", "url"],
+    "page.event_marks": ["day", "end", "letter"],
+    "page.events_left_out": ["what", "reason"],
     "page.breaks": ["number", "day", "kind", "kind_words", "what", "source"],
     "page.rules": ["day", "numbers"],
     "page.anchors": ["day", "hire_usd_day", "publisher", "assessment", "accent"],
@@ -144,6 +159,7 @@ const ROW_FIELDS = Object.freeze({
     "page.test.rows": ["share", "share_words", "sample", "hire_level", "n", "slope_pp", "t", "r2", "lags", "open_above",
       "open_below", "closed_above", "closed_below"],
     "page.y2020.months": ["month", "label", "loading", "notice", "cancelled"],
+    "page.y2020.cancelled_marks": ["day", "end", "letter"],
     "page.y2026.compare": ["route", "platts", "study"],
     "page.y2026.reported": ["period", "figure", "what", "publisher", "url", "format", "signed"],
     "page.waits.rows": ["month", "label", "hire_level", "hire_usd_day", "wait_reported", "wait_breakeven", "lead_no_wait", "lead_with_wait"],

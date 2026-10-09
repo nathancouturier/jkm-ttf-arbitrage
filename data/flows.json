@@ -4053,7 +4053,15 @@
      "label": "20 April 2020"
     },
     {
-     "text": " took METI's latest Japanese spot price as first released, "
+     "text": " took "
+    },
+    {
+     "field": "why_source_2020-06",
+     "value": "METI's contract-based price, the preliminary figure for March 2020, released on 9 April 2020",
+     "label": "METI's contract-based price, the preliminary figure for March 2020, released on 9 April 2020"
+    },
+    {
+     "text": ", "
     },
     {
      "field": "why_jkm_2020-06",
@@ -4088,7 +4096,15 @@
      "label": "20 July 2020"
     },
     {
-     "text": " took METI's latest Japanese spot price as first released, "
+     "text": " took "
+    },
+    {
+     "field": "why_source_2020-09",
+     "value": "METI's contract-based price, the preliminary figure for June 2020, released on 9 July 2020",
+     "label": "METI's contract-based price, the preliminary figure for June 2020, released on 9 July 2020"
+    },
+    {
+     "text": ", "
     },
     {
      "field": "why_jkm_2020-09",
@@ -4110,6 +4126,17 @@
      "text": " METI's figure is the average price of the spot cargoes contracted in a month, and it stands in for JKM, which this study does not hold for that year: the test fails where that average stayed far enough above TTF to pay for the voyage while cargoes were cancelled."
     },
     {
+     "text": " The margin at the notice date was also below zero for "
+    },
+    {
+     "field": "unreported",
+     "value": "November",
+     "label": "November"
+    },
+    {
+     "text": ", for which no cancellation was reported in the documents read."
+    },
+    {
      "text": " With each loading month's own prices the margin was below zero in "
     },
     {
@@ -4123,6 +4150,7 @@
    ],
    "months": [
     {
+     "notice_jkm_source": "METI spot LNG, contract-based, preliminary figure for October 2019, released on 2019-11-12, the latest published by 2019-11-20",
      "notice_jkm": 5.5,
      "notice_ttf": 5.06,
      "month": "2020-01-01",
@@ -4144,6 +4172,7 @@
      "cancelled_url": null
     },
     {
+     "notice_jkm_source": "METI spot LNG, contract-based, detailed figure for October 2019, released on 2019-12-10, the latest published by 2019-12-20",
      "notice_jkm": 5.5,
      "notice_ttf": 5.06,
      "month": "2020-02-01",
@@ -4165,6 +4194,7 @@
      "cancelled_url": null
     },
     {
+     "notice_jkm_source": "METI spot LNG, contract-based, preliminary figure for December 2019, released on 2020-01-15, the latest published by 2020-01-20",
      "notice_jkm": 6.4,
      "notice_ttf": 4.62,
      "month": "2020-03-01",
@@ -4186,6 +4216,7 @@
      "cancelled_url": null
     },
     {
+     "notice_jkm_source": "METI spot LNG, contract-based, preliminary figure for January 2020, released on 2020-02-12, the latest published by 2020-02-20",
      "notice_jkm": 5.9,
      "notice_ttf": 3.63,
      "month": "2020-04-01",
@@ -4207,6 +4238,7 @@
      "cancelled_url": null
     },
     {
+     "notice_jkm_source": "METI spot LNG, contract-based, preliminary figure for February 2020, released on 2020-03-10, the latest published by 2020-03-20",
      "notice_jkm": 3.4,
      "notice_ttf": 2.91,
      "month": "2020-05-01",
@@ -4228,6 +4260,7 @@
      "cancelled_url": null
     },
     {
+     "notice_jkm_source": "METI spot LNG, contract-based, preliminary figure for March 2020, released on 2020-04-09, the latest published by 2020-04-20",
      "notice_jkm": 3.4,
      "notice_ttf": 2.72,
      "month": "2020-06-01",
@@ -4249,6 +4282,7 @@
      "cancelled_url": "https://www.eia.gov/todayinenergy/detail.php?id=44697"
     },
     {
+     "notice_jkm_source": "METI spot LNG, contract-based, preliminary figure for April 2020, released on 2020-05-14, the latest published by 2020-05-20",
      "notice_jkm": 2.4,
      "notice_ttf": 2.12,
      "month": "2020-07-01",
@@ -4270,6 +4304,7 @@
      "cancelled_url": "https://www.eia.gov/todayinenergy/detail.php?id=44697"
     },
     {
+     "notice_jkm_source": "METI spot LNG, contract-based, preliminary figure for May 2020, released on 2020-06-09, the latest published by 2020-06-20",
      "notice_jkm": 2.2,
      "notice_ttf": 1.58,
      "month": "2020-08-01",
@@ -4291,6 +4326,7 @@
      "cancelled_url": "https://www.eia.gov/todayinenergy/detail.php?id=44697"
     },
     {
+     "notice_jkm_source": "METI spot LNG, contract-based, preliminary figure for June 2020, released on 2020-07-09, the latest published by 2020-07-20",
      "notice_jkm": 3.8,
      "notice_ttf": 1.75,
      "month": "2020-09-01",
@@ -4312,6 +4348,7 @@
      "cancelled_url": "https://www.eia.gov/todayinenergy/detail.php?id=44697"
     },
     {
+     "notice_jkm_source": "METI spot LNG, contract-based, preliminary figure for July 2020, released on 2020-08-12, the latest published by 2020-08-20",
      "notice_jkm": 5.2,
      "notice_ttf": 1.8,
      "month": "2020-10-01",
@@ -4333,6 +4370,7 @@
      "cancelled_url": null
     },
     {
+     "notice_jkm_source": "METI spot LNG, contract-based, preliminary figure for August 2020, released on 2020-09-09, the latest published by 2020-09-20",
      "notice_jkm": 3.4,
      "notice_ttf": 2.86,
      "month": "2020-11-01",
@@ -4354,6 +4392,7 @@
      "cancelled_url": null
     },
     {
+     "notice_jkm_source": "METI spot LNG, contract-based, preliminary figure for September 2020, released on 2020-10-09, the latest published by 2020-10-20",
      "notice_jkm": 4.5,
      "notice_ttf": 3.95,
      "month": "2020-12-01",
@@ -4402,7 +4441,7 @@
      "label": "Nov 2020"
     }
    ],
-   "desc": "Two lines over the loading months of 2020: the lift margin at the central hire with the prices published by the notice date, in ink over the band from the low to the high hire, and with the month's own prices, dashed. Bars at the foot mark the months EIA reported cargoes cancelled, each with the count.",
+   "desc": "Two lines over the loading months of 2020: the lift margin at the central hire with the prices published by the notice date, in ink over the band from the low to the high hire, and with the month's own prices, dashed. Bars at the foot mark the months for which EIA estimated, or cited the trade press for, cargoes cancelled, each with the approximate count.",
    "cancelled_marks": [
     {
      "day": "2020-05-18",
@@ -5194,7 +5233,7 @@
    "panama_route": "To North Asia via Panama",
    "cape_route": "To North Asia round the Cape",
    "y2026_legend": "The ink line is JKM over TTF; the thin line, S* via Panama; the dotted line, S* round the Cape; both at the central hire. The dot in the accent is the week the arb east opened on the data, Europe's DES spread as ACER assessed it.",
-   "y2020_legend": "The ink line is the lift margin at the notice date at the central hire, over the band from the low to the high hire; the dashed line, the margin with the month's own prices; the bars at the foot, the months EIA reported cargoes cancelled, with the count.",
+   "y2020_legend": "The ink line is the lift margin at the notice date at the central hire, over the band from the low to the high hire; the dashed line, the margin with the month's own prices; the bars at the foot, the months for which EIA estimated or cited cancellations, with the approximate count.",
    "y2020_caption": "The lift margin of each loading month of the year, at the notice date at each hire and at loading at the central hire, and the cargoes reported cancelled.",
    "waits_caption": "Panama against the Cape in the months a wait was reported for LNG: the wait reported, the wait at which the two routes net the same, and Panama's lead over the Cape without and with the wait, in $/MMBtu."
   }

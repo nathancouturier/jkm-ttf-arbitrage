@@ -4882,10 +4882,10 @@
      },
      "parts_heading_segments": [
       {
-       "text": "The three parts of S* at the central hire: the largest was "
+       "text": "The three parts of S* at the central hire: the largest in size was "
       },
       {
-       "field": "first_part",
+       "field": "part_0",
        "value": "Europe's DES spread",
        "label": "Europe's DES spread"
       },
@@ -4893,15 +4893,18 @@
        "text": " in "
       },
       {
-       "field": "first_count",
+       "field": "count_0",
        "value": 116,
        "format": "count"
       },
       {
-       "text": " weeks, "
+       "text": " weeks"
       },
       {
-       "field": "second_part",
+       "text": ", "
+      },
+      {
+       "field": "part_1",
        "value": "the voyage",
        "label": "the voyage"
       },
@@ -4909,7 +4912,7 @@
        "text": " in "
       },
       {
-       "field": "second_count",
+       "field": "count_1",
        "value": 86,
        "format": "count"
       },
@@ -4917,7 +4920,7 @@
        "text": " and "
       },
       {
-       "field": "third_part",
+       "field": "part_2",
        "value": "boil-off",
        "label": "boil-off"
       },
@@ -4925,7 +4928,7 @@
        "text": " in "
       },
       {
-       "field": "third_count",
+       "field": "count_2",
        "value": 40,
        "format": "count"
       },
@@ -5353,10 +5356,10 @@
      },
      "parts_heading_segments": [
       {
-       "text": "The three parts of S* at the central hire: the largest was "
+       "text": "The three parts of S* at the central hire: the largest in size was "
       },
       {
-       "field": "first_part",
+       "field": "part_0",
        "value": "Europe's DES spread",
        "label": "Europe's DES spread"
       },
@@ -5364,15 +5367,18 @@
        "text": " in "
       },
       {
-       "field": "first_count",
+       "field": "count_0",
        "value": 58,
        "format": "count"
       },
       {
-       "text": " weeks, "
+       "text": " weeks"
       },
       {
-       "field": "second_part",
+       "text": ", "
+      },
+      {
+       "field": "part_1",
        "value": "boil-off",
        "label": "boil-off"
       },
@@ -5380,7 +5386,7 @@
        "text": " in "
       },
       {
-       "field": "second_count",
+       "field": "count_1",
        "value": 40,
        "format": "count"
       },
@@ -5388,7 +5394,7 @@
        "text": " and "
       },
       {
-       "field": "third_part",
+       "field": "part_2",
        "value": "the voyage",
        "label": "the voyage"
       },
@@ -5396,7 +5402,7 @@
        "text": " in "
       },
       {
-       "field": "third_count",
+       "field": "count_2",
        "value": 12,
        "format": "count"
       },
@@ -5799,10 +5805,10 @@
      },
      "parts_heading_segments": [
       {
-       "text": "The three parts of S* at the central hire: the largest was "
+       "text": "The three parts of S* at the central hire: the largest in size was "
       },
       {
-       "field": "first_part",
+       "field": "part_0",
        "value": "the voyage",
        "label": "the voyage"
       },
@@ -5810,15 +5816,18 @@
        "text": " in "
       },
       {
-       "field": "first_count",
+       "field": "count_0",
        "value": 74,
        "format": "count"
       },
       {
-       "text": " weeks, "
+       "text": " weeks"
       },
       {
-       "field": "second_part",
+       "text": ", "
+      },
+      {
+       "field": "part_1",
        "value": "Europe's DES spread",
        "label": "Europe's DES spread"
       },
@@ -5826,7 +5835,7 @@
        "text": " in "
       },
       {
-       "field": "second_count",
+       "field": "count_1",
        "value": 58,
        "format": "count"
       },
@@ -5834,17 +5843,12 @@
        "text": " and "
       },
       {
-       "field": "third_part",
+       "field": "part_2",
        "value": "boil-off",
        "label": "boil-off"
       },
       {
-       "text": " in "
-      },
-      {
-       "field": "third_count",
-       "value": 0,
-       "format": "count"
+       "text": " never"
       },
       {
        "text": "."
@@ -6231,10 +6235,10 @@
      },
      "parts_heading_segments": [
       {
-       "text": "The three parts of S* at the central hire: the largest was "
+       "text": "The three parts of S* at the central hire: the largest in size was "
       },
       {
-       "field": "first_part",
+       "field": "part_0",
        "value": "Europe's DES spread",
        "label": "Europe's DES spread"
       },
@@ -6242,15 +6246,18 @@
        "text": " in "
       },
       {
-       "field": "first_count",
+       "field": "count_0",
        "value": 28,
        "format": "count"
       },
       {
-       "text": " weeks, "
+       "text": " weeks"
       },
       {
-       "field": "second_part",
+       "text": ", "
+      },
+      {
+       "field": "part_1",
        "value": "the voyage",
        "label": "the voyage"
       },
@@ -6258,7 +6265,7 @@
        "text": " in "
       },
       {
-       "field": "second_count",
+       "field": "count_1",
        "value": 21,
        "format": "count"
       },
@@ -6266,17 +6273,12 @@
        "text": " and "
       },
       {
-       "field": "third_part",
+       "field": "part_2",
        "value": "boil-off",
        "label": "boil-off"
       },
       {
-       "text": " in "
-      },
-      {
-       "field": "third_count",
-       "value": 0,
-       "format": "count"
+       "text": " never"
       },
       {
        "text": "."
