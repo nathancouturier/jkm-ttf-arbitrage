@@ -46,6 +46,12 @@ class RouteInput:
     ballast_distance_nm: float | None = None
     ballast_canal_days: float | None = None
     ballast_wait_days: float | None = None
+    #: days at sea typed directly for each leg (None: the distance over the speed)
+    laden_sea_days: float | None = None
+    ballast_sea_days: float | None = None
+    #: days of the laden leg neither at sea nor in port, which Spark's assessment
+    #: counts; zero except to reproduce Spark
+    flex_days: float = 0.0
 
 
 @dataclass(frozen=True)
@@ -72,8 +78,10 @@ class Inputs:
     #: EU ETS on the voyage to Northwest Europe; a phase of zero means not covered.
     #: ets_by_year, when given, maps a calendar year to (phase, t CO2e per t of
     #: LNG) and the emissions of each day are priced under their own year; the
-    #: two scalars apply otherwise.
-    eua_usd_t: float = 0.0
+    #: two scalars apply otherwise. The allowance price is None where none was
+    #: read: the cost is then zero while nothing is surrendered, and unknown
+    #: (NaN) otherwise, never priced at zero.
+    eua_usd_t: float | None = 0.0
     ets_phase: float = 0.0
     tco2_per_t_lng: float = 0.0
     ets_by_year: Mapping[int, tuple[float, float]] | None = None
@@ -85,13 +93,16 @@ class Inputs:
 
 
 def _voyage(inputs: Inputs, route: RouteInput) -> Voyage:
-    laden = Leg(route.distance_nm, canal_days=route.canal_days, wait_days=route.wait_days)
+    laden = Leg(route.distance_nm, canal_days=route.canal_days, wait_days=route.wait_days,
+                sea_days=route.laden_sea_days)
     ballast = Leg(
         route.distance_nm if route.ballast_distance_nm is None else route.ballast_distance_nm,
         canal_days=route.canal_days if route.ballast_canal_days is None else route.ballast_canal_days,
         wait_days=route.wait_days if route.ballast_wait_days is None else route.ballast_wait_days,
+        sea_days=route.ballast_sea_days,
     )
-    return Voyage(inputs.vessel, laden=laden, ballast=ballast, mmbtu_per_m3=inputs.mmbtu_per_m3)
+    return Voyage(inputs.vessel, laden=laden, ballast=ballast, mmbtu_per_m3=inputs.mmbtu_per_m3,
+                  flex_days=route.flex_days)
 
 
 def _year_days(start: float, end: float, day: date) -> dict[int, float]:
@@ -110,18 +121,22 @@ def _year_days(start: float, end: float, day: date) -> dict[int, float]:
 def _ets(inputs: Inputs, voyage: Voyage, *, to_europe: bool) -> float:
     """EU ETS on one round trip: the voyages into and out of the EU port at their share, berth in full.
 
-    The load day at Sabine Pass is outside the scheme. With ets_by_year, each
-    stretch of the voyage is split by calendar year and priced at that year's
-    phase and gases, since a year's surrender covers that year's emissions.
+    The load day at Sabine Pass is outside the scheme; flex days count as days
+    of the laden voyage. With ets_by_year, each stretch of the voyage is split
+    by calendar year and priced at that year's phase and gases, since a year's
+    surrender covers that year's emissions. Nothing surrendered costs nothing,
+    whatever the price; a surrender at a price not read is unknown.
     """
     if not to_europe:
         return 0.0
-    laden_sea = voyage.sea_days(voyage.laden) + voyage.laden.canal_days + voyage.laden.wait_days
+    price = float("nan") if inputs.eua_usd_t is None else inputs.eua_usd_t
+    laden_sea = (voyage.sea_days(voyage.laden) + voyage.laden.canal_days + voyage.laden.wait_days
+                 + voyage.flex_days)
     if inputs.ets_by_year is None:
         if inputs.ets_phase == 0:
             return 0.0
         return engine.ets_cost(
-            eua_usd_per_t=inputs.eua_usd_t,
+            eua_usd_per_t=price,
             phase_in=inputs.ets_phase,
             tco2_per_t_lng=inputs.tco2_per_t_lng,
             mmbtu_per_t_lng=inputs.mmbtu_per_t_lng,
@@ -143,8 +158,10 @@ def _ets(inputs: Inputs, voyage: Voyage, *, to_europe: bool) -> float:
         for year, days in _year_days(start, end, inputs.day).items():
             phase, factor = inputs.ets_by_year.get(year, (0.0, 0.0))
             weighted += share * days * phase * factor
+    if weighted == 0.0:
+        return 0.0
     tonnes_per_day = voyage.boil_off_per_day / inputs.mmbtu_per_t_lng
-    return inputs.eua_usd_t * tonnes_per_day * weighted
+    return price * tonnes_per_day * weighted
 
 
 def _costs(inputs: Inputs, route: RouteInput, voyage: Voyage, *, to_europe: bool) -> CostStack:

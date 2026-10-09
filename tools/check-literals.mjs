@@ -113,6 +113,21 @@ const LAYOUT_CONSTANTS = {
     { name: "PANEL_GAP", value: "30", why: "space between the two flows panels" },
     { name: "BAR_SHARE", value: "0.6", why: "a month's bar takes this share of its slot" },
   ],
+  "src/map.js": [
+    { name: "PORT_RADIUS", value: "3.5", why: "a port's dot on the map" },
+    { name: "ROW", value: "30", why: "a timeline row" },
+    { name: "NAME_COLUMN", value: "150", why: "the column of route names beside the timeline" },
+    { name: "NAME_COLUMN_NARROW", value: "104", why: "the same column on a narrow screen" },
+    { name: "NAME_GAP", value: "6", why: "a route's name to the first band" },
+    { name: "BAND", value: "10", why: "a band's thickness, open, closed or unknown" },
+    { name: "BAND_THIN", value: "4", why: "a band's thickness under restrictions" },
+    { name: "MIN_BAND", value: "2", why: "the narrowest band drawn" },
+    { name: "PAD_TOP", value: "8", why: "room above the first timeline row" },
+    { name: "AXIS", value: "26", why: "room under the rows for the years" },
+    { name: "PAD_RIGHT", value: "12", why: "room right of the last day" },
+    { name: "NARROW", value: "560", why: "the width below which the names shorten" },
+    { name: "YEAR_ROOM", value: "40", why: "the least room a year's label needs" },
+  ],
 };
 
 // Rule 3. Declared snippets, by file. `count` is exact: a snippet counts once

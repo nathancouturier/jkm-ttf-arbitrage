@@ -23,14 +23,15 @@ export const EAST = ["nea_panama", "nea_suez", "nea_cape"];
 // Volumes and days
 // --------------------------------------------------------------------------
 
-export function leg(distance_nm, canal_days = 0, wait_days = 0) {
-  return { distance_nm, canal_days, wait_days };
+export function leg(distance_nm, canal_days = 0, wait_days = 0, sea_days = null) {
+  return { distance_nm, canal_days, wait_days, sea_days };
 }
 
 export function voyage(vessel, laden, ballast, mmbtu_per_m3, flex_days = 0) {
   const q_load = vessel.capacity_m3 * vessel.fill * mmbtu_per_m3;
   const boil_off_per_day = q_load * vessel.boil_off_per_day;
-  const seaDays = (l) => l.distance_nm / (vessel.speed_kn * HOURS_PER_DAY);
+  // Days at sea typed directly win over the distance over the speed.
+  const seaDays = (l) => (l.sea_days != null ? l.sea_days : l.distance_nm / (vessel.speed_kn * HOURS_PER_DAY));
   const t_laden = seaDays(laden) + laden.canal_days + laden.wait_days
     + vessel.load_days + vessel.discharge_days + flex_days;
   const t_ballast = seaDays(ballast) + ballast.canal_days + ballast.wait_days;
@@ -169,22 +170,26 @@ function yearDays(start, end, dayIso) {
 }
 
 function routeVoyage(inputs, route) {
-  const laden = leg(route.distance_nm, route.canal_days, route.wait_days);
+  const laden = leg(route.distance_nm, route.canal_days, route.wait_days, route.laden_sea_days);
   const ballast = leg(
     route.ballast_distance_nm ?? route.distance_nm,
     route.ballast_canal_days ?? route.canal_days,
     route.ballast_wait_days ?? route.wait_days,
+    route.ballast_sea_days,
   );
-  return voyage(inputs.vessel, laden, ballast, inputs.mmbtu_per_m3);
+  return voyage(inputs.vessel, laden, ballast, inputs.mmbtu_per_m3, route.flex_days);
 }
 
+// Nothing surrendered costs nothing, whatever the price; a surrender at a
+// price not read (null) is unknown. Flex days count as days of the laden voyage.
 function ets(inputs, v, toEurope) {
   if (!toEurope) return 0;
-  const laden_sea = v.seaDays(v.laden) + v.laden.canal_days + v.laden.wait_days;
+  const price = inputs.eua_usd_t == null ? Number.NaN : inputs.eua_usd_t;
+  const laden_sea = v.seaDays(v.laden) + v.laden.canal_days + v.laden.wait_days + v.flex_days;
   if (inputs.ets_by_year == null) {
     if (inputs.ets_phase === 0) return 0;
     return etsCost({
-      eua_usd_per_t: inputs.eua_usd_t, phase_in: inputs.ets_phase, tco2_per_t_lng: inputs.tco2_per_t_lng,
+      eua_usd_per_t: price, phase_in: inputs.ets_phase, tco2_per_t_lng: inputs.tco2_per_t_lng,
       mmbtu_per_t_lng: inputs.mmbtu_per_t_lng, boil_off_mmbtu_per_day: v.boil_off_per_day,
       laden_days: laden_sea, ballast_days: v.t_ballast, berth_days: inputs.vessel.discharge_days,
       voyage_share: inputs.ets_voyage_share, berth_share: inputs.ets_berth_share,
@@ -203,8 +208,9 @@ function ets(inputs, v, toEurope) {
       weighted += share * days * phase * factor;
     }
   }
+  if (weighted === 0) return 0;
   const tonnes_per_day = v.boil_off_per_day / inputs.mmbtu_per_t_lng;
-  return inputs.eua_usd_t * tonnes_per_day * weighted;
+  return price * tonnes_per_day * weighted;
 }
 
 function costs(inputs, route, v, toEurope) {
@@ -275,6 +281,9 @@ const ROUTE_DEFAULTS = Object.freeze({
   ballast_distance_nm: null,
   ballast_canal_days: null,
   ballast_wait_days: null,
+  laden_sea_days: null,
+  flex_days: 0,
+  ballast_sea_days: null,
 });
 const INPUT_DEFAULTS = Object.freeze({
   eua_usd_t: 0,
@@ -294,12 +303,32 @@ function withDefaults(given, defaults) {
   return out;
 }
 
+// The figures a JSON file writes as null where Python held NaN: missing, so
+// NaN here, never the zero JavaScript's arithmetic would make of null. Null
+// keeps its own meaning elsewhere: an allowance price not read, a ballast leg
+// the laden leg's way, days at sea from the distance, no split by year.
+const NUMBERS = Object.freeze(["mmbtu_per_m3", "jkm", "ttf", "delta_nwe", "hire_usd_day", "henry_hub",
+  "hh_multiple", "liquefaction_fee", "port_west_usd", "port_east_usd", "rate_percent", "spread_bp",
+  "ets_phase", "tco2_per_t_lng", "mmbtu_per_t_lng", "ets_voyage_share", "ets_berth_share"]);
+const ROUTE_NUMBERS = Object.freeze(["distance_nm", "canal_laden_usd", "canal_ballast_usd", "canal_days",
+  "wait_days", "slot_premium_usd", "flex_days"]);
+const VESSEL_NUMBERS = Object.freeze(["capacity_m3", "fill", "boil_off_per_day", "speed_kn", "load_days",
+  "discharge_days"]);
+
+function nullsMissing(object, names) {
+  for (const name of names) if (object[name] === null) object[name] = Number.NaN;
+  return object;
+}
+
 /** The inputs with every optional field present, as the Python dataclasses
  *  would hold them. The caller's object is not changed. */
 export function complete(inputs) {
-  const out = withDefaults(inputs, INPUT_DEFAULTS);
+  const out = nullsMissing(withDefaults(inputs, INPUT_DEFAULTS), NUMBERS);
+  out.vessel = nullsMissing({ ...inputs.vessel }, VESSEL_NUMBERS);
   out.routes = {};
-  for (const [name, route] of Object.entries(inputs.routes)) out.routes[name] = withDefaults(route, ROUTE_DEFAULTS);
+  for (const [name, route] of Object.entries(inputs.routes)) {
+    out.routes[name] = nullsMissing(withDefaults(route, ROUTE_DEFAULTS), ROUTE_NUMBERS);
+  }
   return out;
 }
 

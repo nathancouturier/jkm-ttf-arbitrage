@@ -103,7 +103,8 @@ def one_date(item: worked.WorkedDate) -> list[str]:
     out.append("* EUR/USD: %s" % inputs.sources["fx"])
     out.append("* overnight rate %s %% plus %s bp: %s" % (inputs.rate_percent, inputs.spread_bp, inputs.sources["rate"]))
     out.append("* EU ETS phase %s, %s $/t, %s t CO2e per t of LNG: %s" % (
-        inputs.ets_phase, format(inputs.eua_usd_t, ",.2f"), format(inputs.tco2_per_t_lng, ".5f"), inputs.sources["eua"]))
+        inputs.ets_phase, "no price read" if inputs.eua_usd_t is None else format(inputs.eua_usd_t, ",.2f"),
+        format(inputs.tco2_per_t_lng, ".5f"), inputs.sources["eua"]))
     for route_id in cases.EAST:
         note = inputs.routes[route_id].canal_note
         if note:

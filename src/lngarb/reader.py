@@ -45,6 +45,14 @@ DECIMALS: Mapping[str, int] = {
     "count": 0,
     "year": 0,
     "t_stat": 2,
+    "knots": 1,
+    "usd": 0,
+    "bp": 0,
+    "share": 2,
+    "boil_off_percent": 3,
+    "fill_percent": 1,
+    "mmbtu_per_m3": 2,
+    "mmbtu_per_t": 2,
     "r2": 2,
 }
 
@@ -254,7 +262,7 @@ def _dominant_part(lines: Mapping[str, Any]) -> str:
 
 
 def verdict(result: Mapping[str, Any], day: date, hh_multiple: float, *, delta_nwe: float,
-            liquefaction_fee: float) -> dict[str, Any]:
+            liquefaction_fee: float, weekly: bool = True) -> dict[str, Any]:
     """The landing sentence: where the cargo nets more and by how much, JKM
     against TTF against the spread at which the cheapest open route east breaks
     even and the part that dominates it, and the lift test, then the margin net
@@ -262,7 +270,8 @@ def verdict(result: Mapping[str, Any], day: date, hh_multiple: float, *, delta_n
     west, east = result["west"], result["east"]
     best_route = result["best_route"]
     segments = [
-        T("A cargo loading at Sabine Pass in the week to "), D("as_of", day),
+        T("A cargo loading at Sabine Pass in the week to " if weekly else "A cargo loading at Sabine Pass on "),
+        D("as_of", day),
         T(" nets "), N("best_netback", result["best_netback"], "usd_mmbtu"),
         T(" $/MMBtu delivered to "), W("best_route_name", ROUTE_NAMES[best_route]),
     ]
@@ -911,6 +920,16 @@ def _utc_words(stamp: str | None) -> str | None:
 
 def _period_label(value: Any, frequency: str) -> str:
     return month_label(value) if frequency == "monthly" else day_label(value)
+
+
+def dates_in_words(text: str) -> str:
+    """A source label with every ISO date written as a reader writes it."""
+    return re.sub(r"\b(\d{4})-(\d{2})-(\d{2})\b", lambda m: day_label(m.group(0)), text)
+
+
+def closed_words(why: str) -> str:
+    """Why a route is closed, without the engine's transit date."""
+    return _closed_reason(why)
 
 
 def vintage_words(text: str | None) -> str:

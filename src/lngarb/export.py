@@ -1,10 +1,12 @@
-"""Write the site's data: data/now.json, data/history.json and data/flows.json.
+"""Write the site's data: the six JSON files in data/, five the page reads now and history.json for the History view.
 
 The site draws nothing it does not read from these files (and from
-data/manifest.json and the routes seed): every number in the browser comes
-from here, every label beside it names its source. Each file carries
-schema_version and the day of the data it holds, never the time it was
-written, so that writing it twice gives the same bytes.
+data/manifest.json, which the Provenance section links): every number in the
+browser comes from here, every label beside it names its source. The page
+never reads the routes seed or the land outlines; routes.json carries the
+map drawn from them. Each file carries schema_version and the day of the data
+it holds, never the time it was written, so that writing it twice gives the
+same bytes.
 
     now.json      the latest weekly observation: each input with its source and
                   date, the engine's full inputs (so the browser can move the
@@ -17,6 +19,13 @@ written, so that writing it twice gives the same bytes.
                   east and its arb; the breaks; the freight anchors.
     flows.json    the monthly export shares against the arb at loading, the
                   regressions and sign tables, the months with no observation.
+    model.json    the calculator's presets, each a whole set of engine inputs
+                  with the source of each, the tolls for either ship, the
+                  engine's output and the landing sentence; the named edits
+                  worked in Python (lngarb.presets).
+    routes.json   the map, the table of the four routes and when each was open
+                  to a US cargo, band by band with its source (lngarb.routemap).
+    provenance.json  every series: its publisher, page, licence and state.
 
     PYTHONPATH=src python -m lngarb.export
 """
@@ -33,12 +42,12 @@ from typing import Any
 
 import pandas as pd
 
-from . import analysis, config, delivery, reader, units, worked
+from . import analysis, config, delivery, presets, reader, routemap, units, worked
 from .cases import WATERFALL_STEPS, evaluate
 from .freight_anchors import ANCHORS, hire_levels
 from .sources import base
 
-__all__ = ["SCHEMA_VERSION", "now", "history", "flows", "provenance", "write_all", "inputs_json", "CREDITS"]
+__all__ = ["SCHEMA_VERSION", "now", "model", "routes", "history", "flows", "provenance", "write_all", "inputs_json", "CREDITS"]
 
 #: Who each source is credited to on the page, in the words their terms ask
 #: for where they ask for any (NOTICE holds the same notices).
@@ -63,6 +72,7 @@ CREDITS = (
     "Charter rates: as reported by the publishers each figure names, listed with the history.",
     "Sea distances: this study's computation from the searoute library (Apache License 2.0) over Eurostat's "
     "Searoute network (European Union Public Licence 1.2).",
+    "Land outlines: Natural Earth, public domain, through the world-atlas package (ISC licence).",
     "Typefaces: Fraunces, Figtree and JetBrains Mono, under the SIL Open Font License 1.1. Figtree stands in for "
     "the portfolio's Satoshi, whose licence does not allow a copy in a public repository.",
 )
@@ -342,19 +352,47 @@ def _write(name: str, document: dict[str, Any]) -> Path:
     return path
 
 
+def model(now_document: dict[str, Any]) -> dict[str, Any]:
+    """The Model view's presets, the latest week being the Now view's."""
+    day = date.fromisoformat(now_document["as_of"])
+    body = presets.model_document(day, now_document["week"]["series"], inputs_json)
+    count = len(body["presets"])
+    return _clean({
+        **reader.header("model", day, "the calculator's presets: every engine input of %s with its source, "
+                                      "the engine's output and the landing sentence for each" % (
+                                          "one date" if count == 1 else "%d dates" % count)),
+        "conventions": reader.conventions(),
+        **body,
+    })
+
+
+def routes(now_document: dict[str, Any]) -> dict[str, Any]:
+    """The Routes view: the map, the table and the timeline for the latest week."""
+    body = routemap.routes_document(now_document)
+    return _clean({
+        **reader.header("routes", body["as_of"], "the map of the four routes from Sabine Pass, their distances, days "
+                                                 "and tolls, and when each was open to a US cargo"),
+        "conventions": reader.conventions(),
+        **body,
+    })
+
+
 def write_all() -> list[Path]:
-    """Write the three files from the committed data.
+    """Write the site's files from the committed data.
 
     Every document is built before any file is written, so a failure in one
-    leaves all three as they were and the site's data always belong to one run.
+    leaves all six as they were and the site's data always belong to one run.
     """
     with analysis.reading_once():
         obs = analysis.observations()
         rows, _ = analysis.work(obs)
         flows_document = flows(rows)
         provenance_document = provenance()
+        now_document = now(obs, flows_document=flows_document, provenance_document=provenance_document)
         documents = {
-            "now.json": now(obs, flows_document=flows_document, provenance_document=provenance_document),
+            "now.json": now_document,
+            "model.json": model(now_document),
+            "routes.json": routes(now_document),
             "history.json": history(rows, obs),
             "flows.json": flows_document,
             "provenance.json": provenance_document,

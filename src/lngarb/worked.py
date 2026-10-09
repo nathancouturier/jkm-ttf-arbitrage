@@ -99,14 +99,15 @@ def _panama(laden_day: date, ballast_day: date, capacity_m3: float) -> tuple[flo
 
 
 def routes_on(when: date | str, vessel: Vessel, *, suez_scnt: float | None = None,
-              suez_rebate_on_surcharge: bool = False) -> dict[str, RouteInput]:
+              suez_rebate_on_surcharge: bool = False, missing: dict[str, str] | None = None) -> dict[str, RouteInput]:
     """Every route for a cargo loading on the day: open or not and why, its distance and its canal charges.
 
     A canal is priced on each transit's own day. A route is offered only if
     its laden transit falls while the canal is open to a US cargo; the ballast
     leg is taken to return the same way. Suez is offered only where its toll
     can be priced: without a schedule or an SDR rate it is shown and flagged,
-    never offered at a toll of zero.
+    never offered at a toll of zero. Where `missing` is given, a Panama toll no
+    table covers is recorded there and left missing (NaN) instead of raised.
     """
     day = _day(when)
     nm = distances()
@@ -115,7 +116,13 @@ def routes_on(when: date | str, vessel: Vessel, *, suez_scnt: float | None = Non
     laden_after, ballast_after = transit_days("nea_panama", vessel)
     laden_day, ballast_day = _on(day, laden_after), _on(day, ballast_after)
     if laden_day >= date.fromisoformat(_p("panama_open_to_lng_from")):
-        laden, ballast, note = _panama(laden_day, ballast_day, vessel.capacity_m3)
+        try:
+            laden, ballast, note = _panama(laden_day, ballast_day, vessel.capacity_m3)
+        except MissingInput as exc:
+            if missing is None:
+                raise
+            missing["panama_toll"] = str(exc)
+            laden, ballast, note = float("nan"), float("nan"), "missing: " + str(exc)
         out["nea_panama"] = RouteInput(nm["nea_panama"], canal_laden_usd=laden, canal_ballast_usd=ballast,
                                        canal_note=note)
     else:
@@ -175,7 +182,8 @@ def henry_hub_month(when: date | str) -> tuple[float, str]:
     days held, and the label says the month is incomplete.
     """
     detail = henry_hub_detail(when)
-    label = "EIA Henry Hub spot, average of %d days in %s" % (detail["days"], detail["month"].strftime("%B %Y"))
+    label = "EIA Henry Hub spot, average of %s in %s" % (
+        "1 day" if detail["days"] == 1 else "%d days" % detail["days"], detail["month"].strftime("%B %Y"))
     if detail["incomplete"]:
         label += ", an incomplete month: the data end on %s" % detail["last_held"]
     return detail["value"], label
@@ -317,9 +325,10 @@ def nearest_hire(when: date | str, *, max_days: int | None = None) -> tuple[floa
         return None, "no reported charter rate within %d days of %s (the nearest is %d days away)" % (
             max_days, day, gap)
     when_said = anchor.rate_date or ("article of %s" % anchor.article_date)
-    return anchor.hire_usd_day, "%s, %s, %s (%s), %d days from the date" % (
+    distance = "the same day" if gap == 0 else ("1 day from the date" if gap == 1 else "%d days from the date" % gap)
+    return anchor.hire_usd_day, "%s, %s, %s (%s), %s" % (
         anchor.assessment + ("" if anchor.assessment_stated else ", inferred"),
-        anchor.vessel + ("" if anchor.vessel_stated else ", inferred"), when_said, anchor.publisher, gap)
+        anchor.vessel + ("" if anchor.vessel_stated else ", inferred"), when_said, anchor.publisher, distance)
 
 
 def delta_nwe_between(start: date, end: date) -> tuple[float, str] | None:
@@ -438,9 +447,20 @@ def _prices(worked: WorkedDate) -> tuple[float, float, dict[str, str]]:
 
 def inputs_for(worked: WorkedDate, *, hire_usd_day: float | None = None,
                delta_nwe_eur_mwh: float | None = None, liquefaction_fee: float | None = None,
-               suez_scnt: float | None = None, suez_rebate_on_surcharge: bool = False) -> Inputs:
-    """Every input of a worked date. The reported hire nearest the date unless one is given."""
-    jkm, ttf, sources = _prices(worked)
+               suez_scnt: float | None = None, suez_rebate_on_surcharge: bool = False,
+               missing: dict[str, str] | None = None) -> Inputs:
+    """Every input of a worked date. The reported hire nearest the date unless one is given.
+
+    Where `missing` is given, an input the data do not hold is recorded there,
+    by its key, with the reason, and left missing (NaN) instead of raising: the
+    calculator's presets show it as missing rather than filling it."""
+    try:
+        jkm, ttf, sources = _prices(worked)
+    except MissingInput as exc:
+        if missing is None:
+            raise
+        missing["jkm"] = missing["ttf"] = str(exc)
+        jkm, ttf, sources = float("nan"), float("nan"), {"jkm": "missing: " + str(exc), "ttf": "missing: " + str(exc)}
     day = _day(worked.day)
     if worked.prices == "monthly":
         first = date(day.year, day.month, 1)
@@ -450,36 +470,50 @@ def inputs_for(worked: WorkedDate, *, hire_usd_day: float | None = None,
         delta_window = (day - timedelta(days=6), day)
     return inputs_on(worked.day, jkm, ttf, sources, hire_usd_day=hire_usd_day, delta_window=delta_window,
                      delta_nwe_eur_mwh=delta_nwe_eur_mwh, liquefaction_fee=liquefaction_fee,
-                     suez_scnt=suez_scnt, suez_rebate_on_surcharge=suez_rebate_on_surcharge)
+                     suez_scnt=suez_scnt, suez_rebate_on_surcharge=suez_rebate_on_surcharge, missing=missing)
 
 
 def inputs_on(when: date | str, jkm: float, ttf: float, price_sources: dict[str, str], *,
               hire_usd_day: float | None = None, delta_nwe_eur_mwh: float | None = None,
               delta_window: tuple[date, date] | None = None,
               liquefaction_fee: float | None = None, suez_scnt: float | None = None,
-              suez_rebate_on_surcharge: bool = False) -> Inputs:
+              suez_rebate_on_surcharge: bool = False, missing: dict[str, str] | None = None) -> Inputs:
     """Every input of a cargo loading on the day, at the JKM and TTF given, in USD/MMBtu.
 
     The prices come with their source labels; everything else is read from the
     data for that day. The reported hire nearest the date unless one is given.
     The Northwest Europe discount is ACER's spread over delta_window (the week
     to the day by default, which a weekly price spans), the assumption where
-    ACER published nothing, or the value given.
+    ACER published nothing, or the value given. Where `missing` is given, an
+    input the data do not hold is recorded there and left missing (NaN).
     """
     day = _day(when)
     sources = dict(price_sources)
     vessel = vessel_on(day)
-    usd_per_eur, fx_source = usd_per_eur_on(day)
-    hh, hh_source = henry_hub_month(day)
-    rate, rate_source = overnight_rate_on(day)
+
+    def read(key: str, reader_: Any) -> tuple[float, str]:
+        try:
+            return reader_()
+        except MissingInput as exc:
+            if missing is None:
+                raise
+            missing[key] = str(exc)
+            return float("nan"), "missing: " + str(exc)
+
+    usd_per_eur, fx_source = read("fx", lambda: usd_per_eur_on(day))
+    hh, hh_source = read("henry_hub", lambda: henry_hub_month(day))
+    rate, rate_source = read("rate", lambda: overnight_rate_on(day))
     if hire_usd_day is None:
         hire_usd_day, hire_source = nearest_hire(day)
         if hire_usd_day is None:
-            raise MissingInput(hire_source + "; give a hire, such as one of %s" % hire_levels())
+            if missing is None:
+                raise MissingInput(hire_source + "; give a hire, such as one of %s" % hire_levels())
+            missing["hire"] = hire_source
+            hire_usd_day, hire_source = float("nan"), "missing: " + hire_source
     else:
         hire_source = "given"
     if delta_nwe_eur_mwh is None:
-        delta_eur, delta_source = delta_nwe_on(day, delta_window)
+        delta_eur, delta_source = read("delta_nwe", lambda: delta_nwe_on(day, delta_window))
     else:
         delta_eur, delta_source = float(delta_nwe_eur_mwh), "given"
     # The voyage can run into the next calendar year: each year's emissions are
@@ -487,14 +521,17 @@ def inputs_on(when: date | str, jkm: float, ttf: float, price_sources: dict[str,
     slip = _slip(vessel) if _p("methane_slip_on") else None
     ets_by_year = {year: (ets_phase(date(year, 1, 1)), ets_tco2e_per_t(date(year, 1, 1), slip))
                    for year in (day.year, day.year + 1)}
-    eua_usd, eua_source = 0.0, "no EU ETS on shipping before 2024"
+    # Before 2024 nothing is surrendered, and no allowance price is read: the
+    # price is None, never zero, and the carbon cost zero (lngarb.cases).
+    eua_usd, eua_source = None, "no EU ETS on shipping before 2024, so no allowance price is read"
     if any(phase > 0 for phase, _ in ets_by_year.values()):
-        eua_eur, eua_source = eua_eur_t_in(day)
+        eua_eur, eua_source = read("eua", lambda: eua_eur_t_in(day))
         eua_usd = eua_eur * usd_per_eur
     sources.update({
         "fx": fx_source, "henry_hub": hh_source, "rate": rate_source, "hire": hire_source,
         "eua": eua_source, "vessel": vessel.name,
-        "delta_nwe": "%s; %s EUR/MWh at %s USD per EUR" % (delta_source, round(delta_eur, 3), usd_per_eur),
+        "delta_nwe": delta_source if delta_source.startswith("missing: ") else
+        "%s; %s EUR/MWh at %s USD per EUR" % (delta_source, round(delta_eur, 3), usd_per_eur),
     })
     return Inputs(
         day=day,
@@ -507,7 +544,8 @@ def inputs_on(when: date | str, jkm: float, ttf: float, price_sources: dict[str,
         henry_hub=hh,
         hh_multiple=_p("spa_henry_hub_multiple"),
         liquefaction_fee=_p("liquefaction_fee_usd_mmbtu") if liquefaction_fee is None else liquefaction_fee,
-        routes=routes_on(day, vessel, suez_scnt=suez_scnt, suez_rebate_on_surcharge=suez_rebate_on_surcharge),
+        routes=routes_on(day, vessel, suez_scnt=suez_scnt, suez_rebate_on_surcharge=suez_rebate_on_surcharge,
+                         missing=missing),
         port_west_usd=_p("port_cost_west_usd"),
         port_east_usd=_p("port_cost_east_usd"),
         rate_percent=rate,

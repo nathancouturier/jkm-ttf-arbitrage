@@ -21,6 +21,14 @@
    "count": 0,
    "year": 0,
    "t_stat": 2,
+   "knots": 1,
+   "usd": 0,
+   "bp": 0,
+   "share": 2,
+   "boil_off_percent": 3,
+   "fill_percent": 1,
+   "mmbtu_per_m3": 2,
+   "mmbtu_per_t": 2,
    "r2": 2
   },
   "rounding": "now.json keeps full precision, because the browser engine recomputes from its inputs; history.json and flows.json store floats to 6 places. The page prints the decimals of the format a value names.",
@@ -1789,7 +1797,10 @@
     "canal_note": "",
     "ballast_distance_nm": null,
     "ballast_canal_days": null,
-    "ballast_wait_days": null
+    "ballast_wait_days": null,
+    "laden_sea_days": null,
+    "ballast_sea_days": null,
+    "flex_days": 0.0
    },
    "nea_panama": {
     "distance_nm": 9305.9,
@@ -1803,7 +1814,10 @@
     "canal_note": "Panama toll, laden transit 2026-10-11 under Panama Canal Authority, tariff item 1010, 1 January 2025; still listed in February 2026, 656,700; ballast transit 2026-11-19 under Panama Canal Authority, tariff item 1010, 1 January 2025; still listed in February 2026, 558,195; each with the fresh water surcharge from 15 February 2020",
     "ballast_distance_nm": null,
     "ballast_canal_days": null,
-    "ballast_wait_days": null
+    "ballast_wait_days": null,
+    "laden_sea_days": null,
+    "ballast_sea_days": null,
+    "flex_days": 0.0
    },
    "nea_suez": {
     "distance_nm": 14624.2,
@@ -1817,7 +1831,10 @@
     "canal_note": "Suez toll for 102,000 SCNT. Laden transit 2026-10-24: Suez Canal Authority, circular 7/2023, transit dues schedules applicable from 15 January 2024; surcharge 19.0 percent, periodical 20/2026; rebate 75.0 percent, periodical of 21 June 2023, renewed six monthly to 31 December 2026; 253,418 SDR at 1.35219 USD per SDR of 2026-10-07. Ballast transit 2026-12-03: surcharge 19.0 percent, periodical 20/2026; rebate 75.0 percent, periodical of 21 June 2023, renewed six monthly to 31 December 2026; 215,318 SDR at 1.35219 USD per SDR of 2026-10-07. SDR rates of the IMF, through the Bundesbank",
     "ballast_distance_nm": null,
     "ballast_canal_days": null,
-    "ballast_wait_days": null
+    "ballast_wait_days": null,
+    "laden_sea_days": null,
+    "ballast_sea_days": null,
+    "flex_days": 0.0
    },
    "nea_cape": {
     "distance_nm": 15824.8,
@@ -1831,7 +1848,10 @@
     "canal_note": "",
     "ballast_distance_nm": null,
     "ballast_canal_days": null,
-    "ballast_wait_days": null
+    "ballast_wait_days": null,
+    "laden_sea_days": null,
+    "ballast_sea_days": null,
+    "flex_days": 0.0
    }
   },
   "ets_by_year": {

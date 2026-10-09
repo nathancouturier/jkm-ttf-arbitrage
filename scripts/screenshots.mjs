@@ -20,7 +20,7 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { argValue, launch, openNow } from "../tools/browser.mjs";
+import { argValue, launch, openNow, openView } from "../tools/browser.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const argv = process.argv;
@@ -29,6 +29,8 @@ const OUT = path.resolve(ROOT, argValue(argv, "--out") || "assets");
 
 const DESKTOP = { width: 1440, height: 900 };
 const MOBILE = { width: 375, height: 812 };
+const TABLET = { width: 768, height: 1024 };
+const NARROW = { width: 320, height: 640 };
 const ALL = "netbacks,cost,breakeven,flows,provenance";
 
 const SHOTS = [
@@ -40,6 +42,18 @@ const SHOTS = [
   { name: "now-mobile-dark", ...MOBILE, theme: "dark", open: "" },
   { name: "now-mobile-light-open", ...MOBILE, theme: "light", open: ALL },
   { name: "now-mobile-dark-open", ...MOBILE, theme: "dark", open: ALL },
+  { name: "model-desktop-light", ...DESKTOP, theme: "light", hash: "#/model" },
+  { name: "model-desktop-dark-october-2022", ...DESKTOP, theme: "dark", hash: "#/model?preset=october_2022" },
+  { name: "model-mobile-light-spark", ...MOBILE, theme: "light", hash: "#/model?preset=spark_example" },
+  { name: "routes-desktop-light", ...DESKTOP, theme: "light", hash: "#/routes" },
+  { name: "routes-desktop-dark", ...DESKTOP, theme: "dark", hash: "#/routes" },
+  { name: "routes-mobile-light", ...MOBILE, theme: "light", hash: "#/routes" },
+  { name: "routes-mobile-dark", ...MOBILE, theme: "dark", hash: "#/routes" },
+  { name: "routes-tablet-dark", ...TABLET, theme: "dark", hash: "#/routes" },
+  { name: "routes-narrow-light", ...NARROW, theme: "light", hash: "#/routes" },
+  { name: "model-mobile-dark", ...MOBILE, theme: "dark", hash: "#/model?preset=march_2024" },
+  { name: "model-tablet-light", ...TABLET, theme: "light", hash: "#/model?preset=april_2020" },
+  { name: "model-narrow-dark", ...NARROW, theme: "dark", hash: "#/model" },
 ];
 const ONLY = (argValue(argv, "--only") || "").split(",").filter(Boolean);
 
@@ -57,7 +71,8 @@ try {
   for (const shot of SHOTS.filter((s) => !ONLY.length || ONLY.some((prefix) => s.name.startsWith(prefix)))) {
     page.errors.length = 0;
     try {
-      await openNow(page, BASE, shot);
+      if (shot.hash) await openView(page, BASE, shot);
+      else await openNow(page, BASE, shot);
       const theme = await page.evaluate("document.documentElement.dataset.theme");
       if (theme !== shot.theme) throw new Error("the page is in " + theme + ", not " + shot.theme);
       const overflow = await page.evaluate("document.documentElement.scrollWidth - document.documentElement.clientWidth");

@@ -62,6 +62,8 @@ class Leg:
     distance_nm: float
     canal_days: float = 0.0
     wait_days: float = 0.0
+    #: days at sea typed directly, used instead of the distance over the speed
+    sea_days: float | None = None
 
 
 @dataclass(frozen=True)
@@ -86,6 +88,8 @@ class Voyage:
         return self.q_load * self.vessel.boil_off_per_day
 
     def sea_days(self, leg: Leg) -> float:
+        if leg.sea_days is not None:
+            return leg.sea_days
         return leg.distance_nm / (self.vessel.speed_kn * HOURS_PER_DAY)
 
     @property

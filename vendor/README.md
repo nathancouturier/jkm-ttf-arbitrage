@@ -71,3 +71,18 @@ loads nothing from a third party. Figtree is the openly licensed face the LME
 sibling measured as closest to Satoshi at weight 400 (its `vendor/README.md`
 holds the measurements). In CSS, `--ff-body` is redefined once, directly after
 the portfolio's token block in `styles/tokens.css`.
+
+# Vendored land outlines
+
+`world-atlas/land-110m.json`: Natural Earth's 1:110m land, as the world-atlas
+package (version 2.0.2) packs it in TopoJSON, copied byte for byte on
+2026-10-09 from the sibling repository `baltic-freight-routes`, beside the
+package's `LICENSE` (ISC, copyright Michael Bostock). Natural Earth's data are
+in the public domain. The file is read at build time only, by
+`src/lngarb/routemap.py`, which projects it into the map in `data/routes.json`;
+the page itself never requests it.
+
+| Path | Bytes | sha256 |
+|---|---|---|
+| `world-atlas/land-110m.json` | 55,207 | `ead5f68119c49a9250902e7da303bcb209341bbb8fefe7369a439b48b704658a` |
+| `world-atlas/LICENSE` | 734 | `8048290dfdb6e83fbed17e8985c8cfc4ce9da9b842642f3d3e497280790cfa31` |

@@ -62,9 +62,10 @@ data/cache/eia_*.csv and data/cache/h10_usd_per_eur_daily.csv:
   credits the weekly JKM and TTF prices to Bloomberg Finance L.P. and the
   Henry Hub spot price to Refinitiv, an LSEG business.
 
-data/seed/routes.json and data/seed/routes.geojson:
+data/seed/routes.json, data/seed/routes.geojson, and the route lines in data/routes.json:
   The distances are this study's computation, under the MIT licence. The route
-  lines are published under the European Union Public Licence 1.2
+  lines, and their projection onto the map in data/routes.json, are published
+  under the European Union Public Licence 1.2
   (https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12),
   as a work derived from the maritime network the searoute library bundles
   (searoute, https://github.com/genthalili/searoute-py, Apache License 2.0),
@@ -72,6 +73,11 @@ data/seed/routes.json and data/seed/routes.geojson:
   (https://github.com/eurostat/searoute, EUPL 1.2), itself based on the Oak
   Ridge National Laboratory CTA Transportation Network Group's Global Shipping
   Lane Network, World, 2000.
+
+The land in data/routes.json, and vendor/world-atlas/land-110m.json:
+  Natural Earth's 1:110m land, in the public domain, as the world-atlas
+  package 2.0.2 packs it (https://github.com/topojson/world-atlas, ISC
+  licence, copyright Michael Bostock, in vendor/world-atlas/LICENSE).
 
 tests/fixtures/:
   Each file is its publisher's own bytes under its publisher's terms; see

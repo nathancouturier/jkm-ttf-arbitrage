@@ -8,10 +8,11 @@
 // If the two disagree, the JavaScript is fixed to match the Python, never the
 // reverse. Exit status 1 on any disagreement.
 
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { evaluate } from "../src/engine.js";
+import { applyEdits, verdictSegments } from "../src/model-calc.js";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const FILE = process.argv[2] ? path.resolve(process.argv[2]) : path.join(ROOT, "data", "fixtures", "engine-cases.json");
@@ -80,3 +81,44 @@ if (problems.length) {
   process.exit(1);
 }
 console.log("ok    " + lines + " cases agree with the Python engine to " + TOLERANCE + " on every output");
+
+// The calculator's presets: the page's own path from a preset to its outputs
+// (src/model-calc.js, then the engine) must give the Python's every line, and
+// the landing sentence the Python wrote for the preset, segment for segment.
+// Skipped only when the cases file was named on the command line.
+const MODEL = path.join(ROOT, "data", "model.json");
+if (!process.argv[2] && existsSync(MODEL)) {
+  const model = JSON.parse(readFileSync(MODEL, "utf-8"));
+  const presetProblems = [];
+  for (const preset of model.presets) {
+    const { inputs } = applyEdits(preset, [], model);
+    const result = evaluate(inputs);
+    compare(preset.result, result, "preset " + preset.id, presetProblems);
+    // A preset missing a figure the sentence needs has none, in Python as on the page.
+    if (preset.verdict_segments !== null) {
+      compare(preset.verdict_segments, verdictSegments(result, inputs, model), "preset " + preset.id + " sentence", presetProblems);
+    }
+  }
+  // The named edits: the page's way of laying a visitor's figures over a
+  // preset, against the same edits worked in Python.
+  for (const check of model.checks || []) {
+    const preset = model.presets.find((p) => p.id === check.preset);
+    if (!preset) {
+      presetProblems.push("edit " + check.name + ": no preset " + check.preset);
+      continue;
+    }
+    const { inputs, refused } = applyEdits(preset, check.edits, model);
+    // The same figures refused, by input and route, as the Python refuses.
+    const said = (list) => list.map((r) => r.key + "@" + (r.route || "")).sort().join(",");
+    if (said(refused) !== said(check.refused || [])) {
+      presetProblems.push("edit " + check.name + ": refused " + said(refused) + ", the Python " + said(check.refused || []));
+    }
+    compare(check.result, evaluate(inputs), "edit " + check.name, presetProblems);
+  }
+  if (presetProblems.length) {
+    for (const p of presetProblems.slice(0, 50)) console.log("FAIL  " + p);
+    console.log(presetProblems.length + " disagreement(s) over the calculator's presets");
+    process.exit(1);
+  }
+  console.log("ok    " + model.presets.length + " calculator presets give the Python's output and sentence, and " + (model.checks || []).length + " named edits its output");
+}

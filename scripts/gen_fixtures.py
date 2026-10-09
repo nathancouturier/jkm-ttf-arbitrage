@@ -65,7 +65,15 @@ def _case(rng: random.Random, number: int) -> Inputs:
     day = date(2024, 1, 1) + timedelta(days=rng.randrange(0, 1000))
     if number % 7 == 0:
         day = date(rng.choice([2023, 2024, 2025]), 12, rng.randrange(1, 32))
-    routes = {WEST: RouteInput(distances[WEST])}
+    # Days typed on the route west as well now and then, with carbon below, so
+    # that typed days drive the year split of the allowances; flex days too.
+    typed = number % 5 == 1
+    routes = {WEST: RouteInput(
+        distances[WEST],
+        laden_sea_days=rng.uniform(8, 20) if typed else None,
+        ballast_sea_days=rng.uniform(8, 20) if typed and rng.random() > 0.3 else None,
+        flex_days=rng.uniform(0, 4) if number % 4 == 2 else 0.0,
+    )}
     for route in EAST:
         other = rng.choice(EAST)
         returns_other_way = number % 3 == 0 and other != route
@@ -82,11 +90,20 @@ def _case(rng: random.Random, number: int) -> Inputs:
             ballast_distance_nm=distances[other] if returns_other_way else None,
             ballast_canal_days=rng.uniform(0, 2) if returns_other_way else None,
             ballast_wait_days=rng.uniform(0, 10) if returns_other_way and rng.random() > 0.5 else None,
+            laden_sea_days=rng.uniform(8, 45) if typed else None,
+            ballast_sea_days=rng.uniform(8, 45) if typed and rng.random() > 0.5 else None,
+            flex_days=rng.uniform(0, 4) if number % 4 == 2 else 0.0,
         )
     hire = rng.choice([0.0, -750.0, rng.uniform(-10_000, 0), rng.uniform(0, 400_000), rng.uniform(20_000, 120_000)])
     carbon = rng.random()
     if carbon < 0.3:
-        ets_by_year, phase, factor, eua = None, 0.0, 0.0, 0.0
+        # No surrender: the price may be one not read (None), which costs nothing.
+        ets_by_year, phase, factor, eua = None, 0.0, 0.0, rng.choice([0.0, None])
+    elif carbon < 0.35:
+        # A surrender at a price not read: the carbon cost, and with it the
+        # netback west, is unknown.
+        ets_by_year = {day.year: (1.0, 2.75), day.year + 1: (1.0, 2.75)}
+        phase, factor, eua = 1.0, 2.75, None
     elif carbon < 0.5:
         ets_by_year, phase, factor, eua = None, rng.choice([0.4, 0.7, 1.0]), 2.75, rng.uniform(50, 120)
     else:
@@ -141,7 +158,8 @@ def _inputs_json(inputs: Inputs) -> dict:
 #: "optional_fields_omitted" case leaves out every one that holds its default.
 ROUTE_DEFAULTS = {"open": True, "why_closed": "", "canal_laden_usd": 0.0, "canal_ballast_usd": 0.0, "canal_days": 0.0,
                   "wait_days": 0.0, "slot_premium_usd": 0.0, "canal_note": "", "ballast_distance_nm": None,
-                  "ballast_canal_days": None, "ballast_wait_days": None}
+                  "ballast_canal_days": None, "ballast_wait_days": None, "laden_sea_days": None,
+                  "ballast_sea_days": None, "flex_days": 0.0}
 INPUT_DEFAULTS = {"eua_usd_t": 0.0, "ets_phase": 0.0, "tco2_per_t_lng": 0.0, "ets_by_year": None,
                   "mmbtu_per_t_lng": 1.0, "ets_voyage_share": 0.5, "ets_berth_share": 1.0}
 

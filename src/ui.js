@@ -18,6 +18,8 @@ import * as state from "./state.js";
 import { initTheme } from "./theme.js";
 import { el, clear, loadingMessage, failureMessages, renderFailureMessages } from "./dom.js";
 import * as now from "./now.js";
+import * as modelView from "./model.js";
+import * as routesView from "./routes.js";
 
 const SITE_NAME = "JKM and TTF arbitrage study";
 const DEFAULT_VIEW = "now";
@@ -27,6 +29,8 @@ const DEFAULT_VIEW = "now";
  * render(root, data, route), which returns the element that takes focus. */
 const ROUTES = [
   { name: "now", label: "Now", loading: "the landing sentence and the date of every input", module: now },
+  { name: "model", label: "Model", loading: "the calculator's presets and the source of every input", module: modelView },
+  { name: "routes", label: "Routes", loading: "the map of the routes and when each was open", module: routesView },
 ];
 
 const byName = new Map(ROUTES.map((route) => [route.name, route]));

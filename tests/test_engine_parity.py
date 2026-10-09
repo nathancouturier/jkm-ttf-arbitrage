@@ -39,8 +39,20 @@ def test_the_cases_cover_what_the_parity_check_must_see():
     routes = [r for c in cases for r in c["inputs"]["routes"].values()]
     assert any(r["ballast_distance_nm"] is not None for r in routes)
     assert any(not r["open"] for r in routes)
+    assert any(r["laden_sea_days"] is not None for r in routes)
+    assert any(r["ballast_sea_days"] is not None for r in routes)
     assert any(c["inputs"]["ets_by_year"] is not None and c["inputs"]["day"][5:7] == "12" for c in cases)
     assert {c["output"]["best_route"] for c in cases} >= {"nwe_direct", "nea_panama"}
+    # Typed days on the route west, where the allowances read them, with a
+    # carbon cost that is not zero; flex days; and an allowance price not read,
+    # costing nothing without a surrender and unknown with one.
+    west_typed = [c for c in cases if c["inputs"]["routes"]["nwe_direct"].get("laden_sea_days") is not None]
+    assert any(c["inputs"]["ets_by_year"] is not None and c["output"]["west"]["ets_usd"] not in (0.0, None)
+               for c in west_typed)
+    assert any(r.get("flex_days", 0.0) > 0.0 for r in routes)
+    unread = [c for c in cases if "eua_usd_t" in c["inputs"] and c["inputs"]["eua_usd_t"] is None]
+    assert any(c["output"]["west"]["ets_usd"] == 0.0 for c in unread)
+    assert any(c["output"]["west"]["ets_usd"] is None and c["output"]["west"]["netback"] is None for c in unread)
 
 
 def test_the_edge_cases_reach_the_paths_random_draws_miss():
@@ -87,6 +99,7 @@ def test_an_infinity_from_the_javascript_is_a_disagreement(tmp_path):
     (tmp_path / "src" / "engine.js").write_text(
         source.replace("freight_conventional: f_conv,", "freight_conventional: f_conv / 0,"), encoding="utf-8")
     shutil.copy(ROOT / "tools" / "validate-engine.mjs", tmp_path / "tools" / "validate-engine.mjs")
+    shutil.copy(ROOT / "src" / "model-calc.js", tmp_path / "src" / "model-calc.js")
     document = json.loads(CASES.read_text(encoding="utf-8"))
     document["cases"] = document["cases"][:2]
     (tmp_path / "data" / "fixtures" / "engine-cases.json").write_text(json.dumps(document), encoding="utf-8")

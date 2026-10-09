@@ -21,6 +21,14 @@
    "count": 0,
    "year": 0,
    "t_stat": 2,
+   "knots": 1,
+   "usd": 0,
+   "bp": 0,
+   "share": 2,
+   "boil_off_percent": 3,
+   "fill_percent": 1,
+   "mmbtu_per_m3": 2,
+   "mmbtu_per_t": 2,
    "r2": 2
   },
   "rounding": "now.json keeps full precision, because the browser engine recomputes from its inputs; history.json and flows.json store floats to 6 places. The page prints the decimals of the format a value names.",
@@ -464,6 +472,7 @@
   "Dollars per euro: Board of Governors of the Federal Reserve System, H.10. Dollars per SDR: International Monetary Fund, read through the Deutsche Bundesbank.",
   "Charter rates: as reported by the publishers each figure names, listed with the history.",
   "Sea distances: this study's computation from the searoute library (Apache License 2.0) over Eurostat's Searoute network (European Union Public Licence 1.2).",
+  "Land outlines: Natural Earth, public domain, through the world-atlas package (ISC licence).",
   "Typefaces: Fraunces, Figtree and JetBrains Mono, under the SIL Open Font License 1.1. Figtree stands in for the portfolio's Satoshi, whose licence does not allow a copy in a public repository."
  ],
  "manifest_words": "The full record, with every gap and licence note, is"

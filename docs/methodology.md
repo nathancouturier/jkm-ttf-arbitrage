@@ -427,7 +427,8 @@ was to get.
 | 1 Nov 2023 | 15 Jan 2024 | 31 transits, 9 neopanamax, then 8, 7 and 6 neopanamax booking slots in December; unreserved LNG waits of 15 days in mid December | advisories A-48-2023 and A-53-2023; IEA, Gas Market Report Q1 2024 |
 | 16 Jan 2024 | 31 May 2024 | 24 booking slots, 7 neopanamax, full container ships ahead of LNG in the first booking period; LNG transits "almost completely dried up" by early 2024 | advisories A-54-2023 and A-08-2024; IEA |
 | 1 Jun 2024 | 14 Aug 2024 | neopanamax booking slots back to 8, 9, then 10 | advisories of 2024 |
-| 15 Aug 2024 | about November 2025 | the Authority states its commitment to return to normal operating conditions (50 feet; 36 booking slots, 10 neopanamax, from 1 September 2024); LNG use stays low | advisory A-28-2024; IEA, Gas Market Reports 2025 and Q1 2026 |
+| 15 Aug 2024 | 31 Aug 2024 | the Authority states its commitment to return to normal operating conditions (50 feet; 36 booking slots, 10 neopanamax, from 1 September 2024) | advisory A-28-2024 |
+| 1 Sep 2024 | about November 2025 | normal operating conditions; LNG use stays low | advisory A-28-2024; IEA, Gas Market Reports 2025 and Q1 2026 |
 | December 2025 | 3 Sep 2026 | water conservation; neopanamax draught cut to 48 feet by 2 September 2026; an LNG first rule for one booking slot from 4 January 2026 | the Authority's press release of 5 August 2026; advisories of 2025 and 2026 |
 | 4 Sep 2026 | to date | El Nino measures: 9 neopanamax slots a day; 10 slots and at least four LNG slots a week announced from 15 October 2026 | advisories A-29-2026 and A-36-2026 |
 
@@ -448,7 +449,9 @@ per m3, loads `Q_load = V x fill x K`. The ship boils off or burns
 `b = Q_load x BOR` MMBtu a day, on laden and ballast days alike, the basis
 Spark states for its boil-off rate. Each leg takes its sea distance over 24
 times the speed, plus canal and waiting days; the laden leg adds a day to load,
-a day to discharge and any flex days, which are zero except to reproduce Spark.
+a day to discharge and any flex days, which are zero except to reproduce Spark
+and count, for the EU ETS, as days of the laden voyage. Days at sea can be
+typed for either leg instead of computed from the distance.
 The gas used over the round trip is `G = b x T_total`, and the cargo delivered
 is `Q_del = Q_load - G`: the heel for the ballast leg stays on board. Laden and
 ballast routes are set separately; a worked date sends both legs the same way.
@@ -488,7 +491,9 @@ For a destination d and a route r, in US dollars:
   their own calendar year, since a year's surrender covers that year's
   emissions: a cargo loaded in late December reaches Gate in the next year. The
   phase is zero before 2024; methane and nitrous oxide count from 2026. The EU
-  allowance price is that of the loading month.
+  allowance price is that of the loading month. Before 2024 no price is read:
+  the price is left empty, never zero, and the cost is zero because nothing is
+  surrendered. A surrender at a price not read leaves the cost unknown.
 * **Financing**: the part of the cargo's purchase cost paid only when it is
   lifted, `1.15 x HH x Q_load`, at the overnight rate plus a spread, for the
   laden days, on an actual over 365 basis. The fixed fee, and its carrying
@@ -595,6 +600,59 @@ December 2037. The two front months name the same month from the 1st to the
 15th and after the TTF expiry at the end of the month, and different months
 from the 16th to the expiry. A week is aligned when every trading day of it
 names the same month, misaligned when none does, and mixed otherwise.
+
+### 9.10 The calculator
+
+The Model view runs the same engine in the browser (`src/engine.js`, held to
+the Python to 1e-9 on every case of section 10) over a preset's inputs with
+the visitor's figures laid over them.
+
+* **Presets.** Each is a loading date worked as section 9.8 works it: the
+  latest week, April 2020, 12 October 2022, 27 March 2024, 25 March 2026 and
+  Spark's worked example of 9 February 2022.
+* **Missing is shown as missing.** An input the data do not hold for a
+  preset's date is left empty, with the reason under its field and in the
+  preset's lead, and every output that needs it has no figure until one is
+  typed; nothing is filled in its place. April 2020 has no charter rate
+  reported within 14 days, so its hire is empty, and the page offers the low,
+  central and high levels of the reported rates, the three the analysis runs,
+  for the visitor to choose. A date whose inputs cannot be read at all is not
+  offered, and the page says why.
+* **Assumptions are named.** The liquefaction fee, the port costs and the
+  funding spread are always this study's assumptions (section 11), and the
+  field and the preset's lead say so; so do they for Europe's DES spread where
+  ACER published too little, and for an allowance price held. Every one can be
+  typed over, as can the ship's speed, boil-off, fill and days in port, the
+  contract's share of Henry Hub, the two energy conversions and the EU ETS
+  shares of a voyage and a berth stay, each with its source. The canal tariffs
+  and the gases counted under the EU ETS are rules, not inputs: the tolls they
+  give can be typed per route.
+* **Spark's example** types Spark's 17.5 laden and 12.5 ballast days, read
+  through Spark30's composition of 30 days (25 sailing, 1 load, 1 discharge, 3
+  flex): 12.5 laden days at sea, the day to load and the day to discharge, and
+  3 flex days; 12.5 ballast days at sea. The split is this study's reading.
+* **Tolls follow the ship.** Panama and Suez price on capacity, so the
+  preset carries both ships' tolls for its date; choosing the other ship
+  takes its tolls, unless a toll is typed.
+* **A ballast leg back by another route** takes that route's distance, canal
+  days and waiting days as they stand, and the toll of a ballast transit
+  alone: at Panama before 2023 the ballast table, not the lower roundtrip
+  table, which applies only to a ship that passed the canal laden too, priced
+  on the day of that route's own ballast transit; at Suez its ballast toll. A
+  typed ballast toll wins. Back by a route closed to a US cargo, the route is
+  closed too.
+* **Limits, not clamps.** Dollars per euro from 0.5 to 2, which brackets
+  every H.10 rate since 1999; speed from 5 to 25 knots; boil-off from 0 to 1
+  percent a day; fill from 50 to 100 percent; days to load or discharge up to
+  10; days at sea up to 120 a leg; flex and canal days up to 30; waiting days
+  up to 60; every EU ETS share from 0 to 1; from 15 to 30 MMBtu per m3 and 40
+  to 60 per tonne; the contract's share of Henry Hub up to 200 percent. A
+  figure outside them, or too large to be finite, is refused with its limits
+  and treated as missing; nothing is clamped. Inputs under which the ship burns as much gas
+  as it loads give no netback, and the page says so.
+* **Missing is missing.** An empty or unreadable field leaves every output
+  that depends on it without a figure, and the page names the input, route
+  cells included. An empty days at sea field takes the days from the distance.
 
 ---
 

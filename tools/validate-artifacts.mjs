@@ -62,6 +62,15 @@ const REQUIRED = Object.freeze({
     "breakeven.desc_segments", "breakeven.caption_segments", "breakeven.source_segments",
     "breakeven.table.columns", "breakeven.table.rows", "breakeven.table.caption_segments",
   ],
+  model: [
+    "presets", "unavailable", "vessels.tfde_160k", "vessels.two_stroke_174k", "route_names", "route_short", "part_words",
+    "part_words_premium", "units.mmbtu_per_mwh", "units.percent_per_one", "limits", "title_segments",
+  ],
+  routes: [
+    "heading_segments", "map.width", "map.height", "map.land", "map.start_x", "map.routes", "map.ports", "map.desc",
+    "map_caption_segments", "map_scroll_words", "source_segments", "rows", "table_caption_segments",
+    "timeline.first", "timeline.last", "timeline.rows", "timeline_heading_segments", "timeline_caption_segments",
+  ],
   flows: [
     "panel.months", "panel.shares", "panel.share_domain.low", "panel.share_domain.high", "panel.share_domain.step",
     "panel.arb_domain.low", "panel.arb_domain.high", "panel.arb_domain.step", "panel.share_axis", "panel.arb_axis",
@@ -86,6 +95,16 @@ const ROW_FIELDS = Object.freeze({
     "breakeven.lines": ["route", "pattern", "points", "h_star", "label"],
     "breakeven.table.columns": ["id", "head", "format"],
     "breakeven.table.rows": ["route", "name", "values", "missing_words"],
+  },
+  model: {
+    presets: ["id", "label", "day", "inputs", "result", "lead_segments", "verdict_segments", "usd_per_eur", "eua_eur_t",
+      "source_words", "closed_words", "vessel_key", "route_tolls", "assumed"],
+  },
+  routes: {
+    "map.routes": ["id", "d", "pattern", "accent", "open", "label", "label_x", "label_y"],
+    "map.ports": ["id", "name", "x", "y", "anchor", "label_x", "label_y"],
+    rows: ["route", "name", "distance_nm", "sea_days", "days_total", "canal_laden_usd", "canal_ballast_usd", "status_words"],
+    "timeline.rows": ["route", "name", "short", "bands"],
   },
   flows: { "panel.months": ["month", "label", "share_jkm", "share_asia", "arb"] },
   provenance: {

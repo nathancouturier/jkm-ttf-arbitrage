@@ -221,3 +221,13 @@ def test_spark_discharge_volume_follows_its_2022_definition_with_fifteen_laden_d
     loaded = 160_000 * 0.985 * 23
     per_day = loaded * 0.001
     assert loaded - 15 * per_day - 3_000 * 23 == pytest.approx(3_501_428, abs=1e-6)
+
+
+def test_days_at_sea_typed_directly_win_over_the_distance():
+    vessel = engine.Vessel("test", 160_000, 0.985, 0.001, 19.5, 1.0, 1.0)
+    typed = engine.Voyage(vessel, laden=engine.Leg(9_000.0, sea_days=15.5), ballast=engine.Leg(9_000.0, sea_days=12.5),
+                          mmbtu_per_m3=23.0)
+    assert typed.t_laden == pytest.approx(15.5 + 2.0)
+    assert typed.t_ballast == pytest.approx(12.5)
+    computed = engine.Voyage(vessel, laden=engine.Leg(9_000.0), ballast=engine.Leg(9_000.0), mmbtu_per_m3=23.0)
+    assert computed.t_ballast == pytest.approx(9_000.0 / (19.5 * 24))
