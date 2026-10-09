@@ -1,0 +1,117 @@
+# The weekly refresh: public sources only, after EIA's Thursday release.
+#
+# Fetches the public series, rebuilds every site artifact, and runs the whole
+# gate. If everything passes, the refreshed data are committed to the default
+# branch, which runs build.yml and publishes them. If anything fails, nothing is
+# committed and an issue says which step failed, with its output; the committed
+# data stay as they were, so the site keeps its last good week.
+#
+# Never fetched here: JOGMEC, whose terms forbid redistribution (its cache lives
+# in data/private, which a runner does not have), and METI's workbook, read once
+# and never refetched. A failed fetch keeps the old cache and marks the series
+# failed in the manifest; the gate then fails, and the issue says so.
+
+name: refresh
+
+on:
+  schedule:
+    # EIA releases the WNGSR, and its Supplement, on Thursdays at 10:30 Eastern
+    # time; this runs at 18:00 UTC that day, and again on Friday in case the
+    # release slipped.
+    - cron: "0 18 * * 4"
+    - cron: "0 18 * * 5"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install the Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev]"
+
+      - name: Fetch the public series
+        id: fetch
+        run: |
+          python scripts/refresh.py --only eia-weekly --only eia-tables --only worldbank --only acer \
+            --only eua --only h10 --only sofr --only sdr --only seeds > refresh.log 2>&1
+          cat refresh.log
+
+      - name: Rebuild every site artifact
+        id: export
+        run: |
+          PYTHONPATH=src python -m lngarb.export > export.log 2>&1
+          PYTHONPATH=src python -m lngarb.versions >> export.log 2>&1
+          cat export.log
+
+      - name: Run the gate
+        id: gate
+        run: |
+          set -o pipefail
+          {
+            python -m pytest tests -q
+            node tools/validate-data.mjs
+            node tools/validate-engine.mjs
+            node tools/validate-artifacts.mjs
+            node tools/check-paths.mjs
+            node tools/check-literals.mjs
+            node tools/check-styles.mjs
+          } > gate.log 2>&1
+          cat gate.log
+
+      - name: Commit the refreshed data
+        if: success()
+        run: |
+          git config user.name "Nathan Couturier"
+          git config user.email "288413586+nathancouturier@users.noreply.github.com"
+          git add data index.html
+          if git diff --cached --quiet; then
+            echo "nothing new this week"
+            exit 0
+          fi
+          git commit -m "Refresh the public series of the week to $(python -c "import json; print(json.load(open('data/now.json'))['as_of'])")"
+          git push
+
+      - name: Open an issue on failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          {
+            echo "The weekly refresh of $(date -u +%Y-%m-%d) failed. Nothing was committed; the site keeps its last good week."
+            echo
+            for log in refresh.log export.log gate.log; do
+              if [ -f "$log" ]; then
+                echo "### $log"
+                echo
+                echo '```'
+                tail -n 80 "$log"
+                echo '```'
+                echo
+              fi
+            done
+            echo "Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          } > issue.md
+          gh issue create --title "Weekly refresh failed, $(date -u +%Y-%m-%d)" --body-file issue.md

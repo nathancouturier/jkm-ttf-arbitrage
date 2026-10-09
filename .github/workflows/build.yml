@@ -1,0 +1,151 @@
+# The gate, and the deploy behind it.
+#
+# Every step runs a command that exits non zero on failure, and the deploy job
+# needs both checking jobs, so a failed check means no deploy at all.
+#
+# Nothing here fetches data. The caches are committed, and the gate revalidates
+# them offline, rebuilds every site artifact from them and fails if a byte
+# differs from what is committed: a third party outage cannot turn this
+# repository red, and an engine change that was never exported cannot ship.
+# The weekly job that fetches is refresh.yml.
+#
+# A runner has nothing from data/private, and the gate does not need it: a
+# clean clone rebuilds every artifact byte for byte. The tests that read a
+# private file skip, saying so.
+#
+# The site has no build step: plain HTML, CSS and ES modules reading JSON out of
+# data/, uploaded as committed.
+
+name: build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  gate:
+    name: tests and validators
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      # pyproject.toml pins every dependency; the dev extra adds the test runner.
+      # The site and the node tools need no install at all.
+      - name: Install the Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev]"
+
+      - name: Revalidate the committed data, offline
+        run: python scripts/refresh.py --offline
+
+      - name: Fail if the offline refresh changed anything
+        run: git diff --exit-code -- data/manifest.json data/cache data/seed
+
+      # Never piped into anything: a pipe reports the exit code of its last
+      # command, and a failing suite piped into another command looks green.
+      - name: Run the test suite
+        run: python -m pytest tests
+
+      - name: Rebuild every site artifact from the committed data
+        run: |
+          PYTHONPATH=src python -m lngarb.export
+          PYTHONPATH=src python -m lngarb.versions
+
+      - name: Fail if a rebuilt artifact differs from the committed one
+        run: git diff --exit-code -- data index.html
+
+      - name: Validate the data layer
+        run: node tools/validate-data.mjs
+
+      - name: Check the browser engine against the Python, case by case
+        run: node tools/validate-engine.mjs
+
+      - name: Validate the site artifacts
+        run: node tools/validate-artifacts.mjs
+
+      - name: Check that every path is relative
+        run: node tools/check-paths.mjs
+
+      - name: Check for numbers in the frontend that no artifact supplied
+        run: node tools/check-literals.mjs
+
+      - name: Check the stylesheets against the design system
+        run: node tools/check-styles.mjs
+
+  site:
+    name: the calculator in a browser
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      # The runner's Chrome refuses its own sandbox under the image's AppArmor
+      # rules; tools/browser.mjs turns it off only when asked, and only here,
+      # where the page loaded is this repository's own local server.
+      - name: Drive the calculator's form in headless Chrome
+        env:
+          SITE_BROWSER_NO_SANDBOX: "1"
+        run: |
+          python scripts/serve.py --port 8131 &
+          for attempt in 1 2 3 4 5 6 7 8 9 10; do
+            curl -sf http://localhost:8131/jkm-ttf-arbitrage/ > /dev/null && break
+            sleep 1
+          done
+          node tools/check-model-form.mjs
+
+  deploy:
+    name: publish to Pages
+    needs: [gate, site]
+    if: github.event_name == 'push' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload the repository as the site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

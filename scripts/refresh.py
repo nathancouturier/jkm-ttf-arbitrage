@@ -234,7 +234,7 @@ JOBS: tuple[Job, ...] = (
     ),
     Job(
         name="sdr",
-        what="US dollars per SDR, daily, the IMF's rate through the Bundesbank, for the Suez toll, NOT committable until the IMF's terms are read",
+        what="US dollars per SDR, daily, the IMF's rate through the Bundesbank, for the Suez toll, committed with the IMF credited",
         series=("imf_usd_per_sdr_daily",),
         adapters=lambda: [UsdPerSdrDaily()],
         online=_simple(lambda: [UsdPerSdrDaily()]),
