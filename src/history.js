@@ -35,6 +35,8 @@ export const artifacts = Object.freeze(["history"]);
 const VIEW = "history";
 
 let held = null;
+/* Which row of choices the last click came from, so the keyboard stays there. */
+let lastGroup = "range";
 
 /* The route east whose S* the weekly chart draws: the cheapest open one, or
  * one route, kept in the address as route=panama. */
@@ -56,6 +58,11 @@ export function render(root, data, route) {
   const decimals = history.conventions.decimals;
   const { range, unknown } = rangeFrom(route, page);
   const chosenRoute = routeFrom(route, range);
+  // A route the range does not hold, or no route of that name, is dropped from
+  // the address: the chart shows the cheapest open route.
+  if (route && route.params && route.params.route && !chosenRoute && unknown === null) {
+    router.replaceState(VIEW, { range: range.id });
+  }
   held = { history, root };
 
   const title = sentence("h1", range.heading_segments, decimals, "view-title");
@@ -71,6 +78,7 @@ export function render(root, data, route) {
       attrs: { type: "button", "aria-pressed": option.id === range.id ? "true" : "false", "data-range": option.id },
     });
     button.addEventListener("click", () => {
+      lastGroup = "range";
       if (option.id !== range.id) router.go(VIEW, chosenRoute ? { range: option.id, route: chosenRoute.id } : { range: option.id });
     });
     choices.appendChild(button);
@@ -89,6 +97,7 @@ export function render(root, data, route) {
       attrs: { type: "button", "aria-pressed": pressed ? "true" : "false", "data-route": option.id || "cheapest" },
     });
     button.addEventListener("click", () => {
+      lastGroup = "route";
       if (!pressed) router.go(VIEW, option.id ? { range: range.id, route: option.id } : { range: range.id });
     });
     routes.appendChild(button);
@@ -119,10 +128,9 @@ export function update(root, route) {
   if (!held) return;
   clear(root);
   render(root, { history: held.history }, route);
-  // Keep the keyboard on the choice just made: the route's, when one is named.
-  const named = route && route.params && route.params.route
-    ? root.querySelector('.choice[data-route="' + route.params.route + '"][aria-pressed="true"]') : null;
-  const pressed = named || root.querySelector('.choice[aria-pressed="true"]');
+  // Keep the keyboard on the row of choices just used.
+  const selector = lastGroup === "route" ? '.choice[data-route][aria-pressed="true"]' : '.choice[data-range][aria-pressed="true"]';
+  const pressed = root.querySelector(selector) || root.querySelector('.choice[aria-pressed="true"]');
   if (pressed) pressed.focus();
 }
 
@@ -181,7 +189,11 @@ function weeklyFigure(page, range, decimals, chosenRoute, routes) {
       rules: page.rules,
       events: page.event_marks,
       ticks: range.ticks,
-      words: { title: segmentsText(range.heading_segments, decimals), desc: segmentsText(range.desc_segments, decimals), yAxis: page.words.y_axis },
+      words: {
+        title: chosenRoute ? segmentsText(chosenRoute.caption_segments, decimals) : segmentsText(range.heading_segments, decimals),
+        desc: segmentsText(range.desc_segments, decimals) + (chosenRoute ? " " + page.words.route_desc : ""),
+        yAxis: page.words.y_axis,
+      },
     }));
   });
   return el("figure", { class: "block", attrs: { "aria-labelledby": "view-title" } }, [

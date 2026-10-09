@@ -601,6 +601,8 @@ def page(rows: pd.DataFrame, breaks: pd.DataFrame, anchors: Sequence[Mapping[str
                                "loaded. Where the dashed line runs above, the arb east was open.",
             "netbacks": {"west": "Gate", "east": "Best route east"},
             "cheapest_route": "Cheapest open route",
+            "route_desc": "The band and the dashed line here are the chosen route's own S*, drawn in the weeks it "
+                          "was open, not the cheapest route's.",
             "events_caption": "Every event drawn as a lettered mark: the day it began, the day it ended where it "
                               "ran for a period, what happened and the document it was read in.",
             "events_heading": "The events behind the regimes",

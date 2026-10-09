@@ -788,7 +788,9 @@ price is listed with the input it lacks, never filled.
 ### 12.2 Did the cargoes follow
 
 The share of US LNG exports by vessel going to the JKM markets (Japan, South
-Korea, China, Taiwan) and to Asia as a whole, month by month, from EIA's
+Korea, China, Taiwan) and to Asia as a whole, month by month, with Europe's
+share drawn beside them and the Middle East and Africa's and the Americas' in
+the table, from EIA's
 exports by destination: the block of exports by vessel, its own total row and
 its countries summed by region (trucks to Canada and Mexico and re-exports of
 foreign LNG are left out). The signal is the arb at loading at the best open
@@ -859,6 +861,10 @@ nothing smoothed or fitted (`lngarb.spreadhistory`):
   Gate. The cheapest route is the open route with the lowest S* at each level
   of hire; on 9 October 2026 it was Panama in every week since September
   2021.
+* **One route at a time.** A choice above the weekly chart draws the S* of
+  Panama, the Cape or Suez instead of the cheapest open route's, in the weeks
+  that route was open, with the count of weeks the spread covered it; the
+  address keeps the choice (`#/history?route=cape`).
 * **The netbacks.** What a cargo nets at Sabine Pass sold at Gate, and by the
   best route east, at the central hire, week by week; where the second runs
   above the first the arb east was open.

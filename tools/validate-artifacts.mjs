@@ -90,7 +90,7 @@ const REQUIRED = Object.freeze({
     "page.words.regas.assumed", "page.words.events_caption", "page.words.events_heading", "page.words.left_out_heading",
     "page.events", "page.event_marks", "page.events_lead_segments", "page.events_left_out",
     "page.weekly.west_netback", "page.weekly.east_netback", "page.words.netbacks_legend", "page.words.netbacks.west",
-    "page.words.netbacks.east", "page.words.cheapest_route", "page.weekly.panama_s_central", "page.weekly.cape_s_central",
+    "page.words.netbacks.east", "page.words.cheapest_route", "page.words.route_desc", "page.weekly.panama_s_central", "page.weekly.cape_s_central",
     "page.weekly.suez_s_central",
   ],
   flows: [
