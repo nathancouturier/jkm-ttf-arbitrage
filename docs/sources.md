@@ -794,6 +794,8 @@ any source is reproduced. The documents and the terms they are read under:
 * the US Department of Energy's LNG monthly reports (the first shale-era cargo,
   24 February 2016), a US government publication;
 * EIA, Today in Energy of 11 August 2020 (2.24), US public domain;
+* EIA's exports by country, the release of 30 September 2026, for the cargoes
+  to China of June and July 2026, US public domain;
 * LNG Prime of 28 July 2023 (2.14), a figure quoted with attribution;
 * the Oxford Institute for Energy Studies, NG 188 (2.11);
 * Platts, republished by Hellenic Shipping News on 22 April 2024 (2.14, 2.24);

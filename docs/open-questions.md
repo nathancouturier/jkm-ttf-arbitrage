@@ -897,8 +897,7 @@ dated document read), the canals' rebates and auctions (rules, on the Routes
 view), China's imports from February 2025 (a statement contradicted by EIA's
 table), Hormuz and the jump in charter rates of March 2026 (not read for that
 date; Lloyd's List), the IEA's averages, the US and Iran memorandum and the
-July hostilities, the June 2026 cargo to China (whether imported or re-exported
-is not established), and
+July hostilities, and
 Global LNG Hub's note. Each can become a row once its document is read.
 
 ### 49. How the site says a figure is missing
@@ -982,10 +981,13 @@ table shows a small volume to China in September 2025 and 4,576 MMcf in June
 July and September 2026 give 15 percent. The Chinese Ministry of
 Finance's notice, which would settle the rate, was not read.
 
-What would settle it: the ministry's notice, read by hand, and the owner's
-choice of words for the June 2026 cargo, whose end use (imported or re-exported)
-is not established. Until then the study uses the date only, as a limit of the
-flows test.
+What would settle the rate: the ministry's notice, read by hand. Until then the
+study uses the date only, as a limit of the flows test.
+
+Decided 10 October 2026 for the cargoes: the History view marks June and July
+2026 as an event, from EIA's table alone (4,576 and 4,555 MMcf to China, the
+first since September 2025), and says that whether the LNG was used in China or
+shipped on is not established.
 
 ### 55. An empty chart
 

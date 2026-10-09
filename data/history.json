@@ -11485,6 +11485,14 @@
    },
    {
     "letter": "H",
+    "day": "2026-06-01",
+    "end": "2026-07-31",
+    "what": "US LNG reaches China again: EIA's table shows 4,576 MMcf by vessel in June and 4,555 in July, the first since 546 in September 2025; whether it was used in China or shipped on is not established.",
+    "publisher": "U.S. Energy Information Administration, exports by country, release of 30 September 2026",
+    "url": "https://www.eia.gov/dnav/ng/ng_move_expc_s1_m.htm"
+   },
+   {
+    "letter": "I",
     "day": "2026-09-18",
     "end": null,
     "what": "The US and China are reported to be discussing a cut to China's tariff on US LNG.",
@@ -11529,9 +11537,14 @@
     "letter": "G"
    },
    {
+    "day": "2026-06-01",
+    "end": "2026-07-31",
+    "letter": "H"
+   },
+   {
     "day": "2026-09-18",
     "end": null,
-    "letter": "H"
+    "letter": "I"
    }
   ],
   "events_lead_segments": [
@@ -11540,7 +11553,7 @@
    },
    {
     "field": "events",
-    "value": 8,
+    "value": 9,
     "format": "count"
    },
    {
@@ -11548,7 +11561,7 @@
    },
    {
     "field": "left_out",
-    "value": 12,
+    "value": 11,
     "format": "count"
    },
    {
@@ -11587,10 +11600,6 @@
    {
     "what": "The US and Iran memorandum of 14 June 2026 and the hostilities of July 2026",
     "reason": "no document on them was read"
-   },
-   {
-    "what": "US LNG to China in June 2026, one cargo and part of another",
-    "reason": "whether the cargo was imported or re-exported is not established"
    },
    {
     "what": "JKM and TTF reported on 18 September 2026 with the US arbitrage to Asia uneconomic",

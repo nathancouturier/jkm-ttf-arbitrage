@@ -98,6 +98,14 @@ EVENTS: tuple[Event, ...] = (
         "2026-09-30",
     ),
     Event(
+        "2026-06-01", "2026-07-31",
+        "US LNG reaches China again: EIA's table shows 4,576 MMcf by vessel in June and 4,555 in July, the "
+        "first since 546 in September 2025; whether it was used in China or shipped on is not established.",
+        "U.S. Energy Information Administration, exports by country, release of 30 September 2026",
+        "https://www.eia.gov/dnav/ng/ng_move_expc_s1_m.htm",
+        "2026-10-09",
+    ),
+    Event(
         "2026-09-18", None,
         "The US and China are reported to be discussing a cut to China's tariff on US LNG.",
         "gCaptain, 19 September 2026, reporting Reuters of 18 September",
@@ -127,8 +135,6 @@ LEFT_OUT: tuple[tuple[str, str], ...] = (
      "IEA's averages were not read; the spread itself is drawn"),
     ("The US and Iran memorandum of 14 June 2026 and the hostilities of July 2026",
      "no document on them was read"),
-    ("US LNG to China in June 2026, one cargo and part of another",
-     "whether the cargo was imported or re-exported is not established"),
     ("JKM and TTF reported on 18 September 2026 with the US arbitrage to Asia uneconomic",
      "Global LNG Hub's note was not read"),
     ("Spark's first negative Atlantic rate, 8 February 2022, and its record of 374,000 $/day in October 2022",

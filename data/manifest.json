@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-09T22:12:14Z",
+  "generated_at": "2026-10-09T23:40:20Z",
   "series": [
     {
       "series": "acer_lng_daily",
@@ -2542,10 +2542,10 @@
       "page_url": "https://github.com/nathancouturier/jkm-ttf-arbitrage/blob/main/docs/sources.md",
       "machine_fetched": false,
       "fetched_at": null,
-      "checked_at": "2026-10-09T22:12:14Z",
-      "rows": 8,
-      "observations": 8,
-      "file_rows": 8,
+      "checked_at": "2026-10-09T23:40:20Z",
+      "rows": 9,
+      "observations": 9,
+      "file_rows": 9,
       "first_date": null,
       "last_date": null,
       "frequency": "annual",
@@ -2557,7 +2557,7 @@
       "licence_note": "Each row states a dated fact in this study's own words with the document it was read in, its publisher and its address; no sentence of any source is reproduced. The publishers' terms are in docs/sources.md.",
       "linkable": true,
       "status": "ok",
-      "note": "8 dated events from 2016-02-24 to 2026-09-18, each from one document read, and 12 left out, each with the reason. A seed, not a time series.",
+      "note": "9 dated events from 2016-02-24 to 2026-09-18, each from one document read, and 11 left out, each with the reason. A seed, not a time series.",
       "file": "data/seed/events.json",
       "unit": "event",
       "licence": "facts stated in this study's words, with the source of each",
@@ -2571,7 +2571,7 @@
       "page_url": "https://lngprime.com/",
       "machine_fetched": false,
       "fetched_at": null,
-      "checked_at": "2026-10-09T22:12:14Z",
+      "checked_at": "2026-10-09T23:40:20Z",
       "rows": 10,
       "observations": 10,
       "file_rows": 10,
@@ -3256,7 +3256,7 @@
       "page_url": "https://github.com/genthalili/searoute-py",
       "machine_fetched": false,
       "fetched_at": null,
-      "checked_at": "2026-10-09T22:12:14Z",
+      "checked_at": "2026-10-09T23:40:20Z",
       "rows": 4,
       "observations": 4,
       "file_rows": 4,
@@ -3394,8 +3394,8 @@
   "manual_steps_note": "Work this pipeline cannot do for itself. Each entry says what it is, why it exists, what it costs to skip it and how to do it. They are repeated against the series they affect in the manual_step field of those entries.",
   "run": {
     "mode": "offline",
-    "started_at": "2026-10-09T22:12:13Z",
-    "finished_at": "2026-10-09T22:12:14Z",
+    "started_at": "2026-10-09T23:40:19Z",
+    "finished_at": "2026-10-09T23:40:20Z",
     "script": "scripts/refresh.py"
   }
 }
