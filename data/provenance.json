@@ -1,0 +1,470 @@
+{
+ "schema_version": 1,
+ "artifact": "provenance",
+ "generated_by": "src/lngarb/export.py",
+ "data_date": "2026-10-07",
+ "describes": "the manifest of every series in words, the work done by hand and the credits",
+ "source": "the committed caches in data/cache and data/seed and the manifest, nothing from data/private; no network",
+ "conventions": {
+  "missing": "A missing value is JSON null. null never means zero and is never drawn as zero or bridged; the page shows a gap and says why.",
+  "decimals": {
+   "usd_mmbtu": 2,
+   "eur_mwh": 2,
+   "usd_day": 0,
+   "usd_per_eur": 4,
+   "eur_t": 2,
+   "rate_percent": 2,
+   "share_percent": 0,
+   "pp": 1,
+   "days": 1,
+   "nm": 0,
+   "count": 0,
+   "year": 0,
+   "t_stat": 2,
+   "r2": 2
+  },
+  "rounding": "now.json keeps full precision, because the browser engine recomputes from its inputs; history.json and flows.json store floats to 6 places. The page prints the decimals of the format a value names.",
+  "segments": "A sentence is a list of segments. A text segment holds words only. A value segment names its field and holds a value with a format, or an ISO date or a word with its label."
+ },
+ "summary_segments": [
+  {
+   "field": "series_count",
+   "value": 21,
+   "format": "count"
+  },
+  {
+   "text": " series"
+  },
+  {
+   "text": ", every one checked on the last run"
+  },
+  {
+   "text": "; "
+  },
+  {
+   "field": "preliminary",
+   "value": 2,
+   "format": "count"
+  },
+  {
+   "text": " hold"
+  },
+  {
+   "text": " preliminary figures"
+  },
+  {
+   "text": "; "
+  },
+  {
+   "field": "private",
+   "value": 1,
+   "format": "count"
+  },
+  {
+   "text": " is"
+  },
+  {
+   "text": " kept private under its terms"
+  },
+  {
+   "text": "; "
+  },
+  {
+   "field": "manual_steps",
+   "value": 4,
+   "format": "count"
+  },
+  {
+   "text": " steps"
+  },
+  {
+   "text": " done by hand."
+  }
+ ],
+ "columns": [
+  {
+   "id": "series",
+   "head": "Series",
+   "short": "series"
+  },
+  {
+   "id": "status_words",
+   "head": "Status",
+   "short": "status"
+  },
+  {
+   "id": "range_words",
+   "head": "Range",
+   "short": "range"
+  },
+  {
+   "id": "gaps_words",
+   "head": "Missing dates",
+   "short": "missing dates"
+  },
+  {
+   "id": "provisional_words",
+   "head": "Provisional",
+   "short": "provisional"
+  },
+  {
+   "id": "fetch_words",
+   "head": "Last fetch",
+   "short": "last fetch"
+  },
+  {
+   "id": "vintage_words",
+   "head": "Vintage",
+   "short": "vintage"
+  },
+  {
+   "id": "source",
+   "head": "Source",
+   "short": "source"
+  },
+  {
+   "id": "terms_words",
+   "head": "Terms",
+   "short": "terms"
+  }
+ ],
+ "series": [
+  {
+   "id": "acer_lng_daily",
+   "label": "ACER DES LNG assessments for NWE, SE and the EU, the EU benchmark to TTF, and the NWE spread to TTF computed from them, daily, EUR/MWh",
+   "publisher": "European Union Agency for the Cooperation of Energy Regulators",
+   "page_url": "https://www.acer.europa.eu/gas/lng-price-assessment",
+   "status": "ok",
+   "status_words": "checked",
+   "range_words": "31 March 2023 to 7 October 2026, daily",
+   "gaps_words": "67 dates, from 6 April 2023 to 26 June 2026",
+   "provisional_words": "none",
+   "fetch_words": "8 October 2026 at 21:43 UTC",
+   "vintage_words": "TERMINAL's historical download of 8 October 2026; correction notice of 20 December 2024",
+   "terms_words": "ACER legal notice, reproduction with acknowledgement"
+  },
+  {
+   "id": "dehst_eua_german_auction_monthly",
+   "label": "EU allowance price, German auctions on EEX, monthly average, EUR per tonne of CO2, a proxy for the EU price",
+   "publisher": "German Emissions Trading Authority (DEHSt) at the German Environment Agency; source EEX, DEHSt",
+   "page_url": "https://www.dehst.de/EN/Topics/EU-ETS-1/EU-ETS-1-Information/Analyses-and-Reports/analysis-and-reports_node.html",
+   "status": "ok",
+   "status_words": "checked",
+   "range_words": "January 2024 to August 2026, monthly",
+   "gaps_words": "none",
+   "provisional_words": "none",
+   "fetch_words": "8 October 2026 at 14:20 UTC",
+   "vintage_words": "the fourth quarter report of 2024, the fourth quarter report of 2025, the report of August 2026",
+   "terms_words": "CC BY-NC-ND 4.0 for DEHSt's reports, figures credited to EEX and DEHSt; non-commercial use"
+  },
+  {
+   "id": "doe_lng_export_cargoes",
+   "label": "US LNG exports and re-exports cargo by cargo, from January 2016, MMcf, with the terminal, ship and destination",
+   "publisher": "U.S. Department of Energy, Office of Fossil Energy and Carbon Management",
+   "page_url": "https://www.energy.gov/hgeo/listings/natural-gas-imports-and-exports-monthly-reports",
+   "status": "ok",
+   "status_words": "checked",
+   "range_words": "February 2016 to July 2026, monthly",
+   "gaps_words": "none",
+   "provisional_words": "none",
+   "fetch_words": "7 October 2026 at 08:02 UTC",
+   "vintage_words": "January 2016 to July 2026",
+   "terms_words": "US public domain"
+  },
+  {
+   "id": "ec_eua_auction_monthly",
+   "label": "EU allowance price, monthly volume weighted average auction clearing price, EUR per tonne of CO2",
+   "publisher": "European Commission, Auctions by the Common Auction Platform",
+   "page_url": "https://climate.ec.europa.eu/areas-action/carbon-markets/eu-emissions-trading-system-eu-ets/auctioning-allowances_en",
+   "status": "ok",
+   "status_words": "checked",
+   "range_words": "January 2023 to June 2025, monthly",
+   "gaps_words": "none",
+   "provisional_words": "none",
+   "fetch_words": "30 September 2026 at 21:33 UTC",
+   "vintage_words": "reports March 2024 to June 2025",
+   "terms_words": "CC BY 4.0"
+  },
+  {
+   "id": "eia_henry_hub_daily",
+   "label": "Henry Hub spot price, daily, USD/MMBtu",
+   "publisher": "U.S. Energy Information Administration, credited by EIA to Refinitiv, an LSEG business",
+   "page_url": "https://www.eia.gov/dnav/ng/hist/rngwhhdd.htm",
+   "status": "ok",
+   "status_words": "checked",
+   "range_words": "7 January 1997 to 6 October 2026, daily",
+   "gaps_words": "2059 dates, from 22 January 1997 to 7 September 2026",
+   "provisional_words": "none",
+   "fetch_words": "8 October 2026 at 22:00 UTC",
+   "vintage_words": "release of 7 October 2026, next release 15 October 2026",
+   "terms_words": "US public domain, with the third party credit doubt"
+  },
+  {
+   "id": "eia_lng_exports_monthly",
+   "label": "US LNG exports and re-exports by destination country, monthly, MMcf, and their prices, USD per Mcf, the latest release",
+   "publisher": "U.S. Energy Information Administration",
+   "page_url": "https://www.eia.gov/dnav/ng/ng_move_expc_s1_m.htm",
+   "status": "ok",
+   "status_words": "checked",
+   "range_words": "January 2016 to July 2026, monthly",
+   "gaps_words": "none",
+   "provisional_words": "none",
+   "fetch_words": "8 October 2026 at 22:00 UTC",
+   "vintage_words": "release of 30 September 2026, next release 30 October 2026",
+   "terms_words": "US public domain"
+  },
+  {
+   "id": "eia_lng_exports_revisions",
+   "label": "Every value a release of EIA's exports by country table changed, both vintages side by side",
+   "publisher": "U.S. Energy Information Administration, compared release by release by this study",
+   "page_url": "https://www.eia.gov/dnav/ng/ng_move_expc_s1_m.htm",
+   "status": "ok",
+   "status_words": "checked",
+   "range_words": "February 2024 to May 2026, monthly",
+   "gaps_words": "19 months, from March 2024 to December 2025",
+   "provisional_words": "none",
+   "fetch_words": "30 September 2026 at 15:51 UTC",
+   "vintage_words": "not recorded",
+   "terms_words": "US public domain"
+  },
+  {
+   "id": "eia_ngwu_international_weekly",
+   "label": "Weekly averages of an East Asia LNG price and of TTF, USD/MMBtu, Natural Gas Weekly Update, to January 2026",
+   "publisher": "U.S. Energy Information Administration, figures credited to Bloomberg Finance L.P.",
+   "page_url": "https://www.eia.gov/naturalgas/weekly/",
+   "status": "ok",
+   "status_words": "checked",
+   "range_words": "15 September 2021 to 21 January 2026, weekly",
+   "gaps_words": "23 dates, from 8 November 2021 to 29 December 2025",
+   "provisional_words": "none",
+   "fetch_words": "8 October 2026 at 21:07 UTC",
+   "vintage_words": "not recorded",
+   "terms_words": "US public domain, with the third party credit doubt"
+  },
+  {
+   "id": "eia_ngwu_issue_index",
+   "label": "Every Natural Gas Weekly Update issue EIA lists from 2016, the checklist for collection",
+   "publisher": "U.S. Energy Information Administration",
+   "page_url": "https://www.eia.gov/naturalgas/weekly/",
+   "status": "ok",
+   "status_words": "checked",
+   "range_words": "7 January 2016 to 22 January 2026, weekly",
+   "gaps_words": "37 dates, from 21 November 2016 to 29 December 2025",
+   "provisional_words": "none",
+   "fetch_words": "8 October 2026 at 21:06 UTC",
+   "vintage_words": "not recorded",
+   "terms_words": "US public domain"
+  },
+  {
+   "id": "eia_wngsr_international_weekly",
+   "label": "Weekly averages of JKM and TTF, USD/MMBtu, WNGSR Supplement, from January 2026",
+   "publisher": "U.S. Energy Information Administration, figures credited to Bloomberg Finance L.P.",
+   "page_url": "https://www.eia.gov/naturalgas/weekly/supplement/",
+   "status": "ok",
+   "status_words": "checked",
+   "range_words": "28 January 2026 to 7 October 2026, weekly",
+   "gaps_words": "none",
+   "provisional_words": "none",
+   "fetch_words": "8 October 2026 at 21:07 UTC",
+   "vintage_words": "not recorded",
+   "terms_words": "US public domain, with the third party credit doubt"
+  },
+  {
+   "id": "freight_anchors",
+   "label": "Reported LNG carrier charter rates, one per month at most, each from a dated article",
+   "publisher": "this study, from figures reported by Spark Commodities, LNG Prime and Hellenic Shipping News",
+   "page_url": "https://lngprime.com/",
+   "status": "ok",
+   "status_words": "checked",
+   "range_words": "10 figures typed from cited articles, not a time series",
+   "gaps_words": "none",
+   "provisional_words": "none",
+   "fetch_words": "typed by hand from cited documents, not fetched",
+   "vintage_words": "not recorded",
+   "terms_words": "individual figures quoted with attribution"
+  },
+  {
+   "id": "h10_usd_per_eur_daily",
+   "label": "US dollars per euro, daily noon buying rate in New York, Federal Reserve H.10",
+   "publisher": "Board of Governors of the Federal Reserve System, H.10",
+   "page_url": "https://www.federalreserve.gov/releases/h10/hist/dat00_eu.htm",
+   "status": "ok",
+   "status_words": "checked",
+   "range_words": "2 January 2015 to 2 October 2026, daily",
+   "gaps_words": "128 dates, from 19 January 2015 to 7 September 2026",
+   "provisional_words": "none",
+   "fetch_words": "6 October 2026 at 16:20 UTC",
+   "vintage_words": "prepared 5 October 2026 at 18:16",
+   "terms_words": "US public domain"
+  },
+  {
+   "id": "imf_usd_per_sdr_daily",
+   "label": "US dollars per special drawing right, daily, from 2016, the IMF's rate through the Bundesbank",
+   "publisher": "International Monetary Fund, as republished by the Deutsche Bundesbank",
+   "page_url": "https://www.imf.org/external/np/fin/data/param_rms_mth.aspx",
+   "status": "ok",
+   "status_words": "checked",
+   "range_words": "4 January 2016 to 7 October 2026, daily",
+   "gaps_words": "145 dates, from 18 January 2016 to 7 September 2026",
+   "provisional_words": "none",
+   "fetch_words": "8 October 2026 at 13:29 UTC",
+   "vintage_words": "last update 8 October 2026 at 12:05",
+   "terms_words": "IMF terms for its data, attribution required"
+  },
+  {
+   "id": "jogmec_spot_lng_monthly",
+   "label": "Japan spot LNG price, monthly, DES, contract-based and arrival-based, JOGMEC, from April 2021, private",
+   "publisher": "Japan Organization for Metals and Energy Security",
+   "page_url": "https://journal.jogmec.go.jp/oilgas/nglng-en/spotprice/index.html",
+   "status": "ok",
+   "status_words": "checked",
+   "range_words": "April 2021 to April 2026, monthly",
+   "gaps_words": "22 months, from August 2021 to August 2025",
+   "provisional_words": "preliminary from August 2026",
+   "fetch_words": "30 September 2026 at 20:44 UTC",
+   "vintage_words": "65 pages, 64 months confirmed",
+   "terms_words": "kept private: its terms do not allow publishing it"
+  },
+  {
+   "id": "meti_spot_lng_monthly",
+   "label": "Japan spot LNG price, monthly, DES, USD/MMBtu, contract-based and arrival-based, METI, March 2014 to March 2021",
+   "publisher": "Ministry of Economy, Trade and Industry of Japan, Spot LNG Price Statistics",
+   "page_url": "https://www.meti.go.jp/english/statistics/sho/slng/index.html",
+   "status": "ok",
+   "status_words": "checked",
+   "range_words": "March 2014 to March 2021, monthly",
+   "gaps_words": "6 months, from May 2015 to November 2019",
+   "provisional_words": "none",
+   "fetch_words": "30 September 2026 at 16:56 UTC",
+   "vintage_words": "historical workbook, series discontinued with March 2021",
+   "terms_words": "METI terms of use, compatible with CC BY 4.0"
+  },
+  {
+   "id": "meti_spot_lng_releases",
+   "label": "Japan spot LNG price, monthly, DES, USD/MMBtu, every figure METI's monthly releases printed, preliminary, detailed and fixed, with the day of each release",
+   "publisher": "Ministry of Economy, Trade and Industry of Japan, Spot LNG Price Statistics",
+   "page_url": "https://www.meti.go.jp/english/statistics/sho/slng/index.html",
+   "status": "ok",
+   "status_words": "checked",
+   "range_words": "February 2019 to March 2021, monthly",
+   "gaps_words": "7 months, from March 2019 to November 2019",
+   "provisional_words": "none",
+   "fetch_words": "8 October 2026 at 21:14 UTC",
+   "vintage_words": "19 releases saved by hand, 12 November 2019 to 14 May 2021",
+   "terms_words": "METI terms of use, compatible with CC BY 4.0"
+  },
+  {
+   "id": "nyfed_effr_daily",
+   "label": "Effective federal funds rate, daily, percent, 2016 to April 2018, from the New York Fed",
+   "publisher": "Federal Reserve Bank of New York",
+   "page_url": "https://www.newyorkfed.org/markets/reference-rates/effr",
+   "status": "ok",
+   "status_words": "checked",
+   "range_words": "4 January 2016 to 30 April 2018, daily",
+   "gaps_words": "21 dates, from 18 January 2016 to 19 February 2018",
+   "provisional_words": "none",
+   "fetch_words": "7 October 2026 at 18:39 UTC",
+   "vintage_words": "value dates 4 January 2016 to 30 April 2018",
+   "terms_words": "New York Fed Terms of Use"
+  },
+  {
+   "id": "nyfed_sofr_daily",
+   "label": "Secured Overnight Financing Rate, daily, percent, from the New York Fed",
+   "publisher": "Federal Reserve Bank of New York",
+   "page_url": "https://www.newyorkfed.org/markets/reference-rates/additional-information-about-reference-rates",
+   "status": "ok",
+   "status_words": "checked",
+   "range_words": "2 April 2018 to 6 October 2026, daily",
+   "gaps_words": "95 dates, from 28 May 2018 to 7 September 2026",
+   "provisional_words": "none",
+   "fetch_words": "7 October 2026 at 18:39 UTC",
+   "vintage_words": "value dates to 6 October 2026",
+   "terms_words": "New York Fed Terms of Use"
+  },
+  {
+   "id": "routes",
+   "label": "The four sea routes from Sabine Pass, their distances and their lines",
+   "publisher": "this study, computed with searoute 1.6.0 over the network it bundles, which its README credits to Eurostat's Searoute",
+   "page_url": "https://github.com/genthalili/searoute-py",
+   "status": "ok",
+   "status_words": "checked",
+   "range_words": "4 rows computed by this study, not a time series",
+   "gaps_words": "none",
+   "provisional_words": "none",
+   "fetch_words": "computed by this study, not fetched",
+   "vintage_words": "searoute 1.6.0",
+   "terms_words": "distances MIT; lines EUPL 1.2; searoute Apache License 2.0"
+  },
+  {
+   "id": "worldbank_gas_monthly",
+   "label": "World Bank Pink Sheet gas prices, monthly, USD/MMBtu: Europe, US Henry Hub, Japan LNG import price",
+   "publisher": "The World Bank, Commodity Price Data (The Pink Sheet)",
+   "page_url": "https://www.worldbank.org/en/research/commodity-markets",
+   "status": "ok",
+   "status_words": "checked",
+   "range_words": "January 2015 to September 2026, monthly",
+   "gaps_words": "none",
+   "provisional_words": "preliminary from August 2026",
+   "fetch_words": "3 October 2026 at 00:21 UTC",
+   "vintage_words": "updated on 2 October 2026",
+   "terms_words": "CC BY 4.0"
+  },
+  {
+   "id": "worldbank_gas_revisions",
+   "label": "Every value a Pink Sheet release changed, release against release",
+   "publisher": "The World Bank, compared release by release by this study",
+   "page_url": "https://www.worldbank.org/en/research/commodity-markets",
+   "status": "ok",
+   "status_words": "checked",
+   "range_words": "August 2026 to August 2026, monthly",
+   "gaps_words": "none",
+   "provisional_words": "none",
+   "fetch_words": "3 October 2026 at 00:21 UTC",
+   "vintage_words": "not recorded",
+   "terms_words": "CC BY 4.0"
+  }
+ ],
+ "table_caption": "Every series the study reads, as the manifest records it; stale and failed series first. Each range ends where the series ends, whether the publisher stopped it or it is current.",
+ "manual_heading": "Work done by hand",
+ "manual_intro": "What the pipeline cannot do for itself, why, and what skipping it would cost.",
+ "manual_steps": [
+  {
+   "id": "eia_ngwu_archive_by_hand",
+   "what": "The archived issues of EIA's Natural Gas Weekly Update, every issue the index lists from 2016, are read from the Internet Archive's earliest capture of each and kept privately in data/private/ngwu/. Done on 7 October 2026: 488 issues saved, 207 of them carrying the international prices item, from 16 September 2021 to 22 January 2026.",
+   "why": "eia.gov's robots.txt disallows /naturalgas/weekly/archivenew_ngwu for every automated client, so this pipeline never requests the archive from eia.gov. The Internet Archive's copies are read instead, on its terms, which grant access for scholarship and research. The saved pages are not committed; the parsed item text and values are.",
+   "cost_if_skipped": "None while the committed cache stands: every week is in it, with the item text it was read from. A rebuild from nothing without the saved pages would have one week, the final issue the landing page still serves."
+  },
+  {
+   "id": "eia_wngsr_weekly_collection",
+   "what": "The WNGSR Supplement's current issue has to be collected every week, after its Thursday release. Of the 34 issues released before collection started, from 29 January to 17 September 2026, five are read from the Internet Archive's copies and the other 29 were read in a browser from EIA's archive pages on 8 October 2026 (the issue of 2 April both ways, with the same text); none is missing.",
+   "why": "Only the current issue is on a path robots.txt allows. Every past issue sits under /naturalgas/weekly/supplement/archive/, which /*archive/ disallows.",
+   "cost_if_skipped": "A week not collected while current has to be read from its archive page in a browser, unless the Internet Archive happened to capture the issue's files that week, in the only weekly JKM and TTF series EIA still publishes."
+  },
+  {
+   "id": "acer_reports_by_hand",
+   "what": "ACER's daily LNG price assessments are on its TERMINAL platform only. TERMINAL's historical download, one CSV file with every day ACER published from 19 January 2023, has to be saved by hand; the download of 8 October 2026 is held.",
+   "why": "This pipeline does not access TERMINAL by code. ACER corrects values in place, so a download kept is also the record of what was published then.",
+   "cost_if_skipped": "Without a new download the observed Northwest Europe discount stops at the last day held, and later dates take the labelled assumption."
+  },
+  {
+   "id": "meti_monthly_pdfs_by_hand",
+   "what": "METI's monthly spot LNG releases, one PDF per month from March 2014 to March 2021, have to be saved from a browser to recover the preliminary figures. Nineteen are held, the releases for October 2019 to March 2021 and the detailed one for March 2021, which cover the cancellation notices of every cargo loading in 2020; the 67 earlier ones are not.",
+   "why": "METI's site answers automated requests with a bot challenge after a few files, and this pipeline does not get around a challenge. The historical workbook, read once, carries every month's latest figure but drops the preliminary ones.",
+   "cost_if_skipped": "None to the monthly series, which is complete from the workbook. The releases series holds only the releases saved: without the earlier PDFs the study cannot show how METI's preliminary figures were revised before October 2019."
+  }
+ ],
+ "credits_heading": "Credits",
+ "credits": [
+  "Weekly JKM and TTF prices, the Henry Hub spot price and US LNG exports: U.S. Energy Information Administration, which credits the weekly prices to Bloomberg Finance L.P. and the Henry Hub spot price to Refinitiv, an LSEG business.",
+  "The regasification discount: European Union Agency for the Cooperation of Energy Regulators (ACER).",
+  "The Japanese spot price before the weekly series: created by processing the information in the Spot LNG Price Statistics (Ministry of Economy, Trade and Industry of Japan).",
+  "TTF before the weekly series: The World Bank, Commodity Price Data (The Pink Sheet), under the Creative Commons Attribution 4.0 licence. The World Bank does not endorse this study.",
+  "EU allowances: European Commission auction reports, under the Creative Commons Attribution 4.0 licence; after the last month they cover, Source: EEX, DEHSt, under the Creative Commons Attribution NonCommercial NoDerivatives 4.0 licence, the monthly averages reproduced unchanged.",
+  "The Secured Overnight Financing Rate (SOFR) and the Effective Federal Funds Rate (EFFR) are subject to the Terms of Use posted at newyorkfed.org. The New York Fed is not responsible for publication of the SOFR or the EFFR by Nathan Couturier, does not sanction or endorse any particular republication, and has no liability for your use.",
+  "Dollars per euro: Board of Governors of the Federal Reserve System, H.10. Dollars per SDR: International Monetary Fund, read through the Deutsche Bundesbank.",
+  "Charter rates: as reported by the publishers each figure names, listed with the history.",
+  "Sea distances: this study's computation from the searoute library (Apache License 2.0) over Eurostat's Searoute network (European Union Public Licence 1.2).",
+  "Typefaces: Fraunces, Figtree and JetBrains Mono, under the SIL Open Font License 1.1. Figtree stands in for the portfolio's Satoshi, whose licence does not allow a copy in a public repository."
+ ],
+ "manifest_words": "The full record, with every gap and licence note, is"
+}

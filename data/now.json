@@ -1,6 +1,1699 @@
 {
  "schema_version": 1,
+ "artifact": "now",
+ "generated_by": "src/lngarb/export.py",
+ "data_date": "2026-10-07",
+ "describes": "the landing sentence, the date of every input, the netbacks, the steps of the arb and the breakeven lines for the latest week, with the engine's inputs and output",
+ "source": "the committed caches in data/cache and data/seed and the manifest, nothing from data/private; no network",
+ "conventions": {
+  "missing": "A missing value is JSON null. null never means zero and is never drawn as zero or bridged; the page shows a gap and says why.",
+  "decimals": {
+   "usd_mmbtu": 2,
+   "eur_mwh": 2,
+   "usd_day": 0,
+   "usd_per_eur": 4,
+   "eur_t": 2,
+   "rate_percent": 2,
+   "share_percent": 0,
+   "pp": 1,
+   "days": 1,
+   "nm": 0,
+   "count": 0,
+   "year": 0,
+   "t_stat": 2,
+   "r2": 2
+  },
+  "rounding": "now.json keeps full precision, because the browser engine recomputes from its inputs; history.json and flows.json store floats to 6 places. The page prints the decimals of the format a value names.",
+  "segments": "A sentence is a list of segments. A text segment holds words only. A value segment names its field and holds a value with a format, or an ISO date or a word with its label."
+ },
  "as_of": "2026-10-07",
+ "verdict": {
+  "values": {
+   "best_route": "nea_panama",
+   "best_netback": 23.955129081350062,
+   "gap": 1.239869037386761,
+   "cheapest_route": "nea_panama",
+   "s_star": -0.28216904091399186,
+   "dominant_part": "regas",
+   "dominant_value": -1.2046253266658815,
+   "lift_margin": 20.53675408135006,
+   "full_margin": 17.53675408135006
+  },
+  "segments": [
+   {
+    "text": "A cargo loading at Sabine Pass in the week to "
+   },
+   {
+    "field": "as_of",
+    "value": "2026-10-07",
+    "label": "7 October 2026"
+   },
+   {
+    "text": " nets "
+   },
+   {
+    "field": "best_netback",
+    "value": 23.955129081350062,
+    "format": "usd_mmbtu"
+   },
+   {
+    "text": " $/MMBtu delivered to "
+   },
+   {
+    "field": "best_route_name",
+    "value": "Futtsu via Panama",
+    "label": "Futtsu via Panama"
+   },
+   {
+    "text": ", "
+   },
+   {
+    "field": "gap_to_gate",
+    "value": 1.239869037386761,
+    "format": "usd_mmbtu"
+   },
+   {
+    "text": " more than at Gate. "
+   },
+   {
+    "text": "JKM is "
+   },
+   {
+    "field": "spread",
+    "value": 1.009999999999998,
+    "format": "usd_mmbtu"
+   },
+   {
+    "text": " above TTF"
+   },
+   {
+    "text": ", and the cheapest open route east, via "
+   },
+   {
+    "field": "cheapest_route",
+    "value": "Panama",
+    "label": "Panama"
+   },
+   {
+    "text": ", breaks even at a spread of "
+   },
+   {
+    "field": "s_star",
+    "value": -0.28216904091399186,
+    "format": "usd_mmbtu",
+    "signed": true
+   },
+   {
+    "text": "; the largest part of that is "
+   },
+   {
+    "field": "dominant_part",
+    "value": "Europe's regasification discount",
+    "label": "Europe's regasification discount"
+   },
+   {
+    "text": ", "
+   },
+   {
+    "field": "dominant_value",
+    "value": -1.2046253266658815,
+    "format": "usd_mmbtu",
+    "signed": true
+   },
+   {
+    "text": ". "
+   },
+   {
+    "text": "The best destination clears "
+   },
+   {
+    "field": "hh_multiple_percent",
+    "value": 115,
+    "format": "count"
+   },
+   {
+    "text": " percent of Henry Hub by "
+   },
+   {
+    "field": "lift_margin",
+    "value": 20.53675408135006,
+    "format": "usd_mmbtu"
+   },
+   {
+    "text": "; net of the liquefaction fee of "
+   },
+   {
+    "field": "liquefaction_fee",
+    "value": 3.0,
+    "format": "usd_mmbtu"
+   },
+   {
+    "text": " as well, its margin is "
+   },
+   {
+    "field": "full_margin",
+    "value": 17.53675408135006,
+    "format": "usd_mmbtu",
+    "signed": true
+   },
+   {
+    "text": "."
+   }
+  ]
+ },
+ "data_dates": [
+  {
+   "id": "jkm",
+   "segments": [
+    {
+     "text": "JKM "
+    },
+    {
+     "field": "jkm",
+     "value": 25.79,
+     "format": "usd_mmbtu"
+    },
+    {
+     "text": " $/MMBtu, the week ending "
+    },
+    {
+     "field": "jkm_date",
+     "value": "2026-10-07",
+     "label": "7 October 2026"
+    },
+    {
+     "text": ", from "
+    },
+    {
+     "field": "jkm_source",
+     "value": "EIA's Weekly Natural Gas Storage Report, international supplement",
+     "label": "EIA's Weekly Natural Gas Storage Report, international supplement"
+    },
+    {
+     "text": "."
+    }
+   ]
+  },
+  {
+   "id": "ttf",
+   "segments": [
+    {
+     "text": "TTF "
+    },
+    {
+     "field": "ttf",
+     "value": 24.78,
+     "format": "usd_mmbtu"
+    },
+    {
+     "text": " $/MMBtu, or "
+    },
+    {
+     "field": "ttf_eur_mwh",
+     "value": 75.09803602451373,
+     "format": "eur_mwh"
+    },
+    {
+     "text": " EUR/MWh, the same week and source"
+    },
+    {
+     "text": "; both front months were for "
+    },
+    {
+     "field": "delivery_month",
+     "value": "2026-11-01",
+     "label": "November 2026"
+    },
+    {
+     "text": " delivery every day of the week."
+    }
+   ]
+  },
+  {
+   "id": "henry_hub",
+   "segments": [
+    {
+     "text": "Henry Hub "
+    },
+    {
+     "field": "henry_hub",
+     "value": 2.9724999999999997,
+     "format": "usd_mmbtu"
+    },
+    {
+     "text": " $/MMBtu, the average of "
+    },
+    {
+     "field": "hh_days",
+     "value": 4,
+     "format": "count"
+    },
+    {
+     "text": " days of "
+    },
+    {
+     "field": "hh_month",
+     "value": "2026-10-01",
+     "label": "October 2026"
+    },
+    {
+     "text": " to "
+    },
+    {
+     "field": "hh_last",
+     "value": "2026-10-06",
+     "label": "6 October 2026"
+    },
+    {
+     "text": ", "
+    },
+    {
+     "field": "hh_status_word",
+     "value": "an incomplete month",
+     "label": "an incomplete month"
+    },
+    {
+     "text": ", of EIA's daily spot price, "
+    },
+    {
+     "field": "hh_proxy_status_word",
+     "value": "a proxy",
+     "label": "a proxy"
+    },
+    {
+     "text": " for the NYMEX settlement the contracts name."
+    }
+   ]
+  },
+  {
+   "id": "hire",
+   "segments": [
+    {
+     "text": "Hire "
+    },
+    {
+     "field": "hire",
+     "value": 31500.0,
+     "format": "usd_day"
+    },
+    {
+     "text": " $/day, "
+    },
+    {
+     "field": "assessment",
+     "value": "Spark30S Atlantic",
+     "label": "Spark30S Atlantic"
+    },
+    {
+     "text": " for a "
+    },
+    {
+     "field": "vessel",
+     "value": "174,000 m3 two-stroke",
+     "label": "174,000 m3 two-stroke"
+    },
+    {
+     "text": " carrier, "
+    },
+    {
+     "text": "reported by "
+    },
+    {
+     "field": "publisher",
+     "value": "LNG Prime, quoting Spark Commodities",
+     "label": "LNG Prime, quoting Spark Commodities"
+    },
+    {
+     "text": ", in an article of "
+    },
+    {
+     "field": "hire_date",
+     "value": "2026-10-02",
+     "label": "2 October 2026"
+    },
+    {
+     "text": "; "
+    },
+    {
+     "field": "hire_status_word",
+     "value": "the assessment and the ship inferred",
+     "label": "the assessment and the ship inferred"
+    },
+    {
+     "text": " from the article"
+    },
+    {
+     "text": "."
+    }
+   ]
+  },
+  {
+   "id": "regas_discount",
+   "segments": [
+    {
+     "text": "Regasification discount "
+    },
+    {
+     "field": "delta_nwe",
+     "value": -1.182409776615393,
+     "format": "usd_mmbtu",
+     "signed": true
+    },
+    {
+     "text": " $/MMBtu, or "
+    },
+    {
+     "field": "delta_nwe_eur_mwh",
+     "value": -3.5834,
+     "format": "eur_mwh",
+     "signed": true
+    },
+    {
+     "text": " EUR/MWh: ACER's DES Northwest Europe assessment less the TTF front month, the mean of "
+    },
+    {
+     "field": "delta_days",
+     "value": 5,
+     "format": "count"
+    },
+    {
+     "text": " of the "
+    },
+    {
+     "field": "delta_weekdays",
+     "value": 5,
+     "format": "count"
+    },
+    {
+     "text": " weekdays from "
+    },
+    {
+     "field": "delta_first",
+     "value": "2026-10-01",
+     "label": "1 October 2026"
+    },
+    {
+     "text": " to "
+    },
+    {
+     "field": "delta_last",
+     "value": "2026-10-07",
+     "label": "7 October 2026"
+    },
+    {
+     "text": "; a cargo sold at Gate bears it."
+    }
+   ]
+  },
+  {
+   "id": "also",
+   "segments": [
+    {
+     "text": "Also used: "
+    },
+    {
+     "field": "usd_per_eur",
+     "value": 1.1259,
+     "format": "usd_per_eur"
+    },
+    {
+     "text": " USD per EUR, the Federal Reserve's "
+    },
+    {
+     "field": "fx_release",
+     "value": "H.10",
+     "label": "H.10"
+    },
+    {
+     "text": " rate of "
+    },
+    {
+     "field": "fx_date",
+     "value": "2026-10-02",
+     "label": "2 October 2026"
+    },
+    {
+     "text": "; an EU allowance at "
+    },
+    {
+     "field": "eua",
+     "value": 82.31,
+     "format": "eur_t"
+    },
+    {
+     "text": " EUR/t"
+    },
+    {
+     "text": ", the average of Germany's auctions on EEX for "
+    },
+    {
+     "field": "eua_month",
+     "value": "2026-08-01",
+     "label": "August 2026"
+    },
+    {
+     "text": ", "
+    },
+    {
+     "field": "eua_status_word",
+     "value": "held",
+     "label": "held"
+    },
+    {
+     "text": " as no later month is published"
+    },
+    {
+     "text": "; "
+    },
+    {
+     "field": "rate_name",
+     "value": "SOFR",
+     "label": "SOFR"
+    },
+    {
+     "text": " at "
+    },
+    {
+     "field": "rate",
+     "value": 3.9,
+     "format": "rate_percent"
+    },
+    {
+     "text": " percent on "
+    },
+    {
+     "field": "rate_date",
+     "value": "2026-10-06",
+     "label": "6 October 2026"
+    },
+    {
+     "text": "."
+    }
+   ]
+  }
+ ],
+ "sections": [
+  {
+   "id": "netbacks",
+   "name": "Netbacks",
+   "summary_segments": [
+    {
+     "field": "best_route_name",
+     "value": "Futtsu via Panama",
+     "label": "Futtsu via Panama"
+    },
+    {
+     "text": " pays most, "
+    },
+    {
+     "field": "gap",
+     "value": 1.239869037386761,
+     "format": "usd_mmbtu"
+    },
+    {
+     "text": " $/MMBtu more than Gate at Sabine Pass"
+    },
+    {
+     "text": "; "
+    },
+    {
+     "field": "closed_routes",
+     "value": "Suez",
+     "label": "Suez"
+    },
+    {
+     "text": " is closed to a US cargo"
+    },
+    {
+     "text": "."
+    }
+   ]
+  },
+  {
+   "id": "cost",
+   "name": "Why the long way costs more",
+   "summary_segments": [
+    {
+     "text": "Via "
+    },
+    {
+     "field": "route",
+     "value": "Panama",
+     "label": "Panama"
+    },
+    {
+     "text": " the arb is "
+    },
+    {
+     "field": "arb",
+     "value": 1.239869037386761,
+     "format": "usd_mmbtu",
+     "signed": true
+    },
+    {
+     "text": " $/MMBtu"
+    },
+    {
+     "text": ": "
+    },
+    {
+     "field": "largest_gain",
+     "value": "Europe's regasification discount",
+     "label": "Europe's regasification discount"
+    },
+    {
+     "text": " adds most, "
+    },
+    {
+     "field": "largest_gain_value",
+     "value": 1.1558686184962994,
+     "format": "usd_mmbtu",
+     "signed": true
+    },
+    {
+     "text": ", and "
+    },
+    {
+     "field": "largest_loss",
+     "value": "boil-off on the longer voyage",
+     "label": "boil-off on the longer voyage"
+    },
+    {
+     "text": " takes most, "
+    },
+    {
+     "field": "largest_loss_value",
+     "value": -0.4467317750000006,
+     "format": "usd_mmbtu",
+     "signed": true
+    },
+    {
+     "text": "."
+    }
+   ]
+  },
+  {
+   "id": "breakeven",
+   "name": "Breakeven",
+   "summary_segments": [
+    {
+     "text": "At today's spread of "
+    },
+    {
+     "field": "spread",
+     "value": 1.009999999999998,
+     "format": "usd_mmbtu",
+     "signed": true
+    },
+    {
+     "text": " $/MMBtu, "
+    },
+    {
+     "text": "the voyage via "
+    },
+    {
+     "field": "route",
+     "value": "Panama",
+     "label": "Panama"
+    },
+    {
+     "text": " pays more than Gate at any hire below "
+    },
+    {
+     "field": "h_star",
+     "value": 261942.4656340233,
+     "format": "usd_day"
+    },
+    {
+     "text": " $/day"
+    },
+    {
+     "text": ", via "
+    },
+    {
+     "field": "route",
+     "value": "the Cape",
+     "label": "the Cape"
+    },
+    {
+     "text": " below "
+    },
+    {
+     "field": "h_star",
+     "value": 76329.15234023487,
+     "format": "usd_day"
+    },
+    {
+     "text": " $/day"
+    },
+    {
+     "text": "."
+    }
+   ]
+  },
+  {
+   "id": "flows",
+   "name": "Where the cargoes went",
+   "summary_segments": [
+    {
+     "text": "In the "
+    },
+    {
+     "field": "months",
+     "value": 24,
+     "format": "count"
+    },
+    {
+     "text": " months to "
+    },
+    {
+     "field": "last_month",
+     "value": "2026-07-01",
+     "label": "July 2026"
+    },
+    {
+     "text": " the arb at loading was open in "
+    },
+    {
+     "field": "open_months",
+     "value": 18,
+     "format": "count"
+    },
+    {
+     "text": "; Asia took "
+    },
+    {
+     "field": "share_open",
+     "value": 26.035078,
+     "format": "share_percent"
+    },
+    {
+     "text": " percent of US exports in those months and "
+    },
+    {
+     "field": "share_closed",
+     "value": 13.0435,
+     "format": "share_percent"
+    },
+    {
+     "text": " percent in the others."
+    }
+   ]
+  },
+  {
+   "id": "provenance",
+   "name": "Provenance",
+   "summary_segments": [
+    {
+     "field": "series_count",
+     "value": 21,
+     "format": "count"
+    },
+    {
+     "text": " series"
+    },
+    {
+     "text": ", every one checked on the last run"
+    },
+    {
+     "text": "; "
+    },
+    {
+     "field": "preliminary",
+     "value": 2,
+     "format": "count"
+    },
+    {
+     "text": " hold"
+    },
+    {
+     "text": " preliminary figures"
+    },
+    {
+     "text": "; "
+    },
+    {
+     "field": "private",
+     "value": 1,
+     "format": "count"
+    },
+    {
+     "text": " is"
+    },
+    {
+     "text": " kept private under its terms"
+    },
+    {
+     "text": "; "
+    },
+    {
+     "field": "manual_steps",
+     "value": 4,
+     "format": "count"
+    },
+    {
+     "text": " steps"
+    },
+    {
+     "text": " done by hand."
+    }
+   ]
+  }
+ ],
+ "netbacks": {
+  "heading_segments": [
+   {
+    "field": "best_route_name",
+    "value": "Futtsu via Panama",
+    "label": "Futtsu via Panama"
+   },
+   {
+    "text": " pays most, "
+   },
+   {
+    "field": "gap",
+    "value": 1.239869037386761,
+    "format": "usd_mmbtu"
+   },
+   {
+    "text": " $/MMBtu more than Gate at Sabine Pass"
+   },
+   {
+    "text": "; "
+   },
+   {
+    "field": "closed_routes",
+    "value": "Suez",
+    "label": "Suez"
+   },
+   {
+    "text": " is closed to a US cargo"
+   },
+   {
+    "text": "."
+   }
+  ],
+  "scale": {
+   "low": 0.0,
+   "high": 30.0
+  },
+  "scale_segments": [
+   {
+    "text": "Each bar is the value at Sabine Pass of a cargo loading in the week to "
+   },
+   {
+    "field": "as_of",
+    "value": "2026-10-07",
+    "label": "7 October 2026"
+   },
+   {
+    "text": ", net of freight, boil-off, canals, ports, carbon, financing and, at Gate, Europe's DES spread to TTF; the scale runs from zero to "
+   },
+   {
+    "field": "scale_high",
+    "value": 30.0,
+    "format": "usd_mmbtu"
+   },
+   {
+    "text": " $/MMBtu. The dashed rule is "
+   },
+   {
+    "field": "hh_multiple_percent",
+    "value": 115,
+    "format": "count"
+   },
+   {
+    "text": " percent of Henry Hub, "
+   },
+   {
+    "field": "threshold",
+    "value": 3.4183749999999993,
+    "format": "usd_mmbtu"
+   },
+   {
+    "text": " $/MMBtu, the price below which a cargo is not worth lifting"
+   },
+   {
+    "text": "; every route clears it."
+   }
+  ],
+  "threshold": 3.4183749999999993,
+  "rows": [
+   {
+    "id": "nwe_direct",
+    "name": "Gate",
+    "open": true,
+    "accent": false,
+    "value": 22.7152600439633,
+    "detail_segments": [
+     {
+      "text": "Direct to Northwest Europe, the reference for every gap below."
+     }
+    ]
+   },
+   {
+    "id": "nea_panama",
+    "name": "Futtsu via Panama",
+    "open": true,
+    "accent": true,
+    "value": 23.955129081350062,
+    "detail_segments": [
+     {
+      "field": "gap",
+      "value": 1.239869037386761,
+      "format": "usd_mmbtu"
+     },
+     {
+      "text": " $/MMBtu more than Gate."
+     }
+    ]
+   },
+   {
+    "id": "nea_suez",
+    "name": "Futtsu via Suez",
+    "open": false,
+    "accent": false,
+    "value": 23.336607336502905,
+    "detail_segments": [
+     {
+      "text": "Closed: "
+     },
+     {
+      "field": "why_closed",
+      "value": "no US Gulf cargo through the Red Sea after 12 January 2024",
+      "label": "no US Gulf cargo through the Red Sea after 12 January 2024"
+     },
+     {
+      "text": ". Priced as if it were open, "
+     },
+     {
+      "field": "gap",
+      "value": 0.6213472925396033,
+      "format": "usd_mmbtu",
+      "signed": true
+     },
+     {
+      "text": " on Gate."
+     }
+    ]
+   },
+   {
+    "id": "nea_cape",
+    "name": "Futtsu via the Cape",
+    "open": true,
+    "accent": false,
+    "value": 23.319863503432494,
+    "detail_segments": [
+     {
+      "field": "gap",
+      "value": 0.6046034594691925,
+      "format": "usd_mmbtu"
+     },
+     {
+      "text": " $/MMBtu more than Gate."
+     }
+    ]
+   }
+  ],
+  "table_caption": "The netback at Sabine Pass of each destination and route, $/MMBtu loaded.",
+  "source_segments": [
+   {
+    "text": "Prices from EIA's weekly international prices; costs from the parameter table and the routes seed; data to "
+   },
+   {
+    "field": "as_of",
+    "value": "2026-10-07",
+    "label": "7 October 2026"
+   },
+   {
+    "text": "."
+   }
+  ]
+ },
+ "cost": {
+  "route": "nea_panama",
+  "heading_segments": [
+   {
+    "text": "Via "
+   },
+   {
+    "field": "route",
+    "value": "Panama",
+    "label": "Panama"
+   },
+   {
+    "text": " the arb is "
+   },
+   {
+    "field": "arb",
+    "value": 1.239869037386761,
+    "format": "usd_mmbtu",
+    "signed": true
+   },
+   {
+    "text": " $/MMBtu"
+   },
+   {
+    "text": ": "
+   },
+   {
+    "field": "largest_gain",
+    "value": "Europe's regasification discount",
+    "label": "Europe's regasification discount"
+   },
+   {
+    "text": " adds most, "
+   },
+   {
+    "field": "largest_gain_value",
+    "value": 1.1558686184962994,
+    "format": "usd_mmbtu",
+    "signed": true
+   },
+   {
+    "text": ", and "
+   },
+   {
+    "field": "largest_loss",
+    "value": "boil-off on the longer voyage",
+    "label": "boil-off on the longer voyage"
+   },
+   {
+    "text": " takes most, "
+   },
+   {
+    "field": "largest_loss_value",
+    "value": -0.4467317750000006,
+    "format": "usd_mmbtu",
+    "signed": true
+   },
+   {
+    "text": "."
+   }
+  ],
+  "start_segments": [
+   {
+    "text": "From the netback at Gate, "
+   },
+   {
+    "field": "start",
+    "value": 22.7152600439633,
+    "format": "usd_mmbtu"
+   },
+   {
+    "text": " $/MMBtu, each step below adds or takes away, per MMBtu loaded:"
+   }
+  ],
+  "end_segments": [
+   {
+    "text": "So the netback at "
+   },
+   {
+    "field": "route_name",
+    "value": "Futtsu via Panama",
+    "label": "Futtsu via Panama"
+   },
+   {
+    "text": " is "
+   },
+   {
+    "field": "end",
+    "value": 23.955129081350062,
+    "format": "usd_mmbtu"
+   },
+   {
+    "text": " $/MMBtu, "
+   },
+   {
+    "field": "arb",
+    "value": 1.239869037386761,
+    "format": "usd_mmbtu"
+   },
+   {
+    "text": " more than at Gate."
+   }
+  ],
+  "scale": {
+   "low": 0.0,
+   "high": 2.0
+  },
+  "rows": [
+   {
+    "id": "spread",
+    "kind": "step",
+    "name": "JKM over TTF, on the cargo delivered east",
+    "detail_segments": [
+     {
+      "field": "spread",
+      "value": 1.009999999999998,
+      "format": "usd_mmbtu",
+      "signed": true
+     },
+     {
+      "text": " $/MMBtu on the gas left after the voyage east, per MMBtu loaded."
+     }
+    ],
+    "value": 0.9691206708333314,
+    "start": 0.0,
+    "end": 0.9691206708333314,
+    "accent": false
+   },
+   {
+    "id": "boil_off",
+    "kind": "step",
+    "name": "Gas boiled off on the longer voyage, at TTF",
+    "detail_segments": [
+     {
+      "field": "days_east",
+      "value": 47.6171568627451,
+      "format": "days"
+     },
+     {
+      "text": " days for the round trip east against "
+     },
+     {
+      "field": "days_west",
+      "value": 26.4078431372549,
+      "format": "days"
+     },
+     {
+      "text": " to Gate."
+     }
+    ],
+    "value": -0.4467317750000006,
+    "start": 0.9691206708333314,
+    "end": 0.5223888958333308,
+    "accent": false
+   },
+   {
+    "id": "regas",
+    "kind": "step",
+    "name": "Europe's regasification discount, escaped",
+    "detail_segments": [
+     {
+      "text": "ACER's DES Northwest Europe less TTF, "
+     },
+     {
+      "field": "delta_nwe",
+      "value": -1.182409776615393,
+      "format": "usd_mmbtu",
+      "signed": true
+     },
+     {
+      "text": " $/MMBtu: a cargo sold at Gate bears it."
+     }
+    ],
+    "value": 1.1558686184962994,
+    "start": 0.5223888958333308,
+    "end": 1.6782575143296303,
+    "accent": false
+   },
+   {
+    "id": "hire",
+    "kind": "step",
+    "name": "Hire for the longer round trip",
+    "detail_segments": [
+     {
+      "field": "hire",
+      "value": 31500.0,
+      "format": "usd_day"
+     },
+     {
+      "text": " $/day over the longer round trip."
+     }
+    ],
+    "value": -0.1694821072592996,
+    "start": 1.6782575143296303,
+    "end": 1.5087754070703308,
+    "accent": false
+   },
+   {
+    "id": "canals",
+    "kind": "step",
+    "name": "Canal tolls",
+    "detail_segments": [
+     {
+      "text": "Laden and in ballast, through "
+     },
+     {
+      "field": "canal",
+      "value": "Panama",
+      "label": "Panama"
+     },
+     {
+      "text": "."
+     }
+    ],
+    "value": -0.32867823702362015,
+    "start": 1.5087754070703308,
+    "end": 1.1800971700467107,
+    "accent": false
+   },
+   {
+    "id": "slot_premium",
+    "kind": "step",
+    "name": "Canal slot premium",
+    "detail_segments": [
+     {
+      "text": "Paid only when a booking slot is bought at auction."
+     }
+    ],
+    "value": -0.0,
+    "start": 1.1800971700467107,
+    "end": 1.1800971700467107,
+    "accent": false
+   },
+   {
+    "id": "ports",
+    "kind": "step",
+    "name": "Port costs, Futtsu against Gate",
+    "detail_segments": [
+     {
+      "text": "Sabine Pass and Futtsu against Sabine Pass and Gate."
+     }
+    ],
+    "value": 0.009072367369614686,
+    "start": 1.1800971700467107,
+    "end": 1.1891695374163254,
+    "accent": false
+   },
+   {
+    "id": "carbon",
+    "kind": "step",
+    "name": "EU allowances",
+    "detail_segments": [
+     {
+      "text": "A voyage to Gate surrenders them; one to Futtsu does not."
+     }
+    ],
+    "value": 0.056062616328716265,
+    "start": 1.1891695374163254,
+    "end": 1.2452321537450417,
+    "accent": false
+   },
+   {
+    "id": "financing",
+    "kind": "step",
+    "name": "Financing the cargo for longer",
+    "detail_segments": [
+     {
+      "text": "The cargo's price at Sabine Pass carried for the longer laden voyage."
+     }
+    ],
+    "value": -0.005363116358279612,
+    "start": 1.2452321537450417,
+    "end": 1.239869037386762,
+    "accent": false
+   },
+   {
+    "id": "arb",
+    "kind": "total",
+    "name": "The arb, Futtsu via Panama over Gate",
+    "detail_segments": null,
+    "value": 1.239869037386761,
+    "start": 0.0,
+    "end": 1.239869037386761,
+    "accent": true
+   }
+  ],
+  "table_caption": "The steps from the Gate netback to the Futtsu via Panama netback, $/MMBtu loaded.",
+  "source_segments": [
+   {
+    "text": "Each step is the cost east less the cost west, over the cargo loaded; the steps add up to the arb exactly. Data to "
+   },
+   {
+    "field": "as_of",
+    "value": "2026-10-07",
+    "label": "7 October 2026"
+   },
+   {
+    "text": "."
+   }
+  ],
+  "others": {
+   "button": "The same steps for every route east",
+   "caption": "The steps for each route east, $/MMBtu loaded; a closed route is priced as if it were open.",
+   "routes": [
+    {
+     "route": "nea_panama",
+     "name": "Panama"
+    },
+    {
+     "route": "nea_suez",
+     "name": "Suez, closed"
+    },
+    {
+     "route": "nea_cape",
+     "name": "the Cape"
+    }
+   ],
+   "rows": [
+    {
+     "id": "spread",
+     "kind": "step",
+     "name": "JKM over TTF, on the cargo delivered east",
+     "values": {
+      "nea_panama": 0.9691206708333314,
+      "nea_suez": 0.9467394916666648,
+      "nea_cape": 0.941686966666665
+     }
+    },
+    {
+     "id": "boil_off",
+     "kind": "step",
+     "name": "Gas boiled off on the longer voyage, at TTF",
+     "values": {
+      "nea_panama": -0.4467317750000006,
+      "nea_suez": -0.9958462500000004,
+      "nea_cape": -1.1198081999999987
+     }
+    },
+    {
+     "id": "regas",
+     "kind": "step",
+     "name": "Europe's regasification discount, escaped",
+     "values": {
+      "nea_panama": 1.1558686184962994,
+      "nea_suez": 1.1558686184962994,
+      "nea_cape": 1.1558686184962994
+     }
+    },
+    {
+     "id": "hire",
+     "kind": "step",
+     "name": "Hire for the longer round trip",
+     "values": {
+      "nea_panama": -0.1694821072592996,
+      "nea_suez": -0.3778063939066597,
+      "nea_cape": -0.4248353577764715
+     }
+    },
+    {
+     "id": "canals",
+     "kind": "step",
+     "name": "Canal tolls",
+     "values": {
+      "nea_panama": -0.32867823702362015,
+      "nea_suez": -0.160787797146097,
+      "nea_cape": -0.0
+     }
+    },
+    {
+     "id": "slot_premium",
+     "kind": "step",
+     "name": "Canal slot premium",
+     "values": {
+      "nea_panama": -0.0,
+      "nea_suez": -0.0,
+      "nea_cape": -0.0
+     }
+    },
+    {
+     "id": "ports",
+     "kind": "step",
+     "name": "Port costs, Futtsu against Gate",
+     "values": {
+      "nea_panama": 0.009072367369614686,
+      "nea_suez": 0.009072367369614686,
+      "nea_cape": 0.009072367369614686
+     }
+    },
+    {
+     "id": "carbon",
+     "kind": "step",
+     "name": "EU allowances",
+     "values": {
+      "nea_panama": 0.056062616328716265,
+      "nea_suez": 0.056062616328716265,
+      "nea_cape": 0.056062616328716265
+     }
+    },
+    {
+     "id": "financing",
+     "kind": "step",
+     "name": "Financing the cargo for longer",
+     "values": {
+      "nea_panama": -0.005363116358279612,
+      "nea_suez": -0.011955360268936342,
+      "nea_cape": -0.013443551615632553
+     }
+    },
+    {
+     "id": "arb",
+     "kind": "total",
+     "name": "The arb over Gate",
+     "values": {
+      "nea_panama": 1.239869037386761,
+      "nea_suez": 0.6213472925396033,
+      "nea_cape": 0.6046034594691925
+     }
+    }
+   ]
+  }
+ },
+ "breakeven": {
+  "heading_segments": [
+   {
+    "text": "At today's spread of "
+   },
+   {
+    "field": "spread",
+    "value": 1.009999999999998,
+    "format": "usd_mmbtu",
+    "signed": true
+   },
+   {
+    "text": " $/MMBtu, "
+   },
+   {
+    "text": "the voyage via "
+   },
+   {
+    "field": "route",
+    "value": "Panama",
+    "label": "Panama"
+   },
+   {
+    "text": " pays more than Gate at any hire below "
+   },
+   {
+    "field": "h_star",
+    "value": 261942.4656340233,
+    "format": "usd_day"
+   },
+   {
+    "text": " $/day"
+   },
+   {
+    "text": ", via "
+   },
+   {
+    "field": "route",
+    "value": "the Cape",
+    "label": "the Cape"
+   },
+   {
+    "text": " below "
+   },
+   {
+    "field": "h_star",
+    "value": 76329.15234023487,
+    "format": "usd_day"
+   },
+   {
+    "text": " $/day"
+   },
+   {
+    "text": "."
+   }
+  ],
+  "desc_segments": [
+   {
+    "text": "Lines of S*, the spread of JKM over TTF at which a route east pays as much as Gate, against the charter rate, for the week to "
+   },
+   {
+    "field": "as_of",
+    "value": "2026-10-07",
+    "label": "7 October 2026"
+   },
+   {
+    "text": ". Today's spread, "
+   },
+   {
+    "field": "spread",
+    "value": 1.009999999999998,
+    "format": "usd_mmbtu",
+    "signed": true
+   },
+   {
+    "text": " $/MMBtu, is the accent line"
+   },
+   {
+    "text": "; the hire reported nearest the week, "
+   },
+   {
+    "field": "hire",
+    "value": 31500.0,
+    "format": "usd_day"
+   },
+   {
+    "text": " $/day, is a dashed rule."
+   }
+  ],
+  "caption_segments": [
+   {
+    "text": "H*, where a route's line crosses today's spread, is the hire above which that route pays less than Gate."
+   },
+   {
+    "text": " "
+   },
+   {
+    "field": "route",
+    "value": "Suez",
+    "label": "Suez"
+   },
+   {
+    "text": " is not drawn: closed, "
+   },
+   {
+    "field": "why_closed",
+    "value": "no US Gulf cargo through the Red Sea after 12 January 2024",
+    "label": "no US Gulf cargo through the Red Sea after 12 January 2024"
+   },
+   {
+    "text": "."
+   }
+  ],
+  "x": {
+   "low": 0.0,
+   "high": 400000.0,
+   "step": 100000.0,
+   "divisor": 1000.0,
+   "axis": "Hire, thousand $/day"
+  },
+  "y": {
+   "low": -2.0,
+   "high": 6.0,
+   "step": 2.0,
+   "axis": "S*, $/MMBtu"
+  },
+  "lines": [
+   {
+    "route": "nea_panama",
+    "name": "Panama",
+    "pattern": "solid",
+    "points": [
+     [
+      0.0,
+      -0.45880022161587775
+     ],
+     [
+      400000.0,
+      1.784135406344543
+     ]
+    ],
+    "h_star": 261942.4656340233,
+    "label": "Panama"
+   },
+   {
+    "route": "nea_cape",
+    "name": "the Cape",
+    "pattern": "dot",
+    "points": [
+     [
+      0.0,
+      -0.0941176550404208
+     ],
+     [
+      400000.0,
+      5.691968636702192
+     ]
+    ],
+    "h_star": 76329.15234023487,
+    "label": "The Cape"
+   }
+  ],
+  "spread": {
+   "value": 1.009999999999998,
+   "label_segments": [
+    {
+     "text": "JKM over TTF, "
+    },
+    {
+     "field": "spread",
+     "value": 1.009999999999998,
+     "format": "usd_mmbtu",
+     "signed": true
+    }
+   ]
+  },
+  "reported": {
+   "hire": 31500.0,
+   "label_segments": [
+    {
+     "text": "Reported "
+    },
+    {
+     "field": "hire_date",
+     "value": "2026-10-02",
+     "label": "2 October 2026"
+    },
+    {
+     "text": ", "
+    },
+    {
+     "field": "hire",
+     "value": 31500.0,
+     "format": "usd_day"
+    },
+    {
+     "text": " $/day"
+    }
+   ]
+  },
+  "table": {
+   "columns": [
+    {
+     "id": "at_hire",
+     "head": "S* at the reported hire",
+     "format": "usd_mmbtu",
+     "signed": true
+    },
+    {
+     "id": "low",
+     "head": "S* at the low level",
+     "format": "usd_mmbtu",
+     "signed": true
+    },
+    {
+     "id": "central",
+     "head": "S* at the central level",
+     "format": "usd_mmbtu",
+     "signed": true
+    },
+    {
+     "id": "high",
+     "head": "S* at the high level",
+     "format": "usd_mmbtu",
+     "signed": true
+    },
+    {
+     "id": "h_star",
+     "head": "H*",
+     "format": "usd_day",
+     "signed": false
+    }
+   ],
+   "rows": [
+    {
+     "route": "nea_panama",
+     "name": "Panama",
+     "values": {
+      "at_hire": -0.28216904091399186,
+      "low": -0.463005725918304,
+      "central": -0.2036662939353775,
+      "high": 1.6383445905271152,
+      "h_star": 261942.4656340233
+     },
+     "missing_words": "no crossing"
+    },
+    {
+     "route": "nea_suez",
+     "name": "Suez, closed",
+     "values": {
+      "at_hire": 0.3471346912335669,
+      "low": -0.06551293308006834,
+      "central": 0.5262685436487899,
+      "high": 4.72951643782023,
+      "h_star": 83305.47505459395
+     },
+     "missing_words": "no crossing"
+    },
+    {
+     "route": "nea_cape",
+     "name": "The Cape",
+     "values": {
+      "at_hire": 0.3615366404343128,
+      "low": -0.10496656683743666,
+      "central": 0.5640496606453027,
+      "high": 5.315873027738924,
+      "h_star": 76329.15234023487
+     },
+     "missing_words": "no crossing"
+    }
+   ],
+   "caption_segments": [
+    {
+     "text": "S* for each route east at the hire used today and at the three levels the history uses ("
+    },
+    {
+     "text": ""
+    },
+    {
+     "field": "level_name",
+     "value": "low",
+     "label": "low"
+    },
+    {
+     "text": " "
+    },
+    {
+     "field": "level_low",
+     "value": -750.0,
+     "format": "usd_day",
+     "signed": true
+    },
+    {
+     "text": ", "
+    },
+    {
+     "field": "level_name",
+     "value": "central",
+     "label": "central"
+    },
+    {
+     "text": " "
+    },
+    {
+     "field": "level_central",
+     "value": 45500.0,
+     "format": "usd_day"
+    },
+    {
+     "text": ", "
+    },
+    {
+     "field": "level_name",
+     "value": "high",
+     "label": "high"
+    },
+    {
+     "text": " "
+    },
+    {
+     "field": "level_high",
+     "value": 374000.0,
+     "format": "usd_day"
+    },
+    {
+     "text": " $/day), and H*."
+    }
+   ]
+  },
+  "source_segments": [
+   {
+    "text": "Computed by the engine at each end of the axis, S* being linear in hire; data to "
+   },
+   {
+    "field": "as_of",
+    "value": "2026-10-07",
+    "label": "7 October 2026"
+   },
+   {
+    "text": "."
+   }
+  ]
+ },
  "not_priced": [],
  "week": {
   "first": "2026-10-01",

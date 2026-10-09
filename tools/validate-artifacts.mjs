@@ -1,0 +1,296 @@
+#!/usr/bin/env node
+// Check every JSON artifact the page reads against what the page expects.
+//
+//     node tools/validate-artifacts.mjs              self test, then the files
+//
+// The page refuses an artifact whose name or schema version it does not know
+// (src/state.js), formats every figure with the decimals the artifact
+// declares, throwing on a format it does not declare (src/format.js), and its
+// section modules read named fields. A file that would be refused, a format
+// that would throw, or a field a module reads and does not find is found here
+// rather than by a reader. Plain node, no dependencies: it imports the page's
+// own state.js and format.js, so the rules checked are the ones the page applies.
+//
+// FOR EACH ARTIFACT IN src/state.js's REGISTRY
+//   1  the file exists, parses, and state.js's refusal() accepts it
+//   2  the header: generated_by, data_date (an ISO day), describes, source
+//   3  conventions.decimals maps every format name to a whole number of places
+//   4  every field the page's modules read is there (REQUIRED below)
+//   5  every "format" anywhere in the file, in a sentence or a table column,
+//      is declared in conventions.decimals
+//   6  every sentence, a key ending in "segments" (or a list of them under
+//      "notes"), is a list of segments of one of the three shapes:
+//        { text }                    words, never a digit
+//        { field, value, format }    a number or null, formatted by format.js
+//        { field, value, label }     a date or a word
+//
+// AND FOR data/
+//   7  every top level data/*.json is read by the page, linked from it, or
+//      named below as waiting for a view, so no file is published unread
+//
+// SELF TEST. Before checking the files, the tool plants an undeclared format,
+// a missing field, a digit in words and a wrong schema version in copies of
+// the real artifacts and asserts each is reported.
+
+import { readdirSync, readFileSync, existsSync } from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { artifactNames, artifactEntry, refusal } from "../src/state.js";
+import { segmentText, decimalsFor } from "../src/format.js";
+
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const ISO_DAY = /^\d{4}-\d{2}-\d{2}$/;
+
+// data/*.json files the page does not read through state.js, and why.
+const NOT_READ = Object.freeze({
+  "manifest.json": "linked from the Provenance section, the full record",
+  "history.json": "the History view's data, read by that view when it is built",
+});
+
+// The fields the page's modules read, by artifact, as dotted paths.
+const REQUIRED = Object.freeze({
+  now: [
+    "verdict.segments", "data_dates", "sections",
+    "netbacks.scale.low", "netbacks.scale.high", "netbacks.scale_segments", "netbacks.threshold", "netbacks.rows",
+    "netbacks.table_caption", "netbacks.source_segments",
+    "cost.rows", "cost.heading_segments", "cost.scale.low", "cost.scale.high", "cost.start_segments",
+    "cost.end_segments", "cost.table_caption", "cost.source_segments", "cost.others.button", "cost.others.caption",
+    "cost.others.routes", "cost.others.rows",
+    "breakeven.x.low", "breakeven.x.high", "breakeven.x.step", "breakeven.x.divisor", "breakeven.x.axis",
+    "breakeven.y.low", "breakeven.y.high", "breakeven.y.step", "breakeven.y.axis", "breakeven.lines",
+    "breakeven.spread.value", "breakeven.spread.label_segments", "breakeven.heading_segments",
+    "breakeven.desc_segments", "breakeven.caption_segments", "breakeven.source_segments",
+    "breakeven.table.columns", "breakeven.table.rows", "breakeven.table.caption_segments",
+  ],
+  flows: [
+    "panel.months", "panel.shares", "panel.share_domain.low", "panel.share_domain.high", "panel.share_domain.step",
+    "panel.arb_domain.low", "panel.arb_domain.high", "panel.arb_domain.step", "panel.share_axis", "panel.arb_axis",
+    "panel.ticks", "panel.ticks_narrow", "panel.notes", "panel.heading_segments", "panel.desc_segments",
+    "panel.source_segments", "panel.table_caption", "panel.missing_words", "panel.arb_missing_words",
+  ],
+  provenance: [
+    "columns", "series", "summary_segments", "table_caption", "manual_heading", "manual_intro", "manual_steps",
+    "credits_heading", "credits", "manifest_words",
+  ],
+});
+
+// Fields required of every row of a list, by artifact.
+const ROW_FIELDS = Object.freeze({
+  now: {
+    "data_dates": ["id", "segments"],
+    "sections": ["id", "name", "summary_segments"],
+    "netbacks.rows": ["id", "name", "open", "accent", "value", "detail_segments"],
+    "cost.rows": ["id", "kind", "name", "detail_segments", "value", "start", "end", "accent"],
+    "cost.others.routes": ["route", "name"],
+    "cost.others.rows": ["id", "kind", "name", "values"],
+    "breakeven.lines": ["route", "pattern", "points", "h_star", "label"],
+    "breakeven.table.columns": ["id", "head", "format"],
+    "breakeven.table.rows": ["route", "name", "values", "missing_words"],
+  },
+  flows: { "panel.months": ["month", "label", "share_jkm", "share_asia", "arb"] },
+  provenance: {
+    series: ["id", "label", "publisher", "page_url", "status"],
+    columns: ["id", "head", "short"],
+    manual_steps: ["what", "why", "cost_if_skipped"],
+  },
+});
+
+function at(data, dotted) {
+  let value = data;
+  for (const key of dotted.split(".")) {
+    if (value === null || typeof value !== "object" || !Object.prototype.hasOwnProperty.call(value, key)) return undefined;
+    value = value[key];
+  }
+  return value;
+}
+
+function checkSegment(fail, where, segment, decimals) {
+  if (!segment || typeof segment !== "object" || Array.isArray(segment)) {
+    fail(where, "a segment is not an object");
+    return;
+  }
+  if (Object.prototype.hasOwnProperty.call(segment, "text")) {
+    if (typeof segment.text !== "string") fail(where, "a text segment holds no string");
+    else if (/\d/.test(segment.text)) fail(where, "a text segment holds a digit: " + JSON.stringify(segment.text));
+    return;
+  }
+  if (typeof segment.field !== "string" || segment.field === "") {
+    fail(where, "a value segment names no field");
+    return;
+  }
+  if (typeof segment.label === "string") return;
+  if (typeof segment.format !== "string") {
+    fail(where, "the value segment " + segment.field + " has neither a format nor a label");
+    return;
+  }
+  try {
+    segmentText(segment, decimals);
+  } catch (error) {
+    fail(where, error.message);
+    return;
+  }
+  if (segment.value !== null && (typeof segment.value !== "number" || !Number.isFinite(segment.value))) {
+    fail(where, "the value segment " + segment.field + " holds " + JSON.stringify(segment.value) + ", not a number or null");
+  }
+}
+
+/* Walk the document: sentences under keys ending in "segments" or "notes",
+ * and every "format" anywhere. Returns how many sentences were checked. */
+function walk(fail, value, where, decimals) {
+  let sentences = 0;
+  if (Array.isArray(value)) {
+    value.forEach((item, index) => { sentences += walk(fail, item, where + "[" + index + "]", decimals); });
+    return sentences;
+  }
+  if (!value || typeof value !== "object") return 0;
+  for (const [key, child] of Object.entries(value)) {
+    const here = where ? where + "." + key : key;
+    if (!where && key === "conventions") continue; // its "segments" describes the shape in words
+    if (key === "format" && typeof child === "string") {
+      try {
+        decimalsFor(child, decimals);
+      } catch (error) {
+        fail(here, error.message);
+      }
+    }
+    if (key.endsWith("segments")) {
+      if (child === null) continue;
+      if (!Array.isArray(child)) {
+        fail(here, "a sentence is not a list of segments");
+        continue;
+      }
+      child.forEach((segment, index) => checkSegment(fail, here + "[" + index + "]", segment, decimals));
+      sentences += 1;
+    } else if (key === "notes" && Array.isArray(child) && child.every(Array.isArray)) {
+      child.forEach((paragraph, p) => paragraph.forEach((segment, index) => checkSegment(fail, here + "[" + p + "][" + index + "]", segment, decimals)));
+      sentences += child.length;
+    } else {
+      sentences += walk(fail, child, here, decimals);
+    }
+  }
+  return sentences;
+}
+
+/** Every problem with one parsed artifact, as "where: what" strings. */
+export function validateArtifact(name, data) {
+  const problems = [];
+  const fail = (where, what) => problems.push((where ? where + ": " : "") + what);
+  const refused = refusal(name, data);
+  if (refused) {
+    fail("", "the page would refuse it: " + refused);
+    return { problems, sentences: 0 };
+  }
+  for (const key of ["generated_by", "describes", "source"]) {
+    if (typeof data[key] !== "string" || !data[key]) fail(key, "missing from the header");
+  }
+  if (!ISO_DAY.test(String(data.data_date))) fail("data_date", "not an ISO day: " + JSON.stringify(data.data_date));
+  const decimals = data.conventions && data.conventions.decimals;
+  if (!decimals || typeof decimals !== "object") {
+    fail("conventions.decimals", "missing");
+    return { problems, sentences: 0 };
+  }
+  for (const [format, places] of Object.entries(decimals)) {
+    if (!Number.isInteger(places) || places < 0) fail("conventions.decimals." + format, "not a whole number of places");
+  }
+  for (const dotted of REQUIRED[name] || []) {
+    // A day with no open route east has no steps to cost: the section says so.
+    if (name === "now" && dotted.startsWith("cost.") && dotted !== "cost.rows" && dotted !== "cost.heading_segments" &&
+        Array.isArray(at(data, "cost.rows")) && at(data, "cost.rows").length === 0) continue;
+    if (at(data, dotted) === undefined) fail(dotted, "missing, and the page reads it");
+  }
+  for (const [list, fields] of Object.entries(ROW_FIELDS[name] || {})) {
+    const rows = at(data, list);
+    if (!Array.isArray(rows)) continue;
+    rows.forEach((row, index) => {
+      for (const field of fields) {
+        if (!row || !Object.prototype.hasOwnProperty.call(row, field)) fail(list + "[" + index + "]." + field, "missing, and the page reads it");
+      }
+    });
+  }
+  if (name === "provenance" && Array.isArray(data.columns) && Array.isArray(data.series)) {
+    for (const column of data.columns) {
+      if (column.id === "series" || column.id === "source") continue;
+      data.series.forEach((row, index) => {
+        if (typeof row[column.id] !== "string") fail("series[" + index + "]." + column.id, "no words for the column " + column.head);
+      });
+    }
+  }
+  const sentences = walk(fail, data, "", decimals);
+  return { problems, sentences };
+}
+
+function selfTest(real) {
+  const planted = [
+    { name: "an undeclared format in a table column", artifact: "now", change: (d) => { d.breakeven.table.columns[0].format = "usd_day_k"; }, expect: "usd_day_k" },
+    { name: "a field the page reads, removed", artifact: "now", change: (d) => { delete d.netbacks.scale; }, expect: "netbacks.scale.low" },
+    { name: "a digit in words", artifact: "now", change: (d) => { d.verdict.segments.unshift({ text: "nets 23.96 " }); }, expect: "a digit" },
+    { name: "a schema the page does not read", artifact: "flows", change: (d) => { d.schema_version = 2; }, expect: "would refuse" },
+    { name: "a row without a field", artifact: "flows", change: (d) => { delete d.panel.months[0].arb; }, expect: "panel.months[0].arb" },
+    { name: "a provenance column with no words", artifact: "provenance", change: (d) => { delete d.series[0].status_words; }, expect: "status_words" },
+    { name: "the cost scale removed", artifact: "now", change: (d) => { delete d.cost.scale; }, expect: "cost.scale.low" },
+    { name: "a cost step without its value", artifact: "now", change: (d) => { delete d.cost.rows[0].value; }, expect: "cost.rows[0].value" },
+    { name: "a section without its summary", artifact: "now", change: (d) => { delete d.sections[0].summary_segments; }, expect: "sections[0].summary_segments" },
+    { name: "a manual step without its reason", artifact: "provenance", change: (d) => { delete d.manual_steps[0].why; }, expect: "manual_steps[0].why" },
+  ];
+  const failures = [];
+  for (const test of planted) {
+    if (!real[test.artifact]) continue;
+    const copy = structuredClone(real[test.artifact]);
+    test.change(copy);
+    const { problems } = validateArtifact(test.artifact, copy);
+    const ok = problems.some((p) => p.includes(test.expect));
+    console.log((ok ? "  ok    " : "  FAIL  ") + test.name + (ok ? "" : ": reported " + JSON.stringify(problems.slice(0, 3))));
+    if (!ok) failures.push(test.name);
+  }
+  return failures;
+}
+
+const isMain = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+if (isMain) {
+  const problems = [];
+  const summary = [];
+  const real = {};
+  const read = new Set();
+  for (const name of artifactNames()) {
+    const file = artifactEntry(name).path;
+    read.add(path.basename(file));
+    const full = path.join(ROOT, file);
+    if (!existsSync(full)) {
+      problems.push(file + ": missing, and the page reads it");
+      continue;
+    }
+    try {
+      real[name] = JSON.parse(readFileSync(full, "utf8"));
+    } catch (error) {
+      problems.push(file + ": not valid JSON: " + error.message);
+    }
+  }
+  console.log("validate-artifacts.mjs");
+  console.log("self test: planted faults must be reported");
+  if (selfTest(real).length) {
+    console.log("FAIL  the self test failed, so a check of the files would mean nothing");
+    process.exit(1);
+  }
+  for (const [name, data] of Object.entries(real)) {
+    const file = artifactEntry(name).path;
+    const result = validateArtifact(name, data);
+    for (const p of result.problems) problems.push(file + " at " + p);
+    summary.push(file + ": schema " + data.schema_version + ", data to " + data.data_date + ", " + result.sentences + " sentences");
+  }
+  for (const name of readdirSync(path.join(ROOT, "data")).filter((n) => n.endsWith(".json")).sort()) {
+    if (read.has(name)) continue;
+    if (Object.prototype.hasOwnProperty.call(NOT_READ, name)) {
+      summary.push("data/" + name + ": not read through state.js, " + NOT_READ[name]);
+      continue;
+    }
+    problems.push("data/" + name + ": no view reads it and nothing links it");
+  }
+  console.log("");
+  for (const line of summary) console.log("  " + line);
+  if (problems.length) {
+    for (const problem of problems.slice(0, 60)) console.log("FAIL  " + problem);
+    console.log(problems.length + " problem(s)");
+    process.exit(1);
+  }
+  console.log("PASS  every artifact the page reads is accepted, holds what the page reads, and every figure formats");
+}

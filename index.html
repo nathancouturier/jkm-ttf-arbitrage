@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#FBFAF8">
+<title>Now, JKM and TTF arbitrage study</title>
+<meta name="description" content="Where a cargo loading at Sabine Pass nets more, Northwest Europe at TTF or Northeast Asia at JKM, after freight, boil-off, canals, carbon and the regasification discount; the premium Asia needs on each route and the charter rate at which it stops paying.">
+
+<!-- Every path on this page is relative. The site is served from the subpath
+     /jkm-ttf-arbitrage/, never from a domain root, so a leading slash breaks
+     the deploy. tools/check-paths.mjs fails on one, and scripts/serve.py
+     reproduces the subpath locally. -->
+
+<!-- An empty data URI, so the browser does not ask the origin root for a
+     favicon, which on a project page is somebody else's file. -->
+<link rel="icon" href="data:,">
+
+<!-- The theme, set before the first paint. It reads the key nc-theme, which
+     the portfolio shares because both sites live on the same origin. A blocked
+     store falls back to light, the value the html element ships with.
+     src/theme.js owns the toggle after load. -->
+<script>
+  (function () {
+    try {
+      if (localStorage.getItem("nc-theme") === "dark") {
+        document.documentElement.setAttribute("data-theme", "dark");
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute("content", "#17181C");
+      }
+    } catch (error) {
+      /* storage blocked: stay light */
+    }
+  })();
+</script>
+
+<!-- Content hashes, so a deploy changes the URL of every file whose bytes
+     changed and a cache cannot hand this page yesterday's module beside
+     today's data. src/lngarb/versions.py writes the import map below from the
+     bytes on disk, and the ?v= on the stylesheets and the entry module. The map
+     must come before the first module script. -->
+<!-- build:versions, written by lngarb.versions from the bytes on disk; do not edit by hand -->
+<script type="importmap">
+{
+  "imports": {
+    "./data/flows.json": "./data/flows.json?v=5f3b55d53213",
+    "./data/history.json": "./data/history.json?v=d28eb87cab7b",
+    "./data/manifest.json": "./data/manifest.json?v=cbf9bfe2632e",
+    "./data/now.json": "./data/now.json?v=495e8a81781c",
+    "./data/provenance.json": "./data/provenance.json?v=a1cb49d59ca0",
+    "./src/charts.js": "./src/charts.js?v=6dcdfc22088c",
+    "./src/dom.js": "./src/dom.js?v=f3a47919b2d8",
+    "./src/engine.js": "./src/engine.js?v=3c8ea783d0c0",
+    "./src/format.js": "./src/format.js?v=ed6e690ebfd9",
+    "./src/now.js": "./src/now.js?v=d61c50b09e1a",
+    "./src/router.js": "./src/router.js?v=9632fb59a86a",
+    "./src/section-breakeven.js": "./src/section-breakeven.js?v=5d7d1d8eafff",
+    "./src/section-cost.js": "./src/section-cost.js?v=10de882b2c8f",
+    "./src/section-flows.js": "./src/section-flows.js?v=7b8d9e725147",
+    "./src/section-netbacks.js": "./src/section-netbacks.js?v=6f1b6cc7b90b",
+    "./src/section-provenance.js": "./src/section-provenance.js?v=6beae9fd9429",
+    "./src/state.js": "./src/state.js?v=0e229c728c1f",
+    "./src/theme.js": "./src/theme.js?v=a23dc67ffb1d",
+    "./src/ui.js": "./src/ui.js?v=34e13fed7b70"
+  }
+}
+</script>
+<!-- /build:versions -->
+
+<link rel="preload" href="vendor/figtree/figtree.v2.002.latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="vendor/jetbrains-mono/jetbrains-mono.v2.211.latin.woff2" as="font" type="font/woff2" crossorigin>
+
+<link rel="stylesheet" href="styles/tokens.css?v=8b88d1e1f99e">
+<link rel="stylesheet" href="styles/layout.css?v=cadd9e053fc8">
+<link rel="stylesheet" href="styles/components.css?v=99861a7ce5e5">
+</head>
+<body>
+
+<!-- The skip link goes to the view's h1. src/ui.js moves focus there itself so
+     the address keeps the route; without script the fragment still scrolls. -->
+<a class="skip-link" href="#view-title" data-skip>Skip to the verdict</a>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="site-name" href="#/now">JKM and TTF arbitrage study</a>
+    <!-- One link per view that exists: src/ui.js builds this list from its
+         route table, so a view that is not built is not linked. -->
+    <nav class="site-nav" aria-label="Views">
+      <ul class="site-nav__list" id="site-nav-list"></ul>
+    </nav>
+    <div class="site-header__tools">
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Toggle theme" title="Press T to toggle" aria-pressed="false"><span id="theme-icon" aria-hidden="true">&#x263E;&#xFE0E;</span></button>
+    </div>
+  </div>
+</header>
+
+<main id="view" class="view">
+  <p class="state-message">Loading the study. Every figure on this page is read from a JSON file in data/.</p>
+</main>
+
+<noscript>
+  <div class="view">
+    <p class="state-message">This page builds itself from the JSON files in data/, so with JavaScript turned off nothing is drawn. The numbers are not hidden: the landing sentence is in data/now.json, readable as text in this repository.</p>
+  </div>
+</noscript>
+
+<!-- If a module cannot load or run before src/ui.js marks the page started,
+     say so instead of loading for ever. A failed module fires an error on the
+     window, caught here in the capture phase. -->
+<script>
+  window.addEventListener("error", function () {
+    if (document.documentElement.hasAttribute("data-started")) return;
+    var view = document.getElementById("view");
+    if (!view) return;
+    var said = document.createElement("p");
+    said.className = "state-message";
+    said.setAttribute("role", "alert");
+    said.textContent = "The page's code could not load or run, so nothing can be drawn. Reload the page; if it fails again, the figures are still readable as text in data/now.json.";
+    view.replaceChildren(said);
+  }, true);
+</script>
+
+<script type="module" src="src/ui.js?v=34e13fed7b70"></script>
+
+</body>
+</html>

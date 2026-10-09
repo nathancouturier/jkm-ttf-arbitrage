@@ -9,6 +9,11 @@
 export const HOURS_PER_DAY = 24.0;
 export const DAYS_PER_YEAR_FOR_INTEREST = 365.0;
 const MS_PER_DAY = 86400000;
+// Percent per unit, and basis points per percent.
+const PERCENT_PER_ONE = 100.0;
+const BP_PER_PERCENT = 100.0;
+// Rounding half up: the half a unit added before Math.floor.
+const HALF_UP = 0.5;
 
 // The route to Northwest Europe and the three to Northeast Asia.
 export const WEST = "nwe_direct";
@@ -18,11 +23,11 @@ export const EAST = ["nea_panama", "nea_suez", "nea_cape"];
 // Volumes and days
 // --------------------------------------------------------------------------
 
-export function leg(distance_nm, canal_days = 0.0, wait_days = 0.0) {
+export function leg(distance_nm, canal_days = 0, wait_days = 0) {
   return { distance_nm, canal_days, wait_days };
 }
 
-export function voyage(vessel, laden, ballast, mmbtu_per_m3, flex_days = 0.0) {
+export function voyage(vessel, laden, ballast, mmbtu_per_m3, flex_days = 0) {
   const q_load = vessel.capacity_m3 * vessel.fill * mmbtu_per_m3;
   const boil_off_per_day = q_load * vessel.boil_off_per_day;
   const seaDays = (l) => l.distance_nm / (vessel.speed_kn * HOURS_PER_DAY);
@@ -42,7 +47,7 @@ export function voyage(vessel, laden, ballast, mmbtu_per_m3, flex_days = 0.0) {
 // The cost stack and the results
 // --------------------------------------------------------------------------
 
-export function costStack({ port = 0.0, canal_laden = 0.0, canal_ballast = 0.0, slot_premium = 0.0, ets = 0.0, financing = 0.0 } = {}) {
+export function costStack({ port = 0, canal_laden = 0, canal_ballast = 0, slot_premium = 0, ets = 0, financing = 0 } = {}) {
   const without_hire = port + canal_laden + canal_ballast + slot_premium + ets + financing;
   return { port, canal_laden, canal_ballast, slot_premium, ets, financing, without_hire };
 }
@@ -63,7 +68,7 @@ export function conventionalNetback(p_des, p_ref, v, cost_usd) {
 export function breakevenSpread(ttf, delta_nwe, west, cost_west, east, cost_east) {
   const qw = west.q_delivered;
   const qe = east.q_delivered;
-  const boil_off = ttf * (qw / qe - 1.0);
+  const boil_off = ttf * (qw / qe - 1);
   const regas = delta_nwe * qw / qe;
   const voyage_part = (cost_east - cost_west) / qe;
   const total = (ttf + delta_nwe) * qw / qe + (cost_east - cost_west) / qe - ttf;
@@ -90,13 +95,13 @@ export function etsCost({ eua_usd_per_t, phase_in, tco2_per_t_lng, mmbtu_per_t_l
 }
 
 export function financingCost({ fob_usd_per_mmbtu, q_load, rate_percent, spread_bp, days }) {
-  const rate = (rate_percent + spread_bp / 100.0) / 100.0;
+  const rate = (rate_percent + spread_bp / BP_PER_PERCENT) / PERCENT_PER_ONE;
   return fob_usd_per_mmbtu * q_load * rate * days / DAYS_PER_YEAR_FOR_INTEREST;
 }
 
 // Spark's freight assessment, as its note on negative rates works it through.
 export function sparkChartererPayment({ hire_usd_day, laden_days, ballast_days, ballast_share_of_hire,
-  ballast_share_of_fuel, ballast_fuel_usd, positioning_usd = 0.0 }) {
+  ballast_share_of_fuel, ballast_fuel_usd, positioning_usd = 0 }) {
   const hire = laden_days * hire_usd_day;
   const bonus = ballast_days * hire_usd_day * ballast_share_of_hire + ballast_fuel_usd * ballast_share_of_fuel;
   return { hire, ballast_bonus: bonus, positioning: positioning_usd, charterer_payment: hire + bonus + positioning_usd };
@@ -107,7 +112,7 @@ export function sparkRate(charterer_payment, ballast_fuel_usd, duration_days) {
 }
 
 export function sparkRound(rate_usd_day, step) {
-  const size = Math.floor(Math.abs(rate_usd_day) / step + 0.5) * step;
+  const size = Math.floor(Math.abs(rate_usd_day) / step + HALF_UP) * step;
   return rate_usd_day < 0 ? -size : size;
 }
 
@@ -157,7 +162,7 @@ function yearDays(start, end, dayIso) {
     const year = when.getUTCFullYear();
     const nextYear = Math.round((Date.UTC(year + 1, 0, 1) - day) / MS_PER_DAY);
     const stop = Math.min(end, nextYear);
-    out.set(year, (out.get(year) || 0.0) + (stop - t));
+    out.set(year, (out.get(year) || 0) + (stop - t));
     t = stop;
   }
   return out;
@@ -174,10 +179,10 @@ function routeVoyage(inputs, route) {
 }
 
 function ets(inputs, v, toEurope) {
-  if (!toEurope) return 0.0;
+  if (!toEurope) return 0;
   const laden_sea = v.seaDays(v.laden) + v.laden.canal_days + v.laden.wait_days;
   if (inputs.ets_by_year == null) {
-    if (inputs.ets_phase === 0) return 0.0;
+    if (inputs.ets_phase === 0) return 0;
     return etsCost({
       eua_usd_per_t: inputs.eua_usd_t, phase_in: inputs.ets_phase, tco2_per_t_lng: inputs.tco2_per_t_lng,
       mmbtu_per_t_lng: inputs.mmbtu_per_t_lng, boil_off_mmbtu_per_day: v.boil_off_per_day,
@@ -191,10 +196,10 @@ function ets(inputs, v, toEurope) {
   const back = leave + v.t_ballast;
   const stretches = [[load, arrive, inputs.ets_voyage_share], [arrive, leave, inputs.ets_berth_share],
     [leave, back, inputs.ets_voyage_share]];
-  let weighted = 0.0;
+  let weighted = 0;
   for (const [start, end, share] of stretches) {
     for (const [year, days] of yearDays(start, end, inputs.day)) {
-      const [phase, factor] = inputs.ets_by_year[String(year)] || [0.0, 0.0];
+      const [phase, factor] = inputs.ets_by_year[String(year)] || [0, 0];
       weighted += share * days * phase * factor;
     }
   }
@@ -261,24 +266,24 @@ function routeLines(inputs, routeId, toEurope) {
 const ROUTE_DEFAULTS = Object.freeze({
   open: true,
   why_closed: "",
-  canal_laden_usd: 0.0,
-  canal_ballast_usd: 0.0,
-  canal_days: 0.0,
-  wait_days: 0.0,
-  slot_premium_usd: 0.0,
+  canal_laden_usd: 0,
+  canal_ballast_usd: 0,
+  canal_days: 0,
+  wait_days: 0,
+  slot_premium_usd: 0,
   canal_note: "",
   ballast_distance_nm: null,
   ballast_canal_days: null,
   ballast_wait_days: null,
 });
 const INPUT_DEFAULTS = Object.freeze({
-  eua_usd_t: 0.0,
-  ets_phase: 0.0,
-  tco2_per_t_lng: 0.0,
+  eua_usd_t: 0,
+  ets_phase: 0,
+  tco2_per_t_lng: 0,
   ets_by_year: null,
-  mmbtu_per_t_lng: 1.0,
+  mmbtu_per_t_lng: 1,
   ets_voyage_share: 0.5,
-  ets_berth_share: 1.0,
+  ets_berth_share: 1,
 });
 
 function withDefaults(given, defaults) {
@@ -315,9 +320,9 @@ export function evaluate(given) {
   const open = Object.entries(east).filter(([, l]) => l.open);
   let bestEast = null;
   for (const [r, l] of open) if (bestEast === null || l.netback > east[bestEast].netback) bestEast = r;
-  let best = ["NWE", WEST, west.netback];
-  for (const [r, l] of open) if (l.netback > best[2]) best = ["NEA", r, l.netback];
-  const lift = liftTest(best[2], inputs.henry_hub, inputs.liquefaction_fee, inputs.hh_multiple);
+  let best = { destination: "NWE", route: WEST, netback: west.netback };
+  for (const [r, l] of open) if (l.netback > best.netback) best = { destination: "NEA", route: r, netback: l.netback };
+  const lift = liftTest(best.netback, inputs.henry_hub, inputs.liquefaction_fee, inputs.hh_multiple);
   for (const lines of [west, ...Object.values(east)]) {
     delete lines._voyage;
     delete lines._costs;
@@ -328,9 +333,9 @@ export function evaluate(given) {
     west,
     east,
     best_route_east: bestEast,
-    best_destination: best[0],
-    best_route: best[1],
-    best_netback: best[2],
+    best_destination: best.destination,
+    best_route: best.route,
+    best_netback: best.netback,
     ...lift,
   };
 }

@@ -1,5 +1,31 @@
 {
  "schema_version": 1,
+ "artifact": "history",
+ "generated_by": "src/lngarb/export.py",
+ "data_date": "2026-10-07",
+ "describes": "every weekly and monthly observation at each hire level, the breaks and the freight anchors",
+ "source": "the committed caches in data/cache and data/seed and the manifest, nothing from data/private; no network",
+ "conventions": {
+  "missing": "A missing value is JSON null. null never means zero and is never drawn as zero or bridged; the page shows a gap and says why.",
+  "decimals": {
+   "usd_mmbtu": 2,
+   "eur_mwh": 2,
+   "usd_day": 0,
+   "usd_per_eur": 4,
+   "eur_t": 2,
+   "rate_percent": 2,
+   "share_percent": 0,
+   "pp": 1,
+   "days": 1,
+   "nm": 0,
+   "count": 0,
+   "year": 0,
+   "t_stat": 2,
+   "r2": 2
+  },
+  "rounding": "now.json keeps full precision, because the browser engine recomputes from its inputs; history.json and flows.json store floats to 6 places. The page prints the decimals of the format a value names.",
+  "segments": "A sentence is a list of segments. A text segment holds words only. A value segment names its field and holds a value with a format, or an ISO date or a word with its label."
+ },
  "first": "2016-01-15",
  "last": "2026-10-07",
  "hire_levels": {

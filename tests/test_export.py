@@ -15,7 +15,8 @@ DATA = base.REPO_ROOT / "data"
 
 @pytest.fixture(scope="module")
 def written():
-    return {name: json.loads((DATA / name).read_text(encoding="utf-8")) for name in ("now.json", "history.json", "flows.json")}
+    return {name: json.loads((DATA / name).read_text(encoding="utf-8"))
+            for name in ("now.json", "history.json", "flows.json", "provenance.json")}
 
 
 def _numbers(value):
@@ -39,7 +40,10 @@ def test_the_committed_files_are_what_export_writes_today(written):
     with export.analysis.reading_once():
         obs = export.analysis.observations()
         rows, _ = export.analysis.work(obs)
-        fresh = {"now.json": export.now(obs), "history.json": export.history(rows, obs), "flows.json": export.flows(rows)}
+        flows = export.flows(rows)
+        provenance = export.provenance()
+        fresh = {"now.json": export.now(obs, flows_document=flows, provenance_document=provenance),
+                 "history.json": export.history(rows, obs), "flows.json": flows, "provenance.json": provenance}
     for name, document in fresh.items():
         assert json.loads(json.dumps(document)) == written[name], (
             "%s is stale: run PYTHONPATH=src python -m lngarb.export" % name)

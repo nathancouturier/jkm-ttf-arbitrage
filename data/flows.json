@@ -1,7 +1,473 @@
 {
  "schema_version": 1,
+ "artifact": "flows",
+ "generated_by": "src/lngarb/export.py",
+ "data_date": "2026-07-01",
+ "describes": "the monthly share of US exports to Asia against the arb at loading, and the regressions",
+ "source": "the committed caches in data/cache and data/seed and the manifest, nothing from data/private; no network",
+ "conventions": {
+  "missing": "A missing value is JSON null. null never means zero and is never drawn as zero or bridged; the page shows a gap and says why.",
+  "decimals": {
+   "usd_mmbtu": 2,
+   "eur_mwh": 2,
+   "usd_day": 0,
+   "usd_per_eur": 4,
+   "eur_t": 2,
+   "rate_percent": 2,
+   "share_percent": 0,
+   "pp": 1,
+   "days": 1,
+   "nm": 0,
+   "count": 0,
+   "year": 0,
+   "t_stat": 2,
+   "r2": 2
+  },
+  "rounding": "now.json keeps full precision, because the browser engine recomputes from its inputs; history.json and flows.json store floats to 6 places. The page prints the decimals of the format a value names.",
+  "segments": "A sentence is a list of segments. A text segment holds words only. A value segment names its field and holds a value with a format, or an ISO date or a word with its label."
+ },
  "first": "2016-02-01",
  "last": "2026-07-01",
+ "panel": {
+  "first": "2024-08-01",
+  "last": "2026-07-01",
+  "heading_segments": [
+   {
+    "text": "In the "
+   },
+   {
+    "field": "months",
+    "value": 24,
+    "format": "count"
+   },
+   {
+    "text": " months to "
+   },
+   {
+    "field": "last_month",
+    "value": "2026-07-01",
+    "label": "July 2026"
+   },
+   {
+    "text": " the arb at loading was open in "
+   },
+   {
+    "field": "open_months",
+    "value": 18,
+    "format": "count"
+   },
+   {
+    "text": "; Asia took "
+   },
+   {
+    "field": "share_open",
+    "value": 26.035078,
+    "format": "share_percent"
+   },
+   {
+    "text": " percent of US exports in those months and "
+   },
+   {
+    "field": "share_closed",
+    "value": 13.0435,
+    "format": "share_percent"
+   },
+   {
+    "text": " percent in the others."
+   }
+  ],
+  "desc_segments": [
+   {
+    "text": "Two panels on one month axis: above, the share of US LNG exports by vessel to the JKM markets, Japan, South Korea, China and Taiwan, as a solid line and to all Asia as a dashed one; below, the model's arb at loading at the central hire, as bars from zero, filled when Asia paid more and outlined when Gate did. The latest month, "
+   },
+   {
+    "field": "last_month",
+    "value": "2026-07-01",
+    "label": "July 2026"
+   },
+   {
+    "text": ", is the accent: Asia took "
+   },
+   {
+    "field": "latest_share",
+    "value": 38.1773,
+    "format": "share_percent"
+   },
+   {
+    "text": " percent, with an arb of "
+   },
+   {
+    "field": "latest_arb",
+    "value": 0.728282,
+    "format": "usd_mmbtu",
+    "signed": true,
+    "missing": "no price"
+   },
+   {
+    "text": " $/MMBtu."
+   }
+  ],
+  "source_segments": [
+   {
+    "text": "Exports from EIA's US natural gas exports by country, by vessel; the arb from this study's engine at the central hire, "
+   },
+   {
+    "field": "central_hire",
+    "value": 45500.0,
+    "format": "usd_day"
+   },
+   {
+    "text": " $/day. Data to "
+   },
+   {
+    "field": "last_month",
+    "value": "2026-07-01",
+    "label": "July 2026"
+   },
+   {
+    "text": "."
+   }
+  ],
+  "months": [
+   {
+    "month": "2024-08-01",
+    "label": "Aug 2024",
+    "share_jkm": 30.5301,
+    "share_asia": 43.5426,
+    "arb": 0.342335
+   },
+   {
+    "month": "2024-09-01",
+    "label": "Sep 2024",
+    "share_jkm": 27.3125,
+    "share_asia": 37.8679,
+    "arb": 1.139775
+   },
+   {
+    "month": "2024-10-01",
+    "label": "Oct 2024",
+    "share_jkm": 19.2382,
+    "share_asia": 33.2594,
+    "arb": 0.025968
+   },
+   {
+    "month": "2024-11-01",
+    "label": "Nov 2024",
+    "share_jkm": 17.0594,
+    "share_asia": 25.4552,
+    "arb": -0.110686
+   },
+   {
+    "month": "2024-12-01",
+    "label": "Dec 2024",
+    "share_jkm": 11.5771,
+    "share_asia": 16.7335,
+    "arb": -0.114966
+   },
+   {
+    "month": "2025-01-01",
+    "label": "Jan 2025",
+    "share_jkm": 4.2412,
+    "share_asia": 7.5958,
+    "arb": -0.536639
+   },
+   {
+    "month": "2025-02-01",
+    "label": "Feb 2025",
+    "share_jkm": 4.8111,
+    "share_asia": 8.1341,
+    "arb": -1.679972
+   },
+   {
+    "month": "2025-03-01",
+    "label": "Mar 2025",
+    "share_jkm": 9.4843,
+    "share_asia": 14.9202,
+    "arb": 0.071341
+   },
+   {
+    "month": "2025-04-01",
+    "label": "Apr 2025",
+    "share_jkm": 15.8796,
+    "share_asia": 21.4804,
+    "arb": 0.188003
+   },
+   {
+    "month": "2025-05-01",
+    "label": "May 2025",
+    "share_jkm": 13.7038,
+    "share_asia": 22.0118,
+    "arb": 0.198734
+   },
+   {
+    "month": "2025-06-01",
+    "label": "Jun 2025",
+    "share_jkm": 11.7763,
+    "share_asia": 18.6093,
+    "arb": 0.239487
+   },
+   {
+    "month": "2025-07-01",
+    "label": "Jul 2025",
+    "share_jkm": 12.2784,
+    "share_asia": 20.661,
+    "arb": 0.514571
+   },
+   {
+    "month": "2025-08-01",
+    "label": "Aug 2025",
+    "share_jkm": 12.8539,
+    "share_asia": 18.3703,
+    "arb": 0.056246
+   },
+   {
+    "month": "2025-09-01",
+    "label": "Sep 2025",
+    "share_jkm": 11.8786,
+    "share_asia": 18.9691,
+    "arb": 0.036165
+   },
+   {
+    "month": "2025-10-01",
+    "label": "Oct 2025",
+    "share_jkm": 13.8832,
+    "share_asia": 18.3587,
+    "arb": 0.039682
+   },
+   {
+    "month": "2025-11-01",
+    "label": "Nov 2025",
+    "share_jkm": 10.9031,
+    "share_asia": 15.0228,
+    "arb": 0.223472
+   },
+   {
+    "month": "2025-12-01",
+    "label": "Dec 2025",
+    "share_jkm": 8.7759,
+    "share_asia": 11.9781,
+    "arb": 0.821544
+   },
+   {
+    "month": "2026-01-01",
+    "label": "Jan 2026",
+    "share_jkm": 4.5209,
+    "share_asia": 5.7945,
+    "arb": -1.032171
+   },
+   {
+    "month": "2026-02-01",
+    "label": "Feb 2026",
+    "share_jkm": 8.6427,
+    "share_asia": 14.5479,
+    "arb": -0.689653
+   },
+   {
+    "month": "2026-03-01",
+    "label": "Mar 2026",
+    "share_jkm": 14.7134,
+    "share_asia": 25.0521,
+    "arb": 0.385197
+   },
+   {
+    "month": "2026-04-01",
+    "label": "Apr 2026",
+    "share_jkm": 15.8764,
+    "share_asia": 30.3207,
+    "arb": 1.557108
+   },
+   {
+    "month": "2026-05-01",
+    "label": "May 2026",
+    "share_jkm": 25.2257,
+    "share_asia": 41.2823,
+    "arb": 0.835653
+   },
+   {
+    "month": "2026-06-01",
+    "label": "Jun 2026",
+    "share_jkm": 20.8479,
+    "share_asia": 38.7474,
+    "arb": 1.15232
+   },
+   {
+    "month": "2026-07-01",
+    "label": "Jul 2026",
+    "share_jkm": 20.5034,
+    "share_asia": 38.1773,
+    "arb": 0.728282
+   }
+  ],
+  "shares": [
+   {
+    "key": "share_jkm",
+    "pattern": "solid",
+    "label": "JKM markets"
+   },
+   {
+    "key": "share_asia",
+    "pattern": "dash",
+    "label": "All Asia"
+   }
+  ],
+  "share_domain": {
+   "low": 0.0,
+   "high": 50.0,
+   "step": 10.0
+  },
+  "arb_domain": {
+   "low": -2.0,
+   "high": 2.0,
+   "step": 1.0
+  },
+  "share_axis": "Share of exports, percent",
+  "arb_axis": "Arb at loading, $/MMBtu",
+  "ticks": [
+   5,
+   11,
+   17,
+   23
+  ],
+  "ticks_narrow": [
+   5,
+   17
+  ],
+  "notes": [
+   [
+    {
+     "text": "Over "
+    },
+    {
+     "field": "n",
+     "value": 115,
+     "format": "count"
+    },
+    {
+     "text": " of the "
+    },
+    {
+     "field": "span",
+     "value": 126,
+     "format": "count"
+    },
+    {
+     "text": " months from "
+    },
+    {
+     "field": "first_month",
+     "value": "2016-02-01",
+     "label": "February 2016"
+    },
+    {
+     "text": " to "
+    },
+    {
+     "field": "last_month",
+     "value": "2026-07-01",
+     "label": "July 2026"
+    },
+    {
+     "text": " (the others have no price), a dollar more of arb at loading went with "
+    },
+    {
+     "field": "slope",
+     "value": 1.521832,
+     "format": "pp"
+    },
+    {
+     "text": " points more of US exports to the JKM markets (t "
+    },
+    {
+     "field": "t",
+     "value": 2.051768,
+     "format": "t_stat"
+    },
+    {
+     "text": ", Newey West errors with "
+    },
+    {
+     "field": "lags",
+     "value": 4,
+     "format": "count"
+    },
+    {
+     "text": " lags); without "
+    },
+    {
+     "field": "excluded_years",
+     "value": "2020, 2022 and 2026",
+     "label": "2020, 2022 and 2026"
+    },
+    {
+     "text": ", over "
+    },
+    {
+     "field": "n_without",
+     "value": 84,
+     "format": "count"
+    },
+    {
+     "text": " months, "
+    },
+    {
+     "field": "slope_without",
+     "value": 5.19465,
+     "format": "pp"
+    },
+    {
+     "text": " points (t "
+    },
+    {
+     "field": "t_without",
+     "value": 2.719933,
+     "format": "t_stat"
+    },
+    {
+     "text": ", "
+    },
+    {
+     "field": "lags_without",
+     "value": 3,
+     "format": "count"
+    },
+    {
+     "text": " lags). R squared is "
+    },
+    {
+     "field": "r2",
+     "value": 0.100823,
+     "format": "r2"
+    },
+    {
+     "text": " on all months and "
+    },
+    {
+     "field": "r2_without",
+     "value": 0.248604,
+     "format": "r2"
+    },
+    {
+     "text": " without those years, so most of the share moves with something other than the arb."
+    }
+   ],
+   [
+    {
+     "text": "What this cannot separate: long term contracts with Asian buyers, whose cargoes move whatever the spot economics; the slot constraints at Panama; China's tariff on US LNG from "
+    },
+    {
+     "field": "china_tariff_from",
+     "value": "2025-02-10",
+     "label": "February 2025"
+    },
+    {
+     "text": "; the gap between spot hire and the cost of a ship already on term charter; and the month itself, coarser than the decisions, which are taken weeks before a cargo loads."
+    }
+   ]
+  ],
+  "missing_words": "not published",
+  "arb_missing_words": "not priced",
+  "table_caption": "US LNG exports by vessel: the share to the JKM markets and to Asia, and the arb at loading at the central hire."
+ },
  "months": [
   {
    "month": "2016-02-01",

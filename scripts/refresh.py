@@ -546,11 +546,14 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     # The site's data follows the data layer on every run, offline included;
     # it is written from the committed caches and is byte identical when they are.
+    # index.html versions every artifact by its bytes, the manifest included, so
+    # it is rewritten with them and committed with them.
     try:
-        from lngarb import export
+        from lngarb import export, versions
         written = export.write_all()
         print("")
         print("site data written: %s" % ", ".join(p.name for p in written))
+        print("index.html %s" % ("rewritten with the new content hashes" if versions.write() else "already current"))
     except Exception as exc:  # noqa: BLE001
         args.failures.append({"series": "site data", "error": "%s: %s" % (type(exc).__name__, exc),
                               "traceback": traceback.format_exc()})

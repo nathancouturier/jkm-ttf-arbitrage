@@ -147,24 +147,38 @@ def routes_on(when: date | str, vessel: Vessel, *, suez_scnt: float | None = Non
 # Market data on a day
 # --------------------------------------------------------------------------
 
+def henry_hub_detail(when: date | str) -> dict[str, Any]:
+    """EIA's daily Henry Hub spot over the loading month: the average, the number
+    of days held, the last day held and whether the month is incomplete (the
+    data end before its last weekday)."""
+    day = _day(when)
+    hh = read_cache("eia_henry_hub_daily")
+    month = hh[(hh["date"].dt.year == day.year) & (hh["date"].dt.month == day.month)]["henry_hub_usd_mmbtu"].dropna()
+    if month.empty:
+        raise MissingInput("no Henry Hub spot price in %s" % day.strftime("%B %Y"))
+    last_weekday = max(d for d in range(1, calendar.monthrange(day.year, day.month)[1] + 1)
+                       if date(day.year, day.month, d).weekday() < 5)
+    last_held = hh.loc[hh["henry_hub_usd_mmbtu"].notna(), "date"].max().date()
+    return {
+        "value": float(month.mean()),
+        "days": len(month),
+        "month": date(day.year, day.month, 1),
+        "last_held": last_held,
+        "incomplete": last_held < date(day.year, day.month, last_weekday),
+    }
+
+
 def henry_hub_month(when: date | str) -> tuple[float, str]:
     """EIA's daily Henry Hub spot averaged over the loading month, the proxy for NYMEX's settlement.
 
     When the data end before the month's last weekday the average is of the
     days held, and the label says the month is incomplete.
     """
-    day = _day(when)
-    hh = read_cache("eia_henry_hub_daily")
-    month = hh[(hh["date"].dt.year == day.year) & (hh["date"].dt.month == day.month)]["henry_hub_usd_mmbtu"].dropna()
-    if month.empty:
-        raise MissingInput("no Henry Hub spot price in %s" % day.strftime("%B %Y"))
-    label = "EIA Henry Hub spot, average of %d days in %s" % (len(month), day.strftime("%B %Y"))
-    last_weekday = max(d for d in range(1, calendar.monthrange(day.year, day.month)[1] + 1)
-                       if date(day.year, day.month, d).weekday() < 5)
-    last_held = hh.loc[hh["henry_hub_usd_mmbtu"].notna(), "date"].max().date()
-    if last_held < date(day.year, day.month, last_weekday):
-        label += ", an incomplete month: the data end on %s" % last_held
-    return float(month.mean()), label
+    detail = henry_hub_detail(when)
+    label = "EIA Henry Hub spot, average of %d days in %s" % (detail["days"], detail["month"].strftime("%B %Y"))
+    if detail["incomplete"]:
+        label += ", an incomplete month: the data end on %s" % detail["last_held"]
+    return detail["value"], label
 
 
 def _on_or_before(name: str, column: str, day: date) -> tuple[float, date]:
@@ -176,18 +190,32 @@ def _on_or_before(name: str, column: str, day: date) -> tuple[float, date]:
     return float(last[column]), last["date"].date()
 
 
+def usd_per_eur_detail(when: date | str) -> tuple[float, date]:
+    """The H.10 noon buying rate on or before the day, and the day it is of."""
+    return _on_or_before("h10_usd_per_eur_daily", "usd_per_eur", _day(when))
+
+
 def usd_per_eur_on(when: date | str) -> tuple[float, str]:
-    value, seen = _on_or_before("h10_usd_per_eur_daily", "usd_per_eur", _day(when))
+    value, seen = usd_per_eur_detail(when)
     return value, "Federal Reserve Board H.10, noon buying rate of %s" % seen
+
+
+def overnight_rate_detail(when: date | str) -> tuple[float, date, str]:
+    """The overnight rate on or before the day, the day it is of, and its name:
+    SOFR from its first value date, the effective federal funds rate before it."""
+    day = _day(when)
+    if day >= date(2018, 4, 2):
+        value, seen = _on_or_before("nyfed_sofr_daily", "sofr_percent", day)
+        return value, seen, "SOFR"
+    value, seen = _on_or_before("nyfed_effr_daily", "effr_percent", day)
+    return value, seen, "the effective federal funds rate"
 
 
 def overnight_rate_on(when: date | str) -> tuple[float, str]:
     """SOFR from its first value date, the effective federal funds rate before it."""
-    day = _day(when)
-    if day >= date(2018, 4, 2):
-        value, seen = _on_or_before("nyfed_sofr_daily", "sofr_percent", day)
+    value, seen, name = overnight_rate_detail(when)
+    if name == "SOFR":
         return value, "SOFR of %s, New York Fed" % seen
-    value, seen = _on_or_before("nyfed_effr_daily", "effr_percent", day)
     return value, "effective federal funds rate of %s, New York Fed, before SOFR" % seen
 
 
@@ -198,34 +226,46 @@ def _month_price(frame: pd.DataFrame, day: date) -> float | None:
     return float(rows.iloc[0]["eua_eur_t"])
 
 
-def eua_eur_t_in(when: date | str) -> tuple[float, str]:
-    """The month's average auction price of an EU allowance.
+def eua_detail(when: date | str) -> dict[str, Any]:
+    """The month's average auction price of an EU allowance, and where it is from.
 
-    The Commission's average for the common auction platform where its reports
-    cover the month. After its last month, the average of Germany's auctions as
-    DEHSt reports it, a proxy for the EU price. After the last month DEHSt
-    covers, that month's price held, the labelled assumption of the parameter
-    table. A month missing before then is missing.
+    kind is "commission" where the Commission's reports cover the month,
+    "german" after its last month (the average of Germany's auctions as DEHSt
+    reports it, a proxy for the EU price), and "held" after the last month
+    DEHSt covers (that month's price held, the labelled assumption of the
+    parameter table); price_month is the month the price is of. A month
+    missing before then is missing.
     """
     day = _day(when)
     month = pd.Timestamp(day.year, day.month, 1)
     common = read_cache("ec_eua_auction_monthly")
     price = _month_price(common, day)
     if price is not None:
-        return price, "European Commission auction report, %s average" % day.strftime("%B %Y")
+        return {"value": price, "kind": "commission", "month": month.date(), "price_month": month.date()}
     if month > common.loc[common["eua_eur_t"].notna(), "date"].max():
         german = read_cache("dehst_eua_german_auction_monthly")
         price = _month_price(german, day)
         if price is not None:
-            return price, (
-                "German auctions on EEX, %s average, a proxy for the EU price (source: EEX, "
-                "DEHSt)" % day.strftime("%B %Y"))
+            return {"value": price, "kind": "german", "month": month.date(), "price_month": month.date()}
         held = german[german["eua_eur_t"].notna()].iloc[-1]
         if month > held["date"]:
-            return float(held["eua_eur_t"]), (
-                "assumption: the last published monthly auction price, German auctions on EEX, "
-                "%s, held; no published price for %s" % (held["date"].strftime("%B %Y"), day.strftime("%B %Y")))
+            return {"value": float(held["eua_eur_t"]), "kind": "held", "month": month.date(),
+                    "price_month": held["date"].date()}
     raise MissingInput("no EU allowance auction price for %s" % day.strftime("%B %Y"))
+
+
+def eua_eur_t_in(when: date | str) -> tuple[float, str]:
+    """The month's average auction price of an EU allowance, and its label (eua_detail)."""
+    detail = eua_detail(when)
+    month = detail["month"].strftime("%B %Y")
+    if detail["kind"] == "commission":
+        return detail["value"], "European Commission auction report, %s average" % month
+    if detail["kind"] == "german":
+        return detail["value"], (
+            "German auctions on EEX, %s average, a proxy for the EU price (source: EEX, DEHSt)" % month)
+    return detail["value"], (
+        "assumption: the last published monthly auction price, German auctions on EEX, "
+        "%s, held; no published price for %s" % (detail["price_month"].strftime("%B %Y"), month))
 
 
 def ets_phase(when: date | str) -> float:
@@ -255,6 +295,15 @@ def _anchor_day(anchor) -> date:
     return date.fromisoformat(anchor.rate_date or anchor.article_date)
 
 
+def nearest_anchor(when: date | str):
+    """The freight anchor nearest the day, and how many days away it is. On a
+    tie, the earlier figure."""
+    day = _day(when)
+    near = sorted((abs((_anchor_day(a) - day).days), _anchor_day(a), index) for index, a in enumerate(ANCHORS))
+    gap, _, index = near[0]
+    return ANCHORS[index], gap
+
+
 def nearest_hire(when: date | str, *, max_days: int | None = None) -> tuple[float | None, str]:
     """The reported charter rate nearest the day, within max_days, from the freight anchors.
 
@@ -263,8 +312,7 @@ def nearest_hire(when: date | str, *, max_days: int | None = None) -> tuple[floa
     """
     day = _day(when)
     max_days = _p("hire_anchor_max_days") if max_days is None else max_days
-    near = sorted((abs((_anchor_day(a) - day).days), _anchor_day(a), a) for a in ANCHORS)
-    gap, dated, anchor = near[0]
+    anchor, gap = nearest_anchor(day)
     if gap > max_days:
         return None, "no reported charter rate within %d days of %s (the nearest is %d days away)" % (
             max_days, day, gap)
@@ -281,6 +329,18 @@ def delta_nwe_between(start: date, end: date) -> tuple[float, str] | None:
     the span's weekdays: before 31 March 2023, in March 2023 (one day), or
     after the last day of the download held.
     """
+    detail = delta_nwe_detail(start, end)
+    if detail is None:
+        return None
+    return detail["value"], (
+        "ACER, DES North-West Europe less the TTF front month, mean of %d of the %d weekdays from %s to %s, "
+        "computed by this study from ACER's assessments and EU benchmark" % (
+            detail["days"], detail["weekdays"], start, end))
+
+
+def delta_nwe_detail(start: date, end: date) -> dict[str, Any] | None:
+    """delta_nwe_between's mean, EUR/MWh, with the days ACER published and the
+    weekdays of the span; None where it is None."""
     frame = read_cache("acer_lng_daily")
     if frame is None or "nwe_benchmark_spread_eur_mwh" not in frame.columns:
         return None
@@ -289,9 +349,7 @@ def delta_nwe_between(start: date, end: date) -> tuple[float, str] | None:
     weekdays = len(pd.bdate_range(start, end))
     if values.empty or weekdays == 0 or len(values) < _p("delta_nwe_min_coverage") * weekdays:
         return None
-    return float(values.mean()), (
-        "ACER, DES North-West Europe less the TTF front month, mean of %d of the %d weekdays from %s to %s, "
-        "computed by this study from ACER's assessments and EU benchmark" % (len(values), weekdays, start, end))
+    return {"value": float(values.mean()), "days": len(values), "weekdays": weekdays, "start": start, "end": end}
 
 
 def delta_nwe_on(when: date | str, window: tuple[date, date] | None = None) -> tuple[float, str]:

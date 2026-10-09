@@ -26,19 +26,46 @@ from __future__ import annotations
 import json
 import math
 import sys
-from dataclasses import asdict
+from dataclasses import asdict, replace
 from datetime import date
 from pathlib import Path
 from typing import Any
 
 import pandas as pd
 
-from . import analysis, config, units, worked
-from .cases import evaluate
+from . import analysis, config, delivery, reader, units, worked
+from .cases import WATERFALL_STEPS, evaluate
 from .freight_anchors import ANCHORS, hire_levels
 from .sources import base
 
-__all__ = ["SCHEMA_VERSION", "now", "history", "flows", "write_all", "inputs_json"]
+__all__ = ["SCHEMA_VERSION", "now", "history", "flows", "provenance", "write_all", "inputs_json", "CREDITS"]
+
+#: Who each source is credited to on the page, in the words their terms ask
+#: for where they ask for any (NOTICE holds the same notices).
+CREDITS = (
+    "Weekly JKM and TTF prices, the Henry Hub spot price and US LNG exports: U.S. Energy Information "
+    "Administration, which credits the weekly prices to Bloomberg Finance L.P. and the Henry Hub spot price to "
+    "Refinitiv, an LSEG business.",
+    "The regasification discount: European Union Agency for the Cooperation of Energy Regulators (ACER).",
+    "The Japanese spot price before the weekly series: created by processing the information in the Spot LNG Price "
+    "Statistics (Ministry of Economy, Trade and Industry of Japan).",
+    "TTF before the weekly series: The World Bank, Commodity Price Data (The Pink Sheet), under the Creative Commons "
+    "Attribution 4.0 licence. The World Bank does not endorse this study.",
+    "EU allowances: European Commission auction reports, under the Creative Commons Attribution 4.0 licence; after "
+    "the last month they cover, Source: EEX, DEHSt, under the Creative Commons Attribution NonCommercial "
+    "NoDerivatives 4.0 licence, the monthly averages reproduced unchanged.",
+    "The Secured Overnight Financing Rate (SOFR) and the Effective Federal Funds Rate (EFFR) are subject to the "
+    "Terms of Use posted at newyorkfed.org. The New York Fed is not responsible for publication of the SOFR or the "
+    "EFFR by Nathan Couturier, does not sanction or endorse any particular republication, and has no liability for "
+    "your use.",
+    "Dollars per euro: Board of Governors of the Federal Reserve System, H.10. Dollars per SDR: International "
+    "Monetary Fund, read through the Deutsche Bundesbank.",
+    "Charter rates: as reported by the publishers each figure names, listed with the history.",
+    "Sea distances: this study's computation from the searoute library (Apache License 2.0) over Eurostat's "
+    "Searoute network (European Union Public Licence 1.2).",
+    "Typefaces: Fraunces, Figtree and JetBrains Mono, under the SIL Open Font License 1.1. Figtree stands in for "
+    "the portfolio's Satoshi, whose licence does not allow a copy in a public repository.",
+)
 
 SCHEMA_VERSION = 1
 
@@ -97,10 +124,21 @@ def inputs_json(inputs) -> dict[str, Any]:
     return out
 
 
-def now(obs: pd.DataFrame | None = None) -> dict[str, Any]:
-    """The latest weekly observation, worked at the reported hire nearest it, or the central level."""
+def now(obs: pd.DataFrame | None = None, *, flows_document: dict[str, Any] | None = None,
+        provenance_document: dict[str, Any] | None = None) -> dict[str, Any]:
+    """The latest weekly observation, worked at the reported hire nearest it, or the central level.
+
+    Besides the engine's inputs and output, the reader's layer of the Now view:
+    the verdict, one sentence per input with its date, and the content of the
+    five sections, whose summaries for the flows and the provenance are those
+    of flows.json and provenance.json.
+    """
     with analysis.reading_once():
         obs = analysis.observations() if obs is None else obs
+        if flows_document is None:
+            flows_document = flows(analysis.work(obs)[0])
+        if provenance_document is None:
+            provenance_document = provenance()
         weekly = obs[obs["frequency"] == "weekly"].sort_values("day", ascending=False)
         levels = hire_levels()
         not_priced = []
@@ -127,10 +165,44 @@ def now(obs: pd.DataFrame | None = None) -> dict[str, Any]:
         eua_eur = None
         if inputs.eua_usd_t:
             eua_eur = inputs.eua_usd_t / usd_per_eur
-        anchor = min(ANCHORS, key=lambda a: abs((worked._anchor_day(a) - day).days))
+        anchor, gap = worked.nearest_anchor(day)
+        window = analysis.window(latest["day"], "weekly")
+
+        def at_hire(value: float) -> dict[str, Any]:
+            return evaluate(replace(inputs, hire_usd_day=value))
+
+        hire_info = {"value": hire, "reported": reported is not None, "anchor": anchor,
+                     "date": worked._anchor_day(anchor), "gap": gap,
+                     "max_days": config.PARAMETERS["hire_anchor_max_days"].value}
+        hh_multiple = inputs.hh_multiple
+        threshold = hh_multiple * inputs.henry_hub
+        netbacks = reader.netbacks_section(result, day=day, threshold=threshold, hh_multiple=hh_multiple)
+        delta = worked.delta_nwe_detail(*window)
+        cost = reader.cost_section(result, inputs, day=day, steps=WATERFALL_STEPS, delta_observed=delta is not None)
+        breakeven = reader.breakeven_section(result, inputs, day=day, levels=levels, hire=hire_info,
+                                             evaluate_at=at_hire)
         document = {
-            "schema_version": SCHEMA_VERSION,
+            **reader.header("now", day, "the landing sentence, the date of every input, the netbacks, the steps "
+                                        "of the arb and the breakeven lines for the latest week, with the engine's "
+                                        "inputs and output"),
+            "conventions": reader.conventions(),
             "as_of": day,
+            "verdict": reader.verdict(result, day, hh_multiple, delta_nwe=inputs.delta_nwe,
+                                      liquefaction_fee=inputs.liquefaction_fee),
+            "data_dates": reader.data_dates(
+                day=day, week={"series": latest["series"], "alignment": latest["alignment"],
+                               "aligned_share": latest["aligned_share"]},
+                inputs=inputs, usd_per_eur=worked.usd_per_eur_detail(day), hh=worked.henry_hub_detail(day),
+                hire=hire_info, delta=delta, delta_window=window, eua=worked.eua_detail(day),
+                rate=worked.overnight_rate_detail(day),
+                fronts={"jkm": delivery.jkm_front_month(day), "ttf": delivery.ttf_front_month(day)},
+                eur_mwh=lambda usd: units.usd_mmbtu_to_eur_mwh(usd, usd_per_eur), not_priced=not_priced),
+            "sections": reader.sections(result, netbacks=netbacks, cost=cost, breakeven=breakeven,
+                                        flows_heading=flows_document["panel"]["heading_segments"],
+                                        provenance_summary=provenance_document["summary_segments"]),
+            "netbacks": netbacks,
+            "cost": cost,
+            "breakeven": breakeven,
             "not_priced": not_priced,
             "week": {"first": analysis.window(latest["day"], "weekly")[0], "last": day,
                      "alignment": latest["alignment"], "aligned_share": latest["aligned_share"],
@@ -163,8 +235,7 @@ def now(obs: pd.DataFrame | None = None) -> dict[str, Any]:
             "at_levels": {},
         }
         for name, value in levels.items():
-            from dataclasses import replace
-            out = evaluate(replace(inputs, hire_usd_day=value))
+            out = at_hire(value)
             document["at_levels"][name] = {
                 "hire_usd_day": value, "best_route_east": out["best_route_east"],
                 "best_destination": out["best_destination"], "best_netback": out["best_netback"],
@@ -194,7 +265,9 @@ def history(rows: pd.DataFrame | None = None, obs: pd.DataFrame | None = None) -
     anchors = [{"date": worked._anchor_day(a), "hire_usd_day": a.hire_usd_day, "assessment": a.assessment,
                 "vessel": a.vessel, "publisher": a.publisher, "url": a.url} for a in ANCHORS]
     return _clean({
-        "schema_version": SCHEMA_VERSION,
+        **reader.header("history", frame["day"].max(), "every weekly and monthly observation at each hire level, "
+                                                         "the breaks and the freight anchors"),
+        "conventions": reader.conventions(),
         "first": frame["day"].min(), "last": frame["day"].max(),
         "hire_levels": hire_levels(),
         "columns": list(frame.columns),
@@ -217,14 +290,33 @@ def flows(rows: pd.DataFrame | None = None) -> dict[str, Any]:
         "asia_mmcf": r["asia_mmcf"], "share_jkm": r["share_jkm"], "share_asia": r["share_asia"],
         "anomaly": r["anomaly"], "arb": {"low": r["low"], "central": r["central"], "high": r["high"]},
     } for r in joined.to_dict("records")]
-    tests = analysis.flows_test(rows)
+    tests = analysis.flows_test(rows).to_dict("records")
+    excluded = list(config.PARAMETERS["analysis_excluded_years"].value)
+    clean_months = _clean(months, ROUND_DP)
     return _clean({
-        "schema_version": SCHEMA_VERSION,
+        **reader.header("flows", joined["month"].max(), "the monthly share of US exports to Asia against the arb "
+                                                         "at loading, and the regressions"),
+        "conventions": reader.conventions(),
         "first": joined["month"].min(), "last": joined["month"].max(),
+        "panel": reader.flows_panel(clean_months, _clean(tests), excluded, hire_levels()["central"]),
         "months": months,
-        "regressions": tests.to_dict("records"),
-        "excluded_years": list(config.PARAMETERS["analysis_excluded_years"].value),
+        "regressions": tests,
+        "excluded_years": excluded,
     }, ROUND_DP)
+
+
+def provenance(manifest: dict[str, Any] | None = None) -> dict[str, Any]:
+    """The reader's layer over data/manifest.json: every series in words, the
+    work done by hand, the credits."""
+    if manifest is None:
+        manifest = json.loads((base.DATA / "manifest.json").read_text(encoding="utf-8"))
+    last = max(e["last_date"] for e in manifest["series"] if e.get("last_date"))
+    return _clean({
+        **reader.header("provenance", last, "the manifest of every series in words, the work done by hand and "
+                                            "the credits"),
+        "conventions": reader.conventions(),
+        **reader.provenance(manifest, config.SOURCES, CREDITS),
+    })
 
 
 NEWLINE = chr(10)
@@ -259,10 +351,13 @@ def write_all() -> list[Path]:
     with analysis.reading_once():
         obs = analysis.observations()
         rows, _ = analysis.work(obs)
+        flows_document = flows(rows)
+        provenance_document = provenance()
         documents = {
-            "now.json": now(obs),
+            "now.json": now(obs, flows_document=flows_document, provenance_document=provenance_document),
             "history.json": history(rows, obs),
-            "flows.json": flows(rows),
+            "flows.json": flows_document,
+            "provenance.json": provenance_document,
         }
     return [_write(name, document) for name, document in documents.items()]
 
