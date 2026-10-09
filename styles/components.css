@@ -538,6 +538,8 @@ p.block,
 .manual-step .prose + .prose { margin-top: 4px; }
 .manual-step__what { font-weight: 500; }
 .credit-list { display: grid; gap: 8px; }
+/* A credit may hold a long address, which breaks rather than widen the page. */
+.credit-list > li { min-width: 0; overflow-wrap: anywhere; }
 
 /* --------------------------------------------------------- the model --- */
 
