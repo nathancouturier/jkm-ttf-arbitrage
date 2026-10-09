@@ -102,7 +102,14 @@ const SHIP_FIELDS = Object.freeze([
   { key: "fill_percent", label: "Cargo loaded, share of capacity", unit: "fill_percent", format: "fill_percent", read: (vessel, model) => vessel.fill * model.units.percent_per_one },
   { key: "load_days", label: "Days to load", unit: "days", format: "days", read: (vessel) => vessel.load_days },
   { key: "discharge_days", label: "Days to discharge", unit: "days", format: "days", read: (vessel) => vessel.discharge_days },
+  { key: "methane_slip_percent", label: "Methane slip, share of the LNG burnt", unit: "fill_percent", format: "fill_percent", read: (vessel, model) => slipOf(vessel, model) },
 ]);
+
+/* The ship's default methane slip, in percent, by the key of the carrier. */
+function slipOf(vessel, model) {
+  const key = Object.keys(model.vessels).find((k) => model.vessels[k].name === vessel.name);
+  return model.carbon && key ? model.carbon.slip[key] * model.units.percent_per_one : Number.NaN;
+}
 
 /* The route table's inputs, per route. */
 const ROUTE_FIELDS = Object.freeze([
@@ -141,6 +148,7 @@ const KEY_WORDS = new Map([
   ...SHIP_FIELDS.map((field) => [field.key, field.label]),
   ...ROUTE_FIELDS.map((field) => [field.key, field.label.replace(/, \$$/, "")]),
   ["ttf_eur_mwh", "TTF"],
+  ["methane_slip", "Methane slip counted"],
 ]);
 
 let held = null;
@@ -474,7 +482,22 @@ function shipFieldset() {
     recompute();
     announce();
   });
+  // Methane slip: off by default, as in the study; ticked, the slip share
+  // above counts as methane in the carbon cost.
+  if (model.carbon) {
+    const box = el("input", { class: "model-check__box", id: "field-methane_slip", attrs: { type: "checkbox" } });
+    box.checked = model.carbon.on === true;
+    box.addEventListener("change", () => { recompute(); announce(); });
+    const note = el("span", { class: "model-field__source", id: "field-methane_slip-source", text: "Off in the study. Ticked, the share of the LNG the engine slips unburnt leaves the CO2 and N2O terms and, from " + String(model.carbon.ch4_n2o_from_year) + ", counts as methane in the EU ETS cost." });
+    box.setAttribute("aria-describedby", note.id);
+    held.slip = { box, preset: model.carbon.on === true };
+    grid.appendChild(el("div", { class: "model-field" }, [
+      el("label", { class: "model-check" }, [box, el("span", { class: "model-label", text: "Count methane slip" })]),
+      note,
+    ]));
+  }
   held.vessel.restore = () => {
+    if (held.slip) held.slip.box.checked = held.slip.preset;
     choice.value = presetKey;
     for (const field of shipFields) {
       const source = sourcesOf(presetKey)[field.spec.key];
@@ -644,6 +667,9 @@ function collectEdits() {
   }
   if (held.vessel.choice.value !== held.vessel.presetKey) {
     edits.unshift({ key: "vessel", value: held.vessel.choice.value });
+  }
+  if (held.slip && held.slip.box.checked !== held.slip.preset) {
+    edits.push({ key: "methane_slip", value: held.slip.box.checked });
   }
   for (const field of held.routeFields) {
     if (field.kind === "open") {

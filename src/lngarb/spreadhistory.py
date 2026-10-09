@@ -20,8 +20,10 @@ Named ranges cut the weekly panels: every week, 2021 to 2023, 2024 on, the
 last 52 weeks; each carries its own domains, ticks and sentences, so the page
 computes nothing. The breaks lngarb.analysis finds (docs/methodology.md,
 section 12.1) that change a price's definition, a route, the ship or the EU
-ETS are numbered rules, listed in a table under the charts. Every sentence is computed from the
-rows: nothing here is typed but words.
+ETS are numbered rules, listed in a table under the charts; the dated events
+of lngarb.events that explain a regime are lettered marks, listed in a second
+table with what was left out. Every sentence is computed from the rows:
+nothing here is typed but words.
 """
 
 from __future__ import annotations
@@ -344,8 +346,24 @@ def _columns(points: Sequence[Mapping[str, Any] | None], keys: Sequence[str]) ->
     return {key: [None if p is None else p.get(key) for p in points] for key in keys}
 
 
+def _event_marks(items: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
+    """The events as the charts draw them: a lettered mark, or a bar for a period."""
+    return [{"day": item["day"], "end": item["end"], "letter": item["letter"]} for item in items]
+
+
+def _events_lead(items: Sequence[Mapping[str, Any]], left_out: Sequence[tuple[str, str]]) -> list[dict[str, Any]]:
+    return [
+        reader.T("The lettered marks under the charts are events that explain a regime, not breaks in the data: "),
+        reader.N("events", len(items), "count"),
+        reader.T(" events, each from one document read, and "),
+        reader.N("left_out", len(left_out), "count"),
+        reader.T(" left out for want of a document the study could read, listed after the table."),
+    ]
+
+
 def page(rows: pd.DataFrame, breaks: pd.DataFrame, anchors: Sequence[Mapping[str, Any]],
-         months_without: pd.DataFrame, levels: Mapping[str, float]) -> dict[str, Any]:
+         months_without: pd.DataFrame, levels: Mapping[str, float],
+         events: Sequence[Mapping[str, Any]] = (), left_out: Sequence[tuple[str, str]] = ()) -> dict[str, Any]:
     """The History view's layer of history.json."""
     weekly = _points(rows, "weekly")
     monthly = _points(rows, "monthly")
@@ -426,6 +444,10 @@ def page(rows: pd.DataFrame, breaks: pd.DataFrame, anchors: Sequence[Mapping[str
                                "the assessment and who reported it.",
             "breaks_caption": "Every break drawn as a numbered rule: the day it takes effect, its kind, what "
                               "changes and the source.",
+            "events_caption": "Every event drawn as a lettered mark: the day it began, the day it ended where it "
+                              "ran for a period, what happened and the document it was read in.",
+            "events_heading": "The events behind the regimes",
+            "left_out_heading": "Left out, and why",
         },
         "weekly": {**_columns(weekly_gaps, keys), "ranges": ranges},
         "monthly": {
@@ -446,6 +468,13 @@ def page(rows: pd.DataFrame, breaks: pd.DataFrame, anchors: Sequence[Mapping[str
                      "of the EU ETS. A change of name alone, where the price runs on across it, is listed in the "
                      "methodology and not drawn."),
         ],
+        "events": [{"letter": e["letter"], "day": date.fromisoformat(e["day"]),
+                    "end": date.fromisoformat(e["end"]) if e["end"] else None, "what": e["what"],
+                    "publisher": e["publisher"], "url": e["url"]} for e in events],
+        "event_marks": _event_marks([{**e, "day": date.fromisoformat(e["day"]),
+                                      "end": date.fromisoformat(e["end"]) if e["end"] else None} for e in events]),
+        "events_lead_segments": _events_lead(events, left_out),
+        "events_left_out": [{"what": what, "reason": reason} for what, reason in left_out],
         "anchors": [{"day": a["date"], "hire_usd_day": a["hire_usd_day"], "publisher": a["publisher"],
                      "assessment": a["assessment"], "accent": a["date"] == latest} for a in anchors],
         "divisor": HSTAR_DIVISOR,

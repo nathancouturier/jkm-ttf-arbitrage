@@ -17,7 +17,9 @@
  * RANGES. Named ranges cut the two weekly panels; each comes with its own
  * domains, ticks and sentences in data/history.json, and the address keeps
  * it: #/history?range=last_52. The breaks of the data are numbered rules,
- * listed in a table under the charts.
+ * listed in a table under the charts; the events that explain a regime are
+ * lettered marks at the foot of the spread charts, listed in their own table
+ * with what was left out and why.
  *
  * Every figure and every sentence is from data/history.json. Numeric
  * literals: none.
@@ -75,6 +77,13 @@ export function render(root, data, route) {
   root.appendChild(hstarFigure(page, range, decimals));
   root.appendChild(monthlyFigure(page, decimals));
   root.appendChild(el("div", { class: "block" }, [
+    el("h2", { class: "block__heading", text: page.words.events_heading }),
+    sentence("p", page.events_lead_segments, decimals, "lead"),
+    eventsTable(page),
+    el("h3", { class: "block__heading", text: page.words.left_out_heading }),
+    leftOutList(page),
+  ]));
+  root.appendChild(el("div", { class: "block" }, [
     el("h2", { class: "block__heading", text: "The breaks in the data" }),
     sentence("p", page.breaks_lead_segments, decimals, "lead"),
     breaksTable(page),
@@ -129,6 +138,7 @@ function weeklyFigure(page, range, decimals) {
       series: { values: pick(weekly.spread, indexes), label: page.words.spread },
       marks,
       rules: page.rules,
+      events: page.event_marks,
       ticks: range.ticks,
       words: { title: segmentsText(range.heading_segments, decimals), desc: segmentsText(range.desc_segments, decimals), yAxis: page.words.y_axis },
     }));
@@ -191,6 +201,7 @@ function monthlyFigure(page, decimals) {
       series: { values: monthly.spread, label: page.words.spread },
       marks: [],
       rules: page.rules,
+      events: page.event_marks,
       ticks: monthly.ticks,
       words: { title: segmentsText(monthly.heading_segments, decimals), desc: segmentsText(monthly.desc_segments, decimals), yAxis: page.words.y_axis },
     }));
@@ -246,6 +257,38 @@ function anchorsTable(page, decimals) {
     body,
   ]);
   return scrollTable([page.words.anchors_caption], table);
+}
+
+function eventsTable(page) {
+  const body = el("tbody");
+  for (const item of page.events) {
+    body.appendChild(el("tr", {}, [
+      el("th", { text: item.letter, attrs: { scope: "row" } }),
+      el("td", { class: "nowrap", text: formatDay(item.day) }),
+      el("td", { class: "nowrap", text: item.end ? formatDay(item.end) : "" }),
+      el("td", { class: "words", text: item.what }),
+      el("td", { class: "words" }, [el("a", { class: "text-link", text: item.publisher, attrs: { href: item.url, rel: "noopener" } })]),
+    ]));
+  }
+  const table = el("table", { class: "table table--bands" }, [
+    el("thead", {}, [el("tr", {}, [
+      el("th", { text: "Mark", attrs: { scope: "col" } }),
+      el("th", { text: "From", attrs: { scope: "col" } }),
+      el("th", { text: "To", attrs: { scope: "col" } }),
+      el("th", { text: "What happened", attrs: { scope: "col" } }),
+      el("th", { text: "Read in", attrs: { scope: "col" } }),
+    ])]),
+    body,
+  ]);
+  return scrollTable([page.words.events_caption], table);
+}
+
+function leftOutList(page) {
+  const list = el("ul", { class: "credit-list" });
+  for (const item of page.events_left_out) {
+    list.appendChild(el("li", { class: "prose note", text: item.what + ": " + item.reason + "." }));
+  }
+  return list;
 }
 
 function breaksTable(page) {

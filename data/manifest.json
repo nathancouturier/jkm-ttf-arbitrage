@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-09T20:53:02Z",
+  "generated_at": "2026-10-09T21:12:06Z",
   "series": [
     {
       "series": "acer_lng_daily",
@@ -2536,13 +2536,42 @@
       ]
     },
     {
+      "series": "events",
+      "source": "this study, from documents of EIA, the US Department of Energy, LNG Prime, The National, Platts, gCaptain and Columbia University's Center on Global Energy Policy",
+      "url": null,
+      "page_url": "https://www.eia.gov/todayinenergy/detail.php?id=44697",
+      "machine_fetched": false,
+      "fetched_at": null,
+      "checked_at": "2026-10-09T21:12:06Z",
+      "rows": 8,
+      "observations": 8,
+      "file_rows": 8,
+      "first_date": null,
+      "last_date": null,
+      "frequency": "annual",
+      "gaps": [],
+      "provisional_from": null,
+      "vintage": null,
+      "method": "seed",
+      "committable": true,
+      "licence_note": "Each row states a dated fact in this study's own words with the document it was read in, its publisher and its address; no sentence of any source is reproduced. The publishers' terms are in docs/sources.md.",
+      "linkable": true,
+      "status": "ok",
+      "note": "8 dated events from 2016-02-24 to 2026-09-18, each from one document read, and 12 left out for want of one. A seed, not a time series.",
+      "file": "data/seed/events.json",
+      "unit": "event",
+      "licence": "facts stated in this study's words, with the source of each",
+      "observation_column": null,
+      "unique_dates": true
+    },
+    {
       "series": "freight_anchors",
       "source": "this study, from figures reported by Spark Commodities, LNG Prime and Hellenic Shipping News",
       "url": null,
       "page_url": "https://lngprime.com/",
       "machine_fetched": false,
       "fetched_at": null,
-      "checked_at": "2026-10-09T20:53:02Z",
+      "checked_at": "2026-10-09T21:12:06Z",
       "rows": 10,
       "observations": 10,
       "file_rows": 10,
@@ -3227,7 +3256,7 @@
       "page_url": "https://github.com/genthalili/searoute-py",
       "machine_fetched": false,
       "fetched_at": null,
-      "checked_at": "2026-10-09T20:53:02Z",
+      "checked_at": "2026-10-09T21:12:06Z",
       "rows": 4,
       "observations": 4,
       "file_rows": 4,
@@ -3365,8 +3394,8 @@
   "manual_steps_note": "Work this pipeline cannot do for itself. Each entry says what it is, why it exists, what it costs to skip it and how to do it. They are repeated against the series they affect in the manual_step field of those entries.",
   "run": {
     "mode": "offline",
-    "started_at": "2026-10-09T20:53:01Z",
-    "finished_at": "2026-10-09T20:53:02Z",
+    "started_at": "2026-10-09T21:12:06Z",
+    "finished_at": "2026-10-09T21:12:06Z",
     "script": "scripts/refresh.py"
   }
 }

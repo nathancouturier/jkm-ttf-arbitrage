@@ -1,8 +1,7 @@
 # Methodology
 
-How this study turns published figures into the numbers it shows. This document
-grows with the study; this version covers the data layer and the engine. The
-analysis and the site are added as they are built.
+How this study turns published figures into the numbers it shows: the data
+layer, the engine, the analysis and the site.
 
 ---
 
@@ -10,8 +9,11 @@ analysis and the site are added as they are built.
 
 1. **Nothing is invented.** A source that fails, or a date a source did not
    publish, is missing. In a CSV cache a missing value is an empty cell; in a
-   JSON file it is `null`; on the site it is "n/a" with the reason one click
-   away. Zero never means missing.
+   JSON file it is `null`; on the site it is a word that says which figure is
+   missing ("no figure" in a cell, "missing for this date" under a field, "no
+   crossing" for a breakeven hire that does not exist), with the reason beside
+   it or in the sentence under the table, never a bare "n/a" (open question
+   49). Zero never means missing.
 2. **Nothing is filled.** No interpolation, no carrying a value forward, no
    substitution from a neighbouring source without a label saying so.
 3. **A failed fetch keeps the previous cache.** The source is marked `failed`
@@ -633,10 +635,13 @@ the visitor's figures laid over them.
   ACER published too little, and for an allowance price held. Every one can be
   typed over, as can the ship's speed, boil-off, fill and days in port, the
   contract's share of Henry Hub, the two energy conversions and the EU ETS
-  shares of a voyage and a berth stay, each with its source. The canal tariffs
+  shares of a voyage and a berth stay, each with its source. Methane slip is a
+  box to tick, off as in the study, with each ship's default share from the
+  EU's monitoring rules, which can be typed over. The canal tariffs
   behind the tolls (Suez's net tonnage per cubic metre, Panama's fresh water
-  surcharge and its reading of capacity) and the gases counted under the EU
-  ETS (the methane slip of each ship) are fixed there: they are rules or
+  surcharge and its reading of capacity) and the factors of the gases counted
+  under the EU ETS (tonnes of CO2 and N2O per tonne of LNG, their warming
+  potentials, the year methane enters) are fixed there: they are rules or
   readings of a rule, not inputs a cargo chooses, and the tolls and carbon
   cost they give can be typed over, per route or through the shares.
 * **Spark's example** types Spark's 17.5 laden and 12.5 ballast days, read

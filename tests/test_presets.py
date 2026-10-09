@@ -178,6 +178,10 @@ MOVES = {
         r["west"]["q_load_mmbtu"] < b["west"]["q_load_mmbtu"] and r["west"]["days_laden"] == pytest.approx(b["west"]["days_laden"] + 1.0)),
     "22 MMBtu per m3 and 50 MMBtu per tonne": lambda r, b: r["west"]["q_load_mmbtu"] < b["west"]["q_load_mmbtu"],
     "every voyage emission counted and none at berth": lambda r, b: r["west"]["ets_usd"] != b["west"]["ets_usd"],
+    "methane slip counted, at the ship's default share": lambda r, b: r["west"]["ets_usd"] > b["west"]["ets_usd"],
+    "methane slip of 3.1 percent on the smaller ship, every emission surrendered":
+        lambda r, b: r["west"]["ets_usd"] > b["west"]["ets_usd"],
+    "a slip of 12 percent, refused": lambda r, b: r["west"]["netback"] is None,
 }
 
 
@@ -189,6 +193,7 @@ def test_the_named_edits_move_what_they_name(model):
         assert MOVES[check["name"]](check["result"], base_result), check["name"]
     refused = {c["name"]: c["refused"] for c in model["checks"]}
     assert refused["an exchange rate of zero, refused"] == [{"key": "usd_per_eur", "route": None}]
+    assert refused["a slip of 12 percent, refused"] == [{"key": "methane_slip_percent", "route": None}]
 
 
 def test_the_named_edits_reach_the_rules_the_page_applies(model):

@@ -19,7 +19,10 @@ table sets. From those rows come:
   (lift_margins_2020), beside the cancellations reported (lngarb.reported);
 * the route the model picks, the waiting days or slot premium at which Panama
   stops paying against the Cape (route_choice), and Panama against the Cape
-  with the waits reported in the months they were reported (reported_waits).
+  with the waits reported in the months they were reported (reported_waits);
+* the weeks whose verdict rests on Europe's regasification discount: each
+  week at the discount the data give, at zero and at the assumption
+  (regas_sensitivity).
 
 Nothing here is fitted to an outcome: no parameter is searched and nothing is
 forecast. A date the data cannot price is listed with the input it lacks.
@@ -36,7 +39,7 @@ from typing import Any, Iterator, Mapping
 import numpy as np
 import pandas as pd
 
-from . import cases, config, delivery, worked
+from . import cases, config, delivery, units, worked
 from .cases import EAST, Inputs, evaluate
 from .freight_anchors import hire_levels
 from .sources import base
@@ -44,7 +47,7 @@ from .sources import base
 __all__ = [
     "ROUTES", "observations", "months_without_observation", "window", "work", "breaks", "export_shares",
     "monthly_arb", "newey_west", "flows_test", "sign_table", "lift_margins_2020", "route_choice",
-    "panama_wait_breakeven", "reported_waits", "published_jkm_proxy",
+    "panama_wait_breakeven", "reported_waits", "published_jkm_proxy", "regas_sensitivity",
 ]
 
 #: The three routes east, by the short name the result columns use.
@@ -734,3 +737,52 @@ def reported_waits(rows: pd.DataFrame) -> pd.DataFrame:
                                                     - waited["east"]["nea_cape"]["netback"]),
                 })
     return pd.DataFrame(out)
+
+
+# --------------------------------------------------------------------------
+# How much the verdict rests on Europe's regasification discount
+# --------------------------------------------------------------------------
+
+def _cheapest_open(out: Mapping[str, Any]) -> tuple[str | None, float]:
+    """The open route east with the lowest S*, and that S*; (None, nan) when none is open."""
+    best, s_star = None, math.nan
+    for route, lines in out["east"].items():
+        if lines["open"] and not math.isnan(lines["s_star"]) and (best is None or lines["s_star"] < s_star):
+            best, s_star = route, lines["s_star"]
+    return best, s_star
+
+
+def regas_sensitivity(obs: pd.DataFrame | None = None, *, hire: float | None = None) -> pd.DataFrame:
+    """Every weekly observation at the central hire, with Europe's DES spread to TTF
+    as the data give it, at zero and at the parameter table's assumption.
+
+    For each: the spread, the S* of the cheapest open route east and whether
+    the spread lay above it (the arb east open). ACER's spread enters S* and
+    nothing else, so the three cases differ only through it. The assumption is
+    converted at the week's own exchange rate.
+    """
+    hire = hire_levels()["central"] if hire is None else hire
+    assumed_eur = float(_p("delta_nwe_eur_mwh"))
+    rows = []
+    with reading_once():
+        obs = observations() if obs is None else obs
+        for o in obs[obs["frequency"] == "weekly"].itertuples(index=False):
+            day = o.day.date()
+            try:
+                inputs = worked.inputs_on(day, o.jkm, o.ttf, {"jkm": o.jkm_source, "ttf": o.ttf_source},
+                                          hire_usd_day=hire, delta_window=window(o.day, "weekly"))
+                usd_per_eur = worked.usd_per_eur_on(day)[0]
+            except worked.MissingInput:
+                continue
+            row = {"day": o.day, "spread": inputs.jkm - inputs.ttf, "delta_nwe": inputs.delta_nwe,
+                   "delta_observed": not inputs.sources["delta_nwe"].startswith("assumption")}
+            cases_ = {"data": inputs.delta_nwe, "zero": 0.0,
+                      "assumed": units.eur_mwh_to_usd_mmbtu(assumed_eur, usd_per_eur)}
+            for name, delta in cases_.items():
+                out = evaluate(replace(inputs, delta_nwe=delta))
+                route, s_star = _cheapest_open(out)
+                row[name + "_s_star"] = s_star
+                row[name + "_route"] = ROUTES.get(route) if route else None
+                row[name + "_open"] = (not math.isnan(s_star)) and out["spread"] > s_star
+            rows.append(row)
+    return pd.DataFrame(rows)

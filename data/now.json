@@ -170,6 +170,130 @@
    }
   ]
  },
+ "regas_sensitivity": {
+  "segments": [
+   {
+    "text": "Europe's DES spread to TTF this week is "
+   },
+   {
+    "field": "delta_nwe",
+    "value": -1.182409776615393,
+    "format": "usd_mmbtu",
+    "signed": true
+   },
+   {
+    "text": " $/MMBtu, ACER's"
+   },
+   {
+    "text": "; observed weekly from "
+   },
+   {
+    "field": "observed_from",
+    "value": "2023-04-05",
+    "label": "5 April 2023"
+   },
+   {
+    "text": ", it has run from "
+   },
+   {
+    "field": "observed_low",
+    "value": -3.6189535839950384,
+    "format": "usd_mmbtu",
+    "signed": true
+   },
+   {
+    "text": " to "
+   },
+   {
+    "field": "observed_high",
+    "value": 1.2899903462399864,
+    "format": "usd_mmbtu",
+    "signed": true
+   },
+   {
+    "text": ". At zero the cheapest open route east, via "
+   },
+   {
+    "field": "zero_route",
+    "value": "Panama",
+    "label": "Panama"
+   },
+   {
+    "text": ", would break even at "
+   },
+   {
+    "field": "zero_s_star",
+    "value": 0.9224355844827272,
+    "format": "usd_mmbtu",
+    "signed": true
+   },
+   {
+    "text": " and the arb east would be "
+   },
+   {
+    "field": "zero_state",
+    "value": "open",
+    "label": "open"
+   },
+   {
+    "text": "; at the "
+   },
+   {
+    "field": "assumed_eur_mwh",
+    "value": -2.0,
+    "format": "eur_mwh",
+    "signed": true
+   },
+   {
+    "text": " EUR/MWh assumed where ACER published nothing, at "
+   },
+   {
+    "field": "assumed_s_star",
+    "value": 0.25009907353453187,
+    "format": "usd_mmbtu",
+    "signed": true
+   },
+   {
+    "text": ", "
+   },
+   {
+    "field": "assumed_state",
+    "value": "open",
+    "label": "open"
+   },
+   {
+    "text": ". Of the "
+   },
+   {
+    "field": "weeks",
+    "value": 242,
+    "format": "count"
+   },
+   {
+    "text": " weeks priced, at the central hire a spread of zero would change whether the arb east was open in "
+   },
+   {
+    "field": "flips_zero",
+    "value": 54,
+    "format": "count"
+   },
+   {
+    "text": ", the assumption in "
+   },
+   {
+    "field": "flips_assumed",
+    "value": 23,
+    "format": "count"
+   },
+   {
+    "text": "."
+   }
+  ],
+  "values": {
+   "flips_zero": 54,
+   "flips_assumed": 23
+  }
+ },
  "data_dates": [
   {
    "id": "jkm",
@@ -715,7 +839,7 @@
    "summary_segments": [
     {
      "field": "series_count",
-     "value": 21,
+     "value": 22,
      "format": "count"
     },
     {

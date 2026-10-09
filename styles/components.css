@@ -289,6 +289,11 @@
 .mark-ring-fill { fill: var(--role-ring); stroke: none; }
 .mark-accent-dot { fill: var(--role-mark-accent); stroke: none; }
 .mark-printed { fill: var(--role-ring); stroke: var(--role-series); stroke-width: 1.5px; }
+/* An event on a History panel: a mark in ink at the foot of the plot, apart
+ * from the thin context ticks of values beyond the axis, and its letter. */
+.mark-event { stroke: var(--role-series); stroke-width: 2px; fill: none; }
+.mark-event-fill { fill: var(--role-series); stroke: none; }
+.event-label { fill: var(--role-series); }
 .text-accent { color: var(--role-text-accent); fill: var(--role-text-accent); }
 
 .mark-series,

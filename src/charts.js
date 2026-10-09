@@ -86,6 +86,10 @@ export const GEOMETRY = Object.freeze({
   /* Room per character of a rule's label, a little over the glyph's width,
    * so a label moved back inside the chart ends inside it. */
   RULE_CHAR: 7.5,
+  /* The events: a short mark up from the foot of the plot, or a bar along it
+   * for a period, its letter above. */
+  EVENT_TICK: 10,
+  EVENT_BAR: 3,
 });
 
 /* The mantissas of decimal notation, a fact about how numbers are written. */
@@ -633,13 +637,15 @@ function drawSeries(group, xs, values, yOf, className) {
  *    series     { values: [], label }: the ink line
  *    marks      [{ index }]: a hollow ring on the series at these points
  *    rules      [{ day, numbers }]: numbered rules across the plot
+ *    events     [{ day, end, letter }]: lettered marks at the foot of the plot,
+ *               a bar for a period that has an end
  *    points     [{ day, value, accent }]: printed points, one in the accent
  *    ticks      [{ day, label }]
  *    words      { title, desc, yAxis }
  *
  *  Values beyond the y domain are clipped at its edge, where a short tick
  *  marks each one; the artifact counts them in words. */
-export function timeChart({ width, days, first, last, y, band, reference, references, series, marks, rules, points, ticks, words, height }) {
+export function timeChart({ width, days, first, last, y, band, reference, references, series, marks, rules, events, points, ticks, words, height }) {
   const g = GEOMETRY;
   const narrow = width < g.NARROW_WIDTH;
   const top = g.PAD_TOP + g.RULE_ROOM;
@@ -730,6 +736,30 @@ export function timeChart({ width, days, first, last, y, band, reference, refere
     if (!present(at) || !present(point.value) || at < left || at > right) continue;
     const cy = yOf(Math.min(Math.max(point.value, y.low), y.high));
     svg.appendChild(svgEl("circle", { class: point.accent ? "mark-accent-dot" : "mark-printed", cx: px(at), cy: px(cy), r: g.DOT_RADIUS }));
+  }
+
+  // The events: a mark, or a bar for a period, at the foot of the plot, its
+  // letter above; letters that would touch join the one before.
+  const eventLabels = [];
+  for (const item of events || []) {
+    const from = Math.max(xOf(dayValue(item.day)), left);
+    const to = Math.min(item.end ? xOf(dayValue(item.end)) : xOf(dayValue(item.day)), right);
+    if (!present(from) || !present(to) || to < left || from > right || to < from) continue;
+    if (item.end) {
+      svg.appendChild(svgEl("rect", { class: "mark-event-fill", x: px(from), y: px(bottom - g.EVENT_BAR), width: px(Math.max(to - from, g.EVENT_BAR)), height: px(g.EVENT_BAR) }));
+    } else {
+      svg.appendChild(svgEl("line", { class: "mark-event", x1: px(from), x2: px(from), y1: px(bottom), y2: px(bottom - g.EVENT_TICK) }));
+    }
+    const before = eventLabels[eventLabels.length - 1];
+    const placed = (label) => Math.min(label.at, right - label.text.length * g.RULE_CHAR);
+    if (before && Math.min(from, right - item.letter.length * g.RULE_CHAR) < placed(before) + before.text.length * g.RULE_CHAR + g.LABEL_GAP) {
+      before.text += ", " + item.letter;
+    } else {
+      eventLabels.push({ at: from, text: item.letter });
+    }
+  }
+  for (const label of eventLabels) {
+    haloText(svg, { class: "tick event-label", x: px(Math.min(label.at, right - label.text.length * g.RULE_CHAR)), y: px(bottom - g.EVENT_TICK - g.LABEL_GAP), "text-anchor": "start" }, label.text);
   }
 
   // Labels at the right end of each line, apart.

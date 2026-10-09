@@ -697,6 +697,28 @@ SOURCES: Mapping[str, Source] = _registry(
         committable=True,
     ),
     Source(
+        series="events",
+        label="Dated events that explain the regimes in the sample, each from one document read",
+        publisher="this study, from documents of EIA, the US Department of Energy, LNG Prime, The National, Platts, gCaptain and Columbia University's Center on Global Energy Policy",
+        page_url="https://www.eia.gov/todayinenergy/detail.php?id=44697",
+        machine_url=None,
+        url_note=(
+            "Written by lngarb.events from rows kept in the code, each read by hand in "
+            "one dated document whose address the row carries; nothing is fetched. An "
+            "event no readable document supports is left out, with the reason."
+        ),
+        frequency="annual",
+        unit="event",
+        method="seed",
+        licence="facts stated in this study's words, with the source of each",
+        licence_note=(
+            "Each row states a dated fact in this study's own words with the document "
+            "it was read in, its publisher and its address; no sentence of any source "
+            "is reproduced. The publishers' terms are in docs/sources.md."
+        ),
+        committable=True,
+    ),
+    Source(
         series="routes",
         label="The four sea routes from Sabine Pass, their distances and their lines",
         publisher="this study, computed with searoute 1.6.0 over the network it bundles, which its README credits to Eurostat's Searoute",

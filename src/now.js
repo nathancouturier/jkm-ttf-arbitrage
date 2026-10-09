@@ -66,6 +66,12 @@ export function render(root, data, route) {
   const verdict = el("h1", { class: "verdict", id: "view-title", attrs: { tabindex: "-1" } });
   appendSegments(verdict, now.verdict.segments, decimals);
 
+  // How much the verdict rests on Europe's regasification discount, which
+  // ACER publishes sparsely: one sentence, the counts over every week.
+  const regas = now.regas_sensitivity
+    ? appendSegments(el("p", { class: "lead block" }), now.regas_sensitivity.segments, decimals)
+    : null;
+
   const dates = el("ul", { class: "data-dates", attrs: { "aria-label": "The date of every input" } });
   for (const row of now.data_dates) {
     dates.appendChild(appendSegments(el("li", { attrs: { "data-date": row.id } }), row.segments, decimals));
@@ -79,6 +85,7 @@ export function render(root, data, route) {
   }
 
   root.appendChild(verdict);
+  if (regas) root.appendChild(regas);
   root.appendChild(dates);
   root.appendChild(sections);
   applyRoute(route);

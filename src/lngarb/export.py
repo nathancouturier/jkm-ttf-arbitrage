@@ -44,7 +44,7 @@ from typing import Any
 
 import pandas as pd
 
-from . import analysis, config, delivery, flowspage, methodpage, presets, reader, routemap, spreadhistory, units, worked
+from . import analysis, config, delivery, events, flowspage, methodpage, presets, reader, routemap, spreadhistory, units, worked
 from .cases import WATERFALL_STEPS, evaluate
 from .freight_anchors import ANCHORS, hire_levels
 from .sources import base
@@ -201,6 +201,17 @@ def now(obs: pd.DataFrame | None = None, *, flows_document: dict[str, Any] | Non
         cost = reader.cost_section(result, inputs, day=day, steps=WATERFALL_STEPS, delta_observed=delta is not None)
         breakeven = reader.breakeven_section(result, inputs, day=day, levels=levels, hire=hire_info,
                                              evaluate_at=at_hire)
+        assumed_eur = float(config.PARAMETERS["delta_nwe_eur_mwh"].value)
+
+        def cheapest_at(delta_usd: float) -> tuple[str | None, float]:
+            route, s_star = analysis._cheapest_open(evaluate(replace(inputs, delta_nwe=delta_usd)))
+            return route, s_star
+
+        regas = reader.regas_sensitivity(
+            spread=result["spread"], delta=inputs.delta_nwe,
+            observed=not inputs.sources["delta_nwe"].startswith("assumption"),
+            at_zero=cheapest_at(0.0), at_assumed=cheapest_at(units.eur_mwh_to_usd_mmbtu(assumed_eur, usd_per_eur)),
+            assumed_eur_mwh=assumed_eur, weeks=analysis.regas_sensitivity(obs))
         document = {
             **reader.header("now", day, "the landing sentence, the date of every input, the netbacks, the steps "
                                         "of the arb and the breakeven lines for the latest week, with the engine's "
@@ -209,6 +220,7 @@ def now(obs: pd.DataFrame | None = None, *, flows_document: dict[str, Any] | Non
             "as_of": day,
             "verdict": reader.verdict(result, day, hh_multiple, delta_nwe=inputs.delta_nwe,
                                       liquefaction_fee=inputs.liquefaction_fee),
+            "regas_sensitivity": regas,
             "data_dates": reader.data_dates(
                 day=day, week={"series": latest["series"], "alignment": latest["alignment"],
                                "aligned_share": latest["aligned_share"]},
@@ -298,7 +310,7 @@ def history(rows: pd.DataFrame | None = None, obs: pd.DataFrame | None = None) -
         "months_without_observation": without.to_dict("records"),
         "freight_anchors": anchors,
         # The History view's layer: what the page draws and says, computed here.
-        "page": spreadhistory.page(rows, breaks, anchors, without, hire_levels()),
+        "page": spreadhistory.page(rows, breaks, anchors, without, hire_levels(), events.lettered(), events.LEFT_OUT),
     }, ROUND_DP)
 
 
@@ -327,7 +339,8 @@ def flows(rows: pd.DataFrame | None = None) -> dict[str, Any]:
         "regressions": tests,
         "excluded_years": excluded,
         # The Flows view's layer: what the page draws and says, computed here.
-        "page": flowspage.page(rows, clean_months, _clean(tests), excluded, hire_levels()),
+        "page": flowspage.page(rows, clean_months, _clean(tests), excluded, hire_levels(),
+                               analysis.regas_sensitivity()),
     }, ROUND_DP)
 
 

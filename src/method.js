@@ -31,6 +31,7 @@ export function render(root, data) {
     engine.appendChild(el("p", { class: "formula", text: item.formula }));
     engine.appendChild(sentence("p", item.segments, decimals, "prose"));
   }
+  if (method.conventional) engine.appendChild(conventionalTable(method.conventional, decimals));
   root.appendChild(engine);
 
   root.appendChild(el("section", { class: "block", attrs: { "aria-labelledby": "method-parameters" } }, [
@@ -55,6 +56,7 @@ export function render(root, data) {
       ])]),
       unitsBody,
     ])),
+    ...(method.k_sensitivity ? [sensitivityTable(method.k_sensitivity, decimals)] : []),
   ]));
 
   root.appendChild(el("section", { class: "block", attrs: { "aria-labelledby": "method-delivery" } }, [
@@ -80,6 +82,56 @@ export function render(root, data) {
     el("p", { class: "source-line", text: method.type_words }),
   ]));
   return title;
+}
+
+/* The latest week at each energy content of a cubic metre: the convention's
+ * range, so the reader sees how far it moves the answer. */
+function sensitivityTable(sensitivity, decimals) {
+  const head = el("tr", {}, [
+    el("th", { text: "MMBtu a cubic metre", attrs: { scope: "col" } }),
+    el("th", { class: "col-num", text: "Best netback", attrs: { scope: "col" } }),
+  ]);
+  for (const route of sensitivity.routes) {
+    head.appendChild(el("th", { class: "col-num", text: "Arb via " + sensitivity.route_names[route], attrs: { scope: "col" } }));
+    head.appendChild(el("th", { class: "col-num", text: "S* via " + sensitivity.route_names[route], attrs: { scope: "col" } }));
+  }
+  const body = el("tbody");
+  for (const row of sensitivity.rows) {
+    const cells = [
+      el("th", { text: formatCell(row.k, "mmbtu_per_m3", decimals), attrs: { scope: "row" } }),
+      figureCell(formatCell(row.best_netback, "usd_mmbtu", decimals), "best_netback"),
+    ];
+    for (const route of sensitivity.routes) {
+      const lines = row.routes[route] || {};
+      cells.push(figureCell(formatCell(lines.arb, "usd_mmbtu", decimals, true), "arb"));
+      cells.push(figureCell(formatCell(lines.s_star, "usd_mmbtu", decimals, true), "s_star"));
+    }
+    body.appendChild(el("tr", {}, cells));
+  }
+  return scrollTable([sentence("span", sensitivity.caption_segments, decimals)],
+    el("table", { class: "table" }, [el("thead", {}, [head]), body]));
+}
+
+/* The exact netback against the conventional one, for the latest week. */
+function conventionalTable(conventional, decimals) {
+  const body = el("tbody");
+  for (const row of conventional.rows) {
+    body.appendChild(el("tr", {}, [
+      el("th", { text: row.name, attrs: { scope: "row" } }),
+      figureCell(formatCell(row.exact, "usd_mmbtu", decimals), "exact"),
+      figureCell(formatCell(row.conventional, "usd_mmbtu", decimals), "conventional"),
+      figureCell(formatCell(row.difference, "usd_mmbtu", decimals, true), "difference"),
+    ]));
+  }
+  return scrollTable([sentence("span", conventional.caption_segments, decimals)], el("table", { class: "table" }, [
+    el("thead", {}, [el("tr", {}, [
+      el("th", { text: "Destination and route", attrs: { scope: "col" } }),
+      el("th", { class: "col-num", text: "Exact", attrs: { scope: "col" } }),
+      el("th", { class: "col-num", text: "Conventional", attrs: { scope: "col" } }),
+      el("th", { class: "col-num", text: "Difference", attrs: { scope: "col" } }),
+    ])]),
+    body,
+  ]));
 }
 
 function parametersTable(method) {

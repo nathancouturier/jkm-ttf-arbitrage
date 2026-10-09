@@ -310,6 +310,22 @@ const CHECKS = [
       ];
     },
   },
+  {
+    name: "ticking methane slip raises the carbon cost, and putting back the preset unticks it",
+    hash: "#/model?preset=latest",
+    async run(page) {
+      const before = await page.evaluate(cell("nwe_direct", "netback"));
+      await page.evaluate("(() => { const box = document.querySelector('#field-methane_slip'); box.click(); return true; })()");
+      const ticked = await page.evaluate(cell("nwe_direct", "netback"));
+      await page.evaluate("[...document.querySelectorAll('button')].find((b) => b.textContent.startsWith('Put back')).click(), true");
+      const checked = await page.evaluate("document.querySelector('#field-methane_slip').checked");
+      const after = await page.evaluate(cell("nwe_direct", "netback"));
+      return [
+        [ticked !== before && ticked !== "no figure", "Gate's netback reads " + before + " then " + ticked],
+        [!checked && after === before, "after putting back, ticked " + checked + " and Gate reads " + after],
+      ];
+    },
+  },
 ];
 
 const browser = await launch(process.argv);

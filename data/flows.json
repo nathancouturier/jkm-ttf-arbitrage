@@ -4379,6 +4379,220 @@
      "text": ", when, by Platts' sources, auctioned slots had made Panama impractical for spot cargoes."
     }
    ],
+   "story_segments": [
+    {
+     "text": "At the central hire the arb east opened"
+    },
+    {
+     "text": " via Panama in the week ending "
+    },
+    {
+     "field": "panama_opened",
+     "value": "2026-03-18",
+     "label": "18 March 2026"
+    },
+    {
+     "text": ", JKM over TTF "
+    },
+    {
+     "field": "panama_spread",
+     "value": 0.84,
+     "format": "usd_mmbtu",
+     "signed": true
+    },
+    {
+     "text": " $/MMBtu against a breakeven of "
+    },
+    {
+     "field": "panama_s_star",
+     "value": 0.442899,
+     "format": "usd_mmbtu",
+     "signed": true
+    },
+    {
+     "text": " and"
+    },
+    {
+     "text": " round the Cape in the week ending "
+    },
+    {
+     "field": "cape_opened",
+     "value": "2026-03-25",
+     "label": "25 March 2026"
+    },
+    {
+     "text": ", and stayed open to the week Platts assessed."
+    },
+    {
+     "text": " The weeks ending "
+    },
+    {
+     "field": "lagged",
+     "value": "25 February 2026 and 4 March 2026",
+     "label": "25 February 2026 and 4 March 2026"
+    },
+    {
+     "text": " read open before it only through Europe's DES spread, ACER's assessment of a half month ahead lagging TTF's jump; with that spread at zero they were closed."
+    },
+    {
+     "text": " In the week ending "
+    },
+    {
+     "field": "h_week",
+     "value": "2026-03-18",
+     "label": "18 March 2026"
+    },
+    {
+     "text": " a ship paid its way east at any hire below "
+    },
+    {
+     "field": "h_panama",
+     "value": 116318.09083,
+     "format": "usd_day"
+    },
+    {
+     "text": " $/day via Panama and "
+    },
+    {
+     "field": "h_cape",
+     "value": 33477.347671,
+     "format": "usd_day"
+    },
+    {
+     "text": " $/day round the Cape"
+    },
+    {
+     "text": "; the rates reported nearest were "
+    },
+    {
+     "field": "near_hire",
+     "value": 161750.0,
+     "format": "usd_day"
+    },
+    {
+     "text": " $/day on "
+    },
+    {
+     "field": "near_day",
+     "value": "2026-03-03",
+     "label": "3 March 2026"
+    },
+    {
+     "text": ", above both"
+    },
+    {
+     "text": "; "
+    },
+    {
+     "field": "near_hire",
+     "value": 92000.0,
+     "format": "usd_day"
+    },
+    {
+     "text": " $/day on "
+    },
+    {
+     "field": "near_day",
+     "value": "2026-04-03",
+     "label": "3 April 2026"
+    },
+    {
+     "text": ", between the two"
+    },
+    {
+     "text": "."
+    },
+    {
+     "text": " The JKM markets took "
+    },
+    {
+     "field": "share_first",
+     "value": 4.5209,
+     "format": "share_percent"
+    },
+    {
+     "text": " percent of US exports by vessel in "
+    },
+    {
+     "field": "share_first_month",
+     "value": "2026-01-01",
+     "label": "January 2026"
+    },
+    {
+     "text": " and "
+    },
+    {
+     "field": "share_before",
+     "value": 8.6427,
+     "format": "share_percent"
+    },
+    {
+     "text": " in "
+    },
+    {
+     "field": "share_before_month",
+     "value": "2026-02-01",
+     "label": "February 2026"
+    },
+    {
+     "text": ", "
+    },
+    {
+     "field": "share_open",
+     "value": 14.7134,
+     "format": "share_percent"
+    },
+    {
+     "text": " in "
+    },
+    {
+     "field": "share_open_month",
+     "value": "2026-03-01",
+     "label": "March 2026"
+    },
+    {
+     "text": " and "
+    },
+    {
+     "field": "share_peak",
+     "value": 25.2257,
+     "format": "share_percent"
+    },
+    {
+     "text": " at the highest, in "
+    },
+    {
+     "field": "share_peak_month",
+     "value": "2026-05-01",
+     "label": "May 2026"
+    },
+    {
+     "text": "."
+    },
+    {
+     "text": " The rise began before the arb opened."
+    },
+    {
+     "text": " Cargoes moved east while a spot hire reported nearby sat above both breakevens: spot hire is not the marginal cost of a cargo on a ship already chartered."
+    }
+   ],
+   "accent": {
+    "day": "2026-03-18",
+    "value": 0.84
+   },
+   "source_segments": [
+    {
+     "text": "Prices: EIA's Natural Gas Weekly Update and, from its end, the WNGSR Supplement, each week; S* by the engine at the central hire, as the methodology sets out; data to "
+    },
+    {
+     "field": "y2026_last",
+     "value": "2026-10-07",
+     "label": "7 October 2026"
+    },
+    {
+     "text": "."
+    }
+   ],
    "days": [
     "2025-12-03",
     "2025-12-10",
@@ -4860,7 +5074,7 @@
    "y_axis": "$/MMBtu",
    "panama_route": "To North Asia via Panama",
    "cape_route": "To North Asia round the Cape",
-   "y2026_legend": "The ink line is JKM over TTF; the thin line, S* via Panama; the dotted line, S* round the Cape; both at the central hire.",
+   "y2026_legend": "The ink line is JKM over TTF; the thin line, S* via Panama; the dotted line, S* round the Cape; both at the central hire. The dot in the accent is the week the arb east opened.",
    "y2020_legend": "The ink line is the lift margin at the notice date at the central hire, over the band from the low to the high hire; the dashed line, the margin with the month's own prices.",
    "y2020_caption": "The lift margin of each loading month of the year, at the notice date at each hire and at loading at the central hire, and the cargoes reported cancelled.",
    "waits_caption": "Panama against the Cape in the months a wait was reported for LNG: the wait reported, the wait at which the two routes net the same, and Panama's lead over the Cape without and with the wait, in $/MMBtu."

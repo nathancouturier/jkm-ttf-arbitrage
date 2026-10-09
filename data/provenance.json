@@ -38,7 +38,7 @@
  "summary_segments": [
   {
    "field": "series_count",
-   "value": 21,
+   "value": 22,
    "format": "count"
   },
   {
@@ -277,6 +277,20 @@
    "fetch_words": "9 October 2026 at 16:14 UTC",
    "vintage_words": "not recorded",
    "terms_words": "US public domain, with the third party credit doubt"
+  },
+  {
+   "id": "events",
+   "label": "Dated events that explain the regimes in the sample, each from one document read",
+   "publisher": "this study, from documents of EIA, the US Department of Energy, LNG Prime, The National, Platts, gCaptain and Columbia University's Center on Global Energy Policy",
+   "page_url": "https://www.eia.gov/todayinenergy/detail.php?id=44697",
+   "status": "ok",
+   "status_words": "checked",
+   "range_words": "8 figures typed from cited articles, not a time series",
+   "gaps_words": "none",
+   "provisional_words": "none",
+   "fetch_words": "typed by hand from cited documents, not fetched",
+   "vintage_words": "not recorded",
+   "terms_words": "facts stated in this study's words, with the source of each"
   },
   {
    "id": "freight_anchors",

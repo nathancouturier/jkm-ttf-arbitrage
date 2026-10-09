@@ -121,6 +121,8 @@ const LAYOUT_CONSTANTS = {
     { name: "HISTORY_PAD_RIGHT_NARROW", value: "12", why: "room right of a History panel on a narrow screen" },
     { name: "TICK_CHAR", value: "7", why: "room per character of a tick value" },
     { name: "RULE_CHAR", value: "7.5", why: "room per character of a rule's label, a little over the glyph" },
+    { name: "EVENT_TICK", value: "10", why: "the height of an event's mark at the foot of a History panel" },
+    { name: "EVENT_BAR", value: "3", why: "the thickness of a period's bar at the foot of a History panel" },
   ],
   "src/map.js": [
     { name: "PORT_RADIUS", value: "3.5", why: "a port's dot on the map" },

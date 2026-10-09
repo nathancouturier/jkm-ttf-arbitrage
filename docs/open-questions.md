@@ -858,3 +858,51 @@ its exchange rate data be copied and published with the IMF credited "whether
 obtained directly from the IMF or another party". The series is committed,
 read from the Bundesbank, credited to the IMF, and checked against the IMF's
 own tables on 41 days.
+
+### 47. MMBtu per tonne of LNG, GIIGNL's table or the IEA's
+
+Raised 7 October 2026. **Decided 7 October 2026.**
+
+The brief asks for GIIGNL's published conversion table. Its annual report could
+not be read by code. The study uses 51.56 MMBtu per tonne from the IEA and
+Eurostat's Energy Statistics Manual (2004, table A3.9, page 182), within about
+one percent of the figure Spark's own conversion factors imply.
+
+Decision: the IEA and Eurostat's figure stands, labelled with its source.
+GIIGNL's report, saved by hand into `data/private/`, would let its page be cited
+in its place; the owner may do so.
+
+### 48. Which events the History view marks
+
+Raised 9 October 2026. **Decided 9 October 2026.**
+
+The brief lists the events that explain the regimes in the sample and asks
+that each have a source before it is shown, and that an event which cannot be
+sourced be left out. Several of them rest on S&P Global's or Lloyd's List's
+figures, which this study does not request, or on documents not read.
+
+Decision: an event is a row of `lngarb.events` only where one readable document
+supports it, with that document's address. The others are listed in the same
+module with the reason, and the History view prints that list under the events
+table: the 2020 low of JKM and the counts of 2020 and 2021 (S&P Global),
+Russia's invasion of Ukraine (no document read), the first Red Sea attacks (no
+dated document read), the canals' rebates and auctions (rules, on the Routes
+view), China's imports from February 2025 (a statement contradicted by EIA's
+table), Hormuz and the jump in charter rates of March 2026 (not read for that
+date; Lloyd's List), the IEA's averages, the US and Iran memorandum and the
+July hostilities, the June 2026 cargo to China (wording for the owner), and
+Global LNG Hub's note. Each can become a row once its document is read.
+
+### 49. How the site says a figure is missing
+
+Raised 9 October 2026. **Decided 9 October 2026.**
+
+The brief asks for "n/a" with the reason one click away. A bare "n/a" says
+neither which figure is missing nor why, and the site's sibling studies print
+specific words.
+
+Decision: the site prints words that name the missing figure, "no figure" in a
+table cell, "missing for this date" under a calculator field, "no crossing" for
+a breakeven hire that does not exist, and gives the reason beside it or in the
+sentence under the table. The methodology, section 1, says so.
+

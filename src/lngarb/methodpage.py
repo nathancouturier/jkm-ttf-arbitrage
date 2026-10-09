@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import math
 from datetime import date
-from typing import Any, Mapping
+from typing import Any, Callable, Mapping
 
 from . import config, freight_anchors, reader, units
 
@@ -131,7 +131,10 @@ def _formulas() -> list[dict[str, Any]]:
                                "MMBtu a cubic metre.")]},
         {"formula": "G = Q_load x BOR x T_total;  Q_del = Q_load - G",
          "segments": [reader.T("The gas used, boiled off or burnt every day of the round trip at the rate BOR, and the "
-                               "cargo delivered; the heel for the way back stays on board.")]},
+                               "cargo delivered; the heel for the way back stays on board. Spark's rate, the hire "
+                               "below, is what a charterer pays less the ballast fuel over the round trip, an "
+                               "owner's earnings rate, so taking it as hire with the heel in G counts the ballast "
+                               "fuel once, never twice.")]},
         {"formula": "C(d, r) = hire x T_total + port(d) + canal(r) + slot premium(r) + ets(d, r) + financing(r)",
          "segments": [reader.T("The voyage's cost to destination d by route r: hire for the whole round trip, the "
                                "ports, the canal both ways, any slot premium, the EU ETS on a voyage into Northwest "
@@ -158,8 +161,57 @@ def _formulas() -> list[dict[str, Any]]:
     ]
 
 
-def page() -> dict[str, Any]:
-    """The Method view's whole document body."""
+#: The energy of a cubic metre of LNG the sensitivity runs: the market's range
+#: for a lean to a rich cargo, the study's value in the middle.
+K_SENSITIVITY = (22.0, 23.0, 24.0)
+
+ROUTE_ORDER = ("nea_panama", "nea_suez", "nea_cape")
+
+
+def k_sensitivity(day: date, evaluate_at: Callable[[float], Mapping[str, Any]]) -> dict[str, Any]:
+    """The latest week at 22, 23 and 24 MMBtu a cubic metre: the best netback,
+    and the arb and S* of each open route east, so the reader sees how much
+    the convention moves the answer."""
+    rows = []
+    for k in K_SENSITIVITY:
+        out = evaluate_at(k)
+        rows.append({
+            "k": k, "best_netback": out["best_netback"],
+            "routes": {r: {"arb": out["east"][r]["arb"], "s_star": out["east"][r]["s_star"]}
+                       for r in ROUTE_ORDER if r in out["east"] and out["east"][r]["open"]},
+        })
+    open_routes = list(rows[0]["routes"])
+    spread_s = [max(abs(rows[-1]["routes"][r]["s_star"] - rows[0]["routes"][r]["s_star"]) for r in open_routes)] \
+        if open_routes else []
+    caption = [reader.T("The week to "), reader.D("as_of", day),
+               reader.T(" at each energy content: the best netback, and the arb and S* of each open route east, "
+                        "in $/MMBtu.")]
+    if spread_s:
+        caption += [reader.T(" From the lean end to the rich, S* moves by "),
+                    reader.N("k_s_star_range", spread_s[0], "usd_mmbtu"), reader.T(" at most.")]
+    return {"rows": rows, "routes": open_routes, "route_names": {r: reader.ROUTE_SHORT[r] for r in open_routes},
+            "caption_segments": caption}
+
+
+def conventional(day: date, result: Mapping[str, Any]) -> dict[str, Any]:
+    """The exact netback against the conventional one, route by route, for the latest week."""
+    rows = []
+    lines = {"nwe_direct": result["west"], **result["east"]}
+    for route, line in lines.items():
+        if route != "nwe_direct" and not line["open"]:
+            continue
+        rows.append({"route": route, "name": reader.ROUTE_NAMES[route], "exact": line["netback"],
+                     "conventional": line["netback_conventional"],
+                     "difference": line["netback"] - line["netback_conventional"]})
+    return {"rows": rows, "caption_segments": [
+        reader.T("The week to "), reader.D("as_of", day),
+        reader.T(": the netback per MMBtu loaded, the exact form the study uses, against the conventional one per "
+                 "MMBtu delivered, and the difference, in $/MMBtu.")]}
+
+
+def page(latest: Mapping[str, Any] | None = None) -> dict[str, Any]:
+    """The Method view's whole document body. latest, when given, carries the
+    week's tables: the energy content sensitivity and the two netbacks."""
     parameters = []
     for name, parameter in config.PARAMETERS.items():
         parameters.append({
@@ -181,11 +233,15 @@ def page() -> dict[str, Any]:
             reader.T(" of them this study's assumptions, each with its source, and what the study cannot see"),
         ],
         "formulas": _formulas(),
+        **({"k_sensitivity": latest["k_sensitivity"], "conventional": latest["conventional"]} if latest else {}),
         "parameters": parameters,
         "parameters_caption": "Every parameter of the engine that is not market data or a canal tariff: its "
                               "value, whether it is published or this study's assumption, the document it is "
                               "read in, the day it was read, and its note. The tariffs behind the tolls are set "
-                              "out in the methodology's sections on Suez and Panama.",
+                              "out in the methodology's sections on Suez and Panama. The Model view lets a reader "
+                              "type over every one that is an input of a cargo, methane slip included; the "
+                              "gas factors, the canals' readings and the analysis's settings are rules or choices "
+                              "of the study, not inputs a cargo chooses, and are fixed there.",
         "units": [
             {"words": "MMBtu in a megawatt hour", "value": units.MMBTU_PER_MWH, "format": "mmbtu_per_mwh"},
             {"words": "MMBtu in a cubic metre of LNG", "value": config.PARAMETERS["mmbtu_per_m3_lng"].value,
@@ -205,7 +261,10 @@ def page() -> dict[str, Any]:
                      "trading day the two front months name different delivery months, and after it they agree "
                      "again. A week is aligned when every trading day of "
                      "it names the same month for both, misaligned when none does, and mixed otherwise; the History "
-                     "view rings the misaligned weeks."),
+                     "view marks the misaligned and the mixed weeks."),
+            reader.T(" A cargo loading on the first of a month reaches Gate in about two weeks and Futtsu via the Cape in "
+                     "about six, so the right comparison is each basin's price for its own arrival period; with front "
+                     "months only, the study compares the two front months and says so on every page."),
         ],
         "limits": [
             [reader.T("A spread is an association, not a decision: long term contracts with Asian buyers move "
@@ -225,6 +284,12 @@ def page() -> dict[str, Any]:
              reader.D("weekly_from", "2021-08-01", "month"), reader.T(" no public JKM is held.")],
             [reader.T("The month of the export data is coarser than the decisions, taken weeks before a cargo "
                       "loads.")],
+            [reader.T("The pilot fuel a dual fuel engine burns with the gas is left out of the voyage's cost and "
+                      "of its emissions.")],
+            [reader.T("Panama's booking fee is not an input of its own: the slot premium a reader types carries it, "
+                      "with the methodology's cited figures as scenarios.")],
+            [reader.T("Futtsu stands for the JKM delivery area and Gate for Northwest Europe; Sabine Pass stands for "
+                      "every US Gulf terminal, and the others are out of scope.")],
         ],
         "documents": [
             {"label": "The full methodology", "href": "docs/methodology.md"},

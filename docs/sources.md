@@ -783,6 +783,29 @@ sentence. All were read on 8 October 2026.
 
 S&P Global's own pages are never requested (2.14).
 
+### 2.25 Dated events, each from one document
+
+`lngarb.events` keeps the dated events that explain the regimes in the sample,
+written to `data/seed/events.json` and drawn as lettered marks on the History
+view. Each row states a fact in this study's own words with the one document it
+was read in, its publisher, its address and the day it was read; no sentence of
+any source is reproduced. The documents and the terms they are read under:
+
+* the US Department of Energy's LNG monthly reports (the first shale-era cargo,
+  24 February 2016), a US government publication;
+* EIA, Today in Energy of 11 August 2020 (2.24), US public domain;
+* LNG Prime of 28 July 2023 (2.14), a figure quoted with attribution;
+* the Oxford Institute for Energy Studies, NG 188 (2.11);
+* Platts, republished by Hellenic Shipping News on 22 April 2024 (2.14, 2.24);
+* gCaptain of 8 February 2025 and of 19 September 2026, the latter reporting
+  Reuters (2.11), facts in this study's words;
+* Columbia University's Center on Global Energy Policy, a blog of 18 April 2025
+  (`https://energypolicy.columbia.edu/?p=23258`), whose terms were not read:
+  only the date and the tariff it reports are used, in this study's words.
+
+An event no readable document supports is not a row; the module lists it with
+the reason, and the History view prints that list (question 48).
+
 ## 3. Known traps, per source
 
 ### 3.1 EIA Natural Gas Weekly Update and its successor
@@ -1439,6 +1462,8 @@ the study runs without it, on the labelled position given.
 21. **Figures others reported** (cancellations, route use, Platts'
     assessments) are quoted individually with their source and never used as
     inputs (2.24).
+22. **Events** are rows only where one readable document supports them; the
+    rest are listed with the reason (2.25, question 48).
 
 ---
 

@@ -202,6 +202,7 @@ function y2026Figure(page, decimals) {
       series: { values: y2026.spread, label: page.words.spread },
       marks: [],
       rules: [],
+      points: y2026.accent ? [{ day: y2026.accent.day, value: y2026.accent.value, accent: true }] : [],
       ticks: y2026.ticks,
       words: { title: segmentsText(y2026.heading_segments, decimals), desc: y2026.desc, yAxis: page.words.y_axis },
     }));
@@ -235,6 +236,8 @@ function y2026Figure(page, decimals) {
     sentence("p", y2026.heading_segments, decimals, "lead"),
     frame,
     el("p", { class: "source-line", text: page.words.y2026_legend }),
+    sentence("p", y2026.source_segments, decimals, "source-line"),
+    sentence("p", y2026.story_segments, decimals, "prose"),
     scrollTable([sentence("span", y2026.compare_caption_segments, decimals)], compare),
     disclosure("What Platts reported", () => reported),
   ]);

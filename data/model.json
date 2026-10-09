@@ -63,9 +63,26 @@
      "text": " are this study's assumptions, each named under its field or the route table."
     },
     {
+     "text": " Both front months were for "
+    },
+    {
+     "field": "delivery_month",
+     "value": "2026-11-01",
+     "label": "November 2026"
+    },
+    {
+     "text": " delivery every day of the week."
+    },
+    {
      "text": " Change any input."
     }
    ],
+   "alignment": {
+    "tag": "aligned",
+    "share": 1.0,
+    "jkm_month": "2026-11-01",
+    "ttf_month": "2026-11-01"
+   },
    "inputs": {
     "day": "2026-10-07",
     "vessel": {
@@ -591,6 +608,17 @@
      "text": " are this study's assumptions, each named under its field or the route table."
     },
     {
+     "text": " JKM's stand-in and TTF are monthly averages that name no delivery month, so the two are compared "
+    },
+    {
+     "field": "alignment_status_word",
+     "value": "without a delivery month",
+     "label": "without a delivery month"
+    },
+    {
+     "text": "."
+    },
+    {
      "text": " The data hold no figure of "
     },
     {
@@ -605,6 +633,12 @@
      "text": " Change any input."
     }
    ],
+   "alignment": {
+    "tag": "not named",
+    "share": null,
+    "jkm_month": null,
+    "ttf_month": null
+   },
    "inputs": {
     "day": "2020-04-15",
     "vessel": {
@@ -1013,9 +1047,26 @@
      "text": " are this study's assumptions, each named under its field or the route table."
     },
     {
+     "text": " Both front months were for "
+    },
+    {
+     "field": "delivery_month",
+     "value": "2022-11-01",
+     "label": "November 2022"
+    },
+    {
+     "text": " delivery every day of the week."
+    },
+    {
      "text": " Change any input."
     }
    ],
+   "alignment": {
+    "tag": "aligned",
+    "share": 1.0,
+    "jkm_month": "2022-11-01",
+    "ttf_month": "2022-11-01"
+   },
    "inputs": {
     "day": "2022-10-12",
     "vessel": {
@@ -1547,9 +1598,45 @@
      "text": " are this study's assumptions, each named under its field or the route table."
     },
     {
+     "text": " The two front months named different delivery months every day of the week"
+    },
+    {
+     "text": ", so the week is "
+    },
+    {
+     "field": "alignment_status_word",
+     "value": "misaligned",
+     "label": "misaligned"
+    },
+    {
+     "text": " and the two prices are compared across delivery months: on the loading day, JKM's front month was for "
+    },
+    {
+     "field": "jkm_month",
+     "value": "2024-05-01",
+     "label": "May 2024"
+    },
+    {
+     "text": " and TTF's for "
+    },
+    {
+     "field": "ttf_month",
+     "value": "2024-04-01",
+     "label": "April 2024"
+    },
+    {
+     "text": "."
+    },
+    {
      "text": " Change any input."
     }
    ],
+   "alignment": {
+    "tag": "misaligned",
+    "share": 0.0,
+    "jkm_month": "2024-05-01",
+    "ttf_month": "2024-04-01"
+   },
    "inputs": {
     "day": "2024-03-27",
     "vessel": {
@@ -2074,9 +2161,45 @@
      "text": " are this study's assumptions, each named under its field or the route table."
     },
     {
+     "text": " The two front months named different delivery months every day of the week"
+    },
+    {
+     "text": ", so the week is "
+    },
+    {
+     "field": "alignment_status_word",
+     "value": "misaligned",
+     "label": "misaligned"
+    },
+    {
+     "text": " and the two prices are compared across delivery months: on the loading day, JKM's front month was for "
+    },
+    {
+     "field": "jkm_month",
+     "value": "2026-05-01",
+     "label": "May 2026"
+    },
+    {
+     "text": " and TTF's for "
+    },
+    {
+     "field": "ttf_month",
+     "value": "2026-04-01",
+     "label": "April 2026"
+    },
+    {
+     "text": "."
+    },
+    {
      "text": " Change any input."
     }
    ],
+   "alignment": {
+    "tag": "misaligned",
+    "share": 0.0,
+    "jkm_month": "2026-05-01",
+    "ttf_month": "2026-04-01"
+   },
    "inputs": {
     "day": "2026-03-25",
     "vessel": {
@@ -2601,9 +2724,26 @@
      "text": " are this study's assumptions, each named under its field or the route table."
     },
     {
+     "text": " Both front months were for "
+    },
+    {
+     "field": "delivery_month",
+     "value": "2022-03-01",
+     "label": "March 2022"
+    },
+    {
+     "text": " delivery every day of the week."
+    },
+    {
      "text": " Change any input."
     }
    ],
+   "alignment": {
+    "tag": "aligned",
+    "share": 1.0,
+    "jkm_month": "2022-03-01",
+    "ttf_month": "2022-03-01"
+   },
    "inputs": {
     "day": "2022-02-09",
     "vessel": {
@@ -3139,14 +3279,16 @@
    "boil_off_percent": "Spark LNG Freight Methodology 3.2, 11 November 2022, read from the Internet Archive's capture of 8 December 2022, page 2, 'Boil Off Rate: 0.1% of cargo tanks at 98.5% capacity'",
    "fill_percent": "Spark LNG Freight Methodology 3.2, page 3, 'Discharge volume: 98.5% of Vessel Capacity minus boil-off for laden leg minus a heel of 3,000 m3'",
    "load_days": "Spark LNG Freight Methodology 3.8, page 2, '1 day load'",
-   "discharge_days": "Spark LNG Freight Methodology 3.8, page 2, '1 day discharge'"
+   "discharge_days": "Spark LNG Freight Methodology 3.8, page 2, '1 day discharge'",
+   "methane_slip_percent": "assumption: this study: the default for an LNG Otto dual fuel medium speed engine, 3.1 %, the class of a TFDE ship's engines, in Regulation (EU) 2015/757, Annex I, as replaced by Delegated Regulation (EU) 2023/2776"
   },
   "two_stroke_174k": {
    "speed_kn": "Spark LNG Freight Methodology 3.8, page 2, 'Speed: 17 knots'",
    "boil_off_percent": "Spark LNG Freight Methodology 3.8, page 2, 'Boil Off Rate: 0.085% of cargo tanks at 98.5% capacity'",
    "fill_percent": "Spark LNG Freight Methodology 3.2, page 3, 'Discharge volume: 98.5% of Vessel Capacity minus boil-off for laden leg minus a heel of 3,000 m3'",
    "load_days": "Spark LNG Freight Methodology 3.8, page 2, '1 day load'",
-   "discharge_days": "Spark LNG Freight Methodology 3.8, page 2, '1 day discharge'"
+   "discharge_days": "Spark LNG Freight Methodology 3.8, page 2, '1 day discharge'",
+   "methane_slip_percent": "assumption: this study: the default for an LNG Otto dual fuel slow speed engine, 1.7 %, in Regulation (EU) 2015/757, Annex I, as replaced by Delegated Regulation (EU) 2023/2776"
   }
  },
  "hire_levels": {
@@ -3250,7 +3392,23 @@
   "hh_multiple_percent": [
    0.0,
    200.0
+  ],
+  "methane_slip_percent": [
+   0.0,
+   10.0
   ]
+ },
+ "carbon": {
+  "tco2_per_t_lng": 2.75,
+  "tn2o_per_t_lng": 0.00011,
+  "gwp_ch4": 28.0,
+  "gwp_n2o": 265.0,
+  "ch4_n2o_from_year": 2026,
+  "slip": {
+   "tfde_160k": 0.031,
+   "two_stroke_174k": 0.017
+  },
+  "on": false
  },
  "checks": [
   {
@@ -7571,6 +7729,582 @@
     "best_netback": 23.955175549856524,
     "lift_margin": 20.536800549856522,
     "full_margin": 17.536800549856522,
+    "cancel": false
+   }
+  },
+  {
+   "name": "methane slip counted, at the ship's default share",
+   "preset": "latest",
+   "edits": [
+    {
+     "key": "methane_slip",
+     "value": true
+    }
+   ],
+   "refused": [],
+   "result": {
+    "day": "2026-10-07",
+    "spread": 1.009999999999998,
+    "west": {
+     "route": "nwe_direct",
+     "open": true,
+     "why_closed": "",
+     "distance_nm": 4979.2,
+     "days_laden": 14.20392156862745,
+     "days_ballast": 12.20392156862745,
+     "days_total": 26.4078431372549,
+     "q_load_mmbtu": 3941970.0,
+     "gas_used_mmbtu": 88484.08659999998,
+     "q_delivered_mmbtu": 3853485.9134,
+     "hire_usd": 831847.0588235294,
+     "port_usd": 308947.0,
+     "canal_laden_usd": 0.0,
+     "canal_ballast_usd": 0.0,
+     "slot_premium_usd": 0.0,
+     "ets_usd": 255091.57344564394,
+     "financing_usd": 28211.793427800592,
+     "canal_note": "",
+     "cost_without_hire_usd": 592250.3668734446,
+     "cost_usd": 1424097.4256969742,
+     "p_des": 23.597590223384607,
+     "netback": 22.706637567079703,
+     "freight_conventional": 0.9114107905160225,
+     "netback_conventional": 22.686179432868585
+    },
+    "east": {
+     "nea_panama": {
+      "route": "nea_panama",
+      "open": true,
+      "why_closed": "",
+      "distance_nm": 9305.9,
+      "days_laden": 24.80857843137255,
+      "days_ballast": 22.80857843137255,
+      "days_total": 47.6171568627451,
+      "q_load_mmbtu": 3941970.0,
+      "gas_used_mmbtu": 159549.59326249998,
+      "q_delivered_mmbtu": 3782420.4067375,
+      "hire_usd": 1499940.4411764706,
+      "port_usd": 273184.0,
+      "canal_laden_usd": 699535.0,
+      "canal_ballast_usd": 596104.75,
+      "slot_premium_usd": 0.0,
+      "ets_usd": 0.0,
+      "financing_usd": 49274.736315719005,
+      "canal_note": "Panama toll, laden transit 2026-10-11 under Panama Canal Authority, tariff item 1010, 1 January 2025; still listed in February 2026, 656,700; ballast transit 2026-11-19 under Panama Canal Authority, tariff item 1010, 1 January 2025; still listed in February 2026, 558,195; each with the fresh water surcharge from 15 February 2020",
+      "cost_without_hire_usd": 1618098.486315719,
+      "cost_usd": 3118038.9274921897,
+      "p_des": 25.79,
+      "netback": 23.955175549856524,
+      "freight_conventional": 1.912220789854157,
+      "netback_conventional": 23.877779210145842,
+      "arb": 1.2485379827768206,
+      "s_star": -0.29120365869428966,
+      "boil_off": 0.46557575989171907,
+      "regas": -1.2046253266658815,
+      "voyage": 0.44784590807987756,
+      "h_star_usd_day": 263553.678665315,
+      "waterfall": {
+       "start": 22.706637567079703,
+       "spread": 0.9691206708333314,
+       "boil_off": -0.4467317750000006,
+       "regas": 1.1558686184962994,
+       "hire": -0.1694821072592996,
+       "canals": -0.32867823702362015,
+       "slot_premium": -0.0,
+       "ports": 0.009072367369614686,
+       "carbon": 0.06471169832485887,
+       "financing": -0.005343252964360057,
+       "end": 23.955175549856524
+      }
+     },
+     "nea_suez": {
+      "route": "nea_suez",
+      "open": false,
+      "why_closed": "laden transit 2026-10-24: no US Gulf cargo reported through the Red Sea after 12 January 2024, so treated as closed",
+      "distance_nm": 14624.2,
+      "days_laden": 37.84362745098039,
+      "days_ballast": 35.84362745098039,
+      "days_total": 73.68725490196078,
+      "q_load_mmbtu": 3941970.0,
+      "gas_used_mmbtu": 246902.00597499998,
+      "q_delivered_mmbtu": 3695067.994025,
+      "hire_usd": 2321148.529411765,
+      "port_usd": 273184.0,
+      "canal_laden_usd": 342580.58911999996,
+      "canal_ballast_usd": 291076.02585599996,
+      "slot_premium_usd": 0.0,
+      "ets_usd": 0.0,
+      "financing_usd": 75164.91801558646,
+      "canal_note": "Suez toll for 102,000 SCNT. Laden transit 2026-10-24: Suez Canal Authority, circular 7/2023, transit dues schedules applicable from 15 January 2024; surcharge 19.0 percent, periodical 20/2026; rebate 75.0 percent, periodical of 21 June 2023, renewed six monthly to 31 December 2026; 253,418 SDR at 1.35184 USD per SDR of 2026-10-08. Ballast transit 2026-12-03: surcharge 19.0 percent, periodical 20/2026; rebate 75.0 percent, periodical of 21 June 2023, renewed six monthly to 31 December 2026; 215,318 SDR at 1.35184 USD per SDR of 2026-10-08. SDR rates of the IMF, through the Bundesbank",
+      "cost_without_hire_usd": 982005.5329915863,
+      "cost_usd": 3303154.062403351,
+      "p_des": 25.79,
+      "netback": 23.336719838938755,
+      "freight_conventional": 2.617206723160822,
+      "netback_conventional": 23.172793276839176,
+      "arb": 0.6300822718590524,
+      "s_star": 0.3378160463578652,
+      "boil_off": 1.0623880395327692,
+      "regas": -1.2331029971360872,
+      "voyage": 0.5085310039611854,
+      "h_star_usd_day": 84033.76301636576,
+      "waterfall": {
+       "start": 22.706637567079703,
+       "spread": 0.9467394916666648,
+       "boil_off": -0.9958462500000004,
+       "regas": 1.1558686184962994,
+       "hire": -0.3778063939066597,
+       "canals": -0.160746178934898,
+       "slot_premium": -0.0,
+       "ports": 0.009072367369614686,
+       "carbon": 0.06471169832485887,
+       "financing": -0.011911081156829166,
+       "end": 23.336719838938755
+      }
+     },
+     "nea_cape": {
+      "route": "nea_cape",
+      "open": true,
+      "why_closed": "",
+      "distance_nm": 15824.8,
+      "days_laden": 40.78627450980392,
+      "days_ballast": 38.78627450980392,
+      "days_total": 79.57254901960783,
+      "q_load_mmbtu": 3941970.0,
+      "gas_used_mmbtu": 266621.71089999995,
+      "q_delivered_mmbtu": 3675348.2891,
+      "hire_usd": 2506535.2941176468,
+      "port_usd": 273184.0,
+      "canal_laden_usd": 0.0,
+      "canal_ballast_usd": 0.0,
+      "slot_premium_usd": 0.0,
+      "ets_usd": 0.0,
+      "financing_usd": 81009.59623021535,
+      "canal_note": "",
+      "cost_without_hire_usd": 354193.59623021533,
+      "cost_usd": 2860728.890347862,
+      "p_des": 25.79,
+      "netback": 23.319939899476946,
+      "freight_conventional": 2.649246288667565,
+      "netback_conventional": 23.140753711332433,
+      "arb": 0.6133023323972431,
+      "s_star": 0.3522067229900543,
+      "boil_off": 1.201042726547949,
+      "regas": -1.239719085009384,
+      "voyage": 0.390883081451495,
+      "h_star_usd_day": 76974.1421985833,
+      "waterfall": {
+       "start": 22.706637567079703,
+       "spread": 0.941686966666665,
+       "boil_off": -1.1198081999999987,
+       "regas": 1.1558686184962994,
+       "hire": -0.4248353577764715,
+       "canals": -0.0,
+       "slot_premium": -0.0,
+       "ports": 0.009072367369614686,
+       "carbon": 0.06471169832485887,
+       "financing": -0.013393760683722798,
+       "end": 23.319939899476946
+      }
+     }
+    },
+    "best_route_east": "nea_panama",
+    "best_destination": "NEA",
+    "best_route": "nea_panama",
+    "best_netback": 23.955175549856524,
+    "lift_margin": 20.536800549856522,
+    "full_margin": 17.536800549856522,
+    "cancel": false
+   }
+  },
+  {
+   "name": "methane slip of 3.1 percent on the smaller ship, every emission surrendered",
+   "preset": "latest",
+   "edits": [
+    {
+     "key": "vessel",
+     "value": "tfde_160k"
+    },
+    {
+     "key": "methane_slip",
+     "value": true
+    },
+    {
+     "key": "methane_slip_percent",
+     "value": 3.1
+    },
+    {
+     "key": "ets_phase",
+     "value": 1.0
+    }
+   ],
+   "refused": [],
+   "result": {
+    "day": "2026-10-07",
+    "spread": 1.009999999999998,
+    "west": {
+     "route": "nwe_direct",
+     "open": true,
+     "why_closed": "",
+     "distance_nm": 4979.2,
+     "days_laden": 14.20392156862745,
+     "days_ballast": 12.20392156862745,
+     "days_total": 26.4078431372549,
+     "q_load_mmbtu": 3624800.0,
+     "gas_used_mmbtu": 95723.14980392157,
+     "q_delivered_mmbtu": 3529076.8501960784,
+     "hire_usd": 831847.0588235294,
+     "port_usd": 308947.0,
+     "canal_laden_usd": 0.0,
+     "canal_ballast_usd": 0.0,
+     "slot_premium_usd": 0.0,
+     "ets_usd": 306335.9919287041,
+     "financing_usd": 25941.879014069506,
+     "canal_note": "",
+     "cost_without_hire_usd": 641224.8709427735,
+     "cost_usd": 1473071.929766303,
+     "p_des": 23.597590223384607,
+     "netback": 22.568041670711107,
+     "freight_conventional": 1.057474164532165,
+     "netback_conventional": 22.54011605885244
+    },
+    "east": {
+     "nea_panama": {
+      "route": "nea_panama",
+      "open": true,
+      "why_closed": "",
+      "distance_nm": 9305.9,
+      "days_laden": 24.80857843137255,
+      "days_ballast": 22.80857843137255,
+      "days_total": 47.6171568627451,
+      "q_load_mmbtu": 3624800.0,
+      "gas_used_mmbtu": 172602.67019607843,
+      "q_delivered_mmbtu": 3452197.3298039217,
+      "hire_usd": 1499940.4411764706,
+      "port_usd": 273184.0,
+      "canal_laden_usd": 669400.0,
+      "canal_ballast_usd": 570490.0,
+      "slot_premium_usd": 0.0,
+      "ets_usd": 0.0,
+      "financing_usd": 45310.102359281846,
+      "canal_note": "Panama toll, laden transit 2026-10-11 under Panama Canal Authority, tariff item 1010, 1 January 2025; still listed in February 2026, 656,700; ballast transit 2026-11-19 under Panama Canal Authority, tariff item 1010, 1 January 2025; still listed in February 2026, 558,195; each with the fresh water surcharge from 15 February 2020",
+      "cost_without_hire_usd": 1558384.1023592819,
+      "cost_usd": 3058324.543535752,
+      "p_des": 25.79,
+      "netback": 23.7182312381669,
+      "freight_conventional": 2.175352881209474,
+      "netback_conventional": 23.614647118790526,
+      "arb": 1.1501895674557936,
+      "s_star": -0.19769664819553867,
+      "boil_off": 0.5518440382508025,
+      "regas": -1.208741729238261,
+      "voyage": 0.4592010427919219,
+      "h_star_usd_day": 228074.35398784507,
+      "waterfall": {
+       "start": 22.568041670711107,
+       "spread": 0.9619066715686256,
+       "boil_off": -0.5255667941176457,
+       "regas": 1.151184884710577,
+       "hire": -0.1843117916444883,
+       "canals": -0.34205749282719045,
+       "slot_premium": -0.0,
+       "ports": 0.00986619951445597,
+       "carbon": 0.08451114321581993,
+       "financing": -0.0053432529643600585,
+       "end": 23.7182312381669
+      }
+     },
+     "nea_suez": {
+      "route": "nea_suez",
+      "open": false,
+      "why_closed": "laden transit 2026-10-24: no US Gulf cargo reported through the Red Sea after 12 January 2024, so treated as closed",
+      "distance_nm": 14624.2,
+      "days_laden": 37.84362745098039,
+      "days_ballast": 35.84362745098039,
+      "days_total": 73.68725490196078,
+      "q_load_mmbtu": 3624800.0,
+      "gas_used_mmbtu": 267101.5615686275,
+      "q_delivered_mmbtu": 3357698.4384313724,
+      "hire_usd": 2321148.529411765,
+      "port_usd": 273184.0,
+      "canal_laden_usd": 319149.1930151724,
+      "canal_ballast_usd": 271159.3391668966,
+      "slot_premium_usd": 0.0,
+      "ets_usd": 0.0,
+      "financing_usd": 69117.16599134388,
+      "canal_note": "Suez toll for 102,000 SCNT. Laden transit 2026-10-24: Suez Canal Authority, circular 7/2023, transit dues schedules applicable from 15 January 2024; surcharge 19.0 percent, periodical 20/2026; rebate 75.0 percent, periodical of 21 June 2023, renewed six monthly to 31 December 2026; 253,418 SDR at 1.35184 USD per SDR of 2026-10-08. Ballast transit 2026-12-03: surcharge 19.0 percent, periodical 20/2026; rebate 75.0 percent, periodical of 21 June 2023, renewed six monthly to 31 December 2026; 215,318 SDR at 1.35184 USD per SDR of 2026-10-08. SDR rates of the IMF, through the Bundesbank",
+      "cost_without_hire_usd": 932609.6981734129,
+      "cost_usd": 3253758.227585178,
+      "p_des": 25.79,
+      "netback": 22.991967694647954,
+      "freight_conventional": 3.0206129842852407,
+      "netback_conventional": 22.76938701571476,
+      "arb": 0.423926023936847,
+      "s_star": 0.5523510837131091,
+      "boil_off": 1.2647821480696742,
+      "regas": -1.2427604940151589,
+      "voyage": 0.530329429658598,
+      "h_star_usd_day": 64001.39953546134,
+      "waterfall": {
+       "start": 22.568041670711107,
+       "spread": 0.9355758725490178,
+       "boil_off": -1.1715838235294127,
+       "regas": 1.151184884710577,
+       "hire": -0.4108644533734924,
+       "canals": -0.16285271799328763,
+       "slot_premium": -0.0,
+       "ports": 0.00986619951445597,
+       "carbon": 0.08451114321581993,
+       "financing": -0.01191108115682917,
+       "end": 22.991967694647954
+      }
+     },
+     "nea_cape": {
+      "route": "nea_cape",
+      "open": true,
+      "why_closed": "",
+      "distance_nm": 15824.8,
+      "days_laden": 40.78627450980392,
+      "days_ballast": 38.78627450980392,
+      "days_total": 79.57254901960783,
+      "q_load_mmbtu": 3624800.0,
+      "gas_used_mmbtu": 288434.5756862745,
+      "q_delivered_mmbtu": 3336365.4243137254,
+      "hire_usd": 2506535.2941176468,
+      "port_usd": 273184.0,
+      "canal_laden_usd": 0.0,
+      "canal_ballast_usd": 0.0,
+      "slot_premium_usd": 0.0,
+      "ets_usd": 0.0,
+      "financing_usd": 74491.5827404279,
+      "canal_note": "",
+      "cost_without_hire_usd": 347675.5827404279,
+      "cost_usd": 2854210.8768580747,
+      "p_des": 25.79,
+      "netback": 22.950411999611813,
+      "freight_conventional": 3.085075306438983,
+      "netback_conventional": 22.704924693561015,
+      "arb": 0.38237032890070566,
+      "s_star": 0.5945730931933539,
+      "boil_off": 1.4313147770217594,
+      "regas": -1.2507068139747395,
+      "voyage": 0.41396513014633746,
+      "h_star_usd_day": 57570.227328377776,
+      "waterfall": {
+       "start": 22.568041670711107,
+       "spread": 0.9296317254901942,
+       "boil_off": -1.3174214117647063,
+       "regas": 1.151184884710577,
+       "hire": -0.4620084515819128,
+       "canals": -0.0,
+       "slot_premium": -0.0,
+       "ports": 0.00986619951445597,
+       "carbon": 0.08451114321581993,
+       "financing": -0.013393760683722796,
+       "end": 22.950411999611813
+      }
+     }
+    },
+    "best_route_east": "nea_panama",
+    "best_destination": "NEA",
+    "best_route": "nea_panama",
+    "best_netback": 23.7182312381669,
+    "lift_margin": 20.299856238166903,
+    "full_margin": 17.299856238166903,
+    "cancel": false
+   }
+  },
+  {
+   "name": "a slip of 12 percent, refused",
+   "preset": "latest",
+   "edits": [
+    {
+     "key": "methane_slip",
+     "value": true
+    },
+    {
+     "key": "methane_slip_percent",
+     "value": 12.0
+    }
+   ],
+   "refused": [
+    {
+     "key": "methane_slip_percent",
+     "route": null
+    }
+   ],
+   "result": {
+    "day": "2026-10-07",
+    "spread": 1.009999999999998,
+    "west": {
+     "route": "nwe_direct",
+     "open": true,
+     "why_closed": "",
+     "distance_nm": 4979.2,
+     "days_laden": 14.20392156862745,
+     "days_ballast": 12.20392156862745,
+     "days_total": 26.4078431372549,
+     "q_load_mmbtu": 3941970.0,
+     "gas_used_mmbtu": 88484.08659999998,
+     "q_delivered_mmbtu": 3853485.9134,
+     "hire_usd": 831847.0588235294,
+     "port_usd": 308947.0,
+     "canal_laden_usd": 0.0,
+     "canal_ballast_usd": 0.0,
+     "slot_premium_usd": 0.0,
+     "ets_usd": null,
+     "financing_usd": 28211.793427800592,
+     "canal_note": "",
+     "cost_without_hire_usd": null,
+     "cost_usd": null,
+     "p_des": 23.597590223384607,
+     "netback": null,
+     "freight_conventional": null,
+     "netback_conventional": null
+    },
+    "east": {
+     "nea_panama": {
+      "route": "nea_panama",
+      "open": true,
+      "why_closed": "",
+      "distance_nm": 9305.9,
+      "days_laden": 24.80857843137255,
+      "days_ballast": 22.80857843137255,
+      "days_total": 47.6171568627451,
+      "q_load_mmbtu": 3941970.0,
+      "gas_used_mmbtu": 159549.59326249998,
+      "q_delivered_mmbtu": 3782420.4067375,
+      "hire_usd": 1499940.4411764706,
+      "port_usd": 273184.0,
+      "canal_laden_usd": 699535.0,
+      "canal_ballast_usd": 596104.75,
+      "slot_premium_usd": 0.0,
+      "ets_usd": 0.0,
+      "financing_usd": 49274.736315719005,
+      "canal_note": "Panama toll, laden transit 2026-10-11 under Panama Canal Authority, tariff item 1010, 1 January 2025; still listed in February 2026, 656,700; ballast transit 2026-11-19 under Panama Canal Authority, tariff item 1010, 1 January 2025; still listed in February 2026, 558,195; each with the fresh water surcharge from 15 February 2020",
+      "cost_without_hire_usd": 1618098.486315719,
+      "cost_usd": 3118038.9274921897,
+      "p_des": 25.79,
+      "netback": 23.955175549856524,
+      "freight_conventional": 1.912220789854157,
+      "netback_conventional": 23.877779210145842,
+      "arb": null,
+      "s_star": null,
+      "boil_off": 0.46557575989171907,
+      "regas": -1.2046253266658815,
+      "voyage": null,
+      "h_star_usd_day": null,
+      "waterfall": {
+       "start": null,
+       "spread": 0.9691206708333314,
+       "boil_off": -0.4467317750000006,
+       "regas": 1.1558686184962994,
+       "hire": -0.1694821072592996,
+       "canals": -0.32867823702362015,
+       "slot_premium": -0.0,
+       "ports": 0.009072367369614686,
+       "carbon": null,
+       "financing": -0.005343252964360057,
+       "end": 23.955175549856524
+      }
+     },
+     "nea_suez": {
+      "route": "nea_suez",
+      "open": false,
+      "why_closed": "laden transit 2026-10-24: no US Gulf cargo reported through the Red Sea after 12 January 2024, so treated as closed",
+      "distance_nm": 14624.2,
+      "days_laden": 37.84362745098039,
+      "days_ballast": 35.84362745098039,
+      "days_total": 73.68725490196078,
+      "q_load_mmbtu": 3941970.0,
+      "gas_used_mmbtu": 246902.00597499998,
+      "q_delivered_mmbtu": 3695067.994025,
+      "hire_usd": 2321148.529411765,
+      "port_usd": 273184.0,
+      "canal_laden_usd": 342580.58911999996,
+      "canal_ballast_usd": 291076.02585599996,
+      "slot_premium_usd": 0.0,
+      "ets_usd": 0.0,
+      "financing_usd": 75164.91801558646,
+      "canal_note": "Suez toll for 102,000 SCNT. Laden transit 2026-10-24: Suez Canal Authority, circular 7/2023, transit dues schedules applicable from 15 January 2024; surcharge 19.0 percent, periodical 20/2026; rebate 75.0 percent, periodical of 21 June 2023, renewed six monthly to 31 December 2026; 253,418 SDR at 1.35184 USD per SDR of 2026-10-08. Ballast transit 2026-12-03: surcharge 19.0 percent, periodical 20/2026; rebate 75.0 percent, periodical of 21 June 2023, renewed six monthly to 31 December 2026; 215,318 SDR at 1.35184 USD per SDR of 2026-10-08. SDR rates of the IMF, through the Bundesbank",
+      "cost_without_hire_usd": 982005.5329915863,
+      "cost_usd": 3303154.062403351,
+      "p_des": 25.79,
+      "netback": 23.336719838938755,
+      "freight_conventional": 2.617206723160822,
+      "netback_conventional": 23.172793276839176,
+      "arb": null,
+      "s_star": null,
+      "boil_off": 1.0623880395327692,
+      "regas": -1.2331029971360872,
+      "voyage": null,
+      "h_star_usd_day": null,
+      "waterfall": {
+       "start": null,
+       "spread": 0.9467394916666648,
+       "boil_off": -0.9958462500000004,
+       "regas": 1.1558686184962994,
+       "hire": -0.3778063939066597,
+       "canals": -0.160746178934898,
+       "slot_premium": -0.0,
+       "ports": 0.009072367369614686,
+       "carbon": null,
+       "financing": -0.011911081156829166,
+       "end": 23.336719838938755
+      }
+     },
+     "nea_cape": {
+      "route": "nea_cape",
+      "open": true,
+      "why_closed": "",
+      "distance_nm": 15824.8,
+      "days_laden": 40.78627450980392,
+      "days_ballast": 38.78627450980392,
+      "days_total": 79.57254901960783,
+      "q_load_mmbtu": 3941970.0,
+      "gas_used_mmbtu": 266621.71089999995,
+      "q_delivered_mmbtu": 3675348.2891,
+      "hire_usd": 2506535.2941176468,
+      "port_usd": 273184.0,
+      "canal_laden_usd": 0.0,
+      "canal_ballast_usd": 0.0,
+      "slot_premium_usd": 0.0,
+      "ets_usd": 0.0,
+      "financing_usd": 81009.59623021535,
+      "canal_note": "",
+      "cost_without_hire_usd": 354193.59623021533,
+      "cost_usd": 2860728.890347862,
+      "p_des": 25.79,
+      "netback": 23.319939899476946,
+      "freight_conventional": 2.649246288667565,
+      "netback_conventional": 23.140753711332433,
+      "arb": null,
+      "s_star": null,
+      "boil_off": 1.201042726547949,
+      "regas": -1.239719085009384,
+      "voyage": null,
+      "h_star_usd_day": null,
+      "waterfall": {
+       "start": null,
+       "spread": 0.941686966666665,
+       "boil_off": -1.1198081999999987,
+       "regas": 1.1558686184962994,
+       "hire": -0.4248353577764715,
+       "canals": -0.0,
+       "slot_premium": -0.0,
+       "ports": 0.009072367369614686,
+       "carbon": null,
+       "financing": -0.013393760683722798,
+       "end": 23.319939899476946
+      }
+     }
+    },
+    "best_route_east": "nea_panama",
+    "best_destination": "NWE",
+    "best_route": "nwe_direct",
+    "best_netback": null,
+    "lift_margin": null,
+    "full_margin": null,
     "cancel": false
    }
   }

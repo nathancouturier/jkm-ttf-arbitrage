@@ -53,7 +53,7 @@ if str(SRC) not in sys.path:
 
 import pandas as pd  # noqa: E402
 
-from lngarb import config, freight_anchors, manual_steps, sea_routes  # noqa: E402
+from lngarb import config, events, freight_anchors, manual_steps, sea_routes  # noqa: E402
 from lngarb.sources import base  # noqa: E402
 from lngarb.sources.base import Adapter, read_cache, utc_now_iso, validate_frame  # noqa: E402
 from lngarb.sources.eia import HenryHubDaily, LngExportsMonthly, LngExportsRevisions  # noqa: E402
@@ -241,9 +241,9 @@ JOBS: tuple[Job, ...] = (
     ),
     Job(
         name="seeds",
-        what="The committed seed files, checked from their own contents: the sea routes and the freight anchors",
-        series=("routes", "freight_anchors"),
-        seed=lambda: [sea_routes.record_routes(), freight_anchors.record()],
+        what="The committed seed files, checked from their own contents: the sea routes, the freight anchors and the events",
+        series=("routes", "freight_anchors", "events"),
+        seed=lambda: [sea_routes.record_routes(), freight_anchors.record(), events.record()],
     ),
 )
 

@@ -43,7 +43,7 @@ export function present(value) {
  *   boil_off_percent, fill_percent, load_days, discharge_days, port_west_usd,
  *   port_east_usd, eua_eur_t, ets_phase, ets_voyage_share, ets_berth_share,
  *   rate_percent, spread_bp, mmbtu_per_m3, mmbtu_per_t_lng,
- *   hh_multiple_percent
+ *   hh_multiple_percent, methane_slip (true or false), methane_slip_percent
  *   per route: open (true or false), laden_sea_days, ballast_sea_days (null:
  *   an empty field, the days from the distance; NaN: missing), flex_days,
  *   ballast_route (a route id, or the route's own), canal_laden_usd,
@@ -120,6 +120,27 @@ export function applyEdits(preset, edits, model) {
       inputs.ets_by_year = null;
       inputs.ets_phase = usable(edit);
     }
+  }
+
+  // Methane slip, when ticked: the ship's default share, or the one typed.
+  // The slipped share is not burnt: it leaves the CO2 and N2O terms and, from
+  // the year methane enters the EU ETS, counts at its warming potential, as
+  // lngarb.worked.ets_tco2e_per_t counts it.
+  const slipOn = edits.find((edit) => edit.key === "methane_slip");
+  if (slipOn && slipOn.value === true && model.carbon) {
+    const carbon = model.carbon;
+    const typed = edits.find((edit) => edit.key === "methane_slip_percent");
+    const share = typed ? usable(typed) / units.percent_per_one : carbon.slip[ship];
+    const factor = (year) => {
+      const burnt = 1 - share;
+      let out = carbon.tco2_per_t_lng * burnt;
+      if (year >= carbon.ch4_n2o_from_year) out += share * carbon.gwp_ch4 + burnt * carbon.tn2o_per_t_lng * carbon.gwp_n2o;
+      return out;
+    };
+    if (inputs.ets_by_year) {
+      for (const year of Object.keys(inputs.ets_by_year)) inputs.ets_by_year[year][1] = factor(Number(year));
+    }
+    inputs.tco2_per_t_lng = factor(Number(String(inputs.day).split("-")[0]));
   }
 
   // Figures quoted in euros, converted at the exchange rate in force: the

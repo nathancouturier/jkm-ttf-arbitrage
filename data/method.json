@@ -77,7 +77,7 @@
    "formula": "G = Q_load x BOR x T_total;  Q_del = Q_load - G",
    "segments": [
     {
-     "text": "The gas used, boiled off or burnt every day of the round trip at the rate BOR, and the cargo delivered; the heel for the way back stays on board."
+     "text": "The gas used, boiled off or burnt every day of the round trip at the rate BOR, and the cargo delivered; the heel for the way back stays on board. Spark's rate, the hire below, is what a charterer pays less the ballast fuel over the round trip, an owner's earnings rate, so taking it as hire with the heel in G counts the ballast fuel once, never twice."
     }
    ]
   },
@@ -638,7 +638,7 @@
    "note": "A robustness check, never a choice of the sample that suits."
   }
  ],
- "parameters_caption": "Every parameter of the engine that is not market data or a canal tariff: its value, whether it is published or this study's assumption, the document it is read in, the day it was read, and its note. The tariffs behind the tolls are set out in the methodology's sections on Suez and Panama.",
+ "parameters_caption": "Every parameter of the engine that is not market data or a canal tariff: its value, whether it is published or this study's assumption, the document it is read in, the day it was read, and its note. The tariffs behind the tolls are set out in the methodology's sections on Suez and Panama. The Model view lets a reader type over every one that is an input of a cargo, methane slip included; the gas factors, the canals' readings and the analysis's settings are rules or choices of the study, not inputs a cargo chooses, and are fixed there.",
  "units": [
   {
    "words": "MMBtu in a megawatt hour",
@@ -671,7 +671,10 @@
  ],
  "delivery_segments": [
   {
-   "text": "JKM futures for a month stop trading in the middle of the month before, and Dutch TTF futures two UK business days before the month begins, so from the middle of a month to TTF's last trading day the two front months name different delivery months, and after it they agree again. A week is aligned when every trading day of it names the same month for both, misaligned when none does, and mixed otherwise; the History view rings the misaligned weeks."
+   "text": "JKM futures for a month stop trading in the middle of the month before, and Dutch TTF futures two UK business days before the month begins, so from the middle of a month to TTF's last trading day the two front months name different delivery months, and after it they agree again. A week is aligned when every trading day of it names the same month for both, misaligned when none does, and mixed otherwise; the History view marks the misaligned and the mixed weeks."
+  },
+  {
+   "text": " A cargo loading on the first of a month reaches Gate in about two weeks and Futtsu via the Cape in about six, so the right comparison is each basin's price for its own arrival period; with front months only, the study compares the two front months and says so on every page."
   }
  ],
  "limits": [
@@ -743,6 +746,21 @@
   [
    {
     "text": "The month of the export data is coarser than the decisions, taken weeks before a cargo loads."
+   }
+  ],
+  [
+   {
+    "text": "The pilot fuel a dual fuel engine burns with the gas is left out of the voyage's cost and of its emissions."
+   }
+  ],
+  [
+   {
+    "text": "Panama's booking fee is not an input of its own: the slot premium a reader types carries it, with the methodology's cited figures as scenarios."
+   }
+  ],
+  [
+   {
+    "text": "Futtsu stands for the JKM delivery area and Gate for Northwest Europe; Sabine Pass stands for every US Gulf terminal, and the others are out of scope."
    }
   ]
  ],

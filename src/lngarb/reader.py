@@ -323,6 +323,53 @@ def verdict(result: Mapping[str, Any], day: date, hh_multiple: float, *, delta_n
     return {"values": values, "segments": segments}
 
 
+def regas_sensitivity(*, spread: float, delta: float, observed: bool, at_zero: tuple[str | None, float],
+                      at_assumed: tuple[str | None, float], assumed_eur_mwh: float,
+                      weeks: pd.DataFrame) -> dict[str, Any]:
+    """How much the verdict rests on Europe's DES spread to TTF: this week's
+    cheapest open route east and its S* with the spread at zero and at the
+    parameter table's assumption, the range ACER's weekly spread has run over,
+    and the weeks whose verdict either would change. at_zero and at_assumed are
+    (route, S*); weeks is lngarb.analysis.regas_sensitivity's frame."""
+    def state(s_star: float) -> str:
+        return "open" if spread > s_star else "closed"
+
+    seen = weeks[weeks["delta_observed"]]
+    segments = [
+        T("Europe's DES spread to TTF this week is "), N("delta_nwe", delta, "usd_mmbtu", signed=True),
+        T(" $/MMBtu, " + ("ACER's" if observed else "the assumption")),
+    ]
+    if not seen.empty:
+        segments += [
+            T("; observed weekly from "), D("observed_from", seen["day"].min().date()), T(", it has run from "),
+            N("observed_low", float(seen["delta_nwe"].min()), "usd_mmbtu", signed=True), T(" to "),
+            N("observed_high", float(seen["delta_nwe"].max()), "usd_mmbtu", signed=True),
+        ]
+    zero_route, zero_s = at_zero
+    assumed_route, assumed_s = at_assumed
+    if zero_route is not None:
+        segments += [
+            T(". At zero the cheapest open route east, via "), W("zero_route", ROUTE_SHORT[zero_route]),
+            T(", would break even at "), N("zero_s_star", zero_s, "usd_mmbtu", signed=True),
+            T(" and the arb east would be "), W("zero_state", state(zero_s)),
+        ]
+    if assumed_route is not None:
+        segments += [
+            T("; at the "), N("assumed_eur_mwh", assumed_eur_mwh, "eur_mwh", signed=True),
+            T(" EUR/MWh assumed where ACER published nothing, at "),
+            N("assumed_s_star", assumed_s, "usd_mmbtu", signed=True), T(", "), W("assumed_state", state(assumed_s)),
+        ]
+    flips_zero = int((weeks["data_open"] != weeks["zero_open"]).sum())
+    flips_assumed = int((weeks["data_open"] != weeks["assumed_open"]).sum())
+    segments += [
+        T(". Of the "), N("weeks", len(weeks), "count"),
+        T(" weeks priced, at the central hire a spread of zero would change whether the arb east was open in "),
+        N("flips_zero", flips_zero, "count"), T(", the assumption in "), N("flips_assumed", flips_assumed, "count"),
+        T("."),
+    ]
+    return {"segments": segments, "values": {"flips_zero": flips_zero, "flips_assumed": flips_assumed}}
+
+
 def _weekly_series_words(series: str) -> str:
     return {
         "wngsr": "EIA's Weekly Natural Gas Storage Report, international supplement",

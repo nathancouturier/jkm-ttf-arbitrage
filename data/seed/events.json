@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "note": "Dated events that explain the regimes in the sample, one document each, in this study's words. An event no readable document supports is not a row; left_out lists them with the reason.",
+  "events": [
+    {
+      "day": "2016-02-24",
+      "end": null,
+      "what": "The first export cargo of the shale era leaves Sabine Pass, the Asia Vision, for Brazil.",
+      "publisher": "US Department of Energy, LNG monthly reports, transaction file",
+      "url": "https://www.energy.gov/hgeo/listings/natural-gas-imports-and-exports-monthly-reports",
+      "read_on": "2026-09-30"
+    },
+    {
+      "day": "2020-06-01",
+      "end": "2020-09-30",
+      "what": "US cargoes cancelled as the pandemic cut demand: about 46 in June and 50 in July by EIA's estimate, 45 for August and about 30 for September by the trade press reports EIA cites.",
+      "publisher": "U.S. Energy Information Administration, Today in Energy, 11 August 2020",
+      "url": "https://www.eia.gov/todayinenergy/detail.php?id=44697",
+      "read_on": "2026-10-08"
+    },
+    {
+      "day": "2023-07-28",
+      "end": null,
+      "what": "Delays at Panama of 12 days reported for vessels without a booked slot.",
+      "publisher": "LNG Prime, 28 July 2023",
+      "url": "https://lngprime.com/americas/spark-lng-freight-rates-remain-at-about-71000-per-day/87422/",
+      "read_on": "2026-10-03"
+    },
+    {
+      "day": "2024-01-12",
+      "end": null,
+      "what": "The last LNG cargo crosses the Red Sea: after the Houthi attacks on shipping, none crossed from 12 January 2024 to the end of February.",
+      "publisher": "Oxford Institute for Energy Studies, NG 188, February 2024",
+      "url": "https://www.oxfordenergy.org/wpcms/wp-content/uploads/2024/02/NG-188-LNG-Shipping-Chokepoints.pdf",
+      "read_on": "2026-10-01"
+    },
+    {
+      "day": "2024-03-01",
+      "end": "2024-03-31",
+      "what": "A record 27 US cargoes to Asia sail round the Cape of Good Hope in the month.",
+      "publisher": "Platts, republished by Hellenic Shipping News, 22 April 2024",
+      "url": "https://www.hellenicshippingnews.com/updated-transit-levels-at-panama-canal-dont-faze-lng-shippers/",
+      "read_on": "2026-10-08"
+    },
+    {
+      "day": "2025-02-08",
+      "end": null,
+      "what": "The first LNG carrier in five months passes Bab el Mandeb.",
+      "publisher": "gCaptain, 8 February 2025",
+      "url": "https://gcaptain.com/first-lng-carrier-in-five-months-passes-through-bab-el-mandeb-strait-as-houthi-threat-eases/",
+      "read_on": "2026-10-01"
+    },
+    {
+      "day": "2025-02-10",
+      "end": null,
+      "what": "China's tariff on US LNG takes effect, 15 percent by this account; a later report gives 25 percent, and the Chinese notice itself was not read.",
+      "publisher": "Columbia University, Center on Global Energy Policy, 18 April 2025",
+      "url": "https://energypolicy.columbia.edu/?p=23258",
+      "read_on": "2026-09-30"
+    },
+    {
+      "day": "2026-09-18",
+      "end": null,
+      "what": "The US and China are reported to be discussing a cut to China's tariff on US LNG.",
+      "publisher": "gCaptain, 19 September 2026, reporting Reuters of 18 September",
+      "url": "https://gcaptain.com/us-china-discuss-cutting-tariffs-on-us-lng-ahead-of-xi-visit/",
+      "read_on": "2026-09-30"
+    }
+  ],
+  "left_out": [
+    {
+      "what": "JKM's record low of 28 April 2020, Cape voyages above one a day in November 2020 and 58 LNG transits of Panama in January 2021",
+      "reason": "S&P Global's figures; this study does not request S&P Global's pages and found no republication of these"
+    },
+    {
+      "what": "Russia's invasion of Ukraine on 24 February 2022",
+      "reason": "no document on it was read for this study; the year shows in the spread, TTF above JKM for long stretches"
+    },
+    {
+      "what": "The first attacks on shipping in the Red Sea, November 2023",
+      "reason": "no dated document on them was read; the closure of the route is marked from January 2024"
+    },
+    {
+      "what": "The Suez Canal Authority's rebates for US Gulf LNG carriers and Panama's slot auctions",
+      "reason": "rules of the canals, not events: they are in the tolls and on the Routes view's timeline"
+    },
+    {
+      "what": "No US cargo reaching China from 6 February 2025",
+      "reason": "a statement of April 2025 about arrivals, which EIA's table contradicts for September 2025"
+    },
+    {
+      "what": "The closure of the Strait of Hormuz on 28 February 2026, and Spark's Atlantic rate jumping 163 percent on 3 March 2026",
+      "reason": "EIA's article on Hormuz was read but not for that date; the jump is Lloyd's List's figure, which this study does not request; LNG Prime's 161,750 $/day for 3 March is drawn as a charter rate"
+    },
+    {
+      "what": "The JKM to TTF spread flipping from a European to an Asian premium in March 2026",
+      "reason": "IEA's averages were not read; the spread itself is drawn"
+    },
+    {
+      "what": "The US and Iran memorandum of 14 June 2026 and the hostilities of July 2026",
+      "reason": "no document on them was read"
+    },
+    {
+      "what": "US LNG to China in June 2026, one cargo and part of another",
+      "reason": "the wording waits on the owner, and whether the cargo was imported or re-exported is not established"
+    },
+    {
+      "what": "JKM and TTF reported on 18 September 2026 with the US arbitrage to Asia uneconomic",
+      "reason": "Global LNG Hub's note was not read"
+    },
+    {
+      "what": "Spark's first negative Atlantic rate, 8 February 2022, and its record of 374,000 $/day in October 2022",
+      "reason": "charter rates, drawn as such on the breakeven hire panel"
+    },
+    {
+      "what": "The EU ETS covering shipping and Spark's change of ship, January 2024",
+      "reason": "breaks in the data, drawn as numbered rules"
+    }
+  ]
+}

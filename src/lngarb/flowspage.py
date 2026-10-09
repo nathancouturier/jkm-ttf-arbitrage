@@ -29,7 +29,8 @@ from typing import Any, Mapping, Sequence
 
 import pandas as pd
 
-from . import analysis, config, reader
+from . import analysis, config, reader, worked
+from .freight_anchors import ANCHORS
 from .spreadhistory import ticks
 from .reported import reported
 
@@ -170,7 +171,8 @@ def _y2020(levels: Mapping[str, float]) -> dict[str, Any]:
     }
 
 
-def _y2026(rows: pd.DataFrame) -> dict[str, Any]:
+def _y2026(rows: pd.DataFrame, months: Sequence[Mapping[str, Any]] = (),
+           regas: pd.DataFrame | None = None) -> dict[str, Any]:
     weekly = rows[(rows["frequency"] == "weekly") & (rows["hire_level"] == "central")
                   & (rows["day"] >= pd.Timestamp(FROM_2026))].sort_values("day")
     points = []
@@ -212,6 +214,14 @@ def _y2026(rows: pd.DataFrame) -> dict[str, Any]:
                                           if v is not None], 5)
     return {
         "heading_segments": heading,
+        "story_segments": _y2026_story(rows, points, _iso(week), months, regas),
+        # The point in the accent: the week the arb east first opened via the cheaper route.
+        "accent": _accent_2026(points, _iso(week)),
+        "source_segments": [
+            reader.T("Prices: EIA's Natural Gas Weekly Update and, from its end, the WNGSR Supplement, each week; S* "
+                     "by the engine at the central hire, as the methodology sets out; data to "),
+            reader.D("y2026_last", points[-1]["day"]), reader.T("."),
+        ],
         "days": [p["day"] for p in points],
         "spread": [p["spread"] for p in points],
         "panama": [p["panama"] for p in points],
@@ -234,6 +244,106 @@ def _y2026(rows: pd.DataFrame) -> dict[str, Any]:
                       "format": "count" if r.unit == "cargoes" else "usd_mmbtu", "signed": r.unit != "cargoes"}
                      for r in (asia, *cape_counts, *reported("panama_use"), *assessments.values())],
     }
+
+
+def _opening(points: Sequence[Mapping[str, Any]], route: str, last: str) -> Mapping[str, Any] | None:
+    """The first week of the run of weeks, up to the last, in which the spread
+    covered the route's breakeven: the week the arb east opened via that route."""
+    first = None
+    for p in points:
+        if p["day"] > last:
+            break
+        covered = p[route] is not None and p["spread"] is not None and p["spread"] > p[route]
+        first = (first or p) if covered else None
+    return first
+
+
+def _accent_2026(points: Sequence[Mapping[str, Any]], week: str) -> dict[str, Any] | None:
+    found = [o for o in (_opening(points, "panama", week), _opening(points, "cape", week)) if o is not None]
+    if not found:
+        return None
+    first = min(found, key=lambda o: o["day"])
+    return {"day": first["day"], "value": first["spread"]}
+
+
+def _y2026_story(rows: pd.DataFrame, points: Sequence[Mapping[str, Any]], week: str,
+                 months: Sequence[Mapping[str, Any]], regas: pd.DataFrame | None) -> list[dict[str, Any]]:
+    """When the arb east opened in 2026, at what hire, and whether flows followed:
+    sentences computed from the weekly rows, the freight anchors and the
+    monthly shares."""
+    T, N, D, W = reader.T, reader.N, reader.D, reader.W
+    panama, cape = _opening(points, "panama", week), _opening(points, "cape", week)
+    if panama is None and cape is None:
+        return [T("The spread covered neither route's breakeven in the weeks to the assessment.")]
+    opened = min((o for o in (panama, cape) if o is not None), key=lambda o: o["day"])
+    out = [T("At the central hire the arb east opened")]
+    if panama is not None:
+        out += [T(" via Panama in the week ending "), D("panama_opened", panama["day"]), T(", JKM over TTF "),
+                N("panama_spread", panama["spread"], "usd_mmbtu", signed=True), T(" $/MMBtu against a breakeven of "),
+                N("panama_s_star", panama["panama"], "usd_mmbtu", signed=True)]
+    if cape is not None:
+        out += [T(" and" if panama is not None else ""), T(" round the Cape in the week ending "),
+                D("cape_opened", cape["day"])]
+    out += [T(", and stayed open to the week Platts assessed.")]
+
+    # The weeks before that run that read open only through ACER's spread.
+    if regas is not None and not regas.empty:
+        lagged = regas[(regas["day"] >= pd.Timestamp(FROM_2026)) & (regas["day"] < pd.Timestamp(opened["day"]))
+                       & regas["data_open"] & ~regas["zero_open"]]
+        if not lagged.empty:
+            out += [T(" The weeks ending "), W("lagged", reader.listed([reader.day_label(d) for d in lagged["day"]])),
+                    T(" read open before it only through Europe's DES spread, ACER's assessment of a half month "
+                      "ahead lagging TTF's jump; with that spread at zero they were closed.")]
+
+    # The breakeven hire in the opening week against the rates reported around it.
+    at = rows[(rows["frequency"] == "weekly") & (rows["hire_level"] == "central")
+              & (rows["day"] == pd.Timestamp(opened["day"]))]
+    h_panama = None
+    spot_above = False
+    if not at.empty:
+        r = at.iloc[0]
+        h_panama, h_cape = _finite(r["panama_h_star"]), _finite(r["cape_h_star"])
+        day = date.fromisoformat(opened["day"])
+        near = sorted((a for a in ANCHORS if abs((worked._anchor_day(a) - day).days) <= 31),
+                      key=lambda a: worked._anchor_day(a))
+        if h_panama is not None and h_cape is not None:
+            out += [T(" In the week ending "), D("h_week", opened["day"]),
+                    T(" a ship paid its way east at any hire below "), N("h_panama", h_panama, "usd_day"),
+                    T(" $/day via Panama and "), N("h_cape", h_cape, "usd_day"), T(" $/day round the Cape")]
+            for index, a in enumerate(near):
+                above = sum(a.hire_usd_day > h for h in (h_panama, h_cape))
+                spot_above = spot_above or above == 2
+                where = {2: "above both", 1: "between the two", 0: "below both"}[above]
+                out += [T("; " if index else "; the rates reported nearest were "),
+                        N("near_hire", a.hire_usd_day, "usd_day"), T(" $/day on "),
+                        D("near_day", worked._anchor_day(a)), T(", " + where)]
+            out += [T(".")]
+
+    # Did flows follow: the share of the JKM markets month by month.
+    year = int(opened["day"][:4])
+    by_month = [m for m in months if m["month"][:4] == str(year) and m.get("share_jkm") is not None]
+    open_month = opened["day"][:7]
+    before = [m for m in by_month if m["month"][:7] < open_month]
+    after = [m for m in by_month if m["month"][:7] >= open_month]
+    if before and after:
+        peak = max(after, key=lambda m: m["share_jkm"])
+        out += [T(" The JKM markets took "), N("share_first", before[0]["share_jkm"] * 100.0, "share_percent"),
+                T(" percent of US exports by vessel in "), D("share_first_month", before[0]["month"], "month")]
+        if len(before) > 1:
+            out += [T(" and "), N("share_before", before[-1]["share_jkm"] * 100.0, "share_percent"),
+                    T(" in "), D("share_before_month", before[-1]["month"], "month")]
+        out += [T(", "), N("share_open", after[0]["share_jkm"] * 100.0, "share_percent"), T(" in "),
+                D("share_open_month", after[0]["month"], "month"), T(" and "),
+                N("share_peak", peak["share_jkm"] * 100.0, "share_percent"), T(" at the highest, in "),
+                D("share_peak_month", peak["month"], "month"), T(".")]
+        rose_first = len(before) > 1 and before[-1]["share_jkm"] > before[0]["share_jkm"]
+        rose = after[0]["share_jkm"] > before[-1]["share_jkm"]
+        if rose_first:
+            out += [T(" The rise began before the arb opened.")]
+        if rose and not at.empty and h_panama is not None and spot_above:
+            out += [T(" Cargoes moved east while a spot hire reported nearby sat above both breakevens: spot hire is "
+                      "not the marginal cost of a cargo on a ship already chartered.")]
+    return out
 
 
 def _waits(rows: pd.DataFrame) -> dict[str, Any]:
@@ -264,13 +374,13 @@ def _waits(rows: pd.DataFrame) -> dict[str, Any]:
 
 
 def page(rows: pd.DataFrame, months: Sequence[Mapping[str, Any]], regressions: Sequence[Mapping[str, Any]],
-         excluded: Sequence[int], levels: Mapping[str, float]) -> dict[str, Any]:
+         excluded: Sequence[int], levels: Mapping[str, float], regas: pd.DataFrame | None = None) -> dict[str, Any]:
     """The Flows view's layer of flows.json."""
     return {
         "whole": _whole(months, regressions, excluded, levels["central"]),
         "test": _test(regressions, excluded),
         "y2020": _y2020(levels),
-        "y2026": _y2026(rows),
+        "y2026": _y2026(rows, months, regas),
         "waits": _waits(rows),
         "limits_segments": [
             reader.T("What the test cannot separate: long term contracts with Asian buyers, whose cargoes move "
@@ -291,7 +401,8 @@ def page(rows: pd.DataFrame, months: Sequence[Mapping[str, Any]], regressions: S
             "y_axis": "$/MMBtu",
             "panama_route": "To North Asia via Panama", "cape_route": "To North Asia round the Cape",
             "y2026_legend": "The ink line is JKM over TTF; the thin line, S* via Panama; the dotted line, S* round "
-                            "the Cape; both at the central hire.",
+                            "the Cape; both at the central hire. The dot in the accent is the week the arb east "
+                            "opened.",
             "y2020_legend": "The ink line is the lift margin at the notice date at the central hire, over the "
                             "band from the low to the high hire; the dashed line, the margin with the month's own "
                             "prices.",
