@@ -293,7 +293,8 @@ def _y2026(rows: pd.DataFrame, months: Sequence[Mapping[str, Any]] = (),
         "compare_caption_segments": [
             reader.T("Platts' arbitrage of US cargoes to North Asia against the Atlantic, in $/MMBtu, on "),
             reader.D("assessment_day", latest_cape.period),
-            reader.T(", beside this study's arb at the three hires for the week ending "),
+            reader.T(", beside this study's arb at the three hires and at the rate reported nearest, for the week "
+                     "ending "),
             reader.D("assessment_week", week), reader.T("."),
         ],
         "compare": compare,
@@ -427,14 +428,15 @@ def _compare_words(assessments: Mapping[str, Any], at_anchor: Mapping[str, Any],
                    gap: int) -> list[dict[str, Any]]:
     """Whether the study at the rate reported nearest puts the two routes in Platts' order, and how far apart."""
     T, N, D = reader.T, reader.N, reader.D
-    ours = {r: _finite(at_anchor["east"]["nea_" + r]["arb"]) for r in ("panama", "cape")}
+    ours = {r: (_finite(at_anchor["east"]["nea_" + r]["arb"]) if at_anchor["east"]["nea_" + r]["open"] else None)
+            for r in ("panama", "cape")}
     if any(v is None for v in ours.values()):
         return []
     theirs = {r: assessments[r].figure for r in ("panama", "cape")}
     same_order = (ours["panama"] > ours["cape"]) == (theirs["panama"] > theirs["cape"])
     return [T("At "), N("anchor_hire", anchor.hire_usd_day, "usd_day"), T(" $/day, the rate reported nearest, on "),
             D("anchor_day", worked._anchor_day(anchor)), T(", "), N("anchor_gap", gap, "count"),
-            T(" days from the week, this study puts Panama " + ("ahead of" if ours["panama"] > ours["cape"] else "behind")
+            T(reader.plural(gap, " day", " days") + " from the week, this study puts Panama " + ("ahead of" if ours["panama"] > ours["cape"] else "behind")
               + " the Cape by "), N("our_gap", abs(ours["panama"] - ours["cape"]), "usd_mmbtu"),
             T(" $/MMBtu, Platts by "), N("their_gap", abs(theirs["panama"] - theirs["cape"]), "usd_mmbtu"),
             T(": " + ("the same order" if same_order else "the opposite order") + "; Platts compares forward prices "

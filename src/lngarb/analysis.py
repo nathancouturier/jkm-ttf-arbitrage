@@ -176,8 +176,9 @@ def _monthly(weekly: pd.DataFrame) -> pd.DataFrame:
             "ttf_source": "mean of %d weekly averages, EIA %s, %s" % (len(group), source, month.strftime("%B %Y")),
             "basis": "mean of the month's weekly averages: " + "; ".join(sorted(set(group["basis"]))),
             "weeks": len(group),
-            # The share of the month's trading days, over its weeks, on which the
-            # two front months named the same delivery month.
+            # The mean over the month's weeks of each week's share of trading days
+            # on which the two front months named the same delivery month; a week
+            # straddling the month's end counts whole.
             "aligned_share": float(group["aligned_share"].mean()),
             "alignment": ("aligned" if group["aligned_share"].mean() == 1 else
                           "misaligned" if group["aligned_share"].mean() == 0 else "mixed"),
