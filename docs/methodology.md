@@ -853,11 +853,14 @@ nothing smoothed or fitted (`lngarb.spreadhistory`):
   the middle nine tenths of a range's values and every rate reported; each
   week beyond it is a short tick at the edge, counted under the chart.
 * **Marks.** Rings mark the weeks in which, by the futures calendars of 9.9,
-  the JKM and TTF front months name different delivery months; before the
+  the JKM and TTF front months name different delivery months every day, and
+  solid dots the mixed weeks, in which they differ on some days; before the
   futures of July 2022 the TTF price drawn was a spot or day-ahead price,
-  which names no delivery month, so there a ring marks the calendar, not the
+  which names no delivery month, so there a mark shows the calendar, not the
   prices. Numbered rules mark the breaks of 12.1 that change a
   price's definition, a route, the ship or the EU ETS, listed with their
-  sources under the charts; a change of name alone is not drawn.
+  sources under the charts; a change of name alone is not drawn. Lettered
+  marks at the foot of the spread charts are the dated events of
+  `lngarb.events`, each from one document, listed with what was left out.
 * **Ranges.** Every week, 2021 to 2023, 2024 on, and the last 52 weeks; each
   range's counts and sentences are computed for it.
