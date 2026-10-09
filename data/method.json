@@ -146,6 +146,122 @@
    ]
   }
  ],
+ "k_sensitivity": {
+  "rows": [
+   {
+    "k": 22.0,
+    "best_netback": 23.919789871777517,
+    "routes": {
+     "nea_panama": {
+      "arb": 1.2176576291028063,
+      "s_star": -0.25902071373250024
+     },
+     "nea_cape": {
+      "arb": 0.585754932655334,
+      "s_star": 0.3817525006467406
+     }
+    }
+   },
+   {
+    "k": 23.0,
+    "best_netback": 23.955175549856524,
+    "routes": {
+     "nea_panama": {
+      "arb": 1.2398889007806808,
+      "s_star": -0.2821897421831565
+     },
+     "nea_cape": {
+      "arb": 0.6046532504011033,
+      "s_star": 0.36148323750636635
+     }
+    }
+   },
+   {
+    "k": 24.0,
+    "best_netback": 23.987612421428953,
+    "routes": {
+     "nea_panama": {
+      "arb": 1.2602675664854033,
+      "s_star": -0.3034280182629203
+     },
+     "nea_cape": {
+      "arb": 0.6219767083347207,
+      "s_star": 0.3429030796276962
+     }
+    }
+   }
+  ],
+  "routes": [
+   "nea_panama",
+   "nea_cape"
+  ],
+  "route_names": {
+   "nea_panama": "Panama",
+   "nea_cape": "the Cape"
+  },
+  "caption_segments": [
+   {
+    "text": "The week to "
+   },
+   {
+    "field": "as_of",
+    "value": "2026-10-07",
+    "label": "7 October 2026"
+   },
+   {
+    "text": " at each energy content: the best netback, and the arb and S* of each open route east, in $/MMBtu."
+   },
+   {
+    "text": " From the lean end to the rich, S* moves by "
+   },
+   {
+    "field": "k_s_star_range",
+    "value": 0.04440730453042008,
+    "format": "usd_mmbtu"
+   },
+   {
+    "text": " at most."
+   }
+  ]
+ },
+ "conventional": {
+  "rows": [
+   {
+    "route": "nwe_direct",
+    "name": "Gate",
+    "exact": 22.715286649075843,
+    "conventional": 22.695027115855506,
+    "difference": 0.02025953322033658
+   },
+   {
+    "route": "nea_panama",
+    "name": "Futtsu via Panama",
+    "exact": 23.955175549856524,
+    "conventional": 23.877779210145842,
+    "difference": 0.07739633971068116
+   },
+   {
+    "route": "nea_cape",
+    "name": "Futtsu via the Cape",
+    "exact": 23.319939899476946,
+    "conventional": 23.140753711332433,
+    "difference": 0.17918618814451293
+   }
+  ],
+  "caption_segments": [
+   {
+    "text": "The week to "
+   },
+   {
+    "field": "as_of",
+    "value": "2026-10-07",
+    "label": "7 October 2026"
+   },
+   {
+    "text": ": the netback per MMBtu loaded, the exact form the study uses, against the conventional one per MMBtu delivered, and the difference, in $/MMBtu."
+   }
+  ]
+ },
  "parameters": [
   {
    "key": "mmbtu_per_m3_lng",
@@ -155,7 +271,7 @@
    "source": "Spark LNG Freight Methodology 3.8, page 2, 'LNG Conversion Factor: 23'",
    "url": null,
    "read_on": "2026-10-01",
-   "note": "A market convention for a lean cargo; the study runs no other value, and the reader can type any in the Model view."
+   "note": "A market convention for a lean cargo; 22 to 24 covers lean to rich cargoes. The Method view shows the latest week at 22, 23 and 24, and the reader can type any value in the Model view."
   },
   {
    "key": "vessel_174k_capacity_m3",

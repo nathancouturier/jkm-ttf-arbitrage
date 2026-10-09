@@ -4410,7 +4410,7 @@
      "signed": true
     },
     {
-     "text": " and"
+     "text": ", and"
     },
     {
      "text": " round the Cape in the week ending "
@@ -4421,7 +4421,7 @@
      "label": "25 March 2026"
     },
     {
-     "text": ", and stayed open to the week Platts assessed."
+     "text": "; it stayed open to the week Platts assessed."
     },
     {
      "text": " The weeks ending "
@@ -4432,7 +4432,18 @@
      "label": "25 February 2026 and 4 March 2026"
     },
     {
-     "text": " read open before it only through Europe's DES spread, ACER's assessment of a half month ahead lagging TTF's jump; with that spread at zero they were closed."
+     "text": " read open before it only through Europe's DES spread as ACER assessed it; with that spread at zero they were closed."
+    },
+    {
+     "text": " With that spread at zero, the arb east opened only in the week ending "
+    },
+    {
+     "field": "zero_opened",
+     "value": "2026-03-25",
+     "label": "25 March 2026"
+    },
+    {
+     "text": "."
     },
     {
      "text": " In the week ending "
@@ -4459,48 +4470,29 @@
      "format": "usd_day"
     },
     {
-     "text": " $/day round the Cape"
+     "text": " $/day round the Cape."
     },
     {
-     "text": "; the rates reported nearest were "
+     "text": " In the "
     },
     {
-     "field": "near_hire",
-     "value": 161750.0,
-     "format": "usd_day"
+     "field": "reported_weeks",
+     "value": 4,
+     "format": "count"
     },
     {
-     "text": " $/day on "
+     "text": " weeks from then to the assessment with a charter rate reported within "
     },
     {
-     "field": "near_day",
-     "value": "2026-03-03",
-     "label": "3 March 2026"
+     "field": "hire_window",
+     "value": 14,
+     "format": "count"
     },
     {
-     "text": ", above both"
+     "text": " days, "
     },
     {
-     "text": "; "
-    },
-    {
-     "field": "near_hire",
-     "value": 92000.0,
-     "format": "usd_day"
-    },
-    {
-     "text": " $/day on "
-    },
-    {
-     "field": "near_day",
-     "value": "2026-04-03",
-     "label": "3 April 2026"
-    },
-    {
-     "text": ", between the two"
-    },
-    {
-     "text": "."
+     "text": "the rate lay below the breakeven hire of an open route every time: a ship chartered at it paid its way east."
     },
     {
      "text": " The JKM markets took "
@@ -4570,10 +4562,7 @@
      "text": "."
     },
     {
-     "text": " The rise began before the arb opened."
-    },
-    {
-     "text": " Cargoes moved east while a spot hire reported nearby sat above both breakevens: spot hire is not the marginal cost of a cargo on a ship already chartered."
+     "text": " The rise began before the arb opened, so the arb alone does not explain it."
     }
    ],
    "accent": {
@@ -5074,7 +5063,7 @@
    "y_axis": "$/MMBtu",
    "panama_route": "To North Asia via Panama",
    "cape_route": "To North Asia round the Cape",
-   "y2026_legend": "The ink line is JKM over TTF; the thin line, S* via Panama; the dotted line, S* round the Cape; both at the central hire. The dot in the accent is the week the arb east opened.",
+   "y2026_legend": "The ink line is JKM over TTF; the thin line, S* via Panama; the dotted line, S* round the Cape; both at the central hire. The dot in the accent is the week the arb east opened on the data, Europe's DES spread as ACER assessed it.",
    "y2020_legend": "The ink line is the lift margin at the notice date at the central hire, over the band from the low to the high hire; the dashed line, the margin with the month's own prices.",
    "y2020_caption": "The lift margin of each loading month of the year, at the notice date at each hire and at loading at the central hire, and the cargoes reported cancelled.",
    "waits_caption": "Panama against the Cape in the months a wait was reported for LNG: the wait reported, the wait at which the two routes net the same, and Panama's lead over the Cape without and with the wait, in $/MMBtu."

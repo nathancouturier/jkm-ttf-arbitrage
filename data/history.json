@@ -5742,7 +5742,7 @@
     "letter": "D",
     "day": "2024-01-12",
     "end": null,
-    "what": "The last LNG cargo crosses the Red Sea: after the Houthi attacks on shipping, none crossed from 12 January 2024 to the end of February.",
+    "what": "The last LNG cargoes cross the Red Sea before the Houthi attacks on shipping stop them: none crossed after 12 January 2024, to late February when the record was written.",
     "publisher": "Oxford Institute for Energy Studies, NG 188, February 2024",
     "url": "https://www.oxfordenergy.org/wpcms/wp-content/uploads/2024/02/NG-188-LNG-Shipping-Chokepoints.pdf"
    },
@@ -5839,7 +5839,7 @@
     "format": "count"
    },
    {
-    "text": " left out for want of a document the study could read, listed after the table."
+    "text": " left out, listed after the table with the reason: no readable document, or a rule or break shown elsewhere."
    }
   ],
   "events_left_out": [

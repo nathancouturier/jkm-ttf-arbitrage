@@ -281,8 +281,8 @@
   {
    "id": "events",
    "label": "Dated events that explain the regimes in the sample, each from one document read",
-   "publisher": "this study, from documents of EIA, the US Department of Energy, LNG Prime, The National, Platts, gCaptain and Columbia University's Center on Global Energy Policy",
-   "page_url": "https://www.eia.gov/todayinenergy/detail.php?id=44697",
+   "publisher": "this study, from documents of EIA, the US Department of Energy, LNG Prime, the Oxford Institute for Energy Studies, Platts through Hellenic Shipping News, gCaptain and Columbia University's Center on Global Energy Policy",
+   "page_url": "https://github.com/nathancouturier/jkm-ttf-arbitrage/blob/main/docs/sources.md",
    "status": "ok",
    "status_words": "checked",
    "range_words": "8 figures typed from cited articles, not a time series",

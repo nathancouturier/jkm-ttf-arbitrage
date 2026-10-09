@@ -69,8 +69,8 @@ EVENTS: tuple[Event, ...] = (
     ),
     Event(
         "2024-01-12", None,
-        "The last LNG cargo crosses the Red Sea: after the Houthi attacks on shipping, none crossed from 12 "
-        "January 2024 to the end of February.",
+        "The last LNG cargoes cross the Red Sea before the Houthi attacks on shipping stop them: none crossed "
+        "after 12 January 2024, to late February when the record was written.",
         "Oxford Institute for Energy Studies, NG 188, February 2024",
         "https://www.oxfordenergy.org/wpcms/wp-content/uploads/2024/02/NG-188-LNG-Shipping-Chokepoints.pdf",
         "2026-10-01",
@@ -208,7 +208,8 @@ def record() -> dict:
         status, note = "failed", "; ".join(found)
     else:
         note = (
-            "%d dated events from %s to %s, each from one document read, and %d left out for want of one. "
+            "%d dated events from %s to %s, each from one document read, and %d left out, each with "
+            "the reason. "
             "A seed, not a time series."
             % (len(EVENTS), EVENTS[0].day, EVENTS[-1].day, len(LEFT_OUT))
         )

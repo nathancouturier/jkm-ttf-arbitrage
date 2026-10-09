@@ -29,8 +29,7 @@ from typing import Any, Mapping, Sequence
 
 import pandas as pd
 
-from . import analysis, config, reader, worked
-from .freight_anchors import ANCHORS
+from . import analysis, config, reader
 from .spreadhistory import ticks
 from .reported import reported
 
@@ -274,7 +273,7 @@ def _y2026_story(rows: pd.DataFrame, points: Sequence[Mapping[str, Any]], week: 
     T, N, D, W = reader.T, reader.N, reader.D, reader.W
     panama, cape = _opening(points, "panama", week), _opening(points, "cape", week)
     if panama is None and cape is None:
-        return [T("The spread covered neither route's breakeven in the weeks to the assessment.")]
+        return [T("In the week Platts assessed, the spread covered neither route's breakeven at the central hire.")]
     opened = min((o for o in (panama, cape) if o is not None), key=lambda o: o["day"])
     out = [T("At the central hire the arb east opened")]
     if panama is not None:
@@ -282,42 +281,59 @@ def _y2026_story(rows: pd.DataFrame, points: Sequence[Mapping[str, Any]], week: 
                 N("panama_spread", panama["spread"], "usd_mmbtu", signed=True), T(" $/MMBtu against a breakeven of "),
                 N("panama_s_star", panama["panama"], "usd_mmbtu", signed=True)]
     if cape is not None:
-        out += [T(" and" if panama is not None else ""), T(" round the Cape in the week ending "),
+        out += [T(", and" if panama is not None else ""), T(" round the Cape in the week ending "),
                 D("cape_opened", cape["day"])]
-    out += [T(", and stayed open to the week Platts assessed.")]
+    out += [T("; it stayed open to the week Platts assessed.")]
 
-    # The weeks before that run that read open only through ACER's spread.
+    # How much of that rests on Europe's DES spread: the weeks before the run
+    # that read open only through it, and the week the run begins with it at zero.
     if regas is not None and not regas.empty:
-        lagged = regas[(regas["day"] >= pd.Timestamp(FROM_2026)) & (regas["day"] < pd.Timestamp(opened["day"]))
-                       & regas["data_open"] & ~regas["zero_open"]]
+        weeks = regas[(regas["day"] >= pd.Timestamp(FROM_2026)) & (regas["day"] <= pd.Timestamp(week))]
+        lagged = weeks[(weeks["day"] < pd.Timestamp(opened["day"])) & weeks["data_open"] & ~weeks["zero_open"]]
         if not lagged.empty:
             out += [T(" The weeks ending "), W("lagged", reader.listed([reader.day_label(d) for d in lagged["day"]])),
-                    T(" read open before it only through Europe's DES spread, ACER's assessment of a half month "
-                      "ahead lagging TTF's jump; with that spread at zero they were closed.")]
+                    T(" read open before it only through Europe's DES spread as ACER assessed it; with that spread at "
+                      "zero they were closed.")]
+        zero_first = None
+        for r in weeks.itertuples(index=False):
+            zero_first = (zero_first or r.day) if r.zero_open else None
+        if zero_first is not None and zero_first.date() != date.fromisoformat(opened["day"]):
+            out += [T(" With that spread at zero, the arb east opened only in the week ending "),
+                    D("zero_opened", zero_first.date()), T(".")]
+        elif zero_first is None:
+            out += [T(" With that spread at zero, it was closed in the week Platts assessed.")]
 
-    # The breakeven hire in the opening week against the rates reported around it.
-    at = rows[(rows["frequency"] == "weekly") & (rows["hire_level"] == "central")
-              & (rows["day"] == pd.Timestamp(opened["day"]))]
-    h_panama = None
-    spot_above = False
-    if not at.empty:
-        r = at.iloc[0]
-        h_panama, h_cape = _finite(r["panama_h_star"]), _finite(r["cape_h_star"])
-        day = date.fromisoformat(opened["day"])
-        near = sorted((a for a in ANCHORS if abs((worked._anchor_day(a) - day).days) <= 31),
-                      key=lambda a: worked._anchor_day(a))
+    # The breakeven hire, week by week, against the rate reported nearest each week.
+    weekly = rows[(rows["frequency"] == "weekly") & (rows["day"] >= pd.Timestamp(opened["day"]))
+                  & (rows["day"] <= pd.Timestamp(week))]
+    central = weekly[weekly["hire_level"] == "central"].set_index("day")
+    reported = weekly[weekly["hire_level"] == "reported"].set_index("day")
+    first_row = central.loc[pd.Timestamp(opened["day"])] if pd.Timestamp(opened["day"]) in central.index else None
+    if first_row is not None:
+        h_panama, h_cape = _finite(first_row["panama_h_star"]), _finite(first_row["cape_h_star"])
         if h_panama is not None and h_cape is not None:
             out += [T(" In the week ending "), D("h_week", opened["day"]),
                     T(" a ship paid its way east at any hire below "), N("h_panama", h_panama, "usd_day"),
-                    T(" $/day via Panama and "), N("h_cape", h_cape, "usd_day"), T(" $/day round the Cape")]
-            for index, a in enumerate(near):
-                above = sum(a.hire_usd_day > h for h in (h_panama, h_cape))
-                spot_above = spot_above or above == 2
-                where = {2: "above both", 1: "between the two", 0: "below both"}[above]
-                out += [T("; " if index else "; the rates reported nearest were "),
-                        N("near_hire", a.hire_usd_day, "usd_day"), T(" $/day on "),
-                        D("near_day", worked._anchor_day(a)), T(", " + where)]
-            out += [T(".")]
+                    T(" $/day via Panama and "), N("h_cape", h_cape, "usd_day"), T(" $/day round the Cape.")]
+    above = []
+    for day, r in reported.iterrows():
+        if day not in central.index:
+            continue
+        c = central.loc[day]
+        h_open = [h for h, ok in ((c["panama_h_star"], c["panama_open"]), (c["cape_h_star"], c["cape_open"]))
+                  if ok and _finite(h) is not None]
+        if h_open:
+            above.append(r["hire_usd_day"] > max(h_open))
+    if above:
+        out += [T(" In the "), N("reported_weeks", len(above), "count"),
+                T(" weeks from then to the assessment with a charter rate reported within "),
+                N("hire_window", config.PARAMETERS["hire_anchor_max_days"].value, "count"), T(" days, ")]
+        if any(above):
+            out += [T("the rate lay above every open route's breakeven hire in "),
+                    N("reported_above", sum(above), "count"), T(".")]
+        else:
+            out += [T("the rate lay below the breakeven hire of an open route every time: a ship chartered at it "
+                      "paid its way east.")]
 
     # Did flows follow: the share of the JKM markets month by month.
     year = int(opened["day"][:4])
@@ -339,10 +355,12 @@ def _y2026_story(rows: pd.DataFrame, points: Sequence[Mapping[str, Any]], week: 
         rose_first = len(before) > 1 and before[-1]["share_jkm"] > before[0]["share_jkm"]
         rose = after[0]["share_jkm"] > before[-1]["share_jkm"]
         if rose_first:
-            out += [T(" The rise began before the arb opened.")]
-        if rose and not at.empty and h_panama is not None and spot_above:
-            out += [T(" Cargoes moved east while a spot hire reported nearby sat above both breakevens: spot hire is "
-                      "not the marginal cost of a cargo on a ship already chartered.")]
+            out += [T(" The rise began before the arb opened, so the arb alone does not explain it.")]
+        # The brief's case: exports moving east in weeks the reported spot hire
+        # lay above every open route's breakeven hire.
+        if rose and any(above):
+            out += [T(" Exports moved east in weeks the reported spot hire lay above the breakeven hire: spot hire "
+                      "is not the marginal cost of a cargo on a ship already chartered.")]
     return out
 
 
@@ -402,7 +420,7 @@ def page(rows: pd.DataFrame, months: Sequence[Mapping[str, Any]], regressions: S
             "panama_route": "To North Asia via Panama", "cape_route": "To North Asia round the Cape",
             "y2026_legend": "The ink line is JKM over TTF; the thin line, S* via Panama; the dotted line, S* round "
                             "the Cape; both at the central hire. The dot in the accent is the week the arb east "
-                            "opened.",
+                            "opened on the data, Europe's DES spread as ACER assessed it.",
             "y2020_legend": "The ink line is the lift margin at the notice date at the central hire, over the "
                             "band from the low to the high hire; the dashed line, the margin with the month's own "
                             "prices.",

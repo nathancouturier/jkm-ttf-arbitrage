@@ -40,7 +40,7 @@ import sys
 from dataclasses import asdict, replace
 from datetime import date
 from pathlib import Path
-from typing import Any
+from typing import Any, Mapping
 
 import pandas as pd
 
@@ -145,7 +145,7 @@ def inputs_json(inputs) -> dict[str, Any]:
 
 
 def now(obs: pd.DataFrame | None = None, *, flows_document: dict[str, Any] | None = None,
-        provenance_document: dict[str, Any] | None = None) -> dict[str, Any]:
+        provenance_document: dict[str, Any] | None = None, keep: dict[str, Any] | None = None) -> dict[str, Any]:
     """The latest weekly observation, worked at the reported hire nearest it, or the central level.
 
     Besides the engine's inputs and output, the reader's layer of the Now view:
@@ -181,6 +181,9 @@ def now(obs: pd.DataFrame | None = None, *, flows_document: dict[str, Any] | Non
         else:
             raise worked.MissingInput("no weekly observation can be priced")
         result = evaluate(inputs)
+        if keep is not None:
+            # The week's inputs and output, for the Method view's tables.
+            keep.update({"inputs": inputs, "result": result, "day": day})
         usd_per_eur = worked.usd_per_eur_on(day)[0]
         eua_eur = None
         if inputs.eua_usd_t:
@@ -396,13 +399,24 @@ def model(now_document: dict[str, Any]) -> dict[str, Any]:
     })
 
 
-def method(data_day: date) -> dict[str, Any]:
-    """The Method view: the engine as formulas, every parameter with its source, the limits and the credits."""
+def method(data_day: date, latest: Mapping[str, Any] | None = None) -> dict[str, Any]:
+    """The Method view: the engine as formulas, every parameter with its source, the limits and the credits.
+
+    latest, the latest week's inputs and output, gives the energy content
+    sensitivity and the exact against the conventional netback."""
+    tables = None
+    if latest is not None:
+        inputs = latest["inputs"]
+        tables = {
+            "k_sensitivity": methodpage.k_sensitivity(
+                latest["day"], lambda k: evaluate(replace(inputs, mmbtu_per_m3=k))),
+            "conventional": methodpage.conventional(latest["day"], latest["result"]),
+        }
     return _clean({
         **reader.header("method", data_day, "the engine as formulas, every parameter of the parameter table with "
                                             "its value, status and source, the units, the limits and the credits"),
         "conventions": reader.conventions(),
-        **methodpage.page(),
+        **methodpage.page(tables),
         "credits": list(CREDITS),
     })
 
@@ -429,7 +443,8 @@ def write_all() -> list[Path]:
         rows, _ = analysis.work(obs)
         flows_document = flows(rows)
         provenance_document = provenance()
-        now_document = now(obs, flows_document=flows_document, provenance_document=provenance_document)
+        latest: dict[str, Any] = {}
+        now_document = now(obs, flows_document=flows_document, provenance_document=provenance_document, keep=latest)
         documents = {
             "now.json": now_document,
             "model.json": model(now_document),
@@ -437,7 +452,7 @@ def write_all() -> list[Path]:
             "history.json": history(rows, obs),
             "flows.json": flows_document,
             "provenance.json": provenance_document,
-            "method.json": method(date.fromisoformat(now_document["as_of"])),
+            "method.json": method(date.fromisoformat(now_document["as_of"]), latest),
         }
     return [_write(name, document) for name, document in documents.items()]
 

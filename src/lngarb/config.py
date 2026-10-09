@@ -699,13 +699,14 @@ SOURCES: Mapping[str, Source] = _registry(
     Source(
         series="events",
         label="Dated events that explain the regimes in the sample, each from one document read",
-        publisher="this study, from documents of EIA, the US Department of Energy, LNG Prime, The National, Platts, gCaptain and Columbia University's Center on Global Energy Policy",
-        page_url="https://www.eia.gov/todayinenergy/detail.php?id=44697",
+        publisher="this study, from documents of EIA, the US Department of Energy, LNG Prime, the Oxford Institute for Energy Studies, Platts through Hellenic Shipping News, gCaptain and Columbia University's Center on Global Energy Policy",
+        page_url="https://github.com/nathancouturier/jkm-ttf-arbitrage/blob/main/docs/sources.md",
         machine_url=None,
         url_note=(
             "Written by lngarb.events from rows kept in the code, each read by hand in "
             "one dated document whose address the row carries; nothing is fetched. An "
-            "event no readable document supports is left out, with the reason."
+            "event left out is listed with the reason. docs/sources.md, section 2.25, "
+            "names the documents."
         ),
         frequency="annual",
         unit="event",
@@ -1094,8 +1095,8 @@ SUEZ_US_GULF_JAPAN_REBATE_END = "2026-12-31"
 PARAMETERS: Mapping[str, Parameter] = _parameters(
     Parameter("mmbtu_per_m3_lng", 23.0, "MMBtu per m3 of LNG", "published",
               "Spark LNG Freight Methodology 3.8, page 2, 'LNG Conversion Factor: 23'", _SPARK_38,
-              "2026-10-01", "A market convention for a lean cargo; the study runs no other value, and the reader can type "
-              "any in the Model view."),
+              "2026-10-01", "A market convention for a lean cargo; 22 to 24 covers lean to rich cargoes. The Method "
+              "view shows the latest week at 22, 23 and 24, and the reader can type any value in the Model view."),
     Parameter("vessel_174k_capacity_m3", 174_000.0, "m3", "published",
               "Spark LNG Freight Methodology 3.8, page 2, 'Vessel Type: 174,000 m3 2 Stroke'",
               _SPARK_38, "2026-10-01"),

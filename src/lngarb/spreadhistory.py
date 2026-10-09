@@ -357,7 +357,8 @@ def _events_lead(items: Sequence[Mapping[str, Any]], left_out: Sequence[tuple[st
         reader.N("events", len(items), "count"),
         reader.T(" events, each from one document read, and "),
         reader.N("left_out", len(left_out), "count"),
-        reader.T(" left out for want of a document the study could read, listed after the table."),
+        reader.T(" left out, listed after the table with the reason: no readable document, or a rule or "
+                 "break shown elsewhere."),
     ]
 
 

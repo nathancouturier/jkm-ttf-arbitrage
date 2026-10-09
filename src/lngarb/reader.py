@@ -334,7 +334,7 @@ def regas_sensitivity(*, spread: float, delta: float, observed: bool, at_zero: t
     def state(s_star: float) -> str:
         return "open" if spread > s_star else "closed"
 
-    seen = weeks[weeks["delta_observed"]]
+    seen = weeks[weeks["delta_observed"]] if not weeks.empty else weeks
     segments = [
         T("Europe's DES spread to TTF this week is "), N("delta_nwe", delta, "usd_mmbtu", signed=True),
         T(" $/MMBtu, " + ("ACER's" if observed else "the assumption")),
@@ -359,8 +359,8 @@ def regas_sensitivity(*, spread: float, delta: float, observed: bool, at_zero: t
             T(" EUR/MWh assumed where ACER published nothing, at "),
             N("assumed_s_star", assumed_s, "usd_mmbtu", signed=True), T(", "), W("assumed_state", state(assumed_s)),
         ]
-    flips_zero = int((weeks["data_open"] != weeks["zero_open"]).sum())
-    flips_assumed = int((weeks["data_open"] != weeks["assumed_open"]).sum())
+    flips_zero = 0 if weeks.empty else int((weeks["data_open"] != weeks["zero_open"]).sum())
+    flips_assumed = 0 if weeks.empty else int((weeks["data_open"] != weeks["assumed_open"]).sum())
     segments += [
         T(". Of the "), N("weeks", len(weeks), "count"),
         T(" weeks priced, at the central hire a spread of zero would change whether the arb east was open in "),
