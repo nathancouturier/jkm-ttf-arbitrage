@@ -64,6 +64,11 @@ const SHOTS = [
   { name: "flows-tablet-light", ...TABLET, theme: "light", hash: "#/flows" },
   { name: "flows-mobile-dark", ...MOBILE, theme: "dark", hash: "#/flows" },
   { name: "flows-narrow-light", ...NARROW, theme: "light", hash: "#/flows" },
+  { name: "method-desktop-light", ...DESKTOP, theme: "light", hash: "#/method" },
+  { name: "method-desktop-dark", ...DESKTOP, theme: "dark", hash: "#/method" },
+  { name: "method-tablet-dark", ...TABLET, theme: "dark", hash: "#/method" },
+  { name: "method-mobile-light", ...MOBILE, theme: "light", hash: "#/method" },
+  { name: "method-narrow-dark", ...NARROW, theme: "dark", hash: "#/method" },
 ];
 const ONLY = (argValue(argv, "--only") || "").split(",").filter(Boolean);
 

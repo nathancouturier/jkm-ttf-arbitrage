@@ -83,6 +83,7 @@ LIMITS: Mapping[str, tuple[float, float]] = {
     "canal_days": (0.0, 30.0),
     "wait_days": (0.0, 60.0),
     "ets_phase": (0.0, 1.0),
+    "eua_eur_t": (0.0, 1000.0),
     "ets_voyage_share": (0.0, 1.0),
     "ets_berth_share": (0.0, 1.0),
     "mmbtu_per_m3": (15.0, 30.0),

@@ -37,7 +37,7 @@ const verdict = "document.querySelector('.model-verdict').textContent";
 const CHECKS = [
   {
     name: "TTF in EUR/MWh follows a new exchange rate, and its label says the unit",
-    hash: "#/model?preset=latest",
+    hash: "#/model?preset=march_2026",
     async run(page) {
       const before = await page.evaluate(cell("nwe_direct", "netback"));
       await page.evaluate(choose("select[aria-label=\"TTF unit\"]", "eur_mwh"));
@@ -57,7 +57,7 @@ const CHECKS = [
   },
   {
     name: "a figure typed in EUR/MWh survives switching the unit both ways",
-    hash: "#/model?preset=latest",
+    hash: "#/model?preset=march_2026",
     async run(page) {
       await page.evaluate(choose("select[aria-label=\"TTF unit\"]", "eur_mwh"));
       await page.evaluate(typeInto("#field-ttf", "30.01"));
@@ -69,7 +69,7 @@ const CHECKS = [
   },
   {
     name: "the preset's figure written another way is the preset's",
-    hash: "#/model?preset=latest",
+    hash: "#/model?preset=march_2026",
     async run(page) {
       const before = await page.evaluate(cell("nwe_direct", "netback"));
       const text = await page.evaluate("document.querySelector('#field-ttf').value");
@@ -80,7 +80,7 @@ const CHECKS = [
   },
   {
     name: "a figure too large to be finite is refused with words",
-    hash: "#/model?preset=latest",
+    hash: "#/model?preset=march_2026",
     async run(page) {
       await page.evaluate(typeInto("#field-speed_kn", "1e999"));
       const said = await page.evaluate(notes);
@@ -95,7 +95,7 @@ const CHECKS = [
   },
   {
     name: "text in a route cell is a missing input, named with its route",
-    hash: "#/model?preset=latest",
+    hash: "#/model?preset=march_2026",
     async run(page) {
       await page.evaluate(typeInto(routeInput("nea_panama", "Canal toll laden, $"), "abc"));
       await page.evaluate(typeInto(routeInput("nea_cape", "Laden days at sea"), "abc"));
@@ -115,7 +115,7 @@ const CHECKS = [
   },
   {
     name: "the tolls follow the ship",
-    hash: "#/model?preset=latest",
+    hash: "#/model?preset=march_2026",
     async run(page) {
       const selector = routeInput("nea_panama", "Canal toll laden, $");
       const before = await page.evaluate("document.querySelector(" + JSON.stringify(selector) + ").value");
@@ -148,7 +148,7 @@ const CHECKS = [
   },
   {
     name: "a ship that burns all it loads gives no netback, and says so",
-    hash: "#/model?preset=latest",
+    hash: "#/model?preset=march_2026",
     async run(page) {
       await page.evaluate(typeInto("#field-boil_off_percent", "1"));
       await page.evaluate(typeInto("#field-speed_kn", "5"));
@@ -164,7 +164,7 @@ const CHECKS = [
   },
   {
     name: "a comma is read as the site writes figures, and says how",
-    hash: "#/model?preset=latest",
+    hash: "#/model?preset=march_2026",
     async run(page) {
       await page.evaluate(typeInto("#field-hire_usd_day", "300,000"));
       const hire = await page.evaluate("document.querySelector('#field-hire_usd_day-status').textContent");
@@ -215,10 +215,10 @@ const CHECKS = [
   },
   {
     name: "choosing the preset already shown keeps what was typed",
-    hash: "#/model?preset=latest",
+    hash: "#/model?preset=march_2026",
     async run(page) {
       await page.evaluate(typeInto("#field-hire_usd_day", "100000"));
-      await page.evaluate("document.querySelector('.choice[data-preset=\"latest\"]').click(), true");
+      await page.evaluate("document.querySelector('.choice[data-preset=\"march_2026\"]').click(), true");
       await page.evaluate("new Promise((r) => setTimeout(r, 300))");
       const hire = await page.evaluate("document.querySelector('#field-hire_usd_day').value");
       return [[hire === "100000", "the hire reads " + hire]];
@@ -226,7 +226,7 @@ const CHECKS = [
   },
   {
     name: "a decimal comma after a zero is read as a decimal",
-    hash: "#/model?preset=latest",
+    hash: "#/model?preset=march_2026",
     async run(page) {
       await page.evaluate(typeInto("#field-boil_off_percent", "0,075"));
       const status = await page.evaluate("document.querySelector('#field-boil_off_percent-status').textContent");
@@ -240,7 +240,7 @@ const CHECKS = [
   },
   {
     name: "no cargo delivered to Gate leaves no comparison with Gate, and the sentence says why",
-    hash: "#/model?preset=latest",
+    hash: "#/model?preset=march_2026",
     async run(page) {
       await page.evaluate(typeInto("#field-boil_off_percent", "1"));
       await page.evaluate(typeInto(routeInput("nwe_direct", "Laden days at sea"), "120"));
@@ -255,7 +255,7 @@ const CHECKS = [
   },
   {
     name: "the ship's parameters name their sources, which follow the carrier",
-    hash: "#/model?preset=latest",
+    hash: "#/model?preset=march_2026",
     async run(page) {
       const before = await page.evaluate("document.querySelector('#field-boil_off_percent-source').textContent");
       await page.evaluate(choose("#field-vessel", "tfde_160k"));
@@ -271,7 +271,7 @@ const CHECKS = [
     // Opened on a known preset, then sent to an unknown one: opening the
     // unknown one directly would be rewritten before the reload that opens
     // every check.
-    hash: "#/model?preset=latest",
+    hash: "#/model?preset=march_2026",
     async run(page) {
       await page.evaluate("location.hash = '#/model?preset=octobre_2022', true");
       await page.waitFor("document.querySelector('#view').textContent.includes('names no preset')", 5000).catch(() => null);
@@ -285,7 +285,7 @@ const CHECKS = [
   },
   {
     name: "choosing a preset keeps the keyboard on it",
-    hash: "#/model?preset=latest",
+    hash: "#/model?preset=march_2026",
     async run(page) {
       await page.evaluate("document.querySelector('.choice[data-preset=\"april_2020\"]').focus(), document.querySelector('.choice[data-preset=\"april_2020\"]').click(), true");
       await page.waitFor("location.hash === '#/model?preset=april_2020' && document.querySelector('.choice[aria-pressed=\"true\"]').dataset.preset === 'april_2020'");
@@ -344,3 +344,4 @@ if (failed) {
   process.exit(1);
 }
 console.log("PASS  " + CHECKS.length + " form checks");
+process.exit(0);

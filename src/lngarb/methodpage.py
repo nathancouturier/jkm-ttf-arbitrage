@@ -1,0 +1,225 @@
+"""The Method view's data: how a cargo is priced, every parameter with its source, and what the study cannot see.
+
+The view is the short form of docs/methodology.md, which it links: the engine
+as formulas, each with what it means; the table of every parameter in
+lngarb.config.PARAMETERS, in words, with its value, status, source, link, the
+day it was read and its note; the units and conversions; the delivery months
+of the front-month prices; exact against conventional freight; the limits of
+the study; and the credits. Figures in sentences are value segments, so the
+page formats them as everywhere else; a parameter's value is shown as the
+table's own words, built here from the value and its unit.
+"""
+
+from __future__ import annotations
+
+import math
+from datetime import date
+from typing import Any, Mapping
+
+from . import config, reader, units
+
+__all__ = ["page", "PARAMETER_WORDS", "value_words"]
+
+#: Each parameter in words, by its name in the table.
+PARAMETER_WORDS: Mapping[str, str] = {
+    "mmbtu_per_m3_lng": "Energy of a cubic metre of LNG",
+    "vessel_174k_capacity_m3": "Capacity of the two-stroke carrier",
+    "vessel_174k_boil_off_per_day": "Boil-off of the two-stroke carrier",
+    "vessel_174k_speed_kn": "Speed of the two-stroke carrier",
+    "vessel_160k_capacity_m3": "Capacity of the TFDE carrier",
+    "vessel_160k_boil_off_per_day": "Boil-off of the TFDE carrier",
+    "vessel_160k_speed_kn": "Speed of the TFDE carrier",
+    "fill": "Cargo loaded, share of capacity",
+    "load_days": "Days to load",
+    "discharge_days": "Days to discharge",
+    "spark30_flex_days": "Flex days in Spark30, used only for Spark's example",
+    "funding_spread_bp": "Funding spread over the overnight rate",
+    "panama_capacity_is_nominal": "Panama tolls on the nominal capacity",
+    "panama_fresh_water_fixed_usd": "Panama fresh water surcharge, fixed part",
+    "panama_fresh_water_variable_share": "Panama fresh water surcharge, share of tolls",
+    "vessel_174k_from": "First day of the two-stroke benchmark carrier",
+    "port_cost_west_usd": "Port costs, Sabine Pass and Gate",
+    "port_cost_east_usd": "Port costs, Sabine Pass and Futtsu",
+    "delta_nwe_eur_mwh": "Europe's DES spread to TTF where ACER published too little",
+    "delta_nwe_min_coverage": "Least share of a span's weekdays ACER must cover",
+    "hire_anchor_max_days": "Furthest a reported charter rate may lie from a date",
+    "delta_nwe_wide_window": "Weeks of 2022 when Europe's DES spread ran wide",
+    "panama_open_to_lng_from": "First day Panama's expanded locks took LNG carriers",
+    "suez_closed_to_us_cargo_from": "First day Suez is treated as closed to a US cargo",
+    "spa_henry_hub_multiple": "Contract price, multiple of Henry Hub",
+    "liquefaction_fee_usd_mmbtu": "Liquefaction fee",
+    "liquefaction_fee_low_usd_mmbtu": "Liquefaction fee, lowest in the contracts read",
+    "liquefaction_fee_high_usd_mmbtu": "Liquefaction fee, highest in the contracts read",
+    "cancellation_notice_day": "Day of the notice to cancel a cargo",
+    "ets_voyage_share": "EU ETS share of a voyage between an EU and a non-EU port",
+    "ets_berth_share": "EU ETS share of emissions at an EU berth",
+    "ets_phase_in_by_year": "EU ETS share of verified emissions surrendered, by year",
+    "tco2_per_t_lng": "Carbon dioxide per tonne of LNG burnt",
+    "tn2o_per_t_lng": "Nitrous oxide per tonne of LNG burnt",
+    "ets_ch4_n2o_from": "First day methane and nitrous oxide count in the EU ETS",
+    "gwp_ch4": "Global warming potential of methane",
+    "gwp_n2o": "Global warming potential of nitrous oxide",
+    "methane_slip_174k": "Methane slip of the two-stroke carrier",
+    "methane_slip_160k": "Methane slip of the TFDE carrier",
+    "methane_slip_on": "Methane slip counted",
+    "mmbtu_per_t_lng": "Energy of a tonne of LNG",
+    "eua_eur_t_after_published": "EU allowance price after the last month published",
+    "suez_scnt_per_m3": "Suez Canal net tonnage per cubic metre of capacity",
+    "panama_booking_fee_usd": "Panama booking fee",
+    "panama_waits_reported": "Waits reported at Panama for LNG",
+    "analysis_monthly_loading_day": "Loading day of a monthly observation",
+    "analysis_min_weeks_per_month": "Least weekly averages for a monthly observation",
+    "analysis_first_month": "First month of the monthly history",
+    "analysis_excluded_years": "Years left out of the second sample",
+}
+
+
+def _number(value: float) -> str:
+    """A figure with thousands grouped and no trailing zeros."""
+    if float(value).is_integer():
+        return format(int(value), ",")
+    text = format(value, ",.6f").rstrip("0").rstrip(".")
+    return text
+
+
+def _day(value: str) -> str:
+    return reader.day_label(date.fromisoformat(value)) if len(value) == 10 else reader.month_label(
+        date.fromisoformat(value + "-01"))
+
+
+def value_words(value: Any, unit: str) -> str:
+    """A parameter's value as the table shows it, from its value and unit."""
+    if isinstance(value, bool):
+        return "yes" if value else "no"
+    if isinstance(value, dict):
+        if unit.startswith("share"):
+            return "; ".join("%s percent from %s" % (_number(float(v) * 100.0), k) for k, v in sorted(value.items()))
+        return "; ".join("%s days in %s" % (_number(float(v)), _day(k)) for k, v in sorted(value.items()))
+    if isinstance(value, (tuple, list)):
+        if all(isinstance(v, str) for v in value):
+            return " to ".join(_day(v) for v in value)
+        return reader.listed([str(v) for v in value])
+    if isinstance(value, str):
+        try:
+            return _day(value)
+        except ValueError:
+            return value
+    if unit.startswith("share") and "percent" not in unit:
+        return _number(float(value) * 100.0) + " percent " + unit[len("share"):].strip()
+    if unit == "flag":
+        return "yes" if value else "no"
+    if unit == "days" and float(value) == 1.0:
+        return "1 day"
+    return _number(float(value)) + " " + unit
+
+
+def _formulas() -> list[dict[str, Any]]:
+    """The engine, formula by formula, each with what it means."""
+    multiple = config.PARAMETERS["spa_henry_hub_multiple"].value
+    return [
+        {"formula": "Q_load = V x fill x K",
+         "segments": [reader.T("The MMBtu loaded: a carrier of capacity V cubic metres, loaded to the share fill, at K "
+                               "MMBtu a cubic metre.")]},
+        {"formula": "G = Q_load x BOR x T_total;  Q_del = Q_load - G",
+         "segments": [reader.T("The gas used, boiled off or burnt every day of the round trip at the rate BOR, and the "
+                               "cargo delivered; the heel for the way back stays on board.")]},
+        {"formula": "C(d, r) = hire x T_total + port(d) + canal(r) + slot premium(r) + ets(d, r) + financing(r)",
+         "segments": [reader.T("The voyage's cost to destination d by route r: hire for the whole round trip, the "
+                               "ports, the canal both ways, any slot premium, the EU ETS on a voyage into Northwest "
+                               "Europe and the financing of the cargo for the laden days.")]},
+        {"formula": "NB(d, r) = (P_des(d) x Q_del(r) - C(d, r)) / Q_load",
+         "segments": [reader.T("The netback at Sabine Pass per MMBtu loaded: TTF plus Europe's DES spread at Gate, "
+                               "JKM at Futtsu.")]},
+        {"formula": "arb(r) = NB(NEA, r) - NB(NWE)",
+         "segments": [reader.T("How much more a cargo nets in Northeast Asia by route r than at Gate.")]},
+        {"formula": "S*(r) = boil-off + regas + voyage",
+         "segments": [reader.T("The spread of JKM over TTF at which route r nets what Gate does, in three parts: the "
+                               "gas the longer voyage burns, valued at TTF; Europe's DES spread, which a cargo sold "
+                               "east escapes; and the extra cost of the voyage per MMBtu delivered.")]},
+        {"formula": "H*(r) = [JKM x Q_del(r) - (TTF + delta) x Q_del(NWE) - (C_x(r) - C_x(NWE))] / (T_total(r) - T_total(NWE))",
+         "segments": [reader.T("The hire at which the two net the same; C_x is the cost without hire. A reported hire "
+                               "below it means the arb was open at the market's own freight.")]},
+        {"formula": "lift margin = best netback - m x HH",
+         "segments": [reader.T("The lift test: a cargo is lifted while the best netback covers the contract price, "
+                               "m times Henry Hub, with m at "), reader.N("hh_multiple", multiple, "share"),
+                      reader.T("; the liquefaction fee is owed either way, so it never decides.")]},
+        {"formula": "NB_conv = P_des - (C + P_ref x G) / Q_del",
+         "segments": [reader.T("The conventional netback, freight quoted per MMBtu delivered with the fuel at a "
+                               "reference price; the study uses the exact form and shows both for the latest week.")]},
+    ]
+
+
+def page() -> dict[str, Any]:
+    """The Method view's whole document body."""
+    parameters = []
+    for name, parameter in config.PARAMETERS.items():
+        parameters.append({
+            "key": name,
+            "name": PARAMETER_WORDS[name],
+            "value_words": value_words(parameter.value, parameter.unit),
+            "status": parameter.status,
+            "source": reader.dates_in_words(parameter.source),
+            "url": parameter.url,
+            "read_on": parameter.read_on,
+            "note": reader.dates_in_words(parameter.note) if parameter.note else None,
+        })
+    assumed = sum(p["status"] == "assumption" for p in parameters)
+    return {
+        "title_segments": [
+            reader.T("How a cargo is priced: the engine in "), reader.N("formulas", len(_formulas()), "count"),
+            reader.T(" formulas, its "), reader.N("parameters", len(parameters), "count"),
+            reader.T(" parameters, "), reader.N("assumed", assumed, "count"),
+            reader.T(" of them this study's assumptions, each with its source, and what the study cannot see"),
+        ],
+        "formulas": _formulas(),
+        "parameters": parameters,
+        "parameters_caption": "Every number the engine uses that is not market data: its value, whether it is "
+                              "published or this study's assumption, the document it is read in, the day it was "
+                              "read, and its note.",
+        "units": [
+            {"words": "MMBtu in a megawatt hour", "value": units.MMBTU_PER_MWH, "format": "mmbtu_per_m3"},
+            {"words": "MMBtu in a cubic metre of LNG", "value": config.PARAMETERS["mmbtu_per_m3_lng"].value,
+             "format": "mmbtu_per_m3"},
+            {"words": "MMBtu in a tonne of LNG", "value": config.PARAMETERS["mmbtu_per_t_lng"].value,
+             "format": "mmbtu_per_t"},
+        ],
+        "units_segments": [
+            reader.T("A price in euros a megawatt hour becomes dollars an MMBtu at the day's rate in the Federal "
+                     "Reserve's "), reader.W("fx_release", "H.10"),
+            reader.T(": USD/MMBtu = EUR/MWh x USD per EUR / MMBtu per MWh. Every price is in dollars an MMBtu, "
+                     "every cost in dollars, every hire in dollars a day."),
+        ],
+        "delivery_segments": [
+            reader.T("JKM futures for a month stop trading in the middle of the month before, and Dutch TTF futures "
+                     "two UK business days before the month begins, so from the middle of a month to its end the "
+                     "two front months name different delivery months. A week is aligned when every trading day of "
+                     "it names the same month for both, misaligned when none does, and mixed otherwise; the History "
+                     "view rings the misaligned weeks."),
+        ],
+        "limits": [
+            [reader.T("A spread is an association, not a decision: long term contracts move most US cargoes "
+                      "whatever the spot economics.")],
+            [reader.T("Charter rates are those the trade press reported, at the dates it reported them; between "
+                      "them the study runs the lowest, the median and the highest.")],
+            [reader.T("Panama's slots, queues and auctions are priced only where a wait was reported for LNG; "
+                      "the slot premium and the waiting days are inputs the reader can type.")],
+            [reader.T("Port costs are Spark's figures of "), reader.D("port_costs", "2022-02-01", "month"),
+             reader.T(", held for every year and both ships.")],
+            [reader.T("Before "), reader.D("meti_end", "2021-04-01", "month"),
+             reader.T(" the monthly JKM is a Japanese spot price, a proxy; from then to "),
+             reader.D("weekly_from", "2021-08-01", "month"), reader.T(" no public JKM is held.")],
+            [reader.T("The month of the export data is coarser than the decisions, taken weeks before a cargo "
+                      "loads.")],
+        ],
+        "documents": [
+            {"label": "The full methodology", "href": "docs/methodology.md"},
+            {"label": "Every source and its terms", "href": "docs/sources.md"},
+            {"label": "The questions left open", "href": "docs/open-questions.md"},
+            {"label": "The licence of the code", "href": "LICENSE"},
+            {"label": "The notices of the data", "href": "NOTICE"},
+            {"label": "The vendored typefaces and map", "href": "vendor/README.md"},
+        ],
+        "type_words": "The portfolio sets body text in Satoshi, whose licence forbids serving it from a repository; "
+                      "this site sets it in Figtree, the openly licensed face closest to it, served from this "
+                      "repository with every other file.",
+    }

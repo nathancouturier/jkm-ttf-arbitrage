@@ -879,8 +879,10 @@ def source(series: str) -> Source:
 # its unit, a status (published: read in the named document; derived: computed
 # from published figures; assumption: chosen by this study and labelled), the
 # document it comes from, its address and the date it was read. The site's
-# Method view prints this table, and the Model view lets a reader change each
-# value.
+# Method view prints this table. The Model view lets a reader change every
+# engine input these give a cargo; the tariff and EU ETS rules behind the tolls
+# and the carbon cost are fixed there, and what they give can be typed over
+# (docs/methodology.md, section 9.10).
 
 PARAMETER_STATUSES = ("published", "derived", "assumption")
 

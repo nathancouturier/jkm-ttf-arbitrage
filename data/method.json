@@ -1,0 +1,772 @@
+{
+ "schema_version": 1,
+ "artifact": "method",
+ "generated_by": "src/lngarb/export.py",
+ "data_date": "2026-10-07",
+ "describes": "the engine as formulas, every parameter of the parameter table with its value, status and source, the units, the limits and the credits",
+ "source": "the committed caches in data/cache and data/seed and the manifest, nothing from data/private; no network",
+ "conventions": {
+  "missing": "A missing value is JSON null. null never means zero and is never drawn as zero or bridged; the page shows a gap and says why.",
+  "decimals": {
+   "usd_mmbtu": 2,
+   "eur_mwh": 2,
+   "usd_day": 0,
+   "usd_per_eur": 4,
+   "eur_t": 2,
+   "rate_percent": 2,
+   "share_percent": 0,
+   "pp": 1,
+   "days": 1,
+   "nm": 0,
+   "count": 0,
+   "year": 0,
+   "t_stat": 2,
+   "knots": 1,
+   "usd": 0,
+   "bp": 0,
+   "share": 2,
+   "boil_off_percent": 3,
+   "fill_percent": 1,
+   "mmbtu_per_m3": 2,
+   "mmbtu_per_t": 2,
+   "r2": 2
+  },
+  "rounding": "now.json keeps full precision, because the browser engine recomputes from its inputs; history.json and flows.json store floats to 6 places. The page prints the decimals of the format a value names.",
+  "segments": "A sentence is a list of segments. A text segment holds words only. A value segment names its field and holds a value with a format, or an ISO date or a word with its label."
+ },
+ "title_segments": [
+  {
+   "text": "How a cargo is priced: the engine in "
+  },
+  {
+   "field": "formulas",
+   "value": 9,
+   "format": "count"
+  },
+  {
+   "text": " formulas, its "
+  },
+  {
+   "field": "parameters",
+   "value": 49,
+   "format": "count"
+  },
+  {
+   "text": " parameters, "
+  },
+  {
+   "field": "assumed",
+   "value": 21,
+   "format": "count"
+  },
+  {
+   "text": " of them this study's assumptions, each with its source, and what the study cannot see"
+  }
+ ],
+ "formulas": [
+  {
+   "formula": "Q_load = V x fill x K",
+   "segments": [
+    {
+     "text": "The MMBtu loaded: a carrier of capacity V cubic metres, loaded to the share fill, at K MMBtu a cubic metre."
+    }
+   ]
+  },
+  {
+   "formula": "G = Q_load x BOR x T_total;  Q_del = Q_load - G",
+   "segments": [
+    {
+     "text": "The gas used, boiled off or burnt every day of the round trip at the rate BOR, and the cargo delivered; the heel for the way back stays on board."
+    }
+   ]
+  },
+  {
+   "formula": "C(d, r) = hire x T_total + port(d) + canal(r) + slot premium(r) + ets(d, r) + financing(r)",
+   "segments": [
+    {
+     "text": "The voyage's cost to destination d by route r: hire for the whole round trip, the ports, the canal both ways, any slot premium, the EU ETS on a voyage into Northwest Europe and the financing of the cargo for the laden days."
+    }
+   ]
+  },
+  {
+   "formula": "NB(d, r) = (P_des(d) x Q_del(r) - C(d, r)) / Q_load",
+   "segments": [
+    {
+     "text": "The netback at Sabine Pass per MMBtu loaded: TTF plus Europe's DES spread at Gate, JKM at Futtsu."
+    }
+   ]
+  },
+  {
+   "formula": "arb(r) = NB(NEA, r) - NB(NWE)",
+   "segments": [
+    {
+     "text": "How much more a cargo nets in Northeast Asia by route r than at Gate."
+    }
+   ]
+  },
+  {
+   "formula": "S*(r) = boil-off + regas + voyage",
+   "segments": [
+    {
+     "text": "The spread of JKM over TTF at which route r nets what Gate does, in three parts: the gas the longer voyage burns, valued at TTF; Europe's DES spread, which a cargo sold east escapes; and the extra cost of the voyage per MMBtu delivered."
+    }
+   ]
+  },
+  {
+   "formula": "H*(r) = [JKM x Q_del(r) - (TTF + delta) x Q_del(NWE) - (C_x(r) - C_x(NWE))] / (T_total(r) - T_total(NWE))",
+   "segments": [
+    {
+     "text": "The hire at which the two net the same; C_x is the cost without hire. A reported hire below it means the arb was open at the market's own freight."
+    }
+   ]
+  },
+  {
+   "formula": "lift margin = best netback - m x HH",
+   "segments": [
+    {
+     "text": "The lift test: a cargo is lifted while the best netback covers the contract price, m times Henry Hub, with m at "
+    },
+    {
+     "field": "hh_multiple",
+     "value": 1.15,
+     "format": "share"
+    },
+    {
+     "text": "; the liquefaction fee is owed either way, so it never decides."
+    }
+   ]
+  },
+  {
+   "formula": "NB_conv = P_des - (C + P_ref x G) / Q_del",
+   "segments": [
+    {
+     "text": "The conventional netback, freight quoted per MMBtu delivered with the fuel at a reference price; the study uses the exact form and shows both for the latest week."
+    }
+   ]
+  }
+ ],
+ "parameters": [
+  {
+   "key": "mmbtu_per_m3_lng",
+   "name": "Energy of a cubic metre of LNG",
+   "value_words": "23 MMBtu per m3 of LNG",
+   "status": "published",
+   "source": "Spark LNG Freight Methodology 3.8, page 2, 'LNG Conversion Factor: 23'",
+   "url": null,
+   "read_on": "2026-10-01",
+   "note": "A market convention for a lean cargo; 22 to 24 is shown as a sensitivity."
+  },
+  {
+   "key": "vessel_174k_capacity_m3",
+   "name": "Capacity of the two-stroke carrier",
+   "value_words": "174,000 m3",
+   "status": "published",
+   "source": "Spark LNG Freight Methodology 3.8, page 2, 'Vessel Type: 174,000 m3 2 Stroke'",
+   "url": null,
+   "read_on": "2026-10-01",
+   "note": null
+  },
+  {
+   "key": "vessel_174k_boil_off_per_day",
+   "name": "Boil-off of the two-stroke carrier",
+   "value_words": "0.085 percent of the loaded volume per day",
+   "status": "published",
+   "source": "Spark LNG Freight Methodology 3.8, page 2, 'Boil Off Rate: 0.085% of cargo tanks at 98.5% capacity'",
+   "url": null,
+   "read_on": "2026-10-01",
+   "note": null
+  },
+  {
+   "key": "vessel_174k_speed_kn",
+   "name": "Speed of the two-stroke carrier",
+   "value_words": "17 knots",
+   "status": "published",
+   "source": "Spark LNG Freight Methodology 3.8, page 2, 'Speed: 17 knots'",
+   "url": null,
+   "read_on": "2026-10-01",
+   "note": null
+  },
+  {
+   "key": "vessel_160k_capacity_m3",
+   "name": "Capacity of the TFDE carrier",
+   "value_words": "160,000 m3",
+   "status": "published",
+   "source": "Spark LNG Freight Methodology 3.2, 11 November 2022, read from the Internet Archive's capture of 8 December 2022, page 2, 'Vessel Type: 160,000 m3 TFDE'",
+   "url": null,
+   "read_on": "2026-10-01",
+   "note": null
+  },
+  {
+   "key": "vessel_160k_boil_off_per_day",
+   "name": "Boil-off of the TFDE carrier",
+   "value_words": "0.1 percent of the loaded volume per day",
+   "status": "published",
+   "source": "Spark LNG Freight Methodology 3.2, 11 November 2022, read from the Internet Archive's capture of 8 December 2022, page 2, 'Boil Off Rate: 0.1% of cargo tanks at 98.5% capacity'",
+   "url": null,
+   "read_on": "2026-10-01",
+   "note": null
+  },
+  {
+   "key": "vessel_160k_speed_kn",
+   "name": "Speed of the TFDE carrier",
+   "value_words": "17 knots",
+   "status": "published",
+   "source": "Spark LNG Freight Methodology 3.2, 11 November 2022, read from the Internet Archive's capture of 8 December 2022, page 3, 'Speed: 17 knots'",
+   "url": null,
+   "read_on": "2026-10-01",
+   "note": null
+  },
+  {
+   "key": "fill",
+   "name": "Cargo loaded, share of capacity",
+   "value_words": "98.5 percent of capacity loaded",
+   "status": "published",
+   "source": "Spark LNG Freight Methodology 3.2, page 3, 'Discharge volume: 98.5% of Vessel Capacity minus boil-off for laden leg minus a heel of 3,000 m3'",
+   "url": null,
+   "read_on": "2026-10-01",
+   "note": "Spark states 98.5 percent as the basis of its boil-off and of its discharge volume, not as a fill parameter of its own."
+  },
+  {
+   "key": "load_days",
+   "name": "Days to load",
+   "value_words": "1 day",
+   "status": "published",
+   "source": "Spark LNG Freight Methodology 3.8, page 2, '1 day load'",
+   "url": null,
+   "read_on": "2026-10-01",
+   "note": null
+  },
+  {
+   "key": "discharge_days",
+   "name": "Days to discharge",
+   "value_words": "1 day",
+   "status": "published",
+   "source": "Spark LNG Freight Methodology 3.8, page 2, '1 day discharge'",
+   "url": null,
+   "read_on": "2026-10-01",
+   "note": null
+  },
+  {
+   "key": "spark30_flex_days",
+   "name": "Flex days in Spark30, used only for Spark's example",
+   "value_words": "3 days",
+   "status": "published",
+   "source": "Spark LNG Freight Methodology 3.8, page 2, Spark30 '30 days (25 days sailing, 1 day load, 1 day discharge and 3 Flex Days)'",
+   "url": null,
+   "read_on": "2026-10-01",
+   "note": "Used only to reproduce Spark; the engine's default is no flex days."
+  },
+  {
+   "key": "funding_spread_bp",
+   "name": "Funding spread over the overnight rate",
+   "value_words": "150 basis points over the overnight rate",
+   "status": "assumption",
+   "source": "this study, the convention of its copper sibling",
+   "url": null,
+   "read_on": "2026-10-07",
+   "note": "A trading house's cost of borrowing; a real desk's depends on its credit."
+  },
+  {
+   "key": "panama_capacity_is_nominal",
+   "name": "Panama tolls on the nominal capacity",
+   "value_words": "yes",
+   "status": "assumption",
+   "source": "this study; the canal's admeasurement rules were not read",
+   "url": null,
+   "read_on": "2026-10-07",
+   "note": "The canal charges on capacity as it admeasures it; the nominal capacity stands in."
+  },
+  {
+   "key": "panama_fresh_water_fixed_usd",
+   "name": "Panama fresh water surcharge, fixed part",
+   "value_words": "10,000 USD per transit",
+   "status": "published",
+   "source": "Panama Canal Authority, advisory ADV-03-2020 and tariff item 1500.RWA2",
+   "url": "https://pancanal.com/wp-content/uploads/2021/08/Maritime-tariffs-80-cancellation-feb26.pdf",
+   "read_on": "2026-10-06",
+   "note": "Mandatory from 15 February 2020 for ships over 300 feet."
+  },
+  {
+   "key": "panama_fresh_water_variable_share",
+   "name": "Panama fresh water surcharge, share of tolls",
+   "value_words": "5 percent of tolls",
+   "status": "assumption",
+   "source": "this study: the middle of the Authority's range of 0 to 10 percent",
+   "url": null,
+   "read_on": "2026-10-07",
+   "note": "Set daily from Gatun Lake's level, which is not collected; 0 and 10 percent are shown. Before 2023 the range was 1 to 10 percent."
+  },
+  {
+   "key": "vessel_174k_from",
+   "name": "First day of the two-stroke benchmark carrier",
+   "value_words": "2 January 2024",
+   "status": "published",
+   "source": "Spark LNG Freight Methodology 3.8, page 7, change log: '3.5 2 January 2024 - Vessel Type updated to 174,000 m3 2 Stroke'",
+   "url": null,
+   "read_on": "2026-10-01",
+   "note": "The study prices a date before it with the 160,000 m3 TFDE and from it with the 174,000 m3 two-stroke, as the benchmark freight rates do. Methodology 3.2 announced the change for 1 January 2024, a UK holiday on which Spark does not assess; 2 January is the date of version 3.5 and the first assessment on the new ship."
+  },
+  {
+   "key": "port_cost_west_usd",
+   "name": "Port costs, Sabine Pass and Gate",
+   "value_words": "308,947 USD per round trip, Sabine Pass and Gate together",
+   "status": "assumption",
+   "source": "this study, Spark's published figure held: Spark, note on negative freight rates, February 2022, 'Port costs provided by GAC on an indicative basis', for a 160,000 m3 TFDE",
+   "url": null,
+   "read_on": "2026-10-01",
+   "note": "Held for every year and both ships (open question 32). Taken to include the Sabine Neches cargo fee (open question 33)."
+  },
+  {
+   "key": "port_cost_east_usd",
+   "name": "Port costs, Sabine Pass and Futtsu",
+   "value_words": "273,184 USD per round trip, taken as Sabine Pass and Futtsu together",
+   "status": "assumption",
+   "source": "this study, Spark's published figure held: Spark, note on negative freight rates, February 2022, a screenshot of its Routes page, release of 8 February 2022, 'Port Cost' for Sabine Pass to Futtsu via Panama, for a 160,000 m3 TFDE",
+   "url": null,
+   "read_on": "2026-10-01",
+   "note": "Read from an image. That the figure covers both ports is this study's reading, by analogy with the figure for Gate. Used for every route east, every year and both ships (open questions 31 and 32)."
+  },
+  {
+   "key": "delta_nwe_eur_mwh",
+   "name": "Europe's DES spread to TTF where ACER published too little",
+   "value_words": "-2 EUR per MWh, DES Northwest Europe less TTF front month, where ACER published nothing (before 31 March 2023)",
+   "status": "assumption",
+   "source": "this study, from ACER, Gas market trends and price drivers, October 2023, page 13: 'the average price difference between TTF front-month products and the EU LNG spot reference price was 2 EUR/MWh in 2023 (1 January to 31 August 2023)'",
+   "url": "https://www.acer.europa.eu/sites/default/files/documents/Publications/ACER_MMR_2023_Gas_market_trends_price_drivers.pdf",
+   "read_on": "2026-09-30",
+   "note": "Shown at -3, from ACER's LNG market developments, April 2024, page 38 ('in the range between 2 EUR/MWh and 3 EUR/MWh'), and at 0. The same report says the spread 'exceeded 35 EUR/MWh during most days from end-July to mid-October 2022', so a date in that span is also shown at -35. Observed from 31 March 2023 as ACER's NWE spread (acer_lng_daily); this value applies only where ACER covers too little of a price's span (delta_nwe_min_coverage)."
+  },
+  {
+   "key": "delta_nwe_min_coverage",
+   "name": "Least share of a span's weekdays ACER must cover",
+   "value_words": "50 percent of the weekdays a price spans",
+   "status": "assumption",
+   "source": "this study: ACER's spread stands for a price's week or month only when ACER published it on at least half of the weekdays in it",
+   "url": null,
+   "read_on": "2026-10-08",
+   "note": "Otherwise the assumption above applies: before 31 March 2023, in March 2023 (one day), and after the last TERMINAL download held."
+  },
+  {
+   "key": "hire_anchor_max_days",
+   "name": "Furthest a reported charter rate may lie from a date",
+   "value_words": "14 days",
+   "status": "assumption",
+   "source": "this study: a reported charter rate stands for a date at most two weeks away",
+   "url": null,
+   "read_on": "2026-10-08",
+   "note": "Spark assessed twice a week until April 2022 and daily after; a figure further away is not taken to describe the date, which is then run at the low, central and high hire."
+  },
+  {
+   "key": "delta_nwe_wide_window",
+   "name": "Weeks of 2022 when Europe's DES spread ran wide",
+   "value_words": "25 July 2022 to 15 October 2022",
+   "status": "assumption",
+   "source": "this study's reading of ACER, European LNG market developments, April 2024, page 38: the spread 'exceeded 35 EUR/MWh during most days from end-July to mid-October 2022'",
+   "url": "https://www.acer.europa.eu/sites/default/files/documents/Publications/ACER_2024_MMR_European_LNG_market_developments.pdf",
+   "read_on": "2026-09-30",
+   "note": "A loading date in this span is also shown with a regas discount of -35 EUR/MWh."
+  },
+  {
+   "key": "panama_open_to_lng_from",
+   "name": "First day Panama's expanded locks took LNG carriers",
+   "value_words": "26 June 2016",
+   "status": "published",
+   "source": "Panama Canal Authority, press release of 26 June 2016, 'Inaugural transit of the expanded Panama Canal begins'; its release of 25 July 2016 reports the first LNG carrier, from Sabine Pass, through the expanded canal",
+   "url": "https://pancanal.com/en/inaugural-transit-of-the-expanded-panama-canal-begins/",
+   "read_on": "2026-10-06",
+   "note": "No later band closes the canal to LNG carriers; docs/methodology.md, section 8.3."
+  },
+  {
+   "key": "suez_closed_to_us_cargo_from",
+   "name": "First day Suez is treated as closed to a US cargo",
+   "value_words": "13 January 2024",
+   "status": "assumption",
+   "source": "this study, from OIES NG-188: the last laden LNG carrier through Suez on 12 January 2024",
+   "url": "https://www.oxfordenergy.org/wpcms/wp-content/uploads/2024/02/NG-188-LNG-Shipping-Chokepoints.pdf",
+   "read_on": "2026-10-01",
+   "note": "Closed to the latest date of the data, since no source shows a US Gulf cargo to Asia through Suez after January 2024 (open question 28)."
+  },
+  {
+   "key": "spa_henry_hub_multiple",
+   "name": "Contract price, multiple of Henry Hub",
+   "value_words": "1.15 multiple of Henry Hub",
+   "status": "published",
+   "source": "Sabine Pass Liquefaction and Centrica, LNG sale and purchase agreement of 22 March 2013, section 9.1.1: 'CSP = (1.15 x HH) + X y', with HH the NYMEX Henry Hub final settlement for the month in which the cargo's delivery window is scheduled to begin; Cheniere Energy Partners, Form 10-K for 2025: 'a variable fee per MMBtu of LNG generally equal to 115% of Henry Hub'",
+   "url": "https://cqpir.cheniere.com/sec-filings/all-sec-filings/content/0001383650-13-000038/exhibit101centricaspa.htm",
+   "read_on": "2026-10-07",
+   "note": null
+  },
+  {
+   "key": "liquefaction_fee_usd_mmbtu",
+   "name": "Liquefaction fee",
+   "value_words": "3 USD per MMBtu",
+   "status": "assumption",
+   "source": "this study: the fixed fee most Sabine Pass contracts carry at signing, 3.00 $/MMBtu for KOGAS, GAIL, Total, Centrica, BG's added volumes and Cheniere Marketing (Cheniere Energy Partners, Form 10-K for 2015, pages 9 and 88)",
+   "url": "https://cqpir.cheniere.com/sec-filings/annual-reports/content/0001383650-16-000087/0001383650-16-000087.pdf",
+   "read_on": "2026-10-07",
+   "note": "Sunk once the contract is signed: shown in the full margin, never in the lift decision. 11.5 to 15 percent of it is indexed to US CPI each year, which the study does not apply."
+  },
+  {
+   "key": "liquefaction_fee_low_usd_mmbtu",
+   "name": "Liquefaction fee, lowest in the contracts read",
+   "value_words": "2.25 USD per MMBtu",
+   "status": "published",
+   "source": "Cheniere Energy Partners, Form 10-K for 2015, page 9: BG Gulf Coast LNG, Train 1 volumes, 'a fixed fee of $2.25 per MMBtu'",
+   "url": "https://cqpir.cheniere.com/sec-filings/annual-reports/content/0001383650-16-000087/0001383650-16-000087.pdf",
+   "read_on": "2026-10-07",
+   "note": "The low end of the range of published fees."
+  },
+  {
+   "key": "liquefaction_fee_high_usd_mmbtu",
+   "name": "Liquefaction fee, highest in the contracts read",
+   "value_words": "3.5 USD per MMBtu",
+   "status": "published",
+   "source": "Corpus Christi Liquefaction and Woodside, LNG sale and purchase agreement of 30 June 2014, section 1.1: X0 'equal to USD three decimal fifty per MMBtu (US$3.50/MMBtu)'",
+   "url": "https://lngir.cheniere.com/sec-filings/all-sec-filings/content/0000003570-14-000139/cei2014form8kex101woodside.htm",
+   "read_on": "2026-10-07",
+   "note": "The high end of the range of published fees."
+  },
+  {
+   "key": "cancellation_notice_day",
+   "name": "Day of the notice to cancel a cargo",
+   "value_words": "20 day of the month two months before the loading month",
+   "status": "published",
+   "source": "Sabine Pass Liquefaction and Centrica, sale and purchase agreement, section 5.7: notice 'on or prior to the twentieth (20th) Day of the Month that is two (2) Months prior to the Month for which Buyer is suspending deliveries'",
+   "url": "https://cqpir.cheniere.com/sec-filings/all-sec-filings/content/0001383650-13-000038/exhibit101centricaspa.htm",
+   "read_on": "2026-10-07",
+   "note": null
+  },
+  {
+   "key": "ets_voyage_share",
+   "name": "EU ETS share of a voyage between an EU and a non-EU port",
+   "value_words": "50 percent of a voyage's emissions, between an EU and a non-EU port",
+   "status": "published",
+   "source": "Directive 2003/87/EC, Article 3ga(1), inserted by Directive (EU) 2023/959: 'fifty percent (50 %) of the emissions from ships performing voyages departing from a port of call outside the jurisdiction of a Member State and arriving at a port of call under the jurisdiction of a Member State'",
+   "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32023L0959",
+   "read_on": "2026-10-07",
+   "note": null
+  },
+  {
+   "key": "ets_berth_share",
+   "name": "EU ETS share of emissions at an EU berth",
+   "value_words": "100 percent of emissions within an EU port of call",
+   "status": "published",
+   "source": "Directive 2003/87/EC, Article 3ga(1): 'one hundred percent (100 %) of emissions from ships within a port of call under the jurisdiction of a Member State'",
+   "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32023L0959",
+   "read_on": "2026-10-07",
+   "note": null
+  },
+  {
+   "key": "ets_phase_in_by_year",
+   "name": "EU ETS share of verified emissions surrendered, by year",
+   "value_words": "40 percent from 2024; 70 percent from 2025; 100 percent from 2026",
+   "status": "published",
+   "source": "Directive 2003/87/EC, Article 3gb, inserted by Directive (EU) 2023/959: 40 % of verified emissions reported for 2024, 70 % for 2025, 100 % for 2026 and each year thereafter",
+   "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32023L0959",
+   "read_on": "2026-10-07",
+   "note": "Nothing before 2024."
+  },
+  {
+   "key": "tco2_per_t_lng",
+   "name": "Carbon dioxide per tonne of LNG burnt",
+   "value_words": "2.75 tonnes of CO2 per tonne of LNG burnt",
+   "status": "published",
+   "source": "Regulation (EU) 2015/757, Annex I, as replaced by Delegated Regulation (EU) 2023/2776, which applies from 1 January 2024: the emission factor of LNG, 2.750 t CO2 per t of fuel",
+   "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32023R2776",
+   "read_on": "2026-10-07",
+   "note": null
+  },
+  {
+   "key": "tn2o_per_t_lng",
+   "name": "Nitrous oxide per tonne of LNG burnt",
+   "value_words": "0.00011 tonnes of N2O per tonne of LNG burnt",
+   "status": "published",
+   "source": "Regulation (EU) 2015/757, Annex I, as replaced by Delegated Regulation (EU) 2023/2776: N2O 0.00011 g per g of LNG",
+   "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32023R2776",
+   "read_on": "2026-10-07",
+   "note": null
+  },
+  {
+   "key": "ets_ch4_n2o_from",
+   "name": "First day methane and nitrous oxide count in the EU ETS",
+   "value_words": "1 January 2026",
+   "status": "published",
+   "source": "Directive 2003/87/EC, Annex I, maritime row, as amended by Directive (EU) 2023/959: 'Carbon dioxide From 1 January 2026, methane and nitrous oxide'",
+   "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32023L0959",
+   "read_on": "2026-10-07",
+   "note": null
+  },
+  {
+   "key": "gwp_ch4",
+   "name": "Global warming potential of methane",
+   "value_words": "28 tonnes of CO2e per tonne of CH4, 100 years",
+   "status": "published",
+   "source": "Delegated Regulation (EU) 2020/1044, Annex, by reference from Regulation (EU) 2015/757, Annex I",
+   "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32020R1044",
+   "read_on": "2026-10-07",
+   "note": null
+  },
+  {
+   "key": "gwp_n2o",
+   "name": "Global warming potential of nitrous oxide",
+   "value_words": "265 tonnes of CO2e per tonne of N2O, 100 years",
+   "status": "published",
+   "source": "Delegated Regulation (EU) 2020/1044, Annex",
+   "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32020R1044",
+   "read_on": "2026-10-07",
+   "note": null
+  },
+  {
+   "key": "methane_slip_174k",
+   "name": "Methane slip of the two-stroke carrier",
+   "value_words": "1.7 percent of LNG mass not burnt",
+   "status": "assumption",
+   "source": "this study: the default for an LNG Otto dual fuel slow speed engine, 1.7 %, in Regulation (EU) 2015/757, Annex I, as replaced by Delegated Regulation (EU) 2023/2776",
+   "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32023R2776",
+   "read_on": "2026-10-07",
+   "note": "Spark names the ship '2 Stroke' only; a Diesel cycle slow speed engine has 0.2 %. Used only when methane slip is switched on."
+  },
+  {
+   "key": "methane_slip_160k",
+   "name": "Methane slip of the TFDE carrier",
+   "value_words": "3.1 percent of LNG mass not burnt",
+   "status": "assumption",
+   "source": "this study: the default for an LNG Otto dual fuel medium speed engine, 3.1 %, the class of a TFDE ship's engines, in Regulation (EU) 2015/757, Annex I, as replaced by Delegated Regulation (EU) 2023/2776",
+   "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32023R2776",
+   "read_on": "2026-10-07",
+   "note": "Used only when methane slip is switched on; no ETS applies before 2024, when this ship is the benchmark."
+  },
+  {
+   "key": "methane_slip_on",
+   "name": "Methane slip counted",
+   "value_words": "no",
+   "status": "assumption",
+   "source": "this study: off by default, as a toggle",
+   "url": null,
+   "read_on": "2026-10-07",
+   "note": "On, from 2026 the slipped mass counts as methane at its global warming potential and leaves the CO2 term."
+  },
+  {
+   "key": "mmbtu_per_t_lng",
+   "name": "Energy of a tonne of LNG",
+   "value_words": "51.56 MMBtu, gross, per tonne of LNG",
+   "status": "published",
+   "source": "IEA and Eurostat, Energy Statistics Manual, 2004, Annex 3, Table A3.9, page 182: LNG, 51,560 Btu per kilogramme, gross calorific value",
+   "url": "https://ec.europa.eu/eurostat/documents/3859598/5885369/NRG-2004-EN.PDF.pdf/b3c4b86f-8e88-4ca6-9188-b95320900b3f?t=1414781129000",
+   "read_on": "2026-10-07",
+   "note": "GIIGNL's table could not be read by code. Spark's 23 MMBtu per m3 at the manual's 0.45 t per m3 gives 51.11, 0.9 percent less. Used only to turn the gas burnt into tonnes for the EU ETS."
+  },
+  {
+   "key": "eua_eur_t_after_published",
+   "name": "EU allowance price after the last month published",
+   "value_words": "the last published month",
+   "status": "assumption",
+   "source": "this study: the last published monthly auction price, German auctions on EEX, held for every later month; on 8 October 2026 August 2026, 82.31 EUR/t, as DEHSt's report for August 2026 prints it",
+   "url": "https://www.dehst.de/EN/Topics/EU-ETS-1/EU-ETS-1-Information/Analyses-and-Reports/analysis-and-reports_node.html",
+   "read_on": "2026-10-08",
+   "note": "The Commission's reports stop in June 2025; DEHSt's German auction averages follow, as a proxy, to August 2026 (open question 20). Over the 18 months both cover, January 2024 to June 2025, the German average is 0.10 EUR/t above the Commission's on average, 0.64 in absolute terms and 1.40 at most."
+  },
+  {
+   "key": "suez_scnt_per_m3",
+   "name": "Suez Canal net tonnage per cubic metre of capacity",
+   "value_words": "0.586207 tons of Suez Canal Net Tonnage per m3 of capacity",
+   "status": "assumption",
+   "source": "this study, from a canal agency's approximation, 'ca 85.000 SCNT (145.000m3; 75.000dwt)' for an LNG carrier of the integrated (membrane) type",
+   "url": "https://kadmar.com/calculator-guidelines/",
+   "read_on": "2026-10-01",
+   "note": "No source gives the tonnage of a 174,000 m3 or 160,000 m3 ship; the agency's ratio is applied to the capacity, 102,000 for 174,000 m3. The agency warns the tonnage 'depends on the construction'. Shown at 85,000 and at 112,148, the Authority's net tonnage per LNG transit in 2023 (open question 25)."
+  },
+  {
+   "key": "panama_booking_fee_usd",
+   "name": "Panama booking fee",
+   "value_words": "0 USD per transit",
+   "status": "assumption",
+   "source": "this study: an unbooked ship by default",
+   "url": null,
+   "read_on": "2026-10-07",
+   "note": "Booked case: 35,000 $ in 2016, 85,000 $ for booking dates from 1 June 2021, 80,000 $ in the list of January 2024, 100,000 $ from 1 January 2025."
+  },
+  {
+   "key": "panama_waits_reported",
+   "name": "Waits reported at Panama for LNG",
+   "value_words": "12 days in July 2023; 15 days in December 2023",
+   "status": "published",
+   "source": "12 days of delay for unbooked vessels in late July 2023 (LNG Prime, 28 July 2023, quoting Spark); 15 days for unreserved slots in mid December 2023 (IEA, Gas Market Report Q1 2024)",
+   "url": null,
+   "read_on": "2026-10-07",
+   "note": "Applied only in the month each was reported, to the laden and the ballast transit alike, to set Panama against the Cape; the default everywhere stays no wait (docs/methodology.md, the Panama table)."
+  },
+  {
+   "key": "analysis_monthly_loading_day",
+   "name": "Loading day of a monthly observation",
+   "value_words": "15 day of the month",
+   "status": "assumption",
+   "source": "this study: a monthly observation loads in the middle of its month",
+   "url": null,
+   "read_on": "2026-10-08",
+   "note": "The day fixes the ship, the routes, the euro rate and the overnight rate of a month."
+  },
+  {
+   "key": "analysis_min_weeks_per_month",
+   "name": "Least weekly averages for a monthly observation",
+   "value_words": "3 weekly averages",
+   "status": "assumption",
+   "source": "this study: a month's mean of weekly averages needs at least three weeks",
+   "url": null,
+   "read_on": "2026-10-08",
+   "note": "A month with fewer is left without a monthly observation."
+  },
+  {
+   "key": "analysis_first_month",
+   "name": "First month of the monthly history",
+   "value_words": "January 2016",
+   "status": "assumption",
+   "source": "this study: the first month of the monthly history",
+   "url": null,
+   "read_on": "2026-10-08",
+   "note": "Sabine Pass shipped its first cargo in February 2016, and the overnight rate the financing line needs is held from January 2016."
+  },
+  {
+   "key": "analysis_excluded_years",
+   "name": "Years left out of the second sample",
+   "value_words": "2020, 2022 and 2026",
+   "status": "assumption",
+   "source": "this study: the flows test is also run without the years of the cancellations (2020), of the European gas crisis (2022) and of the Strait of Hormuz (2026)",
+   "url": null,
+   "read_on": "2026-10-08",
+   "note": "A robustness check, never a choice of the sample that suits."
+  }
+ ],
+ "parameters_caption": "Every number the engine uses that is not market data: its value, whether it is published or this study's assumption, the document it is read in, the day it was read, and its note.",
+ "units": [
+  {
+   "words": "MMBtu in a megawatt hour",
+   "value": 3.412142,
+   "format": "mmbtu_per_m3"
+  },
+  {
+   "words": "MMBtu in a cubic metre of LNG",
+   "value": 23.0,
+   "format": "mmbtu_per_m3"
+  },
+  {
+   "words": "MMBtu in a tonne of LNG",
+   "value": 51.56,
+   "format": "mmbtu_per_t"
+  }
+ ],
+ "units_segments": [
+  {
+   "text": "A price in euros a megawatt hour becomes dollars an MMBtu at the day's rate in the Federal Reserve's "
+  },
+  {
+   "field": "fx_release",
+   "value": "H.10",
+   "label": "H.10"
+  },
+  {
+   "text": ": USD/MMBtu = EUR/MWh x USD per EUR / MMBtu per MWh. Every price is in dollars an MMBtu, every cost in dollars, every hire in dollars a day."
+  }
+ ],
+ "delivery_segments": [
+  {
+   "text": "JKM futures for a month stop trading in the middle of the month before, and Dutch TTF futures two UK business days before the month begins, so from the middle of a month to its end the two front months name different delivery months. A week is aligned when every trading day of it names the same month for both, misaligned when none does, and mixed otherwise; the History view rings the misaligned weeks."
+  }
+ ],
+ "limits": [
+  [
+   {
+    "text": "A spread is an association, not a decision: long term contracts move most US cargoes whatever the spot economics."
+   }
+  ],
+  [
+   {
+    "text": "Charter rates are those the trade press reported, at the dates it reported them; between them the study runs the lowest, the median and the highest."
+   }
+  ],
+  [
+   {
+    "text": "Panama's slots, queues and auctions are priced only where a wait was reported for LNG; the slot premium and the waiting days are inputs the reader can type."
+   }
+  ],
+  [
+   {
+    "text": "Port costs are Spark's figures of "
+   },
+   {
+    "field": "port_costs",
+    "value": "2022-02-01",
+    "label": "February 2022"
+   },
+   {
+    "text": ", held for every year and both ships."
+   }
+  ],
+  [
+   {
+    "text": "Before "
+   },
+   {
+    "field": "meti_end",
+    "value": "2021-04-01",
+    "label": "April 2021"
+   },
+   {
+    "text": " the monthly JKM is a Japanese spot price, a proxy; from then to "
+   },
+   {
+    "field": "weekly_from",
+    "value": "2021-08-01",
+    "label": "August 2021"
+   },
+   {
+    "text": " no public JKM is held."
+   }
+  ],
+  [
+   {
+    "text": "The month of the export data is coarser than the decisions, taken weeks before a cargo loads."
+   }
+  ]
+ ],
+ "documents": [
+  {
+   "label": "The full methodology",
+   "href": "docs/methodology.md"
+  },
+  {
+   "label": "Every source and its terms",
+   "href": "docs/sources.md"
+  },
+  {
+   "label": "The questions left open",
+   "href": "docs/open-questions.md"
+  },
+  {
+   "label": "The licence of the code",
+   "href": "LICENSE"
+  },
+  {
+   "label": "The notices of the data",
+   "href": "NOTICE"
+  },
+  {
+   "label": "The vendored typefaces and map",
+   "href": "vendor/README.md"
+  }
+ ],
+ "type_words": "The portfolio sets body text in Satoshi, whose licence forbids serving it from a repository; this site sets it in Figtree, the openly licensed face closest to it, served from this repository with every other file.",
+ "credits": [
+  "Weekly JKM and TTF prices, the Henry Hub spot price and US LNG exports: U.S. Energy Information Administration, which credits the weekly prices to Bloomberg Finance L.P. and the Henry Hub spot price to Refinitiv, an LSEG business.",
+  "The regasification discount: European Union Agency for the Cooperation of Energy Regulators (ACER).",
+  "The Japanese spot price before the weekly series: created by processing the information in the Spot LNG Price Statistics (Ministry of Economy, Trade and Industry of Japan).",
+  "TTF before the weekly series: The World Bank, Commodity Price Data (The Pink Sheet), under the Creative Commons Attribution 4.0 licence. The World Bank does not endorse this study.",
+  "EU allowances: European Commission auction reports, under the Creative Commons Attribution 4.0 licence; after the last month they cover, Source: EEX, DEHSt, under the Creative Commons Attribution NonCommercial NoDerivatives 4.0 licence, the monthly averages reproduced unchanged.",
+  "The Secured Overnight Financing Rate (SOFR) and the Effective Federal Funds Rate (EFFR) are subject to the Terms of Use posted at newyorkfed.org. The New York Fed is not responsible for publication of the SOFR or the EFFR by Nathan Couturier, does not sanction or endorse any particular republication, and has no liability for your use.",
+  "Dollars per euro: Board of Governors of the Federal Reserve System, H.10. Dollars per SDR: International Monetary Fund, read through the Deutsche Bundesbank.",
+  "Charter rates: as reported by the publishers each figure names, listed with the history.",
+  "Sea distances: this study's computation from the searoute library (Apache License 2.0) over Eurostat's Searoute network (European Union Public Licence 1.2).",
+  "Land outlines: Natural Earth, public domain, through the world-atlas package (ISC licence).",
+  "Typefaces: Fraunces, Figtree and JetBrains Mono, under the SIL Open Font License 1.1. Figtree stands in for the portfolio's Satoshi, whose licence does not allow a copy in a public repository."
+ ]
+}

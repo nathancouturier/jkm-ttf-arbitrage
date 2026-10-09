@@ -324,6 +324,17 @@
  * the dashed line of S* at the central hire, a reference beside the ink line
  * of the spread. */
 .band-span { fill: var(--role-span-fill); stroke: none; }
+
+/* The Method view: a formula on its own line, in the body face, set apart by
+ * a rule rather than a second typeface. */
+.formula {
+  margin-top: 16px;
+  padding-left: 12px;
+  border-left: 2px solid var(--border-strong);
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+.formula + p { margin-top: 4px; }
 .line--reference .mark-series { stroke: var(--role-context); stroke-width: 1.5px; stroke-dasharray: 4 3; }
 .line--thin .mark-series { stroke: var(--role-context); stroke-width: 1.5px; }
 .band-closed { fill: none; stroke: var(--role-context); stroke-width: 1px; }

@@ -123,13 +123,22 @@ class SubpathHandler(SimpleHTTPRequestHandler):
         super().end_headers()
 
 
+class Server(ThreadingHTTPServer):
+    """A server that holds a page's burst of module requests: the page asks
+    for some thirty files at once, and the standard backlog of five refuses
+    the rest on some systems."""
+
+    request_queue_size = 64
+    daemon_threads = True
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     parser.add_argument("--port", type=int, default=DEFAULT_PORT)
     parser.add_argument("--host", default="127.0.0.1")
     args = parser.parse_args(argv)
     handler = partial(SubpathHandler, directory=str(REPO_ROOT))
-    server = ThreadingHTTPServer((args.host, args.port), handler)
+    server = Server((args.host, args.port), handler)
     print("open http://localhost:" + str(args.port) + PREFIX)
     print("anything outside " + PREFIX + " and anything under data/private/ answers 404, as on Pages")
     sys.stdout.flush()

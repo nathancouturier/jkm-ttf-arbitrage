@@ -22,6 +22,7 @@ import * as modelView from "./model.js";
 import * as routesView from "./routes.js";
 import * as historyView from "./history.js";
 import * as flowsView from "./flows.js";
+import * as methodView from "./method.js";
 
 const SITE_NAME = "JKM and TTF arbitrage study";
 const DEFAULT_VIEW = "now";
@@ -35,6 +36,7 @@ const ROUTES = [
   { name: "routes", label: "Routes", loading: "the map of the routes and when each was open", module: routesView },
   { name: "history", label: "History", loading: "every week and month of the spread against what the cheapest route east needs", module: historyView },
   { name: "flows", label: "Flows", loading: "every month of US exports against the arb, and the test", module: flowsView },
+  { name: "method", label: "Method", loading: "the engine's formulas and every parameter with its source", module: methodView },
 ];
 
 const byName = new Map(ROUTES.map((route) => [route.name, route]));
@@ -123,6 +125,9 @@ async function renderRoute(route, previous) {
 
   renderToken += 1;
   const token = renderToken;
+  // A view's last spoken summary does not outlive it.
+  const status = document.getElementById("view-status");
+  if (status) status.textContent = "";
   markCurrent(entry.name);
   setTitle(entry.label);
   clear(viewRoot);

@@ -1,4 +1,4 @@
-"""Write the site's data: the six JSON files in data/, five the page reads now and history.json for the History view.
+"""Write the site's data: the seven JSON files in data/ the page reads.
 
 The site draws nothing it does not read from these files (and from
 data/manifest.json, which the Provenance section links): every number in the
@@ -26,6 +26,8 @@ same bytes.
     routes.json   the map, the table of the four routes and when each was open
                   to a US cargo, band by band with its source (lngarb.routemap).
     provenance.json  every series: its publisher, page, licence and state.
+    method.json   the engine as formulas, every parameter with its source, the
+                  units, the limits and the credits (lngarb.methodpage).
 
     PYTHONPATH=src python -m lngarb.export
 """
@@ -42,12 +44,13 @@ from typing import Any
 
 import pandas as pd
 
-from . import analysis, config, delivery, flowspage, presets, reader, routemap, spreadhistory, units, worked
+from . import analysis, config, delivery, flowspage, methodpage, presets, reader, routemap, spreadhistory, units, worked
 from .cases import WATERFALL_STEPS, evaluate
 from .freight_anchors import ANCHORS, hire_levels
 from .sources import base
 
-__all__ = ["SCHEMA_VERSION", "now", "model", "routes", "history", "flows", "provenance", "write_all", "inputs_json", "CREDITS"]
+__all__ = ["SCHEMA_VERSION", "now", "model", "routes", "history", "flows", "provenance", "method", "write_all",
+           "inputs_json", "CREDITS"]
 
 #: Who each source is credited to on the page, in the words their terms ask
 #: for where they ask for any (NOTICE holds the same notices).
@@ -372,6 +375,17 @@ def model(now_document: dict[str, Any]) -> dict[str, Any]:
     })
 
 
+def method(data_day: date) -> dict[str, Any]:
+    """The Method view: the engine as formulas, every parameter with its source, the limits and the credits."""
+    return _clean({
+        **reader.header("method", data_day, "the engine as formulas, every parameter of the parameter table with "
+                                            "its value, status and source, the units, the limits and the credits"),
+        "conventions": reader.conventions(),
+        **methodpage.page(),
+        "credits": list(CREDITS),
+    })
+
+
 def routes(now_document: dict[str, Any]) -> dict[str, Any]:
     """The Routes view: the map, the table and the timeline for the latest week."""
     body = routemap.routes_document(now_document)
@@ -387,7 +401,7 @@ def write_all() -> list[Path]:
     """Write the site's files from the committed data.
 
     Every document is built before any file is written, so a failure in one
-    leaves all six as they were and the site's data always belong to one run.
+    leaves all seven as they were and the site's data always belong to one run.
     """
     with analysis.reading_once():
         obs = analysis.observations()
@@ -402,6 +416,7 @@ def write_all() -> list[Path]:
             "history.json": history(rows, obs),
             "flows.json": flows_document,
             "provenance.json": provenance_document,
+            "method.json": method(date.fromisoformat(now_document["as_of"])),
         }
     return [_write(name, document) for name, document in documents.items()]
 

@@ -34,7 +34,7 @@
 import { el, clear, sentence, appendSegments, scrollTable } from "./dom.js";
 import { formatNumber, formatCell, UNITS, MINUS_PROSE } from "./format.js";
 import * as router from "./router.js";
-import { applyEdits, compute, verdictSegments, emptyCargo, present } from "./model-calc.js";
+import { applyEdits, compute, verdictSegments, emptyCargo, present, percentSegment } from "./model-calc.js";
 
 export const artifacts = Object.freeze(["model"]);
 
@@ -694,12 +694,20 @@ function surrenders(inputs) {
 /* Why there is no sentence, in words: an input missing or refused, or, when
  * every input is there, no cargo delivered. */
 function withheld(state) {
+  const cause = withheldCause(state);
+  return "No sentence while " + cause.words + (cause.lacking ? "; the inputs are named under the table." : ".");
+}
+
+/* The cause, in words: an input missing or refused, or, when every input is
+ * there, no cargo delivered to Gate or by an open route east. */
+function withheldCause(state) {
   const { model } = held;
+  const empty = state.empty.filter((routeId) => routeId === "nwe_direct" || state.result.east[routeId].open);
   const lacking = state.refused.length > 0 || !present(state.result.best_netback) || !present(state.result.lift_margin) ||
     !present(state.result.full_margin) || !present(state.result.spread) ||
-    Object.values(state.result.east).some((lines) => lines.open && !present(lines.netback) && !state.empty.includes(lines.route));
-  if (lacking || !state.empty.length) return "No sentence while an input it needs is missing or refused; the inputs are named under the table.";
-  return "No sentence while no cargo is delivered " + state.empty.map((routeId) => (routeId === "nwe_direct" ? "to Gate" : "via " + model.route_short[routeId])).join(" or ") + ".";
+    Object.values(state.result.east).some((lines) => lines.open && !present(lines.netback) && !empty.includes(lines.route));
+  if (lacking || !empty.length) return { lacking: true, words: "an input it needs is missing or refused" };
+  return { lacking: false, words: "no cargo is delivered " + empty.map((routeId) => (routeId === "nwe_direct" ? "to Gate" : "via " + model.route_short[routeId])).join(" or ") };
 }
 
 function setInvalid(input, invalid) {
@@ -743,17 +751,21 @@ function recompute() {
     }
   }
 
-  // The lift test, in words.
+  // The lift test, in words, or why there is none.
   clear(held.lift);
-  appendSegments(held.lift, [
-    { text: "Lift test: the best netback less " },
-    { field: "hh_multiple_percent", value: Math.round(inputs.hh_multiple * model.units.percent_per_one), format: "count" },
-    { text: " percent of Henry Hub is " },
-    { field: "lift_margin", value: complete ? result.lift_margin : null, format: "usd_mmbtu", signed: true, missing: "not known while an input is missing" },
-    { text: " $/MMBtu, and " },
-    { field: "full_margin", value: complete ? result.full_margin : null, format: "usd_mmbtu", signed: true, missing: "not known while an input is missing" },
-    { text: " after the liquefaction fee; a cargo is lifted while the first is not below zero." },
-  ], decimals);
+  if (complete) {
+    appendSegments(held.lift, [
+      { text: "Lift test: the best netback less " },
+      percentSegment(inputs.hh_multiple, model, decimals),
+      { text: " percent of Henry Hub is " },
+      { field: "lift_margin", value: result.lift_margin, format: "usd_mmbtu", signed: true },
+      { text: " $/MMBtu, and " },
+      { field: "full_margin", value: result.full_margin, format: "usd_mmbtu", signed: true },
+      { text: " after the liquefaction fee; a cargo is lifted while the first is not below zero." },
+    ], decimals);
+  } else {
+    held.lift.textContent = "Lift test: no figure while " + withheldCause(state).words + ".";
+  }
 
   // What is missing, refused or read another way, in words, field by field
   // and under the outputs.

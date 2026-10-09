@@ -24,7 +24,7 @@
 // removes it on close. The debugging port is chosen by the browser and read back
 // from DevToolsActivePort, so two runs never collide.
 
-import { spawn } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 import { existsSync, mkdtempSync, readFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
@@ -188,8 +188,24 @@ export async function launch(argv = process.argv) {
     throw new Error("the browser at " + executable + " did not open a debugging port");
   }
 
+  const sockets = [];
+  // Close the browser and every process it started. Chromium on Windows runs
+  // its renderers, GPU and utility processes as children that outlive a kill
+  // of the parent, so the whole tree is ended there; the open sockets are
+  // closed so the calling script can exit.
   const close = async () => {
-    child.kill();
+    for (const socket of sockets) {
+      try {
+        socket.close();
+      } catch {
+        // Already closed.
+      }
+    }
+    if (process.platform === "win32" && child.pid) {
+      spawnSync("taskkill", ["/PID", String(child.pid), "/T", "/F"], { stdio: "ignore" });
+    } else {
+      child.kill();
+    }
     await sleep(500);
     try {
       rmSync(profile, { recursive: true, force: true });
@@ -216,6 +232,7 @@ export async function launch(argv = process.argv) {
       const target = targets.find((t) => t.type === "page");
       if (!target) throw new Error("no page target on port " + port);
       const socket = new WebSocket(target.webSocketDebuggerUrl);
+      sockets.push(socket);
       await new Promise((resolve, reject) => {
         socket.addEventListener("open", resolve, { once: true });
         socket.addEventListener("error", reject, { once: true });

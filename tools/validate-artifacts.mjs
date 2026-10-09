@@ -98,6 +98,10 @@ const REQUIRED = Object.freeze({
     "panel.ticks", "panel.ticks_narrow", "panel.notes", "panel.heading_segments", "panel.desc_segments",
     "panel.source_segments", "panel.table_caption", "panel.missing_words", "panel.arb_missing_words",
   ],
+  method: [
+    "title_segments", "formulas", "parameters", "parameters_caption", "units", "units_segments", "delivery_segments",
+    "limits", "documents", "type_words", "credits",
+  ],
   provenance: [
     "columns", "series", "summary_segments", "table_caption", "manual_heading", "manual_intro", "manual_steps",
     "credits_heading", "credits", "manifest_words",
@@ -143,6 +147,12 @@ const ROW_FIELDS = Object.freeze({
     "page.y2026.compare": ["route", "platts", "study"],
     "page.y2026.reported": ["period", "figure", "what", "publisher", "url", "format", "signed"],
     "page.waits.rows": ["month", "label", "hire_level", "wait_reported", "wait_breakeven", "lead_no_wait", "lead_with_wait"],
+  },
+  method: {
+    formulas: ["formula", "segments"],
+    parameters: ["key", "name", "value_words", "status", "source", "read_on"],
+    units: ["words", "value", "format"],
+    documents: ["label", "href"],
   },
   provenance: {
     series: ["id", "label", "publisher", "page_url", "status"],

@@ -29,8 +29,13 @@ def test_the_latest_preset_is_the_now_view_s_week(model):
     now = json.loads((DATA / "now.json").read_text(encoding="utf-8"))
     (latest,) = [p for p in model["presets"] if p["id"] == "latest"]
     assert latest["day"] == now["as_of"]
-    for key in ("jkm", "ttf", "delta_nwe", "henry_hub", "hire_usd_day"):
+    for key in ("jkm", "ttf", "delta_nwe", "henry_hub"):
         assert latest["inputs"][key] == now["engine_inputs"][key], key
+    if now["inputs"]["hire"]["reported"]:
+        assert latest["inputs"]["hire_usd_day"] == now["engine_inputs"]["hire_usd_day"]
+    else:
+        assert latest["inputs"]["hire_usd_day"] is None and {"key": "hire"} in [
+            {"key": m["key"]} for m in latest["missing"]]
 
 
 def test_spark_s_example_carries_its_ship_rate_and_days(model):
@@ -58,7 +63,7 @@ def test_a_figure_the_data_do_not_hold_is_shown_missing_not_filled(model):
     lead = "".join(s.get("text", s.get("label", "")) for s in april["lead_segments"])
     assert "The data hold no figure of the hire for this date" in lead
     for preset in model["presets"]:
-        if preset["id"] != "april_2020":
+        if preset["id"] not in ("april_2020", "latest"):
             assert preset["missing"] == [] and preset["verdict_segments"], preset["id"]
             assert preset["inputs"]["hire_usd_day"] is not None
     levels = model["hire_levels"]

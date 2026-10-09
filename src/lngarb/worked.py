@@ -410,39 +410,55 @@ def _slip(vessel: Vessel) -> float:
     return _p("methane_slip_174k") if vessel.capacity_m3 >= _p("vessel_174k_capacity_m3") else _p("methane_slip_160k")
 
 
-def _prices(worked: WorkedDate) -> tuple[float, float, dict[str, str]]:
+def _prices(worked: WorkedDate, missing: dict[str, str] | None = None) -> tuple[float, float, dict[str, str]]:
+    """JKM and TTF for the worked date, each with its source in words.
+
+    Where `missing` is given, a price the data do not hold is recorded there,
+    each on its own, and left NaN with its source "missing: why"; otherwise
+    the first one absent raises MissingInput."""
     day = pd.Timestamp(worked.day)
+    found: dict[str, tuple[float, str]] = {}
+    absent: dict[str, str] = {}
+
+    def take(key: str, value: Any, words: str, why: str) -> None:
+        if value is None or pd.isna(value):
+            absent[key] = why
+        else:
+            found[key] = (float(value), words)
+
     if worked.prices == "ngwu":
         frame = read_cache("eia_ngwu_international_weekly")
         row = frame[frame["date"] == day]
-        if row.empty or pd.isna(row.iloc[0]["east_asia_usd_mmbtu"]):
-            raise MissingInput("no Weekly Update item for the week ending %s" % worked.day)
-        r = row.iloc[0]
-        return float(r["east_asia_usd_mmbtu"]), float(r["ttf_usd_mmbtu"]), {
-            "jkm": "EIA Natural Gas Weekly Update, East Asia, %s, week ending %s" % (r["east_asia_basis"], worked.day),
-            "ttf": "EIA Natural Gas Weekly Update, TTF, %s, week ending %s" % (r["ttf_basis"], worked.day),
-        }
-    if worked.prices == "wngsr":
+        why = "no Weekly Update item for the week ending %s" % worked.day
+        r = None if row.empty else row.iloc[0]
+        take("jkm", None if r is None else r["east_asia_usd_mmbtu"],
+             "" if r is None else "EIA Natural Gas Weekly Update, East Asia, %s, week ending %s" % (r["east_asia_basis"], worked.day), why)
+        take("ttf", None if r is None else r["ttf_usd_mmbtu"],
+             "" if r is None else "EIA Natural Gas Weekly Update, TTF, %s, week ending %s" % (r["ttf_basis"], worked.day), why)
+    elif worked.prices == "wngsr":
         frame = read_cache("eia_wngsr_international_weekly")
         row = frame[frame["date"] == day]
-        if row.empty:
-            raise MissingInput("no Supplement issue for the week ending %s" % worked.day)
-        r = row.iloc[0]
-        return float(r["jkm_usd_mmbtu"]), float(r["ttf_usd_mmbtu"]), {
-            "jkm": "EIA WNGSR Supplement, JKM, week ending %s" % worked.day,
-            "ttf": "EIA WNGSR Supplement, TTF, week ending %s" % worked.day,
-        }
-    month = day.replace(day=1)
-    meti = read_cache("meti_spot_lng_monthly")
-    wb = read_cache("worldbank_gas_monthly")
-    jkm = meti.loc[meti["date"] == month, "contract_based_usd_mmbtu"]
-    ttf = wb.loc[wb["date"] == month, "europe_gas_usd_mmbtu"]
-    if jkm.empty or pd.isna(jkm.iloc[0]) or ttf.empty or pd.isna(ttf.iloc[0]):
-        raise MissingInput("no monthly JKM proxy or TTF for %s" % month.strftime("%B %Y"))
-    return float(jkm.iloc[0]), float(ttf.iloc[0]), {
-        "jkm": "METI spot LNG, contract-based, %s, a proxy for JKM" % month.strftime("%B %Y"),
-        "ttf": "World Bank Pink Sheet, Europe gas (TTF), %s" % month.strftime("%B %Y"),
-    }
+        why = "no Supplement issue for the week ending %s" % worked.day
+        r = None if row.empty else row.iloc[0]
+        take("jkm", None if r is None else r["jkm_usd_mmbtu"], "EIA WNGSR Supplement, JKM, week ending %s" % worked.day, why)
+        take("ttf", None if r is None else r["ttf_usd_mmbtu"], "EIA WNGSR Supplement, TTF, week ending %s" % worked.day, why)
+    else:
+        month = day.replace(day=1)
+        meti = read_cache("meti_spot_lng_monthly")
+        wb = read_cache("worldbank_gas_monthly")
+        jkm = meti.loc[meti["date"] == month, "contract_based_usd_mmbtu"]
+        ttf = wb.loc[wb["date"] == month, "europe_gas_usd_mmbtu"]
+        take("jkm", None if jkm.empty else jkm.iloc[0], "METI spot LNG, contract-based, %s, a proxy for JKM" % month.strftime("%B %Y"),
+             "no monthly JKM proxy for %s" % month.strftime("%B %Y"))
+        take("ttf", None if ttf.empty else ttf.iloc[0], "World Bank Pink Sheet, Europe gas (TTF), %s" % month.strftime("%B %Y"),
+             "no monthly TTF for %s" % month.strftime("%B %Y"))
+    if absent and missing is None:
+        raise MissingInput(next(iter(absent.values())))
+    if missing is not None:
+        missing.update(absent)
+    sources = {key: (found[key][1] if key in found else "missing: " + absent[key]) for key in ("jkm", "ttf")}
+    return (found["jkm"][0] if "jkm" in found else float("nan"),
+            found["ttf"][0] if "ttf" in found else float("nan"), sources)
 
 
 def inputs_for(worked: WorkedDate, *, hire_usd_day: float | None = None,
@@ -454,13 +470,7 @@ def inputs_for(worked: WorkedDate, *, hire_usd_day: float | None = None,
     Where `missing` is given, an input the data do not hold is recorded there,
     by its key, with the reason, and left missing (NaN) instead of raising: the
     calculator's presets show it as missing rather than filling it."""
-    try:
-        jkm, ttf, sources = _prices(worked)
-    except MissingInput as exc:
-        if missing is None:
-            raise
-        missing["jkm"] = missing["ttf"] = str(exc)
-        jkm, ttf, sources = float("nan"), float("nan"), {"jkm": "missing: " + str(exc), "ttf": "missing: " + str(exc)}
+    jkm, ttf, sources = _prices(worked, missing)
     day = _day(worked.day)
     if worked.prices == "monthly":
         first = date(day.year, day.month, 1)

@@ -613,7 +613,11 @@ the visitor's figures laid over them.
 * **Missing is shown as missing.** An input the data do not hold for a
   preset's date is left empty, with the reason under its field and in the
   preset's lead, and every output that needs it has no figure until one is
-  typed; nothing is filled in its place. April 2020 has no charter rate
+  typed; nothing is filled in its place. The parameters of section 11 are not
+  data and are not missing: Europe's DES spread where ACER published too
+  little, and the allowance price after the last auction published, are the
+  labelled assumptions of that section, as the analysis takes them, and the
+  page says so under their fields. April 2020 has no charter rate
   reported within 14 days, so its hire is empty, and the page offers the low,
   central and high levels of the reported rates, the three the analysis runs,
   for the visitor to choose. A date whose inputs cannot be read at all is not
@@ -625,8 +629,11 @@ the visitor's figures laid over them.
   typed over, as can the ship's speed, boil-off, fill and days in port, the
   contract's share of Henry Hub, the two energy conversions and the EU ETS
   shares of a voyage and a berth stay, each with its source. The canal tariffs
-  and the gases counted under the EU ETS are rules, not inputs: the tolls they
-  give can be typed per route.
+  behind the tolls (Suez's net tonnage per cubic metre, Panama's fresh water
+  surcharge and its reading of capacity) and the gases counted under the EU
+  ETS (the methane slip of each ship) are fixed there: they are rules or
+  readings of a rule, not inputs a cargo chooses, and the tolls and carbon
+  cost they give can be typed over, per route or through the shares.
 * **Spark's example** types Spark's 17.5 laden and 12.5 ballast days, read
   through Spark30's composition of 30 days (25 sailing, 1 load, 1 discharge, 3
   flex): 12.5 laden days at sea, the day to load and the day to discharge, and
@@ -646,7 +653,8 @@ the visitor's figures laid over them.
   percent a day; fill from 50 to 100 percent; days to load or discharge up to
   10; days at sea up to 120 a leg; flex and canal days up to 30; waiting days
   up to 60; every EU ETS share from 0 to 1; from 15 to 30 MMBtu per m3 and 40
-  to 60 per tonne; the contract's share of Henry Hub up to 200 percent. A
+  to 60 per tonne; the contract's share of Henry Hub up to 200 percent; an
+  allowance from 0 to 1,000 euros a tonne. A
   figure outside them, or too large to be finite, is refused with its limits
   and treated as missing; nothing is clamped. Inputs under which the ship burns as much gas
   as it loads give no netback, and the page says so.

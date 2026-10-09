@@ -215,6 +215,14 @@ function D(field, iso) {
   return { field, value: iso, label: String(d) + " " + MONTHS[m - 1] + " " + String(y) };
 }
 
+/** The contract's share of Henry Hub as a percent: a whole number as the
+ *  landing sentence writes it, or with its decimals when one is typed. */
+export function percentSegment(multiple, model, decimals) {
+  const percent = multiple * model.units.percent_per_one;
+  const whole = Math.round(percent) === Number(percent.toFixed(decimals.fill_percent));
+  return N("hh_multiple_percent", percent, whole ? "count" : "fill_percent");
+}
+
 function regasPart(delta, model) {
   return delta > 0 ? model.part_words_premium : model.part_words.regas;
 }
@@ -275,7 +283,7 @@ export function verdictSegments(result, inputs, model) {
     segments.push(T(". "));
   }
   const margin = result.lift_margin;
-  const percent = N("hh_multiple_percent", inputs.hh_multiple * model.units.percent_per_one, "count");
+  const percent = percentSegment(inputs.hh_multiple, model, model.conventions.decimals);
   if (margin >= 0) {
     segments.push(T("The best destination clears "), percent, T(" percent of Henry Hub by "),
       N("lift_margin", margin, "usd_mmbtu"), T("; net of the liquefaction fee of "),
