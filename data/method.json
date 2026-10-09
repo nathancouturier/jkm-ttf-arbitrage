@@ -29,6 +29,7 @@
    "fill_percent": 1,
    "mmbtu_per_m3": 2,
    "mmbtu_per_t": 2,
+   "mmbtu_per_mwh": 6,
    "r2": 2
   },
   "rounding": "now.json keeps full precision, because the browser engine recomputes from its inputs; history.json and flows.json store floats to 6 places. The page prints the decimals of the format a value names.",
@@ -92,7 +93,7 @@
    "formula": "NB(d, r) = (P_des(d) x Q_del(r) - C(d, r)) / Q_load",
    "segments": [
     {
-     "text": "The netback at Sabine Pass per MMBtu loaded: TTF plus Europe's DES spread at Gate, JKM at Futtsu."
+     "text": "The netback at Sabine Pass per MMBtu loaded, with P_des the delivered price: TTF plus Europe's DES spread, delta_nwe, at Gate, and JKM at Futtsu."
     }
    ]
   },
@@ -113,7 +114,7 @@
    ]
   },
   {
-   "formula": "H*(r) = [JKM x Q_del(r) - (TTF + delta) x Q_del(NWE) - (C_x(r) - C_x(NWE))] / (T_total(r) - T_total(NWE))",
+   "formula": "H*(r) = [JKM x Q_del(r) - (TTF + delta_nwe) x Q_del(NWE) - (C_x(r) - C_x(NWE))] / (T_total(r) - T_total(NWE))",
    "segments": [
     {
      "text": "The hire at which the two net the same; C_x is the cost without hire. A reported hire below it means the arb was open at the market's own freight."
@@ -154,7 +155,7 @@
    "source": "Spark LNG Freight Methodology 3.8, page 2, 'LNG Conversion Factor: 23'",
    "url": null,
    "read_on": "2026-10-01",
-   "note": "A market convention for a lean cargo; 22 to 24 is shown as a sensitivity."
+   "note": "A market convention for a lean cargo; 22 to 24 is run as a sensitivity on the worked dates, and the reader can type any value in the Model view."
   },
   {
    "key": "vessel_174k_capacity_m3",
@@ -294,7 +295,7 @@
    "source": "this study: the middle of the Authority's range of 0 to 10 percent",
    "url": null,
    "read_on": "2026-10-07",
-   "note": "Set daily from Gatun Lake's level, which is not collected; 0 and 10 percent are shown. Before 2023 the range was 1 to 10 percent."
+   "note": "Set daily from Gatun Lake's level, which is not collected; 0 and 10 percent are run as sensitivities on the worked dates. Before 2023 the range was 1 to 10 percent."
   },
   {
    "key": "vessel_174k_from",
@@ -329,12 +330,12 @@
   {
    "key": "delta_nwe_eur_mwh",
    "name": "Europe's DES spread to TTF where ACER published too little",
-   "value_words": "-2 EUR per MWh, DES Northwest Europe less TTF front month, where ACER published nothing (before 31 March 2023)",
+   "value_words": "-2 EUR per MWh, DES Northwest Europe less TTF front month, where ACER covers less than half of a price's weekdays",
    "status": "assumption",
    "source": "this study, from ACER, Gas market trends and price drivers, October 2023, page 13: 'the average price difference between TTF front-month products and the EU LNG spot reference price was 2 EUR/MWh in 2023 (1 January to 31 August 2023)'",
    "url": "https://www.acer.europa.eu/sites/default/files/documents/Publications/ACER_MMR_2023_Gas_market_trends_price_drivers.pdf",
    "read_on": "2026-09-30",
-   "note": "Shown at -3, from ACER's LNG market developments, April 2024, page 38 ('in the range between 2 EUR/MWh and 3 EUR/MWh'), and at 0. The same report says the spread 'exceeded 35 EUR/MWh during most days from end-July to mid-October 2022', so a date in that span is also shown at -35. Observed from 31 March 2023 as ACER's NWE spread (acer_lng_daily); this value applies only where ACER covers too little of a price's span (delta_nwe_min_coverage)."
+   "note": "Run at -3, from ACER's LNG market developments, April 2024, page 38 ('in the range between 2 EUR/MWh and 3 EUR/MWh'), and at 0, as sensitivities on the worked dates. The same report says the spread 'exceeded 35 EUR/MWh during most days from end-July to mid-October 2022', so a date in that span is also run at -35. Observed from 31 March 2023 as ACER's NWE spread, from its daily LNG assessments; this value applies only where ACER covers less of a price's span than the next row's share."
   },
   {
    "key": "delta_nwe_min_coverage",
@@ -364,11 +365,11 @@
    "source": "this study's reading of ACER, European LNG market developments, April 2024, page 38: the spread 'exceeded 35 EUR/MWh during most days from end-July to mid-October 2022'",
    "url": "https://www.acer.europa.eu/sites/default/files/documents/Publications/ACER_2024_MMR_European_LNG_market_developments.pdf",
    "read_on": "2026-09-30",
-   "note": "A loading date in this span is also shown with a regas discount of -35 EUR/MWh."
+   "note": "A loading date in this span is also run with a regas discount of -35 EUR/MWh, as a sensitivity on the worked dates."
   },
   {
    "key": "panama_open_to_lng_from",
-   "name": "First day Panama's expanded locks took LNG carriers",
+   "name": "First day Panama's expanded locks were open to LNG carriers",
    "value_words": "26 June 2016",
    "status": "published",
    "source": "Panama Canal Authority, press release of 26 June 2016, 'Inaugural transit of the expanded Panama Canal begins'; its release of 25 July 2016 reports the first LNG carrier, from Sabine Pass, through the expanded canal",
@@ -429,7 +430,7 @@
   {
    "key": "cancellation_notice_day",
    "name": "Day of the notice to cancel a cargo",
-   "value_words": "20 day of the month two months before the loading month",
+   "value_words": "the 20th of the month two months before the loading month",
    "status": "published",
    "source": "Sabine Pass Liquefaction and Centrica, sale and purchase agreement, section 5.7: notice 'on or prior to the twentieth (20th) Day of the Month that is two (2) Months prior to the Month for which Buyer is suspending deliveries'",
    "url": "https://cqpir.cheniere.com/sec-filings/all-sec-filings/content/0001383650-13-000038/exhibit101centricaspa.htm",
@@ -559,7 +560,7 @@
   {
    "key": "eua_eur_t_after_published",
    "name": "EU allowance price after the last month published",
-   "value_words": "the last published month",
+   "value_words": "the price of the last published month, held",
    "status": "assumption",
    "source": "this study: the last published monthly auction price, German auctions on EEX, held for every later month; on 8 October 2026 August 2026, 82.31 EUR/t, as DEHSt's report for August 2026 prints it",
    "url": "https://www.dehst.de/EN/Topics/EU-ETS-1/EU-ETS-1-Information/Analyses-and-Reports/analysis-and-reports_node.html",
@@ -574,7 +575,7 @@
    "source": "this study, from a canal agency's approximation, 'ca 85.000 SCNT (145.000m3; 75.000dwt)' for an LNG carrier of the integrated (membrane) type",
    "url": "https://kadmar.com/calculator-guidelines/",
    "read_on": "2026-10-01",
-   "note": "No source gives the tonnage of a 174,000 m3 or 160,000 m3 ship; the agency's ratio is applied to the capacity, 102,000 for 174,000 m3. The agency warns the tonnage 'depends on the construction'. Shown at 85,000 and at 112,148, the Authority's net tonnage per LNG transit in 2023 (open question 25)."
+   "note": "No source gives the tonnage of a 174,000 m3 or 160,000 m3 ship; the agency's ratio is applied to the capacity, 102,000 for 174,000 m3. The agency warns the tonnage 'depends on the construction'. Run at 85,000 and at 112,148, the Authority's net tonnage per LNG transit in 2023, as sensitivities on the worked dates (open question 25)."
   },
   {
    "key": "panama_booking_fee_usd",
@@ -599,7 +600,7 @@
   {
    "key": "analysis_monthly_loading_day",
    "name": "Loading day of a monthly observation",
-   "value_words": "15 day of the month",
+   "value_words": "the 15th of the month",
    "status": "assumption",
    "source": "this study: a monthly observation loads in the middle of its month",
    "url": null,
@@ -637,12 +638,12 @@
    "note": "A robustness check, never a choice of the sample that suits."
   }
  ],
- "parameters_caption": "Every number the engine uses that is not market data: its value, whether it is published or this study's assumption, the document it is read in, the day it was read, and its note.",
+ "parameters_caption": "Every parameter of the engine that is not market data or a canal tariff: its value, whether it is published or this study's assumption, the document it is read in, the day it was read, and its note. The tariffs behind the tolls are set out in the methodology's sections on Suez and Panama.",
  "units": [
   {
    "words": "MMBtu in a megawatt hour",
    "value": 3.412142,
-   "format": "mmbtu_per_m3"
+   "format": "mmbtu_per_mwh"
   },
   {
    "words": "MMBtu in a cubic metre of LNG",
@@ -670,23 +671,31 @@
  ],
  "delivery_segments": [
   {
-   "text": "JKM futures for a month stop trading in the middle of the month before, and Dutch TTF futures two UK business days before the month begins, so from the middle of a month to its end the two front months name different delivery months. A week is aligned when every trading day of it names the same month for both, misaligned when none does, and mixed otherwise; the History view rings the misaligned weeks."
+   "text": "JKM futures for a month stop trading in the middle of the month before, and Dutch TTF futures two UK business days before the month begins, so from the middle of a month to TTF's last trading day the two front months name different delivery months, and after it they agree again. A week is aligned when every trading day of it names the same month for both, misaligned when none does, and mixed otherwise; the History view rings the misaligned weeks."
   }
  ],
  "limits": [
   [
    {
-    "text": "A spread is an association, not a decision: long term contracts move most US cargoes whatever the spot economics."
+    "text": "A spread is an association, not a decision: long term contracts with Asian buyers move their cargoes whatever the spot economics."
    }
   ],
   [
    {
-    "text": "Charter rates are those the trade press reported, at the dates it reported them; between them the study runs the lowest, the median and the highest."
+    "text": "Charter rates are the ten Spark and the trade press reported; the study runs every date at the lowest, the median and the highest of them, and at the one reported nearest it where one lies within "
+   },
+   {
+    "field": "hire_window",
+    "value": 14,
+    "format": "count"
+   },
+   {
+    "text": " days."
    }
   ],
   [
    {
-    "text": "Panama's slots, queues and auctions are priced only where a wait was reported for LNG; the slot premium and the waiting days are inputs the reader can type."
+    "text": "Panama's queues enter only the Flows view's comparison of Panama with the Cape, in the two months a wait was reported for LNG, and its slots and auctions never; the slot premium and the waiting days are inputs the reader can type."
    }
   ],
   [
@@ -744,11 +753,11 @@
   },
   {
    "label": "The licence of the code",
-   "href": "LICENSE"
+   "href": "https://github.com/nathancouturier/jkm-ttf-arbitrage/blob/main/LICENSE"
   },
   {
    "label": "The notices of the data",
-   "href": "NOTICE"
+   "href": "https://github.com/nathancouturier/jkm-ttf-arbitrage/blob/main/NOTICE"
   },
   {
    "label": "The vendored typefaces and map",
@@ -759,13 +768,14 @@
  "credits": [
   "Weekly JKM and TTF prices, the Henry Hub spot price and US LNG exports: U.S. Energy Information Administration, which credits the weekly prices to Bloomberg Finance L.P. and the Henry Hub spot price to Refinitiv, an LSEG business.",
   "The regasification discount: European Union Agency for the Cooperation of Energy Regulators (ACER).",
-  "The Japanese spot price before the weekly series: created by processing the information in the Spot LNG Price Statistics (Ministry of Economy, Trade and Industry of Japan).",
-  "TTF before the weekly series: The World Bank, Commodity Price Data (The Pink Sheet), under the Creative Commons Attribution 4.0 licence. The World Bank does not endorse this study.",
-  "EU allowances: European Commission auction reports, under the Creative Commons Attribution 4.0 licence; after the last month they cover, Source: EEX, DEHSt, under the Creative Commons Attribution NonCommercial NoDerivatives 4.0 licence, the monthly averages reproduced unchanged.",
+  "The Japanese spot price before the weekly series: created by processing the information in the Spot LNG Price Statistics (Ministry of Economy, Trade and Industry of Japan) (https://www.meti.go.jp/english/statistics/sho/slng/index.html).",
+  "TTF before the weekly series: The World Bank, Commodity Price Data (The Pink Sheet), under the Creative Commons Attribution 4.0 International licence (https://creativecommons.org/licenses/by/4.0/). The selection of series and the revisions log are this study's. The World Bank does not endorse this study.",
+  "EU allowances: European Commission auction reports, under the Creative Commons Attribution 4.0 International licence (https://creativecommons.org/licenses/by/4.0/), the months combined from several reports by this study; after the last month they cover, Source: EEX, DEHSt, under the Creative Commons Attribution NonCommercial NoDerivatives 4.0 International licence (https://creativecommons.org/licenses/by-nc-nd/4.0/), the monthly averages reproduced unchanged, for non-commercial reuse only.",
+  "US LNG exports cargo by cargo: U.S. Department of Energy, Office of Fossil Energy and Carbon Management.",
   "The Secured Overnight Financing Rate (SOFR) and the Effective Federal Funds Rate (EFFR) are subject to the Terms of Use posted at newyorkfed.org. The New York Fed is not responsible for publication of the SOFR or the EFFR by Nathan Couturier, does not sanction or endorse any particular republication, and has no liability for your use.",
-  "Dollars per euro: Board of Governors of the Federal Reserve System, H.10. Dollars per SDR: International Monetary Fund, read through the Deutsche Bundesbank.",
+  "Dollars per euro: Board of Governors of the Federal Reserve System, H.10. Dollars per SDR: Source: International Monetary Fund, exchange rate data, SDR valuation (https://www.imf.org/external/np/fin/data/param_rms_mth.aspx), read through the Deutsche Bundesbank.",
   "Charter rates: as reported by the publishers each figure names, listed with the history.",
-  "Sea distances: this study's computation from the searoute library (Apache License 2.0) over Eurostat's Searoute network (European Union Public Licence 1.2).",
+  "Sea distances: this study's computation from the searoute library (Apache License 2.0) over Eurostat's Searoute network (European Union Public Licence 1.2); the route lines are published under the European Union Public Licence 1.2, as a work derived from that network.",
   "Land outlines: Natural Earth, public domain, through the world-atlas package (ISC licence).",
   "Typefaces: Fraunces, Figtree and JetBrains Mono, under the SIL Open Font License 1.1. Figtree stands in for the portfolio's Satoshi, whose licence does not allow a copy in a public repository."
  ]

@@ -60,21 +60,28 @@ CREDITS = (
     "Refinitiv, an LSEG business.",
     "The regasification discount: European Union Agency for the Cooperation of Energy Regulators (ACER).",
     "The Japanese spot price before the weekly series: created by processing the information in the Spot LNG Price "
-    "Statistics (Ministry of Economy, Trade and Industry of Japan).",
+    "Statistics (Ministry of Economy, Trade and Industry of Japan) "
+    "(https://www.meti.go.jp/english/statistics/sho/slng/index.html).",
     "TTF before the weekly series: The World Bank, Commodity Price Data (The Pink Sheet), under the Creative Commons "
-    "Attribution 4.0 licence. The World Bank does not endorse this study.",
-    "EU allowances: European Commission auction reports, under the Creative Commons Attribution 4.0 licence; after "
-    "the last month they cover, Source: EEX, DEHSt, under the Creative Commons Attribution NonCommercial "
-    "NoDerivatives 4.0 licence, the monthly averages reproduced unchanged.",
+    "Attribution 4.0 International licence (https://creativecommons.org/licenses/by/4.0/). The selection of series "
+    "and the revisions log are this study's. The World Bank does not endorse this study.",
+    "EU allowances: European Commission auction reports, under the Creative Commons Attribution 4.0 International "
+    "licence (https://creativecommons.org/licenses/by/4.0/), the months combined from several reports by this "
+    "study; after the last month they cover, Source: EEX, DEHSt, under the Creative Commons Attribution "
+    "NonCommercial NoDerivatives 4.0 International licence (https://creativecommons.org/licenses/by-nc-nd/4.0/), "
+    "the monthly averages reproduced unchanged, for non-commercial reuse only.",
+    "US LNG exports cargo by cargo: U.S. Department of Energy, Office of Fossil Energy and Carbon Management.",
     "The Secured Overnight Financing Rate (SOFR) and the Effective Federal Funds Rate (EFFR) are subject to the "
     "Terms of Use posted at newyorkfed.org. The New York Fed is not responsible for publication of the SOFR or the "
     "EFFR by Nathan Couturier, does not sanction or endorse any particular republication, and has no liability for "
     "your use.",
-    "Dollars per euro: Board of Governors of the Federal Reserve System, H.10. Dollars per SDR: International "
-    "Monetary Fund, read through the Deutsche Bundesbank.",
+    "Dollars per euro: Board of Governors of the Federal Reserve System, H.10. Dollars per SDR: Source: "
+    "International Monetary Fund, exchange rate data, SDR valuation "
+    "(https://www.imf.org/external/np/fin/data/param_rms_mth.aspx), read through the Deutsche Bundesbank.",
     "Charter rates: as reported by the publishers each figure names, listed with the history.",
     "Sea distances: this study's computation from the searoute library (Apache License 2.0) over Eurostat's "
-    "Searoute network (European Union Public Licence 1.2).",
+    "Searoute network (European Union Public Licence 1.2); the route lines are published under the European "
+    "Union Public Licence 1.2, as a work derived from that network.",
     "Land outlines: Natural Earth, public domain, through the world-atlas package (ISC licence).",
     "Typefaces: Fraunces, Figtree and JetBrains Mono, under the SIL Open Font License 1.1. Figtree stands in for "
     "the portfolio's Satoshi, whose licence does not allow a copy in a public repository.",

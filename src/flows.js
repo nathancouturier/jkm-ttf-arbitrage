@@ -227,7 +227,7 @@ function y2026Figure(page, decimals) {
     body,
   ]);
   const reported = el("ul", { class: "credit-list" }, y2026.reported.map((item) => el("li", {}, [
-    document.createTextNode(formatCell(item.figure, item.format, decimals, item.signed) + ": " + item.what + ". "),
+    document.createTextNode(formatCell(item.figure, item.format, decimals, item.signed) + (item.format === "usd_mmbtu" ? " " + UNITS.usd_mmbtu : "") + ": " + item.what + ". "),
     el("a", { class: "text-link", text: item.publisher, attrs: { href: item.url, rel: "noopener" } }),
   ])));
   return el("figure", { class: "block" }, [
@@ -244,7 +244,7 @@ function waitsBlock(page, decimals) {
   const body = el("tbody");
   for (const row of page.waits.rows) {
     body.appendChild(el("tr", {}, [
-      el("th", { text: row.label + ", " + row.hire_level + " hire", attrs: { scope: "row" } }),
+      el("th", { text: row.label + ", " + row.hire_level + " hire" + (row.hire_level === "reported" && row.hire_usd_day !== null ? " of " + formatCell(row.hire_usd_day, "usd_day", decimals) + " " + UNITS.usd_day : ""), attrs: { scope: "row" } }),
       figureCell(formatCell(row.wait_reported, "days", decimals), "wait_reported"),
       figureCell(formatCell(row.wait_breakeven, "days", decimals), "wait_breakeven", { missing: "none" }),
       figureCell(formatCell(row.lead_no_wait, "usd_mmbtu", decimals, true), "lead_no_wait"),
@@ -265,5 +265,6 @@ function waitsBlock(page, decimals) {
     el("h2", { class: "block__heading", text: page.words.waits_heading }),
     sentence("p", page.waits.heading_segments, decimals, "lead"),
     scrollTable([page.words.waits_caption], table),
+    el("p", { class: "source-line", text: page.waits.source }),
   ]);
 }

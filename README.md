@@ -25,18 +25,18 @@ Read this part first.
   2016 to July 2026, a dollar more of arb east at loading went with 1.7 points
   more of US exports by vessel going to Asia, at a t statistic of 2.3 with
   Newey-West errors, and an R squared of 0.11. Without 2020, 2022 and 2026 the
-  slope is 5.3 points and R squared 0.25. Most of where cargoes go is decided
-  by long term contracts, Panama's slots, China's tariff on US LNG from
-  February 2025, and the cost of a ship already chartered, none of which the
-  test can separate.
-- **Charter rates are sparse.** The study holds ten rates the trade press
-  reported, each dated by the day it refers to. A date with no rate within 14
-  days is worked at the lowest, the median and the highest of them, never at a
-  rate made up for it.
-- **Panama's queues are priced only where a wait was reported for LNG.** July
-  and December 2023 carry the 12 and 15 days reported; every other restriction
-  is drawn on the timeline and left to the reader to type, as a wait or a slot
-  premium.
+  slope is 5.3 points and R squared 0.25. Long term contracts, Panama's slots,
+  China's tariff on US LNG from February 2025 and the cost of a ship already
+  chartered also move cargoes, and the test cannot separate them.
+- **Charter rates are sparse.** The study holds ten rates, reported by Spark
+  and the trade press, each dated by the day it refers to or, where the
+  article gives none, by the article's date. Every date is worked at the
+  lowest, the median and the highest of them, and at the one reported nearest
+  it where one lies within 14 days, never at a rate made up for it.
+- **The engine adds no wait at Panama.** The Flows view sets Panama against
+  the Cape with the 12 and 15 days reported for LNG in July and December 2023
+  only; every other restriction is drawn on the timeline, and any wait or slot
+  premium is for the reader to type.
 - **"Suez closed to a US cargo" is an absence of reports.** No source read
   shows a US Gulf cargo through the Red Sea after 12 January 2024; the study
   treats the route as closed from the next day and says so wherever it does.
@@ -69,7 +69,7 @@ Read this part first.
 - **A calculator that is the engine.** Every input editable, presets from the
   data of their dates, the landing sentence recomposed as you type.
   `src/engine.js` mirrors `src/lngarb/engine.py` and is held to it to 1e-9 on
-  252 cases, and the calculator's own handling of edits is held to its Python
+  254 cases, and the calculator's own handling of edits is held to its Python
   reading on 23 named edits.
 - **Routes, history and flows.** A map of the four routes drawn from the
   lines their distances are measured on, with when each was open to a US
@@ -131,7 +131,8 @@ make gate
 Two more need a browser and the local server running, so they sit outside the
 gate, in `make site`: `node tools/check-model-form.mjs`, which drives the
 calculator's form in headless Chromium, and `node scripts/screenshots.mjs`,
-which writes every view at four widths in both themes into `assets/`.
+which writes the Now view at desktop and phone widths in both themes, and every
+other view at four widths from 1440 to 320 pixels, into `assets/`.
 
 ---
 
@@ -143,14 +144,15 @@ python scripts/refresh.py --only eia-weekly  one job; --list names them
 ```
 
 A failed fetch keeps the old cache and marks the series failed; nothing is
-ever filled in. `.github/workflows/refresh.yml` runs the public jobs every
-Thursday after EIA's release, rebuilds the artifacts and runs the gate; it
-commits only if everything passes, and opens an issue if anything fails.
+ever filled in. `.github/workflows/refresh.yml` runs the public jobs on
+Thursday evening, after EIA's release, and again on Friday, rebuilds the
+artifacts and runs the gate; it commits and publishes only if everything
+passes, and opens an issue if anything fails.
 
 ### The manual steps
 
-Four sources cannot be read by code, and `lngarb.manual_steps` records each
-with what is lost without it:
+Four steps the pipeline cannot do for itself, which `lngarb.manual_steps`
+records with what is lost without each:
 
 1. **EIA's archived Weekly Update issues**, read from the Internet Archive's
    captures and kept privately.
@@ -167,11 +169,11 @@ with what is lost without it:
 
 | Series | Publisher | Terms | In this repository |
 |---|---|---|---|
-| Weekly JKM and TTF, Natural Gas Weekly Update and WNGSR Supplement | U.S. Energy Information Administration, figures credited to Bloomberg | US public domain | yes |
-| Henry Hub spot, daily | U.S. Energy Information Administration, credited to Refinitiv | US public domain | yes |
+| Weekly JKM and TTF, Natural Gas Weekly Update and WNGSR Supplement | U.S. Energy Information Administration, figures credited to Bloomberg | EIA's public domain; for figures EIA credits to Bloomberg, an open question | yes |
+| Henry Hub spot, daily | U.S. Energy Information Administration, credited to Refinitiv | EIA's public domain; for figures EIA credits to Refinitiv, an open question | yes |
 | US LNG exports by destination, and their revisions | U.S. Energy Information Administration | US public domain | yes |
 | US LNG exports cargo by cargo | U.S. Department of Energy | US public domain | yes |
-| DES LNG assessments for Northwest Europe and the EU benchmark | European Union Agency for the Cooperation of Energy Regulators | reproduction with acknowledgement | yes |
+| DES LNG assessments for Northwest Europe and the EU benchmark | European Union Agency for the Cooperation of Energy Regulators | reproduction with acknowledgement, on this study's reading, an open question | yes |
 | Japan spot LNG price, monthly, to March 2021 | Ministry of Economy, Trade and Industry of Japan | compatible with CC BY 4.0 | yes |
 | Japan spot LNG price, monthly, from April 2021 | Japan Organization for Metals and Energy Security | permission not granted | no, private |
 | Pink Sheet gas prices, monthly, and their revisions | The World Bank | CC BY 4.0 | yes |
@@ -179,7 +181,7 @@ with what is lost without it:
 | US dollars per euro, daily | Federal Reserve Board, H.10 | US public domain | yes |
 | SOFR, and EFFR before it, daily | Federal Reserve Bank of New York | New York Fed Terms of Use | yes |
 | US dollars per SDR, daily | International Monetary Fund, through the Deutsche Bundesbank | IMF terms, with attribution | yes |
-| Reported charter rates | this study, from Spark Commodities, LNG Prime and Hellenic Shipping News | figures quoted with attribution | yes |
+| Reported charter rates | this study, from Spark Commodities, LNG Prime and Hellenic Shipping News | the publishers' terms forbid republishing their articles; only the figures and their sources are kept | yes |
 | The four sea routes | this study, with searoute over Eurostat's SeaRoute network | distances MIT; lines EUPL 1.2 | yes |
 
 Every series' terms, quoted in its publisher's own words, and every trap met

@@ -27,6 +27,7 @@ Plain standard library, binds to 127.0.0.1 only, no build step.
 from __future__ import annotations
 
 import argparse
+import os
 import posixpath
 import sys
 from functools import partial
@@ -60,6 +61,26 @@ CONTENT_TYPES = {
 }
 
 
+def spelled_exactly(relative: str) -> bool:
+    """Whether every part of the path names an entry with exactly that
+    spelling. Pages runs on a case sensitive host, so a path whose case
+    differs from the file's, or that ends a part with a dot or a space, which
+    Windows quietly drops, is refused here as it would be there. A part that
+    names nothing is let through, for the handler's own 404."""
+    current = REPO_ROOT
+    for part in [p for p in relative.split("/") if p]:
+        if part.endswith((".", " ")):
+            return False
+        try:
+            names = os.listdir(current)
+        except OSError:
+            return True
+        if part not in names:
+            return not any(name.lower() == part.lower() for name in names)
+        current = current / part
+    return True
+
+
 def relative_under_prefix(raw_path: str) -> str | None:
     """The repository relative path a request names, or None if it is outside
     the prefix or tries to leave the repository."""
@@ -71,6 +92,8 @@ def relative_under_prefix(raw_path: str) -> str | None:
     if normalised in ("", "."):
         return ""
     if normalised.startswith("..") or any(part.startswith(".") for part in normalised.split("/")):
+        return None
+    if not spelled_exactly(normalised):
         return None
     for blocked in NEVER_DEPLOYED:
         if (normalised + "/").startswith(blocked):

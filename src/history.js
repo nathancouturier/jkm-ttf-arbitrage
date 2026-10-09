@@ -133,8 +133,7 @@ function weeklyFigure(page, range, decimals) {
       words: { title: segmentsText(range.heading_segments, decimals), desc: segmentsText(range.desc_segments, decimals), yAxis: page.words.y_axis },
     }));
   });
-  return el("figure", { class: "block" }, [
-    el("h2", { class: "block__heading", text: page.words.weekly_heading }),
+  return el("figure", { class: "block", attrs: { "aria-labelledby": "view-title" } }, [
     frame,
     el("p", { class: "source-line", text: page.words.legend }),
     sentence("p", range.caption_segments, decimals, "source-line"),
@@ -148,7 +147,7 @@ function hstarFigure(page, range, decimals) {
   const days = pick(weekly.day, indexes);
   const points = page.anchors
     .filter((a) => a.day >= range.first && a.day <= range.last)
-    .map((a) => ({ day: a.day, value: a.hire_usd_day, accent: a.accent }));
+    .map((a) => ({ day: a.day, value: a.hire_usd_day, accent: a.day === range.accent_day }));
   const frame = el("div", { class: "chart-frame" });
   charts.onWidthChange(frame, (width) => {
     frame.replaceChildren(charts.timeChart({

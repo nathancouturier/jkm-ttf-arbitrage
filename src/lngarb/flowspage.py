@@ -161,9 +161,9 @@ def _y2020(levels: Mapping[str, float]) -> dict[str, Any]:
                 "month's own prices, dashed.",
         "caption_segments": [
             reader.T("The notice date is the day two months before loading that Sabine Pass's agreement with "
-                     "Centrica sets; the prices then published are METI's and the World Bank's of the month three "
-                     "before, and Henry Hub's spot since the month two before. Cancellations: EIA, Today in "
-                     "Energy, "), reader.D("eia_note", "2020-08-11"),
+                     "Centrica sets; the prices then published are METI's and the World Bank's latest month by "
+                     "then, usually the month three before, and Henry Hub's spot since the month two before. "
+                     "Cancellations: EIA, Today in Energy, "), reader.D("eia_note", "2020-08-11"),
             reader.T(", about the cargoes cancelled for June to September."),
         ],
     }
@@ -177,9 +177,6 @@ def _y2026(rows: pd.DataFrame) -> dict[str, Any]:
         points.append({"day": _iso(r["day"]), "spread": _finite(r["spread"]),
                        "panama": _finite(r["panama_s_star"]) if r["panama_open"] else None,
                        "cape": _finite(r["cape_s_star"]) if r["cape_open"] else None})
-    both = [p for p in points if p["spread"] is not None]
-    panama_open = sum(p["panama"] is not None and p["spread"] > p["panama"] for p in both)
-    cape_open = sum(p["cape"] is not None and p["spread"] > p["cape"] for p in both)
     cape_counts = reported("cape_use")
     latest_cape = max(cape_counts, key=lambda r: r.period)
     (asia,) = [r for r in reported("asia_use") if r.period == latest_cape.period]
@@ -188,14 +185,19 @@ def _y2026(rows: pd.DataFrame) -> dict[str, Any]:
     near = rows[(rows["frequency"] == "weekly") & (rows["day"] >= day - pd.Timedelta(days=3))].sort_values("day")
     week = near["day"].iloc[0]
     at = rows[(rows["frequency"] == "weekly") & (rows["day"] == week)].set_index("hire_level")
+    both = [p for p in points if p["spread"] is not None and p["day"] <= _iso(week)]
+    panama_open = sum(p["panama"] is not None and p["spread"] > p["panama"] for p in both)
+    cape_open = sum(p["cape"] is not None and p["spread"] > p["cape"] for p in both)
     heading = [
-        reader.T("From "), reader.D("first", points[0]["day"], "month"), reader.T(", the spread covered Panama's "
-                 "breakeven at the central hire in "), reader.N("panama_open", panama_open, "count"),
+        reader.T("From "), reader.D("first", points[0]["day"], "month"), reader.T(" to the week ending "),
+        reader.D("assessment_week", week), reader.T(", the spread covered Panama's breakeven at the central hire "
+                                                    "in "), reader.N("panama_open", panama_open, "count"),
         reader.T(" of "), reader.N("weeks", len(both), "count"), reader.T(" weeks and the Cape's in "),
         reader.N("cape_open", cape_open, "count"),
         reader.T(", while Platts counted "), reader.N("cape_cargoes", latest_cape.figure, "count"),
         reader.T(" of "), reader.N("asia_cargoes", asia.figure, "count"),
-        reader.T(" US cargoes to Asia round the Cape in data to "), reader.D("cape_day", latest_cape.period),
+        reader.T(" US cargoes to Asia-Pacific destinations round the Cape in data to "),
+        reader.D("cape_day", latest_cape.period),
         reader.T(", when, by Platts' sources, auctioned slots had made Panama impractical for spot cargoes."),
     ]
     compare = [
@@ -238,6 +240,7 @@ def _waits(rows: pd.DataFrame) -> dict[str, Any]:
     out = []
     for r in frame.to_dict("records"):
         out.append({"month": _iso(r["month"]), "label": reader.month_label(r["month"]), "hire_level": r["hire_level"],
+                    "hire_usd_day": _finite(r["hire_usd_day"]),
                     "wait_reported": r["wait_days_reported"],
                     "wait_breakeven": _finite(r["wait_days_breakeven"]),
                     "lead_no_wait": _finite(r["panama_minus_cape_no_wait"]),
@@ -254,7 +257,9 @@ def _waits(rows: pd.DataFrame) -> dict[str, Any]:
                     reader.D("month_" + r["month"][:7], r["month"], "month"), reader.T(" against "),
                     reader.N("breakeven_" + r["month"][:7], r["wait_breakeven"], "days", missing="none"),
                     reader.T(" at the central hire")]
-    return {"heading_segments": heading + [reader.T(".")], "rows": out}
+    waits = config.PARAMETERS["panama_waits_reported"]
+    return {"heading_segments": heading + [reader.T(".")], "rows": out,
+            "source": reader.dates_in_words("Waits reported: " + waits.source)}
 
 
 def page(rows: pd.DataFrame, months: Sequence[Mapping[str, Any]], regressions: Sequence[Mapping[str, Any]],

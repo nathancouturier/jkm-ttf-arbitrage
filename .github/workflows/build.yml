@@ -24,14 +24,9 @@ on:
   pull_request:
   workflow_dispatch:
 
+# Read only, for the checking jobs; the deploy job asks for what Pages needs.
 permissions:
   contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: false
 
 jobs:
   gate:
@@ -126,11 +121,21 @@ jobs:
           done
           node tools/check-model-form.mjs
 
+  # Runs on a push to the default branch, and when the weekly refresh, whose
+  # own push starts no workflow, dispatches this one on that branch.
   deploy:
     name: publish to Pages
     needs: [gate, site]
-    if: github.event_name == 'push' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    # One deploy at a time; a half finished Pages deployment is not cancelled.
+    concurrency:
+      group: pages
+      cancel-in-progress: false
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

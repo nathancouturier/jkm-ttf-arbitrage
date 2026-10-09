@@ -29,6 +29,7 @@
    "fill_percent": 1,
    "mmbtu_per_m3": 2,
    "mmbtu_per_t": 2,
+   "mmbtu_per_mwh": 6,
    "r2": 2
   },
   "rounding": "now.json keeps full precision, because the browser engine recomputes from its inputs; history.json and flows.json store floats to 6 places. The page prints the decimals of the format a value names.",
@@ -341,7 +342,6 @@
    "reported": "Reported",
    "y_axis": "$/MMBtu",
    "hstar_axis": "thousand $/day",
-   "weekly_heading": "Week by week: the spread, and what the cheapest route east needs",
    "legend": "The ink line is JKM over TTF; the dashed line, S* at the central hire; the shaded band, S* from the low to the high hire.",
    "hstar_legend": "The ink line is H* of the cheapest open route east; the rings are the charter rates reported.",
    "weeks": {
@@ -3057,7 +3057,7 @@
        "text": " weeks"
       },
       {
-       "text": "; the fewest in "
+       "text": "; the smallest share in "
       },
       {
        "field": "worst_year",
@@ -3113,7 +3113,7 @@
        "label": "7 October 2026"
       },
       {
-       "text": ", over a shaded band of the breakeven spread S* of the cheapest open route east, from the low to the high hire, with a dashed line at the central hire. Where the line runs above the dashed line the arb east was open. Rings mark the weeks whose two front months name different delivery months; numbered rules mark the breaks listed under the charts."
+       "text": ", over a shaded band of the breakeven spread S* of the cheapest open route east, from the low to the high hire, with a dashed line at the central hire. Where the line runs above the dashed line the arb east was open. Rings mark the weeks in which, by the futures calendars, the JKM and TTF front months name different delivery months; numbered rules mark the breaks listed under the charts."
       }
      ],
      "caption_segments": [
@@ -3164,7 +3164,15 @@
        "format": "count"
       },
       {
-       "text": " weeks whose front months for JKM and TTF name different delivery months."
+       "text": " weeks in which, by the futures calendars, the JKM and TTF front months name different delivery months; where the prices drawn were swaps or day-ahead, as before the futures of mid "
+      },
+      {
+       "field": "futures_from",
+       "value": "2022-07-13",
+       "label": "July 2022"
+      },
+      {
+       "text": ", a ring marks the calendar, not the prices."
       }
      ],
      "hstar_heading_segments": [
@@ -3247,7 +3255,7 @@
        "text": ", each a short tick at the edge, its figure in history.json. "
       },
       {
-       "text": "The points are the charter rates the study holds, each dated by the day it refers to"
+       "text": "The points are the charter rates the study holds, each dated by the day it refers to or, where its article gives none, by the article's date"
       },
       {
        "text": "; the latest, "
@@ -3272,6 +3280,7 @@
        "text": "."
       }
      ],
+     "accent_day": "2026-10-02",
      "years": [
       {
        "year": 2021,
@@ -3387,7 +3396,7 @@
        "text": " weeks"
       },
       {
-       "text": "; the fewest in "
+       "text": "; the smallest share in "
       },
       {
        "field": "worst_year",
@@ -3443,7 +3452,7 @@
        "label": "20 December 2023"
       },
       {
-       "text": ", over a shaded band of the breakeven spread S* of the cheapest open route east, from the low to the high hire, with a dashed line at the central hire. Where the line runs above the dashed line the arb east was open. Rings mark the weeks whose two front months name different delivery months; numbered rules mark the breaks listed under the charts."
+       "text": ", over a shaded band of the breakeven spread S* of the cheapest open route east, from the low to the high hire, with a dashed line at the central hire. Where the line runs above the dashed line the arb east was open. Rings mark the weeks in which, by the futures calendars, the JKM and TTF front months name different delivery months; numbered rules mark the breaks listed under the charts."
       }
      ],
      "caption_segments": [
@@ -3494,7 +3503,15 @@
        "format": "count"
       },
       {
-       "text": " weeks whose front months for JKM and TTF name different delivery months."
+       "text": " weeks in which, by the futures calendars, the JKM and TTF front months name different delivery months; where the prices drawn were swaps or day-ahead, as before the futures of mid "
+      },
+      {
+       "field": "futures_from",
+       "value": "2022-07-13",
+       "label": "July 2022"
+      },
+      {
+       "text": ", a ring marks the calendar, not the prices."
       }
      ],
      "hstar_heading_segments": [
@@ -3577,7 +3594,7 @@
        "text": ", each a short tick at the edge, its figure in history.json. "
       },
       {
-       "text": "The points are the charter rates the study holds, each dated by the day it refers to"
+       "text": "The points are the charter rates the study holds, each dated by the day it refers to or, where its article gives none, by the article's date"
       },
       {
        "text": "; the latest, "
@@ -3602,6 +3619,7 @@
        "text": "."
       }
      ],
+     "accent_day": "2023-07-28",
      "years": [
       {
        "year": 2021,
@@ -3703,7 +3721,7 @@
        "text": " weeks"
       },
       {
-       "text": "; the fewest in "
+       "text": "; the smallest share in "
       },
       {
        "field": "worst_year",
@@ -3759,7 +3777,7 @@
        "label": "7 October 2026"
       },
       {
-       "text": ", over a shaded band of the breakeven spread S* of the cheapest open route east, from the low to the high hire, with a dashed line at the central hire. Where the line runs above the dashed line the arb east was open. Rings mark the weeks whose two front months name different delivery months; numbered rules mark the breaks listed under the charts."
+       "text": ", over a shaded band of the breakeven spread S* of the cheapest open route east, from the low to the high hire, with a dashed line at the central hire. Where the line runs above the dashed line the arb east was open. Rings mark the weeks in which, by the futures calendars, the JKM and TTF front months name different delivery months; numbered rules mark the breaks listed under the charts."
       }
      ],
      "caption_segments": [
@@ -3810,7 +3828,15 @@
        "format": "count"
       },
       {
-       "text": " weeks whose front months for JKM and TTF name different delivery months."
+       "text": " weeks in which, by the futures calendars, the JKM and TTF front months name different delivery months; where the prices drawn were swaps or day-ahead, as before the futures of mid "
+      },
+      {
+       "field": "futures_from",
+       "value": "2022-07-13",
+       "label": "July 2022"
+      },
+      {
+       "text": ", a ring marks the calendar, not the prices."
       }
      ],
      "hstar_heading_segments": [
@@ -3882,7 +3908,7 @@
        "text": ", each a short tick at the edge, its figure in history.json. "
       },
       {
-       "text": "The points are the charter rates the study holds, each dated by the day it refers to"
+       "text": "The points are the charter rates the study holds, each dated by the day it refers to or, where its article gives none, by the article's date"
       },
       {
        "text": "; the latest, "
@@ -3907,6 +3933,7 @@
        "text": "."
       }
      ],
+     "accent_day": "2026-10-02",
      "years": [
       {
        "year": 2024,
@@ -4008,7 +4035,7 @@
        "text": " weeks"
       },
       {
-       "text": "; the fewest in "
+       "text": "; the smallest share in "
       },
       {
        "field": "worst_year",
@@ -4064,7 +4091,7 @@
        "label": "7 October 2026"
       },
       {
-       "text": ", over a shaded band of the breakeven spread S* of the cheapest open route east, from the low to the high hire, with a dashed line at the central hire. Where the line runs above the dashed line the arb east was open. Rings mark the weeks whose two front months name different delivery months; numbered rules mark the breaks listed under the charts."
+       "text": ", over a shaded band of the breakeven spread S* of the cheapest open route east, from the low to the high hire, with a dashed line at the central hire. Where the line runs above the dashed line the arb east was open. Rings mark the weeks in which, by the futures calendars, the JKM and TTF front months name different delivery months; numbered rules mark the breaks listed under the charts."
       }
      ],
      "caption_segments": [
@@ -4115,7 +4142,15 @@
        "format": "count"
       },
       {
-       "text": " weeks whose front months for JKM and TTF name different delivery months."
+       "text": " weeks in which, by the futures calendars, the JKM and TTF front months name different delivery months; where the prices drawn were swaps or day-ahead, as before the futures of mid "
+      },
+      {
+       "field": "futures_from",
+       "value": "2022-07-13",
+       "label": "July 2022"
+      },
+      {
+       "text": ", a ring marks the calendar, not the prices."
       }
      ],
      "hstar_heading_segments": [
@@ -4173,7 +4208,7 @@
        "text": "In thousands of dollars a day. "
       },
       {
-       "text": "The points are the charter rates the study holds, each dated by the day it refers to"
+       "text": "The points are the charter rates the study holds, each dated by the day it refers to or, where its article gives none, by the article's date"
       },
       {
        "text": "; the latest, "
@@ -4198,6 +4233,7 @@
        "text": "."
       }
      ],
+     "accent_day": "2026-10-02",
      "years": [
       {
        "year": 2025,
@@ -5219,7 +5255,7 @@
      "label": "2017, 2018, 2019, 2020 and 2021"
     },
     {
-     "text": "; the fewest in "
+     "text": "; the smallest share in "
     },
     {
      "field": "worst_year_month",
@@ -5324,7 +5360,7 @@
     },
     {
      "field": "months_without",
-     "value": 12,
+     "value": 11,
      "format": "count"
     },
     {
@@ -5443,10 +5479,6 @@
     {
      "month": "2021-11-01",
      "reason": "2 weekly average(s) in the month, fewer than 3"
-    },
-    {
-     "month": "2026-10-01",
-     "reason": "1 weekly average(s) in the month, fewer than 3"
     }
    ]
   },
@@ -5675,7 +5707,7 @@
   ],
   "breaks_lead_segments": [
    {
-    "text": "The numbered rules on the charts mark a change of price definition, of route, of ship or of the EU ETS. A change of name alone, where the price runs on across it, is listed in the methodology's section on breaks and not drawn."
+    "text": "The numbered rules on the charts mark a change of price definition, of route, of ship or of the EU ETS. A change of name alone, where the price runs on across it, is listed in the methodology and not drawn."
    }
   ],
   "anchors": [

@@ -27,7 +27,8 @@ tests/fixtures/govuk_bank_holidays_2026-10-08.json:
 
 data/cache/worldbank_gas_monthly.csv and data/cache/worldbank_gas_revisions.csv:
   The World Bank, Commodity Price Data (The Pink Sheet), under the Creative
-  Commons Attribution 4.0 International licence. The selection of series and
+  Commons Attribution 4.0 International licence
+  (https://creativecommons.org/licenses/by/4.0/). The selection of series and
   the revisions log are this study's. The World Bank does not endorse this
   study.
 
@@ -38,8 +39,14 @@ data/cache/meti_spot_lng_monthly.csv and data/cache/meti_spot_lng_releases.csv:
 
 data/cache/ec_eua_auction_monthly.csv:
   European Commission, auction reports, under the Creative Commons
-  Attribution 4.0 International licence; the months are combined from
-  several reports by this study.
+  Attribution 4.0 International licence
+  (https://creativecommons.org/licenses/by/4.0/); the months are combined
+  from several reports by this study.
+
+data/cache/doe_lng_export_cargoes.csv:
+  U.S. Department of Energy, Office of Fossil Energy and Carbon Management.
+  US government information, in the public domain; the Department asks to be
+  acknowledged in any use.
 
 data/cache/dehst_eua_german_auction_monthly.csv, and
 tests/fixtures/dehst_reports_page_2026-10-07.html:

@@ -124,7 +124,11 @@ def test_the_flows_panel_says_what_its_months_show():
     opened = [m for m in priced if m["arb"] > 0]
     if "open_months" in values:
         assert values["open_months"] == len(opened)
-        assert values["share_open"] == pytest.approx(sum(m["share_asia"] for m in opened) / len(opened), abs=1e-6)
+        # Asia's share of those months' exports, pooled from the volumes.
+        volumes = {m["month"]: m for m in flows["months"]}
+        pooled = sum(volumes[m["month"]]["asia_mmcf"] for m in opened) / sum(
+            volumes[m["month"]]["total_mmcf"] for m in opened) * 100.0
+        assert values["share_open"] == pytest.approx(pooled, abs=1e-6)
     for month in months:
         assert 0 <= month["share_asia"] <= 100
 

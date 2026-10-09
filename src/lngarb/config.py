@@ -1064,7 +1064,8 @@ SUEZ_US_GULF_JAPAN_REBATE_END = "2026-12-31"
 PARAMETERS: Mapping[str, Parameter] = _parameters(
     Parameter("mmbtu_per_m3_lng", 23.0, "MMBtu per m3 of LNG", "published",
               "Spark LNG Freight Methodology 3.8, page 2, 'LNG Conversion Factor: 23'", _SPARK_38,
-              "2026-10-01", "A market convention for a lean cargo; 22 to 24 is shown as a sensitivity."),
+              "2026-10-01", "A market convention for a lean cargo; 22 to 24 is run as a sensitivity on the worked dates, and "
+              "the reader can type any value in the Model view."),
     Parameter("vessel_174k_capacity_m3", 174_000.0, "m3", "published",
               "Spark LNG Freight Methodology 3.8, page 2, 'Vessel Type: 174,000 m3 2 Stroke'",
               _SPARK_38, "2026-10-01"),
@@ -1105,7 +1106,8 @@ PARAMETERS: Mapping[str, Parameter] = _parameters(
               "2026-10-06", "Mandatory from 15 February 2020 for ships over 300 feet."),
     Parameter("panama_fresh_water_variable_share", 0.05, "share of tolls", "assumption",
               "this study: the middle of the Authority's range of 0 to 10 percent", None, "2026-10-07",
-              "Set daily from Gatun Lake's level, which is not collected; 0 and 10 percent are shown. "
+              "Set daily from Gatun Lake's level, which is not collected; 0 and 10 percent are run as "
+              "sensitivities on the worked dates. "
               "Before 2023 the range was 1 to 10 percent."),
     Parameter("vessel_174k_from", "2024-01-02", "date", "published",
               "Spark LNG Freight Methodology 3.8, page 7, change log: '3.5 2 January 2024 - Vessel "
@@ -1129,18 +1131,18 @@ PARAMETERS: Mapping[str, Parameter] = _parameters(
               "Read from an image. That the figure covers both ports is this study's reading, by "
               "analogy with the figure for Gate. Used for every route east, every year and both "
               "ships (open questions 31 and 32)."),
-    Parameter("delta_nwe_eur_mwh", -2.0, "EUR per MWh, DES Northwest Europe less TTF front month, where ACER published nothing (before 31 March 2023)", "assumption",
+    Parameter("delta_nwe_eur_mwh", -2.0, "EUR per MWh, DES Northwest Europe less TTF front month, where ACER covers less than half of a price's weekdays", "assumption",
               "this study, from ACER, Gas market trends and price drivers, October 2023, page 13: 'the "
               "average price difference between TTF front-month products and the EU LNG spot "
               "reference price was 2 EUR/MWh in 2023 (1 January to 31 August 2023)'",
               "https://www.acer.europa.eu/sites/default/files/documents/Publications/ACER_MMR_2023_Gas_market_trends_price_drivers.pdf",
               "2026-09-30",
-              "Shown at -3, from ACER's LNG market developments, April 2024, page 38 ('in the range "
-              "between 2 EUR/MWh and 3 EUR/MWh'), and at 0. The same report says the spread "
-              "'exceeded 35 EUR/MWh during most days from end-July to mid-October 2022', so a date "
-              "in that span is also shown at -35. Observed from 31 March 2023 as ACER's NWE spread "
-              "(acer_lng_daily); this value applies only where ACER covers too little of a price's "
-              "span (delta_nwe_min_coverage)."),
+              "Run at -3, from ACER's LNG market developments, April 2024, page 38 ('in the range "
+              "between 2 EUR/MWh and 3 EUR/MWh'), and at 0, as sensitivities on the worked dates. The "
+              "same report says the spread 'exceeded 35 EUR/MWh during most days from end-July to "
+              "mid-October 2022', so a date in that span is also run at -35. Observed from 31 March 2023 "
+              "as ACER's NWE spread, from its daily LNG assessments; this value applies only where ACER "
+              "covers less of a price's span than the next row's share."),
     Parameter("delta_nwe_min_coverage", 0.5, "share of the weekdays a price spans", "assumption",
               "this study: ACER's spread stands for a price's week or month only when ACER published "
               "it on at least half of the weekdays in it", None, "2026-10-08",
@@ -1156,7 +1158,8 @@ PARAMETERS: Mapping[str, Parameter] = _parameters(
               "the spread 'exceeded 35 EUR/MWh during most days from end-July to mid-October 2022'",
               "https://www.acer.europa.eu/sites/default/files/documents/Publications/ACER_2024_MMR_European_LNG_market_developments.pdf",
               "2026-09-30",
-              "A loading date in this span is also shown with a regas discount of -35 EUR/MWh."),
+              "A loading date in this span is also run with a regas discount of -35 EUR/MWh, as a "
+              "sensitivity on the worked dates."),
     Parameter("panama_open_to_lng_from", "2016-06-26", "date", "published",
               "Panama Canal Authority, press release of 26 June 2016, 'Inaugural transit of the expanded "
               "Panama Canal begins'; its release of 25 July 2016 reports the first LNG carrier, from "
@@ -1283,8 +1286,8 @@ PARAMETERS: Mapping[str, Parameter] = _parameters(
               "https://kadmar.com/calculator-guidelines/", "2026-10-01",
               "No source gives the tonnage of a 174,000 m3 or 160,000 m3 ship; the agency's ratio is "
               "applied to the capacity, 102,000 for 174,000 m3. The agency warns the tonnage 'depends on "
-              "the construction'. Shown at 85,000 and at 112,148, the Authority's net tonnage per LNG "
-              "transit in 2023 (open question 25)."),
+              "the construction'. Run at 85,000 and at 112,148, the Authority's net tonnage per LNG "
+              "transit in 2023, as sensitivities on the worked dates (open question 25)."),
     Parameter("panama_booking_fee_usd", 0.0, "USD per transit", "assumption",
               "this study: an unbooked ship by default", None, "2026-10-07",
               "Booked case: 35,000 $ in 2016, 85,000 $ for booking dates from 1 June 2021, 80,000 $ "

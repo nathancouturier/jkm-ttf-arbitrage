@@ -33,6 +33,11 @@ def test_the_whole_period_counts_every_month_priced(flows):
     values = _values(panel["heading_segments"])
     assert values["months"] == len(priced)
     assert values["open_months"] == sum(m["arb"] > 0 for m in priced)
+    # Asia's share of the exports of the open months, pooled from the volumes.
+    volumes = {m["month"]: m for m in flows["months"]}
+    opened = [volumes[m["month"]] for m in priced if m["arb"] > 0]
+    pooled = sum(m["asia_mmcf"] for m in opened) / sum(m["total_mmcf"] for m in opened) * 100.0
+    assert values["share_open"] == pytest.approx(pooled, abs=1e-6)
     held = [m for m in flows["months"] if m["share_asia"] is not None]
     assert len(panel["months"]) == len(held)
 
@@ -70,7 +75,7 @@ def test_2026_counts_the_weeks_from_the_history_rows(flows, history):
              and r["day"] >= y2026["days"][0]}
     assert sorted(weeks) == y2026["days"]
     values = _values(y2026["heading_segments"])
-    both = [r for r in weeks.values() if r["spread"] is not None]
+    both = [r for r in weeks.values() if r["spread"] is not None and r["day"] <= y2026["assessment_week"]]
     assert values["weeks"] == len(both)
     assert values["panama_open"] == sum(r["panama_open"] and r["spread"] > r["panama_s_star"] for r in both)
     assert values["cape_open"] == sum(r["cape_open"] and r["spread"] > r["cape_s_star"] for r in both)

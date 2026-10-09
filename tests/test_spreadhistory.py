@@ -117,6 +117,18 @@ def test_the_latest_charter_rate_is_the_one_accent(history):
     assert len(accents) == 1 and accents[0]["day"] == max(a["day"] for a in anchors)
 
 
+def test_each_range_s_accent_is_the_rate_its_caption_names(history):
+    for chart_range in history["page"]["weekly"]["ranges"]:
+        values = {s["field"]: s["value"] for s in chart_range["hstar_caption_segments"] if "field" in s}
+        assert values.get("latest_hire_day") == chart_range["accent_day"], chart_range["id"]
+
+
+def test_the_monthly_caption_counts_the_gaps_in_the_line(history):
+    monthly = history["page"]["monthly"]
+    values = {s["field"]: s["value"] for s in monthly["caption_segments"] if "field" in s}
+    assert values["months_without"] == monthly["day"].count(None) == len(monthly["without"])
+
+
 def test_no_sentence_holds_a_machine_date_or_a_figure_in_its_words(history):
     page = history["page"]
     sentences = [page["monthly"][k] for k in ("heading_segments", "desc_segments", "caption_segments")]

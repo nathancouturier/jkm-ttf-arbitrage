@@ -694,14 +694,16 @@ the visitor's figures laid over them.
 
 ## 11. Parameters
 
-Every number the engine uses that is not market data is a named entry in
+Every number the engine uses that is neither market data nor a canal tariff
+(the tariffs are in sections 6 and 8) is a named entry in
 `lngarb.config.PARAMETERS`, with its value, unit, status (published: read in
 the named document; derived: computed from published figures; assumption:
 chosen by this study and labelled), the document, its address and the date it
 was read. The site's Method view prints that table. The assumptions, and the
-published values used as scenarios, each with the range it is shown at:
+published values used as scenarios, each with the range it is run at on the
+worked dates:
 
-| Parameter | Value | Shown at | Why |
+| Parameter | Value | Run at | Why |
 |---|---|---|---|
 | liquefaction fee | 3.00 $/MMBtu | 2.25 and 3.50, both published | the fee most Sabine Pass contracts carry |
 | regas discount in Northwest Europe, before 31 March 2023 | -2 EUR/MWh | -3, 0, and -35 for a loading from 25 July to 15 October 2022 | ACER's printed average and range (open question 18); ACER's own NWE spread averages -2.33 from April to August 2023 |
@@ -841,8 +843,10 @@ nothing smoothed or fitted (`lngarb.spreadhistory`):
   when TTF stood far above JKM, to about a million, so the scale is drawn over
   the middle nine tenths of a range's values and every rate reported; each
   week beyond it is a short tick at the edge, counted under the chart.
-* **Marks.** Rings mark the weeks whose two front months name different
-  delivery months (9.9). Numbered rules mark the breaks of 12.1 that change a
+* **Marks.** Rings mark the weeks in which, by the futures calendars of 9.9,
+  the JKM and TTF front months name different delivery months; before the
+  futures of July 2022 the weekly prices were swaps and day-ahead, which name
+  no delivery month, so there a ring marks the calendar, not the prices. Numbered rules mark the breaks of 12.1 that change a
   price's definition, a route, the ship or the EU ETS, listed with their
   sources under the charts; a change of name alone is not drawn.
 * **Ranges.** Every week, 2021 to 2023, 2024 on, and the last 52 weeks; each

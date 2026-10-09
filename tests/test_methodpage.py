@@ -46,6 +46,10 @@ def test_the_title_counts_the_formulas_parameters_and_assumptions(method):
     ((2020, 2022, 2026), "calendar years", "2020, 2022 and 2026"),
     ({"2023-07": 12.0, "2023-12": 15.0}, "days of waiting", "12 days in July 2023; 15 days in December 2023"),
     ({"2024": 0.4, "2026": 1.0}, "share of a year's emissions", "40 percent from 2024; 100 percent from 2026"),
+    (20, "day of the month two months before the loading month",
+     "the 20th of the month two months before the loading month"),
+    (15, "day of the month", "the 15th of the month"),
+    ("the last published month", "EUR per tonne of CO2", "the price of the last published month, held"),
 ])
 def test_a_value_is_written_from_its_unit(value, unit, words):
     assert methodpage.value_words(value, unit) == words
@@ -53,4 +57,5 @@ def test_a_value_is_written_from_its_unit(value, unit, words):
 
 def test_every_document_linked_is_in_the_repository(method):
     for document in method["documents"]:
-        assert (base.REPO_ROOT / document["href"]).exists(), document["href"]
+        path = document["href"].split("/blob/main/")[-1]
+        assert (base.REPO_ROOT / path).exists(), document["href"]

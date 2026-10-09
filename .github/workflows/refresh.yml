@@ -2,29 +2,34 @@
 #
 # Fetches the public series, rebuilds every site artifact, and runs the whole
 # gate. If everything passes, the refreshed data are committed to the default
-# branch, which runs build.yml and publishes them. If anything fails, nothing is
-# committed and an issue says which step failed, with its output; the committed
-# data stay as they were, so the site keeps its last good week.
+# branch and build.yml is started on it, which checks them again and publishes
+# them: a push by the workflow's own token starts no workflow by itself.
+# If anything fails, nothing is committed and an issue says which step failed,
+# with its output; the committed data stay as they were, so the site keeps its
+# last good week.
 #
 # Never fetched here: JOGMEC, whose terms forbid redistribution (its cache lives
-# in data/private, which a runner does not have), and METI's workbook, read once
-# and never refetched. A failed fetch keeps the old cache and marks the series
-# failed in the manifest; the gate then fails, and the issue says so.
+# in data/private, which a runner does not have); METI's workbook, read once and
+# never refetched; and ACER, whose history is a download saved by hand from its
+# TERMINAL platform, a manual step. A failed fetch keeps the old cache and marks
+# the series failed in the manifest; the gate then fails, and the issue says so.
 
 name: refresh
 
 on:
   schedule:
-    # EIA releases the WNGSR, and its Supplement, on Thursdays at 10:30 Eastern
-    # time; this runs at 18:00 UTC that day, and again on Friday in case the
-    # release slipped.
-    - cron: "0 18 * * 4"
+    # EIA releases the WNGSR, and its Supplement, on Thursdays; the study's
+    # record of the schedule says by 5 p.m., so this runs at 22:30 UTC that day,
+    # after it in summer and in winter, and again on Friday in case the release
+    # slipped.
+    - cron: "30 22 * * 4"
     - cron: "0 18 * * 5"
   workflow_dispatch:
 
 permissions:
   contents: write
   issues: write
+  actions: write
 
 concurrency:
   group: refresh
@@ -55,7 +60,7 @@ jobs:
       - name: Fetch the public series
         id: fetch
         run: |
-          python scripts/refresh.py --only eia-weekly --only eia-tables --only worldbank --only acer \
+          python scripts/refresh.py --only eia-weekly --only eia-tables --only worldbank \
             --only eua --only h10 --only sofr --only sdr --only seeds > refresh.log 2>&1
           cat refresh.log
 
@@ -81,8 +86,10 @@ jobs:
           } > gate.log 2>&1
           cat gate.log
 
-      - name: Commit the refreshed data
+      - name: Commit the refreshed data, and publish them
         if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           git config user.name "Nathan Couturier"
           git config user.email "288413586+nathancouturier@users.noreply.github.com"
@@ -93,6 +100,7 @@ jobs:
           fi
           git commit -m "Refresh the public series of the week to $(python -c "import json; print(json.load(open('data/now.json'))['as_of'])")"
           git push
+          gh workflow run build.yml --ref "${{ github.event.repository.default_branch }}"
 
       - name: Open an issue on failure
         if: failure()

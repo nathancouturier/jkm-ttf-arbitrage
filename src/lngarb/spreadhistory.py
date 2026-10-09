@@ -18,8 +18,9 @@ Three panels, each computed here and drawn by the page as it is given:
 
 Named ranges cut the weekly panels: every week, 2021 to 2023, 2024 on, the
 last 52 weeks; each carries its own domains, ticks and sentences, so the page
-computes nothing. The breaks of section 5 of docs/methodology.md are numbered
-rules, listed in a table under the charts. Every sentence is computed from the
+computes nothing. The breaks lngarb.analysis finds (docs/methodology.md,
+section 12.1) that change a price's definition, a route, the ship or the EU
+ETS are numbered rules, listed in a table under the charts. Every sentence is computed from the
 rows: nothing here is typed but words.
 """
 
@@ -55,14 +56,14 @@ RANGES = (
 #: Ticks on a time axis: about this many, on years, else on months.
 X_TICKS = 6
 Y_TICKS = 5
-#: The breakeven hire's axis is drawn in thousands of dollars a day, over the
-#: middle of its values: a week beyond this share at either end is drawn at
-#: the edge, and counted, so that 2022's breakevens of minus millions do not
-#: flatten every other year.
+#: The breakeven hire's axis is drawn in thousands of dollars a day.
 HSTAR_DIVISOR = 1000.0
+#: The axis spans the middle of its values: a week beyond this share at either
+#: end is drawn at the edge, and counted, so that 2022's breakevens of minus
+#: millions do not flatten every other year.
+HSTAR_TAIL = 0.05
 #: How the table names each kind of break.
 KIND_WORDS = {"definition": "price definition", "route": "route", "vessel": "ship", "carbon": "EU ETS"}
-HSTAR_TAIL = 0.05
 
 
 def _finite(value: Any) -> float | None:
@@ -190,7 +191,7 @@ def _weekly_heading(points: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]
     if len(full) > 1:
         worst = min(full, key=lambda y: y["open"] / y["count"])
         segments += [
-            reader.T("; the fewest in "), reader.N("worst_year", worst["year"], "year"), reader.T(", "),
+            reader.T("; the smallest share in "), reader.N("worst_year", worst["year"], "year"), reader.T(", "),
             reader.N("worst_open", worst["open"], "count"), reader.T(" of "),
             reader.N("worst_weeks", worst["count"], "count"), reader.T(", when TTF stood above JKM in "),
             reader.N("worst_ttf_above", worst["ttf_above"], "count"), reader.T(" of them"),
@@ -228,7 +229,7 @@ def _monthly_heading(points: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]
     full = [y for y in years if y["count"] >= 6]
     if full:
         worst = min(full, key=lambda y: y["open"] / y["count"])
-        segments += [reader.T("; the fewest in "), reader.N("worst_year_month", worst["year"], "year"),
+        segments += [reader.T("; the smallest share in "), reader.N("worst_year_month", worst["year"], "year"),
                      reader.T(", "), reader.N("worst_months_open", worst["open"], "count"), reader.T(" of "),
                      reader.N("worst_months", worst["count"], "count")]
     return segments + [reader.T(".")]
@@ -266,8 +267,9 @@ def _weekly_desc(points: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
         reader.T(" to "), reader.D("last", points[-1]["day"]),
         reader.T(", over a shaded band of the breakeven spread S* of the cheapest open route east, from the low "
                  "to the high hire, with a dashed line at the central hire. Where the line runs above the dashed "
-                 "line the arb east was open. Rings mark the weeks whose two front months name different delivery "
-                 "months; numbered rules mark the breaks listed under the charts."),
+                 "line the arb east was open. Rings mark the weeks in which, by the futures calendars, the JKM and "
+                 "TTF front months name different delivery months; numbered rules mark the breaks listed under the "
+                 "charts."),
     ]
 
 
@@ -277,7 +279,10 @@ def _weekly_caption(points: Sequence[Mapping[str, Any]], levels: Mapping[str, fl
         *_routes_words(points),
         reader.T("The hire levels are the lowest, the median and the highest charter rate reported: "),
         *_levels_segments(levels), reader.T(". Rings: the "), reader.N("misaligned", rings, "count"),
-        reader.T(" weeks whose front months for JKM and TTF name different delivery months."),
+        reader.T(" weeks in which, by the futures calendars, the JKM and TTF front months name different delivery "
+                 "months; where the prices drawn were swaps or day-ahead, as before the futures of mid "),
+        reader.D("futures_from", "2022-07-13", "month"),
+        reader.T(", a ring marks the calendar, not the prices."),
     ]
 
 
@@ -302,7 +307,8 @@ def _hstar_caption(domain: Mapping[str, Any], anchors: Sequence[Mapping[str, Any
             out += [reader.N(key, domain[key], "count"),
                     reader.T((" week lies" if domain[key] == 1 else " weeks lie") + words)]
         out.append(reader.T(", each a short tick at the edge, its figure in history.json. "))
-    out.append(reader.T("The points are the charter rates the study holds, each dated by the day it refers to"))
+    out.append(reader.T("The points are the charter rates the study holds, each dated by the day it refers to "
+                        "or, where its article gives none, by the article's date"))
     if anchors:
         latest = max(anchors, key=lambda a: a["date"])
         out += [reader.T("; the latest, "), reader.N("latest_hire", latest["hire_usd_day"], "usd_day"),
@@ -347,7 +353,8 @@ def page(rows: pd.DataFrame, breaks: pd.DataFrame, anchors: Sequence[Mapping[str
     drawn = breaks[breaks["kind"].isin(DRAWN)].reset_index(drop=True)
     numbered = [{"number": i + 1, "day": r["day"].date(), "kind": r["kind"], "what": r["what"], "source": r["source"]}
                 for i, r in drawn.iterrows()]
-    # Breaks closer than a month share one rule, labelled with their numbers.
+    # Breaks on the same day share one rule, labelled with their numbers; the
+    # page merges the labels of rules too close to print apart.
     rules: list[dict[str, Any]] = []
     for item in numbered:
         if rules and item["day"] == rules[-1]["day"]:
@@ -379,6 +386,8 @@ def page(rows: pd.DataFrame, breaks: pd.DataFrame, anchors: Sequence[Mapping[str
             "hstar_heading_segments": _hstar_heading(chosen),
             "hstar_desc_segments": _hstar_desc(chosen),
             "hstar_caption_segments": _hstar_caption(hstar, [a for a in anchors if start <= a["date"] <= stop]),
+            # The point in the accent: the latest rate reported inside the range.
+            "accent_day": max((a["date"] for a in anchors if start <= a["date"] <= stop), default=None),
             "years": _by_year(chosen),
         })
 
@@ -392,7 +401,10 @@ def page(rows: pd.DataFrame, breaks: pd.DataFrame, anchors: Sequence[Mapping[str
         monthly_full.append(observed.get(month))
         month = date(month.year + month.month // 12, month.month % 12 + 1, 1)
     first_weekly_series = next(p for p in monthly if not p["series"].startswith("meti"))
-    without = [{"month": r["month"].date(), "reason": r["reason"]} for r in months_without.to_dict("records")]
+    # The months with no observation inside the line: a month after its last
+    # one, still in progress, is not a gap in it.
+    without = [{"month": r["month"].date(), "reason": r["reason"]} for r in months_without.to_dict("records")
+               if r["month"].date() <= monthly[-1]["day"]]
     latest = max(a["date"] for a in anchors)
     meti_end = max(p["day"] for p in monthly if p["series"].startswith("meti"))
     return {
@@ -400,7 +412,6 @@ def page(rows: pd.DataFrame, breaks: pd.DataFrame, anchors: Sequence[Mapping[str
             "spread": "JKM over TTF", "reference": "S*, central hire", "band": "S*, low to high hire",
             "h_star": "H*, cheapest route", "reported": "Reported", "y_axis": "$/MMBtu",
             "hstar_axis": "thousand $/day",
-            "weekly_heading": "Week by week: the spread, and what the cheapest route east needs",
             "legend": "The ink line is JKM over TTF; the dashed line, S* at the central hire; the shaded band, S* "
                       "from the low to the high hire.",
             "hstar_legend": "The ink line is H* of the cheapest open route east; the rings are the charter rates "
@@ -433,7 +444,7 @@ def page(rows: pd.DataFrame, breaks: pd.DataFrame, anchors: Sequence[Mapping[str
         "breaks_lead_segments": [
             reader.T("The numbered rules on the charts mark a change of price definition, of route, of ship or "
                      "of the EU ETS. A change of name alone, where the price runs on across it, is listed in the "
-                     "methodology's section on breaks and not drawn."),
+                     "methodology and not drawn."),
         ],
         "anchors": [{"day": a["date"], "hire_usd_day": a["hire_usd_day"], "publisher": a["publisher"],
                      "assessment": a["assessment"], "accent": a["date"] == latest} for a in anchors],

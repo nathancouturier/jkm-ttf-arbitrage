@@ -72,7 +72,7 @@ const REQUIRED = Object.freeze({
   ],
   history: [
     "page.words.spread", "page.words.reference", "page.words.band", "page.words.h_star", "page.words.reported",
-    "page.words.y_axis", "page.words.hstar_axis", "page.words.legend", "page.words.hstar_legend", "page.words.weekly_heading", "page.words.weeks.caption",
+    "page.words.y_axis", "page.words.hstar_axis", "page.words.legend", "page.words.hstar_legend", "page.words.weeks.caption",
     "page.words.months.caption", "page.words.anchors_caption", "page.words.breaks_caption",
     "page.weekly.day", "page.weekly.spread", "page.weekly.s_low", "page.weekly.s_central", "page.weekly.s_high",
     "page.weekly.h_star", "page.weekly.alignment", "page.weekly.ranges",
@@ -90,7 +90,7 @@ const REQUIRED = Object.freeze({
     "page.y2026.heading_segments", "page.y2026.days", "page.y2026.spread", "page.y2026.panama", "page.y2026.cape",
     "page.y2026.y.low", "page.y2026.ticks", "page.y2026.desc", "page.y2026.compare", "page.y2026.reported",
     "page.y2026.assessment_day", "page.y2026.assessment_week",
-    "page.waits.heading_segments", "page.waits.rows", "page.limits_segments",
+    "page.waits.heading_segments", "page.waits.rows", "page.waits.source", "page.limits_segments",
     "page.words.panama_route", "page.words.cape_route", "page.words.y2026_legend", "page.words.y2020_legend", "page.words.y2020_caption",
     "page.y2026.compare_caption_segments", "page.words.waits_caption",
     "panel.months", "panel.shares", "panel.share_domain.low", "panel.share_domain.high", "panel.share_domain.step",
@@ -133,7 +133,7 @@ const ROW_FIELDS = Object.freeze({
   },
   history: {
     "page.weekly.ranges": ["id", "label", "first", "last", "y", "hstar", "ticks", "heading_segments", "desc_segments",
-      "caption_segments", "hstar_heading_segments", "hstar_desc_segments", "hstar_caption_segments", "years"],
+      "caption_segments", "hstar_heading_segments", "hstar_desc_segments", "hstar_caption_segments", "accent_day", "years"],
     "page.breaks": ["number", "day", "kind", "kind_words", "what", "source"],
     "page.rules": ["day", "numbers"],
     "page.anchors": ["day", "hire_usd_day", "publisher", "assessment", "accent"],
@@ -146,7 +146,7 @@ const ROW_FIELDS = Object.freeze({
     "page.y2020.months": ["month", "label", "loading", "notice", "cancelled"],
     "page.y2026.compare": ["route", "platts", "study"],
     "page.y2026.reported": ["period", "figure", "what", "publisher", "url", "format", "signed"],
-    "page.waits.rows": ["month", "label", "hire_level", "wait_reported", "wait_breakeven", "lead_no_wait", "lead_with_wait"],
+    "page.waits.rows": ["month", "label", "hire_level", "hire_usd_day", "wait_reported", "wait_breakeven", "lead_no_wait", "lead_with_wait"],
   },
   method: {
     formulas: ["formula", "segments"],

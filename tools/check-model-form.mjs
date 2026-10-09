@@ -320,8 +320,8 @@ try {
     let results;
     try {
       // Inside the try, so a page that will not open fails this check alone.
-      await openView(page, BASE, { hash: check.hash });
       page.errors.length = 0;
+      await openView(page, BASE, { hash: check.hash });
       results = await check.run(page);
     } catch (error) {
       results = [[false, "threw " + (error && error.message ? error.message : String(error))]];

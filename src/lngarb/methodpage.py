@@ -18,7 +18,12 @@ from typing import Any, Mapping
 
 from . import config, reader, units
 
-__all__ = ["page", "PARAMETER_WORDS", "value_words"]
+__all__ = ["page", "PARAMETER_WORDS", "value_words", "REPOSITORY"]
+
+#: The repository, where the licence and the notices show as documents: as
+#: files without an extension, the site itself would hand them over as
+#: downloads.
+REPOSITORY = "https://github.com/nathancouturier/jkm-ttf-arbitrage"
 
 #: Each parameter in words, by its name in the table.
 PARAMETER_WORDS: Mapping[str, str] = {
@@ -44,7 +49,7 @@ PARAMETER_WORDS: Mapping[str, str] = {
     "delta_nwe_min_coverage": "Least share of a span's weekdays ACER must cover",
     "hire_anchor_max_days": "Furthest a reported charter rate may lie from a date",
     "delta_nwe_wide_window": "Weeks of 2022 when Europe's DES spread ran wide",
-    "panama_open_to_lng_from": "First day Panama's expanded locks took LNG carriers",
+    "panama_open_to_lng_from": "First day Panama's expanded locks were open to LNG carriers",
     "suez_closed_to_us_cargo_from": "First day Suez is treated as closed to a US cargo",
     "spa_henry_hub_multiple": "Contract price, multiple of Henry Hub",
     "liquefaction_fee_usd_mmbtu": "Liquefaction fee",
@@ -103,13 +108,17 @@ def value_words(value: Any, unit: str) -> str:
         try:
             return _day(value)
         except ValueError:
-            return value
+            return "the price of " + value + ", held" if unit.startswith("EUR per") else value
     if unit.startswith("share") and "percent" not in unit:
         return _number(float(value) * 100.0) + " percent " + unit[len("share"):].strip()
     if unit == "flag":
         return "yes" if value else "no"
     if unit == "days" and float(value) == 1.0:
         return "1 day"
+    if unit.startswith("day of the month"):
+        number = int(value)
+        suffix = "th" if 10 <= number % 100 <= 20 else {1: "st", 2: "nd", 3: "rd"}.get(number % 10, "th")
+        return "the %d%s of the month%s" % (number, suffix, unit[len("day of the month"):])
     return _number(float(value)) + " " + unit
 
 
@@ -128,15 +137,15 @@ def _formulas() -> list[dict[str, Any]]:
                                "ports, the canal both ways, any slot premium, the EU ETS on a voyage into Northwest "
                                "Europe and the financing of the cargo for the laden days.")]},
         {"formula": "NB(d, r) = (P_des(d) x Q_del(r) - C(d, r)) / Q_load",
-         "segments": [reader.T("The netback at Sabine Pass per MMBtu loaded: TTF plus Europe's DES spread at Gate, "
-                               "JKM at Futtsu.")]},
+         "segments": [reader.T("The netback at Sabine Pass per MMBtu loaded, with P_des the delivered price: TTF "
+                               "plus Europe's DES spread, delta_nwe, at Gate, and JKM at Futtsu.")]},
         {"formula": "arb(r) = NB(NEA, r) - NB(NWE)",
          "segments": [reader.T("How much more a cargo nets in Northeast Asia by route r than at Gate.")]},
         {"formula": "S*(r) = boil-off + regas + voyage",
          "segments": [reader.T("The spread of JKM over TTF at which route r nets what Gate does, in three parts: the "
                                "gas the longer voyage burns, valued at TTF; Europe's DES spread, which a cargo sold "
                                "east escapes; and the extra cost of the voyage per MMBtu delivered.")]},
-        {"formula": "H*(r) = [JKM x Q_del(r) - (TTF + delta) x Q_del(NWE) - (C_x(r) - C_x(NWE))] / (T_total(r) - T_total(NWE))",
+        {"formula": "H*(r) = [JKM x Q_del(r) - (TTF + delta_nwe) x Q_del(NWE) - (C_x(r) - C_x(NWE))] / (T_total(r) - T_total(NWE))",
          "segments": [reader.T("The hire at which the two net the same; C_x is the cost without hire. A reported hire "
                                "below it means the arb was open at the market's own freight.")]},
         {"formula": "lift margin = best netback - m x HH",
@@ -173,11 +182,12 @@ def page() -> dict[str, Any]:
         ],
         "formulas": _formulas(),
         "parameters": parameters,
-        "parameters_caption": "Every number the engine uses that is not market data: its value, whether it is "
-                              "published or this study's assumption, the document it is read in, the day it was "
-                              "read, and its note.",
+        "parameters_caption": "Every parameter of the engine that is not market data or a canal tariff: its "
+                              "value, whether it is published or this study's assumption, the document it is "
+                              "read in, the day it was read, and its note. The tariffs behind the tolls are set "
+                              "out in the methodology's sections on Suez and Panama.",
         "units": [
-            {"words": "MMBtu in a megawatt hour", "value": units.MMBTU_PER_MWH, "format": "mmbtu_per_m3"},
+            {"words": "MMBtu in a megawatt hour", "value": units.MMBTU_PER_MWH, "format": "mmbtu_per_mwh"},
             {"words": "MMBtu in a cubic metre of LNG", "value": config.PARAMETERS["mmbtu_per_m3_lng"].value,
              "format": "mmbtu_per_m3"},
             {"words": "MMBtu in a tonne of LNG", "value": config.PARAMETERS["mmbtu_per_t_lng"].value,
@@ -191,18 +201,22 @@ def page() -> dict[str, Any]:
         ],
         "delivery_segments": [
             reader.T("JKM futures for a month stop trading in the middle of the month before, and Dutch TTF futures "
-                     "two UK business days before the month begins, so from the middle of a month to its end the "
-                     "two front months name different delivery months. A week is aligned when every trading day of "
+                     "two UK business days before the month begins, so from the middle of a month to TTF's last "
+                     "trading day the two front months name different delivery months, and after it they agree "
+                     "again. A week is aligned when every trading day of "
                      "it names the same month for both, misaligned when none does, and mixed otherwise; the History "
                      "view rings the misaligned weeks."),
         ],
         "limits": [
-            [reader.T("A spread is an association, not a decision: long term contracts move most US cargoes "
-                      "whatever the spot economics.")],
-            [reader.T("Charter rates are those the trade press reported, at the dates it reported them; between "
-                      "them the study runs the lowest, the median and the highest.")],
-            [reader.T("Panama's slots, queues and auctions are priced only where a wait was reported for LNG; "
-                      "the slot premium and the waiting days are inputs the reader can type.")],
+            [reader.T("A spread is an association, not a decision: long term contracts with Asian buyers move "
+                      "their cargoes whatever the spot economics.")],
+            [reader.T("Charter rates are the ten Spark and the trade press reported; the study runs every date "
+                      "at the lowest, the median and the highest of them, and at the one reported nearest it "
+                      "where one lies within "), reader.N("hire_window", config.PARAMETERS["hire_anchor_max_days"].value,
+                                                          "count"), reader.T(" days.")],
+            [reader.T("Panama's queues enter only the Flows view's comparison of Panama with the Cape, in the "
+                      "two months a wait was reported for LNG, and its slots and auctions never; the slot premium "
+                      "and the waiting days are inputs the reader can type.")],
             [reader.T("Port costs are Spark's figures of "), reader.D("port_costs", "2022-02-01", "month"),
              reader.T(", held for every year and both ships.")],
             [reader.T("Before "), reader.D("meti_end", "2021-04-01", "month"),
@@ -215,8 +229,8 @@ def page() -> dict[str, Any]:
             {"label": "The full methodology", "href": "docs/methodology.md"},
             {"label": "Every source and its terms", "href": "docs/sources.md"},
             {"label": "The questions left open", "href": "docs/open-questions.md"},
-            {"label": "The licence of the code", "href": "LICENSE"},
-            {"label": "The notices of the data", "href": "NOTICE"},
+            {"label": "The licence of the code", "href": REPOSITORY + "/blob/main/LICENSE"},
+            {"label": "The notices of the data", "href": REPOSITORY + "/blob/main/NOTICE"},
             {"label": "The vendored typefaces and map", "href": "vendor/README.md"},
         ],
         "type_words": "The portfolio sets body text in Satoshi, whose licence forbids serving it from a repository; "

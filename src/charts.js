@@ -560,6 +560,9 @@ export function flowsChart({ width, months, shares, shareDomain, arbDomain, shar
     const tall = Math.abs(y - zero);
     if (tall < g.SMALL_STEP) {
       dots.push({ cx: xOf(index), negative: month.arb < 0, latest });
+    } else if (month.arb < 0 && barWidth - g.OUTLINE_INSET - g.OUTLINE_INSET <= 0) {
+      // Too narrow for an outline: the month is a line, so it still shows.
+      svg.appendChild(svgEl("line", { class: latest ? "mark-accent-outline" : "mark-negative", x1: px(xOf(index)), x2: px(xOf(index)), y1: px(top), y2: px(top + tall) }));
     } else if (month.arb < 0) {
       svg.appendChild(svgEl("rect", { class: latest ? "mark-accent-outline" : "mark-negative", x: px(x + g.OUTLINE_INSET), y: px(top + g.OUTLINE_INSET), width: px(Math.max(barWidth - g.OUTLINE_INSET - g.OUTLINE_INSET, 0)), height: px(Math.max(tall - g.OUTLINE_INSET - g.OUTLINE_INSET, 0)) }));
     } else {
@@ -572,7 +575,11 @@ export function flowsChart({ width, months, shares, shareDomain, arbDomain, shar
     svg.appendChild(svgEl("circle", { class: className, cx: px(dot.cx), cy: px(zero), r: g.SMALL_RADIUS }));
   }
 
-  xAxis(svg, xOf, ticks, ticks.map((index) => months[index].label), arbBottom);
+  // Month labels thinned to every few where they would touch at this width.
+  const tickSpacing = ticks.length > 1 ? (xOf(ticks[ticks.length - 1]) - xOf(ticks[0])) / (ticks.length - 1) : right - left;
+  const longest = Math.max(0, ...ticks.map((index) => months[index].label.length));
+  const every = Math.max(1, Math.ceil((longest * g.TICK_CHAR + g.LABEL_GAP) / Math.max(tickSpacing, 1)));
+  xAxis(svg, xOf, ticks, ticks.map((index, at) => (at % every === 0 ? months[index].label : "")), arbBottom);
   return svg;
 }
 
@@ -676,7 +683,10 @@ export function timeChart({ width, days, first, last, y, band, reference, refere
     else groups.push({ at, numbers: [...rule.numbers] });
   }
   for (const group of groups) {
-    svg.appendChild(svgEl("text", { class: "tick", x: px(group.at), y: px(top - g.LABEL_GAP), "text-anchor": "start" }, ruleLabel(group.numbers)));
+    // A label that would pass the chart's right edge is moved back inside it.
+    const label = ruleLabel(group.numbers);
+    const x = Math.min(group.at, width - label.length * g.TICK_CHAR);
+    svg.appendChild(svgEl("text", { class: "tick", x: px(x), y: px(top - g.LABEL_GAP), "text-anchor": "start" }, label));
   }
 
   // Everything inside the plot is clipped to it; what lies beyond is marked.

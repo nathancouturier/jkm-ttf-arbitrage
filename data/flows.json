@@ -29,6 +29,7 @@
    "fill_percent": 1,
    "mmbtu_per_m3": 2,
    "mmbtu_per_t": 2,
+   "mmbtu_per_mwh": 6,
    "r2": 2
   },
   "rounding": "now.json keeps full precision, because the browser engine recomputes from its inputs; history.json and flows.json store floats to 6 places. The page prints the decimals of the format a value names.",
@@ -69,7 +70,7 @@
    },
    {
     "field": "share_open",
-    "value": 26.035078,
+    "value": 25.699559,
     "format": "share_percent"
    },
    {
@@ -77,7 +78,7 @@
    },
    {
     "field": "share_closed",
-    "value": 13.0435,
+    "value": 12.569787,
     "format": "share_percent"
    },
    {
@@ -2511,7 +2512,7 @@
     },
     {
      "field": "share_open",
-     "value": 37.213838,
+     "value": 33.31151,
      "format": "share_percent"
     },
     {
@@ -2519,7 +2520,7 @@
     },
     {
      "field": "share_closed",
-     "value": 18.009938,
+     "value": 18.837009,
      "format": "share_percent"
     },
     {
@@ -4296,7 +4297,7 @@
    "desc": "Two lines over the loading months of 2020: the lift margin at the central hire with the prices published by the notice date, in ink over the band from the low to the high hire, and with the month's own prices, dashed.",
    "caption_segments": [
     {
-     "text": "The notice date is the day two months before loading that Sabine Pass's agreement with Centrica sets; the prices then published are METI's and the World Bank's of the month three before, and Henry Hub's spot since the month two before. Cancellations: EIA, Today in Energy, "
+     "text": "The notice date is the day two months before loading that Sabine Pass's agreement with Centrica sets; the prices then published are METI's and the World Bank's latest month by then, usually the month three before, and Henry Hub's spot since the month two before. Cancellations: EIA, Today in Energy, "
     },
     {
      "field": "eia_note",
@@ -4319,11 +4320,19 @@
      "label": "December 2025"
     },
     {
+     "text": " to the week ending "
+    },
+    {
+     "field": "assessment_week",
+     "value": "2026-04-29",
+     "label": "29 April 2026"
+    },
+    {
      "text": ", the spread covered Panama's breakeven at the central hire in "
     },
     {
      "field": "panama_open",
-     "value": 30,
+     "value": 12,
      "format": "count"
     },
     {
@@ -4331,7 +4340,7 @@
     },
     {
      "field": "weeks",
-     "value": 43,
+     "value": 20,
      "format": "count"
     },
     {
@@ -4339,7 +4348,7 @@
     },
     {
      "field": "cape_open",
-     "value": 23,
+     "value": 10,
      "format": "count"
     },
     {
@@ -4359,7 +4368,7 @@
      "format": "count"
     },
     {
-     "text": " US cargoes to Asia round the Cape in data to "
+     "text": " US cargoes to Asia-Pacific destinations round the Cape in data to "
     },
     {
      "field": "cape_day",
@@ -4747,6 +4756,7 @@
      "month": "2023-07-01",
      "label": "July 2023",
      "hire_level": "low",
+     "hire_usd_day": -750.0,
      "wait_reported": 12.0,
      "wait_breakeven": 3.913274,
      "lead_no_wait": 0.091483,
@@ -4756,6 +4766,7 @@
      "month": "2023-07-01",
      "label": "July 2023",
      "hire_level": "central",
+     "hire_usd_day": 45500.0,
      "wait_reported": 12.0,
      "wait_breakeven": 10.209617,
      "lead_no_wait": 0.499212,
@@ -4765,6 +4776,7 @@
      "month": "2023-07-01",
      "label": "July 2023",
      "hire_level": "high",
+     "hire_usd_day": 374000.0,
      "wait_reported": 12.0,
      "wait_breakeven": 14.752232,
      "lead_no_wait": 3.395192,
@@ -4774,6 +4786,7 @@
      "month": "2023-07-01",
      "label": "July 2023",
      "hire_level": "reported",
+     "hire_usd_day": 71250.0,
      "wait_reported": 12.0,
      "wait_breakeven": 11.508284,
      "lead_no_wait": 0.726218,
@@ -4783,6 +4796,7 @@
      "month": "2023-12-01",
      "label": "December 2023",
      "hire_level": "low",
+     "hire_usd_day": -750.0,
      "wait_reported": 15.0,
      "wait_breakeven": 6.195625,
      "lead_no_wait": 0.187366,
@@ -4792,6 +4806,7 @@
      "month": "2023-12-01",
      "label": "December 2023",
      "hire_level": "central",
+     "hire_usd_day": 45500.0,
      "wait_reported": 15.0,
      "wait_breakeven": 10.672381,
      "lead_no_wait": 0.595095,
@@ -4801,12 +4816,14 @@
      "month": "2023-12-01",
      "label": "December 2023",
      "hire_level": "high",
+     "hire_usd_day": 374000.0,
      "wait_reported": 15.0,
      "wait_breakeven": 14.729547,
      "lead_no_wait": 3.491075,
      "lead_with_wait": -0.064101
     }
-   ]
+   ],
+   "source": "Waits reported: 12 days of delay for unbooked vessels in late July 2023 (LNG Prime, 28 July 2023, quoting Spark); 15 days for unreserved slots in mid December 2023 (IEA, Gas Market Report Q1 2024)"
   },
   "limits_segments": [
    {

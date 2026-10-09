@@ -57,6 +57,7 @@ export const UNITS = Object.freeze({
   fill_percent: "percent",
   mmbtu_per_m3: "MMBtu per m3",
   mmbtu_per_t: "MMBtu per tonne",
+  mmbtu_per_mwh: "MMBtu per MWh",
   m3: "m3",
   mmbtu: "MMBtu",
   bcf: "Bcf",

@@ -53,6 +53,7 @@ DECIMALS: Mapping[str, int] = {
     "fill_percent": 1,
     "mmbtu_per_m3": 2,
     "mmbtu_per_t": 2,
+    "mmbtu_per_mwh": 6,
     "r2": 2,
 }
 
@@ -798,8 +799,15 @@ def flows_panel(months: Sequence[Mapping[str, Any]], regressions: Sequence[Mappi
     closed_months = [r for r in priced if r["arb"] <= 0]
     count = len(rows)
     if closed_months and open_months:
-        mean_open = sum(r["share_asia"] for r in open_months) / len(open_months)
-        mean_closed = sum(r["share_asia"] for r in closed_months) / len(closed_months)
+        volumes = {_iso(m["month"]): m for m in latest}
+
+        def pooled(chosen: Sequence[Mapping[str, Any]]) -> float:
+            asia = sum(volumes[r["month"]]["asia_mmcf"] for r in chosen)
+            total = sum(volumes[r["month"]]["total_mmcf"] for r in chosen)
+            return asia / total * 100.0
+
+        mean_open = pooled(open_months)
+        mean_closed = pooled(closed_months)
         heading = [
             T("In the "), N("months", len(priced), "count"),
             T(" months to " if len(priced) == count else " months priced to "), D("last_month", last, "month"),
