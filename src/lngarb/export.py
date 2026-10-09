@@ -314,7 +314,8 @@ def history(rows: pd.DataFrame | None = None, obs: pd.DataFrame | None = None) -
         "months_without_observation": without.to_dict("records"),
         "freight_anchors": anchors,
         # The History view's layer: what the page draws and says, computed here.
-        "page": spreadhistory.page(rows, breaks, anchors, without, hire_levels(), events.lettered(), events.LEFT_OUT),
+        "page": spreadhistory.page(rows, breaks, anchors, without, hire_levels(), events.lettered(), events.LEFT_OUT,
+                                   analysis.regas_sensitivity(obs)),
     }, ROUND_DP)
 
 

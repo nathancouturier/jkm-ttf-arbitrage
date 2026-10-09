@@ -273,6 +273,12 @@ preliminary vintages before August 2020.
 Decision: not collected. The workbook carries every month's latest figure; the
 preliminary figures would only show METI's own revisions.
 
+Revised 8 October 2026: the owner saved 19 of the monthly PDFs, October 2019 to
+July 2020, by hand. They are parsed into `meti_spot_lng_releases`, every figure
+each release printed with the day of the release, and the 2020 notice test on
+the Flows view uses METI's figure as first released by each notice day. The
+other releases are not held.
+
 ### 16. Do METI's and JOGMEC's arrival-based series join?
 
 Raised 30 September 2026. **Decided 7 October 2026.**
@@ -906,4 +912,45 @@ Decision: the site prints words that name the missing figure, "no figure" in a
 table cell, "missing for this date" under a calculator field, "no crossing" for
 a breakeven hire that does not exist, and gives the reason beside it or in the
 sentence under the table. The methodology, section 1, says so.
+
+### 50. Named ranges instead of a range brush
+
+Raised 9 October 2026. **Decided 9 October 2026.**
+
+The brief asks for a range brush on the History view. A brush is hard to work
+from a keyboard or a phone, and a range picked by dragging cannot be linked.
+
+Decision: four named ranges, every week, 2021 to 2023, 2024 on and the last 52
+weeks, each a button kept in the address (`#/history?range=last_52`), with its
+own scales, ticks and sentences computed with the data. The monthly chart shows
+every month.
+
+### 51. Tariffs, ships and contract terms in the code, not in seed files
+
+Raised 9 October 2026. **Decided 9 October 2026.**
+
+The brief's layout has seed files for the canal tariffs, the ships and the
+contract terms. They live in `src/lngarb/config.py` instead: the Panama and Suez
+tariffs as dated tables with the document and page of each, the ships and the
+contract terms as parameters with their source, status and the day they were
+read, all shown on the Method view. A seed file would hold the same figures
+without the types and checks the code gives them; the seeds that are kept are
+those written from rows by code (routes, freight anchors, events).
+
+Decision: kept in the code, each figure with its source. The Method view and
+the methodology are where a reader finds them.
+
+### 52. No wait at Panama by default
+
+Raised 9 October 2026. **Decided 9 October 2026.**
+
+Panama was open under restrictions from 2023, with waits reported for LNG in
+two months (12 days in July 2023, 15 in December 2023) and slots auctioned. No
+wait is known for the other months, and a wait is a cargo's choice against
+paying for a slot.
+
+Decision: the engine adds no wait and no slot premium unless one is typed; the
+Flows view sets the two reported waits against the wait at which Panama stops
+netting more than the Cape, and the Model view takes waiting days and a slot
+premium per route.
 

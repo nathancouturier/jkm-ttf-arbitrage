@@ -142,6 +142,7 @@ function y2020Figure(page, decimals) {
       series: { values: y2020.months.map((m) => m.notice.central), label: page.words.notice },
       marks: [],
       rules: [],
+      events: y2020.cancelled_marks || [],
       ticks: y2020.ticks,
       words: { title: segmentsText(y2020.heading_segments, decimals), desc: y2020.desc, yAxis: page.words.y_axis },
     }));

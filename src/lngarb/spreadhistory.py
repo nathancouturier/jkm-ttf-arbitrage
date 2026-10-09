@@ -74,6 +74,11 @@ def _finite(value: Any) -> float | None:
     return float(value)
 
 
+def _parts(row: Mapping[str, Any], route: str | None) -> dict[str, float | None]:
+    """The three parts of S* of the route, or None each when no route is open."""
+    return {part: (_finite(row.get(route + "_" + part)) if route else None) for part in ("boil_off", "regas", "voyage")}
+
+
 def _cheapest(row: Mapping[str, Any]) -> tuple[str | None, float | None, float | None]:
     """The cheapest open route east of a row: its short name, S* and H*."""
     best = None
@@ -95,6 +100,7 @@ def _points(rows: pd.DataFrame, frequency: str) -> list[dict[str, Any]]:
             continue
         route, s_central, h_star = _cheapest(central)
         point = {
+            **_parts(central, route),
             "day": day.date(),
             "spread": _finite(central["spread"]),
             "s_low": _cheapest(by["low"])[1] if "low" in by else None,
@@ -365,11 +371,60 @@ def _events_lead(items: Sequence[Mapping[str, Any]], left_out: Sequence[tuple[st
     ]
 
 
+PART_WORDS = {"boil_off": "boil-off", "regas": "Europe's DES spread", "voyage": "the voyage"}
+
+
+def _parts_heading(points: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
+    """Which part of S* was the largest, week by week, counted over the range."""
+    counts = {part: 0 for part in PART_WORDS}
+    for p in points:
+        values = {part: p[part] for part in PART_WORDS if p.get(part) is not None}
+        if values:
+            counts[max(values, key=lambda k: abs(values[k]))] += 1
+    order = sorted(counts, key=lambda k: -counts[k])
+    out = [reader.T("The three parts of S* at the central hire: the largest was "),
+           reader.W("first_part", PART_WORDS[order[0]]), reader.T(" in "), reader.N("first_count", counts[order[0]], "count"),
+           reader.T(" weeks, "), reader.W("second_part", PART_WORDS[order[1]]), reader.T(" in "),
+           reader.N("second_count", counts[order[1]], "count"), reader.T(" and "),
+           reader.W("third_part", PART_WORDS[order[2]]), reader.T(" in "),
+           reader.N("third_count", counts[order[2]], "count"), reader.T(".")]
+    return out
+
+
+def _regas_heading(points: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
+    """Europe's DES spread over the range: observed where ACER published it, and how many verdicts rest on it."""
+    seen = [p for p in points if p.get("delta_observed") and p.get("delta_nwe") is not None]
+    out = [reader.T("Europe's DES spread to TTF")]
+    if seen:
+        out += [reader.T(", observed by ACER in "), reader.N("observed_weeks", len(seen), "count"),
+                reader.T(" of the "), reader.N("weeks", len(points), "count"), reader.T(" weeks, ran from "),
+                reader.N("low", min(p["delta_nwe"] for p in seen), "usd_mmbtu", signed=True), reader.T(" to "),
+                reader.N("high", max(p["delta_nwe"] for p in seen), "usd_mmbtu", signed=True), reader.T(" $/MMBtu")]
+    else:
+        out += [reader.T(" is the assumption in every week of the range")]
+    flips_zero = sum(1 for p in points if p.get("zero_flip"))
+    flips_assumed = sum(1 for p in points if p.get("assumed_flip"))
+    out += [reader.T("; with it at zero the arb east would change state in "), reader.N("flips_zero", flips_zero, "count"),
+            reader.T(" weeks, at the assumption in "), reader.N("flips_assumed", flips_assumed, "count"), reader.T(".")]
+    return out
+
+
 def page(rows: pd.DataFrame, breaks: pd.DataFrame, anchors: Sequence[Mapping[str, Any]],
          months_without: pd.DataFrame, levels: Mapping[str, float],
-         events: Sequence[Mapping[str, Any]] = (), left_out: Sequence[tuple[str, str]] = ()) -> dict[str, Any]:
+         events: Sequence[Mapping[str, Any]] = (), left_out: Sequence[tuple[str, str]] = (),
+         regas: pd.DataFrame | None = None) -> dict[str, Any]:
     """The History view's layer of history.json."""
     weekly = _points(rows, "weekly")
+    if regas is not None and not regas.empty:
+        by_day = {r["day"].date(): r for r in regas.to_dict("records")}
+        for p in weekly:
+            r = by_day.get(p["day"])
+            if r is None:
+                continue
+            p.update({"delta_nwe": _finite(r["delta_nwe"]), "assumed_delta_nwe": _finite(r["assumed_delta_nwe"]),
+                      "delta_observed": bool(r["delta_observed"]),
+                      "zero_flip": bool(r["data_open"] != r["zero_open"]),
+                      "assumed_flip": bool(r["data_open"] != r["assumed_open"])})
     monthly = _points(rows, "monthly")
     last = weekly[-1]["day"]
     drawn = breaks[breaks["kind"].isin(DRAWN)].reset_index(drop=True)
@@ -408,6 +463,11 @@ def page(rows: pd.DataFrame, breaks: pd.DataFrame, anchors: Sequence[Mapping[str
             "hstar_heading_segments": _hstar_heading(chosen),
             "hstar_desc_segments": _hstar_desc(chosen),
             "hstar_caption_segments": _hstar_caption(hstar, [a for a in anchors if start <= a["date"] <= stop]),
+            "parts_y": _domain([v for p in chosen for v in (p.get("boil_off"), p.get("regas"), p.get("voyage"),
+                                                              p["s_central"])]),
+            "parts_heading_segments": _parts_heading(chosen),
+            "regas_y": _domain([v for p in chosen for v in (p.get("delta_nwe"), p.get("assumed_delta_nwe"))]),
+            "regas_heading_segments": _regas_heading(chosen),
             # The point in the accent: the latest rate reported inside the range.
             "accent_day": max((a["date"] for a in anchors if start <= a["date"] <= stop), default=None),
             "years": _by_year(chosen),
@@ -415,7 +475,7 @@ def page(rows: pd.DataFrame, breaks: pd.DataFrame, anchors: Sequence[Mapping[str
 
     weekly_gaps = _with_gaps(weekly, 7)
     keys = ("day", "spread", "s_low", "s_central", "s_high", "route", "h_star", "alignment", "reported_hire",
-            "reported_open")
+            "reported_open", "boil_off", "regas", "voyage", "delta_nwe", "assumed_delta_nwe", "delta_observed")
     monthly_full = []
     observed = {p["day"].replace(day=1): p for p in monthly}
     month = monthly[0]["day"].replace(day=1)
@@ -448,6 +508,14 @@ def page(rows: pd.DataFrame, breaks: pd.DataFrame, anchors: Sequence[Mapping[str
                                "the assessment and who reported it.",
             "breaks_caption": "Every break drawn as a numbered rule: the day it takes effect, its kind, what "
                               "changes and the source.",
+            "parts_legend": "The ink line is S* of the cheapest open route at the central hire; the thin line, the "
+                            "gas the longer voyage burns, valued at TTF; the dotted line, Europe's DES spread a cargo "
+                            "sold east escapes; the dashed line, the extra cost of the voyage.",
+            "parts": {"s_star": "S*", "boil_off": "Boil-off", "regas": "Europe's spread", "voyage": "Voyage"},
+            "regas_legend": "The ink line is Europe's DES spread to TTF as the engine took it each week: ACER's "
+                            "assessment where it published enough, the assumption before; the dashed line, the "
+                            "assumption of the parameter table at each week's exchange rate.",
+            "regas": {"observed": "Europe's spread", "assumed": "Assumption"},
             "events_caption": "Every event drawn as a lettered mark: the day it began, the day it ended where it "
                               "ran for a period, what happened and the document it was read in.",
             "events_heading": "The events behind the regimes",

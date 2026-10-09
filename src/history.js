@@ -75,6 +75,8 @@ export function render(root, data, route) {
 
   root.appendChild(weeklyFigure(page, range, decimals));
   root.appendChild(hstarFigure(page, range, decimals));
+  root.appendChild(partsFigure(page, range, decimals));
+  root.appendChild(regasFigure(page, range, decimals));
   root.appendChild(monthlyFigure(page, decimals));
   root.appendChild(el("div", { class: "block" }, [
     el("h2", { class: "block__heading", text: page.words.events_heading }),
@@ -185,6 +187,70 @@ function hstarFigure(page, range, decimals) {
     el("p", { class: "source-line", text: page.words.hstar_legend }),
     sentence("p", range.hstar_caption_segments, decimals, "source-line"),
     disclosure("The charter rates reported, in a table", () => anchorsTable(page, decimals)),
+  ]);
+}
+
+/* The three parts of S* of the cheapest open route, week by week: which one
+ * dominates changes with the market. */
+function partsFigure(page, range, decimals) {
+  const weekly = page.weekly;
+  const indexes = slice(weekly, range);
+  const frame = el("div", { class: "chart-frame" });
+  charts.onWidthChange(frame, (width) => {
+    frame.replaceChildren(charts.timeChart({
+      width,
+      days: pick(weekly.day, indexes),
+      first: range.first,
+      last: range.last,
+      y: range.parts_y,
+      band: null,
+      reference: null,
+      references: [
+        { values: pick(weekly.boil_off, indexes), label: page.words.parts.boil_off, pattern: "thin" },
+        { values: pick(weekly.regas, indexes), label: page.words.parts.regas, pattern: "dot" },
+        { values: pick(weekly.voyage, indexes), label: page.words.parts.voyage, pattern: "reference" },
+      ],
+      series: { values: pick(weekly.s_central, indexes), label: page.words.parts.s_star },
+      marks: [],
+      rules: page.rules,
+      ticks: range.ticks,
+      height: width < charts.GEOMETRY.NARROW_WIDTH ? charts.GEOMETRY.HSTAR_HEIGHT_NARROW : charts.GEOMETRY.HSTAR_HEIGHT,
+      words: { title: segmentsText(range.parts_heading_segments, decimals), desc: page.words.parts_legend, yAxis: page.words.y_axis },
+    }));
+  });
+  return el("figure", { class: "block" }, [
+    sentence("h2", range.parts_heading_segments, decimals, "block__heading"),
+    frame,
+    el("p", { class: "source-line", text: page.words.parts_legend }),
+  ]);
+}
+
+/* Europe's DES spread to TTF as the engine took it, against the assumption. */
+function regasFigure(page, range, decimals) {
+  const weekly = page.weekly;
+  const indexes = slice(weekly, range);
+  const frame = el("div", { class: "chart-frame" });
+  charts.onWidthChange(frame, (width) => {
+    frame.replaceChildren(charts.timeChart({
+      width,
+      days: pick(weekly.day, indexes),
+      first: range.first,
+      last: range.last,
+      y: range.regas_y,
+      band: null,
+      reference: { values: pick(weekly.assumed_delta_nwe, indexes), label: page.words.regas.assumed },
+      series: { values: pick(weekly.delta_nwe, indexes), label: page.words.regas.observed },
+      marks: [],
+      rules: page.rules,
+      ticks: range.ticks,
+      height: width < charts.GEOMETRY.NARROW_WIDTH ? charts.GEOMETRY.HSTAR_HEIGHT_NARROW : charts.GEOMETRY.HSTAR_HEIGHT,
+      words: { title: segmentsText(range.regas_heading_segments, decimals), desc: page.words.regas_legend, yAxis: page.words.y_axis },
+    }));
+  });
+  return el("figure", { class: "block" }, [
+    sentence("h2", range.regas_heading_segments, decimals, "block__heading"),
+    frame,
+    el("p", { class: "source-line", text: page.words.regas_legend }),
   ]);
 }
 

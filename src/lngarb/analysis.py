@@ -775,6 +775,7 @@ def regas_sensitivity(obs: pd.DataFrame | None = None, *, hire: float | None = N
             except worked.MissingInput:
                 continue
             row = {"day": o.day, "spread": inputs.jkm - inputs.ttf, "delta_nwe": inputs.delta_nwe,
+                   "assumed_delta_nwe": units.eur_mwh_to_usd_mmbtu(assumed_eur, usd_per_eur),
                    "delta_observed": not inputs.sources["delta_nwe"].startswith("assumption")}
             cases_ = {"data": inputs.delta_nwe, "zero": 0.0,
                       "assumed": units.eur_mwh_to_usd_mmbtu(assumed_eur, usd_per_eur)}

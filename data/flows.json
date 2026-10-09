@@ -4035,10 +4035,96 @@
     },
     {
      "text": " months."
+    },
+    {
+     "text": " Where it fails: for "
+    },
+    {
+     "field": "why_month",
+     "value": "June",
+     "label": "June"
+    },
+    {
+     "text": ", the notice of "
+    },
+    {
+     "field": "why_notice_2020-06",
+     "value": "2020-04-20",
+     "label": "20 April 2020"
+    },
+    {
+     "text": " took METI's latest Japanese spot price as first released, "
+    },
+    {
+     "field": "why_jkm_2020-06",
+     "value": 3.4,
+     "format": "usd_mmbtu"
+    },
+    {
+     "text": " $/MMBtu, against TTF's "
+    },
+    {
+     "field": "why_ttf_2020-06",
+     "value": 2.72,
+     "format": "usd_mmbtu"
+    },
+    {
+     "text": "."
+    },
+    {
+     "text": " For "
+    },
+    {
+     "field": "why_month",
+     "value": "September",
+     "label": "September"
+    },
+    {
+     "text": ", the notice of "
+    },
+    {
+     "field": "why_notice_2020-09",
+     "value": "2020-07-20",
+     "label": "20 July 2020"
+    },
+    {
+     "text": " took METI's latest Japanese spot price as first released, "
+    },
+    {
+     "field": "why_jkm_2020-09",
+     "value": 3.8,
+     "format": "usd_mmbtu"
+    },
+    {
+     "text": " $/MMBtu, against TTF's "
+    },
+    {
+     "field": "why_ttf_2020-09",
+     "value": 1.75,
+     "format": "usd_mmbtu"
+    },
+    {
+     "text": "."
+    },
+    {
+     "text": " METI's figure is the average price of the spot cargoes contracted in a month, and it stands in for JKM, which this study does not hold for that year: the test fails where that average stayed far enough above TTF to pay for the voyage while cargoes were cancelled."
+    },
+    {
+     "text": " With each loading month's own prices the margin was below zero in "
+    },
+    {
+     "field": "loading_below",
+     "value": "April, May and August",
+     "label": "April, May and August"
+    },
+    {
+     "text": "."
     }
    ],
    "months": [
     {
+     "notice_jkm": 5.5,
+     "notice_ttf": 5.06,
      "month": "2020-01-01",
      "label": "January",
      "loading": {
@@ -4058,6 +4144,8 @@
      "cancelled_url": null
     },
     {
+     "notice_jkm": 5.5,
+     "notice_ttf": 5.06,
      "month": "2020-02-01",
      "label": "February",
      "loading": {
@@ -4077,6 +4165,8 @@
      "cancelled_url": null
     },
     {
+     "notice_jkm": 6.4,
+     "notice_ttf": 4.62,
      "month": "2020-03-01",
      "label": "March",
      "loading": {
@@ -4096,6 +4186,8 @@
      "cancelled_url": null
     },
     {
+     "notice_jkm": 5.9,
+     "notice_ttf": 3.63,
      "month": "2020-04-01",
      "label": "April",
      "loading": {
@@ -4115,6 +4207,8 @@
      "cancelled_url": null
     },
     {
+     "notice_jkm": 3.4,
+     "notice_ttf": 2.91,
      "month": "2020-05-01",
      "label": "May",
      "loading": {
@@ -4134,6 +4228,8 @@
      "cancelled_url": null
     },
     {
+     "notice_jkm": 3.4,
+     "notice_ttf": 2.72,
      "month": "2020-06-01",
      "label": "June",
      "loading": {
@@ -4153,6 +4249,8 @@
      "cancelled_url": "https://www.eia.gov/todayinenergy/detail.php?id=44697"
     },
     {
+     "notice_jkm": 2.4,
+     "notice_ttf": 2.12,
      "month": "2020-07-01",
      "label": "July",
      "loading": {
@@ -4172,6 +4270,8 @@
      "cancelled_url": "https://www.eia.gov/todayinenergy/detail.php?id=44697"
     },
     {
+     "notice_jkm": 2.2,
+     "notice_ttf": 1.58,
      "month": "2020-08-01",
      "label": "August",
      "loading": {
@@ -4191,6 +4291,8 @@
      "cancelled_url": "https://www.eia.gov/todayinenergy/detail.php?id=44697"
     },
     {
+     "notice_jkm": 3.8,
+     "notice_ttf": 1.75,
      "month": "2020-09-01",
      "label": "September",
      "loading": {
@@ -4210,6 +4312,8 @@
      "cancelled_url": "https://www.eia.gov/todayinenergy/detail.php?id=44697"
     },
     {
+     "notice_jkm": 5.2,
+     "notice_ttf": 1.8,
      "month": "2020-10-01",
      "label": "October",
      "loading": {
@@ -4229,6 +4333,8 @@
      "cancelled_url": null
     },
     {
+     "notice_jkm": 3.4,
+     "notice_ttf": 2.86,
      "month": "2020-11-01",
      "label": "November",
      "loading": {
@@ -4248,6 +4354,8 @@
      "cancelled_url": null
     },
     {
+     "notice_jkm": 4.5,
+     "notice_ttf": 3.95,
      "month": "2020-12-01",
      "label": "December",
      "loading": {
@@ -4294,7 +4402,29 @@
      "label": "Nov 2020"
     }
    ],
-   "desc": "Two lines over the loading months of 2020: the lift margin at the central hire with the prices published by the notice date, in ink over the band from the low to the high hire, and with the month's own prices, dashed.",
+   "desc": "Two lines over the loading months of 2020: the lift margin at the central hire with the prices published by the notice date, in ink over the band from the low to the high hire, and with the month's own prices, dashed. Bars at the foot mark the months EIA reported cargoes cancelled, each with the count.",
+   "cancelled_marks": [
+    {
+     "day": "2020-05-18",
+     "end": "2020-06-15",
+     "letter": "46"
+    },
+    {
+     "day": "2020-06-17",
+     "end": "2020-07-15",
+     "letter": "50"
+    },
+    {
+     "day": "2020-07-18",
+     "end": "2020-08-15",
+     "letter": "45"
+    },
+    {
+     "day": "2020-08-18",
+     "end": "2020-09-15",
+     "letter": "30"
+    }
+   ],
    "caption_segments": [
     {
      "text": "The notice date is the day two months before loading that Sabine Pass's agreement with Centrica sets; the prices then published are METI's latest month by then, usually the month three before, the World Bank's TTF for that same month, and Henry Hub's spot since the month two before. Cancellations: EIA, Today in Energy, "
@@ -5064,7 +5194,7 @@
    "panama_route": "To North Asia via Panama",
    "cape_route": "To North Asia round the Cape",
    "y2026_legend": "The ink line is JKM over TTF; the thin line, S* via Panama; the dotted line, S* round the Cape; both at the central hire. The dot in the accent is the week the arb east opened on the data, Europe's DES spread as ACER assessed it.",
-   "y2020_legend": "The ink line is the lift margin at the notice date at the central hire, over the band from the low to the high hire; the dashed line, the margin with the month's own prices.",
+   "y2020_legend": "The ink line is the lift margin at the notice date at the central hire, over the band from the low to the high hire; the dashed line, the margin with the month's own prices; the bars at the foot, the months EIA reported cargoes cancelled, with the count.",
    "y2020_caption": "The lift margin of each loading month of the year, at the notice date at each hire and at loading at the central hire, and the cargoes reported cancelled.",
    "waits_caption": "Panama against the Cape in the months a wait was reported for LNG: the wait reported, the wait at which the two routes net the same, and Panama's lead over the Cape without and with the wait, in $/MMBtu."
   }
