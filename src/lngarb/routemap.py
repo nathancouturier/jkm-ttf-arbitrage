@@ -358,10 +358,13 @@ AVAILABILITY: Mapping[str, Sequence[tuple[str, str, str, str, str | None, str]]]
         ("2024-09-01", "open", "normal operating conditions, 36 booking slots, 10 of them neopanamax; LNG use "
          "stays low", "Panama Canal Authority, advisory A-28-2024; IEA, Gas Market Reports of 2025 and Q1 2026",
          None, "published"),
-        ("2025-12-01", "restricted", "water conservation; neopanamax draught cut to 48 feet by 2 September "
-         "2026; an LNG first rule for one booking slot from 4 January 2026",
-         "Panama Canal Authority, press release of 5 August 2026 and advisories of 2025 and 2026", None,
-         "published"),
+        ("2025-12-01", "open", "water conservation measures in place, which the Authority says leave the "
+         "daily transits as they were; their advisories of December 2025 to May 2026 were not read; an LNG "
+         "first rule for one booking slot from 4 January 2026",
+         "Panama Canal Authority, press release of 5 August 2026 and advisory A-28-2025", None, "published"),
+        ("2026-07-03", "restricted", "neopanamax draught cut in steps: 49.5 feet from 3 July 2026, 49 from 24 "
+         "July, 48.5 from 15 August, 48 from 2 September; booking slots unchanged",
+         "Panama Canal Authority, advisories A-18, A-22, A-25, A-29 and A-33-2026", None, "published"),
         ("2026-09-04", "restricted", "El Nino measures: 9 neopanamax slots a day; 10 slots and at least four "
          "LNG slots a week announced from 15 October 2026",
          "Panama Canal Authority, advisories A-29-2026 and A-36-2026", None, "published"),
@@ -495,7 +498,8 @@ def routes_document(now_document: Mapping[str, Any]) -> dict[str, Any]:
     if closed_now:
         heading += [reader.T(" In the week to "), reader.D("as_of", as_of), reader.T(", "),
                     reader.W("closed_routes", reader.listed(reader.ROUTE_SHORT[r] for r in closed_now)),
-                    reader.T(" is closed to a US cargo." if len(closed_now) == 1 else " are closed to a US cargo.")]
+                    reader.T(" is treated as closed to a US cargo." if len(closed_now) == 1
+                             else " are treated as closed to a US cargo.")]
     best = result["best_route"]
     if best == "nwe_direct":
         best_words = [reader.T(" Gate nets the latest cargo most, so no route east is in the accent.")]
@@ -530,10 +534,11 @@ def routes_document(now_document: Mapping[str, Any]) -> dict[str, Any]:
                      "daylight and encounter rules, waits reported, or most carriers diverting), an empty outline "
                      "closed, a pale bar a stretch no source read covers; from "),
             reader.D("timeline_first", TIMELINE_FROM, "month"), reader.T(" to "), reader.D("as_of", as_of),
-            reader.T(". The engine adds waiting days at Panama only in the months a wait was reported for LNG, "),
+            reader.T(". The engine adds no waiting days at Panama; the analysis sets Panama against the Cape with "
+                     "the waits reported for LNG, in "),
             reader.W("wait_months", reader.listed([reader.month_label(date.fromisoformat(month + "-01"))
                                                    for month in sorted(waits)])),
-            reader.T("; the table under the chart gives every band's source."),
+            reader.T(" only; the table under the chart gives every band's source."),
         ],
         "source_segments": [
             reader.T("Routes and distances: this study's computation with the searoute library over Eurostat's "

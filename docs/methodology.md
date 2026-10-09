@@ -429,7 +429,8 @@ was to get.
 | 1 Jun 2024 | 14 Aug 2024 | neopanamax booking slots back to 8, 9, then 10 | advisories of 2024 |
 | 15 Aug 2024 | 31 Aug 2024 | the Authority states its commitment to return to normal operating conditions (50 feet; 36 booking slots, 10 neopanamax, from 1 September 2024) | advisory A-28-2024 |
 | 1 Sep 2024 | about November 2025 | normal operating conditions; LNG use stays low | advisory A-28-2024; IEA, Gas Market Reports 2025 and Q1 2026 |
-| December 2025 | 3 Sep 2026 | water conservation; neopanamax draught cut to 48 feet by 2 September 2026; an LNG first rule for one booking slot from 4 January 2026 | the Authority's press release of 5 August 2026; advisories of 2025 and 2026 |
+| December 2025 | 2 Jul 2026 | water conservation measures in place, which the Authority says leave the daily transits as they were; their advisories of December 2025 to May 2026 were not read; an LNG first rule for one booking slot from 4 January 2026 | the Authority's press release of 5 August 2026; advisory A-28-2025 |
+| 3 Jul 2026 | 3 Sep 2026 | neopanamax draught cut in steps, to 49.5 feet on 3 July and 48 feet by 2 September 2026; booking slots unchanged | advisories A-18, A-22, A-25, A-29 and A-33-2026 |
 | 4 Sep 2026 | to date | El Nino measures: 9 neopanamax slots a day; 10 slots and at least four LNG slots a week announced from 15 October 2026 | advisories A-29-2026 and A-36-2026 |
 
 ---
@@ -604,12 +605,13 @@ names the same month, misaligned when none does, and mixed otherwise.
 ### 9.10 The calculator
 
 The Model view runs the same engine in the browser (`src/engine.js`, held to
-the Python to 1e-9 on every case of section 10) over a preset's inputs with
+the Python to 1e-9 by `tools/validate-engine.mjs` on 240 random cases, 14
+edge cases, the six presets and the named edits) over a preset's inputs with
 the visitor's figures laid over them.
 
 * **Presets.** Each is a loading date worked as section 9.8 works it: the
   latest week, April 2020, 12 October 2022, 27 March 2024, 25 March 2026 and
-  Spark's worked example of 9 February 2022.
+  Spark's worked example, assessed on 8 February 2022, loading on 9 February.
 * **Missing is shown as missing.** An input the data do not hold for a
   preset's date is left empty, with the reason under its field and in the
   preset's lead, and every output that needs it has no figure until one is
@@ -622,9 +624,12 @@ the visitor's figures laid over them.
   central and high levels of the reported rates, the three the analysis runs,
   for the visitor to choose. A date whose inputs cannot be read at all is not
   offered, and the page says why.
-* **Assumptions are named.** The liquefaction fee, the port costs and the
-  funding spread are always this study's assumptions (section 11), and the
-  field and the preset's lead say so; so do they for Europe's DES spread where
+* **Assumptions are named.** The liquefaction fee, the port costs, the
+  funding spread and the canal tolls' reading of the tariffs (an unbooked
+  ship at its nominal capacity, Panama's fresh water surcharge at 5 percent
+  of tolls, Suez's net tonnage from capacity) are always this study's
+  assumptions (section 11), and the fields, the route table and the preset's
+  lead say so; so do they for Europe's DES spread where
   ACER published too little, and for an allowance price held. Every one can be
   typed over, as can the ship's speed, boil-off, fill and days in port, the
   contract's share of Henry Hub, the two energy conversions and the EU ETS

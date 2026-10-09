@@ -74,6 +74,10 @@ data/seed/routes.json, data/seed/routes.geojson, and the route lines in data/rou
   Ridge National Laboratory CTA Transportation Network Group's Global Shipping
   Lane Network, World, 2000.
 
+vendor/fraunces/, vendor/figtree/ and vendor/jetbrains-mono/:
+  The three typefaces, each under the SIL Open Font License 1.1, its licence
+  beside its file (vendor/README.md).
+
 The land in data/routes.json, and vendor/world-atlas/land-110m.json:
   Natural Earth's 1:110m land, in the public domain, as the world-atlas
   package 2.0.2 packs it (https://github.com/topojson/world-atlas, ISC

@@ -479,7 +479,7 @@ def netbacks_section(result: Mapping[str, Any], *, day: date, threshold: float, 
     closed = [r for r, l in result["east"].items() if not l["open"]]
     if closed:
         heading += [T("; "), W("closed_routes", listed(ROUTE_SHORT[r] for r in closed)),
-                    T(" is closed to a US cargo" if len(closed) == 1 else " are closed to a US cargo")]
+                    T(" is treated as closed to a US cargo" if len(closed) == 1 else " are treated as closed to a US cargo")]
     heading += [T(".")]
     percent = N("hh_multiple_percent", hh_multiple * 100.0, "count")
     clears = all(v >= threshold for v in values if not _missing(v))

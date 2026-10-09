@@ -368,7 +368,8 @@ def model(now_document: dict[str, Any]) -> dict[str, Any]:
     count = len(body["presets"])
     return _clean({
         **reader.header("model", day, "the calculator's presets: every engine input of %s with its source, "
-                                      "the engine's output and the landing sentence for each" % (
+                                      "the engine's output, and the landing sentence where every figure it "
+                                      "compares is there" % (
                                           "one date" if count == 1 else "%d dates" % count)),
         "conventions": reader.conventions(),
         **body,

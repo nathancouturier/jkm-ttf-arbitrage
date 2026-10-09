@@ -133,7 +133,9 @@ def routes_on(when: date | str, vessel: Vessel, *, suez_scnt: float | None = Non
     laden_after, ballast_after = transit_days("nea_suez", vessel)
     laden_day, ballast_day = _on(day, laden_after), _on(day, ballast_after)
     closed_from = date.fromisoformat(_p("suez_closed_to_us_cargo_from"))
-    why = "" if laden_day < closed_from else "laden transit %s: no US Gulf cargo through the Red Sea after 12 January 2024" % laden_day
+    why = "" if laden_day < closed_from else (
+        "laden transit %s: no US Gulf cargo reported through the Red Sea after 12 January 2024, so treated as "
+        "closed" % laden_day)
     priced = canals.suez_transits(laden_day, ballast_day, vessel.capacity_m3, scnt=suez_scnt,
                                   rebate_on_surcharge=suez_rebate_on_surcharge)
     if priced is None:
@@ -373,6 +375,12 @@ def delta_nwe_on(when: date | str, window: tuple[date, date] | None = None) -> t
     observed = delta_nwe_between(start, end)
     if observed is not None:
         return observed
+    frame = read_cache("acer_lng_daily")
+    held = frame.loc[frame["nwe_benchmark_spread_eur_mwh"].notna(), "date"] if frame is not None else pd.Series([], dtype=object)
+    if held.empty or pd.Timestamp(end) < held.min():
+        first = "" if held.empty else " before %s" % held.min().date()
+        return float(_p("delta_nwe_eur_mwh")), (
+            "assumption: %s EUR/MWh; ACER published no spread%s" % (_p("delta_nwe_eur_mwh"), first))
     return float(_p("delta_nwe_eur_mwh")), (
         "assumption: %s EUR/MWh, ACER's spread held on too few days from %s to %s" % (
             _p("delta_nwe_eur_mwh"), start, end))

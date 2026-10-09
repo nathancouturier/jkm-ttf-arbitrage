@@ -126,8 +126,8 @@ const OUTPUTS = Object.freeze([
   { key: "regas", head: "S*, Europe's spread", format: "usd_mmbtu", signed: true, from: (l) => l.regas },
   { key: "voyage", head: "S*, voyage", format: "usd_mmbtu", signed: true, from: (l) => l.voyage },
   { key: "h_star", head: "H*, $/day", format: "usd_day", from: (l) => l.h_star_usd_day },
-  { key: "freight_conventional", head: "Freight, conventional", format: "usd_mmbtu", from: (l) => l.freight_conventional },
-  { key: "netback_conventional", head: "Netback, conventional", format: "usd_mmbtu", from: (l) => l.netback_conventional },
+  { key: "freight_conventional", head: "Freight, conventional, $/MMBtu delivered", format: "usd_mmbtu", from: (l) => l.freight_conventional },
+  { key: "netback_conventional", head: "Netback, conventional, $/MMBtu delivered", format: "usd_mmbtu", from: (l) => l.netback_conventional },
 ]);
 
 /* The outputs that have no meaning for Gate, the reference itself. */
@@ -589,6 +589,7 @@ function routesFieldset() {
   set.appendChild(scrollTable(["Each route's legs. An empty days-at-sea field takes the days from the distance at the ship's speed. Back by another route, the ballast leg takes that route's distance, canal days and waiting days, and the toll of a ballast transit alone."], table));
   held.routeNotes = el("div", { class: "model-route-notes" });
   set.appendChild(held.routeNotes);
+  if (model.toll_words) set.appendChild(el("p", { class: "model-field__source", text: model.toll_words }));
   if (preset.source_words.days) {
     const line = el("p", { class: "model-field__source", id: "model-days-source", text: "Days typed for this preset: " + preset.source_words.days + "." });
     set.appendChild(line);
@@ -622,7 +623,7 @@ function outputsTable() {
   const lift = el("p", { class: "lead model-lift" });
   held.lift = lift;
   const table = el("table", { class: "table model-outputs" }, [el("thead", {}, [head]), body]);
-  return el("div", { class: "block" }, [scrollTable(["What the inputs below give, route by route, per MMBtu loaded; S* and its parts are the spread of JKM over TTF at which the route pays as much as Gate."], table), lift]);
+  return el("div", { class: "block" }, [scrollTable(["What the inputs below give, route by route: the netbacks and the gap over Gate per MMBtu loaded; the conventional freight and netback per MMBtu delivered, as the market quotes them; S* and its parts, the spread of JKM over TTF at which the route pays as much as Gate."], table), lift]);
 }
 
 /* ------------------------------------------------------------ compute --- */
@@ -819,7 +820,7 @@ function recompute() {
     const lines = result.east[routeId];
     if (!lines) continue;
     const presetClosed = !preset.inputs.routes[routeId].open;
-    const inData = presetClosed ? "closed in the data: " + (preset.closed_words[routeId] || preset.inputs.routes[routeId].why_closed) : "";
+    const inData = presetClosed ? "closed on this date: " + (preset.closed_words[routeId] || preset.inputs.routes[routeId].why_closed) : "";
     let words = "";
     if (!lines.open && presetClosed && lines.why_closed === preset.inputs.routes[routeId].why_closed) words = capitalised(inData) + ".";
     else if (!lines.open) words = "Closed here: " + lines.why_closed + (presetClosed ? "; " + inData : "") + ".";

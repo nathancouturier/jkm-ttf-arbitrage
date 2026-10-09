@@ -98,8 +98,8 @@ PRESETS: tuple[Preset, ...] = (
     Preset("october_2022", "October 2022", "2022-10-12", "ngwu",
            "The autumn of record charter rates, with Europe paying more than Asia"),
     Preset("march_2024", "March 2024", "2024-03-27", "ngwu",
-           "A week with Suez treated as closed and Panama's booking slots cut; no wait at Panama was reported for "
-           "LNG that month, so the engine adds none"),
+           "A week with Suez treated as closed and Panama's booking slots cut, with no wait at Panama, as on every "
+           "date, unless one is typed"),
     Preset("march_2026", "March 2026", "2026-03-25", "wngsr",
            "A week with Panama under water conservation measures and Suez treated as closed"),
     Preset("spark_example", "Spark's worked example", "2022-02-09", "ngwu",
@@ -131,6 +131,8 @@ SHIP_SOURCES: Mapping[str, Mapping[str, str]] = {
 
 #: How the lead names each assumption.
 ASSUMPTION_WORDS: Mapping[str, str] = {
+    "tolls": "the canal tolls' reading of the tariffs (an unbooked ship at its nominal capacity, Panama's fresh "
+             "water surcharge at 5 percent of tolls, Suez's net tonnage from capacity)",
     "delta_nwe": "Europe's DES spread to TTF",
     "eua": "the allowance price",
     "liquefaction_fee": "the liquefaction fee",
@@ -245,7 +247,7 @@ def _assumed(inputs: Inputs) -> list[str]:
     for key in ("delta_nwe", "eua"):
         if inputs.sources.get(key, "").startswith("assumption"):
             out.append(key)
-    out += ["liquefaction_fee", "ports", "spread_bp"]
+    out += ["liquefaction_fee", "ports", "spread_bp", "tolls"]
     if "days" in inputs.sources:
         out.append("days")
     return out
@@ -255,9 +257,9 @@ def _lead(preset: Preset, inputs: Inputs, missing: Mapping[str, str]) -> list[di
     assumed = [ASSUMPTION_WORDS[key] for key in _assumed(inputs)]
     segments = [
         reader.T(preset.about + ", loading on "), reader.D("day", inputs.day),
-        reader.T(". Prices, rates and canal tolls are the data's for that date; "),
+        reader.T(". Prices and rates are the data's nearest that date, each dated under its field; "),
         reader.W("assumed", reader.listed(assumed)),
-        reader.T(" are this study's assumptions, each named under its field."),
+        reader.T(" are this study's assumptions, each named under its field or the route table."),
     ]
     if missing:
         names = [MISSING_WORDS[key] for key in MISSING_WORDS if key in missing]
@@ -265,6 +267,9 @@ def _lead(preset: Preset, inputs: Inputs, missing: Mapping[str, str]) -> list[di
             reader.T(" The data hold no figure of "), reader.W("missing", reader.listed(names)),
             reader.T(" for this date, so every output that needs it waits for one to be typed."),
         ]
+        if preset.day is None and "hire" in missing:
+            segments.append(reader.T(" The Now view, which must give a verdict, prices this week at the central "
+                                     "level of the reported rates, and says so."))
     segments.append(reader.T(" Change any input."))
     return segments
 
@@ -332,7 +337,10 @@ def model_document(latest_day: date, latest_prices: str,
         "vessel_sources": {key: {field: _parameter_words(name) for field, name in fields.items()}
                            for key, fields in SHIP_SOURCES.items()},
         "hire_levels": {**levels, "words": "the lowest, the median and the highest of the charter rates reported, "
-                                           "the three levels the analysis runs where a date has no rate of its own"},
+                                           "the three levels the analysis runs on every date"},
+        "toll_words": "Canal tolls: the tariffs in force on each transit's day, read with this study's assumptions: "
+                      "an unbooked ship at its nominal capacity, Panama's fresh water surcharge at 5 percent of "
+                      "tolls, and Suez's net tonnage from capacity (docs/methodology.md, sections 6 and 8).",
         "route_names": dict(reader.ROUTE_NAMES),
         "route_short": dict(reader.ROUTE_SHORT),
         "patterns": dict(reader.ROUTE_PATTERNS),

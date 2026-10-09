@@ -88,7 +88,7 @@
    "label": "Suez"
   },
   {
-   "text": " is closed to a US cargo."
+   "text": " is treated as closed to a US cargo."
   }
  ],
  "map": {
@@ -228,7 +228,7 @@
    "canal_laden_usd": 342669.28542000003,
    "canal_ballast_usd": 291151.387296,
    "open": false,
-   "status_words": "closed: no US Gulf cargo through the Red Sea after 12 January 2024"
+   "status_words": "closed: no US Gulf cargo reported through the Red Sea after 12 January 2024, so treated as closed"
   },
   {
    "route": "nea_cape",
@@ -402,12 +402,23 @@
      },
      {
       "start": "2025-12-01",
+      "end": "2026-07-02",
+      "state": "open",
+      "link_label": null,
+      "state_words": "open",
+      "words": "water conservation measures in place, which the Authority says leave the daily transits as they were; their advisories of December 2025 to May 2026 were not read; an LNG first rule for one booking slot from 4 January 2026",
+      "source": "Panama Canal Authority, press release of 5 August 2026 and advisory A-28-2025",
+      "url": null,
+      "status": "published"
+     },
+     {
+      "start": "2026-07-03",
       "end": "2026-09-03",
       "state": "restricted",
       "link_label": null,
       "state_words": "open, under restrictions",
-      "words": "water conservation; neopanamax draught cut to 48 feet by 2 September 2026; an LNG first rule for one booking slot from 4 January 2026",
-      "source": "Panama Canal Authority, press release of 5 August 2026 and advisories of 2025 and 2026",
+      "words": "neopanamax draught cut in steps: 49.5 feet from 3 July 2026, 49 from 24 July, 48.5 from 15 August, 48 from 2 September; booking slots unchanged",
+      "source": "Panama Canal Authority, advisories A-18, A-22, A-25, A-29 and A-33-2026",
       "url": null,
       "status": "published"
      },
@@ -586,7 +597,7 @@
   },
   {
    "field": "panama_restricted_days",
-   "value": 543,
+   "value": 329,
    "format": "count"
   },
   {
@@ -619,7 +630,7 @@
    "label": "7 October 2026"
   },
   {
-   "text": ". The engine adds waiting days at Panama only in the months a wait was reported for LNG, "
+   "text": ". The engine adds no waiting days at Panama; the analysis sets Panama against the Cape with the waits reported for LNG, in "
   },
   {
    "field": "wait_months",
@@ -627,7 +638,7 @@
    "label": "July 2023 and December 2023"
   },
   {
-   "text": "; the table under the chart gives every band's source."
+   "text": " only; the table under the chart gives every band's source."
   }
  ],
  "source_segments": [

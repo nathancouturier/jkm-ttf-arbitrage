@@ -3,7 +3,7 @@
  "artifact": "model",
  "generated_by": "src/lngarb/export.py",
  "data_date": "2026-10-07",
- "describes": "the calculator's presets: every engine input of 6 dates with its source, the engine's output and the landing sentence for each",
+ "describes": "the calculator's presets: every engine input of 6 dates with its source, the engine's output, and the landing sentence where every figure it compares is there",
  "source": "the committed caches in data/cache and data/seed and the manifest, nothing from data/private; no network",
  "conventions": {
   "missing": "A missing value is JSON null. null never means zero and is never drawn as zero or bridged; the page shows a gap and says why.",
@@ -51,15 +51,15 @@
      "label": "7 October 2026"
     },
     {
-     "text": ". Prices, rates and canal tolls are the data's for that date; "
+     "text": ". Prices and rates are the data's nearest that date, each dated under its field; "
     },
     {
      "field": "assumed",
-     "value": "the allowance price, the liquefaction fee, the port costs and the funding spread",
-     "label": "the allowance price, the liquefaction fee, the port costs and the funding spread"
+     "value": "the allowance price, the liquefaction fee, the port costs, the funding spread and the canal tolls' reading of the tariffs (an unbooked ship at its nominal capacity, Panama's fresh water surcharge at 5 percent of tolls, Suez's net tonnage from capacity)",
+     "label": "the allowance price, the liquefaction fee, the port costs, the funding spread and the canal tolls' reading of the tariffs (an unbooked ship at its nominal capacity, Panama's fresh water surcharge at 5 percent of tolls, Suez's net tonnage from capacity)"
     },
     {
-     "text": " are this study's assumptions, each named under its field."
+     "text": " are this study's assumptions, each named under its field or the route table."
     },
     {
      "text": " Change any input."
@@ -114,7 +114,7 @@
      "nea_suez": {
       "distance_nm": 14624.2,
       "open": false,
-      "why_closed": "laden transit 2026-10-24: no US Gulf cargo through the Red Sea after 12 January 2024",
+      "why_closed": "laden transit 2026-10-24: no US Gulf cargo reported through the Red Sea after 12 January 2024, so treated as closed",
       "canal_laden_usd": 342669.28542000003,
       "canal_ballast_usd": 291151.387296,
       "canal_days": 0.0,
@@ -258,11 +258,12 @@
     "eua",
     "liquefaction_fee",
     "ports",
-    "spread_bp"
+    "spread_bp",
+    "tolls"
    ],
    "missing": [],
    "closed_words": {
-    "nea_suez": "no US Gulf cargo through the Red Sea after 12 January 2024"
+    "nea_suez": "no US Gulf cargo reported through the Red Sea after 12 January 2024, so treated as closed"
    },
    "usd_per_eur": 1.1259,
    "eua_eur_t": 82.31,
@@ -344,7 +345,7 @@
      "nea_suez": {
       "route": "nea_suez",
       "open": false,
-      "why_closed": "laden transit 2026-10-24: no US Gulf cargo through the Red Sea after 12 January 2024",
+      "why_closed": "laden transit 2026-10-24: no US Gulf cargo reported through the Red Sea after 12 January 2024, so treated as closed",
       "distance_nm": 14624.2,
       "days_laden": 37.84362745098039,
       "days_ballast": 35.84362745098039,
@@ -578,15 +579,15 @@
      "label": "15 April 2020"
     },
     {
-     "text": ". Prices, rates and canal tolls are the data's for that date; "
+     "text": ". Prices and rates are the data's nearest that date, each dated under its field; "
     },
     {
      "field": "assumed",
-     "value": "Europe's DES spread to TTF, the liquefaction fee, the port costs and the funding spread",
-     "label": "Europe's DES spread to TTF, the liquefaction fee, the port costs and the funding spread"
+     "value": "Europe's DES spread to TTF, the liquefaction fee, the port costs, the funding spread and the canal tolls' reading of the tariffs (an unbooked ship at its nominal capacity, Panama's fresh water surcharge at 5 percent of tolls, Suez's net tonnage from capacity)",
+     "label": "Europe's DES spread to TTF, the liquefaction fee, the port costs, the funding spread and the canal tolls' reading of the tariffs (an unbooked ship at its nominal capacity, Panama's fresh water surcharge at 5 percent of tolls, Suez's net tonnage from capacity)"
     },
     {
-     "text": " are this study's assumptions, each named under its field."
+     "text": " are this study's assumptions, each named under its field or the route table."
     },
     {
      "text": " The data hold no figure of "
@@ -703,7 +704,7 @@
      "hire": "missing: no reported charter rate within 14 days of 2020-04-15 (the nearest is 664 days away)",
      "eua": "no EU ETS on shipping before 2024, so no allowance price is read",
      "vessel": "160,000 m3 TFDE",
-     "delta_nwe": "assumption: -2.0 EUR/MWh, ACER's spread held on too few days from 2020-04-01 to 2020-04-30; -2.0 EUR/MWh at 1.0909 USD per EUR"
+     "delta_nwe": "assumption: -2.0 EUR/MWh; ACER published no spread before 2023-03-31; -2.0 EUR/MWh at 1.0909 USD per EUR"
     },
     "mmbtu_per_m3": 23.0,
     "jkm": 2.4,
@@ -780,7 +781,7 @@
     "hire": "missing: no reported charter rate within 14 days of 15 April 2020 (the nearest is 664 days away)",
     "eua": "no EU ETS on shipping before 2024, so no allowance price is read",
     "vessel": "160,000 m3 TFDE",
-    "delta_nwe": "assumption: -2.0 EUR/MWh, ACER's spread held on too few days from 1 April 2020 to 30 April 2020; -2.0 EUR/MWh at 1.0909 USD per EUR",
+    "delta_nwe": "assumption: -2.0 EUR/MWh; ACER published no spread before 31 March 2023; -2.0 EUR/MWh at 1.0909 USD per EUR",
     "liquefaction_fee": "assumption: this study: the fixed fee most Sabine Pass contracts carry at signing, 3.00 $/MMBtu for KOGAS, GAIL, Total, Centrica, BG's added volumes and Cheniere Marketing (Cheniere Energy Partners, Form 10-K for 2015, pages 9 and 88)",
     "port_west_usd": "assumption: this study, Spark's published figure held: Spark, note on negative freight rates, February 2022, 'Port costs provided by GAC on an indicative basis', for a 160,000 m3 TFDE",
     "port_east_usd": "assumption: this study, Spark's published figure held: Spark, note on negative freight rates, February 2022, a screenshot of its Routes page, release of 8 February 2022, 'Port Cost' for Sabine Pass to Futtsu via Panama, for a 160,000 m3 TFDE",
@@ -796,7 +797,8 @@
     "delta_nwe",
     "liquefaction_fee",
     "ports",
-    "spread_bp"
+    "spread_bp",
+    "tolls"
    ],
    "missing": [
     {
@@ -999,15 +1001,15 @@
      "label": "12 October 2022"
     },
     {
-     "text": ". Prices, rates and canal tolls are the data's for that date; "
+     "text": ". Prices and rates are the data's nearest that date, each dated under its field; "
     },
     {
      "field": "assumed",
-     "value": "Europe's DES spread to TTF, the liquefaction fee, the port costs and the funding spread",
-     "label": "Europe's DES spread to TTF, the liquefaction fee, the port costs and the funding spread"
+     "value": "Europe's DES spread to TTF, the liquefaction fee, the port costs, the funding spread and the canal tolls' reading of the tariffs (an unbooked ship at its nominal capacity, Panama's fresh water surcharge at 5 percent of tolls, Suez's net tonnage from capacity)",
+     "label": "Europe's DES spread to TTF, the liquefaction fee, the port costs, the funding spread and the canal tolls' reading of the tariffs (an unbooked ship at its nominal capacity, Panama's fresh water surcharge at 5 percent of tolls, Suez's net tonnage from capacity)"
     },
     {
-     "text": " are this study's assumptions, each named under its field."
+     "text": " are this study's assumptions, each named under its field or the route table."
     },
     {
      "text": " Change any input."
@@ -1113,7 +1115,7 @@
      "hire": "Spark30S Atlantic, 160,000 m3 TFDE, inferred, 2022-10-10 (LNG Prime, quoting Spark), 2 days from the date",
      "eua": "no EU ETS on shipping before 2024, so no allowance price is read",
      "vessel": "160,000 m3 TFDE",
-     "delta_nwe": "assumption: -2.0 EUR/MWh, ACER's spread held on too few days from 2022-10-06 to 2022-10-12; -2.0 EUR/MWh at 0.9692 USD per EUR"
+     "delta_nwe": "assumption: -2.0 EUR/MWh; ACER published no spread before 2023-03-31; -2.0 EUR/MWh at 0.9692 USD per EUR"
     },
     "mmbtu_per_m3": 23.0,
     "jkm": 34.81,
@@ -1190,7 +1192,7 @@
     "hire": "Spark30S Atlantic, 160,000 m3 TFDE, inferred, 10 October 2022 (LNG Prime, quoting Spark), 2 days from the date",
     "eua": "no EU ETS on shipping before 2024, so no allowance price is read",
     "vessel": "160,000 m3 TFDE",
-    "delta_nwe": "assumption: -2.0 EUR/MWh, ACER's spread held on too few days from 6 October 2022 to 12 October 2022; -2.0 EUR/MWh at 0.9692 USD per EUR",
+    "delta_nwe": "assumption: -2.0 EUR/MWh; ACER published no spread before 31 March 2023; -2.0 EUR/MWh at 0.9692 USD per EUR",
     "liquefaction_fee": "assumption: this study: the fixed fee most Sabine Pass contracts carry at signing, 3.00 $/MMBtu for KOGAS, GAIL, Total, Centrica, BG's added volumes and Cheniere Marketing (Cheniere Energy Partners, Form 10-K for 2015, pages 9 and 88)",
     "port_west_usd": "assumption: this study, Spark's published figure held: Spark, note on negative freight rates, February 2022, 'Port costs provided by GAC on an indicative basis', for a 160,000 m3 TFDE",
     "port_east_usd": "assumption: this study, Spark's published figure held: Spark, note on negative freight rates, February 2022, a screenshot of its Routes page, release of 8 February 2022, 'Port Cost' for Sabine Pass to Futtsu via Panama, for a 160,000 m3 TFDE",
@@ -1206,7 +1208,8 @@
     "delta_nwe",
     "liquefaction_fee",
     "ports",
-    "spread_bp"
+    "spread_bp",
+    "tolls"
    ],
    "missing": [],
    "closed_words": {},
@@ -1521,10 +1524,10 @@
    "label": "March 2024",
    "day": "2024-03-27",
    "prices": "ngwu",
-   "about": "A week with Suez treated as closed and Panama's booking slots cut; no wait at Panama was reported for LNG that month, so the engine adds none",
+   "about": "A week with Suez treated as closed and Panama's booking slots cut, with no wait at Panama, as on every date, unless one is typed",
    "lead_segments": [
     {
-     "text": "A week with Suez treated as closed and Panama's booking slots cut; no wait at Panama was reported for LNG that month, so the engine adds none, loading on "
+     "text": "A week with Suez treated as closed and Panama's booking slots cut, with no wait at Panama, as on every date, unless one is typed, loading on "
     },
     {
      "field": "day",
@@ -1532,15 +1535,15 @@
      "label": "27 March 2024"
     },
     {
-     "text": ". Prices, rates and canal tolls are the data's for that date; "
+     "text": ". Prices and rates are the data's nearest that date, each dated under its field; "
     },
     {
      "field": "assumed",
-     "value": "the liquefaction fee, the port costs and the funding spread",
-     "label": "the liquefaction fee, the port costs and the funding spread"
+     "value": "the liquefaction fee, the port costs, the funding spread and the canal tolls' reading of the tariffs (an unbooked ship at its nominal capacity, Panama's fresh water surcharge at 5 percent of tolls, Suez's net tonnage from capacity)",
+     "label": "the liquefaction fee, the port costs, the funding spread and the canal tolls' reading of the tariffs (an unbooked ship at its nominal capacity, Panama's fresh water surcharge at 5 percent of tolls, Suez's net tonnage from capacity)"
     },
     {
-     "text": " are this study's assumptions, each named under its field."
+     "text": " are this study's assumptions, each named under its field or the route table."
     },
     {
      "text": " Change any input."
@@ -1595,7 +1598,7 @@
      "nea_suez": {
       "distance_nm": 14624.2,
       "open": false,
-      "why_closed": "laden transit 2024-04-13: no US Gulf cargo through the Red Sea after 12 January 2024",
+      "why_closed": "laden transit 2024-04-13: no US Gulf cargo reported through the Red Sea after 12 January 2024, so treated as closed",
       "canal_laden_usd": 242549.59312,
       "canal_ballast_usd": 207306.989568,
       "canal_days": 0.0,
@@ -1738,11 +1741,12 @@
    "assumed": [
     "liquefaction_fee",
     "ports",
-    "spread_bp"
+    "spread_bp",
+    "tolls"
    ],
    "missing": [],
    "closed_words": {
-    "nea_suez": "no US Gulf cargo through the Red Sea after 12 January 2024"
+    "nea_suez": "no US Gulf cargo reported through the Red Sea after 12 January 2024, so treated as closed"
    },
    "usd_per_eur": 1.0821,
    "eua_eur_t": 57.7,
@@ -1824,7 +1828,7 @@
      "nea_suez": {
       "route": "nea_suez",
       "open": false,
-      "why_closed": "laden transit 2024-04-13: no US Gulf cargo through the Red Sea after 12 January 2024",
+      "why_closed": "laden transit 2024-04-13: no US Gulf cargo reported through the Red Sea after 12 January 2024, so treated as closed",
       "distance_nm": 14624.2,
       "days_laden": 37.84362745098039,
       "days_ballast": 35.84362745098039,
@@ -2058,15 +2062,15 @@
      "label": "25 March 2026"
     },
     {
-     "text": ". Prices, rates and canal tolls are the data's for that date; "
+     "text": ". Prices and rates are the data's nearest that date, each dated under its field; "
     },
     {
      "field": "assumed",
-     "value": "the liquefaction fee, the port costs and the funding spread",
-     "label": "the liquefaction fee, the port costs and the funding spread"
+     "value": "the liquefaction fee, the port costs, the funding spread and the canal tolls' reading of the tariffs (an unbooked ship at its nominal capacity, Panama's fresh water surcharge at 5 percent of tolls, Suez's net tonnage from capacity)",
+     "label": "the liquefaction fee, the port costs, the funding spread and the canal tolls' reading of the tariffs (an unbooked ship at its nominal capacity, Panama's fresh water surcharge at 5 percent of tolls, Suez's net tonnage from capacity)"
     },
     {
-     "text": " are this study's assumptions, each named under its field."
+     "text": " are this study's assumptions, each named under its field or the route table."
     },
     {
      "text": " Change any input."
@@ -2121,7 +2125,7 @@
      "nea_suez": {
       "distance_nm": 14624.2,
       "open": false,
-      "why_closed": "laden transit 2026-04-11: no US Gulf cargo through the Red Sea after 12 January 2024",
+      "why_closed": "laden transit 2026-04-11: no US Gulf cargo reported through the Red Sea after 12 January 2024, so treated as closed",
       "canal_laden_usd": 252522.28256,
       "canal_ballast_usd": 214020.22579200004,
       "canal_days": 0.0,
@@ -2264,11 +2268,12 @@
    "assumed": [
     "liquefaction_fee",
     "ports",
-    "spread_bp"
+    "spread_bp",
+    "tolls"
    ],
    "missing": [],
    "closed_words": {
-    "nea_suez": "no US Gulf cargo through the Red Sea after 12 January 2024"
+    "nea_suez": "no US Gulf cargo reported through the Red Sea after 12 January 2024, so treated as closed"
    },
    "usd_per_eur": 1.157,
    "eua_eur_t": 68.49,
@@ -2350,7 +2355,7 @@
      "nea_suez": {
       "route": "nea_suez",
       "open": false,
-      "why_closed": "laden transit 2026-04-11: no US Gulf cargo through the Red Sea after 12 January 2024",
+      "why_closed": "laden transit 2026-04-11: no US Gulf cargo reported through the Red Sea after 12 January 2024, so treated as closed",
       "distance_nm": 14624.2,
       "days_laden": 37.84362745098039,
       "days_ballast": 35.84362745098039,
@@ -2584,15 +2589,15 @@
      "label": "9 February 2022"
     },
     {
-     "text": ". Prices, rates and canal tolls are the data's for that date; "
+     "text": ". Prices and rates are the data's nearest that date, each dated under its field; "
     },
     {
      "field": "assumed",
-     "value": "Europe's DES spread to TTF, the liquefaction fee, the port costs, the funding spread and the split of Spark's laden days",
-     "label": "Europe's DES spread to TTF, the liquefaction fee, the port costs, the funding spread and the split of Spark's laden days"
+     "value": "Europe's DES spread to TTF, the liquefaction fee, the port costs, the funding spread, the canal tolls' reading of the tariffs (an unbooked ship at its nominal capacity, Panama's fresh water surcharge at 5 percent of tolls, Suez's net tonnage from capacity) and the split of Spark's laden days",
+     "label": "Europe's DES spread to TTF, the liquefaction fee, the port costs, the funding spread, the canal tolls' reading of the tariffs (an unbooked ship at its nominal capacity, Panama's fresh water surcharge at 5 percent of tolls, Suez's net tonnage from capacity) and the split of Spark's laden days"
     },
     {
-     "text": " are this study's assumptions, each named under its field."
+     "text": " are this study's assumptions, each named under its field or the route table."
     },
     {
      "text": " Change any input."
@@ -2698,7 +2703,7 @@
      "hire": "Spark30S Atlantic, 160,000 m3 TFDE, inferred, 2022-02-08 (Spark Commodities, note on negative freight rates), 1 day from the date",
      "eua": "no EU ETS on shipping before 2024, so no allowance price is read",
      "vessel": "160,000 m3 TFDE",
-     "delta_nwe": "assumption: -2.0 EUR/MWh, ACER's spread held on too few days from 2022-02-03 to 2022-02-09; -2.0 EUR/MWh at 1.1435 USD per EUR",
+     "delta_nwe": "assumption: -2.0 EUR/MWh; ACER published no spread before 2023-03-31; -2.0 EUR/MWh at 1.1435 USD per EUR",
      "days": "this study's reading of Spark's worked example: its 17.5 laden days as 12.5 at sea, a day to load, a day to discharge and 3 flex days, from Spark30's 30 days (25 sailing, 1 load, 1 discharge, 3 flex); its 12.5 ballast days at sea, Sabine Pass to Gate"
     },
     "mmbtu_per_m3": 23.0,
@@ -2776,7 +2781,7 @@
     "hire": "Spark30S Atlantic, 160,000 m3 TFDE, inferred, 8 February 2022 (Spark Commodities, note on negative freight rates), 1 day from the date",
     "eua": "no EU ETS on shipping before 2024, so no allowance price is read",
     "vessel": "160,000 m3 TFDE",
-    "delta_nwe": "assumption: -2.0 EUR/MWh, ACER's spread held on too few days from 3 February 2022 to 9 February 2022; -2.0 EUR/MWh at 1.1435 USD per EUR",
+    "delta_nwe": "assumption: -2.0 EUR/MWh; ACER published no spread before 31 March 2023; -2.0 EUR/MWh at 1.1435 USD per EUR",
     "days": "this study's reading of Spark's worked example: its 17.5 laden days as 12.5 at sea, a day to load, a day to discharge and 3 flex days, from Spark30's 30 days (25 sailing, 1 load, 1 discharge, 3 flex); its 12.5 ballast days at sea, Sabine Pass to Gate",
     "liquefaction_fee": "assumption: this study: the fixed fee most Sabine Pass contracts carry at signing, 3.00 $/MMBtu for KOGAS, GAIL, Total, Centrica, BG's added volumes and Cheniere Marketing (Cheniere Energy Partners, Form 10-K for 2015, pages 9 and 88)",
     "port_west_usd": "assumption: this study, Spark's published figure held: Spark, note on negative freight rates, February 2022, 'Port costs provided by GAC on an indicative basis', for a 160,000 m3 TFDE",
@@ -2794,6 +2799,7 @@
     "liquefaction_fee",
     "ports",
     "spread_bp",
+    "tolls",
     "days"
    ],
    "missing": [],
@@ -3146,8 +3152,9 @@
   "low": -750.0,
   "central": 45500.0,
   "high": 374000.0,
-  "words": "the lowest, the median and the highest of the charter rates reported, the three levels the analysis runs where a date has no rate of its own"
+  "words": "the lowest, the median and the highest of the charter rates reported, the three levels the analysis runs on every date"
  },
+ "toll_words": "Canal tolls: the tariffs in force on each transit's day, read with this study's assumptions: an unbooked ship at its nominal capacity, Panama's fresh water surcharge at 5 percent of tolls, and Suez's net tonnage from capacity (docs/methodology.md, sections 6 and 8).",
  "route_names": {
   "nwe_direct": "Gate",
   "nea_panama": "Futtsu via Panama",
@@ -3333,7 +3340,7 @@
      "nea_suez": {
       "route": "nea_suez",
       "open": false,
-      "why_closed": "laden transit 2026-10-24: no US Gulf cargo through the Red Sea after 12 January 2024",
+      "why_closed": "laden transit 2026-10-24: no US Gulf cargo reported through the Red Sea after 12 January 2024, so treated as closed",
       "distance_nm": 14624.2,
       "days_laden": 37.84362745098039,
       "days_ballast": 35.84362745098039,
@@ -3519,7 +3526,7 @@
      "nea_suez": {
       "route": "nea_suez",
       "open": false,
-      "why_closed": "laden transit 2026-10-24: no US Gulf cargo through the Red Sea after 12 January 2024",
+      "why_closed": "laden transit 2026-10-24: no US Gulf cargo reported through the Red Sea after 12 January 2024, so treated as closed",
       "distance_nm": 14624.2,
       "days_laden": 37.84362745098039,
       "days_ballast": 35.84362745098039,
@@ -3705,7 +3712,7 @@
      "nea_suez": {
       "route": "nea_suez",
       "open": false,
-      "why_closed": "laden transit 2024-04-13: no US Gulf cargo through the Red Sea after 12 January 2024",
+      "why_closed": "laden transit 2024-04-13: no US Gulf cargo reported through the Red Sea after 12 January 2024, so treated as closed",
       "distance_nm": 14624.2,
       "days_laden": 37.84362745098039,
       "days_ballast": 35.84362745098039,
@@ -4274,7 +4281,7 @@
      "nea_suez": {
       "route": "nea_suez",
       "open": false,
-      "why_closed": "laden transit 2026-10-24: no US Gulf cargo through the Red Sea after 12 January 2024",
+      "why_closed": "laden transit 2026-10-24: no US Gulf cargo reported through the Red Sea after 12 January 2024, so treated as closed",
       "distance_nm": 14624.2,
       "days_laden": 37.84362745098039,
       "days_ballast": 35.84362745098039,
@@ -4463,7 +4470,7 @@
      "nea_suez": {
       "route": "nea_suez",
       "open": false,
-      "why_closed": "laden transit 2026-10-24: no US Gulf cargo through the Red Sea after 12 January 2024",
+      "why_closed": "laden transit 2026-10-24: no US Gulf cargo reported through the Red Sea after 12 January 2024, so treated as closed",
       "distance_nm": 14624.2,
       "days_laden": 33.248290598290595,
       "days_ballast": 31.2482905982906,
@@ -4840,7 +4847,7 @@
      "nea_suez": {
       "route": "nea_suez",
       "open": false,
-      "why_closed": "laden transit 2024-04-13: no US Gulf cargo through the Red Sea after 12 January 2024",
+      "why_closed": "laden transit 2024-04-13: no US Gulf cargo reported through the Red Sea after 12 January 2024, so treated as closed",
       "distance_nm": 14624.2,
       "days_laden": 37.84362745098039,
       "days_ballast": 35.84362745098039,
@@ -5030,7 +5037,7 @@
      "nea_suez": {
       "route": "nea_suez",
       "open": false,
-      "why_closed": "laden transit 2026-10-24: no US Gulf cargo through the Red Sea after 12 January 2024",
+      "why_closed": "laden transit 2026-10-24: no US Gulf cargo reported through the Red Sea after 12 January 2024, so treated as closed",
       "distance_nm": 14624.2,
       "days_laden": null,
       "days_ballast": null,
@@ -5216,7 +5223,7 @@
      "nea_suez": {
       "route": "nea_suez",
       "open": false,
-      "why_closed": "laden transit 2026-10-24: no US Gulf cargo through the Red Sea after 12 January 2024",
+      "why_closed": "laden transit 2026-10-24: no US Gulf cargo reported through the Red Sea after 12 January 2024, so treated as closed",
       "distance_nm": 14624.2,
       "days_laden": 37.84362745098039,
       "days_ballast": 35.84362745098039,
@@ -5593,7 +5600,7 @@
      "nea_suez": {
       "route": "nea_suez",
       "open": false,
-      "why_closed": "laden transit 2026-10-24: no US Gulf cargo through the Red Sea after 12 January 2024",
+      "why_closed": "laden transit 2026-10-24: no US Gulf cargo reported through the Red Sea after 12 January 2024, so treated as closed",
       "distance_nm": 14624.2,
       "days_laden": 37.84362745098039,
       "days_ballast": 35.84362745098039,
@@ -6157,7 +6164,7 @@
      "nea_suez": {
       "route": "nea_suez",
       "open": false,
-      "why_closed": "laden transit 2026-10-24: no US Gulf cargo through the Red Sea after 12 January 2024",
+      "why_closed": "laden transit 2026-10-24: no US Gulf cargo reported through the Red Sea after 12 January 2024, so treated as closed",
       "distance_nm": 14624.2,
       "days_laden": 37.84362745098039,
       "days_ballast": 35.84362745098039,
@@ -6342,7 +6349,7 @@
      "nea_suez": {
       "route": "nea_suez",
       "open": false,
-      "why_closed": "laden transit 2026-04-11: no US Gulf cargo through the Red Sea after 12 January 2024",
+      "why_closed": "laden transit 2026-04-11: no US Gulf cargo reported through the Red Sea after 12 January 2024, so treated as closed",
       "distance_nm": 14624.2,
       "days_laden": 37.84362745098039,
       "days_ballast": 35.84362745098039,
@@ -6717,7 +6724,7 @@
      "nea_suez": {
       "route": "nea_suez",
       "open": false,
-      "why_closed": "laden transit 2026-10-24: no US Gulf cargo through the Red Sea after 12 January 2024",
+      "why_closed": "laden transit 2026-10-24: no US Gulf cargo reported through the Red Sea after 12 January 2024, so treated as closed",
       "distance_nm": 14624.2,
       "days_laden": 37.84362745098039,
       "days_ballast": 35.84362745098039,
@@ -6902,7 +6909,7 @@
      "nea_suez": {
       "route": "nea_suez",
       "open": false,
-      "why_closed": "laden transit 2026-10-24: no US Gulf cargo through the Red Sea after 12 January 2024",
+      "why_closed": "laden transit 2026-10-24: no US Gulf cargo reported through the Red Sea after 12 January 2024, so treated as closed",
       "distance_nm": 14624.2,
       "days_laden": 37.84362745098039,
       "days_ballast": 35.84362745098039,
@@ -7091,7 +7098,7 @@
      "nea_suez": {
       "route": "nea_suez",
       "open": false,
-      "why_closed": "laden transit 2026-10-24: no US Gulf cargo through the Red Sea after 12 January 2024",
+      "why_closed": "laden transit 2026-10-24: no US Gulf cargo reported through the Red Sea after 12 January 2024, so treated as closed",
       "distance_nm": 14624.2,
       "days_laden": 38.84362745098039,
       "days_ballast": 35.84362745098039,
@@ -7280,7 +7287,7 @@
      "nea_suez": {
       "route": "nea_suez",
       "open": false,
-      "why_closed": "laden transit 2024-04-13: no US Gulf cargo through the Red Sea after 12 January 2024",
+      "why_closed": "laden transit 2024-04-13: no US Gulf cargo reported through the Red Sea after 12 January 2024, so treated as closed",
       "distance_nm": 14624.2,
       "days_laden": 37.84362745098039,
       "days_ballast": 35.84362745098039,
@@ -7469,7 +7476,7 @@
      "nea_suez": {
       "route": "nea_suez",
       "open": false,
-      "why_closed": "laden transit 2026-10-24: no US Gulf cargo through the Red Sea after 12 January 2024",
+      "why_closed": "laden transit 2026-10-24: no US Gulf cargo reported through the Red Sea after 12 January 2024, so treated as closed",
       "distance_nm": 14624.2,
       "days_laden": 37.84362745098039,
       "days_ballast": 35.84362745098039,

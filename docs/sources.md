@@ -370,6 +370,18 @@ Union Public Licence 1.2**, as a work derived from that network, with
 attribution to searoute, to Eurostat and to the Oak Ridge dataset
 (`NOTICE`; question 21).
 
+### 2.9.1 The land on the map: Natural Earth, through world-atlas
+
+The land drawn on the Routes view's map is Natural Earth's 1:110m land, as the
+world-atlas package 2.0.2 packs it in TopoJSON (`vendor/world-atlas/`). Natural
+Earth's terms of use (`https://www.naturalearthdata.com/about/terms-of-use/`),
+read on 9 October 2026, place every version of its raster and vector map data
+in the public domain, and say: "No permission is needed to use Natural Earth."
+Credit is not required; the study gives it. The package's licence, beside its
+file, is the ISC licence, copyright 2013 to 2019 Michael Bostock, which allows
+copying and distribution provided the notice travels with it.
+**Redistributable: yes.**
+
 ### 2.10 Suez Canal Authority, circulars and annual reports
 
 Read at `https://www.suezcanal.gov.eg/` on 1 October 2026. No terms of use page

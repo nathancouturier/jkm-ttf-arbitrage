@@ -530,7 +530,7 @@
      "label": "Suez"
     },
     {
-     "text": " is closed to a US cargo"
+     "text": " is treated as closed to a US cargo"
     },
     {
      "text": "."
@@ -795,7 +795,7 @@
     "label": "Suez"
    },
    {
-    "text": " is closed to a US cargo"
+    "text": " is treated as closed to a US cargo"
    },
    {
     "text": "."
@@ -888,8 +888,8 @@
      },
      {
       "field": "why_closed",
-      "value": "no US Gulf cargo through the Red Sea after 12 January 2024",
-      "label": "no US Gulf cargo through the Red Sea after 12 January 2024"
+      "value": "no US Gulf cargo reported through the Red Sea after 12 January 2024, so treated as closed",
+      "label": "no US Gulf cargo reported through the Red Sea after 12 January 2024, so treated as closed"
      },
      {
       "text": ". Priced as if it were open, "
@@ -1465,8 +1465,8 @@
    },
    {
     "field": "why_closed",
-    "value": "no US Gulf cargo through the Red Sea after 12 January 2024",
-    "label": "no US Gulf cargo through the Red Sea after 12 January 2024"
+    "value": "no US Gulf cargo reported through the Red Sea after 12 January 2024, so treated as closed",
+    "label": "no US Gulf cargo reported through the Red Sea after 12 January 2024, so treated as closed"
    },
    {
     "text": "."
@@ -1822,7 +1822,7 @@
    "nea_suez": {
     "distance_nm": 14624.2,
     "open": false,
-    "why_closed": "laden transit 2026-10-24: no US Gulf cargo through the Red Sea after 12 January 2024",
+    "why_closed": "laden transit 2026-10-24: no US Gulf cargo reported through the Red Sea after 12 January 2024, so treated as closed",
     "canal_laden_usd": 342669.28542000003,
     "canal_ballast_usd": 291151.387296,
     "canal_days": 0.0,
@@ -1972,7 +1972,7 @@
    "nea_suez": {
     "route": "nea_suez",
     "open": false,
-    "why_closed": "laden transit 2026-10-24: no US Gulf cargo through the Red Sea after 12 January 2024",
+    "why_closed": "laden transit 2026-10-24: no US Gulf cargo reported through the Red Sea after 12 January 2024, so treated as closed",
     "distance_nm": 14624.2,
     "days_laden": 37.84362745098039,
     "days_ballast": 35.84362745098039,
