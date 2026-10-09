@@ -155,7 +155,7 @@
    "source": "Spark LNG Freight Methodology 3.8, page 2, 'LNG Conversion Factor: 23'",
    "url": null,
    "read_on": "2026-10-01",
-   "note": "A market convention for a lean cargo; 22 to 24 is run as a sensitivity on the worked dates, and the reader can type any value in the Model view."
+   "note": "A market convention for a lean cargo; the study runs no other value, and the reader can type any in the Model view."
   },
   {
    "key": "vessel_174k_capacity_m3",
@@ -295,7 +295,7 @@
    "source": "this study: the middle of the Authority's range of 0 to 10 percent",
    "url": null,
    "read_on": "2026-10-07",
-   "note": "Set daily from Gatun Lake's level, which is not collected; 0 and 10 percent are run as sensitivities on the worked dates. Before 2023 the range was 1 to 10 percent."
+   "note": "Set daily from Gatun Lake's level, which is not collected; 0 and 10 percent are the ends of the range, and the study runs neither. Before 2023 the range was 1 to 10 percent."
   },
   {
    "key": "vessel_174k_from",
@@ -682,7 +682,15 @@
   ],
   [
    {
-    "text": "Charter rates are the ten Spark and the trade press reported; the study runs every date at the lowest, the median and the highest of them, and at the one reported nearest it where one lies within "
+    "text": "Charter rates are the "
+   },
+   {
+    "field": "anchors",
+    "value": 10,
+    "format": "count"
+   },
+   {
+    "text": " that Spark and the trade press reported; the study runs every date at the lowest, the median and the highest of them, and at the one reported nearest it where one lies within "
    },
    {
     "field": "hire_window",

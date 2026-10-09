@@ -83,6 +83,9 @@ export const GEOMETRY = Object.freeze({
    * character. */
   HISTORY_PAD_RIGHT_NARROW: 12,
   TICK_CHAR: 7,
+  /* Room per character of a rule's label, a little over the glyph's width,
+   * so a label moved back inside the chart ends inside it. */
+  RULE_CHAR: 7.5,
 });
 
 /* The mantissas of decimal notation, a fact about how numbers are written. */
@@ -668,25 +671,32 @@ export function timeChart({ width, days, first, last, y, band, reference, refere
   xAxis(svg, (day) => xOf(dayValue(day)), ticks.map((tick) => tick.day),
     ticks.map((tick, index) => (index % every === 0 ? tick.label : "")), bottom);
 
-  // The breaks: a rule each, numbered above the plot. A rule whose number
-  // would touch the label before it joins that label, at the first rule.
+  // The breaks: a rule each, numbered above the plot. A label starts at its
+  // first rule, or is moved back inside the chart's right edge; one that would
+  // touch the label before it, where both are drawn, joins that label.
   // One number, a pair, or the first and last of three or more.
   const ruleLabel = (numbers) => (numbers.slice(1).length > 1
     ? String(numbers[0]) + " to " + String(numbers[numbers.length - 1]) : numbers.join(", "));
+  const labelAt = (group) => Math.min(group.at, width - ruleLabel(group.numbers).length * g.RULE_CHAR);
   const groups = [];
   for (const rule of rules || []) {
     const at = xOf(dayValue(rule.day));
     if (!present(at) || at < left || at > right) continue;
     svg.appendChild(svgEl("line", { class: "mark-decor", x1: px(at), x2: px(at), y1: px(top), y2: px(bottom) }));
-    const last = groups[groups.length - 1];
-    if (last && at - last.at < ruleLabel(last.numbers).length * g.TICK_CHAR + g.LABEL_GAP) last.numbers.push(...rule.numbers);
-    else groups.push({ at, numbers: [...rule.numbers] });
+    groups.push({ at, numbers: [...rule.numbers] });
+    // A joined label is longer and may move, so it is checked in turn.
+    while (groups.slice(1).length > 0) {
+      const last = groups.pop();
+      const before = groups[groups.length - 1];
+      if (labelAt(last) >= labelAt(before) + ruleLabel(before.numbers).length * g.RULE_CHAR + g.LABEL_GAP) {
+        groups.push(last);
+        break;
+      }
+      before.numbers.push(...last.numbers);
+    }
   }
   for (const group of groups) {
-    // A label that would pass the chart's right edge is moved back inside it.
-    const label = ruleLabel(group.numbers);
-    const x = Math.min(group.at, width - label.length * g.TICK_CHAR);
-    svg.appendChild(svgEl("text", { class: "tick", x: px(x), y: px(top - g.LABEL_GAP), "text-anchor": "start" }, label));
+    svg.appendChild(svgEl("text", { class: "tick", x: px(labelAt(group)), y: px(top - g.LABEL_GAP), "text-anchor": "start" }, ruleLabel(group.numbers)));
   }
 
   // Everything inside the plot is clipped to it; what lies beyond is marked.

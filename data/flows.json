@@ -4297,7 +4297,7 @@
    "desc": "Two lines over the loading months of 2020: the lift margin at the central hire with the prices published by the notice date, in ink over the band from the low to the high hire, and with the month's own prices, dashed.",
    "caption_segments": [
     {
-     "text": "The notice date is the day two months before loading that Sabine Pass's agreement with Centrica sets; the prices then published are METI's and the World Bank's latest month by then, usually the month three before, and Henry Hub's spot since the month two before. Cancellations: EIA, Today in Energy, "
+     "text": "The notice date is the day two months before loading that Sabine Pass's agreement with Centrica sets; the prices then published are METI's latest month by then, usually the month three before, the World Bank's TTF for that same month, and Henry Hub's spot since the month two before. Cancellations: EIA, Today in Energy, "
     },
     {
      "field": "eia_note",

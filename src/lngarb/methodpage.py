@@ -16,7 +16,7 @@ import math
 from datetime import date
 from typing import Any, Mapping
 
-from . import config, reader, units
+from . import config, freight_anchors, reader, units
 
 __all__ = ["page", "PARAMETER_WORDS", "value_words", "REPOSITORY"]
 
@@ -210,10 +210,11 @@ def page() -> dict[str, Any]:
         "limits": [
             [reader.T("A spread is an association, not a decision: long term contracts with Asian buyers move "
                       "their cargoes whatever the spot economics.")],
-            [reader.T("Charter rates are the ten Spark and the trade press reported; the study runs every date "
-                      "at the lowest, the median and the highest of them, and at the one reported nearest it "
-                      "where one lies within "), reader.N("hire_window", config.PARAMETERS["hire_anchor_max_days"].value,
-                                                          "count"), reader.T(" days.")],
+            [reader.T("Charter rates are the "), reader.N("anchors", len(freight_anchors.ANCHORS), "count"),
+             reader.T(" that Spark and the trade press reported; the study runs every date at the lowest, the "
+                      "median and the highest of them, and at the one reported nearest it where one lies within "),
+             reader.N("hire_window", config.PARAMETERS["hire_anchor_max_days"].value, "count"),
+             reader.T(" days.")],
             [reader.T("Panama's queues enter only the Flows view's comparison of Panama with the Cape, in the "
                       "two months a wait was reported for LNG, and its slots and auctions never; the slot premium "
                       "and the waiting days are inputs the reader can type.")],

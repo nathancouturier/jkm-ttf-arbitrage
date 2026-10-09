@@ -59,3 +59,16 @@ def test_every_document_linked_is_in_the_repository(method):
     for document in method["documents"]:
         path = document["href"].split("/blob/main/")[-1]
         assert (base.REPO_ROOT / path).exists(), document["href"]
+
+
+def test_the_count_of_charter_rates_follows_the_list(method):
+    # The Method view counts them from the list; the README spells the count
+    # out, and must be reworded when a rate is added.
+    from lngarb import freight_anchors
+
+    held = len(freight_anchors.ANCHORS)
+    counts = [s["value"] for item in method["limits"] for s in item if s.get("field") == "anchors"]
+    assert counts == [held]
+    spelled = {8: "eight", 9: "nine", 10: "ten", 11: "eleven", 12: "twelve", 13: "thirteen", 14: "fourteen"}
+    readme = (base.REPO_ROOT / "README.md").read_text(encoding="utf-8")
+    assert "The study holds " + spelled[held] + " rates" in readme

@@ -3164,7 +3164,7 @@
        "format": "count"
       },
       {
-       "text": " weeks in which, by the futures calendars, the JKM and TTF front months name different delivery months; where the prices drawn were swaps or day-ahead, as before the futures of mid "
+       "text": " weeks in which, by the futures calendars, the JKM and TTF front months name different delivery months; where the prices drawn were swaps, spot or day-ahead, as before the futures of mid "
       },
       {
        "field": "futures_from",
@@ -3503,7 +3503,7 @@
        "format": "count"
       },
       {
-       "text": " weeks in which, by the futures calendars, the JKM and TTF front months name different delivery months; where the prices drawn were swaps or day-ahead, as before the futures of mid "
+       "text": " weeks in which, by the futures calendars, the JKM and TTF front months name different delivery months; where the prices drawn were swaps, spot or day-ahead, as before the futures of mid "
       },
       {
        "field": "futures_from",
@@ -3828,7 +3828,7 @@
        "format": "count"
       },
       {
-       "text": " weeks in which, by the futures calendars, the JKM and TTF front months name different delivery months; where the prices drawn were swaps or day-ahead, as before the futures of mid "
+       "text": " weeks in which, by the futures calendars, the JKM and TTF front months name different delivery months; where the prices drawn were swaps, spot or day-ahead, as before the futures of mid "
       },
       {
        "field": "futures_from",
@@ -4142,7 +4142,7 @@
        "format": "count"
       },
       {
-       "text": " weeks in which, by the futures calendars, the JKM and TTF front months name different delivery months; where the prices drawn were swaps or day-ahead, as before the futures of mid "
+       "text": " weeks in which, by the futures calendars, the JKM and TTF front months name different delivery months; where the prices drawn were swaps, spot or day-ahead, as before the futures of mid "
       },
       {
        "field": "futures_from",

@@ -280,7 +280,7 @@ def _weekly_caption(points: Sequence[Mapping[str, Any]], levels: Mapping[str, fl
         reader.T("The hire levels are the lowest, the median and the highest charter rate reported: "),
         *_levels_segments(levels), reader.T(". Rings: the "), reader.N("misaligned", rings, "count"),
         reader.T(" weeks in which, by the futures calendars, the JKM and TTF front months name different delivery "
-                 "months; where the prices drawn were swaps or day-ahead, as before the futures of mid "),
+                 "months; where the prices drawn were swaps, spot or day-ahead, as before the futures of mid "),
         reader.D("futures_from", "2022-07-13", "month"),
         reader.T(", a ring marks the calendar, not the prices."),
     ]

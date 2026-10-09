@@ -120,6 +120,7 @@ const LAYOUT_CONSTANTS = {
     { name: "HISTORY_PAD_RIGHT", value: "128", why: "room right of a History panel for its end labels" },
     { name: "HISTORY_PAD_RIGHT_NARROW", value: "12", why: "room right of a History panel on a narrow screen" },
     { name: "TICK_CHAR", value: "7", why: "room per character of a tick value" },
+    { name: "RULE_CHAR", value: "7.5", why: "room per character of a rule's label, a little over the glyph" },
   ],
   "src/map.js": [
     { name: "PORT_RADIUS", value: "3.5", why: "a port's dot on the map" },

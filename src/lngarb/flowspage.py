@@ -161,8 +161,9 @@ def _y2020(levels: Mapping[str, float]) -> dict[str, Any]:
                 "month's own prices, dashed.",
         "caption_segments": [
             reader.T("The notice date is the day two months before loading that Sabine Pass's agreement with "
-                     "Centrica sets; the prices then published are METI's and the World Bank's latest month by "
-                     "then, usually the month three before, and Henry Hub's spot since the month two before. "
+                     "Centrica sets; the prices then published are METI's latest month by then, usually the month "
+                     "three before, the World Bank's TTF for that same month, and Henry Hub's spot since the month "
+                     "two before. "
                      "Cancellations: EIA, Today in Energy, "), reader.D("eia_note", "2020-08-11"),
             reader.T(", about the cargoes cancelled for June to September."),
         ],

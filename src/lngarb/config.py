@@ -1064,8 +1064,8 @@ SUEZ_US_GULF_JAPAN_REBATE_END = "2026-12-31"
 PARAMETERS: Mapping[str, Parameter] = _parameters(
     Parameter("mmbtu_per_m3_lng", 23.0, "MMBtu per m3 of LNG", "published",
               "Spark LNG Freight Methodology 3.8, page 2, 'LNG Conversion Factor: 23'", _SPARK_38,
-              "2026-10-01", "A market convention for a lean cargo; 22 to 24 is run as a sensitivity on the worked dates, and "
-              "the reader can type any value in the Model view."),
+              "2026-10-01", "A market convention for a lean cargo; the study runs no other value, and the reader can type "
+              "any in the Model view."),
     Parameter("vessel_174k_capacity_m3", 174_000.0, "m3", "published",
               "Spark LNG Freight Methodology 3.8, page 2, 'Vessel Type: 174,000 m3 2 Stroke'",
               _SPARK_38, "2026-10-01"),
@@ -1106,9 +1106,8 @@ PARAMETERS: Mapping[str, Parameter] = _parameters(
               "2026-10-06", "Mandatory from 15 February 2020 for ships over 300 feet."),
     Parameter("panama_fresh_water_variable_share", 0.05, "share of tolls", "assumption",
               "this study: the middle of the Authority's range of 0 to 10 percent", None, "2026-10-07",
-              "Set daily from Gatun Lake's level, which is not collected; 0 and 10 percent are run as "
-              "sensitivities on the worked dates. "
-              "Before 2023 the range was 1 to 10 percent."),
+              "Set daily from Gatun Lake's level, which is not collected; 0 and 10 percent are the ends of "
+              "the range, and the study runs neither. Before 2023 the range was 1 to 10 percent."),
     Parameter("vessel_174k_from", "2024-01-02", "date", "published",
               "Spark LNG Freight Methodology 3.8, page 7, change log: '3.5 2 January 2024 - Vessel "
               "Type updated to 174,000 m3 2 Stroke'", _SPARK_38, "2026-10-01",

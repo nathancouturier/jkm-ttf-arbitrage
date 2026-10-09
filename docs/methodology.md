@@ -700,10 +700,12 @@ Every number the engine uses that is neither market data nor a canal tariff
 the named document; derived: computed from published figures; assumption:
 chosen by this study and labelled), the document, its address and the date it
 was read. The site's Method view prints that table. The assumptions, and the
-published values used as scenarios, each with the range it is run at on the
-worked dates:
+published values used as scenarios, each with the alternatives the study
+names for it. `scripts/worked_table.py` runs those of the liquefaction fee,
+the regas discount, the Suez tonnage and rebate, and the hire on the worked
+dates; the others are named, not run:
 
-| Parameter | Value | Run at | Why |
+| Parameter | Value | Alternatives | Why |
 |---|---|---|---|
 | liquefaction fee | 3.00 $/MMBtu | 2.25 and 3.50, both published | the fee most Sabine Pass contracts carry |
 | regas discount in Northwest Europe, before 31 March 2023 | -2 EUR/MWh | -3, 0, and -35 for a loading from 25 July to 15 October 2022 | ACER's printed average and range (open question 18); ACER's own NWE spread averages -2.33 from April to August 2023 |
@@ -845,8 +847,9 @@ nothing smoothed or fitted (`lngarb.spreadhistory`):
   week beyond it is a short tick at the edge, counted under the chart.
 * **Marks.** Rings mark the weeks in which, by the futures calendars of 9.9,
   the JKM and TTF front months name different delivery months; before the
-  futures of July 2022 the weekly prices were swaps and day-ahead, which name
-  no delivery month, so there a ring marks the calendar, not the prices. Numbered rules mark the breaks of 12.1 that change a
+  futures of July 2022 the TTF price drawn was a spot or day-ahead price,
+  which names no delivery month, so there a ring marks the calendar, not the
+  prices. Numbered rules mark the breaks of 12.1 that change a
   price's definition, a route, the ship or the EU ETS, listed with their
   sources under the charts; a change of name alone is not drawn.
 * **Ranges.** Every week, 2021 to 2023, 2024 on, and the last 52 weeks; each
