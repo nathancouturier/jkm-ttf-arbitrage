@@ -162,7 +162,7 @@
    "range_words": "January 2024 to August 2026, monthly",
    "gaps_words": "none",
    "provisional_words": "none",
-   "fetch_words": "9 October 2026 at 16:00 UTC",
+   "fetch_words": "9 October 2026 at 16:18 UTC",
    "vintage_words": "the fourth quarter report of 2024, the fourth quarter report of 2025, the report of August 2026",
    "terms_words": "CC BY-NC-ND 4.0 for DEHSt's reports, figures credited to EEX and DEHSt; non-commercial use"
   },
@@ -190,7 +190,7 @@
    "range_words": "January 2023 to June 2025, monthly",
    "gaps_words": "none",
    "provisional_words": "none",
-   "fetch_words": "9 October 2026 at 15:58 UTC",
+   "fetch_words": "9 October 2026 at 16:16 UTC",
    "vintage_words": "reports March 2024 to June 2025",
    "terms_words": "CC BY 4.0"
   },
@@ -204,7 +204,7 @@
    "range_words": "7 January 1997 to 6 October 2026, daily",
    "gaps_words": "2059 dates, from 22 January 1997 to 7 September 2026",
    "provisional_words": "none",
-   "fetch_words": "9 October 2026 at 15:57 UTC",
+   "fetch_words": "9 October 2026 at 16:15 UTC",
    "vintage_words": "release of 7 October 2026, next release 15 October 2026",
    "terms_words": "US public domain, with the third party credit doubt"
   },
@@ -218,7 +218,7 @@
    "range_words": "January 2016 to July 2026, monthly",
    "gaps_words": "none",
    "provisional_words": "none",
-   "fetch_words": "9 October 2026 at 15:57 UTC",
+   "fetch_words": "9 October 2026 at 16:15 UTC",
    "vintage_words": "release of 30 September 2026, next release 30 October 2026",
    "terms_words": "US public domain"
   },
@@ -246,7 +246,7 @@
    "range_words": "15 September 2021 to 21 January 2026, weekly",
    "gaps_words": "23 dates, from 8 November 2021 to 29 December 2025",
    "provisional_words": "none",
-   "fetch_words": "9 October 2026 at 15:56 UTC",
+   "fetch_words": "9 October 2026 at 16:14 UTC",
    "vintage_words": "not recorded",
    "terms_words": "US public domain, with the third party credit doubt"
   },
@@ -260,7 +260,7 @@
    "range_words": "7 January 2016 to 22 January 2026, weekly",
    "gaps_words": "37 dates, from 21 November 2016 to 29 December 2025",
    "provisional_words": "none",
-   "fetch_words": "9 October 2026 at 15:56 UTC",
+   "fetch_words": "9 October 2026 at 16:14 UTC",
    "vintage_words": "not recorded",
    "terms_words": "US public domain"
   },
@@ -274,7 +274,7 @@
    "range_words": "28 January 2026 to 7 October 2026, weekly",
    "gaps_words": "none",
    "provisional_words": "none",
-   "fetch_words": "9 October 2026 at 15:57 UTC",
+   "fetch_words": "9 October 2026 at 16:14 UTC",
    "vintage_words": "not recorded",
    "terms_words": "US public domain, with the third party credit doubt"
   },
@@ -302,7 +302,7 @@
    "range_words": "2 January 2015 to 2 October 2026, daily",
    "gaps_words": "128 dates, from 19 January 2015 to 7 September 2026",
    "provisional_words": "none",
-   "fetch_words": "9 October 2026 at 16:00 UTC",
+   "fetch_words": "9 October 2026 at 16:18 UTC",
    "vintage_words": "prepared 5 October 2026 at 18:16",
    "terms_words": "US public domain"
   },
@@ -316,7 +316,7 @@
    "range_words": "4 January 2016 to 8 October 2026, daily",
    "gaps_words": "145 dates, from 18 January 2016 to 7 September 2026",
    "provisional_words": "none",
-   "fetch_words": "9 October 2026 at 16:01 UTC",
+   "fetch_words": "9 October 2026 at 16:18 UTC",
    "vintage_words": "last update 9 October 2026 at 10:39",
    "terms_words": "IMF terms for its data, attribution required"
   },
@@ -372,7 +372,7 @@
    "range_words": "4 January 2016 to 30 April 2018, daily",
    "gaps_words": "21 dates, from 18 January 2016 to 19 February 2018",
    "provisional_words": "none",
-   "fetch_words": "9 October 2026 at 16:00 UTC",
+   "fetch_words": "9 October 2026 at 16:18 UTC",
    "vintage_words": "value dates 4 January 2016 to 30 April 2018",
    "terms_words": "New York Fed Terms of Use"
   },
@@ -386,7 +386,7 @@
    "range_words": "2 April 2018 to 8 October 2026, daily",
    "gaps_words": "95 dates, from 28 May 2018 to 7 September 2026",
    "provisional_words": "none",
-   "fetch_words": "9 October 2026 at 16:00 UTC",
+   "fetch_words": "9 October 2026 at 16:18 UTC",
    "vintage_words": "value dates to 8 October 2026",
    "terms_words": "New York Fed Terms of Use"
   },
@@ -414,7 +414,7 @@
    "range_words": "January 2015 to September 2026, monthly",
    "gaps_words": "none",
    "provisional_words": "preliminary from August 2026",
-   "fetch_words": "9 October 2026 at 15:57 UTC",
+   "fetch_words": "9 October 2026 at 16:15 UTC",
    "vintage_words": "updated on 2 October 2026",
    "terms_words": "CC BY 4.0"
   },
