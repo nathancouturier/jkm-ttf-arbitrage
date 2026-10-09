@@ -220,6 +220,7 @@ function y2026Figure(page, decimals) {
       figureCell(formatCell(row.study.low, "usd_mmbtu", decimals, true), "study_low"),
       figureCell(formatCell(row.study.central, "usd_mmbtu", decimals, true), "study_central"),
       figureCell(formatCell(row.study.high, "usd_mmbtu", decimals, true), "study_high"),
+      figureCell(formatCell(row.at_anchor, "usd_mmbtu", decimals, true), "at_anchor"),
     ]));
   }
   const compare = el("table", { class: "table" }, [
@@ -229,6 +230,7 @@ function y2026Figure(page, decimals) {
       el("th", { class: "col-num", text: "This study, low hire", attrs: { scope: "col", "data-short": "low" } }),
       el("th", { class: "col-num", text: "Central hire", attrs: { scope: "col", "data-short": "central" } }),
       el("th", { class: "col-num", text: "High hire", attrs: { scope: "col", "data-short": "high" } }),
+      el("th", { class: "col-num", text: "At the rate reported nearest, " + formatCell(y2026.anchor.hire_usd_day, "usd_day", decimals) + " " + UNITS.usd_day, attrs: { scope: "col", "data-short": "reported" } }),
     ])]),
     body,
   ]);
@@ -244,6 +246,7 @@ function y2026Figure(page, decimals) {
     sentence("p", y2026.source_segments, decimals, "source-line"),
     sentence("p", y2026.story_segments, decimals, "prose"),
     scrollTable([sentence("span", y2026.compare_caption_segments, decimals)], compare),
+    sentence("p", y2026.compare_words_segments, decimals, "prose"),
     disclosure("What Platts reported", () => reported),
   ]);
 }

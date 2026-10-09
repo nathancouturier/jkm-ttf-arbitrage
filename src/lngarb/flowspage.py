@@ -29,7 +29,8 @@ from typing import Any, Mapping, Sequence
 
 import pandas as pd
 
-from . import analysis, config, reader
+from . import analysis, config, reader, worked
+from .cases import evaluate
 from .spreadhistory import ticks
 from .reported import reported
 
@@ -247,8 +248,18 @@ def _y2026(rows: pd.DataFrame, months: Sequence[Mapping[str, Any]] = (),
         reader.D("cape_day", latest_cape.period),
         reader.T(", when, by Platts' sources, auctioned slots had made Panama impractical for spot cargoes."),
     ]
+    # The study at the charter rate reported nearest the assessed week, however
+    # far: the cited hire the comparison asks for, with its distance in days.
+    anchor, gap = worked.nearest_anchor(week.date())
+    week_row = at.loc["central"]
+    inputs = worked.inputs_on(week.date(), float(week_row["jkm"]), float(week_row["ttf"]),
+                              {"jkm": week_row["jkm_source"], "ttf": week_row["ttf_source"]},
+                              hire_usd_day=anchor.hire_usd_day, delta_window=analysis.window(week, "weekly"))
+    at_anchor = evaluate(inputs)
     compare = [
         {"route": route, "platts": assessments[route].figure,
+         "at_anchor": (_finite(at_anchor["east"]["nea_" + route]["arb"]) if at_anchor["east"]["nea_" + route]["open"]
+                       else None),
          "study": {level: _finite(at.loc[level, route + "_arb"]) for level in ("low", "central", "high")
                    if level in at.index},
          "reported": _finite(at.loc["reported", route + "_arb"]) if "reported" in at.index else None}
@@ -277,6 +288,8 @@ def _y2026(rows: pd.DataFrame, months: Sequence[Mapping[str, Any]] = (),
                 "a route's line, that route netted more than Gate.",
         "assessment_day": latest_cape.period,
         "assessment_week": _iso(week),
+        "anchor": {"hire_usd_day": anchor.hire_usd_day, "day": _iso(worked._anchor_day(anchor)), "gap_days": gap},
+        "compare_words_segments": _compare_words(assessments, at_anchor, anchor, gap),
         "compare_caption_segments": [
             reader.T("Platts' arbitrage of US cargoes to North Asia against the Atlantic, in $/MMBtu, on "),
             reader.D("assessment_day", latest_cape.period),
@@ -408,6 +421,24 @@ def _y2026_story(rows: pd.DataFrame, points: Sequence[Mapping[str, Any]], week: 
             out += [T(" Exports moved east in weeks the reported spot hire lay above the breakeven hire: spot hire "
                       "is not the marginal cost of a cargo on a ship already chartered.")]
     return out
+
+
+def _compare_words(assessments: Mapping[str, Any], at_anchor: Mapping[str, Any], anchor: Any,
+                   gap: int) -> list[dict[str, Any]]:
+    """Whether the study at the rate reported nearest puts the two routes in Platts' order, and how far apart."""
+    T, N, D = reader.T, reader.N, reader.D
+    ours = {r: _finite(at_anchor["east"]["nea_" + r]["arb"]) for r in ("panama", "cape")}
+    if any(v is None for v in ours.values()):
+        return []
+    theirs = {r: assessments[r].figure for r in ("panama", "cape")}
+    same_order = (ours["panama"] > ours["cape"]) == (theirs["panama"] > theirs["cape"])
+    return [T("At "), N("anchor_hire", anchor.hire_usd_day, "usd_day"), T(" $/day, the rate reported nearest, on "),
+            D("anchor_day", worked._anchor_day(anchor)), T(", "), N("anchor_gap", gap, "count"),
+            T(" days from the week, this study puts Panama " + ("ahead of" if ours["panama"] > ours["cape"] else "behind")
+              + " the Cape by "), N("our_gap", abs(ours["panama"] - ours["cape"]), "usd_mmbtu"),
+            T(" $/MMBtu, Platts by "), N("their_gap", abs(theirs["panama"] - theirs["cape"]), "usd_mmbtu"),
+            T(": " + ("the same order" if same_order else "the opposite order") + "; Platts compares forward prices "
+              "for the arrival month and its own discount in Europe, this study the front months.")]
 
 
 def _waits(rows: pd.DataFrame) -> dict[str, Any]:

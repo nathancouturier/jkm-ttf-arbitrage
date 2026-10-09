@@ -127,7 +127,17 @@ def test_every_week_is_tagged_by_its_delivery_months(obs):
     weekly = obs[obs["frequency"] == "weekly"]
     assert set(weekly["alignment"]) <= {"aligned", "mixed", "misaligned"}
     assert weekly["alignment"].notna().all()
-    assert obs[obs["frequency"] == "monthly"]["alignment"].isna().all()
+    monthly = obs[obs["frequency"] == "monthly"]
+    # METI's months name no delivery month; a month of weekly means carries the
+    # mean aligned share of its weeks, and the tag that share gives.
+    meti = monthly[monthly["series"] == "meti_worldbank"]
+    assert meti["alignment"].isna().all()
+    means = monthly[monthly["series"] != "meti_worldbank"]
+    assert means["alignment"].notna().all()
+    for row in means.itertuples():
+        weeks = weekly[weekly["day"].dt.to_period("M") == row.day.to_period("M")]
+        assert row.aligned_share == pytest.approx(weeks["aligned_share"].mean(), abs=1e-12)
+    assert (weekly["jkm_month"].str.len() == 7).all() and (weekly["ttf_month"].str.len() == 7).all()
 
 
 def test_the_breaks_are_found_in_the_data(obs):

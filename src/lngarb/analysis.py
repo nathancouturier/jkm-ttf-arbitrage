@@ -95,7 +95,7 @@ def reading_once() -> Iterator[None]:
 
 OBSERVATION_COLUMNS = [
     "day", "frequency", "series", "jkm", "ttf", "jkm_source", "ttf_source", "basis",
-    "alignment", "aligned_share", "weeks",
+    "alignment", "aligned_share", "weeks", "jkm_month", "ttf_month",
 ]
 
 
@@ -136,6 +136,9 @@ def _weekly() -> pd.DataFrame:
     frame["alignment"] = [tag for tag, _ in tags]
     frame["aligned_share"] = [share for _, share in tags]
     frame["weeks"] = 1
+    # The delivery month each front month named on the week's last day.
+    frame["jkm_month"] = [delivery.jkm_front_month(d.date()).isoformat()[:7] for d in frame["day"]]
+    frame["ttf_month"] = [delivery.ttf_front_month(d.date()).isoformat()[:7] for d in frame["day"]]
     return frame
 
 
@@ -173,6 +176,11 @@ def _monthly(weekly: pd.DataFrame) -> pd.DataFrame:
             "ttf_source": "mean of %d weekly averages, EIA %s, %s" % (len(group), source, month.strftime("%B %Y")),
             "basis": "mean of the month's weekly averages: " + "; ".join(sorted(set(group["basis"]))),
             "weeks": len(group),
+            # The share of the month's trading days, over its weeks, on which the
+            # two front months named the same delivery month.
+            "aligned_share": float(group["aligned_share"].mean()),
+            "alignment": ("aligned" if group["aligned_share"].mean() == 1 else
+                          "misaligned" if group["aligned_share"].mean() == 0 else "mixed"),
         })
     return pd.DataFrame(rows)
 

@@ -5823,6 +5823,56 @@
    "desc": "A line of JKM's premium over TTF for each week, over the breakeven spread S* of Panama, a thin line, and of the Cape, a dotted one, both at the central hire. Where the ink line runs above a route's line, that route netted more than Gate.",
    "assessment_day": "2026-04-28",
    "assessment_week": "2026-04-29",
+   "anchor": {
+    "hire_usd_day": 92000.0,
+    "day": "2026-04-03",
+    "gap_days": 26
+   },
+   "compare_words_segments": [
+    {
+     "text": "At "
+    },
+    {
+     "field": "anchor_hire",
+     "value": 92000.0,
+     "format": "usd_day"
+    },
+    {
+     "text": " $/day, the rate reported nearest, on "
+    },
+    {
+     "field": "anchor_day",
+     "value": "2026-04-03",
+     "label": "3 April 2026"
+    },
+    {
+     "text": ", "
+    },
+    {
+     "field": "anchor_gap",
+     "value": 26,
+     "format": "count"
+    },
+    {
+     "text": " days from the week, this study puts Panama ahead of the Cape by "
+    },
+    {
+     "field": "our_gap",
+     "value": 0.874882,
+     "format": "usd_mmbtu"
+    },
+    {
+     "text": " $/MMBtu, Platts by "
+    },
+    {
+     "field": "their_gap",
+     "value": 1.21,
+     "format": "usd_mmbtu"
+    },
+    {
+     "text": ": the same order; Platts compares forward prices for the arrival month and its own discount in Europe, this study the front months."
+    }
+   ],
    "compare_caption_segments": [
     {
      "text": "Platts' arbitrage of US cargoes to North Asia against the Atlantic, in $/MMBtu, on "
@@ -5848,6 +5898,7 @@
     {
      "route": "panama",
      "platts": 0.533,
+     "at_anchor": 0.826049,
      "study": {
       "low": 1.32508,
       "central": 1.076237,
@@ -5858,6 +5909,7 @@
     {
      "route": "cape",
      "platts": -0.677,
+     "at_anchor": -0.048832,
      "study": {
       "low": 1.202072,
       "central": 0.578306,

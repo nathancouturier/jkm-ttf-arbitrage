@@ -274,7 +274,8 @@ def now(obs: pd.DataFrame | None = None, *, flows_document: dict[str, Any] | Non
 
 
 HISTORY_COLUMNS = [
-    "day", "frequency", "series", "basis", "alignment", "aligned_share", "hire_level", "hire_usd_day",
+    "day", "frequency", "series", "basis", "alignment", "aligned_share", "jkm_month", "ttf_month", "hire_level",
+    "hire_usd_day",
     "jkm", "ttf", "spread", "delta_nwe", "henry_hub", "vessel", "west_netback", "best_route_east", "arb",
     "s_star_best", "lift_margin", "cancel",
 ]

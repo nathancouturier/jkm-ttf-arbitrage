@@ -101,6 +101,7 @@ const REQUIRED = Object.freeze({
     "page.y2026.heading_segments", "page.y2026.days", "page.y2026.spread", "page.y2026.panama", "page.y2026.cape",
     "page.y2026.y.low", "page.y2026.ticks", "page.y2026.desc", "page.y2026.compare", "page.y2026.reported",
     "page.y2026.assessment_day", "page.y2026.assessment_week", "page.y2026.story_segments", "page.y2026.source_segments",
+    "page.y2026.anchor.hire_usd_day", "page.y2026.compare_words_segments",
     "page.y2020.cancelled_marks",
     "page.waits.heading_segments", "page.waits.rows", "page.waits.source", "page.limits_segments",
     "page.waits.months", "page.waits.reported_points", "page.waits.y.low", "page.waits.ticks",
