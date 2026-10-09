@@ -565,7 +565,7 @@ def page(rows: pd.DataFrame, breaks: pd.DataFrame, anchors: Sequence[Mapping[str
                             "assumption of the parameter table at each week's exchange rate.",
             "regas": {"observed": "Europe's spread", "assumed": "Assumption"},
             "netbacks_legend": "The ink line is the netback at Sabine Pass of a cargo sold at Gate; the dashed "
-                               "line, by the best open route east to Futtsu; both at the central hire, per MMBtu "
+                               "line, by the best route east open that week, to Futtsu; both at the central hire, per MMBtu "
                                "loaded. Where the dashed line runs above, the arb east was open.",
             "netbacks": {"west": "Gate", "east": "Best route east"},
             "events_caption": "Every event drawn as a lettered mark: the day it began, the day it ended where it "

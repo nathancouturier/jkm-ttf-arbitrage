@@ -978,11 +978,26 @@ Columbia University's Center on Global Energy Policy dates China's tariff on US
 LNG from 10 February 2025 at 15 percent, and says no US cargo had reached China
 since 6 February 2025, a statement of April 2025 about arrivals. EIA's export
 table shows a small volume to China in September 2025 and 4,576 MMcf in June
-2026, and a later report gives the tariff as 25 percent. The Chinese Ministry of
+2026. Reports differ on the rate: one of May 2026 gives 25 percent, those of
+July and September 2026 give 15 percent. The Chinese Ministry of
 Finance's notice, which would settle the rate, was not read.
 
 What would settle it: the ministry's notice, read by hand, and the owner's
 choice of words for the June 2026 cargo, whose end use (imported or re-exported)
 is not established. Until then the study uses the date only, as a limit of the
 flows test.
+
+### 55. An empty chart
+
+Raised 9 October 2026. **Decided 9 October 2026.**
+
+The brief asks that an empty chart name the missing series and the time of the
+failed fetch. A failed fetch keeps the last good cache, marked failed in the
+manifest and the Provenance table, and the build refuses to deploy a series
+that failed or holds nothing; the weekly refresh commits nothing then and opens
+an issue. So no chart of the deployed site can be empty.
+
+Decision: no empty chart state is drawn; the site already live stays as it was,
+and Provenance names every series with its status and the time of its last
+fetch.
 

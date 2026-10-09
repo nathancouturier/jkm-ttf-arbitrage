@@ -1336,8 +1336,8 @@ PARAMETERS: Mapping[str, Parameter] = _parameters(
               "Columbia University, Center on Global Energy Policy, blog of 18 April 2025: China's tariff on "
               "US LNG from 10 February 2025",
               "https://energypolicy.columbia.edu/?p=23258", "2026-09-30",
-              "A limit of the flows test, named on the Flows view. The rate is reported as 15 percent there "
-              "and as 25 percent in a later report; the Chinese notice was not read (open question 54)."),
+              "A limit of the flows test, named on the Flows view. Reports differ on the rate, 15 or 25 "
+              "percent; the Chinese notice was not read (open question 54)."),
     # -- The analysis -------------------------------------------------------
     Parameter("analysis_monthly_loading_day", 15, "day of the month", "assumption",
               "this study: a monthly observation loads in the middle of its month", None, "2026-10-08",

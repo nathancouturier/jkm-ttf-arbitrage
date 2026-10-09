@@ -12,8 +12,9 @@ same bytes.
                   date, the engine's full inputs (so the browser can move the
                   hire or the routes and recompute with src/engine.js) and the
                   engine's full output, at the reported hire nearest the day
-                  or, where none is reported, the central level, with the three
-                  levels beside it.
+                  or, where none is reported, the central level, with the
+                  sentences on the regasification discount and on when the arb
+                  closes.
     history.json  every weekly and monthly observation at each hire level: the
                   spread, S* and its parts and H* per route, the best route
                   east and its arb; the breaks; the freight anchors.

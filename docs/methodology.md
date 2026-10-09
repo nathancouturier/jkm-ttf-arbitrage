@@ -751,7 +751,10 @@ result. Nothing is fitted: no parameter is searched and nothing is forecast.
   and tagged aligned, mixed or misaligned by its delivery months (9.9). The
   aligned weeks are read first: the History view sets the share of them in
   which the arb east was open, and their mean S*, against those of every week,
-  for each range; the mismatch moves neither by much.
+  for each range. Over every week the two differ little (58 against 61
+  percent open, a mean S* of 0.38 against 0.41 $/MMBtu on 9 October 2026);
+  over the last 52 weeks the aligned ones were open less often, which the
+  page's sentence shows for each range.
 * **Monthly**, loading on the 15th: METI's contract-based price, a proxy for
   JKM, with the World Bank's TTF, January 2016 to March 2021; then the mean of
   each month's weekly averages, for a month holding three weeks or more. April
@@ -839,7 +842,9 @@ result is set beside the route use Platts reported: a record 27 US cargoes to
 Asia via the Cape in March 2024, against one via Panama in that month to 27
 March, and 31 of 34 round the Cape in data running to 28 April 2026, over a
 period not stated, when auctioned slots had made Panama impractical for spot
-cargoes according to Platts' sources (2.24 of `docs/sources.md`).
+cargoes according to Platts' sources (2.24 of `docs/sources.md`). The Flows
+view draws the breakeven wait month by month from January 2023, with the waits
+reported as points.
 
 ### 12.5 The history on the site
 
@@ -854,6 +859,13 @@ nothing smoothed or fitted (`lngarb.spreadhistory`):
   Gate. The cheapest route is the open route with the lowest S* at each level
   of hire; on 9 October 2026 it was Panama in every week since September
   2021.
+* **The netbacks.** What a cargo nets at Sabine Pass sold at Gate, and by the
+  best route east, at the central hire, week by week; where the second runs
+  above the first the arb east was open.
+* **The parts of S\* and Europe's spread.** The three parts of the cheapest
+  route's S\* at the central hire, and Europe's DES spread as the engine took
+  it against the parameter table's assumption, with the weeks whose verdict
+  would change at zero and at the assumption.
 * **The breakeven hire against the charter rates reported.** H*, the hire at
   which the cheapest route nets what Gate does, each week, with every reported
   rate as a point. A rate below the line is a week the arb was open at the
@@ -867,7 +879,8 @@ nothing smoothed or fitted (`lngarb.spreadhistory`):
   futures of July 2022 the TTF price drawn was a spot or day-ahead price,
   which names no delivery month, so there a mark shows the calendar, not the
   prices. Numbered rules mark the breaks of 12.1 that change a
-  price's definition, a route, the ship or the EU ETS, listed with their
+  price's definition, a route, the ship, the EU ETS or the source of Europe's
+  DES spread (ACER's observed figures from 31 March 2023), listed with their
   sources under the charts; a change of name alone is not drawn. Lettered
   marks at the foot of the spread charts are the dated events of
   `lngarb.events`, each from one document, listed with what was left out.
