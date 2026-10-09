@@ -274,7 +274,8 @@ Decision: not collected. The workbook carries every month's latest figure; the
 preliminary figures would only show METI's own revisions.
 
 Revised 8 October 2026: the owner saved 19 of the monthly PDFs by hand, the
-releases for October 2019 to March 2021 and the detailed release for March 2021. They are parsed into `meti_spot_lng_releases`, every figure
+releases for October 2019 to March 2021 and the detailed release for March
+2021. They are parsed into `meti_spot_lng_releases`, every figure
 each release printed with the day of the release, and the 2020 notice test on
 the Flows view uses METI's figure as first released by each notice day. The
 other releases are not held.

@@ -306,3 +306,5 @@ def test_the_now_view_says_when_the_arb_closes_east_and_for_the_cargo():
     assert values["room"] == pytest.approx(abs(values["spread"] - values["s_star"]), abs=1e-6)
     assert values["cancelled_from"] == "2020-06-01" and values["cancelled_to"] == "2020-09-01"
     assert closing["link_view"] == "flows"
+    texts = "".join(s.get("text", "") for s in closing["segments"])
+    assert texts.count("$/MMBtu") >= 3

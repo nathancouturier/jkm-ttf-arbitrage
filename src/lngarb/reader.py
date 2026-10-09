@@ -358,7 +358,7 @@ def closing(result: Mapping[str, Any], hh_multiple: float) -> dict[str, Any]:
                  if margin >= 0 else [T("it falls short by "), N("lift_margin", -margin, "usd_mmbtu"), T(" $/MMBtu"),
                                       T(", so the cargo would be cancelled")] + then)
     return {"heading": "When the arb closes", "segments": segments,
-            "link_words": "How the arb closed in 2020: the third chart of the Flows view", "link_view": "flows"}
+            "link_words": "How the arb closed in 2020: the 2020 chart of the Flows view", "link_view": "flows"}
 
 
 def regas_sensitivity(*, spread: float, delta: float, observed: bool, at_zero: tuple[str | None, float],

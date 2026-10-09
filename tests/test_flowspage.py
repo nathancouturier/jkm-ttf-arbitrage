@@ -114,3 +114,15 @@ def test_the_2020_sentence_names_where_the_notice_test_fails_and_the_marks_carry
         assert jkm == m["notice_jkm"]
     reported = [m for m in y2020["months"] if m["cancelled"] is not None]
     assert [mark["letter"] for mark in y2020["cancelled_marks"]] == [str(int(m["cancelled"])) for m in reported]
+
+
+def test_the_2020_sentence_names_meti_s_month_and_the_months_below_zero_with_none_reported(flows):
+    y2020 = flows["page"]["y2020"]
+    words = {s["field"]: s.get("value") for s in y2020["heading_segments"] if "field" in s}
+    june = next(m for m in y2020["months"] if m["month"] == "2020-06-01")
+    assert "March 2020" in words["why_source_2020-06"]
+    unreported = [m["label"] for m in y2020["months"]
+                  if m["cancelled"] is None and m["notice"]["central"] is not None and m["notice"]["central"] < 0]
+    if unreported:
+        assert all(label in words["unreported"] for label in unreported)
+    assert june["notice_jkm"] == words["why_jkm_2020-06"]

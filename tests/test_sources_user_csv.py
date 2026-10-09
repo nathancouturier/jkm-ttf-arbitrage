@@ -48,6 +48,13 @@ def test_a_good_file_is_read_and_the_aligned_spread_computed(tmp_path):
     ("2026-03-18,brent,2026-05,80,USD/bbl,x\n", "not one of"),
     ("2026-03-18,freight_rate,2026-05,92000,USD/day,x\n", "no contract month"),
     ("2026-03-18,jkm_settlement,2026-05,15.1,USD/MMBtu,\n", "no source"),
+    ("2026-03-18,jkm_settlement,2026-13,15.1,USD/MMBtu,x\n", "contract month"),
+    ("2026-03-18,jkm_settlement,abcd-ef,15.1,USD/MMBtu,x\n", "contract month"),
+    ("2026-03-18,jkm_settlement,2020-01,15.1,USD/MMBtu,x\n", "expired"),
+    ("20260318,jkm_settlement,2026-05,15.1,USD/MMBtu,x\n", "yyyy-mm-dd"),
+    ("2026-W12-3,jkm_settlement,2026-05,15.1,USD/MMBtu,x\n", "yyyy-mm-dd"),
+    ("2999-01-04,jkm_settlement,2999-02,15.1,USD/MMBtu,x\n", "future"),
+    ("2026-03-18,jkm_settlement,2026-05,nan,USD/MMBtu,x\n", "not a number"),
 ])
 def test_a_file_that_breaks_a_rule_is_refused_whole(tmp_path, row, words):
     _write(tmp_path, "bad.csv", row)
@@ -67,3 +74,11 @@ def test_the_layer_lives_where_git_ignores_it():
     probe = "data/private/user/settlements.csv"
     result = subprocess.run(["git", "check-ignore", "-q", probe], cwd=base.REPO_ROOT)
     assert result.returncode == 0, "data/private/user is not ignored by git"
+
+
+def test_the_same_settlement_in_two_files_is_refused(tmp_path):
+    row = "2026-03-18,jkm_settlement,2026-05,15.10,USD/MMBtu,x\n"
+    _write(tmp_path, "a.csv", row)
+    _write(tmp_path, "b.csv", row.replace("15.10", "15.20"))
+    with pytest.raises(SourceError, match="two files"):
+        user_csv.read(tmp_path)

@@ -155,7 +155,7 @@ def _y2020(levels: Mapping[str, float]) -> dict[str, Any]:
                  "central hire below zero for "), reader.W("below", reader.listed([m["label"] for m in below]) or "no month"),
         reader.T(" of the "), reader.N("reported_months", len(reported_months), "count"),
         reader.T(" months of "), reader.N("year", pd.Timestamp(months[0]["month"]).year, "year"),
-        reader.T(" for which EIA reported cargoes cancelled"),
+        reader.T(" for which EIA estimated, or cited the trade press for, cargoes cancelled"),
     ]
     if above:
         heading += [reader.T("; for "), reader.W("above", reader.listed([m["label"] for m in above])),
