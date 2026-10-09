@@ -126,7 +126,7 @@ export function applyEdits(preset, edits, model) {
   // preset's, or the one typed. An allowance price the preset does not hold
   // stays unread (null): it costs nothing while nothing is surrendered.
   const fxEdit = edits.find((edit) => edit.key === "usd_per_eur");
-  const usdPerEur = fxEdit ? usable(fxEdit) : preset.usd_per_eur;
+  const usdPerEur = fxEdit ? usable(fxEdit) : number(preset.usd_per_eur);
   let euaTyped = false;
   for (const edit of edits) {
     if (edit.key === "ttf_eur_mwh") inputs.ttf = usable(edit) * usdPerEur / units.mmbtu_per_mwh;

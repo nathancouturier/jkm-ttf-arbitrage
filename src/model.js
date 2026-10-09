@@ -361,7 +361,8 @@ function addEuroSwitch(field) {
   choice.addEventListener("change", () => {
     if (!usableFx()) {
       choice.value = field.shown.unit;
-      field.status.textContent = "The unit cannot change while the dollars per euro is missing or refused.";
+      field.status.textContent = UNIT_REFUSED;
+      if (held.announcer) held.announcer.textContent = UNIT_REFUSED;
       return;
     }
     const reading = ttfReading(field);
@@ -393,7 +394,10 @@ function addEuroSwitch(field) {
     field.labelText.textContent = field.label + ", " + UNITS.usd_mmbtu;
   };
   field.wrapper.insertBefore(choice, field.status);
+  choice.setAttribute("aria-describedby", field.status.id);
 }
+
+const UNIT_REFUSED = "The unit cannot change while the dollars per euro is missing or refused.";
 
 /* What the TTF field holds, in the unit shown: the unrounded figure behind
  * the text while the text is unchanged. */
@@ -684,11 +688,12 @@ function announce() {
   if (held.announcer) held.announcer.textContent = words;
 }
 
-/* Whether any emissions are surrendered under these inputs: a share above
- * zero, typed or in a year of the preset's split. */
+/* Whether any emissions are surrendered under these inputs, as the engine
+ * prices them: at an allowance of one dollar a tonne, Gate's line carries a
+ * carbon cost, or cannot say. */
 function surrenders(inputs) {
-  if (inputs.ets_by_year) return Object.values(inputs.ets_by_year).some(([phase]) => phase > 0);
-  return !(inputs.ets_phase <= 0);
+  const ets = compute({ ...inputs, eua_usd_t: 1 }).west.ets_usd;
+  return !present(ets) || ets !== 0;
 }
 
 /* Why there is no sentence, in words: an input missing or refused, or, when

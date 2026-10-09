@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import calendar
 import json
+import math
 from dataclasses import dataclass
 from datetime import date, timedelta
 from typing import Any
@@ -541,6 +542,8 @@ def inputs_on(when: date | str, jkm: float, ttf: float, price_sources: dict[str,
         "fx": fx_source, "henry_hub": hh_source, "rate": rate_source, "hire": hire_source,
         "eua": eua_source, "vessel": vessel.name,
         "delta_nwe": delta_source if delta_source.startswith("missing: ") else
+        "%s; %s EUR/MWh, with no exchange rate to convert it" % (delta_source, round(delta_eur, 3))
+        if math.isnan(usd_per_eur) else
         "%s; %s EUR/MWh at %s USD per EUR" % (delta_source, round(delta_eur, 3), usd_per_eur),
     })
     return Inputs(

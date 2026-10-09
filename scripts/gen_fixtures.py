@@ -198,6 +198,13 @@ def _edges() -> list[tuple[str, Inputs]]:
     out.append(("west_returns_other_way", replace(base, routes={**base.routes, WEST: replace(
         base.routes[WEST], ballast_distance_nm=base.routes["nea_cape"].distance_nm, ballast_canal_days=0.5)})))
     out.append(("optional_fields_omitted", plain))
+    # A price not read with nothing surrendered: no voyage or berth counted on
+    # the typed share's path, and no gas burnt on the path by year.
+    out.append(("unread_price_no_shares", replace(base, ets_by_year=None, ets_phase=1.0, tco2_per_t_lng=2.75,
+                                                    eua_usd_t=None, ets_voyage_share=0.0, ets_berth_share=0.0)))
+    out.append(("unread_price_no_boil_off", replace(
+        base, eua_usd_t=None, ets_by_year={2025: (1.0, 2.75), 2026: (1.0, 2.75)}, day=date(2025, 6, 1),
+        vessel=replace(base.vessel, boil_off_per_day=0.0))))
     return out
 
 

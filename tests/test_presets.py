@@ -207,3 +207,32 @@ def test_the_named_edits_reach_the_rules_the_page_applies(model):
     assert unread["result"]["west"]["ets_usd"] is None
     emptied = checks["Gate's laden days at sea emptied, so taken from the distance"]["result"]["west"]
     assert emptied["days_laden"] < 17.5 and emptied["netback"] is not None
+
+
+def test_a_missing_exchange_rate_keeps_the_preset_and_names_it(monkeypatch):
+    """Each reader the presets use can fail on its own: the preset stays, the
+    input is missing and named, and the sentence is withheld."""
+    import math
+    from datetime import date
+
+    from lngarb import export, worked
+
+    day = date(2024, 3, 27)
+    real_on, real_detail = worked.usd_per_eur_on, worked.usd_per_eur_detail
+
+    def refuse(real):
+        def read(when):
+            if worked._day(when) == day:
+                raise worked.MissingInput("no usd_per_eur on or before %s" % day)
+            return real(when)
+        return read
+
+    monkeypatch.setattr(worked, "usd_per_eur_on", refuse(real_on))
+    monkeypatch.setattr(worked, "usd_per_eur_detail", refuse(real_detail))
+    monkeypatch.setattr(presets, "named_edits", lambda *args: [])
+    body = presets.model_document(date(2026, 10, 7), "wngsr", export.inputs_json)
+    (march,) = [p for p in body["presets"] if p["id"] == "march_2024"]
+    assert "fx" in [m["key"] for m in march["missing"]]
+    assert math.isnan(march["usd_per_eur"]) and march["eua_eur_t"] is None
+    assert march["verdict_segments"] is None
+    assert "with no exchange rate to convert it" in march["source_words"]["delta_nwe"]

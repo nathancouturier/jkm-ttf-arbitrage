@@ -151,11 +151,15 @@ const DECLARED = {
   ],
   "src/engine.js": [
     { snippet: "const HALF_UP = 0.5;", count: 1, why: "rounding half up, as the charter rate's published rounding" },
+    { snippet: "eua_usd_per_t: 1, phase_in", count: 1, why: "the tonnes surrendered, priced at one so that none is seen before the price" },
     // The default of lngarb.cases.Inputs: the EU ETS counts half of a voyage
     // into or out of the EU, a rule of the scheme rather than a market value.
     { snippet: "ets_voyage_share: 0.5,", count: 1, why: "the EU ETS share of a voyage, the Python default" },
     { snippet: "ets_berth_share: 1,", count: 1, why: "the EU ETS share of a berth stay, the Python default" },
     { snippet: "mmbtu_per_t_lng: 1,", count: 1, why: "the Python default of the MMBtu per tonne, a neutral one" },
+  ],
+  "src/model.js": [
+    { snippet: "eua_usd_t: 1 })", count: 1, why: "an allowance priced at one, to see whether anything is surrendered" },
   ],
 };
 

@@ -187,13 +187,13 @@ function ets(inputs, v, toEurope) {
   const price = inputs.eua_usd_t == null ? Number.NaN : inputs.eua_usd_t;
   const laden_sea = v.seaDays(v.laden) + v.laden.canal_days + v.laden.wait_days + v.flex_days;
   if (inputs.ets_by_year == null) {
-    if (inputs.ets_phase === 0) return 0;
-    return etsCost({
-      eua_usd_per_t: price, phase_in: inputs.ets_phase, tco2_per_t_lng: inputs.tco2_per_t_lng,
+    const surrendered = etsCost({
+      eua_usd_per_t: 1, phase_in: inputs.ets_phase, tco2_per_t_lng: inputs.tco2_per_t_lng,
       mmbtu_per_t_lng: inputs.mmbtu_per_t_lng, boil_off_mmbtu_per_day: v.boil_off_per_day,
       laden_days: laden_sea, ballast_days: v.t_ballast, berth_days: inputs.vessel.discharge_days,
       voyage_share: inputs.ets_voyage_share, berth_share: inputs.ets_berth_share,
     });
+    return surrendered === 0 ? 0 : price * surrendered;
   }
   const load = inputs.vessel.load_days;
   const arrive = load + laden_sea;
@@ -208,9 +208,8 @@ function ets(inputs, v, toEurope) {
       weighted += share * days * phase * factor;
     }
   }
-  if (weighted === 0) return 0;
-  const tonnes_per_day = v.boil_off_per_day / inputs.mmbtu_per_t_lng;
-  return price * tonnes_per_day * weighted;
+  const surrendered = v.boil_off_per_day / inputs.mmbtu_per_t_lng * weighted;
+  return surrendered === 0 ? 0 : price * surrendered;
 }
 
 function costs(inputs, route, v, toEurope) {

@@ -63,7 +63,8 @@ def test_the_edge_cases_reach_the_paths_random_draws_miss():
             edges.setdefault(case["edge"], []).append(case)
     assert set(edges) == {
         "year_end_fraction", "ets_year_missing", "hire_at_h_star", "identical_east_routes", "east_equals_west",
-        "all_east_closed", "east_route_absent", "west_returns_other_way", "optional_fields_omitted"}
+        "all_east_closed", "east_route_absent", "west_returns_other_way", "optional_fields_omitted",
+        "unread_price_no_shares", "unread_price_no_boil_off"}
     loads = {c["inputs"]["vessel"]["load_days"] for c in edges["year_end_fraction"]}
     assert any(load != int(load) for load in loads)
     assert all(c["inputs"]["day"][5:] in ("12-30", "12-31", "01-01") for c in edges["year_end_fraction"])
@@ -83,6 +84,9 @@ def test_the_edge_cases_reach_the_paths_random_draws_miss():
     assert "nea_suez" not in absent["inputs"]["routes"]
     (other,) = edges["west_returns_other_way"]
     assert other["inputs"]["routes"]["nwe_direct"]["ballast_distance_nm"] is not None
+    for name in ("unread_price_no_shares", "unread_price_no_boil_off"):
+        (case,) = edges[name]
+        assert case["inputs"]["eua_usd_t"] is None and case["output"]["west"]["ets_usd"] == 0.0, name
     (bare,) = edges["optional_fields_omitted"]
     assert "ets_phase" not in bare["inputs"] and all("open" not in r for r in bare["inputs"]["routes"].values())
 

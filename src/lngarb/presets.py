@@ -301,7 +301,7 @@ def model_document(latest_day: date, latest_prices: str,
         vessel_key = _vessel_key(inputs.vessel, vessels)
         inputs = _unpriced_tolls_missing(inputs, tolls[vessel_key])
         result = evaluate(inputs)
-        fx = worked.usd_per_eur_detail(inputs.day)[0]
+        fx = float("nan") if "fx" in missing else worked.usd_per_eur_detail(inputs.day)[0]
         presets.append({
             "id": preset.id,
             "label": preset.label,
@@ -318,7 +318,7 @@ def model_document(latest_day: date, latest_prices: str,
             "closed_words": {route: reader.closed_words(r.why_closed) for route, r in inputs.routes.items() if not r.open},
             "usd_per_eur": fx,
             "eua_eur_t": None if inputs.eua_usd_t is None or not math.isfinite(inputs.eua_usd_t)
-            else inputs.eua_usd_t / fx,
+            or not math.isfinite(fx) else inputs.eua_usd_t / fx,
             "result": result,
             "verdict_segments": reader.verdict(result, inputs.day, inputs.hh_multiple, delta_nwe=inputs.delta_nwe,
                                                liquefaction_fee=inputs.liquefaction_fee, weekly=False)["segments"]
@@ -533,12 +533,13 @@ def named_edits(latest_day: date, latest_prices: str, offered: Sequence[str]) ->
         preset = by_id[preset_id]
         if preset.day is None:
             preset = replace(preset, prices=latest_prices)
-        inputs, _ = preset_inputs(preset, latest_day)
+        inputs, missing = preset_inputs(preset, latest_day)
         tolls = route_tolls(inputs.day, vessels)
         vessel_key = _vessel_key(inputs.vessel, vessels)
         inputs = _unpriced_tolls_missing(inputs, tolls[vessel_key])
-        fx = worked.usd_per_eur_detail(inputs.day)[0]
-        eua = None if inputs.eua_usd_t is None or not math.isfinite(inputs.eua_usd_t) else inputs.eua_usd_t / fx
+        fx = float("nan") if "fx" in missing else worked.usd_per_eur_detail(inputs.day)[0]
+        eua = (None if inputs.eua_usd_t is None or not math.isfinite(inputs.eua_usd_t) or not math.isfinite(fx)
+               else inputs.eua_usd_t / fx)
         edited, refused = apply_edits(inputs, edits, usd_per_eur=fx, eua_eur_t=eua, vessels=vessels,
                                       vessel_key=vessel_key, tolls=tolls)
         out.append({"name": name, "preset": preset_id, "edits": list(edits),

@@ -133,10 +133,8 @@ def _ets(inputs: Inputs, voyage: Voyage, *, to_europe: bool) -> float:
     laden_sea = (voyage.sea_days(voyage.laden) + voyage.laden.canal_days + voyage.laden.wait_days
                  + voyage.flex_days)
     if inputs.ets_by_year is None:
-        if inputs.ets_phase == 0:
-            return 0.0
-        return engine.ets_cost(
-            eua_usd_per_t=price,
+        surrendered = engine.ets_cost(
+            eua_usd_per_t=1.0,
             phase_in=inputs.ets_phase,
             tco2_per_t_lng=inputs.tco2_per_t_lng,
             mmbtu_per_t_lng=inputs.mmbtu_per_t_lng,
@@ -147,6 +145,7 @@ def _ets(inputs: Inputs, voyage: Voyage, *, to_europe: bool) -> float:
             voyage_share=inputs.ets_voyage_share,
             berth_share=inputs.ets_berth_share,
         )
+        return 0.0 if surrendered == 0.0 else price * surrendered
     load = inputs.vessel.load_days
     arrive = load + laden_sea
     leave = arrive + inputs.vessel.discharge_days
@@ -158,10 +157,8 @@ def _ets(inputs: Inputs, voyage: Voyage, *, to_europe: bool) -> float:
         for year, days in _year_days(start, end, inputs.day).items():
             phase, factor = inputs.ets_by_year.get(year, (0.0, 0.0))
             weighted += share * days * phase * factor
-    if weighted == 0.0:
-        return 0.0
-    tonnes_per_day = voyage.boil_off_per_day / inputs.mmbtu_per_t_lng
-    return price * tonnes_per_day * weighted
+    surrendered = voyage.boil_off_per_day / inputs.mmbtu_per_t_lng * weighted
+    return 0.0 if surrendered == 0.0 else price * surrendered
 
 
 def _costs(inputs: Inputs, route: RouteInput, voyage: Voyage, *, to_europe: bool) -> CostStack:
