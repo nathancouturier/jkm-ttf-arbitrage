@@ -99,8 +99,9 @@ EVENTS: tuple[Event, ...] = (
     ),
     Event(
         "2026-06-01", "2026-07-31",
-        "US LNG reaches China again: EIA's table shows 4,576 MMcf by vessel in June and 4,555 in July, the "
-        "first since 546 in September 2025; whether it was used in China or shipped on is not established.",
+        "US LNG is shipped to China again: EIA's table, which records the destination declared at departure, "
+        "shows 4,576 MMcf by vessel in June and 4,555 in July, the first since 546 in September 2025; whether "
+        "the LNG was used in China or shipped on is not established.",
         "U.S. Energy Information Administration, exports by country, release of 30 September 2026",
         "https://www.eia.gov/dnav/ng/ng_move_expc_s1_m.htm",
         "2026-10-09",
