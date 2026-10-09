@@ -294,6 +294,91 @@
    "flips_assumed": 23
   }
  },
+ "closing": {
+  "heading": "When the arb closes",
+  "segments": [
+   {
+    "text": "East, it is open while JKM's premium over TTF, now "
+   },
+   {
+    "field": "spread",
+    "value": 1.009999999999998,
+    "format": "usd_mmbtu",
+    "signed": true
+   },
+   {
+    "text": ", stays above the breakeven of the cheapest open route, "
+   },
+   {
+    "field": "s_star",
+    "value": -0.2821897421831565,
+    "format": "usd_mmbtu",
+    "signed": true
+   },
+   {
+    "text": " via "
+   },
+   {
+    "field": "cheapest_route",
+    "value": "Panama",
+    "label": "Panama"
+   },
+   {
+    "text": ": it would close if the premium fell by "
+   },
+   {
+    "field": "room",
+    "value": 1.2921897421831545,
+    "format": "usd_mmbtu"
+   },
+   {
+    "text": ". "
+   },
+   {
+    "text": "For the cargo itself, it is lifted while the best netback covers "
+   },
+   {
+    "field": "hh_multiple_percent",
+    "value": 115,
+    "format": "count"
+   },
+   {
+    "text": " percent of Henry Hub; "
+   },
+   {
+    "text": "the margin is "
+   },
+   {
+    "field": "lift_margin",
+    "value": 20.536800549856522,
+    "format": "usd_mmbtu"
+   },
+   {
+    "text": ", and below zero the cargo is cancelled"
+   },
+   {
+    "text": ", as US cargoes were from "
+   },
+   {
+    "field": "cancelled_from",
+    "value": "2020-06-01",
+    "label": "June 2020"
+   },
+   {
+    "text": " to "
+   },
+   {
+    "field": "cancelled_to",
+    "value": "2020-09-01",
+    "label": "September 2020"
+   },
+   {
+    "text": "."
+   }
+  ],
+  "link_words": "How the arb closed in 2020, on the Flows view",
+  "link_view": "flows"
+ },
  "data_dates": [
   {
    "id": "jkm",

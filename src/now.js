@@ -86,6 +86,15 @@ export function render(root, data, route) {
 
   root.appendChild(verdict);
   if (regas) root.appendChild(regas);
+  // When the arb closes, east and for the cargo itself, with the way to 2020.
+  if (now.closing) {
+    const closing = el("p", { class: "lead block", attrs: { id: "now-closing" } }, [el("strong", { text: now.closing.heading + ". " })]);
+    appendSegments(closing, now.closing.segments, decimals);
+    closing.appendChild(document.createTextNode(" "));
+    closing.appendChild(el("a", { class: "text-link", text: now.closing.link_words, attrs: { href: router.href(now.closing.link_view) } }));
+    closing.appendChild(document.createTextNode("."));
+    root.appendChild(closing);
+  }
   root.appendChild(dates);
   root.appendChild(sections);
   applyRoute(route);

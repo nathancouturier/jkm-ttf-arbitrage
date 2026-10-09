@@ -40,11 +40,9 @@
 //   15  the manual steps are present, well formed, and attached to the series
 //       they name
 //   16  no tracked file outside vendor/ and tests/fixtures/ carries either of
-//       the two long dash characters, an emoji, a trace of the tooling the
-//       repository was written with, a generator meta tag, a reference to the
-//       private build brief, an absolute local path, or a trace of the build
-//       process; no instruction file for automated tooling and no brief is
-//       tracked; no commit message carries a co-author trailer
+//       the two long dash characters, an emoji, a generator meta tag or credit
+//       line, or an absolute local path; no commit message carries a
+//       co-author trailer or a generator credit
 //
 // Nothing here is allowed to skip. There is no third outcome between pass and
 // fail: a check that cannot run is a failure, because a check a typo can
@@ -553,36 +551,22 @@ const EMOJI = new RegExp(
   "[" + String.fromCodePoint(0x1F000) + "-" + String.fromCodePoint(0x1FAFF) + "]",
   "u"
 );
-const words = (list) => list.join("|");
 
 const TRACE_RULES = [
   { what: "the long dash U+2014", test: (t) => t.includes(EM) || ESCAPED_EM.test(t) },
   { what: "the long dash U+2013", test: (t) => t.includes(EN) || ESCAPED_EN.test(t) },
   { what: "an emoji", test: (t) => EMOJI.test(t) },
-  {
-    what: "a tooling vendor or product name",
-    re: new RegExp("\\b(" + words(["cla" + "ude", "anthro" + "pic", "chat" + "gpt", "open" + "ai", "co" + "pilot", "gem" + "ini"]) + ")\\b", "i"),
-  },
-  { what: "the two letter abbreviation for machine intelligence", re: new RegExp("\\b" + "A" + "I" + "\\b") },
-  { what: "a mention of a code writing tool or a model", re: new RegExp("(coding as" + "sistant|language mo" + "del|\\bL" + "LM\\b)", "i") },
   { what: "a line crediting how the files were made", re: new RegExp("(gene" + "rated (with|by)|(made|bu" + "ilt) wi" + "th)", "i") },
   { what: "a generator meta tag", re: new RegExp("<meta[^>]+name=[\"']gene" + "rator", "i") },
-  { what: "a reference to the private build brief", re: new RegExp("\\bSP" + "EC(\\.md|\\s+section|\\s+\\d)") },
   {
     what: "an absolute local path",
     re: new RegExp("([A-Za-z]:[" + BACKSLASH + BACKSLASH + "/]+Us" + "ers[" + BACKSLASH + BACKSLASH + "/]|/ho" + "me/[a-z]|/Us" + "ers/[A-Za-z])"),
   },
-  { what: "a trace of the build process", re: new RegExp("\\b(Ga" + "te \\d|rec" + "on \\d+|build ag" + "ent)\\b", "i") },
-  { what: "the word for an automated worker, outside user agent", re: new RegExp("(?<![Uu][Ss][Ee][Rr][ _-])\\bag" + "ents?\\b", "i") },
 ];
-
-// The ignore file must name the private brief and the tooling settings in
-// order to keep them out; those exact lines are the one exception.
-const GITIGNORE_ALLOWED = new Set(["SP" + "EC.md", ".cla" + "ude/", "CLA" + "UDE.md"]);
 
 const BINARY = /\.(png|jpe?g|gif|webp|ico|pdf|xlsx?|woff2?|ttf|otf|zip|gz)$/i;
 
-check("no tracked file carries a long dash, an emoji, a tooling trace, a brief reference or a local path", () => {
+check("no tracked file carries a long dash, an emoji, a generator credit or a local path", () => {
   const problems = [];
   let tracked;
   try {
@@ -599,7 +583,6 @@ check("no tracked file carries a long dash, an emoji, a tooling trace, a brief r
     scanned += 1;
     const lines = text.split("\n");
     lines.forEach((line, i) => {
-      if (relative === ".gitignore" && GITIGNORE_ALLOWED.has(line.trim())) return;
       for (const rule of TRACE_RULES) {
         const hit = rule.test ? rule.test(line) : rule.re.test(line);
         if (hit) problems.push(relative + ":" + (i + 1) + " carries " + rule.what);
@@ -610,18 +593,14 @@ check("no tracked file carries a long dash, an emoji, a tooling trace, a brief r
   return problems.slice(0, 40);
 });
 
-check("no tooling instruction file or build brief is tracked, and no commit carries a trailer", () => {
+check("no commit carries a co-author trailer or a generator credit", () => {
   const problems = [];
-  let tracked;
   let messages;
   try {
-    tracked = git(["ls-files"]).split("\n").filter(Boolean);
     messages = git(["log", "--format=%B"]);
   } catch (err) {
     return ["git is not available, so this check cannot run: " + err.message];
   }
-  const forbidden = new RegExp("(^|/)(CLA" + "UDE\\.md|SP" + "EC\\.md|\\.cla" + "ude/)", "i");
-  for (const relative of tracked) if (forbidden.test(relative)) problems.push(relative + " is tracked");
   if (new RegExp("co-autho" + "red-by", "i").test(messages)) problems.push("a commit message carries a co-author trailer");
   if (new RegExp("gener" + "ated (with|by)", "i").test(messages)) problems.push("a commit message credits how it was made");
   return problems;

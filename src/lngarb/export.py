@@ -224,6 +224,7 @@ def now(obs: pd.DataFrame | None = None, *, flows_document: dict[str, Any] | Non
             "verdict": reader.verdict(result, day, hh_multiple, delta_nwe=inputs.delta_nwe,
                                       liquefaction_fee=inputs.liquefaction_fee),
             "regas_sensitivity": regas,
+            "closing": reader.closing(result, hh_multiple),
             "data_dates": reader.data_dates(
                 day=day, week={"series": latest["series"], "alignment": latest["alignment"],
                                "aligned_share": latest["aligned_share"]},

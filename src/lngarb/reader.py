@@ -323,6 +323,40 @@ def verdict(result: Mapping[str, Any], day: date, hh_multiple: float, *, delta_n
     return {"values": values, "segments": segments}
 
 
+def closing(result: Mapping[str, Any], hh_multiple: float) -> dict[str, Any]:
+    """When the arb closes, findable from the landing view: how far JKM's
+    premium over TTF may fall before the cheapest open route east stops paying,
+    and how far the best netback may fall before a cargo is not lifted at all."""
+    cheapest = _cheapest_open(result)
+    spread = result["spread"]
+    segments: list[dict[str, Any]] = []
+    if cheapest:
+        s_star = result["east"][cheapest]["s_star"]
+        room = spread - s_star
+        segments += [
+            T("East, it is open while JKM's premium over TTF, now "), N("spread", spread, "usd_mmbtu", signed=True),
+            T(", stays above the breakeven of the cheapest open route, "), N("s_star", s_star, "usd_mmbtu", signed=True),
+            T(" via "), W("cheapest_route", ROUTE_SHORT[cheapest]),
+        ]
+        segments += ([T(": it would close if the premium fell by "), N("room", room, "usd_mmbtu"), T(". ")]
+                     if room > 0 else [T(": it is closed now, short by "), N("room", -room, "usd_mmbtu"), T(". ")])
+    else:
+        segments += [T("East, no route is open to a US cargo. ")]
+    margin = result["lift_margin"]
+    segments += [
+        T("For the cargo itself, it is lifted while the best netback covers "),
+        N("hh_multiple_percent", hh_multiple * 100.0, "count"), T(" percent of Henry Hub; "),
+    ]
+    then = [T(", as US cargoes were from "), D("cancelled_from", "2020-06-01", "month"), T(" to "),
+            D("cancelled_to", "2020-09-01", "month"), T(".")]
+    segments += ([T("the margin is "), N("lift_margin", margin, "usd_mmbtu"),
+                  T(", and below zero the cargo is cancelled")] + then
+                 if margin >= 0 else [T("it falls short by "), N("lift_margin", -margin, "usd_mmbtu"),
+                                      T(", so the cargo would be cancelled")] + then)
+    return {"heading": "When the arb closes", "segments": segments,
+            "link_words": "How the arb closed in 2020, on the Flows view", "link_view": "flows"}
+
+
 def regas_sensitivity(*, spread: float, delta: float, observed: bool, at_zero: tuple[str | None, float],
                       at_assumed: tuple[str | None, float], assumed_eur_mwh: float,
                       weeks: pd.DataFrame) -> dict[str, Any]:
