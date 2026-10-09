@@ -807,3 +807,30 @@ Asia via the Cape in March 2024, against one via Panama in that month to 27
 March, and 31 of 34 round the Cape in data running to 28 April 2026, over a
 period not stated, when auctioned slots had made Panama impractical for spot
 cargoes according to Platts' sources (2.24 of `docs/sources.md`).
+
+### 12.5 The history on the site
+
+The History view draws section 12.1's observations as they are worked, with
+nothing smoothed or fitted (`lngarb.spreadhistory`):
+
+* **The spread against the cheapest route.** For each week, and for each month
+  from January 2016, JKM's premium over TTF, over the breakeven spread S* of
+  the cheapest open route east at the low and the high hire, a shaded band,
+  and at the central hire, a dashed line. A week whose spread lies above that
+  line is a week the arb east was open: a cargo netted more at Futtsu than at
+  Gate. The cheapest route is the open route with the lowest S* at each level
+  of hire; on 9 October 2026 it was Panama in every week since September
+  2021.
+* **The breakeven hire against the charter rates reported.** H*, the hire at
+  which the cheapest route nets what Gate does, each week, with every reported
+  rate as a point. A rate below the line is a week the arb was open at the
+  market's own freight. H* runs from minus millions of dollars a day in 2022,
+  when TTF stood far above JKM, to about a million, so the scale is drawn over
+  the middle nine tenths of a range's values and every rate reported; each
+  week beyond it is a short tick at the edge, counted under the chart.
+* **Marks.** Rings mark the weeks whose two front months name different
+  delivery months (9.9). Numbered rules mark the breaks of 12.1 that change a
+  price's definition, a route, the ship or the EU ETS, listed with their
+  sources under the charts; a change of name alone is not drawn.
+* **Ranges.** Every week, 2021 to 2023, 2024 on, and the last 52 weeks; each
+  range's counts and sentences are computed for it.

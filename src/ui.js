@@ -20,6 +20,7 @@ import { el, clear, loadingMessage, failureMessages, renderFailureMessages } fro
 import * as now from "./now.js";
 import * as modelView from "./model.js";
 import * as routesView from "./routes.js";
+import * as historyView from "./history.js";
 
 const SITE_NAME = "JKM and TTF arbitrage study";
 const DEFAULT_VIEW = "now";
@@ -31,6 +32,7 @@ const ROUTES = [
   { name: "now", label: "Now", loading: "the landing sentence and the date of every input", module: now },
   { name: "model", label: "Model", loading: "the calculator's presets and the source of every input", module: modelView },
   { name: "routes", label: "Routes", loading: "the map of the routes and when each was open", module: routesView },
+  { name: "history", label: "History", loading: "every week and month of the spread against what the cheapest route east needs", module: historyView },
 ];
 
 const byName = new Map(ROUTES.map((route) => [route.name, route]));

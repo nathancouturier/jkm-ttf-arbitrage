@@ -32,6 +32,7 @@ const ARTIFACTS = Object.freeze({
   now: { path: "data/now.json", artifact: "now", schema: SCHEMA_ONE, holds: "the landing sentence, the date of every input, the netbacks, the steps of the arb and the breakeven lines" },
   model: { path: "data/model.json", artifact: "model", schema: SCHEMA_ONE, holds: "the calculator's presets, every input with its source, and the engine's output for each" },
   routes: { path: "data/routes.json", artifact: "routes", schema: SCHEMA_ONE, holds: "the map of the routes, their distances, days and tolls, and when each was open" },
+  history: { path: "data/history.json", artifact: "history", schema: SCHEMA_ONE, holds: "every weekly and monthly observation worked through the engine, the breaks and the charter rates reported" },
   flows: { path: "data/flows.json", artifact: "flows", schema: SCHEMA_ONE, holds: "the monthly share of US exports to Asia against the arb at loading, and the regressions" },
   provenance: { path: "data/provenance.json", artifact: "provenance", schema: SCHEMA_ONE, holds: "the manifest of every series, its source, its last fetch and its licence, and the work done by hand" },
 });

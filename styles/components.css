@@ -319,6 +319,12 @@
  * same ink), an empty outline closed, a pale bar where no source covers the
  * stretch. Solid strokes only, so no state borrows a route's dash or dot. */
 .band-open { fill: var(--role-series); stroke: none; }
+
+/* The History view: the band of S* between the low and the high hire, and
+ * the dashed line of S* at the central hire, a reference beside the ink line
+ * of the spread. */
+.band-span { fill: var(--role-span-fill); stroke: none; }
+.line--reference .mark-series { stroke: var(--role-context); stroke-width: 1.5px; stroke-dasharray: 4 3; }
 .band-closed { fill: none; stroke: var(--role-context); stroke-width: 1px; }
 .band-unknown { fill: var(--role-span-fill); stroke: var(--role-grid); stroke-width: 1px; }
 .mark-accent-bar { fill: var(--role-mark-accent); stroke: var(--role-ring); stroke-width: 2px; paint-order: stroke; }

@@ -44,7 +44,6 @@ const ISO_DAY = /^\d{4}-\d{2}-\d{2}$/;
 // data/*.json files the page does not read through state.js, and why.
 const NOT_READ = Object.freeze({
   "manifest.json": "linked from the Provenance section, the full record",
-  "history.json": "the History view's data, read by that view when it is built",
 });
 
 // The fields the page's modules read, by artifact, as dotted paths.
@@ -70,6 +69,18 @@ const REQUIRED = Object.freeze({
     "heading_segments", "map.width", "map.height", "map.land", "map.start_x", "map.routes", "map.ports", "map.desc",
     "map_caption_segments", "map_scroll_words", "source_segments", "rows", "table_caption_segments",
     "timeline.first", "timeline.last", "timeline.rows", "timeline_heading_segments", "timeline_caption_segments",
+  ],
+  history: [
+    "page.words.spread", "page.words.reference", "page.words.band", "page.words.h_star", "page.words.reported",
+    "page.words.y_axis", "page.words.hstar_axis", "page.words.legend", "page.words.hstar_legend", "page.words.weekly_heading", "page.words.weeks.caption",
+    "page.words.months.caption", "page.words.anchors_caption", "page.words.breaks_caption",
+    "page.weekly.day", "page.weekly.spread", "page.weekly.s_low", "page.weekly.s_central", "page.weekly.s_high",
+    "page.weekly.h_star", "page.weekly.alignment", "page.weekly.ranges",
+    "page.monthly.day", "page.monthly.spread", "page.monthly.s_low", "page.monthly.s_central", "page.monthly.s_high",
+    "page.monthly.first", "page.monthly.last", "page.monthly.y.low", "page.monthly.y.high", "page.monthly.y.step",
+    "page.monthly.ticks", "page.monthly.heading_segments", "page.monthly.desc_segments",
+    "page.monthly.caption_segments", "page.monthly.years",
+    "page.breaks", "page.rules", "page.breaks_lead_segments", "page.anchors", "page.divisor", "page.source_segments",
   ],
   flows: [
     "panel.months", "panel.shares", "panel.share_domain.low", "panel.share_domain.high", "panel.share_domain.step",
@@ -105,6 +116,14 @@ const ROW_FIELDS = Object.freeze({
     "map.ports": ["id", "name", "x", "y", "anchor", "label_x", "label_y"],
     rows: ["route", "name", "distance_nm", "sea_days", "days_total", "canal_laden_usd", "canal_ballast_usd", "status_words"],
     "timeline.rows": ["route", "name", "short", "bands"],
+  },
+  history: {
+    "page.weekly.ranges": ["id", "label", "first", "last", "y", "hstar", "ticks", "heading_segments", "desc_segments",
+      "caption_segments", "hstar_heading_segments", "hstar_desc_segments", "hstar_caption_segments", "years"],
+    "page.breaks": ["number", "day", "kind", "kind_words", "what", "source"],
+    "page.rules": ["day", "numbers"],
+    "page.anchors": ["day", "hire_usd_day", "publisher", "assessment", "accent"],
+    "page.monthly.years": ["year", "open", "count", "ttf_above"],
   },
   flows: { "panel.months": ["month", "label", "share_jkm", "share_asia", "arb"] },
   provenance: {

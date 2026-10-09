@@ -70,6 +70,19 @@ export const GEOMETRY = Object.freeze({
   PANEL_GAP: 30,
   /* A month bar takes this share of its slot. */
   BAR_SHARE: 0.6,
+  /* The History view's panels, and the room above a plot for the numbers of
+   * its rules. */
+  HISTORY_HEIGHT: 260,
+  HISTORY_HEIGHT_NARROW: 200,
+  HSTAR_HEIGHT: 200,
+  HSTAR_HEIGHT_NARROW: 160,
+  RULE_ROOM: 14,
+  HISTORY_PAD_RIGHT: 128,
+  /* On a narrow screen the end labels give way to the legend under the
+   * chart; a tick value is labelled only where it has this much room per
+   * character. */
+  HISTORY_PAD_RIGHT_NARROW: 12,
+  TICK_CHAR: 7,
 });
 
 /* The mantissas of decimal notation, a fact about how numbers are written. */
@@ -560,6 +573,164 @@ export function flowsChart({ width, months, shares, shareDomain, arbDomain, shar
   }
 
   xAxis(svg, xOf, ticks, ticks.map((index) => months[index].label), arbBottom);
+  return svg;
+}
+
+/* ============================================================ history === */
+
+/** Days as UTC milliseconds, from the artifact's ISO days. */
+function dayValue(iso) {
+  const [y, m, d] = iso.split("-").map(Number);
+  return Date.UTC(y, m - 1, d);
+}
+
+/** A band between two series over time: one closed shape per run where both
+ *  ends are present. */
+function drawBand(group, xs, lows, highs, yOf) {
+  let run = [];
+  const flush = () => {
+    if (run.length > 1) {
+      const top = run.map(([x, , high], index) => (index === 0 ? "M" : "L") + px(x) + " " + px(yOf(high)));
+      const bottom = [...run].reverse().map(([x, low]) => "L" + px(x) + " " + px(yOf(low)));
+      group.appendChild(svgEl("path", { class: "band-span", d: top.join(" ") + " " + bottom.join(" ") + " Z" }));
+    }
+    run = [];
+  };
+  xs.forEach((x, index) => {
+    if (present(x) && present(lows[index]) && present(highs[index])) run.push([x, lows[index], highs[index]]);
+    else flush();
+  });
+  flush();
+}
+
+/** One series over time, clipped to the plot, never joined across a gap. */
+function drawSeries(group, xs, values, yOf, className) {
+  const node = svgEl("g", { class: className });
+  drawRuns(node, splitRuns(xs.map((x, index) => [x, present(x) ? values[index] : null])), (x) => x, yOf);
+  group.appendChild(node);
+}
+
+/** A time series chart: the History view's panels.
+ *
+ *    days       ISO days, a gap as null
+ *    first, last  the days the x axis spans
+ *    y          { low, high, step, divisor }: from the artifact; divisor prints
+ *               the tick values divided (thousands)
+ *    band       { low: [], high: [], label } or null: a shaded span
+ *    reference  { values: [], label } or null: a dashed line
+ *    series     { values: [], label }: the ink line
+ *    marks      [{ index }]: a hollow ring on the series at these points
+ *    rules      [{ day, numbers }]: numbered rules across the plot
+ *    points     [{ day, value, accent }]: printed points, one in the accent
+ *    ticks      [{ day, label }]
+ *    words      { title, desc, yAxis }
+ *
+ *  Values beyond the y domain are clipped at its edge, where a short tick
+ *  marks each one; the artifact counts them in words. */
+export function timeChart({ width, days, first, last, y, band, reference, series, marks, rules, points, ticks, words, height }) {
+  const g = GEOMETRY;
+  const narrow = width < g.NARROW_WIDTH;
+  const top = g.PAD_TOP + g.RULE_ROOM;
+  const plotHeight = height || (narrow ? g.HISTORY_HEIGHT_NARROW : g.HISTORY_HEIGHT);
+  const bottom = top + plotHeight;
+  const total = bottom + g.AXIS_GAP + g.AXIS_BELOW;
+  const left = g.PAD_LEFT;
+  const right = Math.max(width - (narrow ? g.HISTORY_PAD_RIGHT_NARROW : g.HISTORY_PAD_RIGHT), left + g.PAD_LEFT);
+  const svg = imageSvg({ width, height: total, title: words.title, desc: words.desc, className: "chart--history" });
+  const xOf = linear(dayValue(first), dayValue(last), left, right);
+  const yOf = linear(y.low, y.high, bottom, top);
+  const divisor = y.divisor || 1;
+
+  // The y axis, its values divided where the artifact says so.
+  const step = y.step > 0 ? y.step : tickStep(y.low, y.high, g.Y_TICKS);
+  for (const value of tickValues(y.low, y.high, g.Y_TICKS, step)) {
+    const at = yOf(value);
+    svg.appendChild(svgEl("line", { class: "mark-grid", x1: px(left), x2: px(right), y1: px(at), y2: px(at) }));
+    svg.appendChild(svgEl("text", { class: "tick", x: px(left - g.LABEL_GAP), y: px(at), "text-anchor": "end", "dominant-baseline": "middle" }, tickLabel(value / divisor, step / divisor)));
+  }
+  svg.appendChild(svgEl("text", { class: "chart-axis-title", x: px(left - g.PAD_LEFT), y: px(g.AXIS_GAP) }, words.yAxis));
+  if (y.low < 0 && y.high > 0) {
+    svg.appendChild(svgEl("line", { class: "mark-context", x1: px(left), x2: px(right), y1: px(yOf(0)), y2: px(yOf(0)) }));
+  }
+  // Tick values thinned to every few where they would touch at this width.
+  const spacing = ticks.length > 1 ? (xOf(dayValue(ticks[ticks.length - 1].day)) - xOf(dayValue(ticks[0].day))) / (ticks.length - 1) : right - left;
+  const longest = Math.max(0, ...ticks.map((tick) => tick.label.length));
+  const every = Math.max(1, Math.ceil((longest * g.TICK_CHAR + g.LABEL_GAP) / Math.max(spacing, 1)));
+  xAxis(svg, (day) => xOf(dayValue(day)), ticks.map((tick) => tick.day),
+    ticks.map((tick, index) => (index % every === 0 ? tick.label : "")), bottom);
+
+  // The breaks: a rule each, numbered above the plot. A rule whose number
+  // would touch the label before it joins that label, at the first rule.
+  // One number, a pair, or the first and last of three or more.
+  const ruleLabel = (numbers) => (numbers.slice(1).length > 1
+    ? String(numbers[0]) + " to " + String(numbers[numbers.length - 1]) : numbers.join(", "));
+  const groups = [];
+  for (const rule of rules || []) {
+    const at = xOf(dayValue(rule.day));
+    if (!present(at) || at < left || at > right) continue;
+    svg.appendChild(svgEl("line", { class: "mark-decor", x1: px(at), x2: px(at), y1: px(top), y2: px(bottom) }));
+    const last = groups[groups.length - 1];
+    if (last && at - last.at < ruleLabel(last.numbers).length * g.TICK_CHAR + g.LABEL_GAP) last.numbers.push(...rule.numbers);
+    else groups.push({ at, numbers: [...rule.numbers] });
+  }
+  for (const group of groups) {
+    svg.appendChild(svgEl("text", { class: "tick", x: px(group.at), y: px(top - g.LABEL_GAP), "text-anchor": "start" }, ruleLabel(group.numbers)));
+  }
+
+  // Everything inside the plot is clipped to it; what lies beyond is marked.
+  const clipId = uid("history-clip");
+  const defs = svgEl("defs", {});
+  const clip = svgEl("clipPath", { id: clipId });
+  clip.appendChild(svgEl("rect", { x: px(left), y: px(top), width: px(right - left), height: px(bottom - top) }));
+  defs.appendChild(clip);
+  svg.appendChild(defs);
+  const plot = svgEl("g", { "clip-path": "url(#" + clipId + ")" });
+  svg.appendChild(plot);
+
+  const xs = days.map((day) => (day === null ? null : xOf(dayValue(day))));
+  if (band) drawBand(plot, xs, band.low, band.high, yOf);
+  if (reference) drawSeries(plot, xs, reference.values, yOf, "line line--reference");
+  drawSeries(plot, xs, series.values, yOf, "line");
+  for (const mark of marks || []) {
+    const value = series.values[mark.index];
+    if (!present(value) || !present(xs[mark.index])) continue;
+    plot.appendChild(svgEl("circle", { class: "mark-printed", cx: px(xs[mark.index]), cy: px(yOf(value)), r: g.SMALL_RADIUS }));
+  }
+  series.values.forEach((value, index) => {
+    if (!present(value) || !present(xs[index]) || (value >= y.low && value <= y.high)) return;
+    const edge = value < y.low ? bottom : top;
+    const inward = value < y.low ? -g.TICK_LENGTH : g.TICK_LENGTH;
+    svg.appendChild(svgEl("line", { class: "mark-context", x1: px(xs[index]), x2: px(xs[index]), y1: px(edge), y2: px(edge + inward) }));
+  });
+  for (const point of points || []) {
+    const at = xOf(dayValue(point.day));
+    if (!present(at) || !present(point.value) || at < left || at > right) continue;
+    const cy = yOf(Math.min(Math.max(point.value, y.low), y.high));
+    svg.appendChild(svgEl("circle", { class: point.accent ? "mark-accent-dot" : "mark-printed", cx: px(at), cy: px(cy), r: g.DOT_RADIUS }));
+  }
+
+  // Labels at the right end of each line, apart.
+  const labels = [];
+  const lastPresent = (values) => {
+    for (let index = values.length - 1; index >= 0; index -= 1) if (present(values[index])) return values[index];
+    return null;
+  };
+  const clamp = (value) => Math.min(Math.max(value, y.low), y.high);
+  const end = lastPresent(series.values);
+  if (present(end)) labels.push({ want: yOf(clamp(end)), text: series.label });
+  if (reference) {
+    const at = lastPresent(reference.values);
+    if (present(at)) labels.push({ want: yOf(clamp(at)), text: reference.label });
+  }
+  if (band) {
+    const high = lastPresent(band.high);
+    if (present(high)) labels.push({ want: yOf(clamp(high)), text: band.label });
+  }
+  if (!narrow) {
+    for (const item of spreadLabels(labels, top, bottom)) {
+      haloText(svg, { class: "chart-label", x: px(right + g.LABEL_GAP), y: px(item.y), "dominant-baseline": "middle" }, item.text);
+    }
+  }
   return svg;
 }
 

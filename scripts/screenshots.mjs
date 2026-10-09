@@ -54,6 +54,11 @@ const SHOTS = [
   { name: "model-mobile-dark", ...MOBILE, theme: "dark", hash: "#/model?preset=march_2024" },
   { name: "model-tablet-light", ...TABLET, theme: "light", hash: "#/model?preset=april_2020" },
   { name: "model-narrow-dark", ...NARROW, theme: "dark", hash: "#/model" },
+  { name: "history-desktop-light", ...DESKTOP, theme: "light", hash: "#/history" },
+  { name: "history-desktop-dark-last-52", ...DESKTOP, theme: "dark", hash: "#/history?range=last_52" },
+  { name: "history-tablet-dark", ...TABLET, theme: "dark", hash: "#/history?range=from_2024" },
+  { name: "history-mobile-light", ...MOBILE, theme: "light", hash: "#/history" },
+  { name: "history-narrow-dark", ...NARROW, theme: "dark", hash: "#/history?range=to_2023" },
 ];
 const ONLY = (argValue(argv, "--only") || "").split(",").filter(Boolean);
 

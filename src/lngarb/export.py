@@ -42,7 +42,7 @@ from typing import Any
 
 import pandas as pd
 
-from . import analysis, config, delivery, presets, reader, routemap, units, worked
+from . import analysis, config, delivery, presets, reader, routemap, spreadhistory, units, worked
 from .cases import WATERFALL_STEPS, evaluate
 from .freight_anchors import ANCHORS, hire_levels
 from .sources import base
@@ -274,6 +274,8 @@ def history(rows: pd.DataFrame | None = None, obs: pd.DataFrame | None = None) -
     records = [list(r) for r in frame.itertuples(index=False, name=None)]
     anchors = [{"date": worked._anchor_day(a), "hire_usd_day": a.hire_usd_day, "assessment": a.assessment,
                 "vessel": a.vessel, "publisher": a.publisher, "url": a.url} for a in ANCHORS]
+    breaks = analysis.breaks(obs)
+    without = analysis.months_without_observation(obs)
     return _clean({
         **reader.header("history", frame["day"].max(), "every weekly and monthly observation at each hire level, "
                                                          "the breaks and the freight anchors"),
@@ -282,9 +284,11 @@ def history(rows: pd.DataFrame | None = None, obs: pd.DataFrame | None = None) -
         "hire_levels": hire_levels(),
         "columns": list(frame.columns),
         "rows": records,
-        "breaks": analysis.breaks(obs).to_dict("records"),
-        "months_without_observation": analysis.months_without_observation(obs).to_dict("records"),
+        "breaks": breaks.to_dict("records"),
+        "months_without_observation": without.to_dict("records"),
         "freight_anchors": anchors,
+        # The History view's layer: what the page draws and says, computed here.
+        "page": spreadhistory.page(rows, breaks, anchors, without, hire_levels()),
     }, ROUND_DP)
 
 
