@@ -5303,6 +5303,59 @@
       },
       {
        "text": ", a mark shows the calendar, not the prices."
+      },
+      {
+       "text": " Aligned weeks first: in the "
+      },
+      {
+       "field": "aligned_weeks",
+       "value": 86,
+       "format": "count"
+      },
+      {
+       "text": " aligned weeks the arb east was open in "
+      },
+      {
+       "field": "aligned_open",
+       "value": 58.139535,
+       "format": "share_percent"
+      },
+      {
+       "text": " percent, with a mean S* of "
+      },
+      {
+       "field": "aligned_s_star",
+       "value": 0.378259,
+       "format": "usd_mmbtu",
+       "signed": true
+      },
+      {
+       "text": "; over all "
+      },
+      {
+       "field": "all_weeks",
+       "value": 242,
+       "format": "count"
+      },
+      {
+       "text": " weeks, "
+      },
+      {
+       "field": "all_open",
+       "value": 60.743802,
+       "format": "share_percent"
+      },
+      {
+       "text": " percent and "
+      },
+      {
+       "field": "all_s_star",
+       "value": 0.407188,
+       "format": "usd_mmbtu",
+       "signed": true
+      },
+      {
+       "text": "."
       }
      ],
      "hstar_heading_segments": [
@@ -5819,6 +5872,59 @@
       },
       {
        "text": ", a mark shows the calendar, not the prices."
+      },
+      {
+       "text": " Aligned weeks first: in the "
+      },
+      {
+       "field": "aligned_weeks",
+       "value": 39,
+       "format": "count"
+      },
+      {
+       "text": " aligned weeks the arb east was open in "
+      },
+      {
+       "field": "aligned_open",
+       "value": 46.153846,
+       "format": "share_percent"
+      },
+      {
+       "text": " percent, with a mean S* of "
+      },
+      {
+       "field": "aligned_s_star",
+       "value": 0.470633,
+       "format": "usd_mmbtu",
+       "signed": true
+      },
+      {
+       "text": "; over all "
+      },
+      {
+       "field": "all_weeks",
+       "value": 110,
+       "format": "count"
+      },
+      {
+       "text": " weeks, "
+      },
+      {
+       "field": "all_open",
+       "value": 47.272727,
+       "format": "share_percent"
+      },
+      {
+       "text": " percent and "
+      },
+      {
+       "field": "all_s_star",
+       "value": 0.482819,
+       "format": "usd_mmbtu",
+       "signed": true
+      },
+      {
+       "text": "."
       }
      ],
      "hstar_heading_segments": [
@@ -6321,6 +6427,59 @@
       },
       {
        "text": ", a mark shows the calendar, not the prices."
+      },
+      {
+       "text": " Aligned weeks first: in the "
+      },
+      {
+       "field": "aligned_weeks",
+       "value": 47,
+       "format": "count"
+      },
+      {
+       "text": " aligned weeks the arb east was open in "
+      },
+      {
+       "field": "aligned_open",
+       "value": 68.085106,
+       "format": "share_percent"
+      },
+      {
+       "text": " percent, with a mean S* of "
+      },
+      {
+       "field": "aligned_s_star",
+       "value": 0.301608,
+       "format": "usd_mmbtu",
+       "signed": true
+      },
+      {
+       "text": "; over all "
+      },
+      {
+       "field": "all_weeks",
+       "value": 132,
+       "format": "count"
+      },
+      {
+       "text": " weeks, "
+      },
+      {
+       "field": "all_open",
+       "value": 71.969697,
+       "format": "share_percent"
+      },
+      {
+       "text": " percent and "
+      },
+      {
+       "field": "all_s_star",
+       "value": 0.344163,
+       "format": "usd_mmbtu",
+       "signed": true
+      },
+      {
+       "text": "."
       }
      ],
      "hstar_heading_segments": [
@@ -6807,6 +6966,59 @@
       },
       {
        "text": ", a mark shows the calendar, not the prices."
+      },
+      {
+       "text": " Aligned weeks first: in the "
+      },
+      {
+       "field": "aligned_weeks",
+       "value": 17,
+       "format": "count"
+      },
+      {
+       "text": " aligned weeks the arb east was open in "
+      },
+      {
+       "field": "aligned_open",
+       "value": 58.823529,
+       "format": "share_percent"
+      },
+      {
+       "text": " percent, with a mean S* of "
+      },
+      {
+       "field": "aligned_s_star",
+       "value": 0.236857,
+       "format": "usd_mmbtu",
+       "signed": true
+      },
+      {
+       "text": "; over all "
+      },
+      {
+       "field": "all_weeks",
+       "value": 49,
+       "format": "count"
+      },
+      {
+       "text": " weeks, "
+      },
+      {
+       "field": "all_open",
+       "value": 71.428571,
+       "format": "share_percent"
+      },
+      {
+       "text": " percent and "
+      },
+      {
+       "field": "all_s_star",
+       "value": 0.279692,
+       "format": "usd_mmbtu",
+       "signed": true
+      },
+      {
+       "text": "."
       }
      ],
      "hstar_heading_segments": [

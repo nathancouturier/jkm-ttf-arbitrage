@@ -970,3 +970,19 @@ machine and checked byte for byte, and a flag present on one machine only would
 break that check. The lift test keeps EIA's daily Henry Hub as its proxy for the
 settlement on every machine.
 
+### 54. China's tariff on US LNG and the cargoes since
+
+Raised 9 October 2026. **Open.**
+
+Columbia University's Center on Global Energy Policy dates China's tariff on US
+LNG from 10 February 2025 at 15 percent, and says no US cargo had reached China
+since 6 February 2025, a statement of April 2025 about arrivals. EIA's export
+table shows a small volume to China in September 2025 and 4,576 MMcf in June
+2026, and a later report gives the tariff as 25 percent. The Chinese Ministry of
+Finance's notice, which would settle the rate, was not read.
+
+What would settle it: the ministry's notice, read by hand, and the owner's
+choice of words for the June 2026 cargo, whose end use (imported or re-exported)
+is not established. Until then the study uses the date only, as a limit of the
+flows test.
+

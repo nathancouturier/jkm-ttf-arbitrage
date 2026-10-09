@@ -447,7 +447,7 @@ def page(rows: pd.DataFrame, months: Sequence[Mapping[str, Any]], regressions: S
         "limits_segments": [
             reader.T("What the test cannot separate: long term contracts with Asian buyers, whose cargoes move "
                      "whatever the spot economics; the slot constraints at Panama; China's tariff on US LNG from "),
-            reader.D("china_tariff_from", "2025-02-10", "month"),
+            reader.D("china_tariff_from", config.PARAMETERS["china_tariff_from"].value, "month"),
             reader.T("; the gap between spot hire and the cost of a ship already on term charter; the month, "
                      "coarser than the decisions, which are taken weeks before a cargo loads; and, before "),
             reader.D("meti_end", "2021-04-01", "month"),

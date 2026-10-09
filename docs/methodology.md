@@ -748,7 +748,10 @@ result. Nothing is fitted: no parameter is searched and nothing is forecast.
 * **Weekly**: the Weekly Update's East Asia and TTF averages from the week
   ending 15 September 2021, then the Supplement's JKM and TTF from the week
   ending 28 January 2026, each loading on the week's last day, the Wednesday,
-  and tagged aligned, mixed or misaligned by its delivery months (9.9).
+  and tagged aligned, mixed or misaligned by its delivery months (9.9). The
+  aligned weeks are read first: the History view sets the share of them in
+  which the arb east was open, and their mean S*, against those of every week,
+  for each range; the mismatch moves neither by much.
 * **Monthly**, loading on the 15th: METI's contract-based price, a proxy for
   JKM, with the World Bank's TTF, January 2016 to March 2021; then the mean of
   each month's weekly averages, for a month holding three weeks or more. April
@@ -759,6 +762,10 @@ result. Nothing is fitted: no parameter is searched and nothing is forecast.
   no monthly observation are March, June and August 2016, June 2017 and
   November 2019, when METI published no contract-based price, and November
   2021, which holds two weekly averages (`analysis.months_without_observation`).
+* **Figures others reported**, which the analysis sets its results against and
+  never uses as inputs (the cancellations of 2020, Platts' route counts and its
+  arbitrage of 28 April 2026), are kept in `src/lngarb/reported.py`, each with
+  its publisher, address and the day it was read (docs/sources.md 2.24).
 * **Hire**: each observation at the low, central and high hire of the freight
   anchors (the lowest, median and highest reported figure), and at the figure
   reported nearest its date where one lies within 14 days.

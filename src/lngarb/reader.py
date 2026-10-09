@@ -211,6 +211,12 @@ def nice_domain(values: Sequence[float], count: int, *, zero: bool = True) -> tu
     return math.floor(low / step) * step, math.ceil(high / step) * step, step
 
 
+def _china_tariff_from() -> str:
+    from .config import PARAMETERS
+
+    return PARAMETERS["china_tariff_from"].value
+
+
 def regas_words(delta: float) -> dict[str, str]:
     """The words for Europe's DES spread to TTF by its sign: a discount a cargo
     sold at Gate bears and one sold east escapes, or, when ACER prices a cargo
@@ -943,7 +949,7 @@ def flows_panel(months: Sequence[Mapping[str, Any]], regressions: Sequence[Mappi
         [
             T("What this cannot separate: long term contracts with Asian buyers, whose cargoes move whatever the spot "
               "economics; the slot constraints at Panama; China's tariff on US LNG from "),
-            D("china_tariff_from", "2025-02-10", "month"),
+            D("china_tariff_from", _china_tariff_from(), "month"),
             T("; the gap between spot hire and the cost of a ship already on term charter; and the month itself, "
               "coarser than the decisions, which are taken weeks before a cargo loads."),
         ],

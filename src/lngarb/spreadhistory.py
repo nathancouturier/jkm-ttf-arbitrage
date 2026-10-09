@@ -300,7 +300,28 @@ def _weekly_caption(points: Sequence[Mapping[str, Any]], levels: Mapping[str, fl
                  "as before the futures of mid "),
         reader.D("futures_from", "2022-07-13", "month"),
         reader.T(", a mark shows the calendar, not the prices."),
+        *_aligned_first(points),
     ]
+
+
+def _aligned_first(points: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
+    """The aligned weeks alone against every week: the share open and the mean S*."""
+    def stats(chosen):
+        states = [s for s in (_open(p) for p in chosen) if s is not None]
+        s_stars = [p["s_central"] for p in chosen if p["s_central"] is not None]
+        return (len(states), 100.0 * sum(states) / len(states) if states else None,
+                sum(s_stars) / len(s_stars) if s_stars else None)
+    n_aligned, open_aligned, s_aligned = stats([p for p in points if p["alignment"] == "aligned"])
+    n_all, open_all, s_all = stats(points)
+    if not n_aligned or open_aligned is None or s_aligned is None or s_all is None:
+        return []
+    return [reader.T(" Aligned weeks first: in the "), reader.N("aligned_weeks", n_aligned, "count"),
+            reader.T(" aligned weeks the arb east was open in "),
+            reader.N("aligned_open", open_aligned, "share_percent"), reader.T(" percent, with a mean S* of "),
+            reader.N("aligned_s_star", s_aligned, "usd_mmbtu", signed=True), reader.T("; over all "),
+            reader.N("all_weeks", n_all, "count"), reader.T(" weeks, "),
+            reader.N("all_open", open_all, "share_percent"), reader.T(" percent and "),
+            reader.N("all_s_star", s_all, "usd_mmbtu", signed=True), reader.T(".")]
 
 
 def _hstar_desc(points: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:

@@ -76,6 +76,7 @@ PARAMETER_WORDS: Mapping[str, str] = {
     "analysis_min_weeks_per_month": "Least weekly averages for a monthly observation",
     "analysis_first_month": "First month of the monthly history",
     "analysis_excluded_years": "Years left out of the second sample",
+    "china_tariff_from": "First day of China's tariff on US LNG",
 }
 
 

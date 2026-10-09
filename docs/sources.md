@@ -1249,7 +1249,13 @@ being ignored by git. Nothing the site shows changes when the layer is present
   with them, and its ships are LPG carriers: the test confirms the order of
   the three routes and their rough proportion, not the distances. Platts'
   figure for the Panama route could not be read: its site refuses automated
-  requests, even for robots.txt.
+  requests, even for robots.txt. The IEA, quoted by Oil & Gas Journal on 29
+  January 2024, gives the US Gulf to Japan as "just over 20 days via the Panama
+  Canal", "a little over a month" via Suez and "about 40 days" via the Cape, with
+  no speed or port. On the computed distances at 17 knots the three take 22.8,
+  35.8 and 38.8 days; read as 20 or 21, 31 or 33 and 40 days, the IEA's figures
+  imply about 19, 19 and 16.5 knots, so they fit no single speed. They confirm
+  the order and the rough size, nothing finer.
 
 ### 3.12 Suez Canal Authority
 
