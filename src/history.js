@@ -36,6 +36,13 @@ const VIEW = "history";
 
 let held = null;
 
+/* The route east whose S* the weekly chart draws: the cheapest open one, or
+ * one route, kept in the address as route=panama. */
+function routeFrom(route, range) {
+  const asked = route && route.params ? route.params.route || "" : "";
+  return range.routes.find((r) => r.id === asked) || null;
+}
+
 function rangeFrom(route, page) {
   const asked = route && route.params ? route.params.range || "" : "";
   const ranges = page.weekly.ranges;
@@ -48,6 +55,7 @@ export function render(root, data, route) {
   const page = history.page;
   const decimals = history.conventions.decimals;
   const { range, unknown } = rangeFrom(route, page);
+  const chosenRoute = routeFrom(route, range);
   held = { history, root };
 
   const title = sentence("h1", range.heading_segments, decimals, "view-title");
@@ -63,7 +71,7 @@ export function render(root, data, route) {
       attrs: { type: "button", "aria-pressed": option.id === range.id ? "true" : "false", "data-range": option.id },
     });
     button.addEventListener("click", () => {
-      if (option.id !== range.id) router.go(VIEW, { range: option.id });
+      if (option.id !== range.id) router.go(VIEW, chosenRoute ? { range: option.id, route: chosenRoute.id } : { range: option.id });
     });
     choices.appendChild(button);
   }
@@ -73,7 +81,19 @@ export function render(root, data, route) {
     router.replaceState(VIEW, { range: range.id });
   }
 
-  root.appendChild(weeklyFigure(page, range, decimals));
+  const routes = el("div", { class: "choice-row", attrs: { role: "group", "aria-label": "Route east drawn" } });
+  for (const option of [{ id: "", label: page.words.cheapest_route }, ...range.routes]) {
+    const pressed = (chosenRoute ? chosenRoute.id : "") === option.id;
+    const button = el("button", {
+      class: "choice", text: option.label,
+      attrs: { type: "button", "aria-pressed": pressed ? "true" : "false", "data-route": option.id || "cheapest" },
+    });
+    button.addEventListener("click", () => {
+      if (!pressed) router.go(VIEW, option.id ? { range: range.id, route: option.id } : { range: range.id });
+    });
+    routes.appendChild(button);
+  }
+  root.appendChild(weeklyFigure(page, range, decimals, chosenRoute, routes));
   root.appendChild(netbacksFigure(page, range, decimals));
   root.appendChild(hstarFigure(page, range, decimals));
   root.appendChild(partsFigure(page, range, decimals));
@@ -99,7 +119,10 @@ export function update(root, route) {
   if (!held) return;
   clear(root);
   render(root, { history: held.history }, route);
-  const pressed = root.querySelector('.choice[aria-pressed="true"]');
+  // Keep the keyboard on the choice just made: the route's, when one is named.
+  const named = route && route.params && route.params.route
+    ? root.querySelector('.choice[data-route="' + route.params.route + '"][aria-pressed="true"]') : null;
+  const pressed = named || root.querySelector('.choice[aria-pressed="true"]');
   if (pressed) pressed.focus();
 }
 
@@ -120,8 +143,10 @@ function pick(column, indexes) {
   return indexes.map((index) => (index === null ? null : column[index]));
 }
 
-function weeklyFigure(page, range, decimals) {
+function weeklyFigure(page, range, decimals, chosenRoute, routes) {
   const weekly = page.weekly;
+  // The cheapest open route's S*, or the chosen route's own.
+  const column = (level) => (chosenRoute ? weekly[chosenRoute.id + "_s_" + level] : weekly["s_" + level]);
   const indexes = slice(weekly, range);
   const days = pick(weekly.day, indexes);
   const marks = [];
@@ -137,9 +162,9 @@ function weeklyFigure(page, range, decimals) {
       days,
       first: range.first,
       last: range.last,
-      y: range.y,
-      band: { low: pick(weekly.s_low, indexes), high: pick(weekly.s_high, indexes), label: page.words.band },
-      reference: { values: pick(weekly.s_central, indexes), label: page.words.reference },
+      y: chosenRoute ? chosenRoute.y : range.y,
+      band: { low: pick(column("low"), indexes), high: pick(column("high"), indexes), label: page.words.band },
+      reference: { values: pick(column("central"), indexes), label: page.words.reference },
       series: { values: pick(weekly.spread, indexes), label: page.words.spread },
       marks,
       rules: page.rules,
@@ -149,7 +174,9 @@ function weeklyFigure(page, range, decimals) {
     }));
   });
   return el("figure", { class: "block", attrs: { "aria-labelledby": "view-title" } }, [
+    routes,
     frame,
+    ...(chosenRoute ? [sentence("p", chosenRoute.caption_segments, decimals, "source-line")] : []),
     el("p", { class: "source-line", text: page.words.legend }),
     sentence("p", range.caption_segments, decimals, "source-line"),
     disclosure("The weeks by year, in a table", () => yearsTable(range.years, page.words.weeks, decimals)),

@@ -90,7 +90,8 @@ const REQUIRED = Object.freeze({
     "page.words.regas.assumed", "page.words.events_caption", "page.words.events_heading", "page.words.left_out_heading",
     "page.events", "page.event_marks", "page.events_lead_segments", "page.events_left_out",
     "page.weekly.west_netback", "page.weekly.east_netback", "page.words.netbacks_legend", "page.words.netbacks.west",
-    "page.words.netbacks.east",
+    "page.words.netbacks.east", "page.words.cheapest_route", "page.weekly.panama_s_central", "page.weekly.cape_s_central",
+    "page.weekly.suez_s_central",
   ],
   flows: [
     "page.whole.months", "page.whole.heading_segments", "page.whole.ticks", "page.whole.ticks_narrow",
@@ -149,7 +150,7 @@ const ROW_FIELDS = Object.freeze({
   history: {
     "page.weekly.ranges": ["id", "label", "first", "last", "y", "hstar", "ticks", "heading_segments", "desc_segments",
       "caption_segments", "hstar_heading_segments", "hstar_desc_segments", "hstar_caption_segments", "accent_day", "years",
-      "parts_y", "parts_heading_segments", "regas_y", "regas_heading_segments", "netbacks_y", "netbacks_heading_segments"],
+      "parts_y", "parts_heading_segments", "regas_y", "regas_heading_segments", "netbacks_y", "netbacks_heading_segments", "routes"],
     "page.events": ["letter", "day", "end", "what", "publisher", "url"],
     "page.event_marks": ["day", "end", "letter"],
     "page.events_left_out": ["what", "reason"],

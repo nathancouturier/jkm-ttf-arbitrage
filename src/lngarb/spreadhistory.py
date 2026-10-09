@@ -116,6 +116,13 @@ def _points(rows: pd.DataFrame, frequency: str) -> list[dict[str, Any]]:
             "series": central["series"],
             "alignment": central.get("alignment") if isinstance(central.get("alignment"), str) else None,
         }
+        # Each route's own S* at the three hires, where it was open, for the
+        # page's choice of route.
+        for short in SHORT:
+            for level in ("low", "central", "high"):
+                row = by.get(level)
+                point["%s_s_%s" % (short, level)] = (_finite(row.get(short + "_s_star"))
+                                                     if row is not None and row.get(short + "_open") else None)
         reported = by.get("reported")
         if reported is not None:
             point["reported_hire"] = _finite(reported["hire_usd_day"])
@@ -421,6 +428,29 @@ def _parts_heading(points: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
             reader.T(", "), *clause(1), reader.T(" and "), *clause(2), reader.T(".")]
 
 
+ROUTE_CHOICE_WORDS = {"panama": "Via Panama", "cape": "Round the Cape", "suez": "Via Suez"}
+
+
+def _route_choices(points: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
+    """For each route east, over the range: its own scale and the weeks the spread covered its S*."""
+    out = []
+    for short in ("panama", "cape", "suez"):
+        weeks = [p for p in points if p.get(short + "_s_central") is not None and p["spread"] is not None]
+        if not weeks:
+            continue
+        covered = sum(1 for p in weeks if p["spread"] > p[short + "_s_central"])
+        values = [v for p in weeks for v in (p["spread"], p.get(short + "_s_low"), p.get(short + "_s_high"))]
+        out.append({
+            "id": short, "label": ROUTE_CHOICE_WORDS[short], "y": _domain(values),
+            "caption_segments": [
+                reader.T(ROUTE_CHOICE_WORDS[short] + ", in the "), reader.N("open_weeks", len(weeks), "count"),
+                reader.T(" weeks the route was open, the spread covered its S* at the central hire in "),
+                reader.N("covered", covered, "count"), reader.T("."),
+            ],
+        })
+    return out
+
+
 def _netbacks_heading(points: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
     """The netback at Gate over the range, and the weeks the best route east netted more."""
     gate = [p["west_netback"] for p in points if p.get("west_netback") is not None]
@@ -509,6 +539,7 @@ def page(rows: pd.DataFrame, breaks: pd.DataFrame, anchors: Sequence[Mapping[str
             "parts_y": _domain([v for p in chosen for v in (p.get("boil_off"), p.get("regas"), p.get("voyage"),
                                                               p["s_central"])]),
             "parts_heading_segments": _parts_heading(chosen),
+            "routes": _route_choices(chosen),
             "netbacks_y": _domain([v for p in chosen for v in (p.get("west_netback"), p.get("east_netback"))]),
             "netbacks_heading_segments": _netbacks_heading(chosen),
             "regas_y": _domain([v for p in chosen for v in (p.get("delta_nwe"), p.get("assumed_delta_nwe"))]),
@@ -521,7 +552,8 @@ def page(rows: pd.DataFrame, breaks: pd.DataFrame, anchors: Sequence[Mapping[str
     weekly_gaps = _with_gaps(weekly, 7)
     keys = ("day", "spread", "s_low", "s_central", "s_high", "route", "h_star", "alignment", "reported_hire",
             "reported_open", "boil_off", "regas", "voyage", "delta_nwe", "assumed_delta_nwe", "delta_observed",
-            "west_netback", "east_netback")
+            "west_netback", "east_netback",
+            *("%s_s_%s" % (short, level) for short in SHORT for level in ("low", "central", "high")))
     monthly_full = []
     observed = {p["day"].replace(day=1): p for p in monthly}
     month = monthly[0]["day"].replace(day=1)
@@ -568,6 +600,7 @@ def page(rows: pd.DataFrame, breaks: pd.DataFrame, anchors: Sequence[Mapping[str
                                "line, by the best route east open that week, to Futtsu; both at the central hire, per MMBtu "
                                "loaded. Where the dashed line runs above, the arb east was open.",
             "netbacks": {"west": "Gate", "east": "Best route east"},
+            "cheapest_route": "Cheapest open route",
             "events_caption": "Every event drawn as a lettered mark: the day it began, the day it ended where it "
                               "ran for a period, what happened and the document it was read in.",
             "events_heading": "The events behind the regimes",
