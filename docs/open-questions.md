@@ -890,7 +890,8 @@ dated document read), the canals' rebates and auctions (rules, on the Routes
 view), China's imports from February 2025 (a statement contradicted by EIA's
 table), Hormuz and the jump in charter rates of March 2026 (not read for that
 date; Lloyd's List), the IEA's averages, the US and Iran memorandum and the
-July hostilities, the June 2026 cargo to China (wording for the owner), and
+July hostilities, the June 2026 cargo to China (whether imported or re-exported
+is not established), and
 Global LNG Hub's note. Each can become a row once its document is read.
 
 ### 49. How the site says a figure is missing

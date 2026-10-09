@@ -128,7 +128,7 @@ LEFT_OUT: tuple[tuple[str, str], ...] = (
     ("The US and Iran memorandum of 14 June 2026 and the hostilities of July 2026",
      "no document on them was read"),
     ("US LNG to China in June 2026, one cargo and part of another",
-     "the wording waits on the owner, and whether the cargo was imported or re-exported is not established"),
+     "whether the cargo was imported or re-exported is not established"),
     ("JKM and TTF reported on 18 September 2026 with the US arbitrage to Asia uneconomic",
      "Global LNG Hub's note was not read"),
     ("Spark's first negative Atlantic rate, 8 February 2022, and its record of 374,000 $/day in October 2022",

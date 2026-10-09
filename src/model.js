@@ -102,7 +102,7 @@ const SHIP_FIELDS = Object.freeze([
   { key: "fill_percent", label: "Cargo loaded, share of capacity", unit: "fill_percent", format: "fill_percent", read: (vessel, model) => vessel.fill * model.units.percent_per_one },
   { key: "load_days", label: "Days to load", unit: "days", format: "days", read: (vessel) => vessel.load_days },
   { key: "discharge_days", label: "Days to discharge", unit: "days", format: "days", read: (vessel) => vessel.discharge_days },
-  { key: "methane_slip_percent", label: "Methane slip, share of the LNG burnt", unit: "fill_percent", format: "fill_percent", read: (vessel, model) => slipOf(vessel, model) },
+  { key: "methane_slip_percent", label: "Methane slip when counted, share of the LNG burnt", unit: "fill_percent", format: "fill_percent", read: (vessel, model) => slipOf(vessel, model) },
 ]);
 
 /* The ship's default methane slip, in percent, by the key of the carrier. */
@@ -488,7 +488,7 @@ function shipFieldset() {
     const box = el("input", { class: "model-check__box", id: "field-methane_slip", attrs: { type: "checkbox" } });
     box.checked = model.carbon.on === true;
     box.addEventListener("change", () => { recompute(); announce(); });
-    const note = el("span", { class: "model-field__source", id: "field-methane_slip-source", text: "Off in the study. Ticked, the share of the LNG the engine slips unburnt leaves the CO2 and N2O terms and, from " + String(model.carbon.ch4_n2o_from_year) + ", counts as methane in the EU ETS cost." });
+    const note = el("span", { class: "model-field__source", id: "field-methane_slip-source", text: (model.carbon.on ? "On" : "Off") + " in the study. Ticked, the share of the LNG the engine slips unburnt leaves the CO2 and N2O terms and, from " + String(model.carbon.ch4_n2o_from_year) + ", counts as methane in the EU ETS cost." });
     box.setAttribute("aria-describedby", note.id);
     held.slip = { box, preset: model.carbon.on === true };
     grid.appendChild(el("div", { class: "model-field" }, [

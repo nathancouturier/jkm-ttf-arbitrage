@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-09T21:28:04Z",
+  "generated_at": "2026-10-09T21:41:46Z",
   "series": [
     {
       "series": "acer_lng_daily",
@@ -2542,7 +2542,7 @@
       "page_url": "https://github.com/nathancouturier/jkm-ttf-arbitrage/blob/main/docs/sources.md",
       "machine_fetched": false,
       "fetched_at": null,
-      "checked_at": "2026-10-09T21:28:04Z",
+      "checked_at": "2026-10-09T21:41:46Z",
       "rows": 8,
       "observations": 8,
       "file_rows": 8,
@@ -2571,7 +2571,7 @@
       "page_url": "https://lngprime.com/",
       "machine_fetched": false,
       "fetched_at": null,
-      "checked_at": "2026-10-09T21:28:04Z",
+      "checked_at": "2026-10-09T21:41:46Z",
       "rows": 10,
       "observations": 10,
       "file_rows": 10,
@@ -3256,7 +3256,7 @@
       "page_url": "https://github.com/genthalili/searoute-py",
       "machine_fetched": false,
       "fetched_at": null,
-      "checked_at": "2026-10-09T21:28:04Z",
+      "checked_at": "2026-10-09T21:41:46Z",
       "rows": 4,
       "observations": 4,
       "file_rows": 4,
@@ -3394,8 +3394,8 @@
   "manual_steps_note": "Work this pipeline cannot do for itself. Each entry says what it is, why it exists, what it costs to skip it and how to do it. They are repeated against the series they affect in the manual_step field of those entries.",
   "run": {
     "mode": "offline",
-    "started_at": "2026-10-09T21:28:04Z",
-    "finished_at": "2026-10-09T21:28:04Z",
+    "started_at": "2026-10-09T21:41:46Z",
+    "finished_at": "2026-10-09T21:41:46Z",
     "script": "scripts/refresh.py"
   }
 }

@@ -635,7 +635,8 @@ function drawSeries(group, xs, values, yOf, className) {
  *    references [{ values, label, pattern }]: further lines, each drawn as
  *               .line--<pattern> (thin, dot or reference)
  *    series     { values: [], label }: the ink line
- *    marks      [{ index }]: a hollow ring on the series at these points
+ *    marks      [{ index, kind }]: a hollow ring on the series at these points,
+ *               a solid dot where kind is "mixed"
  *    rules      [{ day, numbers }]: numbered rules across the plot
  *    events     [{ day, end, letter }]: lettered marks at the foot of the plot,
  *               a bar for a period that has an end
@@ -723,7 +724,10 @@ export function timeChart({ width, days, first, last, y, band, reference, refere
   for (const mark of marks || []) {
     const value = series.values[mark.index];
     if (!present(value) || !present(xs[mark.index])) continue;
-    plot.appendChild(svgEl("circle", { class: "mark-printed", cx: px(xs[mark.index]), cy: px(yOf(value)), r: g.SMALL_RADIUS }));
+    // A mixed week is a solid dot, a misaligned one a ring.
+    plot.appendChild(mark.kind === "mixed"
+      ? svgEl("circle", { class: "mark-series-fill", cx: px(xs[mark.index]), cy: px(yOf(value)), r: g.SMALL_RADIUS })
+      : svgEl("circle", { class: "mark-printed", cx: px(xs[mark.index]), cy: px(yOf(value)), r: g.SMALL_RADIUS }));
   }
   series.values.forEach((value, index) => {
     if (!present(value) || !present(xs[index]) || (value >= y.low && value <= y.high)) return;

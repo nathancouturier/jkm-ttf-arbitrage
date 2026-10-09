@@ -264,7 +264,7 @@ def page(latest: Mapping[str, Any] | None = None) -> dict[str, Any]:
                      "view marks the misaligned and the mixed weeks."),
             reader.T(" A cargo loading on the first of a month reaches Gate in about two weeks and Futtsu via the Cape in "
                      "about six, so the right comparison is each basin's price for its own arrival period; with front "
-                     "months only, the study compares the two front months and says so on every page."),
+                     "months only, the study compares the two front months and names them where a price is shown."),
         ],
         "limits": [
             [reader.T("A spread is an association, not a decision: long term contracts with Asian buyers move "

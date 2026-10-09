@@ -458,6 +458,8 @@ typed for either leg instead of computed from the distance.
 The gas used over the round trip is `G = b x T_total`, and the cargo delivered
 is `Q_del = Q_load - G`: the heel for the ballast leg stays on board. Laden and
 ballast routes are set separately; a worked date sends both legs the same way.
+The pilot fuel a dual fuel engine burns with the gas is left out, of the
+voyage's cost and of its emissions: a limitation the Method view lists.
 
 The ship is the benchmark freight rates' own: the 160,000 m3 TFDE, at 0.1
 percent a day, before 2 January 2024, and the 174,000 m3 two-stroke, at 0.085

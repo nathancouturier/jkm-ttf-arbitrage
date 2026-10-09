@@ -277,14 +277,17 @@ def _weekly_desc(points: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
 
 def _weekly_caption(points: Sequence[Mapping[str, Any]], levels: Mapping[str, float]) -> list[dict[str, Any]]:
     rings = sum(p["alignment"] == "misaligned" for p in points)
+    mixed = sum(p["alignment"] == "mixed" for p in points)
     return [
         *_routes_words(points),
         reader.T("The hire levels are the lowest, the median and the highest charter rate reported: "),
         *_levels_segments(levels), reader.T(". Rings: the "), reader.N("misaligned", rings, "count"),
         reader.T(" weeks in which, by the futures calendars, the JKM and TTF front months name different delivery "
-                 "months; where the prices drawn were swaps, spot or day-ahead, as before the futures of mid "),
+                 "months every day; solid dots: the "), reader.N("mixed", mixed, "count"),
+        reader.T(" weeks in which they differ on some days. Where the prices drawn were swaps, spot or day-ahead, "
+                 "as before the futures of mid "),
         reader.D("futures_from", "2022-07-13", "month"),
-        reader.T(", a ring marks the calendar, not the prices."),
+        reader.T(", a mark shows the calendar, not the prices."),
     ]
 
 
@@ -357,8 +360,7 @@ def _events_lead(items: Sequence[Mapping[str, Any]], left_out: Sequence[tuple[st
         reader.N("events", len(items), "count"),
         reader.T(" events, each from one document read, and "),
         reader.N("left_out", len(left_out), "count"),
-        reader.T(" left out, listed after the table with the reason: no readable document, or a rule or "
-                 "break shown elsewhere."),
+        reader.T(" left out, listed after the table, each with the reason."),
     ]
 
 

@@ -123,7 +123,9 @@ function weeklyFigure(page, range, decimals) {
   const days = pick(weekly.day, indexes);
   const marks = [];
   indexes.forEach((index, at) => {
-    if (index !== null && weekly.alignment[index] === "misaligned") marks.push({ index: at });
+    if (index === null) return;
+    if (weekly.alignment[index] === "misaligned") marks.push({ index: at });
+    else if (weekly.alignment[index] === "mixed") marks.push({ index: at, kind: "mixed" });
   });
   const frame = el("div", { class: "chart-frame" });
   charts.onWidthChange(frame, (width) => {

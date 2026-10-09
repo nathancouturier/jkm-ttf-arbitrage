@@ -361,12 +361,15 @@ def regas_sensitivity(*, spread: float, delta: float, observed: bool, at_zero: t
         ]
     flips_zero = 0 if weeks.empty else int((weeks["data_open"] != weeks["zero_open"]).sum())
     flips_assumed = 0 if weeks.empty else int((weeks["data_open"] != weeks["assumed_open"]).sum())
-    segments += [
-        T(". Of the "), N("weeks", len(weeks), "count"),
-        T(" weeks priced, at the central hire a spread of zero would change whether the arb east was open in "),
-        N("flips_zero", flips_zero, "count"), T(", the assumption in "), N("flips_assumed", flips_assumed, "count"),
-        T("."),
-    ]
+    if weeks.empty:
+        segments += [T(".")]
+    else:
+        segments += [
+            T(". Of the "), N("weeks", len(weeks), "count"),
+            T(" weeks priced, at the central hire a spread of zero would change whether the arb east was open in "),
+            N("flips_zero", flips_zero, "count"), T(", the assumption in "), N("flips_assumed", flips_assumed, "count"),
+            T("."),
+        ]
     return {"segments": segments, "values": {"flips_zero": flips_zero, "flips_assumed": flips_assumed}}
 
 

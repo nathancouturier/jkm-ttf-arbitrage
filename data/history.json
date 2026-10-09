@@ -3167,7 +3167,15 @@
        "format": "count"
       },
       {
-       "text": " weeks in which, by the futures calendars, the JKM and TTF front months name different delivery months; where the prices drawn were swaps, spot or day-ahead, as before the futures of mid "
+       "text": " weeks in which, by the futures calendars, the JKM and TTF front months name different delivery months every day; solid dots: the "
+      },
+      {
+       "field": "mixed",
+       "value": 93,
+       "format": "count"
+      },
+      {
+       "text": " weeks in which they differ on some days. Where the prices drawn were swaps, spot or day-ahead, as before the futures of mid "
       },
       {
        "field": "futures_from",
@@ -3175,7 +3183,7 @@
        "label": "July 2022"
       },
       {
-       "text": ", a ring marks the calendar, not the prices."
+       "text": ", a mark shows the calendar, not the prices."
       }
      ],
      "hstar_heading_segments": [
@@ -3506,7 +3514,15 @@
        "format": "count"
       },
       {
-       "text": " weeks in which, by the futures calendars, the JKM and TTF front months name different delivery months; where the prices drawn were swaps, spot or day-ahead, as before the futures of mid "
+       "text": " weeks in which, by the futures calendars, the JKM and TTF front months name different delivery months every day; solid dots: the "
+      },
+      {
+       "field": "mixed",
+       "value": 43,
+       "format": "count"
+      },
+      {
+       "text": " weeks in which they differ on some days. Where the prices drawn were swaps, spot or day-ahead, as before the futures of mid "
       },
       {
        "field": "futures_from",
@@ -3514,7 +3530,7 @@
        "label": "July 2022"
       },
       {
-       "text": ", a ring marks the calendar, not the prices."
+       "text": ", a mark shows the calendar, not the prices."
       }
      ],
      "hstar_heading_segments": [
@@ -3831,7 +3847,15 @@
        "format": "count"
       },
       {
-       "text": " weeks in which, by the futures calendars, the JKM and TTF front months name different delivery months; where the prices drawn were swaps, spot or day-ahead, as before the futures of mid "
+       "text": " weeks in which, by the futures calendars, the JKM and TTF front months name different delivery months every day; solid dots: the "
+      },
+      {
+       "field": "mixed",
+       "value": 50,
+       "format": "count"
+      },
+      {
+       "text": " weeks in which they differ on some days. Where the prices drawn were swaps, spot or day-ahead, as before the futures of mid "
       },
       {
        "field": "futures_from",
@@ -3839,7 +3863,7 @@
        "label": "July 2022"
       },
       {
-       "text": ", a ring marks the calendar, not the prices."
+       "text": ", a mark shows the calendar, not the prices."
       }
      ],
      "hstar_heading_segments": [
@@ -4145,7 +4169,15 @@
        "format": "count"
       },
       {
-       "text": " weeks in which, by the futures calendars, the JKM and TTF front months name different delivery months; where the prices drawn were swaps, spot or day-ahead, as before the futures of mid "
+       "text": " weeks in which, by the futures calendars, the JKM and TTF front months name different delivery months every day; solid dots: the "
+      },
+      {
+       "field": "mixed",
+       "value": 19,
+       "format": "count"
+      },
+      {
+       "text": " weeks in which they differ on some days. Where the prices drawn were swaps, spot or day-ahead, as before the futures of mid "
       },
       {
        "field": "futures_from",
@@ -4153,7 +4185,7 @@
        "label": "July 2022"
       },
       {
-       "text": ", a ring marks the calendar, not the prices."
+       "text": ", a mark shows the calendar, not the prices."
       }
      ],
      "hstar_heading_segments": [
@@ -5839,7 +5871,7 @@
     "format": "count"
    },
    {
-    "text": " left out, listed after the table with the reason: no readable document, or a rule or break shown elsewhere."
+    "text": " left out, listed after the table, each with the reason."
    }
   ],
   "events_left_out": [
@@ -5877,7 +5909,7 @@
    },
    {
     "what": "US LNG to China in June 2026, one cargo and part of another",
-    "reason": "the wording waits on the owner, and whether the cargo was imported or re-exported is not established"
+    "reason": "whether the cargo was imported or re-exported is not established"
    },
    {
     "what": "JKM and TTF reported on 18 September 2026 with the US arbitrage to Asia uneconomic",

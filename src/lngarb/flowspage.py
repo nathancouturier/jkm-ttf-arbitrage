@@ -298,8 +298,9 @@ def _y2026_story(rows: pd.DataFrame, points: Sequence[Mapping[str, Any]], week: 
         for r in weeks.itertuples(index=False):
             zero_first = (zero_first or r.day) if r.zero_open else None
         if zero_first is not None and zero_first.date() != date.fromisoformat(opened["day"]):
-            out += [T(" With that spread at zero, the arb east opened only in the week ending "),
-                    D("zero_opened", zero_first.date()), T(".")]
+            later = zero_first.date() > date.fromisoformat(opened["day"])
+            out += [T(" With that spread at zero, the arb east opened " + ("only" if later else "already")
+                      + " in the week ending "), D("zero_opened", zero_first.date()), T(".")]
         elif zero_first is None:
             out += [T(" With that spread at zero, it was closed in the week Platts assessed.")]
 
@@ -355,7 +356,7 @@ def _y2026_story(rows: pd.DataFrame, points: Sequence[Mapping[str, Any]], week: 
         rose_first = len(before) > 1 and before[-1]["share_jkm"] > before[0]["share_jkm"]
         rose = after[0]["share_jkm"] > before[-1]["share_jkm"]
         if rose_first:
-            out += [T(" The rise began before the arb opened, so the arb alone does not explain it.")]
+            out += [T(" The rise began before the arb opened.")]
         # The brief's case: exports moving east in weeks the reported spot hire
         # lay above every open route's breakeven hire.
         if rose and any(above):
