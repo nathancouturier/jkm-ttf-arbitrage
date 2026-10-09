@@ -39,14 +39,14 @@
  "verdict": {
   "values": {
    "best_route": "nea_panama",
-   "best_netback": 23.955129081350062,
-   "gap": 1.239869037386761,
+   "best_netback": 23.955175549856524,
+   "gap": 1.2398889007806808,
    "cheapest_route": "nea_panama",
-   "s_star": -0.28216904091399186,
+   "s_star": -0.2821897421831565,
    "dominant_part": "regas",
    "dominant_value": -1.2046253266658815,
-   "lift_margin": 20.53675408135006,
-   "full_margin": 17.53675408135006
+   "lift_margin": 20.536800549856522,
+   "full_margin": 17.536800549856522
   },
   "segments": [
    {
@@ -62,7 +62,7 @@
    },
    {
     "field": "best_netback",
-    "value": 23.955129081350062,
+    "value": 23.955175549856524,
     "format": "usd_mmbtu"
    },
    {
@@ -78,7 +78,7 @@
    },
    {
     "field": "gap_to_gate",
-    "value": 1.239869037386761,
+    "value": 1.2398889007806808,
     "format": "usd_mmbtu"
    },
    {
@@ -108,7 +108,7 @@
    },
    {
     "field": "s_star",
-    "value": -0.28216904091399186,
+    "value": -0.2821897421831565,
     "format": "usd_mmbtu",
     "signed": true
    },
@@ -145,7 +145,7 @@
    },
    {
     "field": "lift_margin",
-    "value": 20.53675408135006,
+    "value": 20.536800549856522,
     "format": "usd_mmbtu"
    },
    {
@@ -161,7 +161,7 @@
    },
    {
     "field": "full_margin",
-    "value": 17.53675408135006,
+    "value": 17.536800549856522,
     "format": "usd_mmbtu",
     "signed": true
    },
@@ -484,7 +484,7 @@
     },
     {
      "field": "rate",
-     "value": 3.9,
+     "value": 3.88,
      "format": "rate_percent"
     },
     {
@@ -492,8 +492,8 @@
     },
     {
      "field": "rate_date",
-     "value": "2026-10-06",
-     "label": "6 October 2026"
+     "value": "2026-10-07",
+     "label": "7 October 2026"
     },
     {
      "text": "."
@@ -516,7 +516,7 @@
     },
     {
      "field": "gap",
-     "value": 1.239869037386761,
+     "value": 1.2398889007806808,
      "format": "usd_mmbtu"
     },
     {
@@ -555,7 +555,7 @@
     },
     {
      "field": "arb",
-     "value": 1.239869037386761,
+     "value": 1.2398889007806808,
      "format": "usd_mmbtu",
      "signed": true
     },
@@ -630,7 +630,7 @@
     },
     {
      "field": "h_star",
-     "value": 261942.4656340233,
+     "value": 261946.15745092704,
      "format": "usd_day"
     },
     {
@@ -649,7 +649,7 @@
     },
     {
      "field": "h_star",
-     "value": 76329.15234023487,
+     "value": 76332.84415713864,
      "format": "usd_day"
     },
     {
@@ -781,7 +781,7 @@
    },
    {
     "field": "gap",
-    "value": 1.239869037386761,
+    "value": 1.2398889007806808,
     "format": "usd_mmbtu"
    },
    {
@@ -853,7 +853,7 @@
     "name": "Gate",
     "open": true,
     "accent": false,
-    "value": 22.7152600439633,
+    "value": 22.715286649075843,
     "detail_segments": [
      {
       "text": "Direct to Northwest Europe, the reference for every gap below."
@@ -865,11 +865,11 @@
     "name": "Futtsu via Panama",
     "open": true,
     "accent": true,
-    "value": 23.955129081350062,
+    "value": 23.955175549856524,
     "detail_segments": [
      {
       "field": "gap",
-      "value": 1.239869037386761,
+      "value": 1.2398889007806808,
       "format": "usd_mmbtu"
      },
      {
@@ -882,7 +882,7 @@
     "name": "Futtsu via Suez",
     "open": false,
     "accent": false,
-    "value": 23.336607336502905,
+    "value": 23.336719838938755,
     "detail_segments": [
      {
       "text": "Closed: "
@@ -897,7 +897,7 @@
      },
      {
       "field": "gap",
-      "value": 0.6213472925396033,
+      "value": 0.6214331898629126,
       "format": "usd_mmbtu",
       "signed": true
      },
@@ -911,11 +911,11 @@
     "name": "Futtsu via the Cape",
     "open": true,
     "accent": false,
-    "value": 23.319863503432494,
+    "value": 23.319939899476946,
     "detail_segments": [
      {
       "field": "gap",
-      "value": 0.6046034594691925,
+      "value": 0.6046532504011033,
       "format": "usd_mmbtu"
      },
      {
@@ -955,7 +955,7 @@
    },
    {
     "field": "arb",
-    "value": 1.239869037386761,
+    "value": 1.2398889007806808,
     "format": "usd_mmbtu",
     "signed": true
    },
@@ -1006,7 +1006,7 @@
    },
    {
     "field": "start",
-    "value": 22.7152600439633,
+    "value": 22.715286649075843,
     "format": "usd_mmbtu"
    },
    {
@@ -1027,7 +1027,7 @@
    },
    {
     "field": "end",
-    "value": 23.955129081350062,
+    "value": 23.955175549856524,
     "format": "usd_mmbtu"
    },
    {
@@ -1035,7 +1035,7 @@
    },
    {
     "field": "arb",
-    "value": 1.239869037386761,
+    "value": 1.2398889007806808,
     "format": "usd_mmbtu"
    },
    {
@@ -1209,9 +1209,9 @@
       "text": "The cargo's price at Sabine Pass carried for the longer laden voyage."
      }
     ],
-    "value": -0.005363116358279612,
+    "value": -0.005343252964360057,
     "start": 1.2452321537450417,
-    "end": 1.239869037386762,
+    "end": 1.2398889007806817,
     "accent": false
    },
    {
@@ -1219,9 +1219,9 @@
     "kind": "total",
     "name": "The arb, Futtsu via Panama over Gate",
     "detail_segments": null,
-    "value": 1.239869037386761,
+    "value": 1.2398889007806808,
     "start": 0.0,
-    "end": 1.239869037386761,
+    "end": 1.2398889007806808,
     "accent": true
    }
   ],
@@ -1303,7 +1303,7 @@
      "name": "Canal tolls",
      "values": {
       "nea_panama": -0.32867823702362015,
-      "nea_suez": -0.160787797146097,
+      "nea_suez": -0.160746178934898,
       "nea_cape": -0.0
      }
     },
@@ -1342,9 +1342,9 @@
      "kind": "step",
      "name": "Financing the cargo for longer",
      "values": {
-      "nea_panama": -0.005363116358279612,
-      "nea_suez": -0.011955360268936342,
-      "nea_cape": -0.013443551615632553
+      "nea_panama": -0.005343252964360057,
+      "nea_suez": -0.011911081156829166,
+      "nea_cape": -0.013393760683722798
      }
     },
     {
@@ -1352,9 +1352,9 @@
      "kind": "total",
      "name": "The arb over Gate",
      "values": {
-      "nea_panama": 1.239869037386761,
-      "nea_suez": 0.6213472925396033,
-      "nea_cape": 0.6046034594691925
+      "nea_panama": 1.2398889007806808,
+      "nea_suez": 0.6214331898629126,
+      "nea_cape": 0.6046532504011033
      }
     }
    ]
@@ -1387,7 +1387,7 @@
    },
    {
     "field": "h_star",
-    "value": 261942.4656340233,
+    "value": 261946.15745092704,
     "format": "usd_day"
    },
    {
@@ -1406,7 +1406,7 @@
    },
    {
     "field": "h_star",
-    "value": 76329.15234023487,
+    "value": 76332.84415713864,
     "format": "usd_day"
    },
    {
@@ -1494,14 +1494,14 @@
     "points": [
      [
       0.0,
-      -0.45880022161587775
+      -0.45882092288503884
      ],
      [
       400000.0,
-      1.784135406344543
+      1.7841147050753783
      ]
     ],
-    "h_star": 261942.4656340233,
+    "h_star": 261946.15745092704,
     "label": "Panama"
    },
    {
@@ -1511,14 +1511,14 @@
     "points": [
      [
       0.0,
-      -0.0941176550404208
+      -0.09417105796836722
      ],
      [
       400000.0,
-      5.691968636702192
+      5.691915233774246
      ]
     ],
-    "h_star": 76329.15234023487,
+    "h_star": 76332.84415713864,
     "label": "The Cape"
    }
   ],
@@ -1598,11 +1598,11 @@
      "route": "nea_panama",
      "name": "Panama",
      "values": {
-      "at_hire": -0.28216904091399186,
-      "low": -0.463005725918304,
-      "central": -0.2036662939353775,
-      "high": 1.6383445905271152,
-      "h_star": 261942.4656340233
+      "at_hire": -0.2821897421831565,
+      "low": -0.4630264271874651,
+      "central": -0.20368699520454214,
+      "high": 1.6383238892579541,
+      "h_star": 261946.15745092704
      },
      "missing_words": "no crossing"
     },
@@ -1610,11 +1610,11 @@
      "route": "nea_suez",
      "name": "Suez, closed",
      "values": {
-      "at_hire": 0.3471346912335669,
-      "low": -0.06551293308006834,
-      "central": 0.5262685436487899,
-      "high": 4.72951643782023,
-      "h_star": 83305.47505459395
+      "at_hire": 0.34704305430777893,
+      "low": -0.06560457000585629,
+      "central": 0.5261769067229984,
+      "high": 4.729424800894442,
+      "h_star": 83312.63683302805
      },
      "missing_words": "no crossing"
     },
@@ -1622,11 +1622,11 @@
      "route": "nea_cape",
      "name": "The Cape",
      "values": {
-      "at_hire": 0.3615366404343128,
-      "low": -0.10496656683743666,
-      "central": 0.5640496606453027,
-      "high": 5.315873027738924,
-      "h_star": 76329.15234023487
+      "at_hire": 0.36148323750636635,
+      "low": -0.10501996976538308,
+      "central": 0.5639962577173563,
+      "high": 5.3158196248109775,
+      "h_star": 76332.84415713864
      },
      "missing_words": "no crossing"
     }
@@ -1766,9 +1766,9 @@
    "assumption": true
   },
   "overnight_rate": {
-   "value": 3.9,
+   "value": 3.88,
    "unit": "percent",
-   "source": "SOFR of 2026-10-06, New York Fed"
+   "source": "SOFR of 2026-10-07, New York Fed"
   },
   "vessel": {
    "value": "174,000 m3 two-stroke"
@@ -1824,12 +1824,12 @@
     "distance_nm": 14624.2,
     "open": false,
     "why_closed": "laden transit 2026-10-24: no US Gulf cargo reported through the Red Sea after 12 January 2024, so treated as closed",
-    "canal_laden_usd": 342669.28542000003,
-    "canal_ballast_usd": 291151.387296,
+    "canal_laden_usd": 342580.58911999996,
+    "canal_ballast_usd": 291076.02585599996,
     "canal_days": 0.0,
     "wait_days": 0.0,
     "slot_premium_usd": 0.0,
-    "canal_note": "Suez toll for 102,000 SCNT. Laden transit 2026-10-24: Suez Canal Authority, circular 7/2023, transit dues schedules applicable from 15 January 2024; surcharge 19.0 percent, periodical 20/2026; rebate 75.0 percent, periodical of 21 June 2023, renewed six monthly to 31 December 2026; 253,418 SDR at 1.35219 USD per SDR of 2026-10-07. Ballast transit 2026-12-03: surcharge 19.0 percent, periodical 20/2026; rebate 75.0 percent, periodical of 21 June 2023, renewed six monthly to 31 December 2026; 215,318 SDR at 1.35219 USD per SDR of 2026-10-07. SDR rates of the IMF, through the Bundesbank",
+    "canal_note": "Suez toll for 102,000 SCNT. Laden transit 2026-10-24: Suez Canal Authority, circular 7/2023, transit dues schedules applicable from 15 January 2024; surcharge 19.0 percent, periodical 20/2026; rebate 75.0 percent, periodical of 21 June 2023, renewed six monthly to 31 December 2026; 253,418 SDR at 1.35184 USD per SDR of 2026-10-08. Ballast transit 2026-12-03: surcharge 19.0 percent, periodical 20/2026; rebate 75.0 percent, periodical of 21 June 2023, renewed six monthly to 31 December 2026; 215,318 SDR at 1.35184 USD per SDR of 2026-10-08. SDR rates of the IMF, through the Bundesbank",
     "ballast_distance_nm": null,
     "ballast_canal_days": null,
     "ballast_wait_days": null,
@@ -1870,7 +1870,7 @@
    "ttf": "EIA WNGSR Supplement, TTF, week ending 2026-10-07",
    "fx": "Federal Reserve Board H.10, noon buying rate of 2026-10-02",
    "henry_hub": "EIA Henry Hub spot, average of 4 days in October 2026, an incomplete month: the data end on 2026-10-06",
-   "rate": "SOFR of 2026-10-06, New York Fed",
+   "rate": "SOFR of 2026-10-07, New York Fed",
    "hire": "given",
    "eua": "assumption: the last published monthly auction price, German auctions on EEX, August 2026, held; no published price for October 2026",
    "vessel": "174,000 m3 two-stroke",
@@ -1886,7 +1886,7 @@
   "liquefaction_fee": 3.0,
   "port_west_usd": 308947.0,
   "port_east_usd": 273184.0,
-  "rate_percent": 3.9,
+  "rate_percent": 3.88,
   "spread_bp": 150.0,
   "eua_usd_t": 92.672829,
   "ets_phase": 1.0,
@@ -1915,14 +1915,14 @@
    "canal_ballast_usd": 0.0,
    "slot_premium_usd": 0.0,
    "ets_usd": 220997.15168930966,
-   "financing_usd": 28316.669983294276,
+   "financing_usd": 28211.793427800592,
    "canal_note": "",
-   "cost_without_hire_usd": 558260.821672604,
-   "cost_usd": 1390107.8804961334,
+   "cost_without_hire_usd": 558155.9451171103,
+   "cost_usd": 1390003.0039406396,
    "p_des": 23.597590223384607,
-   "netback": 22.7152600439633,
-   "freight_conventional": 0.9025903235506064,
-   "netback_conventional": 22.694999899834002
+   "netback": 22.715286649075843,
+   "freight_conventional": 0.9025631075291,
+   "netback_conventional": 22.695027115855506
   },
   "east": {
    "nea_panama": {
@@ -1942,22 +1942,22 @@
     "canal_ballast_usd": 596104.75,
     "slot_premium_usd": 0.0,
     "ets_usd": 0.0,
-    "financing_usd": 49457.91377414176,
+    "financing_usd": 49274.736315719005,
     "canal_note": "Panama toll, laden transit 2026-10-11 under Panama Canal Authority, tariff item 1010, 1 January 2025; still listed in February 2026, 656,700; ballast transit 2026-11-19 under Panama Canal Authority, tariff item 1010, 1 January 2025; still listed in February 2026, 558,195; each with the fresh water surcharge from 15 February 2020",
-    "cost_without_hire_usd": 1618281.6637741418,
-    "cost_usd": 3118222.1049506124,
+    "cost_without_hire_usd": 1618098.486315719,
+    "cost_usd": 3118038.9274921897,
     "p_des": 25.79,
-    "netback": 23.955129081350062,
-    "freight_conventional": 1.9122692184894554,
-    "netback_conventional": 23.877730781510543,
-    "arb": 1.239869037386761,
-    "s_star": -0.28216904091399186,
+    "netback": 23.955175549856524,
+    "freight_conventional": 1.912220789854157,
+    "netback_conventional": 23.877779210145842,
+    "arb": 1.2398889007806808,
+    "s_star": -0.2821897421831565,
     "boil_off": 0.46557575989171907,
     "regas": -1.2046253266658815,
-    "voyage": 0.4568805258601732,
-    "h_star_usd_day": 261942.4656340233,
+    "voyage": 0.4568598245910098,
+    "h_star_usd_day": 261946.15745092704,
     "waterfall": {
-     "start": 22.7152600439633,
+     "start": 22.715286649075843,
      "spread": 0.9691206708333314,
      "boil_off": -0.4467317750000006,
      "regas": 1.1558686184962994,
@@ -1966,8 +1966,8 @@
      "slot_premium": -0.0,
      "ports": 0.009072367369614686,
      "carbon": 0.056062616328716265,
-     "financing": -0.005363116358279612,
-     "end": 23.955129081350062
+     "financing": -0.005343252964360057,
+     "end": 23.955175549856524
     }
    },
    "nea_suez": {
@@ -1983,36 +1983,36 @@
     "q_delivered_mmbtu": 3695067.994025,
     "hire_usd": 2321148.529411765,
     "port_usd": 273184.0,
-    "canal_laden_usd": 342669.28542000003,
-    "canal_ballast_usd": 291151.387296,
+    "canal_laden_usd": 342580.58911999996,
+    "canal_ballast_usd": 291076.02585599996,
     "slot_premium_usd": 0.0,
     "ets_usd": 0.0,
-    "financing_usd": 75444.34150263327,
-    "canal_note": "Suez toll for 102,000 SCNT. Laden transit 2026-10-24: Suez Canal Authority, circular 7/2023, transit dues schedules applicable from 15 January 2024; surcharge 19.0 percent, periodical 20/2026; rebate 75.0 percent, periodical of 21 June 2023, renewed six monthly to 31 December 2026; 253,418 SDR at 1.35219 USD per SDR of 2026-10-07. Ballast transit 2026-12-03: surcharge 19.0 percent, periodical 20/2026; rebate 75.0 percent, periodical of 21 June 2023, renewed six monthly to 31 December 2026; 215,318 SDR at 1.35219 USD per SDR of 2026-10-07. SDR rates of the IMF, through the Bundesbank",
-    "cost_without_hire_usd": 982449.0142186334,
-    "cost_usd": 3303597.5436303983,
+    "financing_usd": 75164.91801558646,
+    "canal_note": "Suez toll for 102,000 SCNT. Laden transit 2026-10-24: Suez Canal Authority, circular 7/2023, transit dues schedules applicable from 15 January 2024; surcharge 19.0 percent, periodical 20/2026; rebate 75.0 percent, periodical of 21 June 2023, renewed six monthly to 31 December 2026; 253,418 SDR at 1.35184 USD per SDR of 2026-10-08. Ballast transit 2026-12-03: surcharge 19.0 percent, periodical 20/2026; rebate 75.0 percent, periodical of 21 June 2023, renewed six monthly to 31 December 2026; 215,318 SDR at 1.35184 USD per SDR of 2026-10-08. SDR rates of the IMF, through the Bundesbank",
+    "cost_without_hire_usd": 982005.5329915863,
+    "cost_usd": 3303154.062403351,
     "p_des": 25.79,
-    "netback": 23.336607336502905,
-    "freight_conventional": 2.6173267429352247,
-    "netback_conventional": 23.172673257064773,
-    "arb": 0.6213472925396033,
-    "s_star": 0.3471346912335669,
+    "netback": 23.336719838938755,
+    "freight_conventional": 2.617206723160822,
+    "netback_conventional": 23.172793276839176,
+    "arb": 0.6214331898629126,
+    "s_star": 0.34704305430777893,
     "boil_off": 1.0623880395327692,
     "regas": -1.2331029971360872,
-    "voyage": 0.5178496488368866,
-    "h_star_usd_day": 83305.47505459395,
+    "voyage": 0.5177580119110976,
+    "h_star_usd_day": 83312.63683302805,
     "waterfall": {
-     "start": 22.7152600439633,
+     "start": 22.715286649075843,
      "spread": 0.9467394916666648,
      "boil_off": -0.9958462500000004,
      "regas": 1.1558686184962994,
      "hire": -0.3778063939066597,
-     "canals": -0.160787797146097,
+     "canals": -0.160746178934898,
      "slot_premium": -0.0,
      "ports": 0.009072367369614686,
      "carbon": 0.056062616328716265,
-     "financing": -0.011955360268936342,
-     "end": 23.336607336502905
+     "financing": -0.011911081156829166,
+     "end": 23.336719838938755
     }
    },
    "nea_cape": {
@@ -2032,22 +2032,22 @@
     "canal_ballast_usd": 0.0,
     "slot_premium_usd": 0.0,
     "ets_usd": 0.0,
-    "financing_usd": 81310.74714556933,
+    "financing_usd": 81009.59623021535,
     "canal_note": "",
-    "cost_without_hire_usd": 354494.7471455693,
-    "cost_usd": 2861030.041263216,
+    "cost_without_hire_usd": 354193.59623021533,
+    "cost_usd": 2860728.890347862,
     "p_des": 25.79,
-    "netback": 23.319863503432494,
-    "freight_conventional": 2.6493282267293936,
-    "netback_conventional": 23.140671773270604,
-    "arb": 0.6046034594691925,
-    "s_star": 0.3615366404343128,
+    "netback": 23.319939899476946,
+    "freight_conventional": 2.649246288667565,
+    "netback_conventional": 23.140753711332433,
+    "arb": 0.6046532504011033,
+    "s_star": 0.36148323750636635,
     "boil_off": 1.201042726547949,
     "regas": -1.239719085009384,
-    "voyage": 0.4002129988957521,
-    "h_star_usd_day": 76329.15234023487,
+    "voyage": 0.40015959596780587,
+    "h_star_usd_day": 76332.84415713864,
     "waterfall": {
-     "start": 22.7152600439633,
+     "start": 22.715286649075843,
      "spread": 0.941686966666665,
      "boil_off": -1.1198081999999987,
      "regas": 1.1558686184962994,
@@ -2056,17 +2056,17 @@
      "slot_premium": -0.0,
      "ports": 0.009072367369614686,
      "carbon": 0.056062616328716265,
-     "financing": -0.013443551615632553,
-     "end": 23.319863503432494
+     "financing": -0.013393760683722798,
+     "end": 23.319939899476946
     }
    }
   },
   "best_route_east": "nea_panama",
   "best_destination": "NEA",
   "best_route": "nea_panama",
-  "best_netback": 23.955129081350062,
-  "lift_margin": 20.53675408135006,
-  "full_margin": 17.53675408135006,
+  "best_netback": 23.955175549856524,
+  "lift_margin": 20.536800549856522,
+  "full_margin": 17.536800549856522,
   "cancel": false
  },
  "at_levels": {
@@ -2074,51 +2074,51 @@
    "hire_usd_day": -750.0,
    "best_route_east": "nea_panama",
    "best_destination": "NEA",
-   "best_netback": 24.344694021931428,
-   "lift_margin": 20.926319021931427,
+   "best_netback": 24.34474049043789,
+   "lift_margin": 20.926365490437888,
    "arb": {
-    "nea_panama": 1.4133864329141375,
-    "nea_suez": 1.0081490767773715,
-    "nea_cape": 1.039553944811768
+    "nea_panama": 1.4134062963080574,
+    "nea_suez": 1.0082349741006809,
+    "nea_cape": 1.0396037357436825
    },
    "s_star": {
-    "nea_panama": -0.463005725918304,
-    "nea_suez": -0.06551293308006834,
-    "nea_cape": -0.10496656683743666
+    "nea_panama": -0.4630264271874651,
+    "nea_suez": -0.06560457000585629,
+    "nea_cape": -0.10501996976538308
    }
   },
   "central": {
    "hire_usd_day": 45500.0,
    "best_route_east": "nea_panama",
    "best_destination": "NEA",
-   "best_netback": 23.786015618772105,
-   "lift_margin": 20.367640618772107,
+   "best_netback": 23.786062087278566,
+   "lift_margin": 20.36768708727857,
    "arb": {
-    "nea_panama": 1.1645436563826266,
-    "nea_suez": 0.45343333969219657,
-    "nea_cape": 0.4157877449018734
+    "nea_panama": 1.1645635197765465,
+    "nea_suez": 0.4535192370155059,
+    "nea_cape": 0.41583753583378424
    },
    "s_star": {
-    "nea_panama": -0.2036662939353775,
-    "nea_suez": 0.5262685436487899,
-    "nea_cape": 0.5640496606453027
+    "nea_panama": -0.20368699520454214,
+    "nea_suez": 0.5261769067229984,
+    "nea_cape": 0.5639962577173563
    }
   },
   "high": {
    "hire_usd_day": 374000.0,
    "best_route_east": "nea_panama",
    "best_destination": "NWE",
-   "best_netback": 20.420801619746523,
-   "lift_margin": 17.002426619746522,
+   "best_netback": 20.42082822485907,
+   "lift_margin": 17.002453224859067,
    "arb": {
-    "nea_panama": -0.6029126050357796,
-    "nea_suez": -3.486547625334392,
-    "nea_cape": -4.014638129052759
+    "nea_panama": -0.6028927416418632,
+    "nea_suez": -3.4864617280110863,
+    "nea_cape": -4.0145883381208485
    },
    "s_star": {
-    "nea_panama": 1.6383445905271152,
-    "nea_suez": 4.72951643782023,
-    "nea_cape": 5.315873027738924
+    "nea_panama": 1.6383238892579541,
+    "nea_suez": 4.729424800894442,
+    "nea_cape": 5.3158196248109775
    }
   }
  }
