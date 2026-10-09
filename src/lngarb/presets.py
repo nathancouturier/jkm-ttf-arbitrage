@@ -557,7 +557,7 @@ def apply_edits(inputs: Inputs, edits: Sequence[Mapping[str, Any]], *, usd_per_e
     eua_typed = False
     for edit in edits:
         if edit["key"] == "ttf_eur_mwh":
-            out = replace(out, ttf=usable(edit) * fx / units.MMBTU_PER_MWH)
+            out = replace(out, ttf=units.eur_mwh_to_usd_mmbtu(usable(edit), fx))
         if edit["key"] == "eua_eur_t":
             out = replace(out, eua_usd_t=usable(edit) * fx)
             eua_typed = True

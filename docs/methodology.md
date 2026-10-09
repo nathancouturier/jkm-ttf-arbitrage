@@ -20,7 +20,9 @@ layer, the engine, the analysis and the site.
    in `data/manifest.json` with the error, and the refresh exits non zero.
 4. **Every cache is validated before it is written**: dates in order and
    unique, the declared bounds, a row count that did not shrink, and a minimum
-   number of real observations in every value column.
+   number of real observations in every value column. A series that failed
+   or holds nothing stops the build, so no page with an empty chart is ever
+   deployed: the site already live stays as it was until the series is mended.
 5. **Every release is a vintage.** Where a publisher revises figures and keeps
    no old release online (EIA's exports table, the World Bank's Pink Sheet),
    the latest release is cached in full and every value a later release

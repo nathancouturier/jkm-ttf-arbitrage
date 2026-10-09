@@ -268,17 +268,7 @@ def now(obs: pd.DataFrame | None = None, *, flows_document: dict[str, Any] | Non
             },
             "engine_inputs": inputs_json(inputs),
             "result": result,
-            "at_levels": {},
         }
-        for name, value in levels.items():
-            out = at_hire(value)
-            document["at_levels"][name] = {
-                "hire_usd_day": value, "best_route_east": out["best_route_east"],
-                "best_destination": out["best_destination"], "best_netback": out["best_netback"],
-                "lift_margin": out["lift_margin"],
-                "arb": {r: lines["arb"] for r, lines in out["east"].items()},
-                "s_star": {r: lines["s_star"] for r, lines in out["east"].items()},
-            }
         return _clean(document)
 
 

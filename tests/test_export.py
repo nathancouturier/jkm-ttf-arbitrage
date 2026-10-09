@@ -55,7 +55,6 @@ def test_now_carries_each_input_with_its_source_and_the_engine_inputs(written):
     for name in ("jkm", "ttf", "henry_hub", "hire", "regas_discount", "usd_per_eur", "eua", "overnight_rate"):
         assert now["inputs"][name]["source"], name
     assert now["engine_inputs"]["day"] == now["as_of"]
-    assert set(now["at_levels"]) == {"low", "central", "high"}
     assert now["result"]["best_netback"] == pytest.approx(
         max([now["result"]["west"]["netback"]]
             + [r["netback"] for r in now["result"]["east"].values() if r["open"]]), abs=1e-12)

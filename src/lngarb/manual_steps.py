@@ -73,7 +73,8 @@ MANUAL_STEPS: tuple[dict[str, Any], ...] = (
         ),
         "how": (
             "python scripts/refresh.py --only eia-weekly each week after the Thursday "
-            "release. No scheduled job runs it yet, so until one does it is run by hand. "
+            "release; the repository's weekly workflow runs it every Thursday and Friday, and "
+            "this is the way by hand when it fails. "
             "Past issues the Internet Archive captured: python -m lngarb.sources.eia_ngwu "
             "--from-internet-archive saves them under data/private/wngsr/. Others: open "
             "https://www.eia.gov/naturalgas/weekly/supplement/archive/YYYY/MM/DD/ (the "

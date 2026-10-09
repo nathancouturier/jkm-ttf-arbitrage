@@ -2280,58 +2280,5 @@
   "lift_margin": 20.536800549856522,
   "full_margin": 17.536800549856522,
   "cancel": false
- },
- "at_levels": {
-  "low": {
-   "hire_usd_day": -750.0,
-   "best_route_east": "nea_panama",
-   "best_destination": "NEA",
-   "best_netback": 24.34474049043789,
-   "lift_margin": 20.926365490437888,
-   "arb": {
-    "nea_panama": 1.4134062963080574,
-    "nea_suez": 1.0082349741006809,
-    "nea_cape": 1.0396037357436825
-   },
-   "s_star": {
-    "nea_panama": -0.4630264271874651,
-    "nea_suez": -0.06560457000585629,
-    "nea_cape": -0.10501996976538308
-   }
-  },
-  "central": {
-   "hire_usd_day": 45500.0,
-   "best_route_east": "nea_panama",
-   "best_destination": "NEA",
-   "best_netback": 23.786062087278566,
-   "lift_margin": 20.36768708727857,
-   "arb": {
-    "nea_panama": 1.1645635197765465,
-    "nea_suez": 0.4535192370155059,
-    "nea_cape": 0.41583753583378424
-   },
-   "s_star": {
-    "nea_panama": -0.20368699520454214,
-    "nea_suez": 0.5261769067229984,
-    "nea_cape": 0.5639962577173563
-   }
-  },
-  "high": {
-   "hire_usd_day": 374000.0,
-   "best_route_east": "nea_panama",
-   "best_destination": "NWE",
-   "best_netback": 20.42082822485907,
-   "lift_margin": 17.002453224859067,
-   "arb": {
-    "nea_panama": -0.6028927416418632,
-    "nea_suez": -3.4864617280110863,
-    "nea_cape": -4.0145883381208485
-   },
-   "s_star": {
-    "nea_panama": 1.6383238892579541,
-    "nea_suez": 4.729424800894442,
-    "nea_cape": 5.3158196248109775
-   }
-  }
  }
 }

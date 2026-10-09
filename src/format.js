@@ -226,27 +226,6 @@ export function loadFailureSentences(failure) {
   return [happened, todo];
 }
 
-/** The sentence an empty chart shows in place of its marks.
- *
- *    series      the series name, in words
- *    fetchedAt   the ISO time of the last fetch attempt, or null
- *    status      the manifest's status word for the series
- *    reason      the reason for the gap, a sentence, or null
- */
-export function emptySeriesSentence({ series, fetchedAt, status, reason }) {
-  const when = formatInstant(fetchedAt);
-  let fetch;
-  if (status === "failed") {
-    fetch = when ? "its last fetch failed, at " + when : "its last fetch failed, and the time of that fetch is not recorded";
-  } else if (status === "stale") {
-    fetch = when ? "its last successful fetch, at " + when + ", is stale" : "it is stale, and the time of its last fetch is not recorded";
-  } else {
-    fetch = when ? "it was last fetched at " + when + " and holds no values for this range" : "it holds no values for this range, and the time of its last fetch is not recorded";
-  }
-  const because = reason ? " " + reason.trim().replace(/\.?$/, ".") : "";
-  return "Nothing is drawn for " + series + ": " + fetch + "." + because + " The gap is left empty rather than filled.";
-}
-
 /* The words for one missing figure. The words are the caller's, taken from the
  * artifact, which is where the series and the reason for the gap are named. An
  * identifier handed here is dropped rather than printed: a column's code name

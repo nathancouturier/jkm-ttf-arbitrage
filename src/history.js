@@ -74,6 +74,7 @@ export function render(root, data, route) {
   }
 
   root.appendChild(weeklyFigure(page, range, decimals));
+  root.appendChild(netbacksFigure(page, range, decimals));
   root.appendChild(hstarFigure(page, range, decimals));
   root.appendChild(partsFigure(page, range, decimals));
   root.appendChild(regasFigure(page, range, decimals));
@@ -187,6 +188,36 @@ function hstarFigure(page, range, decimals) {
     el("p", { class: "source-line", text: page.words.hstar_legend }),
     sentence("p", range.hstar_caption_segments, decimals, "source-line"),
     disclosure("The charter rates reported, in a table", () => anchorsTable(page, decimals)),
+  ]);
+}
+
+/* What a cargo nets at Sabine Pass, sold at Gate and by the best route east. */
+function netbacksFigure(page, range, decimals) {
+  const weekly = page.weekly;
+  const indexes = slice(weekly, range);
+  const frame = el("div", { class: "chart-frame" });
+  charts.onWidthChange(frame, (width) => {
+    frame.replaceChildren(charts.timeChart({
+      width,
+      days: pick(weekly.day, indexes),
+      first: range.first,
+      last: range.last,
+      y: range.netbacks_y,
+      band: null,
+      reference: { values: pick(weekly.east_netback, indexes), label: page.words.netbacks.east },
+      series: { values: pick(weekly.west_netback, indexes), label: page.words.netbacks.west },
+      marks: [],
+      rules: page.rules,
+      events: page.event_marks,
+      ticks: range.ticks,
+      height: width < charts.GEOMETRY.NARROW_WIDTH ? charts.GEOMETRY.HSTAR_HEIGHT_NARROW : charts.GEOMETRY.HSTAR_HEIGHT,
+      words: { title: segmentsText(range.netbacks_heading_segments, decimals), desc: page.words.netbacks_legend, yAxis: page.words.y_axis },
+    }));
+  });
+  return el("figure", { class: "block" }, [
+    sentence("h2", range.netbacks_heading_segments, decimals, "block__heading"),
+    frame,
+    el("p", { class: "source-line", text: page.words.netbacks_legend }),
   ]);
 }
 
@@ -312,6 +343,7 @@ function anchorsTable(page, decimals) {
       el("th", { text: formatDay(anchor.day), attrs: { scope: "row" } }),
       figureCell(formatCell(anchor.hire_usd_day, "usd_day", decimals), "hire_usd_day"),
       el("td", { class: "words", text: anchor.assessment }),
+      el("td", { class: "words", text: anchor.vessel }),
       el("td", { class: "words", text: anchor.publisher }),
     ]));
   }
@@ -320,6 +352,7 @@ function anchorsTable(page, decimals) {
       el("th", { text: "Day", attrs: { scope: "col" } }),
       el("th", { class: "col-num", text: "Hire, " + UNITS.usd_day, attrs: { scope: "col" } }),
       el("th", { text: "Assessment", attrs: { scope: "col" } }),
+      el("th", { text: "Ship", attrs: { scope: "col" } }),
       el("th", { text: "Reported by", attrs: { scope: "col" } }),
     ])]),
     body,

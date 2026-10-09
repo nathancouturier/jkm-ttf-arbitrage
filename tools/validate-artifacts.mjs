@@ -89,6 +89,8 @@ const REQUIRED = Object.freeze({
     "page.words.parts.regas", "page.words.parts.voyage", "page.words.regas_legend", "page.words.regas.observed",
     "page.words.regas.assumed", "page.words.events_caption", "page.words.events_heading", "page.words.left_out_heading",
     "page.events", "page.event_marks", "page.events_lead_segments", "page.events_left_out",
+    "page.weekly.west_netback", "page.weekly.east_netback", "page.words.netbacks_legend", "page.words.netbacks.west",
+    "page.words.netbacks.east",
   ],
   flows: [
     "page.whole.months", "page.whole.heading_segments", "page.whole.ticks", "page.whole.ticks_narrow",
@@ -145,13 +147,13 @@ const ROW_FIELDS = Object.freeze({
   history: {
     "page.weekly.ranges": ["id", "label", "first", "last", "y", "hstar", "ticks", "heading_segments", "desc_segments",
       "caption_segments", "hstar_heading_segments", "hstar_desc_segments", "hstar_caption_segments", "accent_day", "years",
-      "parts_y", "parts_heading_segments", "regas_y", "regas_heading_segments"],
+      "parts_y", "parts_heading_segments", "regas_y", "regas_heading_segments", "netbacks_y", "netbacks_heading_segments"],
     "page.events": ["letter", "day", "end", "what", "publisher", "url"],
     "page.event_marks": ["day", "end", "letter"],
     "page.events_left_out": ["what", "reason"],
     "page.breaks": ["number", "day", "kind", "kind_words", "what", "source"],
     "page.rules": ["day", "numbers"],
-    "page.anchors": ["day", "hire_usd_day", "publisher", "assessment", "accent"],
+    "page.anchors": ["day", "hire_usd_day", "publisher", "assessment", "vessel", "accent"],
     "page.monthly.years": ["year", "open", "count", "ttf_above"],
   },
   flows: {

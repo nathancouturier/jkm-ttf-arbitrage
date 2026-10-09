@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-09T21:41:46Z",
+  "generated_at": "2026-10-09T22:12:14Z",
   "series": [
     {
       "series": "acer_lng_daily",
@@ -2529,7 +2529,7 @@
           "what": "The WNGSR Supplement's current issue has to be collected every week, after its Thursday release. Of the 34 issues released before collection started, from 29 January to 17 September 2026, five are read from the Internet Archive's copies and the other 29 were read in a browser from EIA's archive pages on 8 October 2026 (the issue of 2 April both ways, with the same text); none is missing.",
           "why": "Only the current issue is on a path robots.txt allows. Every past issue sits under /naturalgas/weekly/supplement/archive/, which /*archive/ disallows.",
           "cost_if_skipped": "A week not collected while current has to be read from its archive page in a browser, unless the Internet Archive happened to capture the issue's files that week, in the only weekly JKM and TTF series EIA still publishes.",
-          "how": "python scripts/refresh.py --only eia-weekly each week after the Thursday release. No scheduled job runs it yet, so until one does it is run by hand. Past issues the Internet Archive captured: python -m lngarb.sources.eia_ngwu --from-internet-archive saves them under data/private/wngsr/. Others: open https://www.eia.gov/naturalgas/weekly/supplement/archive/YYYY/MM/DD/ (the release day) in a browser and append the text it shows, as one JSON line with url, header (the line from 'For week ending' to the next release date), bullets (the items of the list holding the two prices), source (the 'Data source' line) and read_at (UTC), to data/private/wngsr/archive_pages.jsonl; the next run reads it.",
+          "how": "python scripts/refresh.py --only eia-weekly each week after the Thursday release; the repository's weekly workflow runs it every Thursday and Friday, and this is the way by hand when it fails. Past issues the Internet Archive captured: python -m lngarb.sources.eia_ngwu --from-internet-archive saves them under data/private/wngsr/. Others: open https://www.eia.gov/naturalgas/weekly/supplement/archive/YYYY/MM/DD/ (the release day) in a browser and append the text it shows, as one JSON line with url, header (the line from 'For week ending' to the next release date), bullets (the items of the list holding the two prices), source (the 'Data source' line) and read_at (UTC), to data/private/wngsr/archive_pages.jsonl; the next run reads it.",
           "cadence": "weekly, after the Thursday release, which EIA's schedule gives as 'Thursday by 5:00 p.m.' with no time zone",
           "status": "standing"
         }
@@ -2542,7 +2542,7 @@
       "page_url": "https://github.com/nathancouturier/jkm-ttf-arbitrage/blob/main/docs/sources.md",
       "machine_fetched": false,
       "fetched_at": null,
-      "checked_at": "2026-10-09T21:41:46Z",
+      "checked_at": "2026-10-09T22:12:14Z",
       "rows": 8,
       "observations": 8,
       "file_rows": 8,
@@ -2571,7 +2571,7 @@
       "page_url": "https://lngprime.com/",
       "machine_fetched": false,
       "fetched_at": null,
-      "checked_at": "2026-10-09T21:41:46Z",
+      "checked_at": "2026-10-09T22:12:14Z",
       "rows": 10,
       "observations": 10,
       "file_rows": 10,
@@ -3256,7 +3256,7 @@
       "page_url": "https://github.com/genthalili/searoute-py",
       "machine_fetched": false,
       "fetched_at": null,
-      "checked_at": "2026-10-09T21:41:46Z",
+      "checked_at": "2026-10-09T22:12:14Z",
       "rows": 4,
       "observations": 4,
       "file_rows": 4,
@@ -3361,7 +3361,7 @@
       "what": "The WNGSR Supplement's current issue has to be collected every week, after its Thursday release. Of the 34 issues released before collection started, from 29 January to 17 September 2026, five are read from the Internet Archive's copies and the other 29 were read in a browser from EIA's archive pages on 8 October 2026 (the issue of 2 April both ways, with the same text); none is missing.",
       "why": "Only the current issue is on a path robots.txt allows. Every past issue sits under /naturalgas/weekly/supplement/archive/, which /*archive/ disallows.",
       "cost_if_skipped": "A week not collected while current has to be read from its archive page in a browser, unless the Internet Archive happened to capture the issue's files that week, in the only weekly JKM and TTF series EIA still publishes.",
-      "how": "python scripts/refresh.py --only eia-weekly each week after the Thursday release. No scheduled job runs it yet, so until one does it is run by hand. Past issues the Internet Archive captured: python -m lngarb.sources.eia_ngwu --from-internet-archive saves them under data/private/wngsr/. Others: open https://www.eia.gov/naturalgas/weekly/supplement/archive/YYYY/MM/DD/ (the release day) in a browser and append the text it shows, as one JSON line with url, header (the line from 'For week ending' to the next release date), bullets (the items of the list holding the two prices), source (the 'Data source' line) and read_at (UTC), to data/private/wngsr/archive_pages.jsonl; the next run reads it.",
+      "how": "python scripts/refresh.py --only eia-weekly each week after the Thursday release; the repository's weekly workflow runs it every Thursday and Friday, and this is the way by hand when it fails. Past issues the Internet Archive captured: python -m lngarb.sources.eia_ngwu --from-internet-archive saves them under data/private/wngsr/. Others: open https://www.eia.gov/naturalgas/weekly/supplement/archive/YYYY/MM/DD/ (the release day) in a browser and append the text it shows, as one JSON line with url, header (the line from 'For week ending' to the next release date), bullets (the items of the list holding the two prices), source (the 'Data source' line) and read_at (UTC), to data/private/wngsr/archive_pages.jsonl; the next run reads it.",
       "cadence": "weekly, after the Thursday release, which EIA's schedule gives as 'Thursday by 5:00 p.m.' with no time zone",
       "status": "standing"
     },
@@ -3394,8 +3394,8 @@
   "manual_steps_note": "Work this pipeline cannot do for itself. Each entry says what it is, why it exists, what it costs to skip it and how to do it. They are repeated against the series they affect in the manual_step field of those entries.",
   "run": {
     "mode": "offline",
-    "started_at": "2026-10-09T21:41:46Z",
-    "finished_at": "2026-10-09T21:41:46Z",
+    "started_at": "2026-10-09T22:12:13Z",
+    "finished_at": "2026-10-09T22:12:14Z",
     "script": "scripts/refresh.py"
   }
 }

@@ -385,6 +385,14 @@ def breaks(obs: pd.DataFrame | None = None) -> pd.DataFrame:
     rows.append({"day": after_german, "kind": "carbon",
                  "what": "allowance price held at the last month published, an assumption",
                  "source": parameters["eua_eur_t_after_published"].source})
+    acer = base.read_cache("acer_lng_daily")
+    if acer is not None:
+        held = acer.loc[acer["nwe_benchmark_spread_eur_mwh"].notna(), "date"]
+        if not held.empty:
+            rows.append({"day": held.min(), "kind": "regas",
+                         "what": "Europe's DES spread to TTF observed from ACER's assessments; the parameter "
+                                 "table's assumption before",
+                         "source": "ACER, LNG price assessments and benchmark (docs/sources.md 2.7)"})
     frame = pd.DataFrame(rows).sort_values(["day", "kind"]).reset_index(drop=True)
     return frame
 

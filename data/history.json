@@ -135,6 +135,12 @@
    "source": "the stored item text of each issue"
   },
   {
+   "day": "2023-03-31",
+   "kind": "regas",
+   "what": "Europe's DES spread to TTF observed from ACER's assessments; the parameter table's assumption before",
+   "source": "ACER, LNG price assessments and benchmark (docs/sources.md 2.7)"
+  },
+  {
    "day": "2024-01-01",
    "kind": "carbon",
    "what": "EU ETS on voyages into Northwest Europe at 40 percent of emissions",
@@ -356,7 +362,7 @@
     "open": "Arb east open",
     "ttf_above": "TTF above JKM"
    },
-   "anchors_caption": "Every charter rate reported that the study holds: the day it refers to, the rate, the assessment and who reported it.",
+   "anchors_caption": "Every charter rate reported that the study holds: the day it refers to, the rate, the assessment, the ship it is for and who reported it. The low, central and high hire are taken across them all, so they mix rates for the TFDE ship of the years before 2024 and for the two-stroke ship after.",
    "breaks_caption": "Every break drawn as a numbered rule: the day it takes effect, its kind, what changes and the source.",
    "parts_legend": "The ink line is S* of the cheapest open route at the central hire; the thin line, the gas the longer voyage burns, valued at TTF; the dotted line, Europe's DES spread a cargo sold east escapes; the dashed line, the extra cost of the voyage.",
    "parts": {
@@ -369,6 +375,11 @@
    "regas": {
     "observed": "Europe's spread",
     "assumed": "Assumption"
+   },
+   "netbacks_legend": "The ink line is the netback at Sabine Pass of a cargo sold at Gate; the dashed line, by the best open route east to Futtsu; both at the central hire, per MMBtu loaded. Where the dashed line runs above, the arb east was open.",
+   "netbacks": {
+    "west": "Gate",
+    "east": "Best route east"
    },
    "events_caption": "Every event drawn as a lettered mark: the day it began, the day it ended where it ran for a period, what happened and the document it was read in.",
    "events_heading": "The events behind the regimes",
@@ -4567,6 +4578,530 @@
     true,
     true
    ],
+   "west_netback": [
+    16.391411,
+    18.245345,
+    23.480782,
+    30.348129,
+    27.542928,
+    28.541497,
+    27.73582,
+    21.729991,
+    null,
+    25.882709,
+    null,
+    28.794589,
+    29.290722,
+    36.031917,
+    null,
+    24.743327,
+    26.256653,
+    24.655076,
+    26.898181,
+    25.845327,
+    24.18248,
+    22.744624,
+    23.97506,
+    38.922032,
+    57.130089,
+    35.432885,
+    30.904914,
+    32.687079,
+    34.170036,
+    30.93023,
+    28.604374,
+    29.098981,
+    29.000885,
+    26.243984,
+    26.343761,
+    24.202272,
+    24.777757,
+    22.805875,
+    25.9514,
+    35.060245,
+    38.278941,
+    45.715528,
+    49.508084,
+    45.323613,
+    51.220065,
+    56.957033,
+    56.576208,
+    62.33997,
+    74.550401,
+    80.405755,
+    63.736744,
+    58.203866,
+    54.14077,
+    51.053528,
+    48.661969,
+    43.638427,
+    35.328664,
+    29.772515,
+    32.071847,
+    32.051085,
+    32.176621,
+    null,
+    37.934635,
+    40.786472,
+    40.300852,
+    33.030077,
+    null,
+    20.400398,
+    18.526136,
+    18.103254,
+    16.517706,
+    16.323439,
+    15.206719,
+    14.197607,
+    13.669159,
+    12.27432,
+    13.161057,
+    11.754185,
+    12.073241,
+    11.968995,
+    12.424715,
+    10.554927,
+    10.544823,
+    9.994934,
+    9.296829,
+    8.788667,
+    8.003416,
+    7.160263,
+    6.550748,
+    8.098646,
+    10.089163,
+    10.210932,
+    9.858032,
+    9.658467,
+    8.686312,
+    8.181432,
+    8.876563,
+    8.485177,
+    10.843859,
+    11.159068,
+    10.131074,
+    10.401376,
+    null,
+    10.234909,
+    11.153148,
+    11.416607,
+    10.335562,
+    13.649206,
+    14.121541,
+    14.020342,
+    12.373018,
+    12.613979,
+    null,
+    13.191954,
+    12.729544,
+    11.009575,
+    9.660827,
+    null,
+    8.811887,
+    8.621769,
+    7.861875,
+    7.863173,
+    8.125457,
+    7.764776,
+    6.867149,
+    6.627281,
+    null,
+    7.519557,
+    7.055483,
+    7.92262,
+    7.206077,
+    7.554258,
+    8.267029,
+    9.094747,
+    8.647795,
+    8.573031,
+    9.097896,
+    8.976191,
+    9.848761,
+    10.070375,
+    10.132153,
+    null,
+    10.441514,
+    null,
+    10.116781,
+    9.2779,
+    9.543637,
+    9.753406,
+    10.767229,
+    11.427625,
+    12.071356,
+    11.536717,
+    11.604261,
+    11.062774,
+    10.87011,
+    10.447363,
+    11.117907,
+    11.710688,
+    11.871198,
+    11.851884,
+    12.168349,
+    12.127788,
+    11.99394,
+    13.004786,
+    null,
+    13.819556,
+    13.676793,
+    12.434275,
+    null,
+    12.692535,
+    12.936722,
+    13.279141,
+    13.76087,
+    14.250574,
+    15.04529,
+    15.311281,
+    13.360273,
+    12.636545,
+    11.845234,
+    12.069624,
+    null,
+    11.633487,
+    11.253481,
+    10.061129,
+    10.344926,
+    9.841716,
+    9.252319,
+    10.047516,
+    10.377774,
+    10.856379,
+    10.565998,
+    10.821062,
+    null,
+    11.893884,
+    null,
+    10.489214,
+    10.784574,
+    10.781312,
+    10.098859,
+    10.458361,
+    10.275347,
+    9.915802,
+    9.842126,
+    9.884181,
+    9.831436,
+    9.906133,
+    9.996651,
+    9.848234,
+    9.568819,
+    9.675597,
+    9.581563,
+    9.710087,
+    9.414291,
+    9.464041,
+    9.414688,
+    null,
+    8.942777,
+    8.449356,
+    8.303741,
+    null,
+    8.918391,
+    8.859785,
+    10.31399,
+    11.819991,
+    11.950789,
+    10.257647,
+    9.694902,
+    9.094337,
+    10.217906,
+    15.9275,
+    16.151339,
+    16.982527,
+    16.918954,
+    15.389721,
+    14.921023,
+    13.37139,
+    13.883593,
+    14.520389,
+    14.497551,
+    15.407791,
+    15.915476,
+    15.172871,
+    15.6395,
+    15.586765,
+    13.269441,
+    12.784081,
+    13.813045,
+    15.368307,
+    17.601758,
+    19.316646,
+    18.823746,
+    17.963227,
+    19.479139,
+    20.47718,
+    21.57603,
+    23.290413,
+    25.04555,
+    25.099074,
+    23.342352,
+    22.621499
+   ],
+   "east_netback": [
+    16.886059,
+    21.924164,
+    25.714648,
+    30.018991,
+    30.742802,
+    31.390509,
+    31.514233,
+    29.171932,
+    null,
+    30.219553,
+    null,
+    33.821127,
+    32.478267,
+    32.697315,
+    null,
+    30.3156,
+    31.344174,
+    28.096548,
+    20.47752,
+    24.124738,
+    22.220009,
+    22.724735,
+    22.31521,
+    28.791163,
+    37.572133,
+    35.867368,
+    32.94271,
+    31.856994,
+    31.511632,
+    30.721206,
+    27.492732,
+    23.2641,
+    21.871339,
+    21.573045,
+    21.468219,
+    19.915898,
+    21.716568,
+    21.716809,
+    21.06955,
+    29.826956,
+    34.188508,
+    35.67504,
+    36.341765,
+    35.370335,
+    37.132243,
+    41.513894,
+    41.552058,
+    46.62819,
+    55.26644,
+    60.037741,
+    52.469099,
+    49.726298,
+    40.945452,
+    36.940947,
+    35.253214,
+    32.224637,
+    29.653203,
+    29.091341,
+    26.663422,
+    25.650786,
+    24.841132,
+    null,
+    28.576874,
+    30.452828,
+    30.909971,
+    31.822098,
+    null,
+    25.382482,
+    22.696762,
+    20.382446,
+    17.538875,
+    16.462235,
+    16.090806,
+    13.643182,
+    13.091154,
+    12.567344,
+    12.576813,
+    11.643532,
+    11.147789,
+    11.377099,
+    11.043782,
+    10.996163,
+    10.36759,
+    10.024796,
+    9.776757,
+    9.148201,
+    8.300581,
+    7.900529,
+    7.843282,
+    7.881377,
+    9.986143,
+    10.424222,
+    10.593734,
+    10.498516,
+    9.717562,
+    9.631827,
+    9.421654,
+    9.488321,
+    10.23118,
+    12.450232,
+    11.726421,
+    11.65947,
+    null,
+    12.202328,
+    12.964193,
+    12.781402,
+    12.533805,
+    14.743357,
+    16.371932,
+    16.001915,
+    15.659057,
+    15.382866,
+    null,
+    14.79767,
+    14.351013,
+    14.036746,
+    11.68436,
+    null,
+    10.042476,
+    9.150092,
+    8.171401,
+    8.104209,
+    8.150359,
+    8.111991,
+    7.373156,
+    6.998928,
+    null,
+    7.182454,
+    7.969265,
+    8.170742,
+    8.198974,
+    8.256558,
+    8.851464,
+    9.158512,
+    8.963815,
+    9.10776,
+    9.10776,
+    10.105667,
+    10.585396,
+    10.563988,
+    10.573623,
+    null,
+    11.16847,
+    null,
+    11.055788,
+    10.854271,
+    10.710359,
+    10.921389,
+    11.065853,
+    11.180996,
+    12.40922,
+    12.409157,
+    12.436414,
+    12.292539,
+    11.927901,
+    11.573749,
+    11.698731,
+    11.641314,
+    11.708429,
+    11.977148,
+    12.217064,
+    12.044754,
+    12.064308,
+    12.655071,
+    null,
+    13.504768,
+    13.485507,
+    12.276623,
+    null,
+    12.754941,
+    12.611045,
+    12.476647,
+    12.543652,
+    12.850479,
+    13.205536,
+    13.080699,
+    12.485859,
+    12.342212,
+    12.19838,
+    11.958563,
+    null,
+    11.654454,
+    11.366462,
+    10.93497,
+    10.455288,
+    9.879225,
+    9.880901,
+    10.034449,
+    10.619833,
+    10.984282,
+    10.831307,
+    10.96564,
+    null,
+    12.414335,
+    null,
+    11.626812,
+    11.482833,
+    10.581029,
+    10.494572,
+    10.543815,
+    10.486266,
+    9.929787,
+    10.044816,
+    9.804584,
+    9.890941,
+    9.977321,
+    9.929926,
+    9.756105,
+    9.679543,
+    9.640738,
+    9.73689,
+    9.775122,
+    9.715875,
+    9.725263,
+    9.926971,
+    null,
+    9.627399,
+    9.445255,
+    8.841454,
+    null,
+    8.242373,
+    8.223243,
+    9.317162,
+    9.835245,
+    9.851675,
+    9.640579,
+    9.198971,
+    9.266307,
+    11.619478,
+    14.26784,
+    16.532368,
+    19.295753,
+    18.500436,
+    18.08797,
+    17.636712,
+    14.06745,
+    14.959831,
+    15.256644,
+    15.285476,
+    16.629018,
+    16.887792,
+    16.839037,
+    17.126944,
+    15.985011,
+    14.027603,
+    14.162877,
+    14.594844,
+    14.988114,
+    19.238857,
+    19.766528,
+    19.411936,
+    19.373599,
+    19.767004,
+    21.177463,
+    21.426255,
+    22.357017,
+    23.450922,
+    24.381086,
+    23.882063,
+    23.786062
+   ],
    "ranges": [
     {
      "id": "all",
@@ -4934,6 +5469,48 @@
       },
       {
        "text": "."
+      }
+     ],
+     "netbacks_y": {
+      "low": 0.0,
+      "high": 100.0,
+      "step": 20.0
+     },
+     "netbacks_heading_segments": [
+      {
+       "text": "At the central hire a cargo netted from "
+      },
+      {
+       "field": "gate_low",
+       "value": 6.550748,
+       "format": "usd_mmbtu"
+      },
+      {
+       "text": " to "
+      },
+      {
+       "field": "gate_high",
+       "value": 80.405755,
+       "format": "usd_mmbtu"
+      },
+      {
+       "text": " $/MMBtu at Gate, and more by the best route east in "
+      },
+      {
+       "field": "east_more",
+       "value": 147,
+       "format": "count"
+      },
+      {
+       "text": " of "
+      },
+      {
+       "field": "both",
+       "value": 242,
+       "format": "count"
+      },
+      {
+       "text": " weeks."
       }
      ],
      "regas_y": {
@@ -5410,6 +5987,48 @@
        "text": "."
       }
      ],
+     "netbacks_y": {
+      "low": 0.0,
+      "high": 100.0,
+      "step": 20.0
+     },
+     "netbacks_heading_segments": [
+      {
+       "text": "At the central hire a cargo netted from "
+      },
+      {
+       "field": "gate_low",
+       "value": 6.550748,
+       "format": "usd_mmbtu"
+      },
+      {
+       "text": " to "
+      },
+      {
+       "field": "gate_high",
+       "value": 80.405755,
+       "format": "usd_mmbtu"
+      },
+      {
+       "text": " $/MMBtu at Gate, and more by the best route east in "
+      },
+      {
+       "field": "east_more",
+       "value": 52,
+       "format": "count"
+      },
+      {
+       "text": " of "
+      },
+      {
+       "field": "both",
+       "value": 110,
+       "format": "count"
+      },
+      {
+       "text": " weeks."
+      }
+     ],
      "regas_y": {
       "low": -3.0,
       "high": 1.0,
@@ -5854,6 +6473,48 @@
        "text": "."
       }
      ],
+     "netbacks_y": {
+      "low": 0.0,
+      "high": 30.0,
+      "step": 10.0
+     },
+     "netbacks_heading_segments": [
+      {
+       "text": "At the central hire a cargo netted from "
+      },
+      {
+       "field": "gate_low",
+       "value": 6.627281,
+       "format": "usd_mmbtu"
+      },
+      {
+       "text": " to "
+      },
+      {
+       "field": "gate_high",
+       "value": 25.099074,
+       "format": "usd_mmbtu"
+      },
+      {
+       "text": " $/MMBtu at Gate, and more by the best route east in "
+      },
+      {
+       "field": "east_more",
+       "value": 95,
+       "format": "count"
+      },
+      {
+       "text": " of "
+      },
+      {
+       "field": "both",
+       "value": 132,
+       "format": "count"
+      },
+      {
+       "text": " weeks."
+      }
+     ],
      "regas_y": {
       "low": -4.0,
       "high": 2.0,
@@ -6282,6 +6943,48 @@
       },
       {
        "text": "."
+      }
+     ],
+     "netbacks_y": {
+      "low": 0.0,
+      "high": 30.0,
+      "step": 10.0
+     },
+     "netbacks_heading_segments": [
+      {
+       "text": "At the central hire a cargo netted from "
+      },
+      {
+       "field": "gate_low",
+       "value": 8.303741,
+       "format": "usd_mmbtu"
+      },
+      {
+       "text": " to "
+      },
+      {
+       "field": "gate_high",
+       "value": 25.099074,
+       "format": "usd_mmbtu"
+      },
+      {
+       "text": " $/MMBtu at Gate, and more by the best route east in "
+      },
+      {
+       "field": "east_more",
+       "value": 35,
+       "format": "count"
+      },
+      {
+       "text": " of "
+      },
+      {
+       "field": "both",
+       "value": 49,
+       "format": "count"
+      },
+      {
+       "text": " weeks."
       }
      ],
      "regas_y": {
@@ -7658,6 +8361,14 @@
    },
    {
     "number": 8,
+    "day": "2023-03-31",
+    "kind": "regas",
+    "what": "Europe's DES spread to TTF observed from ACER's assessments; the parameter table's assumption before",
+    "source": "ACER, LNG price assessments and benchmark (docs/sources.md 2.7)",
+    "kind_words": "Europe's DES spread"
+   },
+   {
+    "number": 9,
     "day": "2024-01-01",
     "kind": "carbon",
     "what": "EU ETS on voyages into Northwest Europe at 40 percent of emissions",
@@ -7665,7 +8376,7 @@
     "kind_words": "EU ETS"
    },
    {
-    "number": 9,
+    "number": 10,
     "day": "2024-01-02",
     "kind": "vessel",
     "what": "benchmark ship from the 160,000 m3 TFDE to the 174,000 m3 two-stroke",
@@ -7673,7 +8384,7 @@
     "kind_words": "ship"
    },
    {
-    "number": 10,
+    "number": 11,
     "day": "2024-01-13",
     "kind": "route",
     "what": "Suez closed to a US cargo: the first laden transit day not offered",
@@ -7681,7 +8392,7 @@
     "kind_words": "route"
    },
    {
-    "number": 11,
+    "number": 12,
     "day": "2025-01-01",
     "kind": "carbon",
     "what": "EU ETS on voyages into Northwest Europe at 70 percent of emissions",
@@ -7689,7 +8400,7 @@
     "kind_words": "EU ETS"
    },
    {
-    "number": 12,
+    "number": 13,
     "day": "2025-07-01",
     "kind": "carbon",
     "what": "allowance price from the Commission's reports to DEHSt's average of the German auctions, a proxy",
@@ -7697,7 +8408,7 @@
     "kind_words": "EU ETS"
    },
    {
-    "number": 13,
+    "number": 14,
     "day": "2026-01-01",
     "kind": "carbon",
     "what": "EU ETS on voyages into Northwest Europe at 100 percent of emissions",
@@ -7705,7 +8416,7 @@
     "kind_words": "EU ETS"
    },
    {
-    "number": 14,
+    "number": 15,
     "day": "2026-01-01",
     "kind": "carbon",
     "what": "methane and nitrous oxide counted in the EU ETS",
@@ -7713,7 +8424,7 @@
     "kind_words": "EU ETS"
    },
    {
-    "number": 15,
+    "number": 16,
     "day": "2026-01-28",
     "kind": "definition",
     "what": "the Natural Gas Weekly Update ends and the WNGSR Supplement begins",
@@ -7721,7 +8432,7 @@
     "kind_words": "price definition"
    },
    {
-    "number": 16,
+    "number": 17,
     "day": "2026-09-01",
     "kind": "carbon",
     "what": "allowance price held at the last month published, an assumption",
@@ -7773,58 +8484,64 @@
     ]
    },
    {
-    "day": "2024-01-01",
+    "day": "2023-03-31",
     "numbers": [
      8
     ]
    },
    {
-    "day": "2024-01-02",
+    "day": "2024-01-01",
     "numbers": [
      9
     ]
    },
    {
-    "day": "2024-01-13",
+    "day": "2024-01-02",
     "numbers": [
      10
     ]
    },
    {
-    "day": "2025-01-01",
+    "day": "2024-01-13",
     "numbers": [
      11
     ]
    },
    {
-    "day": "2025-07-01",
+    "day": "2025-01-01",
     "numbers": [
      12
     ]
    },
    {
+    "day": "2025-07-01",
+    "numbers": [
+     13
+    ]
+   },
+   {
     "day": "2026-01-01",
     "numbers": [
-     13,
-     14
+     14,
+     15
     ]
    },
    {
     "day": "2026-01-28",
     "numbers": [
-     15
+     16
     ]
    },
    {
     "day": "2026-09-01",
     "numbers": [
-     16
+     17
     ]
    }
   ],
   "breaks_lead_segments": [
    {
-    "text": "The numbered rules on the charts mark a change of price definition, of route, of ship or of the EU ETS. A change of name alone, where the price runs on across it, is listed in the methodology and not drawn."
+    "text": "The numbered rules on the charts mark a change of price definition, of route, of ship, of the EU ETS or of the source of Europe's DES spread. A change of name alone, where the price runs on across it, is listed in the methodology and not drawn."
    }
   ],
   "events": [
@@ -8011,6 +8728,7 @@
     "day": "2022-02-08",
     "hire_usd_day": -750.0,
     "publisher": "Spark Commodities, note on negative freight rates",
+    "vessel": "160,000 m3 TFDE",
     "assessment": "Spark30S Atlantic",
     "accent": false
    },
@@ -8018,6 +8736,7 @@
     "day": "2022-10-10",
     "hire_usd_day": 374000.0,
     "publisher": "LNG Prime, quoting Spark",
+    "vessel": "160,000 m3 TFDE",
     "assessment": "Spark30S Atlantic",
     "accent": false
    },
@@ -8025,6 +8744,7 @@
     "day": "2023-07-28",
     "hire_usd_day": 71250.0,
     "publisher": "LNG Prime, quoting Spark",
+    "vessel": "160,000 m3 TFDE",
     "assessment": "Spark30S Atlantic",
     "accent": false
    },
@@ -8032,6 +8752,7 @@
     "day": "2024-03-29",
     "hire_usd_day": 46500.0,
     "publisher": "LNG Prime, quoting Spark",
+    "vessel": "174,000 m3 two-stroke",
     "assessment": "Spark30S Atlantic",
     "accent": false
    },
@@ -8039,6 +8760,7 @@
     "day": "2024-04-18",
     "hire_usd_day": 44500.0,
     "publisher": "Hellenic Shipping News, reporting Platts",
+    "vessel": "two-stroke, size not stated",
     "assessment": "Platts Atlantic day rate",
     "accent": false
    },
@@ -8046,6 +8768,7 @@
     "day": "2026-03-03",
     "hire_usd_day": 161750.0,
     "publisher": "LNG Prime, quoting Spark Commodities",
+    "vessel": "174,000 m3 two-stroke",
     "assessment": "Spark30S Atlantic",
     "accent": false
    },
@@ -8053,6 +8776,7 @@
     "day": "2026-04-03",
     "hire_usd_day": 92000.0,
     "publisher": "LNG Prime, quoting Spark Commodities and Fearnley LNG",
+    "vessel": "174,000 m3 two-stroke",
     "assessment": "Spark30S Atlantic",
     "accent": false
    },
@@ -8060,6 +8784,7 @@
     "day": "2026-08-28",
     "hire_usd_day": 11750.0,
     "publisher": "LNG Prime, quoting Spark",
+    "vessel": "174,000 m3 two-stroke",
     "assessment": "Spark30S Atlantic",
     "accent": false
    },
@@ -8067,6 +8792,7 @@
     "day": "2026-09-18",
     "hire_usd_day": 25250.0,
     "publisher": "LNG Prime, quoting Spark",
+    "vessel": "174,000 m3 two-stroke",
     "assessment": "Spark30S Atlantic",
     "accent": false
    },
@@ -8074,6 +8800,7 @@
     "day": "2026-10-02",
     "hire_usd_day": 31500.0,
     "publisher": "LNG Prime, quoting Spark Commodities",
+    "vessel": "174,000 m3 two-stroke",
     "assessment": "Spark30S Atlantic",
     "accent": true
    }

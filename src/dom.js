@@ -9,7 +9,7 @@
  * Numeric literals: none.
  */
 
-import { segmentText, missingFigureText, loadFailureSentences, loadingSentence, emptySeriesSentence } from "./format.js";
+import { segmentText, missingFigureText, loadFailureSentences, loadingSentence } from "./format.js";
 import { artifactEntry } from "./state.js";
 
 /** Build an element. `options.attrs` skips null and undefined, so a caller can
@@ -104,11 +104,6 @@ export function renderFailureMessages(names, error) {
     el("p", { class: "state-message", text: "Reload the page: the site was probably updated while this copy was open. Nothing is shown here rather than shown in part." }),
   ];
   return nodes;
-}
-
-/** The paragraph an empty chart shows in place of its marks. */
-export function emptySeriesMessage(details) {
-  return el("p", { class: "state-message", text: emptySeriesSentence(details) });
 }
 
 /** A sentence element of segments: el(tag) with appendSegments. */

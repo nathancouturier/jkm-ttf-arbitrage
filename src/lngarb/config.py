@@ -1326,7 +1326,9 @@ PARAMETERS: Mapping[str, Parameter] = _parameters(
               "published",
               "12 days of delay for unbooked vessels in late July 2023 (LNG Prime, 28 July 2023, "
               "quoting Spark); 15 days for unreserved slots in mid December 2023 (IEA, Gas Market "
-              "Report Q1 2024)", None, "2026-10-07",
+              "Report Q1 2024)",
+              "https://lngprime.com/americas/spark-lng-freight-rates-remain-at-about-71000-per-day/87422/",
+              "2026-10-07",
               "Applied only in the month each was reported, to the laden and the ballast transit "
               "alike, to set Panama against the Cape; the default everywhere stays no wait "
               "(docs/methodology.md, the Panama table)."),

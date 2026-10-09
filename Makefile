@@ -5,7 +5,7 @@
 # help target prints those commands. Recipes use tabs, POSIX sh.
 
 .DEFAULT_GOAL := help
-.PHONY: help data data-offline data-jobs routes test validate gate site
+.PHONY: help data data-offline data-jobs routes acer build serve test validate gate site
 
 help:
 	@echo "targets"
@@ -17,6 +17,12 @@ help:
 	@echo "                     equivalent: python scripts/refresh.py --list"
 	@echo "  make routes        recompute the four sea routes with searoute 1.6.0 and rewrite the seed"
 	@echo "                     equivalent: python scripts/routes.py (needs searoute==1.6.0 installed)"
+	@echo "  make acer          parse ACER's history saved by hand and the main site's documents"
+	@echo "                     equivalent: python scripts/refresh.py --only acer"
+	@echo "  make build         the site's data from the committed caches, no network"
+	@echo "                     equivalent: PYTHONPATH=src python -m lngarb.export, then python -m lngarb.versions"
+	@echo "  make serve         the site at http://localhost:8131/jkm-ttf-arbitrage/"
+	@echo "                     equivalent: python scripts/serve.py --port 8131"
 	@echo "  make test          the python suite"
 	@echo "                     equivalent: python -m pytest tests"
 	@echo "  make validate      the node validators, no network, no python"
@@ -42,6 +48,16 @@ data-jobs:
 
 routes:
 	python scripts/routes.py
+
+acer:
+	python scripts/refresh.py --only acer
+
+build:
+	PYTHONPATH=src python -m lngarb.export
+	PYTHONPATH=src python -m lngarb.versions
+
+serve:
+	python scripts/serve.py --port 8131
 
 test:
 	python -m pytest tests
