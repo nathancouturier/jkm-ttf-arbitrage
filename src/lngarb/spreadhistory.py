@@ -33,7 +33,7 @@ import pandas as pd
 
 from . import analysis, config, reader
 
-__all__ = ["page"]
+__all__ = ["page", "ticks"]
 
 #: The routes east by the short names analysis.work gives their columns.
 SHORT = tuple(analysis.ROUTES.values())
@@ -139,7 +139,7 @@ def _with_gaps(points: Sequence[Mapping[str, Any]], step_days: int) -> list[dict
     return out
 
 
-def _ticks(first: date, last: date) -> list[dict[str, Any]]:
+def ticks(first: date, last: date) -> list[dict[str, Any]]:
     """Year starts, or every few months over a span shorter than three years."""
     if (last - first).days > 3 * 365:
         return [{"day": date(y, 1, 1), "label": str(y)} for y in range(first.year + 1, last.year + 1)]
@@ -372,7 +372,7 @@ def page(rows: pd.DataFrame, breaks: pd.DataFrame, anchors: Sequence[Mapping[str
             "id": range_id, "label": label, "first": chosen[0]["day"], "last": chosen[-1]["day"],
             "y": _domain([v for p in chosen for v in (p["spread"], p["s_low"], p["s_high"])]),
             "hstar": hstar,
-            "ticks": _ticks(chosen[0]["day"], chosen[-1]["day"]),
+            "ticks": ticks(chosen[0]["day"], chosen[-1]["day"]),
             "heading_segments": _weekly_heading(chosen),
             "desc_segments": _weekly_desc(chosen),
             "caption_segments": _weekly_caption(chosen, levels),
@@ -421,7 +421,7 @@ def page(rows: pd.DataFrame, breaks: pd.DataFrame, anchors: Sequence[Mapping[str
             **_columns(monthly_full, ("day", "spread", "s_low", "s_central", "s_high", "route", "series")),
             "first": monthly[0]["day"], "last": monthly[-1]["day"],
             "y": _domain([v for p in monthly for v in (p["spread"], p["s_low"], p["s_high"])]),
-            "ticks": _ticks(monthly[0]["day"], monthly[-1]["day"]),
+            "ticks": ticks(monthly[0]["day"], monthly[-1]["day"]),
             "heading_segments": _monthly_heading(monthly),
             "desc_segments": _monthly_desc(monthly),
             "caption_segments": _monthly_caption(monthly, first_weekly_series["day"], len(without)),

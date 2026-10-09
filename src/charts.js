@@ -618,6 +618,8 @@ function drawSeries(group, xs, values, yOf, className) {
  *               the tick values divided (thousands)
  *    band       { low: [], high: [], label } or null: a shaded span
  *    reference  { values: [], label } or null: a dashed line
+ *    references [{ values, label, pattern }]: further lines, each drawn as
+ *               .line--<pattern> (thin, dot or reference)
  *    series     { values: [], label }: the ink line
  *    marks      [{ index }]: a hollow ring on the series at these points
  *    rules      [{ day, numbers }]: numbered rules across the plot
@@ -627,7 +629,7 @@ function drawSeries(group, xs, values, yOf, className) {
  *
  *  Values beyond the y domain are clipped at its edge, where a short tick
  *  marks each one; the artifact counts them in words. */
-export function timeChart({ width, days, first, last, y, band, reference, series, marks, rules, points, ticks, words, height }) {
+export function timeChart({ width, days, first, last, y, band, reference, references, series, marks, rules, points, ticks, words, height }) {
   const g = GEOMETRY;
   const narrow = width < g.NARROW_WIDTH;
   const top = g.PAD_TOP + g.RULE_ROOM;
@@ -690,6 +692,7 @@ export function timeChart({ width, days, first, last, y, band, reference, series
   const xs = days.map((day) => (day === null ? null : xOf(dayValue(day))));
   if (band) drawBand(plot, xs, band.low, band.high, yOf);
   if (reference) drawSeries(plot, xs, reference.values, yOf, "line line--reference");
+  for (const other of references || []) drawSeries(plot, xs, other.values, yOf, "line line--" + other.pattern);
   drawSeries(plot, xs, series.values, yOf, "line");
   for (const mark of marks || []) {
     const value = series.values[mark.index];
@@ -718,9 +721,9 @@ export function timeChart({ width, days, first, last, y, band, reference, series
   const clamp = (value) => Math.min(Math.max(value, y.low), y.high);
   const end = lastPresent(series.values);
   if (present(end)) labels.push({ want: yOf(clamp(end)), text: series.label });
-  if (reference) {
-    const at = lastPresent(reference.values);
-    if (present(at)) labels.push({ want: yOf(clamp(at)), text: reference.label });
+  for (const other of [...(reference ? [reference] : []), ...(references || [])]) {
+    const at = lastPresent(other.values);
+    if (present(at)) labels.push({ want: yOf(clamp(at)), text: other.label });
   }
   if (band) {
     const high = lastPresent(band.high);

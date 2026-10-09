@@ -21,6 +21,7 @@ import * as now from "./now.js";
 import * as modelView from "./model.js";
 import * as routesView from "./routes.js";
 import * as historyView from "./history.js";
+import * as flowsView from "./flows.js";
 
 const SITE_NAME = "JKM and TTF arbitrage study";
 const DEFAULT_VIEW = "now";
@@ -33,6 +34,7 @@ const ROUTES = [
   { name: "model", label: "Model", loading: "the calculator's presets and the source of every input", module: modelView },
   { name: "routes", label: "Routes", loading: "the map of the routes and when each was open", module: routesView },
   { name: "history", label: "History", loading: "every week and month of the spread against what the cheapest route east needs", module: historyView },
+  { name: "flows", label: "Flows", loading: "every month of US exports against the arb, and the test", module: flowsView },
 ];
 
 const byName = new Map(ROUTES.map((route) => [route.name, route]));

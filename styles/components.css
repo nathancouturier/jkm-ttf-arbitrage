@@ -325,6 +325,7 @@
  * of the spread. */
 .band-span { fill: var(--role-span-fill); stroke: none; }
 .line--reference .mark-series { stroke: var(--role-context); stroke-width: 1.5px; stroke-dasharray: 4 3; }
+.line--thin .mark-series { stroke: var(--role-context); stroke-width: 1.5px; }
 .band-closed { fill: none; stroke: var(--role-context); stroke-width: 1px; }
 .band-unknown { fill: var(--role-span-fill); stroke: var(--role-grid); stroke-width: 1px; }
 .mark-accent-bar { fill: var(--role-mark-accent); stroke: var(--role-ring); stroke-width: 2px; paint-order: stroke; }

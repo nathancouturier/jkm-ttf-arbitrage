@@ -17,7 +17,7 @@ __all__ = ["Reported", "REPORTED", "reported"]
 class Reported:
     """One reported figure."""
 
-    #: what it is about: "cancellations", "cape_use", "panama_use" or "arb_assessment"
+    #: what it is about: "cancellations", "asia_use", "cape_use", "panama_use" or "arb_assessment"
     topic: str
     #: the period or day it refers to, yyyy-mm or yyyy-mm-dd; where the source
     #: states no period, the last day of its data, and the what says so
@@ -57,6 +57,10 @@ REPORTED: tuple[Reported, ...] = (
              "US LNG cargoes that reached Asia via the Panama Canal in 2024 to 27 March, one of them in March, "
              "against 40 in the same period of 2023",
              "Platts, republished by the World Ports Organization, 29 March 2024", _WPO_CAPE, "2026-10-08"),
+    Reported("asia_use", "2026-04-28", 34.0, "cargoes",
+             "LNG cargoes exported from US facilities to Asia-Pacific destinations; the period is not stated, the "
+             "article's data run to 28 April 2026",
+             "Platts, republished by Cyprus Shipping News, 5 May 2026", _CSN_ARB, "2026-10-08"),
     Reported("cape_use", "2026-04-28", 31.0, "cargoes",
              "of 34 LNG cargoes exported from US facilities to Asia-Pacific destinations, those routed round the "
              "Cape of Good Hope; the period is not stated, the article's data run to 28 April 2026",

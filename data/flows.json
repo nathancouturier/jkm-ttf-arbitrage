@@ -2476,5 +2476,2377 @@
   2020,
   2022,
   2026
- ]
+ ],
+ "page": {
+  "whole": {
+   "first": "2016-02-01",
+   "last": "2026-07-01",
+   "heading_segments": [
+    {
+     "text": "In the "
+    },
+    {
+     "field": "months",
+     "value": 115,
+     "format": "count"
+    },
+    {
+     "text": " months priced to "
+    },
+    {
+     "field": "last_month",
+     "value": "2026-07-01",
+     "label": "July 2026"
+    },
+    {
+     "text": " the arb at loading was open in "
+    },
+    {
+     "field": "open_months",
+     "value": 94,
+     "format": "count"
+    },
+    {
+     "text": "; Asia took "
+    },
+    {
+     "field": "share_open",
+     "value": 37.213838,
+     "format": "share_percent"
+    },
+    {
+     "text": " percent of US exports in those months and "
+    },
+    {
+     "field": "share_closed",
+     "value": 18.009938,
+     "format": "share_percent"
+    },
+    {
+     "text": " percent in the others."
+    }
+   ],
+   "desc_segments": [
+    {
+     "text": "Two panels on one month axis: above, the share of US LNG exports by vessel to the JKM markets, Japan, South Korea, China and Taiwan, as a solid line and to all Asia as a dashed one; below, the model's arb at loading at the central hire, as bars from zero, filled when Asia paid more and outlined when Gate did. The latest month, "
+    },
+    {
+     "field": "last_month",
+     "value": "2026-07-01",
+     "label": "July 2026"
+    },
+    {
+     "text": ", is the accent: Asia took "
+    },
+    {
+     "field": "latest_share",
+     "value": 38.1773,
+     "format": "share_percent"
+    },
+    {
+     "text": " percent, with an arb of "
+    },
+    {
+     "field": "latest_arb",
+     "value": 0.728282,
+     "format": "usd_mmbtu",
+     "signed": true,
+     "missing": "no price"
+    },
+    {
+     "text": " $/MMBtu."
+    }
+   ],
+   "source_segments": [
+    {
+     "text": "Exports from EIA's US natural gas exports by country, by vessel; the arb from this study's engine at the central hire, "
+    },
+    {
+     "field": "central_hire",
+     "value": 45500.0,
+     "format": "usd_day"
+    },
+    {
+     "text": " $/day. Data to "
+    },
+    {
+     "field": "last_month",
+     "value": "2026-07-01",
+     "label": "July 2026"
+    },
+    {
+     "text": "."
+    }
+   ],
+   "months": [
+    {
+     "month": "2016-02-01",
+     "label": "Feb 2016",
+     "share_jkm": 0.0,
+     "share_asia": 0.0,
+     "arb": 2.098147
+    },
+    {
+     "month": "2016-03-01",
+     "label": "Mar 2016",
+     "share_jkm": 0.0,
+     "share_asia": 29.9148,
+     "arb": null
+    },
+    {
+     "month": "2016-04-01",
+     "label": "Apr 2016",
+     "share_jkm": 0.0,
+     "share_asia": 0.0,
+     "arb": -0.015285
+    },
+    {
+     "month": "2016-05-01",
+     "label": "May 2016",
+     "share_jkm": 0.0,
+     "share_asia": 0.0,
+     "arb": -0.457884
+    },
+    {
+     "month": "2016-06-01",
+     "label": "Jun 2016",
+     "share_jkm": 0.0,
+     "share_asia": 22.024,
+     "arb": null
+    },
+    {
+     "month": "2016-07-01",
+     "label": "Jul 2016",
+     "share_jkm": 19.9351,
+     "share_asia": 19.9351,
+     "arb": 1.174768
+    },
+    {
+     "month": "2016-08-01",
+     "label": "Aug 2016",
+     "share_jkm": 0.0,
+     "share_asia": 14.2434,
+     "arb": null
+    },
+    {
+     "month": "2016-09-01",
+     "label": "Sep 2016",
+     "share_jkm": 0.0,
+     "share_asia": 21.7526,
+     "arb": 1.499001
+    },
+    {
+     "month": "2016-10-01",
+     "label": "Oct 2016",
+     "share_jkm": 0.0,
+     "share_asia": 0.0,
+     "arb": 0.803844
+    },
+    {
+     "month": "2016-11-01",
+     "label": "Nov 2016",
+     "share_jkm": 22.2941,
+     "share_asia": 31.7541,
+     "arb": 1.305725
+    },
+    {
+     "month": "2016-12-01",
+     "label": "Dec 2016",
+     "share_jkm": 67.131,
+     "share_asia": 67.131,
+     "arb": 2.499983
+    },
+    {
+     "month": "2017-01-01",
+     "label": "Jan 2017",
+     "share_jkm": 27.1651,
+     "share_asia": 34.2334,
+     "arb": 2.194423
+    },
+    {
+     "month": "2017-02-01",
+     "label": "Feb 2017",
+     "share_jkm": 27.0068,
+     "share_asia": 33.5436,
+     "arb": 2.376013
+    },
+    {
+     "month": "2017-03-01",
+     "label": "Mar 2017",
+     "share_jkm": 16.1926,
+     "share_asia": 30.6307,
+     "arb": 1.11443
+    },
+    {
+     "month": "2017-04-01",
+     "label": "Apr 2017",
+     "share_jkm": 21.1328,
+     "share_asia": 21.1328,
+     "arb": 0.723036
+    },
+    {
+     "month": "2017-05-01",
+     "label": "May 2017",
+     "share_jkm": 27.8952,
+     "share_asia": 27.8952,
+     "arb": 0.694519
+    },
+    {
+     "month": "2017-06-01",
+     "label": "Jun 2017",
+     "share_jkm": 21.1925,
+     "share_asia": 27.7006,
+     "arb": null
+    },
+    {
+     "month": "2017-07-01",
+     "label": "Jul 2017",
+     "share_jkm": 40.0687,
+     "share_asia": 40.0687,
+     "arb": 0.684573
+    },
+    {
+     "month": "2017-08-01",
+     "label": "Aug 2017",
+     "share_jkm": 30.668,
+     "share_asia": 30.668,
+     "arb": 0.424005
+    },
+    {
+     "month": "2017-09-01",
+     "label": "Sep 2017",
+     "share_jkm": 50.4216,
+     "share_asia": 50.4216,
+     "arb": 1.00532
+    },
+    {
+     "month": "2017-10-01",
+     "label": "Oct 2017",
+     "share_jkm": 70.2702,
+     "share_asia": 70.2702,
+     "arb": 2.007647
+    },
+    {
+     "month": "2017-11-01",
+     "label": "Nov 2017",
+     "share_jkm": 56.1734,
+     "share_asia": 64.9932,
+     "arb": 2.270448
+    },
+    {
+     "month": "2017-12-01",
+     "label": "Dec 2017",
+     "share_jkm": 70.4687,
+     "share_asia": 74.6227,
+     "arb": 2.974212
+    },
+    {
+     "month": "2018-01-01",
+     "label": "Jan 2018",
+     "share_jkm": 53.1869,
+     "share_asia": 62.8113,
+     "arb": 4.222493
+    },
+    {
+     "month": "2018-02-01",
+     "label": "Feb 2018",
+     "share_jkm": 66.5331,
+     "share_asia": 66.5331,
+     "arb": 3.804387
+    },
+    {
+     "month": "2018-03-01",
+     "label": "Mar 2018",
+     "share_jkm": 23.8485,
+     "share_asia": 39.0879,
+     "arb": 2.100351
+    },
+    {
+     "month": "2018-04-01",
+     "label": "Apr 2018",
+     "share_jkm": 54.239,
+     "share_asia": 61.8394,
+     "arb": 2.161825
+    },
+    {
+     "month": "2018-05-01",
+     "label": "May 2018",
+     "share_jkm": 43.1824,
+     "share_asia": 54.0906,
+     "arb": 0.733262
+    },
+    {
+     "month": "2018-06-01",
+     "label": "Jun 2018",
+     "share_jkm": 40.8172,
+     "share_asia": 49.9538,
+     "arb": 1.805373
+    },
+    {
+     "month": "2018-07-01",
+     "label": "Jul 2018",
+     "share_jkm": 42.1085,
+     "share_asia": 48.1342,
+     "arb": 2.329075
+    },
+    {
+     "month": "2018-08-01",
+     "label": "Aug 2018",
+     "share_jkm": 34.2551,
+     "share_asia": 34.2551,
+     "arb": 2.509076
+    },
+    {
+     "month": "2018-09-01",
+     "label": "Sep 2018",
+     "share_jkm": 50.2415,
+     "share_asia": 57.5054,
+     "arb": 1.030345
+    },
+    {
+     "month": "2018-10-01",
+     "label": "Oct 2018",
+     "share_jkm": 50.3133,
+     "share_asia": 58.2494,
+     "arb": 1.83216
+    },
+    {
+     "month": "2018-11-01",
+     "label": "Nov 2018",
+     "share_jkm": 41.7986,
+     "share_asia": 41.7986,
+     "arb": 2.417152
+    },
+    {
+     "month": "2018-12-01",
+     "label": "Dec 2018",
+     "share_jkm": 44.48,
+     "share_asia": 53.3125,
+     "arb": 1.174468
+    },
+    {
+     "month": "2019-01-01",
+     "label": "Jan 2019",
+     "share_jkm": 29.8477,
+     "share_asia": 35.3895,
+     "arb": 0.929219
+    },
+    {
+     "month": "2019-02-01",
+     "label": "Feb 2019",
+     "share_jkm": 30.67,
+     "share_asia": 47.7907,
+     "arb": 2.044472
+    },
+    {
+     "month": "2019-03-01",
+     "label": "Mar 2019",
+     "share_jkm": 19.2411,
+     "share_asia": 32.5185,
+     "arb": 1.236447
+    },
+    {
+     "month": "2019-04-01",
+     "label": "Apr 2019",
+     "share_jkm": 26.3094,
+     "share_asia": 31.879,
+     "arb": 0.345856
+    },
+    {
+     "month": "2019-05-01",
+     "label": "May 2019",
+     "share_jkm": 19.6959,
+     "share_asia": 34.0155,
+     "arb": 1.095539
+    },
+    {
+     "month": "2019-06-01",
+     "label": "Jun 2019",
+     "share_jkm": 24.6602,
+     "share_asia": 29.3478,
+     "arb": 1.921909
+    },
+    {
+     "month": "2019-07-01",
+     "label": "Jul 2019",
+     "share_jkm": 34.3861,
+     "share_asia": 41.2186,
+     "arb": 1.133204
+    },
+    {
+     "month": "2019-08-01",
+     "label": "Aug 2019",
+     "share_jkm": 30.1217,
+     "share_asia": 35.3894,
+     "arb": 1.63783
+    },
+    {
+     "month": "2019-09-01",
+     "label": "Sep 2019",
+     "share_jkm": 24.2881,
+     "share_asia": 39.3353,
+     "arb": 1.214805
+    },
+    {
+     "month": "2019-10-01",
+     "label": "Oct 2019",
+     "share_jkm": 39.2969,
+     "share_asia": 47.1119,
+     "arb": 0.480759
+    },
+    {
+     "month": "2019-11-01",
+     "label": "Nov 2019",
+     "share_jkm": 24.3021,
+     "share_asia": 31.5862,
+     "arb": null
+    },
+    {
+     "month": "2019-12-01",
+     "label": "Dec 2019",
+     "share_jkm": 28.6147,
+     "share_asia": 36.4622,
+     "arb": 1.772001
+    },
+    {
+     "month": "2020-01-01",
+     "label": "Jan 2020",
+     "share_jkm": 34.3037,
+     "share_asia": 38.4195,
+     "arb": 2.254477
+    },
+    {
+     "month": "2020-02-01",
+     "label": "Feb 2020",
+     "share_jkm": 17.5216,
+     "share_asia": 20.6239,
+     "arb": 0.547893
+    },
+    {
+     "month": "2020-03-01",
+     "label": "Mar 2020",
+     "share_jkm": 30.5663,
+     "share_asia": 43.525,
+     "arb": 0.7388
+    },
+    {
+     "month": "2020-04-01",
+     "label": "Apr 2020",
+     "share_jkm": 30.3099,
+     "share_asia": 45.0678,
+     "arb": 0.352342
+    },
+    {
+     "month": "2020-05-01",
+     "label": "May 2020",
+     "share_jkm": 30.6145,
+     "share_asia": 42.3112,
+     "arb": 0.682281
+    },
+    {
+     "month": "2020-06-01",
+     "label": "Jun 2020",
+     "share_jkm": 48.6135,
+     "share_asia": 57.8845,
+     "arb": 2.06653
+    },
+    {
+     "month": "2020-07-01",
+     "label": "Jul 2020",
+     "share_jkm": 32.7355,
+     "share_asia": 51.421,
+     "arb": 2.406474
+    },
+    {
+     "month": "2020-08-01",
+     "label": "Aug 2020",
+     "share_jkm": 45.4128,
+     "share_asia": 60.5625,
+     "arb": 0.636662
+    },
+    {
+     "month": "2020-09-01",
+     "label": "Sep 2020",
+     "share_jkm": 39.2129,
+     "share_asia": 52.696,
+     "arb": 0.624004
+    },
+    {
+     "month": "2020-10-01",
+     "label": "Oct 2020",
+     "share_jkm": 37.9717,
+     "share_asia": 51.9789,
+     "arb": 1.128878
+    },
+    {
+     "month": "2020-11-01",
+     "label": "Nov 2020",
+     "share_jkm": 47.5249,
+     "share_asia": 56.4683,
+     "arb": 1.946372
+    },
+    {
+     "month": "2020-12-01",
+     "label": "Dec 2020",
+     "share_jkm": 49.8394,
+     "share_asia": 53.2059,
+     "arb": 1.543818
+    },
+    {
+     "month": "2021-01-01",
+     "label": "Jan 2021",
+     "share_jkm": 55.5617,
+     "share_asia": 65.6842,
+     "arb": 10.739072
+    },
+    {
+     "month": "2021-02-01",
+     "label": "Feb 2021",
+     "share_jkm": 19.0946,
+     "share_asia": 25.7072,
+     "arb": 6.296139
+    },
+    {
+     "month": "2021-03-01",
+     "label": "Mar 2021",
+     "share_jkm": 31.7136,
+     "share_asia": 40.3338,
+     "arb": 0.505336
+    },
+    {
+     "month": "2021-04-01",
+     "label": "Apr 2021",
+     "share_jkm": 35.0465,
+     "share_asia": 47.5458,
+     "arb": null
+    },
+    {
+     "month": "2021-05-01",
+     "label": "May 2021",
+     "share_jkm": 37.7885,
+     "share_asia": 51.0483,
+     "arb": null
+    },
+    {
+     "month": "2021-06-01",
+     "label": "Jun 2021",
+     "share_jkm": 52.0235,
+     "share_asia": 60.6398,
+     "arb": null
+    },
+    {
+     "month": "2021-07-01",
+     "label": "Jul 2021",
+     "share_jkm": 42.3571,
+     "share_asia": 52.3451,
+     "arb": null
+    },
+    {
+     "month": "2021-08-01",
+     "label": "Aug 2021",
+     "share_jkm": 43.0967,
+     "share_asia": 54.7382,
+     "arb": null
+    },
+    {
+     "month": "2021-09-01",
+     "label": "Sep 2021",
+     "share_jkm": 33.7396,
+     "share_asia": 47.0815,
+     "arb": 2.140933
+    },
+    {
+     "month": "2021-10-01",
+     "label": "Oct 2021",
+     "share_jkm": 40.5556,
+     "share_asia": 45.3095,
+     "arb": 2.374802
+    },
+    {
+     "month": "2021-11-01",
+     "label": "Nov 2021",
+     "share_jkm": 38.6528,
+     "share_asia": 45.6675,
+     "arb": null
+    },
+    {
+     "month": "2021-12-01",
+     "label": "Dec 2021",
+     "share_jkm": 26.5305,
+     "share_asia": 27.8112,
+     "arb": 1.624002
+    },
+    {
+     "month": "2022-01-01",
+     "label": "Jan 2022",
+     "share_jkm": 14.0152,
+     "share_asia": 16.9437,
+     "arb": 1.923928
+    },
+    {
+     "month": "2022-02-01",
+     "label": "Feb 2022",
+     "share_jkm": 14.9003,
+     "share_asia": 20.8076,
+     "arb": -1.340404
+    },
+    {
+     "month": "2022-03-01",
+     "label": "Mar 2022",
+     "share_jkm": 15.571,
+     "share_asia": 21.2264,
+     "arb": -5.614444
+    },
+    {
+     "month": "2022-04-01",
+     "label": "Apr 2022",
+     "share_jkm": 14.1684,
+     "share_asia": 19.4048,
+     "arb": -2.452714
+    },
+    {
+     "month": "2022-05-01",
+     "label": "May 2022",
+     "share_jkm": 16.3771,
+     "share_asia": 20.3384,
+     "arb": -5.249336
+    },
+    {
+     "month": "2022-06-01",
+     "label": "Jun 2022",
+     "share_jkm": 20.2418,
+     "share_asia": 27.2042,
+     "arb": -3.680483
+    },
+    {
+     "month": "2022-07-01",
+     "label": "Jul 2022",
+     "share_jkm": 20.8658,
+     "share_asia": 27.5838,
+     "arb": -11.815176
+    },
+    {
+     "month": "2022-08-01",
+     "label": "Aug 2022",
+     "share_jkm": 25.1113,
+     "share_asia": 30.0558,
+     "arb": -17.163362
+    },
+    {
+     "month": "2022-09-01",
+     "label": "Sep 2022",
+     "share_jkm": 15.8386,
+     "share_asia": 20.8202,
+     "arb": -11.756167
+    },
+    {
+     "month": "2022-10-01",
+     "label": "Oct 2022",
+     "share_jkm": 26.2143,
+     "share_asia": 30.8191,
+     "arb": -7.80122
+    },
+    {
+     "month": "2022-11-01",
+     "label": "Nov 2022",
+     "share_jkm": 19.6277,
+     "share_asia": 23.1466,
+     "arb": -7.107058
+    },
+    {
+     "month": "2022-12-01",
+     "label": "Dec 2022",
+     "share_jkm": 18.0787,
+     "share_asia": 23.198,
+     "arb": -6.975206
+    },
+    {
+     "month": "2023-01-01",
+     "label": "Jan 2023",
+     "share_jkm": 18.8623,
+     "share_asia": 23.2739,
+     "arb": 3.809972
+    },
+    {
+     "month": "2023-02-01",
+     "label": "Feb 2023",
+     "share_jkm": 14.0577,
+     "share_asia": 18.9304,
+     "arb": 0.369149
+    },
+    {
+     "month": "2023-03-01",
+     "label": "Mar 2023",
+     "share_jkm": 12.6489,
+     "share_asia": 16.6001,
+     "arb": -0.389042
+    },
+    {
+     "month": "2023-04-01",
+     "label": "Apr 2023",
+     "share_jkm": 13.7371,
+     "share_asia": 18.7427,
+     "arb": -0.207403
+    },
+    {
+     "month": "2023-05-01",
+     "label": "May 2023",
+     "share_jkm": 16.0933,
+     "share_asia": 19.0112,
+     "arb": 0.324913
+    },
+    {
+     "month": "2023-06-01",
+     "label": "Jun 2023",
+     "share_jkm": 22.0193,
+     "share_asia": 31.8915,
+     "arb": 0.310321
+    },
+    {
+     "month": "2023-07-01",
+     "label": "Jul 2023",
+     "share_jkm": 31.1818,
+     "share_asia": 39.5006,
+     "arb": 0.827081
+    },
+    {
+     "month": "2023-08-01",
+     "label": "Aug 2023",
+     "share_jkm": 26.7974,
+     "share_asia": 38.0573,
+     "arb": 0.887564
+    },
+    {
+     "month": "2023-09-01",
+     "label": "Sep 2023",
+     "share_jkm": 23.3471,
+     "share_asia": 32.4626,
+     "arb": 1.636339
+    },
+    {
+     "month": "2023-10-01",
+     "label": "Oct 2023",
+     "share_jkm": 20.1053,
+     "share_asia": 27.362,
+     "arb": 1.715341
+    },
+    {
+     "month": "2023-11-01",
+     "label": "Nov 2023",
+     "share_jkm": 20.646,
+     "share_asia": 26.2663,
+     "arb": 2.368299
+    },
+    {
+     "month": "2023-12-01",
+     "label": "Dec 2023",
+     "share_jkm": 19.6856,
+     "share_asia": 26.1357,
+     "arb": 2.291158
+    },
+    {
+     "month": "2024-01-01",
+     "label": "Jan 2024",
+     "share_jkm": 13.749,
+     "share_asia": 19.2464,
+     "arb": 0.603557
+    },
+    {
+     "month": "2024-02-01",
+     "label": "Feb 2024",
+     "share_jkm": 19.0791,
+     "share_asia": 27.2114,
+     "arb": 0.32976
+    },
+    {
+     "month": "2024-03-01",
+     "label": "Mar 2024",
+     "share_jkm": 21.0054,
+     "share_asia": 31.5198,
+     "arb": 0.291653
+    },
+    {
+     "month": "2024-04-01",
+     "label": "Apr 2024",
+     "share_jkm": 20.7589,
+     "share_asia": 36.2619,
+     "arb": 0.349933
+    },
+    {
+     "month": "2024-05-01",
+     "label": "May 2024",
+     "share_jkm": 28.7399,
+     "share_asia": 46.9634,
+     "arb": 0.733705
+    },
+    {
+     "month": "2024-06-01",
+     "label": "Jun 2024",
+     "share_jkm": 26.7683,
+     "share_asia": 39.8643,
+     "arb": 0.478261
+    },
+    {
+     "month": "2024-07-01",
+     "label": "Jul 2024",
+     "share_jkm": 30.0013,
+     "share_asia": 45.3925,
+     "arb": 1.142826
+    },
+    {
+     "month": "2024-08-01",
+     "label": "Aug 2024",
+     "share_jkm": 30.5301,
+     "share_asia": 43.5426,
+     "arb": 0.342335
+    },
+    {
+     "month": "2024-09-01",
+     "label": "Sep 2024",
+     "share_jkm": 27.3125,
+     "share_asia": 37.8679,
+     "arb": 1.139775
+    },
+    {
+     "month": "2024-10-01",
+     "label": "Oct 2024",
+     "share_jkm": 19.2382,
+     "share_asia": 33.2594,
+     "arb": 0.025968
+    },
+    {
+     "month": "2024-11-01",
+     "label": "Nov 2024",
+     "share_jkm": 17.0594,
+     "share_asia": 25.4552,
+     "arb": -0.110686
+    },
+    {
+     "month": "2024-12-01",
+     "label": "Dec 2024",
+     "share_jkm": 11.5771,
+     "share_asia": 16.7335,
+     "arb": -0.114966
+    },
+    {
+     "month": "2025-01-01",
+     "label": "Jan 2025",
+     "share_jkm": 4.2412,
+     "share_asia": 7.5958,
+     "arb": -0.536639
+    },
+    {
+     "month": "2025-02-01",
+     "label": "Feb 2025",
+     "share_jkm": 4.8111,
+     "share_asia": 8.1341,
+     "arb": -1.679972
+    },
+    {
+     "month": "2025-03-01",
+     "label": "Mar 2025",
+     "share_jkm": 9.4843,
+     "share_asia": 14.9202,
+     "arb": 0.071341
+    },
+    {
+     "month": "2025-04-01",
+     "label": "Apr 2025",
+     "share_jkm": 15.8796,
+     "share_asia": 21.4804,
+     "arb": 0.188003
+    },
+    {
+     "month": "2025-05-01",
+     "label": "May 2025",
+     "share_jkm": 13.7038,
+     "share_asia": 22.0118,
+     "arb": 0.198734
+    },
+    {
+     "month": "2025-06-01",
+     "label": "Jun 2025",
+     "share_jkm": 11.7763,
+     "share_asia": 18.6093,
+     "arb": 0.239487
+    },
+    {
+     "month": "2025-07-01",
+     "label": "Jul 2025",
+     "share_jkm": 12.2784,
+     "share_asia": 20.661,
+     "arb": 0.514571
+    },
+    {
+     "month": "2025-08-01",
+     "label": "Aug 2025",
+     "share_jkm": 12.8539,
+     "share_asia": 18.3703,
+     "arb": 0.056246
+    },
+    {
+     "month": "2025-09-01",
+     "label": "Sep 2025",
+     "share_jkm": 11.8786,
+     "share_asia": 18.9691,
+     "arb": 0.036165
+    },
+    {
+     "month": "2025-10-01",
+     "label": "Oct 2025",
+     "share_jkm": 13.8832,
+     "share_asia": 18.3587,
+     "arb": 0.039682
+    },
+    {
+     "month": "2025-11-01",
+     "label": "Nov 2025",
+     "share_jkm": 10.9031,
+     "share_asia": 15.0228,
+     "arb": 0.223472
+    },
+    {
+     "month": "2025-12-01",
+     "label": "Dec 2025",
+     "share_jkm": 8.7759,
+     "share_asia": 11.9781,
+     "arb": 0.821544
+    },
+    {
+     "month": "2026-01-01",
+     "label": "Jan 2026",
+     "share_jkm": 4.5209,
+     "share_asia": 5.7945,
+     "arb": -1.032171
+    },
+    {
+     "month": "2026-02-01",
+     "label": "Feb 2026",
+     "share_jkm": 8.6427,
+     "share_asia": 14.5479,
+     "arb": -0.689653
+    },
+    {
+     "month": "2026-03-01",
+     "label": "Mar 2026",
+     "share_jkm": 14.7134,
+     "share_asia": 25.0521,
+     "arb": 0.385197
+    },
+    {
+     "month": "2026-04-01",
+     "label": "Apr 2026",
+     "share_jkm": 15.8764,
+     "share_asia": 30.3207,
+     "arb": 1.557108
+    },
+    {
+     "month": "2026-05-01",
+     "label": "May 2026",
+     "share_jkm": 25.2257,
+     "share_asia": 41.2823,
+     "arb": 0.835653
+    },
+    {
+     "month": "2026-06-01",
+     "label": "Jun 2026",
+     "share_jkm": 20.8479,
+     "share_asia": 38.7474,
+     "arb": 1.15232
+    },
+    {
+     "month": "2026-07-01",
+     "label": "Jul 2026",
+     "share_jkm": 20.5034,
+     "share_asia": 38.1773,
+     "arb": 0.728282
+    }
+   ],
+   "shares": [
+    {
+     "key": "share_jkm",
+     "pattern": "solid",
+     "label": "JKM markets"
+    },
+    {
+     "key": "share_asia",
+     "pattern": "dash",
+     "label": "All Asia"
+    }
+   ],
+   "share_domain": {
+    "low": 0.0,
+    "high": 80.0,
+    "step": 20.0
+   },
+   "arb_domain": {
+    "low": -20.0,
+    "high": 20.0,
+    "step": 10.0
+   },
+   "share_axis": "Share of exports, percent",
+   "arb_axis": "Arb at loading, $/MMBtu",
+   "ticks": [
+    11,
+    23,
+    35,
+    47,
+    59,
+    71,
+    83,
+    95,
+    107,
+    119
+   ],
+   "ticks_narrow": [
+    23,
+    47,
+    71,
+    95,
+    119
+   ],
+   "notes": [
+    [
+     {
+      "text": "Over "
+     },
+     {
+      "field": "n",
+      "value": 115,
+      "format": "count"
+     },
+     {
+      "text": " of the "
+     },
+     {
+      "field": "span",
+      "value": 126,
+      "format": "count"
+     },
+     {
+      "text": " months from "
+     },
+     {
+      "field": "first_month",
+      "value": "2016-02-01",
+      "label": "February 2016"
+     },
+     {
+      "text": " to "
+     },
+     {
+      "field": "last_month",
+      "value": "2026-07-01",
+      "label": "July 2026"
+     },
+     {
+      "text": " (the others have no price), a dollar more of arb at loading went with "
+     },
+     {
+      "field": "slope",
+      "value": 1.521832,
+      "format": "pp"
+     },
+     {
+      "text": " points more of US exports to the JKM markets (t "
+     },
+     {
+      "field": "t",
+      "value": 2.051768,
+      "format": "t_stat"
+     },
+     {
+      "text": ", Newey West errors with "
+     },
+     {
+      "field": "lags",
+      "value": 4,
+      "format": "count"
+     },
+     {
+      "text": " lags); without "
+     },
+     {
+      "field": "excluded_years",
+      "value": "2020, 2022 and 2026",
+      "label": "2020, 2022 and 2026"
+     },
+     {
+      "text": ", over "
+     },
+     {
+      "field": "n_without",
+      "value": 84,
+      "format": "count"
+     },
+     {
+      "text": " months, "
+     },
+     {
+      "field": "slope_without",
+      "value": 5.19465,
+      "format": "pp"
+     },
+     {
+      "text": " points (t "
+     },
+     {
+      "field": "t_without",
+      "value": 2.719933,
+      "format": "t_stat"
+     },
+     {
+      "text": ", "
+     },
+     {
+      "field": "lags_without",
+      "value": 3,
+      "format": "count"
+     },
+     {
+      "text": " lags). R squared is "
+     },
+     {
+      "field": "r2",
+      "value": 0.100823,
+      "format": "r2"
+     },
+     {
+      "text": " on all months and "
+     },
+     {
+      "field": "r2_without",
+      "value": 0.248604,
+      "format": "r2"
+     },
+     {
+      "text": " without those years, so most of the share moves with something other than the arb."
+     }
+    ],
+    [
+     {
+      "text": "What this cannot separate: long term contracts with Asian buyers, whose cargoes move whatever the spot economics; the slot constraints at Panama; China's tariff on US LNG from "
+     },
+     {
+      "field": "china_tariff_from",
+      "value": "2025-02-10",
+      "label": "February 2025"
+     },
+     {
+      "text": "; the gap between spot hire and the cost of a ship already on term charter; and the month itself, coarser than the decisions, which are taken weeks before a cargo loads."
+     }
+    ]
+   ],
+   "missing_words": "not published",
+   "arb_missing_words": "not priced",
+   "table_caption": "US LNG exports by vessel: the share to the JKM markets and to Asia, and the arb at loading at the central hire."
+  },
+  "test": {
+   "heading_segments": [
+    {
+     "text": "Asia took more of US exports in months the arb was open, but loosely: at the central hire a dollar more of arb went with "
+    },
+    {
+     "field": "slope",
+     "value": 1.725405,
+     "format": "pp"
+    },
+    {
+     "text": " points more to Asia over "
+    },
+    {
+     "field": "n",
+     "value": 115,
+     "format": "count"
+    },
+    {
+     "text": " months, with R squared "
+    },
+    {
+     "field": "r2",
+     "value": 0.114811,
+     "format": "r2"
+    },
+    {
+     "text": ", and "
+    },
+    {
+     "field": "slope_without",
+     "value": 5.327121,
+     "format": "pp"
+    },
+    {
+     "text": " points without "
+    },
+    {
+     "field": "excluded",
+     "value": "2020, 2022 and 2026",
+     "label": "2020, 2022 and 2026"
+    },
+    {
+     "text": ", R squared "
+    },
+    {
+     "field": "r2_without",
+     "value": 0.24611,
+     "format": "r2"
+    },
+    {
+     "text": ". The slope's t statistic is two or more in "
+    },
+    {
+     "field": "significant",
+     "value": 12,
+     "format": "count"
+    },
+    {
+     "text": " of the "
+    },
+    {
+     "field": "fits",
+     "value": 12,
+     "format": "count"
+    },
+    {
+     "text": " fits."
+    }
+   ],
+   "sign_segments": [
+    {
+     "text": "At the central hire, over all months: the arb was open in "
+    },
+    {
+     "field": "sign_open",
+     "value": 94,
+     "format": "count"
+    },
+    {
+     "text": " months, "
+    },
+    {
+     "field": "sign_open_above",
+     "value": 57,
+     "format": "count"
+    },
+    {
+     "text": " of them with Asia's share above its median of "
+    },
+    {
+     "field": "sign_median",
+     "value": 31.89149,
+     "format": "share_percent"
+    },
+    {
+     "text": " percent; it was closed in "
+    },
+    {
+     "field": "sign_closed",
+     "value": 21,
+     "format": "count"
+    },
+    {
+     "text": ", "
+    },
+    {
+     "field": "sign_closed_below",
+     "value": 21,
+     "format": "count"
+    },
+    {
+     "text": " of them with the share at or below it."
+    }
+   ],
+   "rows": [
+    {
+     "share": "share_jkm",
+     "share_words": "the JKM markets",
+     "sample": "all months",
+     "hire_level": "low",
+     "n": 115,
+     "slope_pp": 1.502177,
+     "t": 2.049568,
+     "r2": 0.098452,
+     "lags": 4,
+     "first_month": "2016-02-01",
+     "last_month": "2026-07-01",
+     "open_above": 55,
+     "open_below": 44,
+     "closed_below": 14,
+     "closed_above": 2,
+     "median_share": 23.347078
+    },
+    {
+     "share": "share_jkm",
+     "share_words": "the JKM markets",
+     "sample": "all months",
+     "hire_level": "central",
+     "n": 115,
+     "slope_pp": 1.521832,
+     "t": 2.051768,
+     "r2": 0.100823,
+     "lags": 4,
+     "first_month": "2016-02-01",
+     "last_month": "2026-07-01",
+     "open_above": 55,
+     "open_below": 39,
+     "closed_below": 19,
+     "closed_above": 2,
+     "median_share": 23.347078
+    },
+    {
+     "share": "share_jkm",
+     "share_words": "the JKM markets",
+     "sample": "all months",
+     "hire_level": "high",
+     "n": 115,
+     "slope_pp": 1.625401,
+     "t": 2.06822,
+     "r2": 0.11656,
+     "lags": 4,
+     "first_month": "2016-02-01",
+     "last_month": "2026-07-01",
+     "open_above": 21,
+     "open_below": 5,
+     "closed_below": 53,
+     "closed_above": 36,
+     "median_share": 23.347078
+    },
+    {
+     "share": "share_asia",
+     "share_words": "all Asia",
+     "sample": "all months",
+     "hire_level": "low",
+     "n": 115,
+     "slope_pp": 1.7011,
+     "t": 2.319252,
+     "r2": 0.111845,
+     "lags": 4,
+     "first_month": "2016-02-01",
+     "last_month": "2026-07-01",
+     "open_above": 57,
+     "open_below": 42,
+     "closed_below": 16,
+     "closed_above": 0,
+     "median_share": 31.89149
+    },
+    {
+     "share": "share_asia",
+     "share_words": "all Asia",
+     "sample": "all months",
+     "hire_level": "central",
+     "n": 115,
+     "slope_pp": 1.725405,
+     "t": 2.321361,
+     "r2": 0.114811,
+     "lags": 4,
+     "first_month": "2016-02-01",
+     "last_month": "2026-07-01",
+     "open_above": 57,
+     "open_below": 37,
+     "closed_below": 21,
+     "closed_above": 0,
+     "median_share": 31.89149
+    },
+    {
+     "share": "share_asia",
+     "share_words": "all Asia",
+     "sample": "all months",
+     "hire_level": "high",
+     "n": 115,
+     "slope_pp": 1.879986,
+     "t": 2.300828,
+     "r2": 0.138138,
+     "lags": 4,
+     "first_month": "2016-02-01",
+     "last_month": "2026-07-01",
+     "open_above": 21,
+     "open_below": 5,
+     "closed_below": 53,
+     "closed_above": 36,
+     "median_share": 31.89149
+    },
+    {
+     "share": "share_jkm",
+     "share_words": "the JKM markets",
+     "sample": "without 2020, 2022, 2026",
+     "hire_level": "low",
+     "n": 84,
+     "slope_pp": 5.073981,
+     "t": 2.729951,
+     "r2": 0.23622,
+     "lags": 3,
+     "first_month": "2016-02-01",
+     "last_month": "2025-12-01",
+     "open_above": 42,
+     "open_below": 39,
+     "closed_below": 3,
+     "closed_above": 0,
+     "median_share": 24.068277
+    },
+    {
+     "share": "share_jkm",
+     "share_words": "the JKM markets",
+     "sample": "without 2020, 2022, 2026",
+     "hire_level": "central",
+     "n": 84,
+     "slope_pp": 5.19465,
+     "t": 2.719933,
+     "r2": 0.248604,
+     "lags": 3,
+     "first_month": "2016-02-01",
+     "last_month": "2025-12-01",
+     "open_above": 42,
+     "open_below": 34,
+     "closed_below": 8,
+     "closed_above": 0,
+     "median_share": 24.068277
+    },
+    {
+     "share": "share_jkm",
+     "share_words": "the JKM markets",
+     "sample": "without 2020, 2022, 2026",
+     "hire_level": "high",
+     "n": 84,
+     "slope_pp": 5.394063,
+     "t": 2.950942,
+     "r2": 0.296503,
+     "lags": 3,
+     "first_month": "2016-02-01",
+     "last_month": "2025-12-01",
+     "open_above": 16,
+     "open_below": 5,
+     "closed_below": 37,
+     "closed_above": 26,
+     "median_share": 24.068277
+    },
+    {
+     "share": "share_asia",
+     "share_words": "all Asia",
+     "sample": "without 2020, 2022, 2026",
+     "hire_level": "low",
+     "n": 84,
+     "slope_pp": 5.165005,
+     "t": 2.850292,
+     "r2": 0.230414,
+     "lags": 3,
+     "first_month": "2016-02-01",
+     "last_month": "2025-12-01",
+     "open_above": 42,
+     "open_below": 39,
+     "closed_below": 3,
+     "closed_above": 0,
+     "median_share": 32.490529
+    },
+    {
+     "share": "share_asia",
+     "share_words": "all Asia",
+     "sample": "without 2020, 2022, 2026",
+     "hire_level": "central",
+     "n": 84,
+     "slope_pp": 5.327121,
+     "t": 2.832979,
+     "r2": 0.24611,
+     "lags": 3,
+     "first_month": "2016-02-01",
+     "last_month": "2025-12-01",
+     "open_above": 42,
+     "open_below": 34,
+     "closed_below": 8,
+     "closed_above": 0,
+     "median_share": 32.490529
+    },
+    {
+     "share": "share_asia",
+     "share_words": "all Asia",
+     "sample": "without 2020, 2022, 2026",
+     "hire_level": "high",
+     "n": 84,
+     "slope_pp": 5.762956,
+     "t": 3.020787,
+     "r2": 0.318593,
+     "lags": 3,
+     "first_month": "2016-02-01",
+     "last_month": "2025-12-01",
+     "open_above": 17,
+     "open_below": 4,
+     "closed_below": 38,
+     "closed_above": 25,
+     "median_share": 32.490529
+    }
+   ],
+   "caption": "The regression of each share on the arb at loading, at each hire and on each sample: months, slope in points of share per dollar, its t statistic with Newey-West errors and their lags, R squared, and the months by the sign of the arb against the share above or below its median."
+  },
+  "y2020": {
+   "heading_segments": [
+    {
+     "text": "By the notice date, two months ahead, the prices then published put the lift margin at the central hire below zero for "
+    },
+    {
+     "field": "below",
+     "value": "July and August",
+     "label": "July and August"
+    },
+    {
+     "text": " of the "
+    },
+    {
+     "field": "reported_months",
+     "value": 4,
+     "format": "count"
+    },
+    {
+     "text": " months of "
+    },
+    {
+     "field": "year",
+     "value": 2020,
+     "format": "year"
+    },
+    {
+     "text": " for which EIA reported cargoes cancelled"
+    },
+    {
+     "text": "; for "
+    },
+    {
+     "field": "above",
+     "value": "June and September",
+     "label": "June and September"
+    },
+    {
+     "text": " it was above zero at the central hire"
+    },
+    {
+     "text": ". At the high hire it was below zero in "
+    },
+    {
+     "field": "high_below",
+     "value": 12,
+     "format": "count"
+    },
+    {
+     "text": " of the "
+    },
+    {
+     "field": "months_2020",
+     "value": 12,
+     "format": "count"
+    },
+    {
+     "text": " months."
+    }
+   ],
+   "months": [
+    {
+     "month": "2020-01-01",
+     "label": "January",
+     "loading": {
+      "low": 3.042326,
+      "central": 2.410922,
+      "high": -1.904416
+     },
+     "notice": {
+      "low": 1.887833,
+      "central": 1.244696,
+      "high": -1.629124
+     },
+     "notice_day": "2019-11-20",
+     "cancelled": null,
+     "cancelled_words": null,
+     "cancelled_source": null,
+     "cancelled_url": null
+    },
+    {
+     "month": "2020-02-01",
+     "label": "February",
+     "loading": {
+      "low": 0.862849,
+      "central": 0.143021,
+      "high": -2.7981
+     },
+     "notice": {
+      "low": 2.353962,
+      "central": 1.701835,
+      "high": -1.145673
+     },
+     "notice_day": "2019-12-20",
+     "cancelled": null,
+     "cancelled_words": null,
+     "cancelled_source": null,
+     "cancelled_url": null
+    },
+    {
+     "month": "2020-03-01",
+     "label": "March",
+     "loading": {
+      "low": 1.007644,
+      "central": 0.279748,
+      "high": -2.852281
+     },
+     "notice": {
+      "low": 3.439613,
+      "central": 2.807956,
+      "high": -1.331148
+     },
+     "notice_day": "2020-01-20",
+     "cancelled": null,
+     "cancelled_words": null,
+     "cancelled_source": null,
+     "cancelled_url": null
+    },
+    {
+     "month": "2020-04-01",
+     "label": "April",
+     "loading": {
+      "low": 0.146801,
+      "central": -0.623989,
+      "high": -3.369559
+     },
+     "notice": {
+      "low": 3.157188,
+      "central": 2.498383,
+      "high": -1.816955
+     },
+     "notice_day": "2020-02-20",
+     "cancelled": null,
+     "cancelled_words": null,
+     "cancelled_source": null,
+     "cancelled_url": null
+    },
+    {
+     "month": "2020-05-01",
+     "label": "May",
+     "loading": {
+      "low": -0.048218,
+      "central": -0.825374,
+      "high": -3.900884
+     },
+     "notice": {
+      "low": 0.971623,
+      "central": 0.232871,
+      "high": -2.690583
+     },
+     "notice_day": "2020-03-20",
+     "cancelled": null,
+     "cancelled_words": null,
+     "cancelled_source": null,
+     "cancelled_url": null
+    },
+    {
+     "month": "2020-06-01",
+     "label": "June",
+     "loading": {
+      "low": 1.558798,
+      "central": 0.832713,
+      "high": -3.482625
+     },
+     "notice": {
+      "low": 1.104103,
+      "central": 0.365296,
+      "high": -2.769086
+     },
+     "notice_day": "2020-04-20",
+     "cancelled": 46.0,
+     "cancelled_words": "cargoes cancelled in June 2020, about this many by EIA's estimate from the cargoes loaded and the capacity in operation",
+     "cancelled_source": "U.S. Energy Information Administration, Today in Energy, 11 August 2020",
+     "cancelled_url": "https://www.eia.gov/todayinenergy/detail.php?id=44697"
+    },
+    {
+     "month": "2020-07-01",
+     "label": "July",
+     "loading": {
+      "low": 1.780779,
+      "central": 1.067612,
+      "high": -3.247725
+     },
+     "notice": {
+      "low": 0.137251,
+      "central": -0.633445,
+      "high": -3.407315
+     },
+     "notice_day": "2020-05-20",
+     "cancelled": 50.0,
+     "cancelled_words": "cargoes cancelled in July 2020, about this many by EIA's estimate from the cargoes loaded and the capacity in operation",
+     "cancelled_source": "U.S. Energy Information Administration, Today in Energy, 11 August 2020",
+     "cancelled_url": "https://www.eia.gov/todayinenergy/detail.php?id=44697"
+    },
+    {
+     "month": "2020-08-01",
+     "label": "August",
+     "loading": {
+      "low": 0.41811,
+      "central": -0.320221,
+      "high": -3.350111
+     },
+     "notice": {
+      "low": 0.074384,
+      "central": -0.702822,
+      "high": -3.836401
+     },
+     "notice_day": "2020-06-20",
+     "cancelled": 45.0,
+     "cancelled_words": "cargoes cancelled for August 2020 shipments, according to trade press reports EIA cites",
+     "cancelled_source": "U.S. Energy Information Administration, Today in Energy, 11 August 2020",
+     "cancelled_url": "https://www.eia.gov/todayinenergy/detail.php?id=44697"
+    },
+    {
+     "month": "2020-09-01",
+     "label": "September",
+     "loading": {
+      "low": 1.868332,
+      "central": 1.164857,
+      "high": -1.852376
+     },
+     "notice": {
+      "low": 1.424398,
+      "central": 0.698414,
+      "high": -3.616923
+     },
+     "notice_day": "2020-07-20",
+     "cancelled": 30.0,
+     "cancelled_words": "cargoes estimated cancelled for September 2020 shipments, according to trade press reports EIA cites",
+     "cancelled_source": "U.S. Energy Information Administration, Today in Energy, 11 August 2020",
+     "cancelled_url": "https://www.eia.gov/todayinenergy/detail.php?id=44697"
+    },
+    {
+     "month": "2020-10-01",
+     "label": "October",
+     "loading": {
+      "low": 2.711297,
+      "central": 2.056132,
+      "high": -1.465975
+     },
+     "notice": {
+      "low": 2.172226,
+      "central": 1.491358,
+      "high": -2.823979
+     },
+     "notice_day": "2020-08-20",
+     "cancelled": null,
+     "cancelled_words": null,
+     "cancelled_source": null,
+     "cancelled_url": null
+    },
+    {
+     "month": "2020-11-01",
+     "label": "November",
+     "loading": {
+      "low": 3.188928,
+      "central": 2.559495,
+      "high": -1.755843
+     },
+     "notice": {
+      "low": 0.700002,
+      "central": -0.038525,
+      "high": -3.068032
+     },
+     "notice_day": "2020-09-20",
+     "cancelled": null,
+     "cancelled_words": null,
+     "cancelled_source": null,
+     "cancelled_url": null
+    },
+    {
+     "month": "2020-12-01",
+     "label": "December",
+     "loading": {
+      "low": 3.784703,
+      "central": 3.174413,
+      "high": -0.762634
+     },
+     "notice": {
+      "low": 1.756718,
+      "central": 1.053312,
+      "high": -1.981682
+     },
+     "notice_day": "2020-10-20",
+     "cancelled": null,
+     "cancelled_words": null,
+     "cancelled_source": null,
+     "cancelled_url": null
+    }
+   ],
+   "y": {
+    "low": -4.0,
+    "high": 4.0,
+    "step": 2.0
+   },
+   "ticks": [
+    {
+     "day": "2020-03-01",
+     "label": "Mar 2020"
+    },
+    {
+     "day": "2020-05-01",
+     "label": "May 2020"
+    },
+    {
+     "day": "2020-07-01",
+     "label": "Jul 2020"
+    },
+    {
+     "day": "2020-09-01",
+     "label": "Sep 2020"
+    },
+    {
+     "day": "2020-11-01",
+     "label": "Nov 2020"
+    }
+   ],
+   "desc": "Two lines over the loading months of 2020: the lift margin at the central hire with the prices published by the notice date, in ink over the band from the low to the high hire, and with the month's own prices, dashed.",
+   "caption_segments": [
+    {
+     "text": "The notice date is the day two months before loading that Sabine Pass's agreement with Centrica sets; the prices then published are METI's and the World Bank's of the month three before, and Henry Hub's spot since the month two before. Cancellations: EIA, Today in Energy, "
+    },
+    {
+     "field": "eia_note",
+     "value": "2020-08-11",
+     "label": "11 August 2020"
+    },
+    {
+     "text": ", about the cargoes cancelled for June to September."
+    }
+   ]
+  },
+  "y2026": {
+   "heading_segments": [
+    {
+     "text": "From "
+    },
+    {
+     "field": "first",
+     "value": "2025-12-03",
+     "label": "December 2025"
+    },
+    {
+     "text": ", the spread covered Panama's breakeven at the central hire in "
+    },
+    {
+     "field": "panama_open",
+     "value": 30,
+     "format": "count"
+    },
+    {
+     "text": " of "
+    },
+    {
+     "field": "weeks",
+     "value": 43,
+     "format": "count"
+    },
+    {
+     "text": " weeks and the Cape's in "
+    },
+    {
+     "field": "cape_open",
+     "value": 23,
+     "format": "count"
+    },
+    {
+     "text": ", while Platts counted "
+    },
+    {
+     "field": "cape_cargoes",
+     "value": 31,
+     "format": "count"
+    },
+    {
+     "text": " of "
+    },
+    {
+     "field": "asia_cargoes",
+     "value": 34,
+     "format": "count"
+    },
+    {
+     "text": " US cargoes to Asia round the Cape in data to "
+    },
+    {
+     "field": "cape_day",
+     "value": "2026-04-28",
+     "label": "28 April 2026"
+    },
+    {
+     "text": ", when, by Platts' sources, auctioned slots had made Panama impractical for spot cargoes."
+    }
+   ],
+   "days": [
+    "2025-12-03",
+    "2025-12-10",
+    "2025-12-17",
+    "2026-01-07",
+    "2026-01-14",
+    "2026-01-21",
+    "2026-01-28",
+    "2026-02-04",
+    "2026-02-11",
+    "2026-02-18",
+    "2026-02-25",
+    "2026-03-04",
+    "2026-03-11",
+    "2026-03-18",
+    "2026-03-25",
+    "2026-04-01",
+    "2026-04-08",
+    "2026-04-15",
+    "2026-04-22",
+    "2026-04-29",
+    "2026-05-06",
+    "2026-05-13",
+    "2026-05-20",
+    "2026-05-27",
+    "2026-06-03",
+    "2026-06-10",
+    "2026-06-17",
+    "2026-06-24",
+    "2026-07-01",
+    "2026-07-08",
+    "2026-07-15",
+    "2026-07-22",
+    "2026-07-29",
+    "2026-08-05",
+    "2026-08-12",
+    "2026-08-19",
+    "2026-08-26",
+    "2026-09-02",
+    "2026-09-09",
+    "2026-09-16",
+    "2026-09-23",
+    "2026-09-30",
+    "2026-10-07"
+   ],
+   "spread": [
+    1.38,
+    1.61,
+    0.85,
+    -0.11,
+    -0.63,
+    -1.67,
+    -2.32,
+    -1.22,
+    -0.56,
+    -0.42,
+    -0.35,
+    -1.41,
+    -1.69,
+    0.84,
+    1.76,
+    2.54,
+    2.97,
+    4.15,
+    1.39,
+    1.18,
+    1.05,
+    1.25,
+    1.32,
+    2.25,
+    2.28,
+    2.2,
+    2.55,
+    1.8,
+    1.73,
+    0.82,
+    -0.62,
+    1.42,
+    1.43,
+    2.09,
+    1.44,
+    0.49,
+    0.37,
+    -0.55,
+    -1.17,
+    -1.82,
+    1.26,
+    1.71,
+    1.01
+   ],
+   "panama": [
+    0.6665,
+    0.572092,
+    0.289605,
+    0.594534,
+    0.033393,
+    -0.631124,
+    -0.251534,
+    0.967659,
+    0.083098,
+    0.096851,
+    -0.529224,
+    -2.870693,
+    0.039667,
+    0.442899,
+    -0.650802,
+    0.891808,
+    0.157933,
+    1.319758,
+    0.664578,
+    0.058365,
+    0.282688,
+    0.428839,
+    0.047259,
+    1.236671,
+    0.543552,
+    0.649813,
+    2.134955,
+    1.009857,
+    0.293044,
+    0.005224,
+    -0.22377,
+    -0.286155,
+    0.961141,
+    1.476999,
+    -0.029864,
+    0.189993,
+    -0.359822,
+    -0.393907,
+    -0.197232,
+    -0.158108,
+    2.008275,
+    1.147523,
+    -0.203666
+   ],
+   "cape": [
+    1.022963,
+    0.913453,
+    0.62604,
+    0.959562,
+    0.396598,
+    -0.223811,
+    0.201547,
+    1.412864,
+    0.476896,
+    0.473727,
+    -0.170705,
+    -2.479743,
+    0.603917,
+    1.01391,
+    -0.054521,
+    1.485374,
+    0.704976,
+    1.852773,
+    1.15042,
+    0.559742,
+    0.80386,
+    0.949285,
+    0.595192,
+    1.800233,
+    1.085128,
+    1.205521,
+    2.689133,
+    1.493661,
+    0.761434,
+    0.504724,
+    0.323047,
+    0.328441,
+    1.627852,
+    2.128432,
+    0.595412,
+    0.861294,
+    0.341812,
+    0.341584,
+    0.590293,
+    0.682672,
+    2.851096,
+    1.937057,
+    0.56405
+   ],
+   "y": {
+    "low": -4.0,
+    "high": 6.0,
+    "step": 2.0
+   },
+   "ticks": [
+    {
+     "day": "2026-02-01",
+     "label": "Feb 2026"
+    },
+    {
+     "day": "2026-04-01",
+     "label": "Apr 2026"
+    },
+    {
+     "day": "2026-06-01",
+     "label": "Jun 2026"
+    },
+    {
+     "day": "2026-08-01",
+     "label": "Aug 2026"
+    },
+    {
+     "day": "2026-10-01",
+     "label": "Oct 2026"
+    }
+   ],
+   "desc": "A line of JKM's premium over TTF for each week, over the breakeven spread S* of Panama, a thin line, and of the Cape, a dotted one, both at the central hire. Where the ink line runs above a route's line, that route netted more than Gate.",
+   "assessment_day": "2026-04-28",
+   "assessment_week": "2026-04-29",
+   "compare_caption_segments": [
+    {
+     "text": "Platts' arbitrage of US cargoes to North Asia against the Atlantic, in $/MMBtu, on "
+    },
+    {
+     "field": "assessment_day",
+     "value": "2026-04-28",
+     "label": "28 April 2026"
+    },
+    {
+     "text": ", beside this study's arb at the three hires for the week ending "
+    },
+    {
+     "field": "assessment_week",
+     "value": "2026-04-29",
+     "label": "29 April 2026"
+    },
+    {
+     "text": "."
+    }
+   ],
+   "compare": [
+    {
+     "route": "panama",
+     "platts": 0.533,
+     "study": {
+      "low": 1.32508,
+      "central": 1.076237,
+      "high": -0.691219
+     },
+     "reported": null
+    },
+    {
+     "route": "cape",
+     "platts": -0.677,
+     "study": {
+      "low": 1.202072,
+      "central": 0.578306,
+      "high": -3.85212
+     },
+     "reported": null
+    }
+   ],
+   "reported": [
+    {
+     "period": "2026-04-28",
+     "figure": 34.0,
+     "what": "LNG cargoes exported from US facilities to Asia-Pacific destinations; the period is not stated, the article's data run to 28 April 2026",
+     "publisher": "Platts, republished by Cyprus Shipping News, 5 May 2026",
+     "url": "https://cyprusshippingnews.com/2026/05/05/us-lng-arbitrage-to-asia-open-via-panama-canal-laden-flows-limited/",
+     "format": "count",
+     "signed": false
+    },
+    {
+     "period": "2024-03",
+     "figure": 27.0,
+     "what": "US LNG cargoes to Asia via the Cape of Good Hope in March 2024, a record, in S&P Global's data",
+     "publisher": "Platts, republished by Hellenic Shipping News, 22 April 2024",
+     "url": "https://www.hellenicshippingnews.com/updated-transit-levels-at-panama-canal-dont-faze-lng-shippers/",
+     "format": "count",
+     "signed": false
+    },
+    {
+     "period": "2026-04-28",
+     "figure": 31.0,
+     "what": "of 34 LNG cargoes exported from US facilities to Asia-Pacific destinations, those routed round the Cape of Good Hope; the period is not stated, the article's data run to 28 April 2026",
+     "publisher": "Platts, republished by Cyprus Shipping News, 5 May 2026",
+     "url": "https://cyprusshippingnews.com/2026/05/05/us-lng-arbitrage-to-asia-open-via-panama-canal-laden-flows-limited/",
+     "format": "count",
+     "signed": false
+    },
+    {
+     "period": "2024-03",
+     "figure": 14.0,
+     "what": "US LNG cargoes that reached Asia via the Panama Canal in 2024 to 27 March, one of them in March, against 40 in the same period of 2023",
+     "publisher": "Platts, republished by the World Ports Organization, 29 March 2024",
+     "url": "https://www.worldports.org/us-exports-record-number-of-lng-cargoes-to-asia-via-cape-of-good-hope-in-march/",
+     "format": "count",
+     "signed": false
+    },
+    {
+     "period": "2026-04-28",
+     "figure": 0.533,
+     "what": "Platts' arbitrage of US to North Asia via the Panama Canal against US to the Atlantic",
+     "publisher": "Platts, republished by Cyprus Shipping News, 5 May 2026",
+     "url": "https://cyprusshippingnews.com/2026/05/05/us-lng-arbitrage-to-asia-open-via-panama-canal-laden-flows-limited/",
+     "format": "usd_mmbtu",
+     "signed": true
+    },
+    {
+     "period": "2026-04-28",
+     "figure": -0.677,
+     "what": "Platts' arbitrage of US to North Asia via the Cape of Good Hope against US to the Atlantic",
+     "publisher": "Platts, republished by Cyprus Shipping News, 5 May 2026",
+     "url": "https://cyprusshippingnews.com/2026/05/05/us-lng-arbitrage-to-asia-open-via-panama-canal-laden-flows-limited/",
+     "format": "usd_mmbtu",
+     "signed": true
+    }
+   ]
+  },
+  "waits": {
+   "heading_segments": [
+    {
+     "text": "Where waits at Panama were reported for LNG, each was longer than the wait at which Panama stops netting more than the Cape: "
+    },
+    {
+     "field": "reported_2023-07",
+     "value": 12.0,
+     "format": "days"
+    },
+    {
+     "text": " days in "
+    },
+    {
+     "field": "month_2023-07",
+     "value": "2023-07-01",
+     "label": "July 2023"
+    },
+    {
+     "text": " against "
+    },
+    {
+     "field": "breakeven_2023-07",
+     "value": 10.209617,
+     "format": "days",
+     "missing": "none"
+    },
+    {
+     "text": " at the central hire"
+    },
+    {
+     "text": "; "
+    },
+    {
+     "field": "reported_2023-12",
+     "value": 15.0,
+     "format": "days"
+    },
+    {
+     "text": " days in "
+    },
+    {
+     "field": "month_2023-12",
+     "value": "2023-12-01",
+     "label": "December 2023"
+    },
+    {
+     "text": " against "
+    },
+    {
+     "field": "breakeven_2023-12",
+     "value": 10.672381,
+     "format": "days",
+     "missing": "none"
+    },
+    {
+     "text": " at the central hire"
+    },
+    {
+     "text": "."
+    }
+   ],
+   "rows": [
+    {
+     "month": "2023-07-01",
+     "label": "July 2023",
+     "hire_level": "low",
+     "wait_reported": 12.0,
+     "wait_breakeven": 3.913274,
+     "lead_no_wait": 0.091483,
+     "lead_with_wait": -0.189049
+    },
+    {
+     "month": "2023-07-01",
+     "label": "July 2023",
+     "hire_level": "central",
+     "wait_reported": 12.0,
+     "wait_breakeven": 10.209617,
+     "lead_no_wait": 0.499212,
+     "lead_with_wait": -0.087543
+    },
+    {
+     "month": "2023-07-01",
+     "label": "July 2023",
+     "hire_level": "high",
+     "wait_reported": 12.0,
+     "wait_breakeven": 14.752232,
+     "lead_no_wait": 3.395192,
+     "lead_with_wait": 0.63342
+    },
+    {
+     "month": "2023-07-01",
+     "label": "July 2023",
+     "hire_level": "reported",
+     "wait_reported": 12.0,
+     "wait_breakeven": 11.508284,
+     "lead_no_wait": 0.726218,
+     "lead_with_wait": -0.031029
+    },
+    {
+     "month": "2023-12-01",
+     "label": "December 2023",
+     "hire_level": "low",
+     "wait_reported": 15.0,
+     "wait_breakeven": 6.195625,
+     "lead_no_wait": 0.187366,
+     "lead_with_wait": -0.266259
+    },
+    {
+     "month": "2023-12-01",
+     "label": "December 2023",
+     "hire_level": "central",
+     "wait_reported": 15.0,
+     "wait_breakeven": 10.672381,
+     "lead_no_wait": 0.595095,
+     "lead_with_wait": -0.241309
+    },
+    {
+     "month": "2023-12-01",
+     "label": "December 2023",
+     "hire_level": "high",
+     "wait_reported": 15.0,
+     "wait_breakeven": 14.729547,
+     "lead_no_wait": 3.491075,
+     "lead_with_wait": -0.064101
+    }
+   ]
+  },
+  "limits_segments": [
+   {
+    "text": "What the test cannot separate: long term contracts with Asian buyers, whose cargoes move whatever the spot economics; the slot constraints at Panama; China's tariff on US LNG from "
+   },
+   {
+    "field": "china_tariff_from",
+    "value": "2025-02-10",
+    "label": "February 2025"
+   },
+   {
+    "text": "; the gap between spot hire and the cost of a ship already on term charter; the month, coarser than the decisions, which are taken weeks before a cargo loads; and, before "
+   },
+   {
+    "field": "meti_end",
+    "value": "2021-04-01",
+    "label": "April 2021"
+   },
+   {
+    "text": ", a Japanese spot price standing in for JKM. An association is all it can show."
+   }
+  ],
+  "words": {
+   "test_heading": "The test: each share against the arb",
+   "y2020_heading": "2020: the lift margin when the notice was due",
+   "y2026_heading": "2026: the breakeven against the route taken",
+   "waits_heading": "The waits at Panama",
+   "spread": "JKM over TTF",
+   "panama": "S*, Panama",
+   "cape": "S*, the Cape",
+   "notice": "At the notice date",
+   "loading": "At loading",
+   "band": "Low to high hire",
+   "y_axis": "$/MMBtu",
+   "panama_route": "To North Asia via Panama",
+   "cape_route": "To North Asia round the Cape",
+   "y2026_legend": "The ink line is JKM over TTF; the thin line, S* via Panama; the dotted line, S* round the Cape; both at the central hire.",
+   "y2020_legend": "The ink line is the lift margin at the notice date at the central hire, over the band from the low to the high hire; the dashed line, the margin with the month's own prices.",
+   "y2020_caption": "The lift margin of each loading month of the year, at the notice date at each hire and at loading at the central hire, and the cargoes reported cancelled.",
+   "waits_caption": "Panama against the Cape in the months a wait was reported for LNG: the wait reported, the wait at which the two routes net the same, and Panama's lead over the Cape without and with the wait, in $/MMBtu."
+  }
+ }
 }

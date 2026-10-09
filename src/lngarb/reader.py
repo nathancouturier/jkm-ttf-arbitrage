@@ -777,12 +777,13 @@ def _months_between(first: str, last: str) -> int:
 
 
 def flows_panel(months: Sequence[Mapping[str, Any]], regressions: Sequence[Mapping[str, Any]],
-                excluded_years: Sequence[int], central_hire: float) -> dict[str, Any]:
-    """The latest months of exports by vessel, the share to the JKM markets and
-    to Asia against the arb at loading at the central hire, and the regression
-    on every month, in words. The latest month is the chart's accent."""
+                excluded_years: Sequence[int], central_hire: float, *, window: int | None = FLOWS_MONTHS) -> dict[str, Any]:
+    """The latest months of exports by vessel (every month held when window is
+    None), the share to the JKM markets and to Asia against the arb at loading
+    at the central hire, and the regression on every month, in words. The
+    latest month is the chart's accent."""
     held = [m for m in months if not _missing(m["share_asia"])]
-    latest = held[-FLOWS_MONTHS:]
+    latest = held if window is None else held[-window:]
     rows = []
     for m in latest:
         rows.append({
@@ -800,7 +801,8 @@ def flows_panel(months: Sequence[Mapping[str, Any]], regressions: Sequence[Mappi
         mean_open = sum(r["share_asia"] for r in open_months) / len(open_months)
         mean_closed = sum(r["share_asia"] for r in closed_months) / len(closed_months)
         heading = [
-            T("In the "), N("months", count, "count"), T(" months to "), D("last_month", last, "month"),
+            T("In the "), N("months", len(priced), "count"),
+            T(" months to " if len(priced) == count else " months priced to "), D("last_month", last, "month"),
             T(" the arb at loading was open in "), N("open_months", len(open_months), "count"),
             T("; Asia took "), N("share_open", mean_open, "share_percent"),
             T(" percent of US exports in those months and "), N("share_closed", mean_closed, "share_percent"),

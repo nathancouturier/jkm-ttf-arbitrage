@@ -42,7 +42,7 @@ from typing import Any
 
 import pandas as pd
 
-from . import analysis, config, delivery, presets, reader, routemap, spreadhistory, units, worked
+from . import analysis, config, delivery, flowspage, presets, reader, routemap, spreadhistory, units, worked
 from .cases import WATERFALL_STEPS, evaluate
 from .freight_anchors import ANCHORS, hire_levels
 from .sources import base
@@ -316,6 +316,8 @@ def flows(rows: pd.DataFrame | None = None) -> dict[str, Any]:
         "months": months,
         "regressions": tests,
         "excluded_years": excluded,
+        # The Flows view's layer: what the page draws and says, computed here.
+        "page": flowspage.page(rows, clean_months, _clean(tests), excluded, hire_levels()),
     }, ROUND_DP)
 
 
