@@ -102,6 +102,8 @@ const REQUIRED = Object.freeze({
     "page.y2026.assessment_day", "page.y2026.assessment_week", "page.y2026.story_segments", "page.y2026.source_segments",
     "page.y2020.cancelled_marks",
     "page.waits.heading_segments", "page.waits.rows", "page.waits.source", "page.limits_segments",
+    "page.waits.months", "page.waits.reported_points", "page.waits.y.low", "page.waits.ticks",
+    "page.waits.march_2024_segments", "page.words.waits_legend", "page.words.waits_axis", "page.words.waits_line",
     "page.words.panama_route", "page.words.cape_route", "page.words.y2026_legend", "page.words.y2020_legend", "page.words.y2020_caption",
     "page.y2026.compare_caption_segments", "page.words.waits_caption",
     "panel.months", "panel.shares", "panel.share_domain.low", "panel.share_domain.high", "panel.share_domain.step",

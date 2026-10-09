@@ -265,9 +265,32 @@ function waitsBlock(page, decimals) {
     ])]),
     body,
   ]);
+  const waits = page.waits;
+  const frame = el("div", { class: "chart-frame" });
+  charts.onWidthChange(frame, (width) => {
+    frame.replaceChildren(charts.timeChart({
+      width,
+      days: waits.months.map((m) => m.month),
+      first: waits.months[0].month,
+      last: waits.months[waits.months.length - 1].month,
+      y: waits.y,
+      band: null,
+      reference: null,
+      series: { values: waits.months.map((m) => m.wait), label: page.words.waits_line },
+      marks: [],
+      rules: [],
+      points: waits.reported_points.map((p) => ({ day: p.day, value: p.value, accent: true })),
+      ticks: waits.ticks,
+      height: width < charts.GEOMETRY.NARROW_WIDTH ? charts.GEOMETRY.HSTAR_HEIGHT_NARROW : charts.GEOMETRY.HSTAR_HEIGHT,
+      words: { title: segmentsText(waits.heading_segments, decimals), desc: page.words.waits_legend, yAxis: page.words.waits_axis },
+    }));
+  });
   return el("div", { class: "block" }, [
     el("h2", { class: "block__heading", text: page.words.waits_heading }),
     sentence("p", page.waits.heading_segments, decimals, "lead"),
+    frame,
+    el("p", { class: "source-line", text: page.words.waits_legend }),
+    sentence("p", waits.march_2024_segments, decimals, "prose"),
     scrollTable([page.words.waits_caption], table),
     el("p", { class: "source-line", text: page.waits.source }),
   ]);

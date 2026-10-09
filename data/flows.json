@@ -5195,7 +5195,394 @@
      "lead_with_wait": -0.064101
     }
    ],
-   "source": "Waits reported: 12 days of delay for unbooked vessels in late July 2023 (LNG Prime, 28 July 2023, quoting Spark); 15 days for unreserved slots in mid December 2023 (IEA, Gas Market Report Q1 2024)"
+   "source": "Waits reported: 12 days of delay for unbooked vessels in late July 2023 (LNG Prime, 28 July 2023, quoting Spark); 15 days for unreserved slots in mid December 2023 (IEA, Gas Market Report Q1 2024)",
+   "months": [
+    {
+     "month": "2023-01-01",
+     "wait": 12.250143,
+     "premium": 3359761.286171,
+     "lead": 0.926882
+    },
+    {
+     "month": "2023-02-01",
+     "wait": 11.357809,
+     "premium": 2513357.880121,
+     "lead": 0.693378
+    },
+    {
+     "month": "2023-03-01",
+     "wait": 10.676885,
+     "premium": 2059175.596727,
+     "lead": 0.56808
+    },
+    {
+     "month": "2023-04-01",
+     "wait": 10.398229,
+     "premium": 1905275.391021,
+     "lead": 0.525622
+    },
+    {
+     "month": "2023-05-01",
+     "wait": 9.917655,
+     "premium": 1673110.198332,
+     "lead": 0.461573
+    },
+    {
+     "month": "2023-06-01",
+     "wait": 9.919512,
+     "premium": 1673936.523074,
+     "lead": 0.461801
+    },
+    {
+     "month": "2023-07-01",
+     "wait": 10.209617,
+     "premium": 1809544.809307,
+     "lead": 0.499212
+    },
+    {
+     "month": "2023-08-01",
+     "wait": 10.346656,
+     "premium": 1878462.401065,
+     "lead": 0.518225
+    },
+    {
+     "month": "2023-09-01",
+     "wait": 10.704374,
+     "premium": 2075238.620204,
+     "lead": 0.572511
+    },
+    {
+     "month": "2023-10-01",
+     "wait": 11.064964,
+     "premium": 2302597.834249,
+     "lead": 0.635234
+    },
+    {
+     "month": "2023-11-01",
+     "wait": 11.292424,
+     "premium": 2464015.621511,
+     "lead": 0.679766
+    },
+    {
+     "month": "2023-12-01",
+     "wait": 10.672381,
+     "premium": 2157100.93742,
+     "lead": 0.595095
+    },
+    {
+     "month": "2024-01-01",
+     "wait": 8.716462,
+     "premium": 1413293.132375,
+     "lead": 0.358525
+    },
+    {
+     "month": "2024-02-01",
+     "wait": 8.253187,
+     "premium": 1257920.733354,
+     "lead": 0.31911
+    },
+    {
+     "month": "2024-03-01",
+     "wait": 8.283743,
+     "premium": 1267592.242678,
+     "lead": 0.321563
+    },
+    {
+     "month": "2024-04-01",
+     "wait": 8.573005,
+     "premium": 1363102.683431,
+     "lead": 0.345792
+    },
+    {
+     "month": "2024-05-01",
+     "wait": 8.891528,
+     "premium": 1477295.778102,
+     "lead": 0.374761
+    },
+    {
+     "month": "2024-06-01",
+     "wait": 9.244511,
+     "premium": 1616463.179425,
+     "lead": 0.410065
+    },
+    {
+     "month": "2024-07-01",
+     "wait": 9.260528,
+     "premium": 1623125.259832,
+     "lead": 0.411755
+    },
+    {
+     "month": "2024-08-01",
+     "wait": 9.485681,
+     "premium": 1720249.687902,
+     "lead": 0.436393
+    },
+    {
+     "month": "2024-09-01",
+     "wait": 9.566329,
+     "premium": 1756697.841414,
+     "lead": 0.44564
+    },
+    {
+     "month": "2024-10-01",
+     "wait": 9.5078,
+     "premium": 1730155.619265,
+     "lead": 0.438906
+    },
+    {
+     "month": "2024-11-01",
+     "wait": 9.603174,
+     "premium": 1773656.753121,
+     "lead": 0.449942
+    },
+    {
+     "month": "2024-12-01",
+     "wait": 9.538996,
+     "premium": 1824767.728082,
+     "lead": 0.462908
+    },
+    {
+     "month": "2025-01-01",
+     "wait": 9.111038,
+     "premium": 1719122.039301,
+     "lead": 0.436107
+    },
+    {
+     "month": "2025-02-01",
+     "wait": 9.191324,
+     "premium": 1754788.244048,
+     "lead": 0.445155
+    },
+    {
+     "month": "2025-03-01",
+     "wait": 9.000149,
+     "premium": 1671210.551419,
+     "lead": 0.423953
+    },
+    {
+     "month": "2025-04-01",
+     "wait": 8.618287,
+     "premium": 1517267.897568,
+     "lead": 0.384901
+    },
+    {
+     "month": "2025-05-01",
+     "wait": 8.465012,
+     "premium": 1459878.43604,
+     "lead": 0.370342
+    },
+    {
+     "month": "2025-06-01",
+     "wait": 8.760809,
+     "premium": 1572818.312218,
+     "lead": 0.398993
+    },
+    {
+     "month": "2025-07-01",
+     "wait": 8.666014,
+     "premium": 1535629.276386,
+     "lead": 0.389559
+    },
+    {
+     "month": "2025-08-01",
+     "wait": 8.419652,
+     "premium": 1443340.943483,
+     "lead": 0.366147
+    },
+    {
+     "month": "2025-09-01",
+     "wait": 8.314788,
+     "premium": 1405859.285624,
+     "lead": 0.356639
+    },
+    {
+     "month": "2025-10-01",
+     "wait": 8.259912,
+     "premium": 1386650.641394,
+     "lead": 0.351766
+    },
+    {
+     "month": "2025-11-01",
+     "wait": 8.296097,
+     "premium": 1399285.73628,
+     "lead": 0.354971
+    },
+    {
+     "month": "2025-12-01",
+     "wait": 8.149387,
+     "premium": 1348780.283113,
+     "lead": 0.342159
+    },
+    {
+     "month": "2026-01-01",
+     "wait": 8.123908,
+     "premium": 1340201.406271,
+     "lead": 0.339983
+    },
+    {
+     "month": "2026-02-01",
+     "wait": 8.187439,
+     "premium": 1361697.082274,
+     "lead": 0.345436
+    },
+    {
+     "month": "2026-03-01",
+     "wait": 9.730823,
+     "premium": 2018232.167734,
+     "lead": 0.511986
+    },
+    {
+     "month": "2026-04-01",
+     "wait": 9.973177,
+     "premium": 2151986.879227,
+     "lead": 0.545917
+    },
+    {
+     "month": "2026-05-01",
+     "wait": 9.848549,
+     "premium": 2081883.928007,
+     "lead": 0.528133
+    },
+    {
+     "month": "2026-06-01",
+     "wait": 9.849999,
+     "premium": 2082683.168612,
+     "lead": 0.528336
+    },
+    {
+     "month": "2026-07-01",
+     "wait": 9.95509,
+     "premium": 2141632.465256,
+     "lead": 0.54329
+    },
+    {
+     "month": "2026-08-01",
+     "wait": 10.549256,
+     "premium": 2517856.860309,
+     "lead": 0.638731
+    },
+    {
+     "month": "2026-09-01",
+     "wait": 11.011901,
+     "premium": 2873146.551645,
+     "lead": 0.728861
+    }
+   ],
+   "reported_points": [
+    {
+     "day": "2023-07-01",
+     "value": 12.0
+    },
+    {
+     "day": "2023-12-01",
+     "value": 15.0
+    }
+   ],
+   "y": {
+    "low": 0.0,
+    "high": 15.0,
+    "step": 5.0
+   },
+   "ticks": [
+    {
+     "day": "2024-01-01",
+     "label": "2024"
+    },
+    {
+     "day": "2025-01-01",
+     "label": "2025"
+    },
+    {
+     "day": "2026-01-01",
+     "label": "2026"
+    }
+   ],
+   "march_2024_segments": [
+    {
+     "text": "In "
+    },
+    {
+     "field": "march_2024",
+     "value": "2024-03-01",
+     "label": "March 2024"
+    },
+    {
+     "text": " the model picks Panama by "
+    },
+    {
+     "field": "march_lead",
+     "value": 0.321563,
+     "format": "usd_mmbtu"
+    },
+    {
+     "text": " $/MMBtu at the central hire with no wait; the Cape wins from "
+    },
+    {
+     "field": "march_wait",
+     "value": 8.283743,
+     "format": "days"
+    },
+    {
+     "text": " days of waiting per transit, or a slot premium of "
+    },
+    {
+     "field": "march_premium",
+     "value": 1267592.242678,
+     "format": "usd"
+    },
+    {
+     "text": " $ for the round trip"
+    },
+    {
+     "text": ". Platts counted "
+    },
+    {
+     "field": "march_cape",
+     "value": 27,
+     "format": "count"
+    },
+    {
+     "text": " US cargoes to Asia round the Cape that month, a record"
+    },
+    {
+     "text": ", and "
+    },
+    {
+     "field": "march_panama",
+     "value": 14,
+     "format": "count"
+    },
+    {
+     "text": " through Panama in the year to "
+    },
+    {
+     "field": "panama_to",
+     "value": "2024-03-27",
+     "label": "27 March 2024"
+    },
+    {
+     "text": ", one of them in March"
+    },
+    {
+     "text": ". The wait reported that winter, "
+    },
+    {
+     "field": "winter_wait",
+     "value": 15.0,
+     "format": "days"
+    },
+    {
+     "text": " days in "
+    },
+    {
+     "field": "winter_month",
+     "value": "2023-12-01",
+     "label": "December 2023"
+    },
+    {
+     "text": ", was longer than the model needs in March."
+    }
+   ]
   },
   "limits_segments": [
    {
@@ -5235,6 +5622,9 @@
    "y2026_legend": "The ink line is JKM over TTF; the thin line, S* via Panama; the dotted line, S* round the Cape; both at the central hire. The dot in the accent is the week the arb east opened on the data, Europe's DES spread as ACER assessed it.",
    "y2020_legend": "The ink line is the lift margin at the notice date at the central hire, over the band from the low to the high hire; the dashed line, the margin with the month's own prices; the bars at the foot, the months for which EIA estimated or cited cancellations, with the approximate count.",
    "y2020_caption": "The lift margin of each loading month of the year, at the notice date at each hire and at loading at the central hire, and the cargoes reported cancelled.",
+   "waits_legend": "The ink line is, month by month at the central hire, the waiting days per Panama transit at which the Cape nets as much; the dots, the waits reported for LNG.",
+   "waits_axis": "days",
+   "waits_line": "Wait at which the Cape wins",
    "waits_caption": "Panama against the Cape in the months a wait was reported for LNG: the wait reported, the wait at which the two routes net the same, and Panama's lead over the Cape without and with the wait, in $/MMBtu."
   }
  }

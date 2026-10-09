@@ -40,6 +40,8 @@ LEVEL_WORDS = {"low": "low", "central": "central", "high": "high"}
 #: The 2026 panel starts with the first week of the Supplement's predecessor's
 #: last winter: the weeks Platts' route counts and assessment speak to.
 FROM_2026 = date(2025, 12, 1)
+#: The waits chart starts with Panama's water saving measures of January 2023.
+WAITS_FROM = "2023-01-01"
 
 
 def _finite(value: Any) -> float | None:
@@ -431,8 +433,53 @@ def _waits(rows: pd.DataFrame) -> dict[str, Any]:
                     reader.N("breakeven_" + r["month"][:7], r["wait_breakeven"], "days", missing="none"),
                     reader.T(" at the central hire")]
     waits = config.PARAMETERS["panama_waits_reported"]
+    # Month by month from Panama's restrictions: the wait at which the Cape nets
+    # as much, against the waits reported.
+    choice = analysis.route_choice(rows)
+    since = choice[choice["month"] >= pd.Timestamp(WAITS_FROM)].sort_values("month")
+    months = [{"month": _iso(r["month"]), "wait": _finite(r["wait_days_breakeven"]),
+               "premium": _finite(r["slot_premium_breakeven_usd_round_trip"]),
+               "lead": _finite(r["panama_lead_usd_mmbtu"])} for r in since.to_dict("records")]
+    reported_points = [{"day": month + "-01", "value": float(days)} for month, days in sorted(waits.value.items())]
+    found = [m["wait"] for m in months if m["wait"] is not None]
+    low, high, step = reader.nice_domain(found + [p["value"] for p in reported_points], 5)
     return {"heading_segments": heading + [reader.T(".")], "rows": out,
-            "source": reader.dates_in_words("Waits reported: " + waits.source)}
+            "source": reader.dates_in_words("Waits reported: " + waits.source),
+            "months": months, "reported_points": reported_points,
+            "y": {"low": low, "high": high, "step": step},
+            "ticks": ticks(date.fromisoformat(months[0]["month"]), date.fromisoformat(months[-1]["month"])),
+            "march_2024_segments": _march_2024(months)}
+
+
+def _march_2024(months: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
+    """The record month of Cape voyages against the model's choice that month."""
+    T, N, D = reader.T, reader.N, reader.D
+    month = next((m for m in months if m["month"] == "2024-03-01"), None)
+    cape = next((r for r in reported("cape_use") if r.period == "2024-03"), None)
+    panama = next((r for r in reported("panama_use") if r.period == "2024-03"), None)
+    if month is None or month["lead"] is None or cape is None:
+        return []
+    out = [T("In "), D("march_2024", "2024-03-01", "month"), T(" the model picks Panama by "),
+           N("march_lead", month["lead"], "usd_mmbtu"), T(" $/MMBtu at the central hire with no wait; the Cape wins from ")]
+    out += ([N("march_wait", month["wait"], "days"), T(" days of waiting per transit, or a slot premium of "),
+             N("march_premium", month["premium"], "usd"), T(" $ for the round trip")]
+            if month["wait"] is not None and month["premium"] is not None else [T("no wait the study can find")])
+    out += [T(". Platts counted "), N("march_cape", cape.figure, "count"),
+            T(" US cargoes to Asia round the Cape that month, a record")]
+    if panama is not None:
+        out += [T(", and "), N("march_panama", panama.figure, "count"),
+                T(" through Panama in the year to "), D("panama_to", "2024-03-27"), T(", one of them in March")]
+    winter = {month: days for month, days in config.PARAMETERS["panama_waits_reported"].value.items()
+              if "2023-10" <= month <= "2024-03"}
+    if winter and month["wait"] is not None:
+        latest = max(winter)
+        longer = winter[latest] > month["wait"]
+        out += [T(". The wait reported that winter, "), N("winter_wait", winter[latest], "days"), T(" days in "),
+                D("winter_month", latest + "-01", "month"),
+                T(", was " + ("longer" if longer else "no longer") + " than the model needs in March.")]
+    else:
+        out += [T(".")]
+    return out
 
 
 def page(rows: pd.DataFrame, months: Sequence[Mapping[str, Any]], regressions: Sequence[Mapping[str, Any]],
@@ -471,6 +518,10 @@ def page(rows: pd.DataFrame, months: Sequence[Mapping[str, Any]], regressions: S
                             "approximate count.",
             "y2020_caption": "The lift margin of each loading month of the year, at the notice date at each hire "
                              "and at loading at the central hire, and the cargoes reported cancelled.",
+            "waits_legend": "The ink line is, month by month at the central hire, the waiting days per Panama "
+                            "transit at which the Cape nets as much; the dots, the waits reported for LNG.",
+            "waits_axis": "days",
+            "waits_line": "Wait at which the Cape wins",
             "waits_caption": "Panama against the Cape in the months a wait was reported for LNG: the wait "
                              "reported, the wait at which the two routes net the same, and Panama's lead over the "
                              "Cape without and with the wait, in $/MMBtu.",
