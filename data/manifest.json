@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-09T16:01:16Z",
+  "generated_at": "2026-10-09T16:05:44Z",
   "series": [
     {
       "series": "acer_lng_daily",
@@ -2532,7 +2532,7 @@
       "page_url": "https://lngprime.com/",
       "machine_fetched": false,
       "fetched_at": null,
-      "checked_at": "2026-10-09T16:01:16Z",
+      "checked_at": "2026-10-09T16:05:44Z",
       "rows": 10,
       "observations": 10,
       "file_rows": 10,
@@ -3081,7 +3081,7 @@
     {
       "series": "nyfed_sofr_daily",
       "source": "Federal Reserve Bank of New York, Secured Overnight Financing Rate",
-      "url": "https://markets.newyorkfed.org/api/rates/secured/sofr/search.json?startDate=2018-04-02&endDate=2026-10-09",
+      "url": "https://markets.newyorkfed.org/api/rates/secured/sofr/search.json?startDate=2018-04-02&endDate=today",
       "page_url": "https://www.newyorkfed.org/markets/reference-rates/additional-information-about-reference-rates",
       "machine_fetched": true,
       "fetched_at": "2026-10-09T16:00:58Z",
@@ -3209,7 +3209,7 @@
       "page_url": "https://github.com/genthalili/searoute-py",
       "machine_fetched": false,
       "fetched_at": null,
-      "checked_at": "2026-10-09T16:01:16Z",
+      "checked_at": "2026-10-09T16:05:44Z",
       "rows": 4,
       "observations": 4,
       "file_rows": 4,
@@ -3236,7 +3236,7 @@
     {
       "series": "worldbank_gas_monthly",
       "source": "World Bank Commodity Price Data (The Pink Sheet)",
-      "url": "https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx",
+      "url": "https://www.worldbank.org/en/research/commodity-markets",
       "page_url": "https://www.worldbank.org/en/research/commodity-markets",
       "machine_fetched": true,
       "fetched_at": "2026-10-09T15:57:47Z",
@@ -3343,9 +3343,9 @@
   ],
   "manual_steps_note": "Work this pipeline cannot do for itself. Each entry says what it is, why it exists, what it costs to skip it and how to do it. They are repeated against the series they affect in the manual_step field of those entries.",
   "run": {
-    "mode": "online",
-    "started_at": "2026-10-09T15:56:15Z",
-    "finished_at": "2026-10-09T16:01:16Z",
+    "mode": "offline",
+    "started_at": "2026-10-09T16:05:44Z",
+    "finished_at": "2026-10-09T16:05:44Z",
     "script": "scripts/refresh.py"
   }
 }

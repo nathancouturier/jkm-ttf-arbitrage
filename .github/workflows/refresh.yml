@@ -1,9 +1,11 @@
 # The weekly refresh: public sources only, after EIA's Thursday release.
 #
-# Fetches the public series, rebuilds every site artifact, and runs the whole
-# gate. If everything passes, the refreshed data are committed to the default
-# branch and build.yml is started on it, which checks them again and publishes
-# them: a push by the workflow's own token starts no workflow by itself.
+# Fetches the public series, rewrites the manifest from the caches offline,
+# rebuilds every site artifact, and runs the whole gate, with the checks
+# build.yml makes of the committed bytes. If everything passes, the refreshed
+# data are committed to the default branch and build.yml is started on it,
+# which checks them again and publishes them: a push by the workflow's own
+# token starts no workflow by itself.
 # If anything fails, nothing is committed and an issue says which step failed,
 # with its output; the committed data stay as they were, so the site keeps its
 # last good week.
@@ -64,6 +66,15 @@ jobs:
             --only eua --only h10 --only sofr --only sdr --only seeds > refresh.log 2>&1
           cat refresh.log
 
+      # The committed manifest is the one the offline pass writes from the
+      # caches, which build.yml then checks byte for byte; the online run's own
+      # record, with the addresses it resolved, is in refresh.log.
+      - name: Rewrite the manifest from the caches, offline
+        id: offline
+        run: |
+          python scripts/refresh.py --offline > offline.log 2>&1
+          cat offline.log
+
       - name: Rebuild every site artifact
         id: export
         run: |
@@ -76,6 +87,17 @@ jobs:
         run: |
           set -o pipefail
           {
+            # What build.yml checks after this commit: a second offline pass
+            # and a second export change no byte.
+            cp data/manifest.json "$RUNNER_TEMP/manifest.json"
+            python scripts/refresh.py --offline
+            cmp data/manifest.json "$RUNNER_TEMP/manifest.json"
+            git add -N data index.html
+            git diff > "$RUNNER_TEMP/before.diff"
+            PYTHONPATH=src python -m lngarb.export
+            PYTHONPATH=src python -m lngarb.versions
+            git diff > "$RUNNER_TEMP/after.diff"
+            cmp "$RUNNER_TEMP/before.diff" "$RUNNER_TEMP/after.diff"
             python -m pytest tests -q
             node tools/validate-data.mjs
             node tools/validate-engine.mjs
@@ -110,7 +132,7 @@ jobs:
           {
             echo "The weekly refresh of $(date -u +%Y-%m-%d) failed. Nothing was committed; the site keeps its last good week."
             echo
-            for log in refresh.log export.log gate.log; do
+            for log in refresh.log offline.log export.log gate.log; do
               if [ -f "$log" ]; then
                 echo "### $log"
                 echo
