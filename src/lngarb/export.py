@@ -320,6 +320,8 @@ def flows(rows: pd.DataFrame | None = None) -> dict[str, Any]:
     months = [{
         "month": r["month"], "total_mmcf": r["total_mmcf"], "jkm_markets_mmcf": r["jkm_markets_mmcf"],
         "asia_mmcf": r["asia_mmcf"], "share_jkm": r["share_jkm"], "share_asia": r["share_asia"],
+        "share_europe": r["share_europe"], "share_middle_east_africa": r["share_middle_east_africa"],
+        "share_americas": r["share_americas"],
         "anomaly": r["anomaly"], "arb": {"low": r["low"], "central": r["central"], "high": r["high"]},
     } for r in joined.to_dict("records")]
     tests = analysis.flows_test(rows).to_dict("records")

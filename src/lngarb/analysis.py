@@ -422,10 +422,13 @@ def export_shares() -> pd.DataFrame:
         jkm = float(countries.loc[countries["region"] == "jkm_markets", "mmcf"].sum())
         asia = float(countries.loc[countries["region"].isin(["jkm_markets", "other_asia"]), "mmcf"].sum())
         summed = float(countries["mmcf"].sum())
+        by_region = {region: float(countries.loc[countries["region"] == region, "mmcf"].sum())
+                     for region in ("europe", "middle_east_africa", "americas")}
         rows.append({
             "month": day.to_period("M").to_timestamp(),
             "total_mmcf": total, "jkm_markets_mmcf": jkm, "asia_mmcf": asia,
             "share_jkm": jkm / total, "share_asia": asia / total,
+            **{"share_" + region: value / total for region, value in by_region.items()},
             "anomaly": None if abs(summed - total) <= 0.5 * len(countries) else
             "the countries add up to %.0f MMcf against a total of %.0f" % (summed, total),
         })

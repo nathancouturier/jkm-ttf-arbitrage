@@ -139,6 +139,16 @@ function slice(weekly, range) {
   return out;
 }
 
+/* The accent: the latest point drawn, the one a reader asks about first. */
+function lastPoint(days, values) {
+  for (let index = values.length - 1; index >= 0; index -= 1) {
+    if (days[index] !== null && values[index] !== null && values[index] !== undefined) {
+      return [{ day: days[index], value: values[index], accent: true }];
+    }
+  }
+  return [];
+}
+
 function pick(column, indexes) {
   return indexes.map((index) => (index === null ? null : column[index]));
 }
@@ -167,6 +177,7 @@ function weeklyFigure(page, range, decimals, chosenRoute, routes) {
       reference: { values: pick(column("central"), indexes), label: page.words.reference },
       series: { values: pick(weekly.spread, indexes), label: page.words.spread },
       marks,
+      points: lastPoint(days, pick(weekly.spread, indexes)),
       rules: page.rules,
       events: page.event_marks,
       ticks: range.ticks,
@@ -326,6 +337,7 @@ function monthlyFigure(page, decimals) {
       reference: { values: monthly.s_central, label: page.words.reference },
       series: { values: monthly.spread, label: page.words.spread },
       marks: [],
+      points: lastPoint(monthly.day, monthly.spread),
       rules: page.rules,
       events: page.event_marks,
       ticks: monthly.ticks,

@@ -27,7 +27,7 @@ export function render(inner, data) {
 
   const months = panel.months.map((month) => ({
     label: month.label,
-    values: { share_jkm: month.share_jkm, share_asia: month.share_asia },
+    values: Object.fromEntries(panel.shares.map((share) => [share.key, month[share.key]])),
     arb: month.arb,
   }));
   charts.onWidthChange(chart, (width) => {
@@ -61,6 +61,8 @@ function table(panel, decimals) {
       el("th", { text: month.label, attrs: { scope: "row" } }),
       figureCell(formatCell(month.share_jkm, "share_percent", decimals), "share_jkm", { missing: panel.missing_words }),
       figureCell(formatCell(month.share_asia, "share_percent", decimals), "share_asia", { missing: panel.missing_words }),
+      figureCell(formatCell(month.share_europe, "share_percent", decimals), "share_europe", { missing: panel.missing_words }),
+      ...panel.other_regions.map((region) => figureCell(formatCell(month[region.key], "share_percent", decimals), region.key, { missing: panel.missing_words })),
       figureCell(formatCell(month.arb, "usd_mmbtu", decimals, true), "arb", { missing: panel.arb_missing_words }),
     ]));
   }
@@ -69,6 +71,8 @@ function table(panel, decimals) {
       el("th", { text: "Month", attrs: { scope: "col" } }),
       el("th", { class: "col-num", text: "To the JKM markets, " + UNITS.share_percent, attrs: { scope: "col", "data-short": "JKM markets" } }),
       el("th", { class: "col-num", text: "To Asia, " + UNITS.share_percent, attrs: { scope: "col", "data-short": "Asia" } }),
+      el("th", { class: "col-num", text: "To Europe, " + UNITS.share_percent, attrs: { scope: "col", "data-short": "Europe" } }),
+      ...panel.other_regions.map((region) => el("th", { class: "col-num", text: region.head + ", " + UNITS.share_percent, attrs: { scope: "col", "data-short": region.short } })),
       el("th", { class: "col-num", text: "Arb at loading, " + UNITS.usd_mmbtu, attrs: { scope: "col", "data-short": "arb" } }),
     ])]),
     body,

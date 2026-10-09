@@ -885,6 +885,8 @@ def flows_panel(months: Sequence[Mapping[str, Any]], regressions: Sequence[Mappi
             "month": _iso(m["month"]), "label": short_month_label(m["month"]),
             "share_jkm": None if _missing(m["share_jkm"]) else m["share_jkm"] * 100.0,
             "share_asia": m["share_asia"] * 100.0,
+            **{key: None if _missing(m.get(key)) else m[key] * 100.0
+               for key in ("share_europe", "share_middle_east_africa", "share_americas")},
             "arb": None if _missing(m["arb"]["central"]) else m["arb"]["central"],
         })
     last = latest[-1]["month"]
@@ -956,7 +958,8 @@ def flows_panel(months: Sequence[Mapping[str, Any]], regressions: Sequence[Mappi
     ]
     ticks = [i for i, r in enumerate(rows) if r["month"][5:7] in ("01", "07")]
     ticks_narrow = [i for i, r in enumerate(rows) if r["month"][5:7] == "01"]
-    share_low, share_high, share_step = nice_domain([r["share_asia"] for r in rows] + [r["share_jkm"] for r in rows], 5)
+    share_low, share_high, share_step = nice_domain(
+        [r[k] for r in rows for k in ("share_asia", "share_jkm", "share_europe") if r.get(k) is not None], 5)
     arb_low, arb_high, arb_step = nice_domain([r["arb"] for r in rows], 4)
     latest_row = rows[-1]
     return {
@@ -964,7 +967,8 @@ def flows_panel(months: Sequence[Mapping[str, Any]], regressions: Sequence[Mappi
         "heading_segments": heading,
         "desc_segments": [
             T("Two panels on one month axis: above, the share of US LNG exports by vessel to the JKM markets, Japan, "
-              "South Korea, China and Taiwan, as a solid line and to all Asia as a dashed one; below, the model's arb at "
+              "South Korea, China and Taiwan, as a solid line, to all Asia as a dashed one and to Europe as a dotted "
+              "one; below, the model's arb at "
               "loading at the central hire, as bars from zero, filled when Asia paid more and outlined when Gate did. "
               "The latest month, "), D("last_month", last, "month"),
             T(", is the accent: Asia took "), N("latest_share", latest_row["share_asia"], "share_percent"),
@@ -980,6 +984,11 @@ def flows_panel(months: Sequence[Mapping[str, Any]], regressions: Sequence[Mappi
         "shares": [
             {"key": "share_jkm", "pattern": "solid", "label": "JKM markets"},
             {"key": "share_asia", "pattern": "dash", "label": "All Asia"},
+            {"key": "share_europe", "pattern": "dot", "label": "Europe"},
+        ],
+        "other_regions": [
+            {"key": "share_middle_east_africa", "head": "To the Middle East and Africa", "short": "ME and Africa"},
+            {"key": "share_americas", "head": "To the Americas", "short": "Americas"},
         ],
         "share_domain": {"low": share_low, "high": share_high, "step": share_step},
         "arb_domain": {"low": arb_low, "high": arb_high, "step": arb_step},
@@ -990,7 +999,8 @@ def flows_panel(months: Sequence[Mapping[str, Any]], regressions: Sequence[Mappi
         "notes": notes,
         "missing_words": "not published",
         "arb_missing_words": "not priced",
-        "table_caption": "US LNG exports by vessel: the share to the JKM markets and to Asia, and the arb at loading at the central hire.",
+        "table_caption": "US LNG exports by vessel: the share to the JKM markets, to Asia, to Europe and to the other "
+                         "regions, and the arb at loading at the central hire.",
     }
 
 

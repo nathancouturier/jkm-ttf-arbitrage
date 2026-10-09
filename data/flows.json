@@ -87,7 +87,7 @@
   ],
   "desc_segments": [
    {
-    "text": "Two panels on one month axis: above, the share of US LNG exports by vessel to the JKM markets, Japan, South Korea, China and Taiwan, as a solid line and to all Asia as a dashed one; below, the model's arb at loading at the central hire, as bars from zero, filled when Asia paid more and outlined when Gate did. The latest month, "
+    "text": "Two panels on one month axis: above, the share of US LNG exports by vessel to the JKM markets, Japan, South Korea, China and Taiwan, as a solid line, to all Asia as a dashed one and to Europe as a dotted one; below, the model's arb at loading at the central hire, as bars from zero, filled when Asia paid more and outlined when Gate did. The latest month, "
    },
    {
     "field": "last_month",
@@ -143,6 +143,9 @@
     "label": "Aug 2024",
     "share_jkm": 30.5301,
     "share_asia": 43.5426,
+    "share_europe": 38.9409,
+    "share_middle_east_africa": 5.8904,
+    "share_americas": 11.6267,
     "arb": 0.342335
    },
    {
@@ -150,6 +153,9 @@
     "label": "Sep 2024",
     "share_jkm": 27.3125,
     "share_asia": 37.8679,
+    "share_europe": 44.3191,
+    "share_middle_east_africa": 6.0339,
+    "share_americas": 11.7788,
     "arb": 1.139775
    },
    {
@@ -157,6 +163,9 @@
     "label": "Oct 2024",
     "share_jkm": 19.2382,
     "share_asia": 33.2594,
+    "share_europe": 51.8028,
+    "share_middle_east_africa": 6.3551,
+    "share_americas": 8.5829,
     "arb": 0.025968
    },
    {
@@ -164,6 +173,9 @@
     "label": "Nov 2024",
     "share_jkm": 17.0594,
     "share_asia": 25.4552,
+    "share_europe": 62.1045,
+    "share_middle_east_africa": 5.8299,
+    "share_americas": 6.6106,
     "arb": -0.110686
    },
    {
@@ -171,6 +183,9 @@
     "label": "Dec 2024",
     "share_jkm": 11.5771,
     "share_asia": 16.7335,
+    "share_europe": 72.8387,
+    "share_middle_east_africa": 4.3386,
+    "share_americas": 6.0897,
     "arb": -0.114966
    },
    {
@@ -178,6 +193,9 @@
     "label": "Jan 2025",
     "share_jkm": 4.2412,
     "share_asia": 7.5958,
+    "share_europe": 85.4537,
+    "share_middle_east_africa": 4.2405,
+    "share_americas": 2.7095,
     "arb": -0.536639
    },
    {
@@ -185,6 +203,9 @@
     "label": "Feb 2025",
     "share_jkm": 4.8111,
     "share_asia": 8.1341,
+    "share_europe": 80.5477,
+    "share_middle_east_africa": 5.0337,
+    "share_americas": 6.284,
     "arb": -1.679972
    },
    {
@@ -192,6 +213,9 @@
     "label": "Mar 2025",
     "share_jkm": 9.4843,
     "share_asia": 14.9202,
+    "share_europe": 73.9757,
+    "share_middle_east_africa": 6.1745,
+    "share_americas": 4.9288,
     "arb": 0.071341
    },
    {
@@ -199,6 +223,9 @@
     "label": "Apr 2025",
     "share_jkm": 15.8796,
     "share_asia": 21.4804,
+    "share_europe": 65.6392,
+    "share_middle_east_africa": 6.1701,
+    "share_americas": 6.7103,
     "arb": 0.188003
    },
    {
@@ -206,6 +233,9 @@
     "label": "May 2025",
     "share_jkm": 13.7038,
     "share_asia": 22.0118,
+    "share_europe": 64.034,
+    "share_middle_east_africa": 8.3161,
+    "share_americas": 5.6379,
     "arb": 0.198734
    },
    {
@@ -213,6 +243,9 @@
     "label": "Jun 2025",
     "share_jkm": 11.7763,
     "share_asia": 18.6093,
+    "share_europe": 61.9955,
+    "share_middle_east_africa": 9.0531,
+    "share_americas": 10.3421,
     "arb": 0.239487
    },
    {
@@ -220,6 +253,9 @@
     "label": "Jul 2025",
     "share_jkm": 12.2784,
     "share_asia": 20.661,
+    "share_europe": 54.3798,
+    "share_middle_east_africa": 15.267,
+    "share_americas": 9.6925,
     "arb": 0.514571
    },
    {
@@ -227,6 +263,9 @@
     "label": "Aug 2025",
     "share_jkm": 12.8539,
     "share_asia": 18.3703,
+    "share_europe": 59.0956,
+    "share_middle_east_africa": 15.5603,
+    "share_americas": 6.974,
     "arb": 0.056246
    },
    {
@@ -234,6 +273,9 @@
     "label": "Sep 2025",
     "share_jkm": 11.8786,
     "share_asia": 18.9691,
+    "share_europe": 62.5227,
+    "share_middle_east_africa": 12.3433,
+    "share_americas": 6.1649,
     "arb": 0.036165
    },
    {
@@ -241,6 +283,9 @@
     "label": "Oct 2025",
     "share_jkm": 13.8832,
     "share_asia": 18.3587,
+    "share_europe": 69.0591,
+    "share_middle_east_africa": 8.3326,
+    "share_americas": 4.2488,
     "arb": 0.039682
    },
    {
@@ -248,6 +293,9 @@
     "label": "Nov 2025",
     "share_jkm": 10.9031,
     "share_asia": 15.0228,
+    "share_europe": 67.4828,
+    "share_middle_east_africa": 11.702,
+    "share_americas": 5.7927,
     "arb": 0.223472
    },
    {
@@ -255,6 +303,9 @@
     "label": "Dec 2025",
     "share_jkm": 8.7759,
     "share_asia": 11.9781,
+    "share_europe": 75.7989,
+    "share_middle_east_africa": 8.5229,
+    "share_americas": 3.7001,
     "arb": 0.821544
    },
    {
@@ -262,6 +313,9 @@
     "label": "Jan 2026",
     "share_jkm": 4.5209,
     "share_asia": 5.7945,
+    "share_europe": 82.3966,
+    "share_middle_east_africa": 8.2464,
+    "share_americas": 3.5625,
     "arb": -1.032171
    },
    {
@@ -269,6 +323,9 @@
     "label": "Feb 2026",
     "share_jkm": 8.6427,
     "share_asia": 14.5479,
+    "share_europe": 71.9044,
+    "share_middle_east_africa": 9.4034,
+    "share_americas": 4.1445,
     "arb": -0.689653
    },
    {
@@ -276,6 +333,9 @@
     "label": "Mar 2026",
     "share_jkm": 14.7134,
     "share_asia": 25.0521,
+    "share_europe": 61.3776,
+    "share_middle_east_africa": 9.525,
+    "share_americas": 4.0453,
     "arb": 0.385197
    },
    {
@@ -283,6 +343,9 @@
     "label": "Apr 2026",
     "share_jkm": 15.8764,
     "share_asia": 30.3207,
+    "share_europe": 54.5924,
+    "share_middle_east_africa": 10.7582,
+    "share_americas": 4.3288,
     "arb": 1.557108
    },
    {
@@ -290,6 +353,9 @@
     "label": "May 2026",
     "share_jkm": 25.2257,
     "share_asia": 41.2823,
+    "share_europe": 46.143,
+    "share_middle_east_africa": 7.1934,
+    "share_americas": 5.3813,
     "arb": 0.835653
    },
    {
@@ -297,6 +363,9 @@
     "label": "Jun 2026",
     "share_jkm": 20.8479,
     "share_asia": 38.7474,
+    "share_europe": 35.6514,
+    "share_middle_east_africa": 16.9121,
+    "share_americas": 8.6888,
     "arb": 1.15232
    },
    {
@@ -304,6 +373,9 @@
     "label": "Jul 2026",
     "share_jkm": 20.5034,
     "share_asia": 38.1773,
+    "share_europe": 38.661,
+    "share_middle_east_africa": 15.631,
+    "share_americas": 7.5305,
     "arb": 0.728282
    }
   ],
@@ -317,12 +389,29 @@
     "key": "share_asia",
     "pattern": "dash",
     "label": "All Asia"
+   },
+   {
+    "key": "share_europe",
+    "pattern": "dot",
+    "label": "Europe"
+   }
+  ],
+  "other_regions": [
+   {
+    "key": "share_middle_east_africa",
+    "head": "To the Middle East and Africa",
+    "short": "ME and Africa"
+   },
+   {
+    "key": "share_americas",
+    "head": "To the Americas",
+    "short": "Americas"
    }
   ],
   "share_domain": {
    "low": 0.0,
-   "high": 50.0,
-   "step": 10.0
+   "high": 100.0,
+   "step": 20.0
   },
   "arb_domain": {
    "low": -2.0,
@@ -475,7 +564,7 @@
   ],
   "missing_words": "not published",
   "arb_missing_words": "not priced",
-  "table_caption": "US LNG exports by vessel: the share to the JKM markets and to Asia, and the arb at loading at the central hire."
+  "table_caption": "US LNG exports by vessel: the share to the JKM markets, to Asia, to Europe and to the other regions, and the arb at loading at the central hire."
  },
  "months": [
   {
@@ -485,6 +574,9 @@
    "asia_mmcf": 0.0,
    "share_jkm": 0.0,
    "share_asia": 0.0,
+   "share_europe": 0.0,
+   "share_middle_east_africa": 0.0,
+   "share_americas": 1.0,
    "anomaly": null,
    "arb": {
     "low": 2.776492,
@@ -499,6 +591,9 @@
    "asia_mmcf": 2844.0,
    "share_jkm": 0.0,
    "share_asia": 0.299148,
+   "share_europe": 0.0,
+   "share_middle_east_africa": 0.356685,
+   "share_americas": 0.344167,
    "anomaly": null,
    "arb": {
     "low": null,
@@ -513,6 +608,9 @@
    "asia_mmcf": 0.0,
    "share_jkm": 0.0,
    "share_asia": 0.0,
+   "share_europe": 0.36952,
+   "share_middle_east_africa": 0.0,
+   "share_americas": 0.63048,
    "anomaly": null,
    "arb": {
     "low": 0.66306,
@@ -527,6 +625,9 @@
    "asia_mmcf": 0.0,
    "share_jkm": 0.0,
    "share_asia": 0.0,
+   "share_europe": 0.0,
+   "share_middle_east_africa": 0.366833,
+   "share_americas": 0.633167,
    "anomaly": null,
    "arb": {
     "low": 0.220461,
@@ -541,6 +642,9 @@
    "asia_mmcf": 3617.0,
    "share_jkm": 0.0,
    "share_asia": 0.22024,
+   "share_europe": 0.0,
+   "share_middle_east_africa": 0.0,
+   "share_americas": 0.77976,
    "anomaly": null,
    "arb": {
     "low": null,
@@ -555,6 +659,9 @@
    "asia_mmcf": 3132.0,
    "share_jkm": 0.199351,
    "share_asia": 0.199351,
+   "share_europe": 0.186494,
+   "share_middle_east_africa": 0.226975,
+   "share_americas": 0.387117,
    "anomaly": null,
    "arb": {
     "low": 1.445384,
@@ -569,6 +676,9 @@
    "asia_mmcf": 3701.0,
    "share_jkm": 0.0,
    "share_asia": 0.142434,
+   "share_europe": 0.0,
+   "share_middle_east_africa": 0.0,
+   "share_americas": 0.857566,
    "anomaly": null,
    "arb": {
     "low": null,
@@ -583,6 +693,9 @@
    "asia_mmcf": 3639.0,
    "share_jkm": 0.0,
    "share_asia": 0.217526,
+   "share_europe": 0.175802,
+   "share_middle_east_africa": 0.407675,
+   "share_americas": 0.198996,
    "anomaly": null,
    "arb": {
     "low": 1.769618,
@@ -597,6 +710,9 @@
    "asia_mmcf": 0.0,
    "share_jkm": 0.0,
    "share_asia": 0.0,
+   "share_europe": 0.0,
+   "share_middle_east_africa": 0.994927,
+   "share_americas": 0.005073,
    "anomaly": null,
    "arb": {
     "low": 1.074461,
@@ -611,6 +727,9 @@
    "asia_mmcf": 10456.0,
    "share_jkm": 0.222941,
    "share_asia": 0.317541,
+   "share_europe": 0.188715,
+   "share_middle_east_africa": 0.0,
+   "share_americas": 0.493744,
    "anomaly": null,
    "arb": {
     "low": 1.576342,
@@ -625,6 +744,9 @@
    "asia_mmcf": 28050.0,
    "share_jkm": 0.67131,
    "share_asia": 0.67131,
+   "share_europe": 0.070266,
+   "share_middle_east_africa": 0.086301,
+   "share_americas": 0.172099,
    "anomaly": null,
    "arb": {
     "low": 2.770599,
@@ -639,6 +761,9 @@
    "asia_mmcf": 17547.0,
    "share_jkm": 0.271651,
    "share_asia": 0.342334,
+   "share_europe": 0.279201,
+   "share_middle_east_africa": 0.104727,
+   "share_americas": 0.273758,
    "anomaly": null,
    "arb": {
     "low": 2.46504,
@@ -653,6 +778,9 @@
    "asia_mmcf": 17442.0,
    "share_jkm": 0.270068,
    "share_asia": 0.335436,
+   "share_europe": 0.208854,
+   "share_middle_east_africa": 0.121601,
+   "share_americas": 0.33409,
    "anomaly": null,
    "arb": {
     "low": 2.646629,
@@ -667,6 +795,9 @@
    "asia_mmcf": 13321.0,
    "share_jkm": 0.161926,
    "share_asia": 0.306307,
+   "share_europe": 0.080963,
+   "share_middle_east_africa": 0.230288,
+   "share_americas": 0.382465,
    "anomaly": null,
    "arb": {
     "low": 1.385046,
@@ -681,6 +812,9 @@
    "asia_mmcf": 10693.0,
    "share_jkm": 0.211328,
    "share_asia": 0.211328,
+   "share_europe": 0.0,
+   "share_middle_east_africa": 0.200221,
+   "share_americas": 0.588431,
    "anomaly": null,
    "arb": {
     "low": 0.993652,
@@ -695,6 +829,9 @@
    "asia_mmcf": 16948.0,
    "share_jkm": 0.278952,
    "share_asia": 0.278952,
+   "share_europe": 0.166354,
+   "share_middle_east_africa": 0.27645,
+   "share_americas": 0.278261,
    "anomaly": null,
    "arb": {
     "low": 0.965136,
@@ -709,6 +846,9 @@
    "asia_mmcf": 14527.0,
    "share_jkm": 0.211925,
    "share_asia": 0.277006,
+   "share_europe": 0.124516,
+   "share_middle_east_africa": 0.0,
+   "share_americas": 0.598459,
    "anomaly": null,
    "arb": {
     "low": null,
@@ -723,6 +863,9 @@
    "asia_mmcf": 21456.0,
    "share_jkm": 0.400687,
    "share_asia": 0.400687,
+   "share_europe": 0.07244,
+   "share_middle_east_africa": 0.128371,
+   "share_americas": 0.398521,
    "anomaly": null,
    "arb": {
     "low": 0.955189,
@@ -737,6 +880,9 @@
    "asia_mmcf": 13934.0,
    "share_jkm": 0.30668,
    "share_asia": 0.30668,
+   "share_europe": 0.30624,
+   "share_middle_east_africa": 0.235721,
+   "share_americas": 0.151337,
    "anomaly": null,
    "arb": {
     "low": 0.694622,
@@ -751,6 +897,9 @@
    "asia_mmcf": 27570.0,
    "share_jkm": 0.504216,
    "share_asia": 0.504216,
+   "share_europe": 0.19245,
+   "share_middle_east_africa": 0.0,
+   "share_americas": 0.303334,
    "anomaly": null,
    "arb": {
     "low": 1.275936,
@@ -765,6 +914,9 @@
    "asia_mmcf": 56011.0,
    "share_jkm": 0.702702,
    "share_asia": 0.702702,
+   "share_europe": 0.037386,
+   "share_middle_east_africa": 0.042317,
+   "share_americas": 0.217607,
    "anomaly": null,
    "arb": {
     "low": 2.278264,
@@ -779,6 +931,9 @@
    "asia_mmcf": 52003.0,
    "share_jkm": 0.561734,
    "share_asia": 0.649932,
+   "share_europe": 0.179908,
+   "share_middle_east_africa": 0.0,
+   "share_americas": 0.17016,
    "anomaly": null,
    "arb": {
     "low": 2.541064,
@@ -793,6 +948,9 @@
    "asia_mmcf": 61563.0,
    "share_jkm": 0.704687,
    "share_asia": 0.746227,
+   "share_europe": 0.082219,
+   "share_middle_east_africa": 0.086486,
+   "share_americas": 0.085068,
    "anomaly": null,
    "arb": {
     "low": 3.244828,
@@ -807,6 +965,9 @@
    "asia_mmcf": 45449.0,
    "share_jkm": 0.531869,
    "share_asia": 0.628113,
+   "share_europe": 0.096202,
+   "share_middle_east_africa": 0.090577,
+   "share_americas": 0.185094,
    "anomaly": null,
    "arb": {
     "low": 4.493109,
@@ -821,6 +982,9 @@
    "asia_mmcf": 48977.0,
    "share_jkm": 0.665331,
    "share_asia": 0.665331,
+   "share_europe": 0.044544,
+   "share_middle_east_africa": 0.044829,
+   "share_americas": 0.24531,
    "anomaly": null,
    "arb": {
     "low": 4.075004,
@@ -835,6 +999,9 @@
    "asia_mmcf": 35760.0,
    "share_jkm": 0.238485,
    "share_asia": 0.390879,
+   "share_europe": 0.068502,
+   "share_middle_east_africa": 0.040378,
+   "share_americas": 0.500273,
    "anomaly": null,
    "arb": {
     "low": 2.370968,
@@ -849,6 +1016,9 @@
    "asia_mmcf": 52984.0,
    "share_jkm": 0.54239,
    "share_asia": 0.618394,
+   "share_europe": 0.037967,
+   "share_middle_east_africa": 0.038434,
+   "share_americas": 0.305182,
    "anomaly": null,
    "arb": {
     "low": 2.432442,
@@ -863,6 +1033,9 @@
    "asia_mmcf": 51273.0,
    "share_jkm": 0.431824,
    "share_asia": 0.540906,
+   "share_europe": 0.0,
+   "share_middle_east_africa": 0.214556,
+   "share_americas": 0.244549,
    "anomaly": null,
    "arb": {
     "low": 1.003878,
@@ -877,6 +1050,9 @@
    "asia_mmcf": 36725.0,
    "share_jkm": 0.408172,
    "share_asia": 0.499538,
+   "share_europe": 0.0,
+   "share_middle_east_africa": 0.04354,
+   "share_americas": 0.456936,
    "anomaly": null,
    "arb": {
     "low": 2.075989,
@@ -891,6 +1067,9 @@
    "asia_mmcf": 47274.0,
    "share_jkm": 0.421085,
    "share_asia": 0.481342,
+   "share_europe": 0.06269,
+   "share_middle_east_africa": 0.0,
+   "share_americas": 0.455978,
    "anomaly": null,
    "arb": {
     "low": 2.599692,
@@ -905,6 +1084,9 @@
    "asia_mmcf": 31341.0,
    "share_jkm": 0.342551,
    "share_asia": 0.342551,
+   "share_europe": 0.025095,
+   "share_middle_east_africa": 0.078279,
+   "share_americas": 0.554075,
    "anomaly": null,
    "arb": {
     "low": 2.779692,
@@ -919,6 +1101,9 @@
    "asia_mmcf": 46787.0,
    "share_jkm": 0.502415,
    "share_asia": 0.575054,
+   "share_europe": 0.204975,
+   "share_middle_east_africa": 0.044714,
+   "share_americas": 0.175268,
    "anomaly": null,
    "arb": {
     "low": 1.300962,
@@ -933,6 +1118,9 @@
    "asia_mmcf": 52340.0,
    "share_jkm": 0.503133,
    "share_asia": 0.582494,
+   "share_europe": 0.297668,
+   "share_middle_east_africa": 0.040799,
+   "share_americas": 0.079038,
    "anomaly": null,
    "arb": {
     "low": 2.102777,
@@ -947,6 +1135,9 @@
    "asia_mmcf": 44921.0,
    "share_jkm": 0.417986,
    "share_asia": 0.417986,
+   "share_europe": 0.403378,
+   "share_middle_east_africa": 0.068763,
+   "share_americas": 0.109854,
    "anomaly": null,
    "arb": {
     "low": 2.687768,
@@ -961,6 +1152,9 @@
    "asia_mmcf": 65400.0,
    "share_jkm": 0.4448,
    "share_asia": 0.533125,
+   "share_europe": 0.326763,
+   "share_middle_east_africa": 0.0,
+   "share_americas": 0.140112,
    "anomaly": null,
    "arb": {
     "low": 1.445085,
@@ -975,6 +1169,9 @@
    "asia_mmcf": 44893.0,
    "share_jkm": 0.298477,
    "share_asia": 0.353895,
+   "share_europe": 0.509948,
+   "share_middle_east_africa": 0.0,
+   "share_americas": 0.136157,
    "anomaly": null,
    "arb": {
     "low": 1.199835,
@@ -989,6 +1186,9 @@
    "asia_mmcf": 49137.0,
    "share_jkm": 0.3067,
    "share_asia": 0.477907,
+   "share_europe": 0.300534,
+   "share_middle_east_africa": 0.035938,
+   "share_americas": 0.185641,
    "anomaly": null,
    "arb": {
     "low": 2.315088,
@@ -1003,6 +1203,9 @@
    "asia_mmcf": 42515.0,
    "share_jkm": 0.192411,
    "share_asia": 0.325185,
+   "share_europe": 0.45454,
+   "share_middle_east_africa": 0.0,
+   "share_americas": 0.22026,
    "anomaly": null,
    "arb": {
     "low": 1.507063,
@@ -1017,6 +1220,9 @@
    "asia_mmcf": 40421.0,
    "share_jkm": 0.263094,
    "share_asia": 0.31879,
+   "share_europe": 0.398486,
+   "share_middle_east_africa": 0.082093,
+   "share_americas": 0.200623,
    "anomaly": null,
    "arb": {
     "low": 0.653292,
@@ -1031,6 +1237,9 @@
    "asia_mmcf": 49267.0,
    "share_jkm": 0.196959,
    "share_asia": 0.340155,
+   "share_europe": 0.288165,
+   "share_middle_east_africa": 0.074801,
+   "share_americas": 0.296879,
    "anomaly": null,
    "arb": {
     "low": 1.396587,
@@ -1045,6 +1254,9 @@
    "asia_mmcf": 41634.0,
    "share_jkm": 0.246602,
    "share_asia": 0.293478,
+   "share_europe": 0.188885,
+   "share_middle_east_africa": 0.076136,
+   "share_americas": 0.441507,
    "anomaly": null,
    "arb": {
     "low": 2.220401,
@@ -1059,6 +1271,9 @@
    "asia_mmcf": 64616.0,
    "share_jkm": 0.343861,
    "share_asia": 0.412186,
+   "share_europe": 0.174364,
+   "share_middle_east_africa": 0.065965,
+   "share_americas": 0.347484,
    "anomaly": null,
    "arb": {
     "low": 1.457191,
@@ -1073,6 +1288,9 @@
    "asia_mmcf": 49002.0,
    "share_jkm": 0.301217,
    "share_asia": 0.353894,
+   "share_europe": 0.309125,
+   "share_middle_east_africa": 0.07352,
+   "share_americas": 0.263467,
    "anomaly": null,
    "arb": {
     "low": 1.943246,
@@ -1087,6 +1305,9 @@
    "asia_mmcf": 63003.0,
    "share_jkm": 0.242881,
    "share_asia": 0.393353,
+   "share_europe": 0.38066,
+   "share_middle_east_africa": 0.043335,
+   "share_americas": 0.182651,
    "anomaly": null,
    "arb": {
     "low": 1.516374,
@@ -1101,6 +1322,9 @@
    "asia_mmcf": 83771.0,
    "share_jkm": 0.392969,
    "share_asia": 0.471119,
+   "share_europe": 0.420037,
+   "share_middle_east_africa": 0.0,
+   "share_americas": 0.108845,
    "anomaly": null,
    "arb": {
     "low": 0.779791,
@@ -1115,6 +1339,9 @@
    "asia_mmcf": 60179.0,
    "share_jkm": 0.243021,
    "share_asia": 0.315862,
+   "share_europe": 0.615794,
+   "share_middle_east_africa": 0.0,
+   "share_americas": 0.068338,
    "anomaly": null,
    "arb": {
     "low": null,
@@ -1129,6 +1356,9 @@
    "asia_mmcf": 80307.0,
    "share_jkm": 0.286147,
    "share_asia": 0.364622,
+   "share_europe": 0.545106,
+   "share_middle_east_africa": 0.0,
+   "share_americas": 0.090271,
    "anomaly": null,
    "arb": {
     "low": 2.042977,
@@ -1143,6 +1373,9 @@
    "asia_mmcf": 95884.0,
    "share_jkm": 0.343037,
    "share_asia": 0.384195,
+   "share_europe": 0.524692,
+   "share_middle_east_africa": 0.0,
+   "share_americas": 0.091108,
    "anomaly": null,
    "arb": {
     "low": 2.548936,
@@ -1157,6 +1390,9 @@
    "asia_mmcf": 46548.0,
    "share_jkm": 0.175216,
    "share_asia": 0.206239,
+   "share_europe": 0.653286,
+   "share_middle_east_africa": 0.0,
+   "share_americas": 0.140479,
    "anomaly": null,
    "arb": {
     "low": 0.930773,
@@ -1171,6 +1407,9 @@
    "asia_mmcf": 106264.0,
    "share_jkm": 0.305663,
    "share_asia": 0.43525,
+   "share_europe": 0.465727,
+   "share_middle_east_africa": 0.013095,
+   "share_americas": 0.085933,
    "anomaly": null,
    "arb": {
     "low": 1.12975,
@@ -1185,6 +1424,9 @@
    "asia_mmcf": 94842.0,
    "share_jkm": 0.303099,
    "share_asia": 0.450678,
+   "share_europe": 0.430288,
+   "share_middle_east_africa": 0.015667,
+   "share_americas": 0.103363,
    "anomaly": null,
    "arb": {
     "low": 0.786185,
@@ -1199,6 +1441,9 @@
    "asia_mmcf": 77184.0,
    "share_jkm": 0.306145,
    "share_asia": 0.423112,
+   "share_europe": 0.402116,
+   "share_middle_east_africa": 0.037101,
+   "share_americas": 0.137671,
    "anomaly": null,
    "arb": {
     "low": 1.122491,
@@ -1213,6 +1458,9 @@
    "asia_mmcf": 63060.0,
    "share_jkm": 0.486135,
    "share_asia": 0.578845,
+   "share_europe": 0.339799,
+   "share_middle_east_africa": 0.030081,
+   "share_americas": 0.051285,
    "anomaly": null,
    "arb": {
     "low": 2.455669,
@@ -1227,6 +1475,9 @@
    "asia_mmcf": 49430.0,
    "share_jkm": 0.327355,
    "share_asia": 0.51421,
+   "share_europe": 0.377944,
+   "share_middle_east_africa": 0.068596,
+   "share_americas": 0.039229,
    "anomaly": null,
    "arb": {
     "low": 2.782694,
@@ -1241,6 +1492,9 @@
    "asia_mmcf": 66752.0,
    "share_jkm": 0.454128,
    "share_asia": 0.605625,
+   "share_europe": 0.090328,
+   "share_middle_east_africa": 0.120178,
+   "share_americas": 0.183869,
    "anomaly": null,
    "arb": {
     "low": 1.038046,
@@ -1255,6 +1509,9 @@
    "asia_mmcf": 79600.0,
    "share_jkm": 0.392129,
    "share_asia": 0.52696,
+   "share_europe": 0.306776,
+   "share_middle_east_africa": 0.067042,
+   "share_americas": 0.099235,
    "anomaly": null,
    "arb": {
     "low": 0.990533,
@@ -1269,6 +1526,9 @@
    "asia_mmcf": 115731.0,
    "share_jkm": 0.379717,
    "share_asia": 0.519789,
+   "share_europe": 0.259367,
+   "share_middle_east_africa": 0.016182,
+   "share_americas": 0.204662,
    "anomaly": null,
    "arb": {
     "low": 1.447097,
@@ -1283,6 +1543,9 @@
    "asia_mmcf": 158467.0,
    "share_jkm": 0.475249,
    "share_asia": 0.564683,
+   "share_europe": 0.281695,
+   "share_middle_east_africa": 0.0,
+   "share_americas": 0.153619,
    "anomaly": null,
    "arb": {
     "low": 2.238859,
@@ -1297,6 +1560,9 @@
    "asia_mmcf": 161857.0,
    "share_jkm": 0.498394,
    "share_asia": 0.532059,
+   "share_europe": 0.311986,
+   "share_middle_east_africa": 0.0,
+   "share_americas": 0.155955,
    "anomaly": null,
    "arb": {
     "low": 1.817162,
@@ -1311,6 +1577,9 @@
    "asia_mmcf": 200411.0,
    "share_jkm": 0.555617,
    "share_asia": 0.656842,
+   "share_europe": 0.205196,
+   "share_middle_east_africa": 0.0,
+   "share_americas": 0.137955,
    "anomaly": null,
    "arb": {
     "low": 11.009688,
@@ -1325,6 +1594,9 @@
    "asia_mmcf": 53556.0,
    "share_jkm": 0.190946,
    "share_asia": 0.257072,
+   "share_europe": 0.545603,
+   "share_middle_east_africa": 0.0,
+   "share_americas": 0.197325,
    "anomaly": null,
    "arb": {
     "low": 6.566755,
@@ -1339,6 +1611,9 @@
    "asia_mmcf": 129473.0,
    "share_jkm": 0.317136,
    "share_asia": 0.403338,
+   "share_europe": 0.398659,
+   "share_middle_east_africa": 0.020707,
+   "share_americas": 0.177294,
    "anomaly": null,
    "arb": {
     "low": 0.804316,
@@ -1353,6 +1628,9 @@
    "asia_mmcf": 145849.0,
    "share_jkm": 0.350465,
    "share_asia": 0.475458,
+   "share_europe": 0.395557,
+   "share_middle_east_africa": 0.022591,
+   "share_americas": 0.106401,
    "anomaly": null,
    "arb": {
     "low": null,
@@ -1367,6 +1645,9 @@
    "asia_mmcf": 160728.0,
    "share_jkm": 0.377885,
    "share_asia": 0.510483,
+   "share_europe": 0.285693,
+   "share_middle_east_africa": 0.0,
+   "share_americas": 0.203824,
    "anomaly": null,
    "arb": {
     "low": null,
@@ -1381,6 +1662,9 @@
    "asia_mmcf": 164489.0,
    "share_jkm": 0.520235,
    "share_asia": 0.606398,
+   "share_europe": 0.14876,
+   "share_middle_east_africa": 0.02627,
+   "share_americas": 0.218576,
    "anomaly": null,
    "arb": {
     "low": null,
@@ -1395,6 +1679,9 @@
    "asia_mmcf": 157051.0,
    "share_jkm": 0.423571,
    "share_asia": 0.523451,
+   "share_europe": 0.193241,
+   "share_middle_east_africa": 0.0,
+   "share_americas": 0.283298,
    "anomaly": null,
    "arb": {
     "low": null,
@@ -1409,6 +1696,9 @@
    "asia_mmcf": 163173.0,
    "share_jkm": 0.430967,
    "share_asia": 0.547382,
+   "share_europe": 0.186426,
+   "share_middle_east_africa": 0.011064,
+   "share_americas": 0.255128,
    "anomaly": null,
    "arb": {
     "low": null,
@@ -1423,6 +1713,9 @@
    "asia_mmcf": 134015.0,
    "share_jkm": 0.337396,
    "share_asia": 0.470815,
+   "share_europe": 0.301519,
+   "share_middle_east_africa": 0.046331,
+   "share_americas": 0.181338,
    "anomaly": null,
    "arb": {
     "low": 2.411549,
@@ -1437,6 +1730,9 @@
    "asia_mmcf": 134990.0,
    "share_jkm": 0.405556,
    "share_asia": 0.453095,
+   "share_europe": 0.335848,
+   "share_middle_east_africa": 0.020787,
+   "share_americas": 0.19027,
    "anomaly": null,
    "arb": {
     "low": 2.645419,
@@ -1451,6 +1747,9 @@
    "asia_mmcf": 139847.0,
    "share_jkm": 0.386528,
    "share_asia": 0.456675,
+   "share_europe": 0.487028,
+   "share_middle_east_africa": 0.0,
+   "share_americas": 0.056288,
    "anomaly": null,
    "arb": {
     "low": null,
@@ -1465,6 +1764,9 @@
    "asia_mmcf": 96003.0,
    "share_jkm": 0.265305,
    "share_asia": 0.278112,
+   "share_europe": 0.619276,
+   "share_middle_east_africa": 0.0,
+   "share_americas": 0.102609,
    "anomaly": null,
    "arb": {
     "low": 1.894618,
@@ -1479,6 +1781,9 @@
    "asia_mmcf": 59918.0,
    "share_jkm": 0.140152,
    "share_asia": 0.169437,
+   "share_europe": 0.742788,
+   "share_middle_east_africa": 0.0,
+   "share_americas": 0.087781,
    "anomaly": null,
    "arb": {
     "low": 2.194545,
@@ -1493,6 +1798,9 @@
    "asia_mmcf": 65878.0,
    "share_jkm": 0.149003,
    "share_asia": 0.208076,
+   "share_europe": 0.731296,
+   "share_middle_east_africa": 0.016667,
+   "share_americas": 0.04396,
    "anomaly": null,
    "arb": {
     "low": -1.069787,
@@ -1507,6 +1815,9 @@
    "asia_mmcf": 77258.0,
    "share_jkm": 0.15571,
    "share_asia": 0.212264,
+   "share_europe": 0.754327,
+   "share_middle_east_africa": 0.0,
+   "share_americas": 0.033412,
    "anomaly": null,
    "arb": {
     "low": -5.343827,
@@ -1521,6 +1832,9 @@
    "asia_mmcf": 64099.0,
    "share_jkm": 0.141684,
    "share_asia": 0.194048,
+   "share_europe": 0.71642,
+   "share_middle_east_africa": 0.022093,
+   "share_americas": 0.067433,
    "anomaly": null,
    "arb": {
     "low": -2.182097,
@@ -1535,6 +1849,9 @@
    "asia_mmcf": 71454.0,
    "share_jkm": 0.163771,
    "share_asia": 0.203384,
+   "share_europe": 0.609,
+   "share_middle_east_africa": 0.04043,
+   "share_americas": 0.147186,
    "anomaly": null,
    "arb": {
     "low": -4.978719,
@@ -1549,6 +1866,9 @@
    "asia_mmcf": 81761.0,
    "share_jkm": 0.202418,
    "share_asia": 0.272042,
+   "share_europe": 0.568306,
+   "share_middle_east_africa": 0.026968,
+   "share_americas": 0.132689,
    "anomaly": null,
    "arb": {
     "low": -3.409867,
@@ -1563,6 +1883,9 @@
    "asia_mmcf": 82845.0,
    "share_jkm": 0.208658,
    "share_asia": 0.275838,
+   "share_europe": 0.612135,
+   "share_middle_east_africa": 0.01792,
+   "share_americas": 0.09411,
    "anomaly": null,
    "arb": {
     "low": -11.54456,
@@ -1577,6 +1900,9 @@
    "asia_mmcf": 90201.0,
    "share_jkm": 0.251113,
    "share_asia": 0.300558,
+   "share_europe": 0.621808,
+   "share_middle_east_africa": 0.021375,
+   "share_americas": 0.056256,
    "anomaly": null,
    "arb": {
     "low": -16.892745,
@@ -1591,6 +1917,9 @@
    "asia_mmcf": 61479.0,
    "share_jkm": 0.158386,
    "share_asia": 0.208202,
+   "share_europe": 0.744745,
+   "share_middle_east_africa": 0.023835,
+   "share_americas": 0.023215,
    "anomaly": null,
    "arb": {
     "low": -11.48555,
@@ -1605,6 +1934,9 @@
    "asia_mmcf": 95425.0,
    "share_jkm": 0.262143,
    "share_asia": 0.308191,
+   "share_europe": 0.646296,
+   "share_middle_east_africa": 0.010655,
+   "share_americas": 0.034858,
    "anomaly": null,
    "arb": {
     "low": -7.530603,
@@ -1619,6 +1951,9 @@
    "asia_mmcf": 70008.0,
    "share_jkm": 0.196277,
    "share_asia": 0.231466,
+   "share_europe": 0.755279,
+   "share_middle_east_africa": 0.0,
+   "share_americas": 0.013252,
    "anomaly": null,
    "arb": {
     "low": -6.836441,
@@ -1633,6 +1968,9 @@
    "asia_mmcf": 78825.0,
    "share_jkm": 0.180787,
    "share_asia": 0.23198,
+   "share_europe": 0.745553,
+   "share_middle_east_africa": 0.0,
+   "share_americas": 0.022458,
    "anomaly": null,
    "arb": {
     "low": -6.704589,
@@ -1647,6 +1985,9 @@
    "asia_mmcf": 78438.0,
    "share_jkm": 0.188623,
    "share_asia": 0.232739,
+   "share_europe": 0.728549,
+   "share_middle_east_africa": 0.0,
+   "share_americas": 0.038716,
    "anomaly": null,
    "arb": {
     "low": 4.080589,
@@ -1661,6 +2002,9 @@
    "asia_mmcf": 61745.0,
    "share_jkm": 0.140577,
    "share_asia": 0.189304,
+   "share_europe": 0.792289,
+   "share_middle_east_africa": 0.0,
+   "share_americas": 0.018402,
    "anomaly": null,
    "arb": {
     "low": 0.639766,
@@ -1675,6 +2019,9 @@
    "asia_mmcf": 60831.0,
    "share_jkm": 0.126489,
    "share_asia": 0.166001,
+   "share_europe": 0.783005,
+   "share_middle_east_africa": 0.0,
+   "share_americas": 0.050995,
    "anomaly": null,
    "arb": {
     "low": -0.118425,
@@ -1689,6 +2036,9 @@
    "asia_mmcf": 70431.0,
    "share_jkm": 0.137371,
    "share_asia": 0.187427,
+   "share_europe": 0.743839,
+   "share_middle_east_africa": 0.009865,
+   "share_americas": 0.058872,
    "anomaly": null,
    "arb": {
     "low": 0.063213,
@@ -1703,6 +2053,9 @@
    "asia_mmcf": 69722.0,
    "share_jkm": 0.160933,
    "share_asia": 0.190112,
+   "share_europe": 0.657999,
+   "share_middle_east_africa": 0.010367,
+   "share_americas": 0.141519,
    "anomaly": null,
    "arb": {
     "low": 0.595529,
@@ -1717,6 +2070,9 @@
    "asia_mmcf": 104547.0,
    "share_jkm": 0.220193,
    "share_asia": 0.318915,
+   "share_europe": 0.517981,
+   "share_middle_east_africa": 0.032548,
+   "share_americas": 0.130565,
    "anomaly": null,
    "arb": {
     "low": 0.580937,
@@ -1731,6 +2087,9 @@
    "asia_mmcf": 137959.0,
    "share_jkm": 0.311818,
    "share_asia": 0.395006,
+   "share_europe": 0.486176,
+   "share_middle_east_africa": 0.029671,
+   "share_americas": 0.089143,
    "anomaly": null,
    "arb": {
     "low": 1.097698,
@@ -1745,6 +2104,9 @@
    "asia_mmcf": 134354.0,
    "share_jkm": 0.267974,
    "share_asia": 0.380573,
+   "share_europe": 0.554526,
+   "share_middle_east_africa": 0.009316,
+   "share_americas": 0.055576,
    "anomaly": null,
    "arb": {
     "low": 1.158181,
@@ -1759,6 +2121,9 @@
    "asia_mmcf": 112500.0,
    "share_jkm": 0.233471,
    "share_asia": 0.324626,
+   "share_europe": 0.567007,
+   "share_middle_east_africa": 0.019149,
+   "share_americas": 0.089219,
    "anomaly": null,
    "arb": {
     "low": 1.906955,
@@ -1773,6 +2138,9 @@
    "asia_mmcf": 105173.0,
    "share_jkm": 0.201053,
    "share_asia": 0.27362,
+   "share_europe": 0.666826,
+   "share_middle_east_africa": 0.0,
+   "share_americas": 0.059554,
    "anomaly": null,
    "arb": {
     "low": 1.985958,
@@ -1787,6 +2155,9 @@
    "asia_mmcf": 101448.0,
    "share_jkm": 0.20646,
    "share_asia": 0.262663,
+   "share_europe": 0.691375,
+   "share_middle_east_africa": 0.0,
+   "share_americas": 0.045962,
    "anomaly": null,
    "arb": {
     "low": 2.638916,
@@ -1801,6 +2172,9 @@
    "asia_mmcf": 110530.0,
    "share_jkm": 0.196856,
    "share_asia": 0.261357,
+   "share_europe": 0.694716,
+   "share_middle_east_africa": 0.0,
+   "share_americas": 0.043927,
    "anomaly": null,
    "arb": {
     "low": 2.561775,
@@ -1815,6 +2189,9 @@
    "asia_mmcf": 76262.0,
    "share_jkm": 0.13749,
    "share_asia": 0.192464,
+   "share_europe": 0.715973,
+   "share_middle_east_africa": 0.0,
+   "share_americas": 0.091556,
    "anomaly": null,
    "arb": {
     "low": 0.868798,
@@ -1829,6 +2206,9 @@
    "asia_mmcf": 97673.0,
    "share_jkm": 0.190791,
    "share_asia": 0.272114,
+   "share_europe": 0.654788,
+   "share_middle_east_africa": 0.008845,
+   "share_americas": 0.065944,
    "anomaly": "the countries add up to 359549 MMcf against a total of 358942",
    "arb": {
     "low": 0.634416,
@@ -1843,6 +2223,9 @@
    "asia_mmcf": 116587.0,
    "share_jkm": 0.210054,
    "share_asia": 0.315198,
+   "share_europe": 0.595134,
+   "share_middle_east_africa": 0.028885,
+   "share_americas": 0.060784,
    "anomaly": null,
    "arb": {
     "low": 0.593856,
@@ -1857,6 +2240,9 @@
    "asia_mmcf": 110147.0,
    "share_jkm": 0.207589,
    "share_asia": 0.362619,
+   "share_europe": 0.517705,
+   "share_middle_east_africa": 0.012023,
+   "share_americas": 0.107653,
    "anomaly": null,
    "arb": {
     "low": 0.627907,
@@ -1871,6 +2257,9 @@
    "asia_mmcf": 172682.0,
    "share_jkm": 0.287399,
    "share_asia": 0.469634,
+   "share_europe": 0.382532,
+   "share_middle_east_africa": 0.037955,
+   "share_americas": 0.109882,
    "anomaly": null,
    "arb": {
     "low": 0.98271,
@@ -1885,6 +2274,9 @@
    "asia_mmcf": 142076.0,
    "share_jkm": 0.267683,
    "share_asia": 0.398643,
+   "share_europe": 0.399914,
+   "share_middle_east_africa": 0.072497,
+   "share_americas": 0.128948,
    "anomaly": null,
    "arb": {
     "low": 0.727104,
@@ -1899,6 +2291,9 @@
    "asia_mmcf": 147005.0,
    "share_jkm": 0.300013,
    "share_asia": 0.453925,
+   "share_europe": 0.328776,
+   "share_middle_east_africa": 0.120017,
+   "share_americas": 0.097288,
    "anomaly": null,
    "arb": {
     "low": 1.391669,
@@ -1913,6 +2308,9 @@
    "asia_mmcf": 158303.0,
    "share_jkm": 0.305301,
    "share_asia": 0.435426,
+   "share_europe": 0.389409,
+   "share_middle_east_africa": 0.058904,
+   "share_americas": 0.116267,
    "anomaly": null,
    "arb": {
     "low": 0.591178,
@@ -1927,6 +2325,9 @@
    "asia_mmcf": 137467.0,
    "share_jkm": 0.273125,
    "share_asia": 0.378679,
+   "share_europe": 0.443191,
+   "share_middle_east_africa": 0.060339,
+   "share_americas": 0.117788,
    "anomaly": null,
    "arb": {
     "low": 1.388618,
@@ -1941,6 +2342,9 @@
    "asia_mmcf": 125122.0,
    "share_jkm": 0.192382,
    "share_asia": 0.332594,
+   "share_europe": 0.518028,
+   "share_middle_east_africa": 0.063551,
+   "share_americas": 0.085829,
    "anomaly": null,
    "arb": {
     "low": 0.27481,
@@ -1955,6 +2359,9 @@
    "asia_mmcf": 95723.0,
    "share_jkm": 0.170594,
    "share_asia": 0.254552,
+   "share_europe": 0.621045,
+   "share_middle_east_africa": 0.058299,
+   "share_americas": 0.066106,
    "anomaly": null,
    "arb": {
     "low": 0.138157,
@@ -1969,6 +2376,9 @@
    "asia_mmcf": 68737.0,
    "share_jkm": 0.115771,
    "share_asia": 0.167335,
+   "share_europe": 0.728387,
+   "share_middle_east_africa": 0.043386,
+   "share_americas": 0.060897,
    "anomaly": null,
    "arb": {
     "low": 0.133877,
@@ -1983,6 +2393,9 @@
    "asia_mmcf": 31519.0,
    "share_jkm": 0.042412,
    "share_asia": 0.075958,
+   "share_europe": 0.854537,
+   "share_middle_east_africa": 0.042405,
+   "share_americas": 0.027095,
    "anomaly": null,
    "arb": {
     "low": -0.287796,
@@ -1997,6 +2410,9 @@
    "asia_mmcf": 33283.0,
    "share_jkm": 0.048111,
    "share_asia": 0.081341,
+   "share_europe": 0.805477,
+   "share_middle_east_africa": 0.050337,
+   "share_americas": 0.06284,
    "anomaly": null,
    "arb": {
     "low": -1.431129,
@@ -2011,6 +2427,9 @@
    "asia_mmcf": 68284.0,
    "share_jkm": 0.094843,
    "share_asia": 0.149202,
+   "share_europe": 0.739757,
+   "share_middle_east_africa": 0.061745,
+   "share_americas": 0.049288,
    "anomaly": null,
    "arb": {
     "low": 0.320184,
@@ -2025,6 +2444,9 @@
    "asia_mmcf": 96280.0,
    "share_jkm": 0.158796,
    "share_asia": 0.214804,
+   "share_europe": 0.656392,
+   "share_middle_east_africa": 0.061701,
+   "share_americas": 0.067103,
    "anomaly": null,
    "arb": {
     "low": 0.436845,
@@ -2039,6 +2461,9 @@
    "asia_mmcf": 95815.0,
    "share_jkm": 0.137038,
    "share_asia": 0.220118,
+   "share_europe": 0.64034,
+   "share_middle_east_africa": 0.083161,
+   "share_americas": 0.056379,
    "anomaly": null,
    "arb": {
     "low": 0.452157,
@@ -2053,6 +2478,9 @@
    "asia_mmcf": 75559.0,
    "share_jkm": 0.117763,
    "share_asia": 0.186093,
+   "share_europe": 0.619955,
+   "share_middle_east_africa": 0.090531,
+   "share_americas": 0.103421,
    "anomaly": null,
    "arb": {
     "low": 0.48833,
@@ -2067,6 +2495,9 @@
    "asia_mmcf": 90252.0,
    "share_jkm": 0.122784,
    "share_asia": 0.20661,
+   "share_europe": 0.543798,
+   "share_middle_east_africa": 0.15267,
+   "share_americas": 0.096925,
    "anomaly": null,
    "arb": {
     "low": 0.763414,
@@ -2081,6 +2512,9 @@
    "asia_mmcf": 82874.0,
    "share_jkm": 0.128539,
    "share_asia": 0.183703,
+   "share_europe": 0.590956,
+   "share_middle_east_africa": 0.155603,
+   "share_americas": 0.06974,
    "anomaly": null,
    "arb": {
     "low": 0.313865,
@@ -2095,6 +2529,9 @@
    "asia_mmcf": 85690.0,
    "share_jkm": 0.118786,
    "share_asia": 0.189691,
+   "share_europe": 0.625227,
+   "share_middle_east_africa": 0.123433,
+   "share_americas": 0.061649,
    "anomaly": null,
    "arb": {
     "low": 0.303292,
@@ -2109,6 +2546,9 @@
    "asia_mmcf": 92428.0,
    "share_jkm": 0.138832,
    "share_asia": 0.183587,
+   "share_europe": 0.690591,
+   "share_middle_east_africa": 0.083326,
+   "share_americas": 0.042488,
    "anomaly": null,
    "arb": {
     "low": 0.311682,
@@ -2123,6 +2563,9 @@
    "asia_mmcf": 78883.0,
    "share_jkm": 0.109031,
    "share_asia": 0.150228,
+   "share_europe": 0.674828,
+   "share_middle_east_africa": 0.11702,
+   "share_americas": 0.057927,
    "anomaly": null,
    "arb": {
     "low": 0.492268,
@@ -2137,6 +2580,9 @@
    "asia_mmcf": 68186.0,
    "share_jkm": 0.087759,
    "share_asia": 0.119781,
+   "share_europe": 0.757989,
+   "share_middle_east_africa": 0.085229,
+   "share_americas": 0.037001,
    "anomaly": null,
    "arb": {
     "low": 1.103151,
@@ -2151,6 +2597,9 @@
    "asia_mmcf": 31244.0,
    "share_jkm": 0.045209,
    "share_asia": 0.057945,
+   "share_europe": 0.823966,
+   "share_middle_east_africa": 0.082464,
+   "share_americas": 0.035625,
    "anomaly": null,
    "arb": {
     "low": -0.748387,
@@ -2165,6 +2614,9 @@
    "asia_mmcf": 71808.0,
    "share_jkm": 0.086427,
    "share_asia": 0.145479,
+   "share_europe": 0.719044,
+   "share_middle_east_africa": 0.094034,
+   "share_americas": 0.041445,
    "anomaly": null,
    "arb": {
     "low": -0.411323,
@@ -2179,6 +2631,9 @@
    "asia_mmcf": 143571.0,
    "share_jkm": 0.147134,
    "share_asia": 0.250521,
+   "share_europe": 0.613776,
+   "share_middle_east_africa": 0.09525,
+   "share_americas": 0.040453,
    "anomaly": null,
    "arb": {
     "low": 0.63404,
@@ -2193,6 +2648,9 @@
    "asia_mmcf": 163106.0,
    "share_jkm": 0.158764,
    "share_asia": 0.303207,
+   "share_europe": 0.545924,
+   "share_middle_east_africa": 0.107582,
+   "share_americas": 0.043288,
    "anomaly": null,
    "arb": {
     "low": 1.805951,
@@ -2207,6 +2665,9 @@
    "asia_mmcf": 207566.0,
    "share_jkm": 0.252257,
    "share_asia": 0.412823,
+   "share_europe": 0.46143,
+   "share_middle_east_africa": 0.071934,
+   "share_americas": 0.053813,
    "anomaly": null,
    "arb": {
     "low": 1.084496,
@@ -2221,6 +2682,9 @@
    "asia_mmcf": 201897.0,
    "share_jkm": 0.208479,
    "share_asia": 0.387474,
+   "share_europe": 0.356514,
+   "share_middle_east_africa": 0.169121,
+   "share_americas": 0.086888,
    "anomaly": null,
    "arb": {
     "low": 1.401163,
@@ -2235,6 +2699,9 @@
    "asia_mmcf": 198033.0,
    "share_jkm": 0.205034,
    "share_asia": 0.381773,
+   "share_europe": 0.38661,
+   "share_middle_east_africa": 0.15631,
+   "share_americas": 0.075305,
    "anomaly": null,
    "arb": {
     "low": 0.977124,
@@ -2529,7 +2996,7 @@
    ],
    "desc_segments": [
     {
-     "text": "Two panels on one month axis: above, the share of US LNG exports by vessel to the JKM markets, Japan, South Korea, China and Taiwan, as a solid line and to all Asia as a dashed one; below, the model's arb at loading at the central hire, as bars from zero, filled when Asia paid more and outlined when Gate did. The latest month, "
+     "text": "Two panels on one month axis: above, the share of US LNG exports by vessel to the JKM markets, Japan, South Korea, China and Taiwan, as a solid line, to all Asia as a dashed one and to Europe as a dotted one; below, the model's arb at loading at the central hire, as bars from zero, filled when Asia paid more and outlined when Gate did. The latest month, "
     },
     {
      "field": "last_month",
@@ -2585,6 +3052,9 @@
      "label": "Feb 2016",
      "share_jkm": 0.0,
      "share_asia": 0.0,
+     "share_europe": 0.0,
+     "share_middle_east_africa": 0.0,
+     "share_americas": 100.0,
      "arb": 2.098147
     },
     {
@@ -2592,6 +3062,9 @@
      "label": "Mar 2016",
      "share_jkm": 0.0,
      "share_asia": 29.9148,
+     "share_europe": 0.0,
+     "share_middle_east_africa": 35.6685,
+     "share_americas": 34.4167,
      "arb": null
     },
     {
@@ -2599,6 +3072,9 @@
      "label": "Apr 2016",
      "share_jkm": 0.0,
      "share_asia": 0.0,
+     "share_europe": 36.952,
+     "share_middle_east_africa": 0.0,
+     "share_americas": 63.048,
      "arb": -0.015285
     },
     {
@@ -2606,6 +3082,9 @@
      "label": "May 2016",
      "share_jkm": 0.0,
      "share_asia": 0.0,
+     "share_europe": 0.0,
+     "share_middle_east_africa": 36.6833,
+     "share_americas": 63.3167,
      "arb": -0.457884
     },
     {
@@ -2613,6 +3092,9 @@
      "label": "Jun 2016",
      "share_jkm": 0.0,
      "share_asia": 22.024,
+     "share_europe": 0.0,
+     "share_middle_east_africa": 0.0,
+     "share_americas": 77.976,
      "arb": null
     },
     {
@@ -2620,6 +3102,9 @@
      "label": "Jul 2016",
      "share_jkm": 19.9351,
      "share_asia": 19.9351,
+     "share_europe": 18.6494,
+     "share_middle_east_africa": 22.6975,
+     "share_americas": 38.7117,
      "arb": 1.174768
     },
     {
@@ -2627,6 +3112,9 @@
      "label": "Aug 2016",
      "share_jkm": 0.0,
      "share_asia": 14.2434,
+     "share_europe": 0.0,
+     "share_middle_east_africa": 0.0,
+     "share_americas": 85.7566,
      "arb": null
     },
     {
@@ -2634,6 +3122,9 @@
      "label": "Sep 2016",
      "share_jkm": 0.0,
      "share_asia": 21.7526,
+     "share_europe": 17.5802,
+     "share_middle_east_africa": 40.7675,
+     "share_americas": 19.8996,
      "arb": 1.499001
     },
     {
@@ -2641,6 +3132,9 @@
      "label": "Oct 2016",
      "share_jkm": 0.0,
      "share_asia": 0.0,
+     "share_europe": 0.0,
+     "share_middle_east_africa": 99.4927,
+     "share_americas": 0.5073,
      "arb": 0.803844
     },
     {
@@ -2648,6 +3142,9 @@
      "label": "Nov 2016",
      "share_jkm": 22.2941,
      "share_asia": 31.7541,
+     "share_europe": 18.8715,
+     "share_middle_east_africa": 0.0,
+     "share_americas": 49.3744,
      "arb": 1.305725
     },
     {
@@ -2655,6 +3152,9 @@
      "label": "Dec 2016",
      "share_jkm": 67.131,
      "share_asia": 67.131,
+     "share_europe": 7.0266,
+     "share_middle_east_africa": 8.6301,
+     "share_americas": 17.2099,
      "arb": 2.499983
     },
     {
@@ -2662,6 +3162,9 @@
      "label": "Jan 2017",
      "share_jkm": 27.1651,
      "share_asia": 34.2334,
+     "share_europe": 27.9201,
+     "share_middle_east_africa": 10.4727,
+     "share_americas": 27.3758,
      "arb": 2.194423
     },
     {
@@ -2669,6 +3172,9 @@
      "label": "Feb 2017",
      "share_jkm": 27.0068,
      "share_asia": 33.5436,
+     "share_europe": 20.8854,
+     "share_middle_east_africa": 12.1601,
+     "share_americas": 33.409,
      "arb": 2.376013
     },
     {
@@ -2676,6 +3182,9 @@
      "label": "Mar 2017",
      "share_jkm": 16.1926,
      "share_asia": 30.6307,
+     "share_europe": 8.0963,
+     "share_middle_east_africa": 23.0288,
+     "share_americas": 38.2465,
      "arb": 1.11443
     },
     {
@@ -2683,6 +3192,9 @@
      "label": "Apr 2017",
      "share_jkm": 21.1328,
      "share_asia": 21.1328,
+     "share_europe": 0.0,
+     "share_middle_east_africa": 20.0221,
+     "share_americas": 58.8431,
      "arb": 0.723036
     },
     {
@@ -2690,6 +3202,9 @@
      "label": "May 2017",
      "share_jkm": 27.8952,
      "share_asia": 27.8952,
+     "share_europe": 16.6354,
+     "share_middle_east_africa": 27.645,
+     "share_americas": 27.8261,
      "arb": 0.694519
     },
     {
@@ -2697,6 +3212,9 @@
      "label": "Jun 2017",
      "share_jkm": 21.1925,
      "share_asia": 27.7006,
+     "share_europe": 12.4516,
+     "share_middle_east_africa": 0.0,
+     "share_americas": 59.8459,
      "arb": null
     },
     {
@@ -2704,6 +3222,9 @@
      "label": "Jul 2017",
      "share_jkm": 40.0687,
      "share_asia": 40.0687,
+     "share_europe": 7.244,
+     "share_middle_east_africa": 12.8371,
+     "share_americas": 39.8521,
      "arb": 0.684573
     },
     {
@@ -2711,6 +3232,9 @@
      "label": "Aug 2017",
      "share_jkm": 30.668,
      "share_asia": 30.668,
+     "share_europe": 30.624,
+     "share_middle_east_africa": 23.5721,
+     "share_americas": 15.1337,
      "arb": 0.424005
     },
     {
@@ -2718,6 +3242,9 @@
      "label": "Sep 2017",
      "share_jkm": 50.4216,
      "share_asia": 50.4216,
+     "share_europe": 19.245,
+     "share_middle_east_africa": 0.0,
+     "share_americas": 30.3334,
      "arb": 1.00532
     },
     {
@@ -2725,6 +3252,9 @@
      "label": "Oct 2017",
      "share_jkm": 70.2702,
      "share_asia": 70.2702,
+     "share_europe": 3.7386,
+     "share_middle_east_africa": 4.2317,
+     "share_americas": 21.7607,
      "arb": 2.007647
     },
     {
@@ -2732,6 +3262,9 @@
      "label": "Nov 2017",
      "share_jkm": 56.1734,
      "share_asia": 64.9932,
+     "share_europe": 17.9908,
+     "share_middle_east_africa": 0.0,
+     "share_americas": 17.016,
      "arb": 2.270448
     },
     {
@@ -2739,6 +3272,9 @@
      "label": "Dec 2017",
      "share_jkm": 70.4687,
      "share_asia": 74.6227,
+     "share_europe": 8.2219,
+     "share_middle_east_africa": 8.6486,
+     "share_americas": 8.5068,
      "arb": 2.974212
     },
     {
@@ -2746,6 +3282,9 @@
      "label": "Jan 2018",
      "share_jkm": 53.1869,
      "share_asia": 62.8113,
+     "share_europe": 9.6202,
+     "share_middle_east_africa": 9.0577,
+     "share_americas": 18.5094,
      "arb": 4.222493
     },
     {
@@ -2753,6 +3292,9 @@
      "label": "Feb 2018",
      "share_jkm": 66.5331,
      "share_asia": 66.5331,
+     "share_europe": 4.4544,
+     "share_middle_east_africa": 4.4829,
+     "share_americas": 24.531,
      "arb": 3.804387
     },
     {
@@ -2760,6 +3302,9 @@
      "label": "Mar 2018",
      "share_jkm": 23.8485,
      "share_asia": 39.0879,
+     "share_europe": 6.8502,
+     "share_middle_east_africa": 4.0378,
+     "share_americas": 50.0273,
      "arb": 2.100351
     },
     {
@@ -2767,6 +3312,9 @@
      "label": "Apr 2018",
      "share_jkm": 54.239,
      "share_asia": 61.8394,
+     "share_europe": 3.7967,
+     "share_middle_east_africa": 3.8434,
+     "share_americas": 30.5182,
      "arb": 2.161825
     },
     {
@@ -2774,6 +3322,9 @@
      "label": "May 2018",
      "share_jkm": 43.1824,
      "share_asia": 54.0906,
+     "share_europe": 0.0,
+     "share_middle_east_africa": 21.4556,
+     "share_americas": 24.4549,
      "arb": 0.733262
     },
     {
@@ -2781,6 +3332,9 @@
      "label": "Jun 2018",
      "share_jkm": 40.8172,
      "share_asia": 49.9538,
+     "share_europe": 0.0,
+     "share_middle_east_africa": 4.354,
+     "share_americas": 45.6936,
      "arb": 1.805373
     },
     {
@@ -2788,6 +3342,9 @@
      "label": "Jul 2018",
      "share_jkm": 42.1085,
      "share_asia": 48.1342,
+     "share_europe": 6.269,
+     "share_middle_east_africa": 0.0,
+     "share_americas": 45.5978,
      "arb": 2.329075
     },
     {
@@ -2795,6 +3352,9 @@
      "label": "Aug 2018",
      "share_jkm": 34.2551,
      "share_asia": 34.2551,
+     "share_europe": 2.5095,
+     "share_middle_east_africa": 7.8279,
+     "share_americas": 55.4075,
      "arb": 2.509076
     },
     {
@@ -2802,6 +3362,9 @@
      "label": "Sep 2018",
      "share_jkm": 50.2415,
      "share_asia": 57.5054,
+     "share_europe": 20.4975,
+     "share_middle_east_africa": 4.4714,
+     "share_americas": 17.5268,
      "arb": 1.030345
     },
     {
@@ -2809,6 +3372,9 @@
      "label": "Oct 2018",
      "share_jkm": 50.3133,
      "share_asia": 58.2494,
+     "share_europe": 29.7668,
+     "share_middle_east_africa": 4.0799,
+     "share_americas": 7.9038,
      "arb": 1.83216
     },
     {
@@ -2816,6 +3382,9 @@
      "label": "Nov 2018",
      "share_jkm": 41.7986,
      "share_asia": 41.7986,
+     "share_europe": 40.3378,
+     "share_middle_east_africa": 6.8763,
+     "share_americas": 10.9854,
      "arb": 2.417152
     },
     {
@@ -2823,6 +3392,9 @@
      "label": "Dec 2018",
      "share_jkm": 44.48,
      "share_asia": 53.3125,
+     "share_europe": 32.6763,
+     "share_middle_east_africa": 0.0,
+     "share_americas": 14.0112,
      "arb": 1.174468
     },
     {
@@ -2830,6 +3402,9 @@
      "label": "Jan 2019",
      "share_jkm": 29.8477,
      "share_asia": 35.3895,
+     "share_europe": 50.9948,
+     "share_middle_east_africa": 0.0,
+     "share_americas": 13.6157,
      "arb": 0.929219
     },
     {
@@ -2837,6 +3412,9 @@
      "label": "Feb 2019",
      "share_jkm": 30.67,
      "share_asia": 47.7907,
+     "share_europe": 30.0534,
+     "share_middle_east_africa": 3.5938,
+     "share_americas": 18.5641,
      "arb": 2.044472
     },
     {
@@ -2844,6 +3422,9 @@
      "label": "Mar 2019",
      "share_jkm": 19.2411,
      "share_asia": 32.5185,
+     "share_europe": 45.454,
+     "share_middle_east_africa": 0.0,
+     "share_americas": 22.026,
      "arb": 1.236447
     },
     {
@@ -2851,6 +3432,9 @@
      "label": "Apr 2019",
      "share_jkm": 26.3094,
      "share_asia": 31.879,
+     "share_europe": 39.8486,
+     "share_middle_east_africa": 8.2093,
+     "share_americas": 20.0623,
      "arb": 0.345856
     },
     {
@@ -2858,6 +3442,9 @@
      "label": "May 2019",
      "share_jkm": 19.6959,
      "share_asia": 34.0155,
+     "share_europe": 28.8165,
+     "share_middle_east_africa": 7.4801,
+     "share_americas": 29.6879,
      "arb": 1.095539
     },
     {
@@ -2865,6 +3452,9 @@
      "label": "Jun 2019",
      "share_jkm": 24.6602,
      "share_asia": 29.3478,
+     "share_europe": 18.8885,
+     "share_middle_east_africa": 7.6136,
+     "share_americas": 44.1507,
      "arb": 1.921909
     },
     {
@@ -2872,6 +3462,9 @@
      "label": "Jul 2019",
      "share_jkm": 34.3861,
      "share_asia": 41.2186,
+     "share_europe": 17.4364,
+     "share_middle_east_africa": 6.5965,
+     "share_americas": 34.7484,
      "arb": 1.133204
     },
     {
@@ -2879,6 +3472,9 @@
      "label": "Aug 2019",
      "share_jkm": 30.1217,
      "share_asia": 35.3894,
+     "share_europe": 30.9125,
+     "share_middle_east_africa": 7.352,
+     "share_americas": 26.3467,
      "arb": 1.63783
     },
     {
@@ -2886,6 +3482,9 @@
      "label": "Sep 2019",
      "share_jkm": 24.2881,
      "share_asia": 39.3353,
+     "share_europe": 38.066,
+     "share_middle_east_africa": 4.3335,
+     "share_americas": 18.2651,
      "arb": 1.214805
     },
     {
@@ -2893,6 +3492,9 @@
      "label": "Oct 2019",
      "share_jkm": 39.2969,
      "share_asia": 47.1119,
+     "share_europe": 42.0037,
+     "share_middle_east_africa": 0.0,
+     "share_americas": 10.8845,
      "arb": 0.480759
     },
     {
@@ -2900,6 +3502,9 @@
      "label": "Nov 2019",
      "share_jkm": 24.3021,
      "share_asia": 31.5862,
+     "share_europe": 61.5794,
+     "share_middle_east_africa": 0.0,
+     "share_americas": 6.8338,
      "arb": null
     },
     {
@@ -2907,6 +3512,9 @@
      "label": "Dec 2019",
      "share_jkm": 28.6147,
      "share_asia": 36.4622,
+     "share_europe": 54.5106,
+     "share_middle_east_africa": 0.0,
+     "share_americas": 9.0271,
      "arb": 1.772001
     },
     {
@@ -2914,6 +3522,9 @@
      "label": "Jan 2020",
      "share_jkm": 34.3037,
      "share_asia": 38.4195,
+     "share_europe": 52.4692,
+     "share_middle_east_africa": 0.0,
+     "share_americas": 9.1108,
      "arb": 2.254477
     },
     {
@@ -2921,6 +3532,9 @@
      "label": "Feb 2020",
      "share_jkm": 17.5216,
      "share_asia": 20.6239,
+     "share_europe": 65.3286,
+     "share_middle_east_africa": 0.0,
+     "share_americas": 14.0479,
      "arb": 0.547893
     },
     {
@@ -2928,6 +3542,9 @@
      "label": "Mar 2020",
      "share_jkm": 30.5663,
      "share_asia": 43.525,
+     "share_europe": 46.5727,
+     "share_middle_east_africa": 1.3095,
+     "share_americas": 8.5933,
      "arb": 0.7388
     },
     {
@@ -2935,6 +3552,9 @@
      "label": "Apr 2020",
      "share_jkm": 30.3099,
      "share_asia": 45.0678,
+     "share_europe": 43.0288,
+     "share_middle_east_africa": 1.5667,
+     "share_americas": 10.3363,
      "arb": 0.352342
     },
     {
@@ -2942,6 +3562,9 @@
      "label": "May 2020",
      "share_jkm": 30.6145,
      "share_asia": 42.3112,
+     "share_europe": 40.2116,
+     "share_middle_east_africa": 3.7101,
+     "share_americas": 13.7671,
      "arb": 0.682281
     },
     {
@@ -2949,6 +3572,9 @@
      "label": "Jun 2020",
      "share_jkm": 48.6135,
      "share_asia": 57.8845,
+     "share_europe": 33.9799,
+     "share_middle_east_africa": 3.0081,
+     "share_americas": 5.1285,
      "arb": 2.06653
     },
     {
@@ -2956,6 +3582,9 @@
      "label": "Jul 2020",
      "share_jkm": 32.7355,
      "share_asia": 51.421,
+     "share_europe": 37.7944,
+     "share_middle_east_africa": 6.8596,
+     "share_americas": 3.9229,
      "arb": 2.406474
     },
     {
@@ -2963,6 +3592,9 @@
      "label": "Aug 2020",
      "share_jkm": 45.4128,
      "share_asia": 60.5625,
+     "share_europe": 9.0328,
+     "share_middle_east_africa": 12.0178,
+     "share_americas": 18.3869,
      "arb": 0.636662
     },
     {
@@ -2970,6 +3602,9 @@
      "label": "Sep 2020",
      "share_jkm": 39.2129,
      "share_asia": 52.696,
+     "share_europe": 30.6776,
+     "share_middle_east_africa": 6.7042,
+     "share_americas": 9.9235,
      "arb": 0.624004
     },
     {
@@ -2977,6 +3612,9 @@
      "label": "Oct 2020",
      "share_jkm": 37.9717,
      "share_asia": 51.9789,
+     "share_europe": 25.9367,
+     "share_middle_east_africa": 1.6182,
+     "share_americas": 20.4662,
      "arb": 1.128878
     },
     {
@@ -2984,6 +3622,9 @@
      "label": "Nov 2020",
      "share_jkm": 47.5249,
      "share_asia": 56.4683,
+     "share_europe": 28.1695,
+     "share_middle_east_africa": 0.0,
+     "share_americas": 15.3619,
      "arb": 1.946372
     },
     {
@@ -2991,6 +3632,9 @@
      "label": "Dec 2020",
      "share_jkm": 49.8394,
      "share_asia": 53.2059,
+     "share_europe": 31.1986,
+     "share_middle_east_africa": 0.0,
+     "share_americas": 15.5955,
      "arb": 1.543818
     },
     {
@@ -2998,6 +3642,9 @@
      "label": "Jan 2021",
      "share_jkm": 55.5617,
      "share_asia": 65.6842,
+     "share_europe": 20.5196,
+     "share_middle_east_africa": 0.0,
+     "share_americas": 13.7955,
      "arb": 10.739072
     },
     {
@@ -3005,6 +3652,9 @@
      "label": "Feb 2021",
      "share_jkm": 19.0946,
      "share_asia": 25.7072,
+     "share_europe": 54.5603,
+     "share_middle_east_africa": 0.0,
+     "share_americas": 19.7325,
      "arb": 6.296139
     },
     {
@@ -3012,6 +3662,9 @@
      "label": "Mar 2021",
      "share_jkm": 31.7136,
      "share_asia": 40.3338,
+     "share_europe": 39.8659,
+     "share_middle_east_africa": 2.0707,
+     "share_americas": 17.7294,
      "arb": 0.505336
     },
     {
@@ -3019,6 +3672,9 @@
      "label": "Apr 2021",
      "share_jkm": 35.0465,
      "share_asia": 47.5458,
+     "share_europe": 39.5557,
+     "share_middle_east_africa": 2.2591,
+     "share_americas": 10.6401,
      "arb": null
     },
     {
@@ -3026,6 +3682,9 @@
      "label": "May 2021",
      "share_jkm": 37.7885,
      "share_asia": 51.0483,
+     "share_europe": 28.5693,
+     "share_middle_east_africa": 0.0,
+     "share_americas": 20.3824,
      "arb": null
     },
     {
@@ -3033,6 +3692,9 @@
      "label": "Jun 2021",
      "share_jkm": 52.0235,
      "share_asia": 60.6398,
+     "share_europe": 14.876,
+     "share_middle_east_africa": 2.627,
+     "share_americas": 21.8576,
      "arb": null
     },
     {
@@ -3040,6 +3702,9 @@
      "label": "Jul 2021",
      "share_jkm": 42.3571,
      "share_asia": 52.3451,
+     "share_europe": 19.3241,
+     "share_middle_east_africa": 0.0,
+     "share_americas": 28.3298,
      "arb": null
     },
     {
@@ -3047,6 +3712,9 @@
      "label": "Aug 2021",
      "share_jkm": 43.0967,
      "share_asia": 54.7382,
+     "share_europe": 18.6426,
+     "share_middle_east_africa": 1.1064,
+     "share_americas": 25.5128,
      "arb": null
     },
     {
@@ -3054,6 +3722,9 @@
      "label": "Sep 2021",
      "share_jkm": 33.7396,
      "share_asia": 47.0815,
+     "share_europe": 30.1519,
+     "share_middle_east_africa": 4.6331,
+     "share_americas": 18.1338,
      "arb": 2.140933
     },
     {
@@ -3061,6 +3732,9 @@
      "label": "Oct 2021",
      "share_jkm": 40.5556,
      "share_asia": 45.3095,
+     "share_europe": 33.5848,
+     "share_middle_east_africa": 2.0787,
+     "share_americas": 19.027,
      "arb": 2.374802
     },
     {
@@ -3068,6 +3742,9 @@
      "label": "Nov 2021",
      "share_jkm": 38.6528,
      "share_asia": 45.6675,
+     "share_europe": 48.7028,
+     "share_middle_east_africa": 0.0,
+     "share_americas": 5.6288,
      "arb": null
     },
     {
@@ -3075,6 +3752,9 @@
      "label": "Dec 2021",
      "share_jkm": 26.5305,
      "share_asia": 27.8112,
+     "share_europe": 61.9276,
+     "share_middle_east_africa": 0.0,
+     "share_americas": 10.2609,
      "arb": 1.624002
     },
     {
@@ -3082,6 +3762,9 @@
      "label": "Jan 2022",
      "share_jkm": 14.0152,
      "share_asia": 16.9437,
+     "share_europe": 74.2788,
+     "share_middle_east_africa": 0.0,
+     "share_americas": 8.7781,
      "arb": 1.923928
     },
     {
@@ -3089,6 +3772,9 @@
      "label": "Feb 2022",
      "share_jkm": 14.9003,
      "share_asia": 20.8076,
+     "share_europe": 73.1296,
+     "share_middle_east_africa": 1.6667,
+     "share_americas": 4.396,
      "arb": -1.340404
     },
     {
@@ -3096,6 +3782,9 @@
      "label": "Mar 2022",
      "share_jkm": 15.571,
      "share_asia": 21.2264,
+     "share_europe": 75.4327,
+     "share_middle_east_africa": 0.0,
+     "share_americas": 3.3412,
      "arb": -5.614444
     },
     {
@@ -3103,6 +3792,9 @@
      "label": "Apr 2022",
      "share_jkm": 14.1684,
      "share_asia": 19.4048,
+     "share_europe": 71.642,
+     "share_middle_east_africa": 2.2093,
+     "share_americas": 6.7433,
      "arb": -2.452714
     },
     {
@@ -3110,6 +3802,9 @@
      "label": "May 2022",
      "share_jkm": 16.3771,
      "share_asia": 20.3384,
+     "share_europe": 60.9,
+     "share_middle_east_africa": 4.043,
+     "share_americas": 14.7186,
      "arb": -5.249336
     },
     {
@@ -3117,6 +3812,9 @@
      "label": "Jun 2022",
      "share_jkm": 20.2418,
      "share_asia": 27.2042,
+     "share_europe": 56.8306,
+     "share_middle_east_africa": 2.6968,
+     "share_americas": 13.2689,
      "arb": -3.680483
     },
     {
@@ -3124,6 +3822,9 @@
      "label": "Jul 2022",
      "share_jkm": 20.8658,
      "share_asia": 27.5838,
+     "share_europe": 61.2135,
+     "share_middle_east_africa": 1.792,
+     "share_americas": 9.411,
      "arb": -11.815176
     },
     {
@@ -3131,6 +3832,9 @@
      "label": "Aug 2022",
      "share_jkm": 25.1113,
      "share_asia": 30.0558,
+     "share_europe": 62.1808,
+     "share_middle_east_africa": 2.1375,
+     "share_americas": 5.6256,
      "arb": -17.163362
     },
     {
@@ -3138,6 +3842,9 @@
      "label": "Sep 2022",
      "share_jkm": 15.8386,
      "share_asia": 20.8202,
+     "share_europe": 74.4745,
+     "share_middle_east_africa": 2.3835,
+     "share_americas": 2.3215,
      "arb": -11.756167
     },
     {
@@ -3145,6 +3852,9 @@
      "label": "Oct 2022",
      "share_jkm": 26.2143,
      "share_asia": 30.8191,
+     "share_europe": 64.6296,
+     "share_middle_east_africa": 1.0655,
+     "share_americas": 3.4858,
      "arb": -7.80122
     },
     {
@@ -3152,6 +3862,9 @@
      "label": "Nov 2022",
      "share_jkm": 19.6277,
      "share_asia": 23.1466,
+     "share_europe": 75.5279,
+     "share_middle_east_africa": 0.0,
+     "share_americas": 1.3252,
      "arb": -7.107058
     },
     {
@@ -3159,6 +3872,9 @@
      "label": "Dec 2022",
      "share_jkm": 18.0787,
      "share_asia": 23.198,
+     "share_europe": 74.5553,
+     "share_middle_east_africa": 0.0,
+     "share_americas": 2.2458,
      "arb": -6.975206
     },
     {
@@ -3166,6 +3882,9 @@
      "label": "Jan 2023",
      "share_jkm": 18.8623,
      "share_asia": 23.2739,
+     "share_europe": 72.8549,
+     "share_middle_east_africa": 0.0,
+     "share_americas": 3.8716,
      "arb": 3.809972
     },
     {
@@ -3173,6 +3892,9 @@
      "label": "Feb 2023",
      "share_jkm": 14.0577,
      "share_asia": 18.9304,
+     "share_europe": 79.2289,
+     "share_middle_east_africa": 0.0,
+     "share_americas": 1.8402,
      "arb": 0.369149
     },
     {
@@ -3180,6 +3902,9 @@
      "label": "Mar 2023",
      "share_jkm": 12.6489,
      "share_asia": 16.6001,
+     "share_europe": 78.3005,
+     "share_middle_east_africa": 0.0,
+     "share_americas": 5.0995,
      "arb": -0.389042
     },
     {
@@ -3187,6 +3912,9 @@
      "label": "Apr 2023",
      "share_jkm": 13.7371,
      "share_asia": 18.7427,
+     "share_europe": 74.3839,
+     "share_middle_east_africa": 0.9865,
+     "share_americas": 5.8872,
      "arb": -0.207403
     },
     {
@@ -3194,6 +3922,9 @@
      "label": "May 2023",
      "share_jkm": 16.0933,
      "share_asia": 19.0112,
+     "share_europe": 65.7999,
+     "share_middle_east_africa": 1.0367,
+     "share_americas": 14.1519,
      "arb": 0.324913
     },
     {
@@ -3201,6 +3932,9 @@
      "label": "Jun 2023",
      "share_jkm": 22.0193,
      "share_asia": 31.8915,
+     "share_europe": 51.7981,
+     "share_middle_east_africa": 3.2548,
+     "share_americas": 13.0565,
      "arb": 0.310321
     },
     {
@@ -3208,6 +3942,9 @@
      "label": "Jul 2023",
      "share_jkm": 31.1818,
      "share_asia": 39.5006,
+     "share_europe": 48.6176,
+     "share_middle_east_africa": 2.9671,
+     "share_americas": 8.9143,
      "arb": 0.827081
     },
     {
@@ -3215,6 +3952,9 @@
      "label": "Aug 2023",
      "share_jkm": 26.7974,
      "share_asia": 38.0573,
+     "share_europe": 55.4526,
+     "share_middle_east_africa": 0.9316,
+     "share_americas": 5.5576,
      "arb": 0.887564
     },
     {
@@ -3222,6 +3962,9 @@
      "label": "Sep 2023",
      "share_jkm": 23.3471,
      "share_asia": 32.4626,
+     "share_europe": 56.7007,
+     "share_middle_east_africa": 1.9149,
+     "share_americas": 8.9219,
      "arb": 1.636339
     },
     {
@@ -3229,6 +3972,9 @@
      "label": "Oct 2023",
      "share_jkm": 20.1053,
      "share_asia": 27.362,
+     "share_europe": 66.6826,
+     "share_middle_east_africa": 0.0,
+     "share_americas": 5.9554,
      "arb": 1.715341
     },
     {
@@ -3236,6 +3982,9 @@
      "label": "Nov 2023",
      "share_jkm": 20.646,
      "share_asia": 26.2663,
+     "share_europe": 69.1375,
+     "share_middle_east_africa": 0.0,
+     "share_americas": 4.5962,
      "arb": 2.368299
     },
     {
@@ -3243,6 +3992,9 @@
      "label": "Dec 2023",
      "share_jkm": 19.6856,
      "share_asia": 26.1357,
+     "share_europe": 69.4716,
+     "share_middle_east_africa": 0.0,
+     "share_americas": 4.3927,
      "arb": 2.291158
     },
     {
@@ -3250,6 +4002,9 @@
      "label": "Jan 2024",
      "share_jkm": 13.749,
      "share_asia": 19.2464,
+     "share_europe": 71.5973,
+     "share_middle_east_africa": 0.0,
+     "share_americas": 9.1556,
      "arb": 0.603557
     },
     {
@@ -3257,6 +4012,9 @@
      "label": "Feb 2024",
      "share_jkm": 19.0791,
      "share_asia": 27.2114,
+     "share_europe": 65.4788,
+     "share_middle_east_africa": 0.8845,
+     "share_americas": 6.5944,
      "arb": 0.32976
     },
     {
@@ -3264,6 +4022,9 @@
      "label": "Mar 2024",
      "share_jkm": 21.0054,
      "share_asia": 31.5198,
+     "share_europe": 59.5134,
+     "share_middle_east_africa": 2.8885,
+     "share_americas": 6.0784,
      "arb": 0.291653
     },
     {
@@ -3271,6 +4032,9 @@
      "label": "Apr 2024",
      "share_jkm": 20.7589,
      "share_asia": 36.2619,
+     "share_europe": 51.7705,
+     "share_middle_east_africa": 1.2023,
+     "share_americas": 10.7653,
      "arb": 0.349933
     },
     {
@@ -3278,6 +4042,9 @@
      "label": "May 2024",
      "share_jkm": 28.7399,
      "share_asia": 46.9634,
+     "share_europe": 38.2532,
+     "share_middle_east_africa": 3.7955,
+     "share_americas": 10.9882,
      "arb": 0.733705
     },
     {
@@ -3285,6 +4052,9 @@
      "label": "Jun 2024",
      "share_jkm": 26.7683,
      "share_asia": 39.8643,
+     "share_europe": 39.9914,
+     "share_middle_east_africa": 7.2497,
+     "share_americas": 12.8948,
      "arb": 0.478261
     },
     {
@@ -3292,6 +4062,9 @@
      "label": "Jul 2024",
      "share_jkm": 30.0013,
      "share_asia": 45.3925,
+     "share_europe": 32.8776,
+     "share_middle_east_africa": 12.0017,
+     "share_americas": 9.7288,
      "arb": 1.142826
     },
     {
@@ -3299,6 +4072,9 @@
      "label": "Aug 2024",
      "share_jkm": 30.5301,
      "share_asia": 43.5426,
+     "share_europe": 38.9409,
+     "share_middle_east_africa": 5.8904,
+     "share_americas": 11.6267,
      "arb": 0.342335
     },
     {
@@ -3306,6 +4082,9 @@
      "label": "Sep 2024",
      "share_jkm": 27.3125,
      "share_asia": 37.8679,
+     "share_europe": 44.3191,
+     "share_middle_east_africa": 6.0339,
+     "share_americas": 11.7788,
      "arb": 1.139775
     },
     {
@@ -3313,6 +4092,9 @@
      "label": "Oct 2024",
      "share_jkm": 19.2382,
      "share_asia": 33.2594,
+     "share_europe": 51.8028,
+     "share_middle_east_africa": 6.3551,
+     "share_americas": 8.5829,
      "arb": 0.025968
     },
     {
@@ -3320,6 +4102,9 @@
      "label": "Nov 2024",
      "share_jkm": 17.0594,
      "share_asia": 25.4552,
+     "share_europe": 62.1045,
+     "share_middle_east_africa": 5.8299,
+     "share_americas": 6.6106,
      "arb": -0.110686
     },
     {
@@ -3327,6 +4112,9 @@
      "label": "Dec 2024",
      "share_jkm": 11.5771,
      "share_asia": 16.7335,
+     "share_europe": 72.8387,
+     "share_middle_east_africa": 4.3386,
+     "share_americas": 6.0897,
      "arb": -0.114966
     },
     {
@@ -3334,6 +4122,9 @@
      "label": "Jan 2025",
      "share_jkm": 4.2412,
      "share_asia": 7.5958,
+     "share_europe": 85.4537,
+     "share_middle_east_africa": 4.2405,
+     "share_americas": 2.7095,
      "arb": -0.536639
     },
     {
@@ -3341,6 +4132,9 @@
      "label": "Feb 2025",
      "share_jkm": 4.8111,
      "share_asia": 8.1341,
+     "share_europe": 80.5477,
+     "share_middle_east_africa": 5.0337,
+     "share_americas": 6.284,
      "arb": -1.679972
     },
     {
@@ -3348,6 +4142,9 @@
      "label": "Mar 2025",
      "share_jkm": 9.4843,
      "share_asia": 14.9202,
+     "share_europe": 73.9757,
+     "share_middle_east_africa": 6.1745,
+     "share_americas": 4.9288,
      "arb": 0.071341
     },
     {
@@ -3355,6 +4152,9 @@
      "label": "Apr 2025",
      "share_jkm": 15.8796,
      "share_asia": 21.4804,
+     "share_europe": 65.6392,
+     "share_middle_east_africa": 6.1701,
+     "share_americas": 6.7103,
      "arb": 0.188003
     },
     {
@@ -3362,6 +4162,9 @@
      "label": "May 2025",
      "share_jkm": 13.7038,
      "share_asia": 22.0118,
+     "share_europe": 64.034,
+     "share_middle_east_africa": 8.3161,
+     "share_americas": 5.6379,
      "arb": 0.198734
     },
     {
@@ -3369,6 +4172,9 @@
      "label": "Jun 2025",
      "share_jkm": 11.7763,
      "share_asia": 18.6093,
+     "share_europe": 61.9955,
+     "share_middle_east_africa": 9.0531,
+     "share_americas": 10.3421,
      "arb": 0.239487
     },
     {
@@ -3376,6 +4182,9 @@
      "label": "Jul 2025",
      "share_jkm": 12.2784,
      "share_asia": 20.661,
+     "share_europe": 54.3798,
+     "share_middle_east_africa": 15.267,
+     "share_americas": 9.6925,
      "arb": 0.514571
     },
     {
@@ -3383,6 +4192,9 @@
      "label": "Aug 2025",
      "share_jkm": 12.8539,
      "share_asia": 18.3703,
+     "share_europe": 59.0956,
+     "share_middle_east_africa": 15.5603,
+     "share_americas": 6.974,
      "arb": 0.056246
     },
     {
@@ -3390,6 +4202,9 @@
      "label": "Sep 2025",
      "share_jkm": 11.8786,
      "share_asia": 18.9691,
+     "share_europe": 62.5227,
+     "share_middle_east_africa": 12.3433,
+     "share_americas": 6.1649,
      "arb": 0.036165
     },
     {
@@ -3397,6 +4212,9 @@
      "label": "Oct 2025",
      "share_jkm": 13.8832,
      "share_asia": 18.3587,
+     "share_europe": 69.0591,
+     "share_middle_east_africa": 8.3326,
+     "share_americas": 4.2488,
      "arb": 0.039682
     },
     {
@@ -3404,6 +4222,9 @@
      "label": "Nov 2025",
      "share_jkm": 10.9031,
      "share_asia": 15.0228,
+     "share_europe": 67.4828,
+     "share_middle_east_africa": 11.702,
+     "share_americas": 5.7927,
      "arb": 0.223472
     },
     {
@@ -3411,6 +4232,9 @@
      "label": "Dec 2025",
      "share_jkm": 8.7759,
      "share_asia": 11.9781,
+     "share_europe": 75.7989,
+     "share_middle_east_africa": 8.5229,
+     "share_americas": 3.7001,
      "arb": 0.821544
     },
     {
@@ -3418,6 +4242,9 @@
      "label": "Jan 2026",
      "share_jkm": 4.5209,
      "share_asia": 5.7945,
+     "share_europe": 82.3966,
+     "share_middle_east_africa": 8.2464,
+     "share_americas": 3.5625,
      "arb": -1.032171
     },
     {
@@ -3425,6 +4252,9 @@
      "label": "Feb 2026",
      "share_jkm": 8.6427,
      "share_asia": 14.5479,
+     "share_europe": 71.9044,
+     "share_middle_east_africa": 9.4034,
+     "share_americas": 4.1445,
      "arb": -0.689653
     },
     {
@@ -3432,6 +4262,9 @@
      "label": "Mar 2026",
      "share_jkm": 14.7134,
      "share_asia": 25.0521,
+     "share_europe": 61.3776,
+     "share_middle_east_africa": 9.525,
+     "share_americas": 4.0453,
      "arb": 0.385197
     },
     {
@@ -3439,6 +4272,9 @@
      "label": "Apr 2026",
      "share_jkm": 15.8764,
      "share_asia": 30.3207,
+     "share_europe": 54.5924,
+     "share_middle_east_africa": 10.7582,
+     "share_americas": 4.3288,
      "arb": 1.557108
     },
     {
@@ -3446,6 +4282,9 @@
      "label": "May 2026",
      "share_jkm": 25.2257,
      "share_asia": 41.2823,
+     "share_europe": 46.143,
+     "share_middle_east_africa": 7.1934,
+     "share_americas": 5.3813,
      "arb": 0.835653
     },
     {
@@ -3453,6 +4292,9 @@
      "label": "Jun 2026",
      "share_jkm": 20.8479,
      "share_asia": 38.7474,
+     "share_europe": 35.6514,
+     "share_middle_east_africa": 16.9121,
+     "share_americas": 8.6888,
      "arb": 1.15232
     },
     {
@@ -3460,6 +4302,9 @@
      "label": "Jul 2026",
      "share_jkm": 20.5034,
      "share_asia": 38.1773,
+     "share_europe": 38.661,
+     "share_middle_east_africa": 15.631,
+     "share_americas": 7.5305,
      "arb": 0.728282
     }
    ],
@@ -3473,11 +4318,28 @@
      "key": "share_asia",
      "pattern": "dash",
      "label": "All Asia"
+    },
+    {
+     "key": "share_europe",
+     "pattern": "dot",
+     "label": "Europe"
+    }
+   ],
+   "other_regions": [
+    {
+     "key": "share_middle_east_africa",
+     "head": "To the Middle East and Africa",
+     "short": "ME and Africa"
+    },
+    {
+     "key": "share_americas",
+     "head": "To the Americas",
+     "short": "Americas"
     }
    ],
    "share_domain": {
     "low": 0.0,
-    "high": 80.0,
+    "high": 100.0,
     "step": 20.0
    },
    "arb_domain": {
@@ -3640,7 +4502,7 @@
    ],
    "missing_words": "not published",
    "arb_missing_words": "not priced",
-   "table_caption": "US LNG exports by vessel: the share to the JKM markets and to Asia, and the arb at loading at the central hire."
+   "table_caption": "US LNG exports by vessel: the share to the JKM markets, to Asia, to Europe and to the other regions, and the arb at loading at the central hire."
   },
   "test": {
    "heading_segments": [

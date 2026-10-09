@@ -573,7 +573,7 @@ def page(rows: pd.DataFrame, breaks: pd.DataFrame, anchors: Sequence[Mapping[str
             "h_star": "H*, cheapest route", "reported": "Reported", "y_axis": "$/MMBtu",
             "hstar_axis": "thousand $/day",
             "legend": "The ink line is JKM over TTF; the dashed line, S* at the central hire; the shaded band, S* "
-                      "from the low to the high hire.",
+                      "from the low to the high hire; the dot in the accent, the latest observation.",
             "hstar_legend": "The ink line is H* of the cheapest open route east; the rings are the charter rates "
                             "reported.",
             "weeks": {"caption": "Each year's weeks: how many, in how many the arb east was open at the central "
