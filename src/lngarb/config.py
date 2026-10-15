@@ -253,8 +253,21 @@ class Source:
     #: whether the cache may be committed to a public repository. False sends
     #: the cache to data/private/ and keeps it out of the deploy.
     committable: bool
+    #: whether the publisher's page may be linked. False when the publisher's
+    #: terms require permission for a link that has not been granted: page_url
+    #: is then empty, the manifest and the provenance panel carry no address,
+    #: and the adapter alone knows where to fetch.
+    linkable: bool = True
 
     def __post_init__(self) -> None:
+        if self.linkable and not self.page_url.startswith("http"):
+            raise ValueError(
+                "source %r is linkable but carries no page_url to link" % (self.series,)
+            )
+        if not self.linkable and (self.page_url or self.machine_url):
+            raise ValueError(
+                "source %r may not be linked but carries an address" % (self.series,)
+            )
         if self.frequency not in FREQUENCIES:
             raise ValueError(
                 "source %r declares frequency %r, not one of %s"
@@ -525,12 +538,15 @@ SOURCES: Mapping[str, Source] = _registry(
         series="jogmec_spot_lng_monthly",
         label="Japan spot LNG price, monthly, DES, contract-based and arrival-based, JOGMEC, from April 2021, private",
         publisher="Japan Organization for Metals and Energy Security",
-        page_url="https://journal.jogmec.go.jp/oilgas/nglng-en/spotprice/index.html",
-        machine_url="https://journal.jogmec.go.jp/oilgas/nglng-en/spotprice/index.html",
+        page_url="",
+        machine_url=None,
         url_note=(
-            "One page per month, YYYYMM-preliminary.html, linked from the list page; "
-            "the confirmed figure of a month is printed on the next month's page. "
-            "Pages are edited in place and have been renamed once."
+            "No address is carried here: JOGMEC's English terms do not permit a link "
+            "to its website without its written permission, which has not been "
+            "requested. The adapter alone holds the addresses it reads, one page per "
+            "month linked from JOGMEC's list page; the confirmed figure of a month is "
+            "printed on the next month's page. Pages are edited in place and have "
+            "been renamed once."
         ),
         frequency="monthly",
         unit="USD per MMBtu, DES (JOGMEC writes USD/MBtu)",
@@ -538,10 +554,12 @@ SOURCES: Mapping[str, Source] = _registry(
         licence="JOGMEC terms of use, permission not yet requested",
         licence_note=(
             "JOGMEC's terms do not permit use beyond private use, education and "
-            "quotation without its prior permission. Kept in data/private/ and not "
-            "published until permission is granted."
+            "quotation without its prior permission, nor a link to its website "
+            "without its written permission. Kept in data/private/, not published "
+            "and not linked until permission is granted."
         ),
         committable=False,
+        linkable=False,
     ),
     # -- World Bank, Federal Reserve Board, New York Fed -------------------
     Source(

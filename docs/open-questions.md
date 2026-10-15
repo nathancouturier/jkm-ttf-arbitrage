@@ -218,9 +218,10 @@ JOGMEC's survey is the only public continuation of METI's after March 2021, and
 its terms require permission for use beyond private use, education and
 quotation, and written permission for a link to its website. Until JOGMEC
 answers, the series is kept in `data/private/`. JOGMEC's contact route is a web
-form, in English at `https://www.jogmec.go.jp/form/?f=inquiry_en.html` or in
-Japanese on the journal site; both require a company name and limit the
-message to 2,000 characters. The closest subject in the English form is
+form, the inquiry form of its English website or its Japanese form on the
+journal site (no address is written here: the terms permit no link without
+written permission); both require a company name and limit the message to
+2,000 characters. The closest subject in the English form is
 "Gathering/Providing Information (Oil and Natural Gas)". Draft:
 
 > Subject: Permission to reuse the monthly spot LNG prices for delivery to Japan
@@ -236,7 +237,7 @@ message to 2,000 characters. The closest subject in the English form is
 > I would like to ask JOGMEC's permission to use the series "Monthly spot LNG
 > prices for delivery to Japan" from April 2021 onwards: the contract-based and
 > arrival-based prices, both preliminary and confirmed values, as published on
-> journal.jogmec.go.jp. The values would be stored as a data file in the
+> JOGMEC's journal website. The values would be stored as a data file in the
 > repository and shown in charts and tables on the website.
 >
 > Every chart, table and data file would carry the credit "Source: JOGMEC,

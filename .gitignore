@@ -1,8 +1,5 @@
 # Private working files, never committed and never deployed
 data/private/
-SPEC.md
-.claude/
-CLAUDE.md
 
 # Python
 __pycache__/

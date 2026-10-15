@@ -137,8 +137,11 @@ class JogmecSpotLngMonthly(Adapter):
 
     name = "jogmec_spot_lng_monthly"
     source = "Japan Organization for Metals and Energy Security, monthly spot LNG prices for delivery to Japan"
-    url = LIST_URL
-    page_url = LIST_URL
+    # The addresses stay in this module: JOGMEC's terms do not permit a link
+    # without written permission, so the manifest carries none.
+    url = ""
+    page_url = ""
+    linkable = False
     unit = "USD per MMBtu, DES (JOGMEC writes USD/MBtu)"
     frequency = "monthly"
     method = "parsed"

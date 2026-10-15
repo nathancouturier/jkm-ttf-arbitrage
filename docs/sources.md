@@ -250,15 +250,16 @@ equals the workbook's.
 
 ### 2.6 JOGMEC, spot LNG prices for delivery to Japan, not redistributable yet
 
-From the "Global Disclaimer" on JOGMEC's English natural gas page,
-`https://journal.jogmec.go.jp/oilgas/nglng-en/index.html`, read on 30 September
-2026:
+From the "Global Disclaimer" on JOGMEC's English natural gas page, on its
+journal site, read on 30 September 2026 (the address is not written here:
+JOGMEC's terms, quoted below, do not permit a link without its written
+permission, and this study carries none in any file it publishes):
 
 > "Use of this material beyond the scope permitted under the Copyright Act of
 > Japan, such as private use, educational use, or quotation, requires prior
 > permission from JOGMEC or the relevant copyright holders."
 
-From JOGMEC's English terms of use, `https://www.jogmec.go.jp/english/terms.html`:
+From JOGMEC's English terms of use, the terms page of its English website:
 
 > "Any transfer or reproduction of this Website in whole or in part, in either
 > its existing form or modified form, is expressly prohibited except for

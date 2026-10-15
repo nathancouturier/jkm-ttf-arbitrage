@@ -415,6 +415,26 @@ def revalidate(adapter: Adapter, previous: Mapping[str, Any] | None) -> dict:
     return carry_forward(entry, previous)
 
 
+#: What an adapter declares about its series rather than measures from a cache:
+#: offline, a private series not on this machine keeps its measured entry and
+#: takes these from the adapter, so a changed declaration (an address withdrawn,
+#: a licence note reworded) reaches the manifest without the private file.
+_DECLARED_KEYS = ("source", "url", "page_url", "linkable", "unit", "frequency", "method",
+                  "committable", "licence_note", "licence")
+
+
+def redeclare(adapter: Adapter, previous: Mapping[str, Any] | None) -> dict | None:
+    """The committed entry of a private series with the adapter's declaration on
+    it, or None when nothing is committed for it. Measures nothing."""
+    if not previous:
+        return None
+    declared = Adapter._entry(adapter, status="ok", frame=None, note="")
+    entry = dict(previous)
+    for key in _DECLARED_KEYS:
+        entry[key] = declared.get(key)
+    return entry
+
+
 def _private_check(adapter: Adapter) -> tuple[bool, str]:
     """A one line report on a private cache: (valid, report)."""
     frame = read_cache(adapter.name, date_col=adapter.date_col, directory=adapter.directory())
@@ -520,6 +540,9 @@ def main(argv: Sequence[str] | None = None) -> int:
                     print("        %-40s private, %s" % (adapter.name, note))
                     if not valid:
                         args.failures.append({"series": adapter.name, "error": note, "traceback": ""})
+                    redeclared = redeclare(adapter, previous.get(adapter.name))
+                    if redeclared is not None:
+                        base.manifest_upsert(redeclared)
                     continue
                 if adapter.written_when_needed and read_cache(
                     adapter.name, date_col=adapter.date_col, directory=adapter.directory()

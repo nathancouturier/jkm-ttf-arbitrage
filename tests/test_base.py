@@ -540,13 +540,19 @@ def test_eia_robots_is_read_with_longest_match(url, allowed):
 
 
 def test_the_standard_library_parser_would_have_crawled_the_archive():
-    """The reason this module parses robots.txt itself."""
+    """The reason this module parses robots.txt itself: up to Python 3.12 the
+    standard library's parser reads EIA's file as allowing the archive, because
+    it takes the first rule that matches and 'Allow: /' comes first. Python
+    3.13 reads it as RFC 9309 does, longest match first, and agrees with this
+    module. Whatever the interpreter, this module must refuse the archive."""
+    import sys
     from urllib.robotparser import RobotFileParser
 
     parser = RobotFileParser()
     parser.parse(EIA_ROBOTS.splitlines())
     archive = "https://www.eia.gov/naturalgas/weekly/archivenew_ngwu/2023/12_07/"
-    assert parser.can_fetch("*", archive) is True
+    stdlib_allows = parser.can_fetch("*", archive)
+    assert stdlib_allows is (sys.version_info < (3, 13))
     assert base.robots_allows(base.parse_robots(EIA_ROBOTS, "Mozilla"), archive) is False
 
 

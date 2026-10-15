@@ -51,6 +51,7 @@
 // switch off is not a check.
 
 import { execFileSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -68,7 +69,7 @@ const FREQUENCY_VALUES = new Set(["daily", "weekly", "monthly", "annual"]);
 const REGION_VALUES = new Set(["jkm_markets", "other_asia", "europe", "middle_east_africa", "americas"]);
 
 const REQUIRED_ENTRY_KEYS = [
-  "series", "source", "url", "page_url", "machine_fetched", "fetched_at",
+  "series", "source", "url", "page_url", "linkable", "machine_fetched", "fetched_at",
   "checked_at", "rows", "observations", "file_rows", "first_date", "last_date",
   "frequency", "gaps", "provisional_from", "vintage", "method", "committable",
   "licence_note", "status", "note", "file", "unit", "observation_column",
@@ -325,7 +326,11 @@ check("provenance is consistent, and what may not be redistributed says so in wo
     if (entry.committable === false && !/not|prohibit|forbid/i.test(String(entry.licence_note || ""))) {
       problems.push(name + " is not committable but its licence_note never says what is not permitted");
     }
-    if (!String(entry.page_url || "").startsWith("http")) problems.push(name + " has no linkable page_url");
+    if (entry.linkable === false) {
+      if (entry.page_url || entry.url) problems.push(name + " may not be linked but carries an address");
+    } else if (!String(entry.page_url || "").startsWith("http")) {
+      problems.push(name + " has no linkable page_url");
+    }
   }
   return problems;
 });
@@ -534,32 +539,87 @@ const EMOJI = new RegExp(
   "[" + String.fromCodePoint(0x1F000) + "-" + String.fromCodePoint(0x1FAFF) + "]",
   "u"
 );
-const words = (list) => list.join("|");
+// The words a trace is made of are not written here, even in pieces: each is
+// held as the SHA-256 digest of the word, or of the two word phrase, and every
+// word and every pair of neighbouring words of a line is digested and looked
+// up. A reader of this file learns that something is forbidden, not what.
+const digest = (s) => createHash("sha256").update(s).digest("hex");
+const DIGESTS = new Set([
+  // single words and two word phrases, matched without regard to case
+  "c857d09db23e6822e3600bc06ad8d58f92ed62bc8efd81c753f77048662cb97d",
+  "c70eca6b0f88f44d81a41311647e50fda1ac454ec04ffd442b0eb4743a993131",
+  "60965168ce762e949600281ba6d01fee136e5b6e8257b1f216f9025ed324474c",
+  "7d3194f79e645c42e4396dda38be04766810ec6a00d00aced3ffc2a0a1f1a9ef",
+  "3ea125d0bff386e6754b3782b300016fc79a9cf8f8669c0a5c3db64467ddb681",
+  "5d72436256ada53828b51895a94bb8489e9f1ac4fe937a8024ef1594e7045ff6",
+  "a4d76a4d59584d6f8772dcd8b25444e6263ded2d928fc5d896cd2eb87ba87532",
+  "5eff592cc497fccb48ebfffaca38a83f9167bc1661b4477e1fc1b66b658cd5a0",
+  "2e8aae79d9566c6391cbf216d0b40760bde9bd51a6c5b0b970a248f679cd718f",
+  "8316b399af66208937f9fe28d70a160fa0d26060ab53df53cb5ab55c10eb4cfe",
+  "08366edf968d06c4f57e017221bb7c8538aec7fb76cec367f21fbb356aae6a6e",
+  "adf7eb7752a5a02e95baa748e90830568f907bde4ecb01d060e524437557ebc9",
+  "a48c66de050d67a488f5182d28d68f5c43c0d433777a135d0506b238ec2b40c8",
+]);
+// the same, matched with case: two abbreviations in capitals
+const DIGESTS_CASED = new Set([
+  "11fb682be0a0233d5fb899721ecfc1827d20f0d2ff2e093310efa61efca8af1c",
+  "674900a77b798af1723bbfc31f01c199e4a1ea6f19aeff9791d6318ca12979b5",
+]);
+// a word that is a trace only before a number (two words) or after a word
+// other than "user" (one word, singular and plural): the build's stages, its
+// surveys, and the automated workers that wrote the files
+const BEFORE_NUMBER = new Set([
+  "c974e17b8e7321ce8c12983de3d0ed4a289821f579bbe0925b0181a4bc8e8d80",
+  "6b7d902199e960ef699051a48fef1214319517d6be498de768f1dc8a9a31ea38",
+]);
+const WORKER = new Set([
+  "d4f0bc5a29de06b510f9aa428f1eedba926012b591fef7a518e776a7c9bd1824",
+  "8c70b25cbbbe8e7935bbc70516181551934ae5e917b40d25c4a72bbbd865f2e4",
+]);
+// the private brief's name, a trace when followed by its extension, by
+// "section" or by a number
+const BRIEF = "d4f02eaafd1a9e9de7d10972ca8e47fa7a985825c3c9c1e249c72683cb3e4f19";
+const GENERATOR = "9123dcbb0b42652b0e105956c68d3ca2ff34584f324fa41a29aedd32b883e131";
+const USER = digest("user");
+
+function wordTraces(line) {
+  const out = [];
+  const found = [...line.matchAll(/[A-Za-z0-9_]+/g)];
+  const raw = found.map((m) => m[0]);
+  const lower = raw.map((w) => w.toLowerCase());
+  // what separates a word from the next one; a phrase is two words one space apart
+  const gap = (i) => line.slice(found[i].index + raw[i].length, found[i + 1] ? found[i + 1].index : line.length);
+  raw.forEach((word, i) => {
+    const one = digest(lower[i]);
+    const next = lower[i + 1];
+    const spaced = next !== undefined && gap(i) === " ";
+    if (DIGESTS.has(one)) out.push("a tooling vendor, product or credit");
+    if (DIGESTS_CASED.has(digest(word))) out.push("an abbreviation for machine intelligence or a model");
+    if (spaced && DIGESTS.has(digest(lower[i] + " " + next))) out.push("a mention of how the files were made");
+    if (spaced && BEFORE_NUMBER.has(one) && /^\d+$/.test(next)) out.push("a trace of the build process");
+    if (WORKER.has(one) && (i === 0 || digest(lower[i - 1]) !== USER || ![" ", "-"].includes(gap(i - 1)))) {
+      out.push("the word for an automated worker, outside user agent");
+    }
+    if (one === BRIEF && next !== undefined && ((next === "md" && gap(i) === ".") || (spaced && (next === "section" || /^\d+$/.test(next))))) {
+      out.push("a reference to the private build brief");
+    }
+  });
+  return out;
+}
 
 const TRACE_RULES = [
   { what: "the long dash U+2014", test: (t) => t.includes(EM) || ESCAPED_EM.test(t) },
   { what: "the long dash U+2013", test: (t) => t.includes(EN) || ESCAPED_EN.test(t) },
   { what: "an emoji", test: (t) => EMOJI.test(t) },
   {
-    what: "a tooling vendor or product name",
-    re: new RegExp("\\b(" + words(["cla" + "ude", "anthro" + "pic", "chat" + "gpt", "open" + "ai", "co" + "pilot", "gem" + "ini"]) + ")\\b", "i"),
+    what: "a generator meta tag",
+    test: (t) => /<meta[^>]+name=["']([a-z]+)/i.test(t) && digest(t.match(/<meta[^>]+name=["']([a-z]+)/i)[1].toLowerCase()) === GENERATOR,
   },
-  { what: "the two letter abbreviation for machine intelligence", re: new RegExp("\\b" + "A" + "I" + "\\b") },
-  { what: "a mention of a code writing tool or a model", re: new RegExp("(coding as" + "sistant|language mo" + "del|\\bL" + "LM\\b)", "i") },
-  { what: "a line crediting how the files were made", re: new RegExp("(gene" + "rated (with|by)|(made|bu" + "ilt) wi" + "th)", "i") },
-  { what: "a generator meta tag", re: new RegExp("<meta[^>]+name=[\"']gene" + "rator", "i") },
-  { what: "a reference to the private build brief", re: new RegExp("\\bSP" + "EC(\\.md|\\s+section|\\s+\\d)") },
   {
     what: "an absolute local path",
     re: new RegExp("([A-Za-z]:[" + BACKSLASH + BACKSLASH + "/]+Us" + "ers[" + BACKSLASH + BACKSLASH + "/]|/ho" + "me/[a-z]|/Us" + "ers/[A-Za-z])"),
   },
-  { what: "a trace of the build process", re: new RegExp("\\b(Ga" + "te \\d|rec" + "on \\d+|build ag" + "ent)\\b", "i") },
-  { what: "the word for an automated worker, outside user agent", re: new RegExp("(?<![Uu][Ss][Ee][Rr][ _-])\\bag" + "ents?\\b", "i") },
 ];
-
-// The ignore file must name the private brief and the tooling settings in
-// order to keep them out; those exact lines are the one exception.
-const GITIGNORE_ALLOWED = new Set(["SP" + "EC.md", ".cla" + "ude/", "CLA" + "UDE.md"]);
 
 const BINARY = /\.(png|jpe?g|gif|webp|ico|pdf|xlsx?|woff2?|ttf|otf|zip|gz)$/i;
 
@@ -580,11 +640,11 @@ check("no tracked file carries a long dash, an emoji, a tooling trace, a brief r
     scanned += 1;
     const lines = text.split("\n");
     lines.forEach((line, i) => {
-      if (relative === ".gitignore" && GITIGNORE_ALLOWED.has(line.trim())) return;
       for (const rule of TRACE_RULES) {
         const hit = rule.test ? rule.test(line) : rule.re.test(line);
         if (hit) problems.push(relative + ":" + (i + 1) + " carries " + rule.what);
       }
+      for (const what of wordTraces(line)) problems.push(relative + ":" + (i + 1) + " carries " + what);
     });
   }
   if (!scanned) problems.push("no tracked file was scanned");
@@ -601,10 +661,24 @@ check("no tooling instruction file or build brief is tracked, and no commit carr
   } catch (err) {
     return ["git is not available, so this check cannot run: " + err.message];
   }
-  const forbidden = new RegExp("(^|/)(CLA" + "UDE\\.md|SP" + "EC\\.md|\\.cla" + "ude/)", "i");
-  for (const relative of tracked) if (forbidden.test(relative)) problems.push(relative + " is tracked");
-  if (new RegExp("co-autho" + "red-by", "i").test(messages)) problems.push("a commit message carries a co-author trailer");
-  if (new RegExp("gener" + "ated (with|by)", "i").test(messages)) problems.push("a commit message credits how it was made");
+  // The names of the files that must never be tracked are held as digests of
+  // each path segment, lowercased, like the words above.
+  const FORBIDDEN_SEGMENTS = new Set([
+    "92928e3dad91e5ce0bd5566decd8fb4b22433800f787f67ec3cf1d5bbeefe177",
+    "e026f56c08dcdea441a2aa620ab410ce91162062609b2430f5a13bc9b7cf93f1",
+    "d8f365fb3789a82f774da37f9e8e71a236086054cc8683dafab88ac127424c7d",
+  ]);
+  for (const relative of tracked) {
+    for (const segment of relative.split("/")) {
+      if (FORBIDDEN_SEGMENTS.has(digest(segment.toLowerCase().replace(".", " ").replace(/^ /, ".")))) problems.push(relative + " is tracked");
+    }
+  }
+  const TRAILER = "7c38d5864015fc722b62d2f5b8cf69be50bcea73de4cfb745c8b9780e9e8d9f5";
+  for (const line of messages.split("\n")) {
+    const words = (line.match(/[A-Za-z]+/g) || []).map((w) => w.toLowerCase());
+    if (words.length >= 3 && digest(words.slice(0, 3).join(" ")) === TRAILER) problems.push("a commit message carries a co-author trailer");
+    for (const found of wordTraces(line)) if (found === "a mention of how the files were made") problems.push("a commit message credits how it was made");
+  }
   return problems;
 });
 

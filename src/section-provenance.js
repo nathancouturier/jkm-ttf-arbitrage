@@ -35,6 +35,14 @@ export function render(inner, data) {
         ]);
       }
       if (column.id === "source") {
+        /* A publisher whose terms forbid a link is named, not linked, and the
+           artifact says so in words beside the name. */
+        if (!row.page_url) {
+          return el("td", { class: "manifest__words" }, [
+            el("span", { text: row.publisher }),
+            el("span", { class: "note", text: " (" + row.page_words + ")" }),
+          ]);
+        }
         return el("td", { class: "manifest__words" }, [
           el("a", { class: "text-link", text: row.publisher, attrs: { href: row.page_url, rel: "noopener" } }),
         ]);
