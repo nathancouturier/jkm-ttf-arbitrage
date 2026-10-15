@@ -1,8 +1,7 @@
 # Methodology
 
-How this study turns published figures into the numbers it shows. This document
-grows with the study; this version covers the data layer and the engine. The
-analysis and the site are added as they are built.
+How this study turns published figures into the numbers it shows: the data
+layer, the engine, the analysis and the site, each in its section.
 
 ---
 
@@ -10,7 +9,7 @@ analysis and the site are added as they are built.
 
 1. **Nothing is invented.** A source that fails, or a date a source did not
    publish, is missing. In a CSV cache a missing value is an empty cell; in a
-   JSON file it is `null`; on the site it is "n/a" with the reason one click
+   JSON file it is `null`; on the site it is "no figure", or the words the artifact gives for it, with the reason one click
    away. Zero never means missing.
 2. **Nothing is filled.** No interpolation, no carrying a value forward, no
    substitution from a neighbouring source without a label saying so.
@@ -676,6 +675,15 @@ the visitor's figures laid over them.
 
 ---
 
+Added 15 October 2026: the carbon factor the EU ETS counts per tonne of LNG
+burnt and a methane slip are fields of their own in the calculator. A slip
+typed reworks the factor for the preset's date as `lngarb.worked.ets_tco2e_per_t`
+does, the slipped share leaving the gas burnt and, from the day methane counts,
+counting as methane at its warming potential; `src/model-calc.js` carries the
+same arithmetic and `tools/validate-engine.mjs` holds the two together on four
+named edits. Every preset also says which delivery months its two prices name
+and whether the week is aligned, mixed or misaligned (9.9).
+
 ## 10. The tests that pin the engine
 
 | # | Test | Where |
@@ -710,7 +718,9 @@ was read. The site's Method view prints that table. The assumptions, and the
 published values used as scenarios, each with the alternatives the study
 names for it. `scripts/worked_table.py` runs those of the liquefaction fee,
 the regas discount, the Suez tonnage and rebate, and the hire on the worked
-dates; the others are named, not run:
+dates; the Now view runs the regas discount and the energy of a cubic metre on
+the latest week and says whether the arb east turns; the others are named, not
+run:
 
 | Parameter | Value | Alternatives | Why |
 |---|---|---|---|
@@ -732,6 +742,9 @@ dates; the others are named, not run:
 | first month of the monthly history | January 2016 | none | the first overnight rate held; Sabine Pass's first cargo followed in February 2016 |
 | years the flows test is also run without | 2020, 2022, 2026 | none | the cancellations, the European gas crisis, the Strait of Hormuz |
 | Panama waiting days reported, published | 12 per transit in July 2023, 15 in December 2023 | in those months only, against no wait | Spark in late July 2023, the IEA in mid December 2023 |
+| energy of a cubic metre of LNG, published | 23 MMBtu | 22 and 24, run on the latest week | Spark's convention for a lean cargo; the ends of the range quoted for a US cargo |
+| share of a price's weekdays ACER must cover for its spread to stand | one half | none, not run | a threshold this study chose; below it the regas discount above applies |
+| days a reported charter rate stands for | 14 | none, not run | Spark assessed twice a week until April 2022 and daily after; a rate further away is not taken to describe the date |
 
 ---
 

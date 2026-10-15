@@ -88,7 +88,6 @@ export function render(root, data, route) {
     el("h2", { class: "block__heading", text: "The events marked" }),
     eventsTable(page),
   ]));
-  root.appendChild(sentence("p", page.source_segments, decimals, "source-line block"));
   return title;
 }
 
@@ -117,6 +116,16 @@ function pick(column, indexes) {
   return indexes.map((index) => (index === null ? null : column[index]));
 }
 
+/* The latest point of a series, in the accent: the one the reader asks about. */
+function latestPoint(days, values) {
+  for (let index = values.length - 1; index >= 0; index -= 1) {
+    if (days[index] !== null && values[index] !== null && values[index] !== undefined) {
+      return [{ day: days[index], value: values[index], accent: true }];
+    }
+  }
+  return [];
+}
+
 function weeklyFigure(page, range, decimals) {
   const weekly = page.weekly;
   const indexes = slice(weekly, range);
@@ -140,6 +149,7 @@ function weeklyFigure(page, range, decimals) {
       marks,
       rules: page.rules,
       events: page.event_rules,
+      points: latestPoint(days, pick(weekly.spread, indexes)),
       ticks: range.ticks,
       words: { title: segmentsText(range.heading_segments, decimals), desc: segmentsText(range.desc_segments, decimals), yAxis: page.words.y_axis },
     }));
@@ -148,6 +158,7 @@ function weeklyFigure(page, range, decimals) {
     frame,
     el("p", { class: "source-line", text: page.words.legend + " " + page.words.marks_legend }),
     sentence("p", range.caption_segments, decimals, "source-line"),
+    sentence("p", page.source_segments, decimals, "source-line"),
     disclosure("The weeks by year, in a table", () => yearsTable(range.years, page.words.weeks, decimals)),
   ]);
 }
@@ -175,6 +186,7 @@ function partsFigure(page, range, decimals) {
       marks: [],
       rules: page.rules,
       events: page.event_rules,
+      points: latestPoint(days, pick(weekly.s_central, indexes)),
       ticks: range.ticks,
       words: { title: segmentsText(range.parts_heading_segments, decimals), desc: segmentsText(range.parts_desc_segments, decimals), yAxis: page.words.y_axis },
     }));
@@ -184,6 +196,7 @@ function partsFigure(page, range, decimals) {
     frame,
     el("p", { class: "source-line", text: page.words.parts_legend }),
     sentence("p", range.parts_caption_segments, decimals, "source-line"),
+    sentence("p", page.source_segments, decimals, "source-line"),
   ]);
 }
 
@@ -219,6 +232,7 @@ function hstarFigure(page, range, decimals) {
     frame,
     el("p", { class: "source-line", text: page.words.hstar_legend }),
     sentence("p", range.hstar_caption_segments, decimals, "source-line"),
+    sentence("p", page.source_segments, decimals, "source-line"),
     disclosure("The charter rates reported, in a table", () => anchorsTable(page, decimals)),
   ]);
 }
@@ -239,6 +253,7 @@ function monthlyFigure(page, decimals) {
       marks: [],
       rules: page.rules,
       events: page.event_rules,
+      points: latestPoint(monthly.day, monthly.spread),
       ticks: monthly.ticks,
       words: { title: segmentsText(monthly.heading_segments, decimals), desc: segmentsText(monthly.desc_segments, decimals), yAxis: page.words.y_axis },
     }));
@@ -248,6 +263,7 @@ function monthlyFigure(page, decimals) {
     frame,
     el("p", { class: "source-line", text: page.words.legend }),
     sentence("p", monthly.caption_segments, decimals, "source-line"),
+    sentence("p", page.source_segments, decimals, "source-line"),
     disclosure("The months by year, in a table", () => yearsTable(monthly.years, page.words.months, decimals)),
   ]);
 }

@@ -122,5 +122,5 @@ def test_the_spring_of_2026_is_told_from_the_reported_weeks_and_eia_s_shares(flo
     months = {m["month"][:7]: m for m in flows["months"]}
     for field, value in values.items():
         if field.startswith("share_"):
-            assert value == months[field[len("share_"):]]["share_asia"]
+            assert value == pytest.approx(100.0 * months[field[len("share_"):]]["share_asia"])
     assert not any(ch.isdigit() for s in segments if "text" in s for ch in s["text"])

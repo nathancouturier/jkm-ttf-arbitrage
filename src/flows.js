@@ -126,6 +126,14 @@ function testBlock(page, decimals) {
   ]);
 }
 
+/* The months with a reported count of cancellations, as points on the notice
+ * line, the month with the most of them in the accent. */
+function cancelledPoints(months) {
+  const reported = months.filter((m) => m.cancelled !== null && m.cancelled !== undefined && m.notice.central !== null);
+  const most = reported.reduce((best, m) => (best === null || m.cancelled > best.cancelled ? m : best), null);
+  return reported.map((m) => ({ day: m.month, value: m.notice.central, accent: m === most }));
+}
+
 function y2020Figure(page, decimals) {
   const y2020 = page.y2020;
   const frame = el("div", { class: "chart-frame" });
@@ -142,6 +150,8 @@ function y2020Figure(page, decimals) {
       series: { values: y2020.months.map((m) => m.notice.central), label: page.words.notice },
       marks: [],
       rules: [],
+      // The months EIA reported cancellations for, printed; the one with the most in the accent.
+      points: cancelledPoints(y2020.months),
       ticks: y2020.ticks,
       words: { title: segmentsText(y2020.heading_segments, decimals), desc: y2020.desc, yAxis: page.words.y_axis },
     }));
@@ -202,6 +212,8 @@ function y2026Figure(page, decimals) {
       series: { values: y2026.spread, label: page.words.spread },
       marks: [],
       rules: [],
+      // The week set beside Platts' assessment, in the accent.
+      points: y2026.days.map((day, index) => ({ day, value: y2026.spread[index], accent: true })).filter((p) => p.day === y2026.assessment_week && p.value !== null),
       ticks: y2026.ticks,
       words: { title: segmentsText(y2026.heading_segments, decimals), desc: y2026.desc, yAxis: page.words.y_axis },
     }));

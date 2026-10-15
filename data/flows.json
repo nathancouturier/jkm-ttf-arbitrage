@@ -4485,11 +4485,11 @@
     },
     {
      "field": "share_2026-01",
-     "value": 0.057945,
-     "format": "share"
+     "value": 5.7945,
+     "format": "share_percent"
     },
     {
-     "text": " in "
+     "text": " percent in "
     },
     {
      "field": "month_2026-01",
@@ -4501,11 +4501,11 @@
     },
     {
      "field": "share_2026-02",
-     "value": 0.145479,
-     "format": "share"
+     "value": 14.5479,
+     "format": "share_percent"
     },
     {
-     "text": " in "
+     "text": " percent in "
     },
     {
      "field": "month_2026-02",
@@ -4517,11 +4517,11 @@
     },
     {
      "field": "share_2026-03",
-     "value": 0.250521,
-     "format": "share"
+     "value": 25.0521,
+     "format": "share_percent"
     },
     {
-     "text": " in "
+     "text": " percent in "
     },
     {
      "field": "month_2026-03",
@@ -4533,11 +4533,11 @@
     },
     {
      "field": "share_2026-04",
-     "value": 0.303207,
-     "format": "share"
+     "value": 30.3207,
+     "format": "share_percent"
     },
     {
-     "text": " in "
+     "text": " percent in "
     },
     {
      "field": "month_2026-04",
@@ -4549,11 +4549,11 @@
     },
     {
      "field": "share_2026-05",
-     "value": 0.412823,
-     "format": "share"
+     "value": 41.2823,
+     "format": "share_percent"
     },
     {
-     "text": " in "
+     "text": " percent in "
     },
     {
      "field": "month_2026-05",

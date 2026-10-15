@@ -39,6 +39,8 @@ SHARE_WORDS = {"share_jkm": "the JKM markets", "share_asia": "all Asia"}
 LEVEL_WORDS = {"low": "low", "central": "central", "high": "high"}
 #: The 2026 panel starts with the first week of the Supplement's predecessor's
 #: last winter: the weeks Platts' route counts and assessment speak to.
+#: percent in one
+PERCENT = 100.0
 FROM_2026 = date(2025, 12, 1)
 
 
@@ -216,8 +218,8 @@ def _spring_2026(rows: pd.DataFrame, months: Sequence[Mapping[str, Any]]) -> lis
     segments += [reader.T(" By EIA's exports by destination, the share of US exports by vessel going to Asia was ")]
     for index, (key, month) in enumerate(held):
         segments += [reader.T(", " if 0 < index < len(held) - 1 else (" and " if index else "")),
-                     reader.N("share_" + key, month["share_asia"], "share"), reader.T(" in "),
-                     reader.D("month_" + key, key + "-01", "month")]
+                     reader.N("share_" + key, PERCENT * month["share_asia"], "share_percent"),
+                     reader.T(" percent in "), reader.D("month_" + key, key + "-01", "month")]
     first_share, last_share = held[0][1]["share_asia"], held[-1][1]["share_asia"]
     rose = last_share > first_share
     segments += [reader.T(": the cargoes "), reader.W("followed", "followed" if (rose and opened) or (not rose and not opened) else "did not follow"),
