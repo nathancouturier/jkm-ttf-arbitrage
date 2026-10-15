@@ -380,7 +380,7 @@
     },
     {
      "field": "slope",
-     "value": 1.521832,
+     "value": 1.521848,
      "format": "pp"
     },
     {
@@ -388,7 +388,7 @@
     },
     {
      "field": "t",
-     "value": 2.051768,
+     "value": 2.051764,
      "format": "t_stat"
     },
     {
@@ -420,7 +420,7 @@
     },
     {
      "field": "slope_without",
-     "value": 5.19465,
+     "value": 5.19473,
      "format": "pp"
     },
     {
@@ -428,7 +428,7 @@
     },
     {
      "field": "t_without",
-     "value": 2.719933,
+     "value": 2.719943,
      "format": "t_stat"
     },
     {
@@ -444,7 +444,7 @@
     },
     {
      "field": "r2",
-     "value": 0.100823,
+     "value": 0.100825,
      "format": "r2"
     },
     {
@@ -452,7 +452,7 @@
     },
     {
      "field": "r2_without",
-     "value": 0.248604,
+     "value": 0.248613,
      "format": "r2"
     },
     {
@@ -487,9 +487,9 @@
    "share_asia": 0.0,
    "anomaly": null,
    "arb": {
-    "low": 2.776492,
-    "central": 2.098147,
-    "high": -2.290917
+    "low": 2.776459,
+    "central": 2.098113,
+    "high": -2.290947
    }
   },
   {
@@ -515,9 +515,9 @@
    "share_asia": 0.0,
    "anomaly": null,
    "arb": {
-    "low": 0.66306,
-    "central": -0.015285,
-    "high": -4.421199
+    "low": 0.663028,
+    "central": -0.015318,
+    "high": -4.421227
    }
   },
   {
@@ -529,9 +529,9 @@
    "share_asia": 0.0,
    "anomaly": null,
    "arb": {
-    "low": 0.220461,
-    "central": -0.457884,
-    "high": -4.861107
+    "low": 0.220494,
+    "central": -0.457852,
+    "high": -4.861079
    }
   },
   {
@@ -557,9 +557,9 @@
    "share_asia": 0.199351,
    "anomaly": null,
    "arb": {
-    "low": 1.445384,
-    "central": 1.174768,
-    "high": -0.747341
+    "low": 1.445375,
+    "central": 1.174758,
+    "high": -0.74735
    }
   },
   {
@@ -585,9 +585,9 @@
    "share_asia": 0.217526,
    "anomaly": null,
    "arb": {
-    "low": 1.769618,
-    "central": 1.499001,
-    "high": -0.423108
+    "low": 1.769598,
+    "central": 1.498981,
+    "high": -0.423128
    }
   },
   {
@@ -599,9 +599,9 @@
    "share_asia": 0.0,
    "anomaly": null,
    "arb": {
-    "low": 1.074461,
-    "central": 0.803844,
-    "high": -1.118265
+    "low": 1.07449,
+    "central": 0.803874,
+    "high": -1.118235
    }
   },
   {
@@ -613,9 +613,9 @@
    "share_asia": 0.317541,
    "anomaly": null,
    "arb": {
-    "low": 1.576342,
-    "central": 1.305725,
-    "high": -0.616384
+    "low": 1.576401,
+    "central": 1.305785,
+    "high": -0.616324
    }
   },
   {
@@ -627,9 +627,9 @@
    "share_asia": 0.67131,
    "anomaly": null,
    "arb": {
-    "low": 2.770599,
-    "central": 2.499983,
-    "high": 0.577874
+    "low": 2.770791,
+    "central": 2.500175,
+    "high": 0.578066
    }
   },
   {
@@ -641,9 +641,9 @@
    "share_asia": 0.342334,
    "anomaly": null,
    "arb": {
-    "low": 2.46504,
-    "central": 2.194423,
-    "high": 0.272314
+    "low": 2.465161,
+    "central": 2.194544,
+    "high": 0.272436
    }
   },
   {
@@ -655,9 +655,9 @@
    "share_asia": 0.335436,
    "anomaly": null,
    "arb": {
-    "low": 2.646629,
-    "central": 2.376013,
-    "high": 0.453904
+    "low": 2.646734,
+    "central": 2.376117,
+    "high": 0.454009
    }
   },
   {
@@ -669,9 +669,9 @@
    "share_asia": 0.306307,
    "anomaly": null,
    "arb": {
-    "low": 1.385046,
-    "central": 1.11443,
-    "high": -0.807679
+    "low": 1.385171,
+    "central": 1.114555,
+    "high": -0.807554
    }
   },
   {
@@ -683,9 +683,9 @@
    "share_asia": 0.211328,
    "anomaly": null,
    "arb": {
-    "low": 0.993652,
-    "central": 0.723036,
-    "high": -1.199073
+    "low": 0.993704,
+    "central": 0.723087,
+    "high": -1.199021
    }
   },
   {
@@ -697,9 +697,9 @@
    "share_asia": 0.278952,
    "anomaly": null,
    "arb": {
-    "low": 0.965136,
-    "central": 0.694519,
-    "high": -1.22759
+    "low": 0.965251,
+    "central": 0.694635,
+    "high": -1.227474
    }
   },
   {
@@ -725,9 +725,9 @@
    "share_asia": 0.400687,
    "anomaly": null,
    "arb": {
-    "low": 0.955189,
-    "central": 0.684573,
-    "high": -1.237536
+    "low": 0.955329,
+    "central": 0.684712,
+    "high": -1.237397
    }
   },
   {
@@ -739,9 +739,9 @@
    "share_asia": 0.30668,
    "anomaly": null,
    "arb": {
-    "low": 0.694622,
-    "central": 0.424005,
-    "high": -1.498103
+    "low": 0.69467,
+    "central": 0.424054,
+    "high": -1.498055
    }
   },
   {
@@ -753,9 +753,9 @@
    "share_asia": 0.504216,
    "anomaly": null,
    "arb": {
-    "low": 1.275936,
-    "central": 1.00532,
-    "high": -0.916789
+    "low": 1.275996,
+    "central": 1.00538,
+    "high": -0.916729
    }
   },
   {
@@ -767,9 +767,9 @@
    "share_asia": 0.702702,
    "anomaly": null,
    "arb": {
-    "low": 2.278264,
-    "central": 2.007647,
-    "high": 0.085539
+    "low": 2.278398,
+    "central": 2.007782,
+    "high": 0.085673
    }
   },
   {
@@ -795,9 +795,9 @@
    "share_asia": 0.746227,
    "anomaly": null,
    "arb": {
-    "low": 3.244828,
-    "central": 2.974212,
-    "high": 1.052103
+    "low": 3.244885,
+    "central": 2.974268,
+    "high": 1.05216
    }
   },
   {
@@ -809,9 +809,9 @@
    "share_asia": 0.628113,
    "anomaly": null,
    "arb": {
-    "low": 4.493109,
-    "central": 4.222493,
-    "high": 2.300384
+    "low": 4.493187,
+    "central": 4.222571,
+    "high": 2.300462
    }
   },
   {
@@ -823,9 +823,9 @@
    "share_asia": 0.665331,
    "anomaly": null,
    "arb": {
-    "low": 4.075004,
-    "central": 3.804387,
-    "high": 1.882278
+    "low": 4.075048,
+    "central": 3.804432,
+    "high": 1.882323
    }
   },
   {
@@ -837,9 +837,9 @@
    "share_asia": 0.390879,
    "anomaly": null,
    "arb": {
-    "low": 2.370968,
-    "central": 2.100351,
-    "high": 0.178243
+    "low": 2.370878,
+    "central": 2.100261,
+    "high": 0.178153
    }
   },
   {
@@ -2251,8 +2251,8 @@
    "slope": 0.015022,
    "se_intercept": 0.023727,
    "se_slope": 0.007329,
-   "t_slope": 2.049568,
-   "r2": 0.098452,
+   "t_slope": 2.049564,
+   "r2": 0.098454,
    "share": "share_jkm",
    "hire_level": "low",
    "sample": "all months",
@@ -2266,12 +2266,12 @@
   {
    "n": 115,
    "lags": 4,
-   "intercept": 0.25616,
+   "intercept": 0.256159,
    "slope": 0.015218,
    "se_intercept": 0.023722,
    "se_slope": 0.007417,
-   "t_slope": 2.051768,
-   "r2": 0.100823,
+   "t_slope": 2.051764,
+   "r2": 0.100825,
    "share": "share_jkm",
    "hire_level": "central",
    "sample": "all months",
@@ -2289,8 +2289,8 @@
    "slope": 0.016254,
    "se_intercept": 0.027573,
    "se_slope": 0.007859,
-   "t_slope": 2.06822,
-   "r2": 0.11656,
+   "t_slope": 2.068217,
+   "r2": 0.116562,
    "share": "share_jkm",
    "hire_level": "high",
    "sample": "all months",
@@ -2308,8 +2308,8 @@
    "slope": 0.017011,
    "se_intercept": 0.025142,
    "se_slope": 0.007335,
-   "t_slope": 2.319252,
-   "r2": 0.111845,
+   "t_slope": 2.319248,
+   "r2": 0.111847,
    "share": "share_asia",
    "hire_level": "low",
    "sample": "all months",
@@ -2327,8 +2327,8 @@
    "slope": 0.017254,
    "se_intercept": 0.025095,
    "se_slope": 0.007433,
-   "t_slope": 2.321361,
-   "r2": 0.114811,
+   "t_slope": 2.321357,
+   "r2": 0.114812,
    "share": "share_asia",
    "hire_level": "central",
    "sample": "all months",
@@ -2346,8 +2346,8 @@
    "slope": 0.0188,
    "se_intercept": 0.02797,
    "se_slope": 0.008171,
-   "t_slope": 2.300828,
-   "r2": 0.138138,
+   "t_slope": 2.300825,
+   "r2": 0.13814,
    "share": "share_asia",
    "hire_level": "high",
    "sample": "all months",
@@ -2361,12 +2361,12 @@
   {
    "n": 84,
    "lags": 3,
-   "intercept": 0.186955,
-   "slope": 0.05074,
+   "intercept": 0.186953,
+   "slope": 0.050741,
    "se_intercept": 0.029934,
-   "se_slope": 0.018586,
-   "t_slope": 2.729951,
-   "r2": 0.23622,
+   "se_slope": 0.018587,
+   "t_slope": 2.72996,
+   "r2": 0.236229,
    "share": "share_jkm",
    "hire_level": "low",
    "sample": "without 2020, 2022, 2026",
@@ -2380,12 +2380,12 @@
   {
    "n": 84,
    "lags": 3,
-   "intercept": 0.199875,
+   "intercept": 0.199874,
    "slope": 0.051947,
    "se_intercept": 0.026968,
-   "se_slope": 0.019098,
-   "t_slope": 2.719933,
-   "r2": 0.248604,
+   "se_slope": 0.019099,
+   "t_slope": 2.719943,
+   "r2": 0.248613,
    "share": "share_jkm",
    "hire_level": "central",
    "sample": "without 2020, 2022, 2026",
@@ -2399,12 +2399,12 @@
   {
    "n": 84,
    "lags": 3,
-   "intercept": 0.303373,
+   "intercept": 0.303372,
    "slope": 0.053941,
    "se_intercept": 0.029948,
    "se_slope": 0.018279,
-   "t_slope": 2.950942,
-   "r2": 0.296503,
+   "t_slope": 2.950959,
+   "r2": 0.296512,
    "share": "share_jkm",
    "hire_level": "high",
    "sample": "without 2020, 2022, 2026",
@@ -2418,12 +2418,12 @@
   {
    "n": 84,
    "lags": 3,
-   "intercept": 0.25517,
-   "slope": 0.05165,
+   "intercept": 0.255168,
+   "slope": 0.051651,
    "se_intercept": 0.032276,
    "se_slope": 0.018121,
-   "t_slope": 2.850292,
-   "r2": 0.230414,
+   "t_slope": 2.850305,
+   "r2": 0.23042,
    "share": "share_asia",
    "hire_level": "low",
    "sample": "without 2020, 2022, 2026",
@@ -2437,12 +2437,12 @@
   {
    "n": 84,
    "lags": 3,
-   "intercept": 0.267816,
-   "slope": 0.053271,
+   "intercept": 0.267814,
+   "slope": 0.053272,
    "se_intercept": 0.029527,
    "se_slope": 0.018804,
-   "t_slope": 2.832979,
-   "r2": 0.24611,
+   "t_slope": 2.832993,
+   "r2": 0.246116,
    "share": "share_asia",
    "hire_level": "central",
    "sample": "without 2020, 2022, 2026",
@@ -2460,8 +2460,8 @@
    "slope": 0.05763,
    "se_intercept": 0.029529,
    "se_slope": 0.019078,
-   "t_slope": 3.020787,
-   "r2": 0.318593,
+   "t_slope": 3.020808,
+   "r2": 0.318599,
    "share": "share_asia",
    "hire_level": "high",
    "sample": "without 2020, 2022, 2026",
@@ -2585,7 +2585,7 @@
      "label": "Feb 2016",
      "share_jkm": 0.0,
      "share_asia": 0.0,
-     "arb": 2.098147
+     "arb": 2.098113
     },
     {
      "month": "2016-03-01",
@@ -2599,14 +2599,14 @@
      "label": "Apr 2016",
      "share_jkm": 0.0,
      "share_asia": 0.0,
-     "arb": -0.015285
+     "arb": -0.015318
     },
     {
      "month": "2016-05-01",
      "label": "May 2016",
      "share_jkm": 0.0,
      "share_asia": 0.0,
-     "arb": -0.457884
+     "arb": -0.457852
     },
     {
      "month": "2016-06-01",
@@ -2620,7 +2620,7 @@
      "label": "Jul 2016",
      "share_jkm": 19.9351,
      "share_asia": 19.9351,
-     "arb": 1.174768
+     "arb": 1.174758
     },
     {
      "month": "2016-08-01",
@@ -2634,63 +2634,63 @@
      "label": "Sep 2016",
      "share_jkm": 0.0,
      "share_asia": 21.7526,
-     "arb": 1.499001
+     "arb": 1.498981
     },
     {
      "month": "2016-10-01",
      "label": "Oct 2016",
      "share_jkm": 0.0,
      "share_asia": 0.0,
-     "arb": 0.803844
+     "arb": 0.803874
     },
     {
      "month": "2016-11-01",
      "label": "Nov 2016",
      "share_jkm": 22.2941,
      "share_asia": 31.7541,
-     "arb": 1.305725
+     "arb": 1.305785
     },
     {
      "month": "2016-12-01",
      "label": "Dec 2016",
      "share_jkm": 67.131,
      "share_asia": 67.131,
-     "arb": 2.499983
+     "arb": 2.500175
     },
     {
      "month": "2017-01-01",
      "label": "Jan 2017",
      "share_jkm": 27.1651,
      "share_asia": 34.2334,
-     "arb": 2.194423
+     "arb": 2.194544
     },
     {
      "month": "2017-02-01",
      "label": "Feb 2017",
      "share_jkm": 27.0068,
      "share_asia": 33.5436,
-     "arb": 2.376013
+     "arb": 2.376117
     },
     {
      "month": "2017-03-01",
      "label": "Mar 2017",
      "share_jkm": 16.1926,
      "share_asia": 30.6307,
-     "arb": 1.11443
+     "arb": 1.114555
     },
     {
      "month": "2017-04-01",
      "label": "Apr 2017",
      "share_jkm": 21.1328,
      "share_asia": 21.1328,
-     "arb": 0.723036
+     "arb": 0.723087
     },
     {
      "month": "2017-05-01",
      "label": "May 2017",
      "share_jkm": 27.8952,
      "share_asia": 27.8952,
-     "arb": 0.694519
+     "arb": 0.694635
     },
     {
      "month": "2017-06-01",
@@ -2704,28 +2704,28 @@
      "label": "Jul 2017",
      "share_jkm": 40.0687,
      "share_asia": 40.0687,
-     "arb": 0.684573
+     "arb": 0.684712
     },
     {
      "month": "2017-08-01",
      "label": "Aug 2017",
      "share_jkm": 30.668,
      "share_asia": 30.668,
-     "arb": 0.424005
+     "arb": 0.424054
     },
     {
      "month": "2017-09-01",
      "label": "Sep 2017",
      "share_jkm": 50.4216,
      "share_asia": 50.4216,
-     "arb": 1.00532
+     "arb": 1.00538
     },
     {
      "month": "2017-10-01",
      "label": "Oct 2017",
      "share_jkm": 70.2702,
      "share_asia": 70.2702,
-     "arb": 2.007647
+     "arb": 2.007782
     },
     {
      "month": "2017-11-01",
@@ -2739,28 +2739,28 @@
      "label": "Dec 2017",
      "share_jkm": 70.4687,
      "share_asia": 74.6227,
-     "arb": 2.974212
+     "arb": 2.974268
     },
     {
      "month": "2018-01-01",
      "label": "Jan 2018",
      "share_jkm": 53.1869,
      "share_asia": 62.8113,
-     "arb": 4.222493
+     "arb": 4.222571
     },
     {
      "month": "2018-02-01",
      "label": "Feb 2018",
      "share_jkm": 66.5331,
      "share_asia": 66.5331,
-     "arb": 3.804387
+     "arb": 3.804432
     },
     {
      "month": "2018-03-01",
      "label": "Mar 2018",
      "share_jkm": 23.8485,
      "share_asia": 39.0879,
-     "arb": 2.100351
+     "arb": 2.100261
     },
     {
      "month": "2018-04-01",
@@ -3545,7 +3545,7 @@
      },
      {
       "field": "slope",
-      "value": 1.521832,
+      "value": 1.521848,
       "format": "pp"
      },
      {
@@ -3553,7 +3553,7 @@
      },
      {
       "field": "t",
-      "value": 2.051768,
+      "value": 2.051764,
       "format": "t_stat"
      },
      {
@@ -3585,7 +3585,7 @@
      },
      {
       "field": "slope_without",
-      "value": 5.19465,
+      "value": 5.19473,
       "format": "pp"
      },
      {
@@ -3593,7 +3593,7 @@
      },
      {
       "field": "t_without",
-      "value": 2.719933,
+      "value": 2.719943,
       "format": "t_stat"
      },
      {
@@ -3609,7 +3609,7 @@
      },
      {
       "field": "r2",
-      "value": 0.100823,
+      "value": 0.100825,
       "format": "r2"
      },
      {
@@ -3617,7 +3617,7 @@
      },
      {
       "field": "r2_without",
-      "value": 0.248604,
+      "value": 0.248613,
       "format": "r2"
      },
      {
@@ -3649,7 +3649,7 @@
     },
     {
      "field": "slope",
-     "value": 1.725405,
+     "value": 1.725415,
      "format": "pp"
     },
     {
@@ -3665,7 +3665,7 @@
     },
     {
      "field": "r2",
-     "value": 0.114811,
+     "value": 0.114812,
      "format": "r2"
     },
     {
@@ -3673,7 +3673,7 @@
     },
     {
      "field": "slope_without",
-     "value": 5.327121,
+     "value": 5.327174,
      "format": "pp"
     },
     {
@@ -3689,7 +3689,7 @@
     },
     {
      "field": "r2_without",
-     "value": 0.24611,
+     "value": 0.246116,
      "format": "r2"
     },
     {
@@ -3764,9 +3764,9 @@
      "sample": "all months",
      "hire_level": "low",
      "n": 115,
-     "slope_pp": 1.502177,
-     "t": 2.049568,
-     "r2": 0.098452,
+     "slope_pp": 1.502192,
+     "t": 2.049564,
+     "r2": 0.098454,
      "lags": 4,
      "first_month": "2016-02-01",
      "last_month": "2026-07-01",
@@ -3782,9 +3782,9 @@
      "sample": "all months",
      "hire_level": "central",
      "n": 115,
-     "slope_pp": 1.521832,
-     "t": 2.051768,
-     "r2": 0.100823,
+     "slope_pp": 1.521848,
+     "t": 2.051764,
+     "r2": 0.100825,
      "lags": 4,
      "first_month": "2016-02-01",
      "last_month": "2026-07-01",
@@ -3800,9 +3800,9 @@
      "sample": "all months",
      "hire_level": "high",
      "n": 115,
-     "slope_pp": 1.625401,
-     "t": 2.06822,
-     "r2": 0.11656,
+     "slope_pp": 1.625416,
+     "t": 2.068217,
+     "r2": 0.116562,
      "lags": 4,
      "first_month": "2016-02-01",
      "last_month": "2026-07-01",
@@ -3818,9 +3818,9 @@
      "sample": "all months",
      "hire_level": "low",
      "n": 115,
-     "slope_pp": 1.7011,
-     "t": 2.319252,
-     "r2": 0.111845,
+     "slope_pp": 1.70111,
+     "t": 2.319248,
+     "r2": 0.111847,
      "lags": 4,
      "first_month": "2016-02-01",
      "last_month": "2026-07-01",
@@ -3836,9 +3836,9 @@
      "sample": "all months",
      "hire_level": "central",
      "n": 115,
-     "slope_pp": 1.725405,
-     "t": 2.321361,
-     "r2": 0.114811,
+     "slope_pp": 1.725415,
+     "t": 2.321357,
+     "r2": 0.114812,
      "lags": 4,
      "first_month": "2016-02-01",
      "last_month": "2026-07-01",
@@ -3854,9 +3854,9 @@
      "sample": "all months",
      "hire_level": "high",
      "n": 115,
-     "slope_pp": 1.879986,
-     "t": 2.300828,
-     "r2": 0.138138,
+     "slope_pp": 1.879994,
+     "t": 2.300825,
+     "r2": 0.13814,
      "lags": 4,
      "first_month": "2016-02-01",
      "last_month": "2026-07-01",
@@ -3872,9 +3872,9 @@
      "sample": "without 2020, 2022, 2026",
      "hire_level": "low",
      "n": 84,
-     "slope_pp": 5.073981,
-     "t": 2.729951,
-     "r2": 0.23622,
+     "slope_pp": 5.074063,
+     "t": 2.72996,
+     "r2": 0.236229,
      "lags": 3,
      "first_month": "2016-02-01",
      "last_month": "2025-12-01",
@@ -3890,9 +3890,9 @@
      "sample": "without 2020, 2022, 2026",
      "hire_level": "central",
      "n": 84,
-     "slope_pp": 5.19465,
-     "t": 2.719933,
-     "r2": 0.248604,
+     "slope_pp": 5.19473,
+     "t": 2.719943,
+     "r2": 0.248613,
      "lags": 3,
      "first_month": "2016-02-01",
      "last_month": "2025-12-01",
@@ -3908,9 +3908,9 @@
      "sample": "without 2020, 2022, 2026",
      "hire_level": "high",
      "n": 84,
-     "slope_pp": 5.394063,
-     "t": 2.950942,
-     "r2": 0.296503,
+     "slope_pp": 5.394127,
+     "t": 2.950959,
+     "r2": 0.296512,
      "lags": 3,
      "first_month": "2016-02-01",
      "last_month": "2025-12-01",
@@ -3926,9 +3926,9 @@
      "sample": "without 2020, 2022, 2026",
      "hire_level": "low",
      "n": 84,
-     "slope_pp": 5.165005,
-     "t": 2.850292,
-     "r2": 0.230414,
+     "slope_pp": 5.165061,
+     "t": 2.850305,
+     "r2": 0.23042,
      "lags": 3,
      "first_month": "2016-02-01",
      "last_month": "2025-12-01",
@@ -3944,9 +3944,9 @@
      "sample": "without 2020, 2022, 2026",
      "hire_level": "central",
      "n": 84,
-     "slope_pp": 5.327121,
-     "t": 2.832979,
-     "r2": 0.24611,
+     "slope_pp": 5.327174,
+     "t": 2.832993,
+     "r2": 0.246116,
      "lags": 3,
      "first_month": "2016-02-01",
      "last_month": "2025-12-01",
@@ -3962,9 +3962,9 @@
      "sample": "without 2020, 2022, 2026",
      "hire_level": "high",
      "n": 84,
-     "slope_pp": 5.762956,
-     "t": 3.020787,
-     "r2": 0.318593,
+     "slope_pp": 5.762995,
+     "t": 3.020808,
+     "r2": 0.318599,
      "lags": 3,
      "first_month": "2016-02-01",
      "last_month": "2025-12-01",
@@ -4377,6 +4377,208 @@
     },
     {
      "text": ", when, by Platts' sources, auctioned slots had made Panama impractical for spot cargoes."
+    }
+   ],
+   "spring_segments": [
+    {
+     "text": "In the first half of the latest year a reported charter rate stands for "
+    },
+    {
+     "field": "weeks_reported",
+     "value": 8,
+     "format": "count"
+    },
+    {
+     "text": " weeks, ending "
+    },
+    {
+     "field": "first_reported",
+     "value": "2026-02-18",
+     "label": "18 February 2026"
+    },
+    {
+     "text": " to "
+    },
+    {
+     "field": "last_reported",
+     "value": "2026-04-15",
+     "label": "15 April 2026"
+    },
+    {
+     "text": ", at "
+    },
+    {
+     "text": ""
+    },
+    {
+     "field": "hire_0",
+     "value": 92000.0,
+     "format": "usd_day"
+    },
+    {
+     "text": " $/day"
+    },
+    {
+     "text": " and "
+    },
+    {
+     "field": "hire_1",
+     "value": 161750.0,
+     "format": "usd_day"
+    },
+    {
+     "text": " $/day"
+    },
+    {
+     "text": ". At those rates the arb east was open in "
+    },
+    {
+     "field": "open_reported",
+     "value": 5,
+     "format": "count"
+    },
+    {
+     "text": " of them"
+    },
+    {
+     "text": ", first in the week ending "
+    },
+    {
+     "field": "first_open",
+     "value": "2026-03-04",
+     "label": "4 March 2026"
+    },
+    {
+     "text": " and last in the week ending "
+    },
+    {
+     "field": "last_open",
+     "value": "2026-04-15",
+     "label": "15 April 2026"
+    },
+    {
+     "text": ", via "
+    },
+    {
+     "field": "route_open",
+     "value": "Panama",
+     "label": "Panama"
+    },
+    {
+     "text": "; at the central hire, in "
+    },
+    {
+     "field": "open_central",
+     "value": 6,
+     "format": "count"
+    },
+    {
+     "text": "."
+    },
+    {
+     "text": " By EIA's exports by destination, the share of US exports by vessel going to Asia was "
+    },
+    {
+     "text": ""
+    },
+    {
+     "field": "share_2026-01",
+     "value": 0.057945,
+     "format": "share"
+    },
+    {
+     "text": " in "
+    },
+    {
+     "field": "month_2026-01",
+     "value": "2026-01-01",
+     "label": "January 2026"
+    },
+    {
+     "text": ", "
+    },
+    {
+     "field": "share_2026-02",
+     "value": 0.145479,
+     "format": "share"
+    },
+    {
+     "text": " in "
+    },
+    {
+     "field": "month_2026-02",
+     "value": "2026-02-01",
+     "label": "February 2026"
+    },
+    {
+     "text": ", "
+    },
+    {
+     "field": "share_2026-03",
+     "value": 0.250521,
+     "format": "share"
+    },
+    {
+     "text": " in "
+    },
+    {
+     "field": "month_2026-03",
+     "value": "2026-03-01",
+     "label": "March 2026"
+    },
+    {
+     "text": ", "
+    },
+    {
+     "field": "share_2026-04",
+     "value": 0.303207,
+     "format": "share"
+    },
+    {
+     "text": " in "
+    },
+    {
+     "field": "month_2026-04",
+     "value": "2026-04-01",
+     "label": "April 2026"
+    },
+    {
+     "text": " and "
+    },
+    {
+     "field": "share_2026-05",
+     "value": 0.412823,
+     "format": "share"
+    },
+    {
+     "text": " in "
+    },
+    {
+     "field": "month_2026-05",
+     "value": "2026-05-01",
+     "label": "May 2026"
+    },
+    {
+     "text": ": the cargoes "
+    },
+    {
+     "field": "followed",
+     "value": "followed",
+     "label": "followed"
+    },
+    {
+     "text": " the arb, the share "
+    },
+    {
+     "field": "direction",
+     "value": "rising",
+     "label": "rising"
+    },
+    {
+     "text": " over the months the open weeks fell in"
+    },
+    {
+     "text": ", with the share's other movers, the contracts, the slots and the tariff, unseparated."
     }
    ],
    "days": [

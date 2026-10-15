@@ -102,3 +102,25 @@ def test_no_sentence_holds_a_figure_in_its_words(flows):
         for segment in segments:
             if "text" in segment:
                 assert not re.search(r"\d", segment["text"]), segment["text"]
+
+
+def test_the_spring_of_2026_is_told_from_the_reported_weeks_and_eia_s_shares(flows, history):
+    rows = [dict(zip(history["columns"], row)) for row in history["rows"]]
+    segments = flows["page"]["y2026"]["spring_segments"]
+    values = {s["field"]: s["value"] for s in segments if "field" in s}
+    words = "".join(s.get("text", s.get("label", "")) for s in segments)
+    reported = sorted((r for r in rows if r["frequency"] == "weekly" and r["hire_level"] == "reported"
+                       and r["day"].startswith("2026")), key=lambda r: r["day"])
+    # the weeks of the first half of the year a reported rate stood for
+    block = [r for r in reported if int(r["day"][5:7]) <= 6]
+    assert values["weeks_reported"] == len(block)
+    assert values["open_reported"] == sum(r["arb"] is not None and r["arb"] > 0 for r in block)
+    assert values["first_reported"] == block[0]["day"] and values["last_reported"] == block[-1]["day"]
+    assert sorted(v for k, v in values.items() if k.startswith("hire_")) == sorted({r["hire_usd_day"] for r in block})
+    assert "the share of US exports by vessel going to Asia was" in words
+    assert ("followed the arb" in words) or ("did not follow the arb" in words)
+    months = {m["month"][:7]: m for m in flows["months"]}
+    for field, value in values.items():
+        if field.startswith("share_"):
+            assert value == months[field[len("share_"):]]["share_asia"]
+    assert not any(ch.isdigit() for s in segments if "text" in s for ch in s["text"])

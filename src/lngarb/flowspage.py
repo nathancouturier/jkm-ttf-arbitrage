@@ -170,7 +170,64 @@ def _y2020(levels: Mapping[str, float]) -> dict[str, Any]:
     }
 
 
-def _y2026(rows: pd.DataFrame) -> dict[str, Any]:
+def _spring_2026(rows: pd.DataFrame, months: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
+    """Did the arb east open in 2026, at what hire, and did the cargoes follow: the weeks
+    of 2026 that a reported charter rate stands for, worked at that rate and at the
+    central hire, and EIA's share of exports to Asia in the months around them."""
+    year = rows[(rows["frequency"] == "weekly") & (rows["day"].dt.year == 2026)].sort_values("day")
+    reported = year[year["hire_level"] == "reported"]
+    central = year[year["hire_level"] == "central"].set_index("day")
+    if reported.empty:
+        return [reader.T("No charter rate reported in the latest year stands for a week of the data, so the arb "
+                         "at the market's own freight cannot be read for it.")]
+    # The weeks of the first half of the year a reported rate stood for: the
+    # spring, when the question of the year was whether the arb opened and at
+    # what hire.
+    weeks = [w for w in reported.to_dict("records") if w["day"].month <= 6]
+    if not weeks:
+        weeks = reported.to_dict("records")[:1]
+    opened = [w for w in weeks if _finite(w["arb"]) is not None and w["arb"] > 0]
+    at_central = [w for w in weeks if _finite(central.at[w["day"], "arb"]) is not None and central.at[w["day"], "arb"] > 0]
+    hires = sorted({float(w["hire_usd_day"]) for w in weeks})
+    segments = [reader.T("In the first half of the latest year a reported charter rate stands for "),
+                reader.N("weeks_reported", len(weeks), "count"),
+                reader.T(" weeks, ending "), reader.D("first_reported", weeks[0]["day"]), reader.T(" to "),
+                reader.D("last_reported", weeks[-1]["day"]), reader.T(", at ")]
+    for index, hire in enumerate(hires):
+        segments += [reader.T(" and " if index else ""), reader.N("hire_%d" % index, hire, "usd_day"), reader.T(" $/day")]
+    segments += [reader.T(". At those rates the arb east was open in "), reader.N("open_reported", len(opened), "count"),
+                 reader.T(" of them")]
+    if opened:
+        segments += [reader.T(", first in the week ending "), reader.D("first_open", opened[0]["day"]),
+                     reader.T(" and last in the week ending "), reader.D("last_open", opened[-1]["day"]),
+                     reader.T(", via "), reader.W("route_open", reader.ROUTE_SHORT["nea_" + str(opened[-1]["best_route_east"])])]
+    segments += [reader.T("; at the central hire, in "), reader.N("open_central", len(at_central), "count"), reader.T(".")]
+    by_month = {m["month"][:7]: m for m in months}
+    spans = [w["day"].strftime("%Y-%m") for w in weeks]
+    first_month = pd.Timestamp(spans[0] + "-01")
+    before = (first_month - pd.DateOffset(months=1)).strftime("%Y-%m")
+    after = (pd.Timestamp(spans[-1] + "-01") + pd.DateOffset(months=1)).strftime("%Y-%m")
+    named = [before] + sorted(set(spans)) + [after]
+    held = [(key, by_month[key]) for key in named if key in by_month and by_month[key].get("share_asia") is not None]
+    if len(held) < 2:
+        segments += [reader.T(" EIA's exports by destination do not yet reach the months after, so whether the cargoes "
+                              "followed cannot be read.")]
+        return segments
+    segments += [reader.T(" By EIA's exports by destination, the share of US exports by vessel going to Asia was ")]
+    for index, (key, month) in enumerate(held):
+        segments += [reader.T(", " if 0 < index < len(held) - 1 else (" and " if index else "")),
+                     reader.N("share_" + key, month["share_asia"], "share"), reader.T(" in "),
+                     reader.D("month_" + key, key + "-01", "month")]
+    first_share, last_share = held[0][1]["share_asia"], held[-1][1]["share_asia"]
+    rose = last_share > first_share
+    segments += [reader.T(": the cargoes "), reader.W("followed", "followed" if (rose and opened) or (not rose and not opened) else "did not follow"),
+                 reader.T(" the arb, the share "), reader.W("direction", "rising" if rose else "falling"),
+                 reader.T(" over the months the open weeks fell in" if opened else " over those months"),
+                 reader.T(", with the share's other movers, the contracts, the slots and the tariff, unseparated.")]
+    return segments
+
+
+def _y2026(rows: pd.DataFrame, months: Sequence[Mapping[str, Any]] = ()) -> dict[str, Any]:
     weekly = rows[(rows["frequency"] == "weekly") & (rows["hire_level"] == "central")
                   & (rows["day"] >= pd.Timestamp(FROM_2026))].sort_values("day")
     points = []
@@ -212,6 +269,7 @@ def _y2026(rows: pd.DataFrame) -> dict[str, Any]:
                                           if v is not None], 5)
     return {
         "heading_segments": heading,
+        "spring_segments": _spring_2026(rows, months),
         "days": [p["day"] for p in points],
         "spread": [p["spread"] for p in points],
         "panama": [p["panama"] for p in points],
@@ -270,7 +328,7 @@ def page(rows: pd.DataFrame, months: Sequence[Mapping[str, Any]], regressions: S
         "whole": _whole(months, regressions, excluded, levels["central"]),
         "test": _test(regressions, excluded),
         "y2020": _y2020(levels),
-        "y2026": _y2026(rows),
+        "y2026": _y2026(rows, months),
         "waits": _waits(rows),
         "limits_segments": [
             reader.T("What the test cannot separate: long term contracts with Asian buyers, whose cargoes move "

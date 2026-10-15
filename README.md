@@ -180,8 +180,8 @@ records with what is lost without each:
 | Pink Sheet gas prices, monthly, and their revisions | The World Bank | CC BY 4.0 | yes |
 | EU allowance price, monthly | European Commission; after June 2025, DEHSt's German auctions on EEX | CC BY 4.0; CC BY-NC-ND 4.0 | yes |
 | US dollars per euro, daily | Federal Reserve Board, H.10 | US public domain | yes |
-| SOFR, daily | Federal Reserve Bank of New York | New York Fed Terms of Use | yes |
-| Effective federal funds rate, daily, from 1954, before SOFR | Federal Reserve Board, H.15 | US public domain | yes |
+| SOFR, daily, and the indicative SOFR of August 2014 to March 2018 | Federal Reserve Bank of New York | New York Fed Terms of Use | yes |
+| Effective federal funds rate, daily, from 1954, before the indicative SOFR | Federal Reserve Board, H.15 | US public domain | yes |
 | US dollars per SDR, daily | International Monetary Fund, through the Deutsche Bundesbank | IMF terms, with attribution | yes |
 | Reported charter rates | this study, from Spark Commodities, LNG Prime and Hellenic Shipping News | the publishers' terms forbid republishing their articles; only the figures and their sources are kept | yes |
 | The four sea routes | this study, with searoute over Eurostat's SeaRoute network | distances MIT; lines EUPL 1.2 | yes |

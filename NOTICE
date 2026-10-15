@@ -4,8 +4,11 @@ The code in this repository, and the figures this study computes itself, are
 released under the MIT licence in LICENSE. Data published by others keep their
 publishers' terms, which docs/sources.md quotes in full. In particular:
 
-data/cache/nyfed_sofr_daily.csv, and tests/fixtures/nyfed_sofr_2018-01-01_to_2026-09-30.json:
-  The Secured Overnight Financing Rate (SOFR) is subject to the Terms of Use
+data/cache/nyfed_sofr_daily.csv, data/cache/nyfed_sofr_indicative_daily.csv,
+tests/fixtures/nyfed_sofr_2018-01-01_to_2026-09-30.json and
+tests/fixtures/nyfed_sofr_indicative_2014-08-22_to_2018-03-29.xlsx:
+  The Secured Overnight Financing Rate (SOFR), and the indicative SOFR the
+  New York Fed computed for August 2014 to March 2018, are subject to the Terms of Use
   posted at newyorkfed.org. The New York Fed is not responsible for
   publication of the SOFR by Nathan Couturier, does not sanction or endorse
   any particular republication, and has no liability for your use.

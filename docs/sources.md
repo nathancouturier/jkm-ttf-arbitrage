@@ -35,6 +35,7 @@ was decided on the strength of it.
 | `worldbank_gas_monthly` | Europe gas (TTF from April 2015, border and import prices before), US gas at Henry Hub, and Japan LNG import price, monthly, USD/MMBtu, from 1960, Japan from 1977 | read from the [commodity markets page](https://www.worldbank.org/en/research/commodity-markets); the file's path changes | monthly, early in the month | **yes** | CC BY 4.0 |
 | `worldbank_gas_revisions` | Every value a Pink Sheet release changed, both releases side by side | derived by this study | with each release that changes a value | **yes** | CC BY 4.0 |
 | `h10_usd_per_eur_daily` | US dollars per euro, noon buying rate in New York, daily, from 4 January 1999, the euro's first day | [FRB_h10_xml.zip](https://www.federalreserve.gov/releases/h10/data/FRB_h10_xml.zip) | weekly, Mondays | **yes** | US public domain |
+| `nyfed_sofr_indicative_daily` | Indicative SOFR, daily, percent, 22 August 2014 to 29 March 2018, computed by the New York Fed before it published SOFR | [Data Release.xlsx](https://www.newyorkfed.org/medialibrary/media/markets/Data%20Release.xlsx), linked from the [additional information page](https://www.newyorkfed.org/markets/reference-rates/additional-information-about-reference-rates) | a closed file | **yes**, under the New York Fed's terms with its notice | New York Fed Terms of Use |
 | `nyfed_sofr_daily` | Secured Overnight Financing Rate, daily, percent, from 2 April 2018 | [markets API](https://markets.newyorkfed.org/api/rates/secured/sofr/search.json) | daily, next business day | **yes**, under the New York Fed's terms | New York Fed Terms of Use |
 | `frb_h15_effr_daily` | Effective federal funds rate, daily, percent, from 1 July 1954, the overnight rate before SOFR, read from the Board's H.15 | [FRB_h15_xml.zip](https://www.federalreserve.gov/releases/h15/data/FRB_h15_xml.zip) | daily, next business day | **yes** | US public domain |
 | `imf_usd_per_sdr_daily` | US dollars per special drawing right, daily, from July 1974, the IMF's rate as the Bundesbank republishes it, for the Suez toll | [Bundesbank API](https://api.statistiken.bundesbank.de/rest/download/BBEX3/D.USD.XDR.DA.AC.000?format=csv&lang=en) | daily | **yes**, with the IMF credited (2.20) | IMF terms for its data |
@@ -212,7 +213,11 @@ rates its notice covers; the third party licence sentence names only SOFR and
 BGCR.
 
 **Redistributable: yes, under the New York Fed's terms, not this repository's.**
-The committed SOFR cache travels under those terms, not under the MIT licence.
+The committed SOFR cache travels under those terms, not under the MIT licence,
+and so does the indicative SOFR of August 2014 to March 2018, the workbook the
+additional information page links as "Daily indicative TGCR, BGCR, and SOFR
+volume and rate data (Aug. 2014 - Mar. 2018)", whose legend credits "Bank of
+New York Mellon, JPMorgan Chase, DTCC Solutions, LLC., Staff Calculations".
 The effective federal funds rate was read from this API until 15 October 2026;
 it is now read from the Board's H.15 (2.3), in the public domain and from 1954,
 and nothing of the New York Fed's EFFR response is committed any more.
@@ -1065,8 +1070,11 @@ S&P Global's own pages are never requested (2.14).
 * **Rows come newest first**, and a day with no publication has no row at all.
 * **Percentiles can be the string "NA"** (31 May 2019, 5 August 2021) and can be
   negative. Only the rate is read.
-* **No SOFR exists before 2 April 2018.** Nothing is filled in. Before then the
-  financing line runs on the effective federal funds rate (open question 12), a
+* **No SOFR exists before 2 April 2018.** Nothing is filled in. From 22 August
+  2014 the financing line runs on the indicative SOFR the New York Fed computed
+  by SOFR's method over the same transactions, published once as a workbook in
+  basis points (sheet "VWM Rates", 899 business days, read into percent), and
+  before that on the effective federal funds rate (open question 12), a
   different rate: unsecured where SOFR is secured, read from the Board's H.15.
 * **EFFR's source and method changed on 1 March 2016.** From then it is a volume
   weighted median of FR 2420 transactions; before, a volume weighted mean of
@@ -1439,9 +1447,10 @@ the study runs without it, on the labelled position given.
    (question 2).
 3. **The Henry Hub bound** is 0.5 to 50 USD/MMBtu (question 3).
 4. **The euro rate** is read from the H.10 release page package (question 11).
-5. **SOFR** is published under the New York Fed's terms with its notice, and
-   the **effective federal funds rate** stands in before 2 April 2018, read from
-   the Board's H.15 in the public domain, from July 1954 (question 12).
+5. **SOFR** is published under the New York Fed's terms with its notice; its
+   **indicative SOFR** stands in from 22 August 2014 to 29 March 2018 on the same
+   terms, and the **effective federal funds rate** before that, read from the
+   Board's H.15 in the public domain, from July 1954 (question 12).
 6. **JOGMEC's series** stays private; **owner**: send the permission request
    drafted in question 14.
 7. **METI's monthly PDFs**: the releases of October 2019 to March 2021 were

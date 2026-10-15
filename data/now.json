@@ -726,7 +726,7 @@
    "summary_segments": [
     {
      "field": "series_count",
-     "value": 21,
+     "value": 22,
      "format": "count"
     },
     {

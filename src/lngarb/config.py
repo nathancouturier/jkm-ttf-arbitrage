@@ -646,6 +646,25 @@ SOURCES: Mapping[str, Source] = _registry(
         committable=True,
     ),
     Source(
+        series="nyfed_sofr_indicative_daily",
+        label="Indicative Secured Overnight Financing Rate, daily, percent, 22 August 2014 to 29 March 2018, computed by the New York Fed before it published SOFR",
+        publisher="Federal Reserve Bank of New York",
+        page_url="https://www.newyorkfed.org/markets/reference-rates/additional-information-about-reference-rates",
+        machine_url="https://www.newyorkfed.org/medialibrary/media/markets/Data%20Release.xlsx",
+        url_note=(
+            "The workbook the page links as 'Daily indicative TGCR, BGCR, and SOFR volume "
+            "and rate data (Aug. 2014 - Mar. 2018)', sheet 'VWM Rates', the SOFR column, "
+            "basis points read into percent. A closed file, fetched once; the financing "
+            "line runs on it between the effective federal funds rate and SOFR."
+        ),
+        frequency="daily",
+        unit="percent per year",
+        method="published",
+        licence="New York Fed Terms of Use",
+        licence_note=_SOFR_NOTE,
+        committable=True,
+    ),
+    Source(
         series="frb_h15_effr_daily",
         label="Effective federal funds rate, daily, percent, from July 1954, Federal Reserve H.15, the overnight rate before SOFR",
         publisher="Board of Governors of the Federal Reserve System, H.15",

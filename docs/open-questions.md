@@ -204,7 +204,12 @@ API served for 2016 to April 2018 the two agree on every day. The New York
 Fed's EFFR cache and fixture are withdrawn; its notice now covers SOFR alone.
 The same day the caches of H.10, the SDR rate, the Pink Sheet and EIA's exports
 table were extended to every observation their sources serve: 4 January 1999,
-1 July 1974, January 1960 (Japan from January 1977) and January 1973.
+1 July 1974, January 1960 (Japan from January 1977) and January 1973. The New
+York Fed's indicative SOFR, computed by SOFR's method for 22 August 2014 to 29
+March 2018 and published once as a workbook, is read under the New York Fed's
+terms and stands between the two: a secured rate for every cargo the study
+prices, since its first loads in February 2016, and the unsecured stand-in only
+before August 2014.
 
 ### 13. Third party sources behind the World Bank's gas rows
 

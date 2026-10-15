@@ -25,6 +25,8 @@ from .engine import Vessel
 from .freight_anchors import ANCHORS, hire_levels
 from .sea_routes import canal_distances, routes_json
 from .sources.base import read_cache
+from .sources.sofr import FIRST_VALUE_DATE as SOFR_FIRST
+from .sources.sofr_indicative import FIRST_VALUE_DATE as INDICATIVE_FIRST
 
 __all__ = ["MissingInput", "inputs_on", "delta_nwe_on", "delta_nwe_between", "vessel_on", "distances", "transit_days", "routes_on", "henry_hub_month",
            "usd_per_eur_on", "overnight_rate_on", "eua_eur_t_in", "ets_phase", "ets_tco2e_per_t", "nearest_hire",
@@ -213,20 +215,28 @@ def usd_per_eur_on(when: date | str) -> tuple[float, str]:
 
 def overnight_rate_detail(when: date | str) -> tuple[float, date, str]:
     """The overnight rate on or before the day, the day it is of, and its name:
-    SOFR from its first value date, the effective federal funds rate before it."""
+    SOFR from its first value date, the New York Fed's indicative SOFR from
+    22 August 2014 to the day before, and the effective federal funds rate
+    before that."""
     day = _day(when)
-    if day >= date(2018, 4, 2):
+    if day >= date.fromisoformat(SOFR_FIRST):
         value, seen = _on_or_before("nyfed_sofr_daily", "sofr_percent", day)
         return value, seen, "SOFR"
+    if day >= date.fromisoformat(INDICATIVE_FIRST):
+        value, seen = _on_or_before("nyfed_sofr_indicative_daily", "sofr_percent", day)
+        return value, seen, "indicative SOFR"
     value, seen = _on_or_before("frb_h15_effr_daily", "effr_percent", day)
     return value, seen, "the effective federal funds rate"
 
 
 def overnight_rate_on(when: date | str) -> tuple[float, str]:
-    """SOFR from its first value date, the effective federal funds rate before it."""
+    """SOFR from its first value date, the indicative SOFR before it from August 2014, the
+    effective federal funds rate before that."""
     value, seen, name = overnight_rate_detail(when)
     if name == "SOFR":
         return value, "SOFR of %s, New York Fed" % seen
+    if name == "indicative SOFR":
+        return value, "indicative SOFR of %s, computed by the New York Fed before SOFR was published" % seen
     return value, "effective federal funds rate of %s, Federal Reserve Board H.15, before SOFR" % seen
 
 

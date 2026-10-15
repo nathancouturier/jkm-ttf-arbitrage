@@ -125,10 +125,17 @@ def test_suez_without_an_sdr_rate_is_shown_and_never_offered(monkeypatch):
     assert result["best_route_east"] != "nea_suez" and result["best_route"] != "nea_suez"
 
 
-def test_the_overnight_rate_is_effr_before_sofr():
-    assert "effective federal funds" in worked.overnight_rate_on(date(2017, 6, 1))[1]
-    assert worked.overnight_rate_on(date(2016, 1, 4))[0] == 0.36
-    assert "SOFR" in worked.overnight_rate_on(date(2018, 4, 2))[1]
+def test_the_overnight_rate_is_sofr_then_the_indicative_sofr_then_effr():
+    assert worked.overnight_rate_on(date(2018, 4, 2))[1].startswith("SOFR of")
+    # the indicative SOFR from 22 August 2014 to the day before SOFR: 36 basis points on 4 January 2016
+    value, source = worked.overnight_rate_on(date(2016, 1, 4))
+    assert source.startswith("indicative SOFR of 2016-01-04") and value == 0.36
+    assert worked.overnight_rate_on(date(2017, 6, 1))[1].startswith("indicative SOFR")
+    assert worked.overnight_rate_on(date(2018, 3, 31))[1].startswith("indicative SOFR of 2018-03-29")
+    # before August 2014, the effective federal funds rate of H.15
+    value, source = worked.overnight_rate_on(date(2014, 8, 21))
+    assert "effective federal funds rate of 2014-08-21" in source and 0.0 <= value < 0.5
+    assert "effective federal funds" in worked.overnight_rate_on(date(2000, 3, 1))[1]
 
 
 def test_henry_hub_is_the_loading_month_average():

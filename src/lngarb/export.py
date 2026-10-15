@@ -71,9 +71,10 @@ CREDITS = (
     "NonCommercial NoDerivatives 4.0 International licence (https://creativecommons.org/licenses/by-nc-nd/4.0/), "
     "the monthly averages reproduced unchanged, for non-commercial reuse only.",
     "US LNG exports cargo by cargo: U.S. Department of Energy, Office of Fossil Energy and Carbon Management.",
-    "The Secured Overnight Financing Rate (SOFR) is subject to the Terms of Use posted at newyorkfed.org. The New "
-    "York Fed is not responsible for publication of the SOFR by Nathan Couturier, does not sanction or endorse any "
-    "particular republication, and has no liability for your use.",
+    "The Secured Overnight Financing Rate (SOFR), and the indicative SOFR the New York Fed computed for August 2014 "
+    "to March 2018, are subject to the Terms of Use posted at newyorkfed.org. The New York Fed is not responsible "
+    "for publication of the SOFR by Nathan Couturier, does not sanction or endorse any particular republication, "
+    "and has no liability for your use.",
     "Dollars per euro: Board of Governors of the Federal Reserve System, H.10. The effective federal funds rate "
     "before SOFR: Board of Governors of the Federal Reserve System, H.15, a rate the Federal Reserve Bank of New "
     "York calculates. Dollars per SDR: Source: "

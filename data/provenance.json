@@ -38,7 +38,7 @@
  "summary_segments": [
   {
    "field": "series_count",
-   "value": 21,
+   "value": 22,
    "format": "count"
   },
   {
@@ -299,7 +299,7 @@
    "range_words": "1 July 1954 to 13 October 2026, daily",
    "gaps_words": "680 dates, from 16 July 1954 to 12 October 2026",
    "provisional_words": "none",
-   "fetch_words": "15 October 2026 at 11:10 UTC",
+   "fetch_words": "15 October 2026 at 12:27 UTC",
    "vintage_words": "prepared 14 October 2026 at 15:40",
    "terms_words": "US public domain"
   },
@@ -404,8 +404,23 @@
    "range_words": "2 April 2018 to 8 October 2026, daily",
    "gaps_words": "95 dates, from 28 May 2018 to 7 September 2026",
    "provisional_words": "none",
-   "fetch_words": "15 October 2026 at 11:10 UTC",
+   "fetch_words": "15 October 2026 at 12:27 UTC",
    "vintage_words": "not recorded",
+   "terms_words": "New York Fed Terms of Use"
+  },
+  {
+   "id": "nyfed_sofr_indicative_daily",
+   "label": "Indicative Secured Overnight Financing Rate, daily, percent, 22 August 2014 to 29 March 2018, computed by the New York Fed before it published SOFR",
+   "publisher": "Federal Reserve Bank of New York",
+   "page_url": "https://www.newyorkfed.org/markets/reference-rates/additional-information-about-reference-rates",
+   "page_words": "",
+   "status": "ok",
+   "status_words": "checked",
+   "range_words": "22 August 2014 to 29 March 2018, daily",
+   "gaps_words": "41 dates, from 1 September 2014 to 19 February 2018",
+   "provisional_words": "none",
+   "fetch_words": "15 October 2026 at 12:27 UTC",
+   "vintage_words": "value dates 22 August 2014 to 29 March 2018, a closed file",
    "terms_words": "New York Fed Terms of Use"
   },
   {
@@ -491,7 +506,7 @@
   "TTF before the weekly series: The World Bank, Commodity Price Data (The Pink Sheet), under the Creative Commons Attribution 4.0 International licence (https://creativecommons.org/licenses/by/4.0/). The selection of series and the revisions log are this study's. The World Bank does not endorse this study.",
   "EU allowances: European Commission auction reports, under the Creative Commons Attribution 4.0 International licence (https://creativecommons.org/licenses/by/4.0/), the months combined from several reports by this study; after the last month they cover, Source: EEX, DEHSt, under the Creative Commons Attribution NonCommercial NoDerivatives 4.0 International licence (https://creativecommons.org/licenses/by-nc-nd/4.0/), the monthly averages reproduced unchanged, for non-commercial reuse only.",
   "US LNG exports cargo by cargo: U.S. Department of Energy, Office of Fossil Energy and Carbon Management.",
-  "The Secured Overnight Financing Rate (SOFR) is subject to the Terms of Use posted at newyorkfed.org. The New York Fed is not responsible for publication of the SOFR by Nathan Couturier, does not sanction or endorse any particular republication, and has no liability for your use.",
+  "The Secured Overnight Financing Rate (SOFR), and the indicative SOFR the New York Fed computed for August 2014 to March 2018, are subject to the Terms of Use posted at newyorkfed.org. The New York Fed is not responsible for publication of the SOFR by Nathan Couturier, does not sanction or endorse any particular republication, and has no liability for your use.",
   "Dollars per euro: Board of Governors of the Federal Reserve System, H.10. The effective federal funds rate before SOFR: Board of Governors of the Federal Reserve System, H.15, a rate the Federal Reserve Bank of New York calculates. Dollars per SDR: Source: International Monetary Fund, exchange rate data, SDR valuation (https://www.imf.org/external/np/fin/data/param_rms_mth.aspx), read through the Deutsche Bundesbank.",
   "Charter rates: as reported by the publishers each figure names, listed with the history.",
   "Sea distances: this study's computation from the searoute library (Apache License 2.0) over Eurostat's Searoute network (European Union Public Licence 1.2); the route lines are published under the European Union Public Licence 1.2, as a work derived from that network.",

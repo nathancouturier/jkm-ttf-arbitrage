@@ -233,6 +233,7 @@ function y2026Figure(page, decimals) {
   return el("figure", { class: "block" }, [
     el("h2", { class: "block__heading", text: page.words.y2026_heading }),
     sentence("p", y2026.heading_segments, decimals, "lead"),
+    sentence("p", y2026.spring_segments, decimals, "prose"),
     frame,
     el("p", { class: "source-line", text: page.words.y2026_legend }),
     scrollTable([sentence("span", y2026.compare_caption_segments, decimals)], compare),

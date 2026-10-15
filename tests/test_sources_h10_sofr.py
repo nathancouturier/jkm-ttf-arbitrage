@@ -15,7 +15,7 @@ import zipfile
 import pandas as pd
 import pytest
 
-from lngarb.sources import base, h10, h15, sofr
+from lngarb.sources import base, h10, h15, sofr, sofr_indicative
 
 FIXTURES = base.REPO_ROOT / "tests" / "fixtures"
 H10_ZIP = (FIXTURES / "h10_release_2026-09-28.zip").read_bytes()
@@ -188,3 +188,43 @@ def test_the_h15_adapter_writes_the_rate_in_the_public_domain(sandbox, tmp_path)
     assert entry["vintage"] == "prepared 2026-10-14T15:40:02"
     assert "public domain" in entry["licence_note"]
     assert "stands in for SOFR" in entry["note"]
+
+
+# --------------------------------------------------------------------------
+# The indicative SOFR, August 2014 to March 2018
+# --------------------------------------------------------------------------
+
+INDICATIVE_XLSX = (FIXTURES / "nyfed_sofr_indicative_2014-08-22_to_2018-03-29.xlsx").read_bytes()
+
+
+def test_the_indicative_sofr_runs_over_its_closed_window_in_percent():
+    frame = sofr_indicative.parse_workbook(INDICATIVE_XLSX)
+    assert len(frame) == 899
+    assert frame["date"].iloc[0] == pd.Timestamp("2014-08-22")
+    assert frame["date"].iloc[-1] == pd.Timestamp("2018-03-29")
+    rate = frame.set_index("date")["sofr_percent"]
+    # 6 and 180 basis points in the workbook
+    assert rate[pd.Timestamp("2014-08-22")] == 0.06
+    assert rate[pd.Timestamp("2018-03-29")] == 1.80
+    assert frame["date"].is_monotonic_increasing and not frame["date"].duplicated().any()
+
+
+def test_a_workbook_without_the_rates_sheet_or_the_units_is_refused(tmp_path):
+    import openpyxl
+
+    book = openpyxl.Workbook()
+    book.active.title = "Other"
+    path = tmp_path / "other.xlsx"
+    book.save(path)
+    with pytest.raises(base.SourceError):
+        sofr_indicative.parse_workbook(path.read_bytes())
+
+
+def test_the_indicative_adapter_carries_the_new_york_fed_notice(sandbox, tmp_path):
+    path = tmp_path / "indicative.xlsx"
+    path.write_bytes(INDICATIVE_XLSX)
+    entry = sofr_indicative.SofrIndicativeDaily(from_file=path, fetched_at="2026-10-15T12:05:40Z").run()
+    assert entry["status"] == "ok"
+    assert (entry["first_date"], entry["last_date"]) == ("2014-08-22", "2018-03-29")
+    assert "subject to the Terms of Use posted at newyorkfed.org" in entry["note"]
+    assert "not public domain" in entry["licence_note"]

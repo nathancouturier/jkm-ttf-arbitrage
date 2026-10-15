@@ -502,9 +502,11 @@ For a destination d and a route r, in US dollars:
   lifted, `1.15 x HH x Q_load`, at the overnight rate plus a spread, for the
   laden days, on an actual over 365 basis. The fixed fee, and its carrying
   cost, are owed whether or not the cargo is lifted, so they are left out, as
-  the lift test requires. The overnight rate is SOFR from 2 April 2018 and the
-  effective federal funds rate before it, as the Federal Reserve Board's H.15
-  publishes it from July 1954.
+  the lift test requires. The overnight rate is SOFR from 2 April 2018, the
+  indicative SOFR the New York Fed computed by the same method from 22 August
+  2014 to 29 March 2018, and before that the effective federal funds rate, as
+  the Federal Reserve Board's H.15 publishes it from July 1954, an unsecured
+  rate standing in for a secured one.
 
 `C0` is the same stack without hire.
 
@@ -568,8 +570,9 @@ form everywhere and shows both for the latest date.
 the Supplement for the week ending that day, or, before the weekly prices
 begin, METI's contract-based monthly price as a labelled proxy for JKM and the
 World Bank's TTF; Henry Hub as the loading month's average of EIA's daily spot;
-the euro rate of H.10 on or before the day; SOFR, or the effective federal funds
-rate of H.15 before 2 April 2018; the Northwest Europe DES discount as ACER's NWE
+the euro rate of H.10 on or before the day; SOFR, the indicative SOFR before
+2 April 2018 and from 22 August 2014, or the effective federal funds rate of
+H.15 before that; the Northwest Europe DES discount as ACER's NWE
 spread to the TTF front month (the EU benchmark plus the NWE assessment less
 the EU one, computed from ACER's figures), averaged over the days the price
 spans, the week to the day for a weekly price and the calendar month for a

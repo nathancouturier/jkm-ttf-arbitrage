@@ -66,6 +66,7 @@ from lngarb.sources.doe import DoeLngExportCargoes  # noqa: E402
 from lngarb.sources.meti import MetiSpotLngMonthly, MetiSpotLngReleases  # noqa: E402
 from lngarb.sources.sofr import SofrDaily  # noqa: E402
 from lngarb.sources.h15 import EffrDaily  # noqa: E402
+from lngarb.sources.sofr_indicative import SofrIndicativeDaily  # noqa: E402
 from lngarb.sources.sdr import UsdPerSdrDaily  # noqa: E402
 from lngarb.sources.worldbank import WorldBankGasMonthly, WorldBankGasRevisions  # noqa: E402
 from lngarb.sources.eia_ngwu import (  # noqa: E402
@@ -227,10 +228,11 @@ JOBS: tuple[Job, ...] = (
     ),
     Job(
         name="rates",
-        what="New York Fed SOFR, daily, and the Board's H.15 effective federal funds rate from 1954, for the financing line",
-        series=("nyfed_sofr_daily", "frb_h15_effr_daily"),
-        adapters=lambda: [SofrDaily(), EffrDaily()],
-        online=_simple(lambda: [SofrDaily(), EffrDaily()]),
+        what=("New York Fed SOFR, daily, its indicative SOFR of 2014 to 2018, and the Board's H.15 effective "
+              "federal funds rate from 1954, for the financing line"),
+        series=("nyfed_sofr_daily", "nyfed_sofr_indicative_daily", "frb_h15_effr_daily"),
+        adapters=lambda: [SofrDaily(), SofrIndicativeDaily(), EffrDaily()],
+        online=_simple(lambda: [SofrDaily(), SofrIndicativeDaily(), EffrDaily()]),
     ),
     Job(
         name="sdr",
