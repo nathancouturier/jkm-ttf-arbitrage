@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-15T13:50:22Z",
+  "generated_at": "2026-10-15T14:18:00Z",
   "series": [
     {
       "series": "acer_lng_daily",
@@ -117,12 +117,12 @@
       "page_url": "https://pancanal.com/en/maritime-services/advisory-to-shipping/",
       "linkable": true,
       "machine_fetched": true,
-      "fetched_at": "2026-10-15T13:35:08Z",
+      "fetched_at": "2026-10-15T14:18:00Z",
       "checked_at": null,
-      "rows": 149,
-      "observations": 149,
-      "file_rows": 149,
-      "first_date": "2014-02-01",
+      "rows": 240,
+      "observations": 240,
+      "file_rows": 240,
+      "first_date": "2006-07-01",
       "last_date": "2026-09-01",
       "frequency": "monthly",
       "gaps": [
@@ -131,12 +131,12 @@
         "2020-04-01"
       ],
       "provisional_from": null,
-      "vintage": "advisories A-04-2014 to A-38-2026",
+      "vintage": "advisories A-22-2006 to A-38-2026",
       "method": "parsed",
       "committable": true,
       "licence_note": "The Authority's terms of use forbid copying, distribution and publication of the site's documents for commercial or lucrative purposes; this non-commercial study keeps the figures unchanged, credits the Authority and carries its disclaimer that the information is for general purposes and may vary with traffic audits.",
       "status": "ok",
-      "note": "149 summary(ies) read this run, 1 of them from the upload beside a password protected copy the page links (A-11-2024), and 1 link(s) whose label names a summary but whose file is another advisory or prints no traffic table, left as gaps (A-37-2017 for 2017-09); 149 months held, February 2014 to September 2026, each from the Authority's advisory for it. Canal Waters Time is the hours from a ship's arrival to its departure, waiting included, as the daily average, high and low of the month over every oceangoing ship; the Authority does not split it by segment or by booked and unbooked ships. Transits are the month's total and the neopanamax locks' share from their opening in June 2016; the slots are those the Authority offered and used for neopanamax ships where the summary prints them. Source: Panama Canal Authority; the information is for general purposes only and may vary with traffic audits, as the Authority says; non-commercial use.",
+      "note": "241 summary(ies) read this run, 1 of them from the upload beside a password protected copy the page links (A-11-2024), and 1 link(s) whose label names a summary but whose file is another advisory or prints no traffic table, left as gaps (A-37-2017 for 2017-09); 240 months held, July 2006 to September 2026, each from the Authority's advisory for it; the 55 summaries the page lists before July 2006, from December 2001, are scanned images without a text layer and are not read. Canal Waters Time is the hours from a ship's arrival to its departure, waiting included, as the daily average, high and low of the month over every oceangoing ship; the Authority does not split it by segment or by booked and unbooked ships. Transits are the month's total and the neopanamax locks' share from their opening in June 2016; the slots are those the Authority offered and used for neopanamax ships where the summary prints them. Source: Panama Canal Authority; the information is for general purposes only and may vary with traffic audits, as the Authority says; non-commercial use.",
       "file": "data/cache/acp_canal_operations_monthly.csv",
       "unit": "hours, and counts of ships",
       "licence": "Panama Canal Authority's terms of use; non-commercial use with attribution",

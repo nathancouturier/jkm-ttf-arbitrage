@@ -1,4 +1,4 @@
-"""The Panama Canal Authority's Monthly Canal Operations Summary, one advisory a month since December 2001.
+"""The Panama Canal Authority's Monthly Canal Operations Summary, one advisory a month, read from July 2006.
 
 Each month the Authority issues an Advisory to Shipping that summarises the
 month's operations: the daily average, high and low of arrivals, of oceangoing
@@ -11,11 +11,15 @@ segment or by booked and unbooked ships, so they bound what an LNG carrier
 waited rather than measure it.
 
 The advisories are listed on the Authority's page of advisories to shipping,
-one PDF each, named irregularly; the adapter reads the page, keeps the links
-whose label names an operations summary, and fetches only the months newer
-than the committed cache, ten seconds apart, the crawl delay the Authority's
-robots.txt asks of every client. The covered month is read from the PDF's own
-subject line, the label on the page standing in when the PDF carries none.
+one PDF each, named irregularly, from the summary for December 2001; the
+adapter reads the page, keeps the links whose label names an operations
+summary, and fetches only the months newer than the committed cache, ten
+seconds apart, the crawl delay the Authority's robots.txt asks of every
+client. The covered month is read from the PDF's own subject line, the label
+on the page standing in when the PDF carries none. The summaries from
+December 2001 to June 2006 are scanned images without a text layer, which
+the parser cannot read; the series starts with July 2006, the first summary
+with one, and those months are not counted as gaps.
 
 The Authority's terms of use forbid copying, distribution and publication of
 the site's documents "for commercial or lucrative purposes"; this study is
@@ -46,6 +50,8 @@ LIST_URL = "https://pancanal.com/en/maritime-services/advisory-to-shipping/"
 CRAWL_DELAY_S = 10.0
 #: the first month the page lists a summary for (advisory A-01-2002)
 FIRST_MONTH = "2001-12-01"
+#: the first summary with a text layer; the earlier ones are scanned images
+TEXT_LAYER_FROM = "2006-07-01"
 
 _ITEM = re.compile(
     r'<a href="(https://pancanal\.com/wp-content/uploads/[^"]+\.pdf)"[^>]*>.*?'
@@ -188,10 +194,14 @@ class AcpCanalOperationsMonthly(Adapter):
         page = self.page if self.page is not None else http_get(LIST_URL, timeout=120, delay=CRAWL_DELAY_S).content
         links = summary_links(page)
         wanted, seen = [], set()
+        scanned = 0
         for link in links:
             if link["url"] in seen:
                 continue
             seen.add(link["url"])
+            if link["month"] is not None and link["month"] < TEXT_LAYER_FROM:
+                scanned += 1
+                continue
             if link["month"] is not None and link["month"] <= latest_held:
                 continue
             wanted.append(link)
@@ -254,7 +264,7 @@ class AcpCanalOperationsMonthly(Adapter):
         self.vintage = "advisories %s to %s" % (frame["advisory"].iloc[0], frame["advisory"].iloc[-1])
         self.note = (
             "%d summary(ies) read this run%s%s%s; %d months held, %s to %s, each from the Authority's advisory for "
-            "it. Canal Waters Time is the hours from a ship's arrival to its departure, waiting included, as "
+            "it%s. Canal Waters Time is the hours from a ship's arrival to its departure, waiting included, as "
             "the daily average, high and low of the month over every oceangoing ship; the Authority does not "
             "split it by segment or by booked and unbooked ships. Transits are the month's total and the "
             "neopanamax locks' share from their opening in June 2016; the slots are those the Authority "
@@ -271,7 +281,10 @@ class AcpCanalOperationsMonthly(Adapter):
                                          "advisory or prints no traffic table, left as gaps (%s)"
                                          % (len(mislinked), "; ".join("%s for %s" % (l["advisory"], l["month"][:7] if l["month"] else "no month")
                                                                         for l, _ in mislinked))),
-               len(frame), first.strftime("%B %Y"), last.strftime("%B %Y"))
+               len(frame), first.strftime("%B %Y"), last.strftime("%B %Y"),
+               "" if not scanned else ("; the %d summaries the page lists before %s, from December 2001, are "
+                                       "scanned images without a text layer and are not read"
+                                       % (scanned, pd.Timestamp(TEXT_LAYER_FROM).strftime("%B %Y"))))
         )
         return frame
 

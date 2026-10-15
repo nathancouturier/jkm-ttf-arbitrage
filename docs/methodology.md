@@ -420,11 +420,13 @@ No advisory read to 5 October 2026 announces a toll change after 2025.
   days for LNG carriers in normal conditions and an average of 15 days for
   unreserved slots in mid December 2023; Spark reported 12 days for unbooked
   vessels in late July 2023 (LNG Prime, 28 July 2023). What the Authority does
-  publish, monthly since December 2001, is Canal Waters Time, the hours from
+  publish, monthly since December 2001 and readable by code from July 2006
+  (the earlier summaries are scanned images), is Canal Waters Time, the hours from
   every ship's arrival to its departure, waiting included, as the month's daily
   average, high and low (`acp_canal_operations_monthly`): 66.5 hours on
   average in August 2023 with a high of 104.8, 44.1 in December 2023 with a
-  high of 87.1, against about 24 hours in a normal month since 2016. Booked
+  high of 87.1, against 28.3 in the median month since the neopanamax locks
+  opened in July 2016. Booked
   ships wait little and unbooked ones long, so the average bounds an LNG
   carrier's wait from below and the reported 12 and 15 days stand as the
   record of the unbooked case. The Flows view draws the series with the two

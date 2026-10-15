@@ -39,7 +39,7 @@ was decided on the strength of it.
 | `nyfed_sofr_daily` | Secured Overnight Financing Rate, daily, percent, from 2 April 2018 | [markets API](https://markets.newyorkfed.org/api/rates/secured/sofr/search.json) | daily, next business day | **yes**, under the New York Fed's terms | New York Fed Terms of Use |
 | `frb_h15_effr_daily` | Effective federal funds rate, daily, percent, from 1 July 1954, the overnight rate before SOFR, read from the Board's H.15 | [FRB_h15_xml.zip](https://www.federalreserve.gov/releases/h15/data/FRB_h15_xml.zip) | daily, next business day | **yes** | US public domain |
 | `imf_usd_per_sdr_daily` | US dollars per special drawing right, daily, from July 1974, the IMF's rate as the Bundesbank republishes it, for the Suez toll | [Bundesbank API](https://api.statistiken.bundesbank.de/rest/download/BBEX3/D.USD.XDR.DA.AC.000?format=csv&lang=en) | daily | **yes**, with the IMF credited (2.20) | IMF terms for its data |
-| `acp_canal_operations_monthly` | Canal Waters Time at Panama, hours from arrival to departure for every ship, the month's daily average, high and low, with the month's transits, the neopanamax locks' share and the neopanamax booking slots, monthly from December 2001 | [advisories to shipping](https://pancanal.com/en/maritime-services/advisory-to-shipping/), one PDF a month | monthly | **yes**, for non-commercial use (2.15) | the Authority's terms of use |
+| `acp_canal_operations_monthly` | Canal Waters Time at Panama, hours from arrival to departure for every ship, the month's daily average, high and low, with the month's transits, the neopanamax locks' share and the neopanamax booking slots, monthly from July 2006, the first summary with a text layer | [advisories to shipping](https://pancanal.com/en/maritime-services/advisory-to-shipping/), one PDF a month | monthly | **yes**, for non-commercial use (2.15) | the Authority's terms of use |
 | `acp_lng_transits_fiscal_year` | LNG carriers through the Panama Canal each fiscal year, October to September, fiscal 2016 to 2025, read by eye in the Authority's annual reports | written from rows kept in `lngarb.panama_transits`; nothing is fetched | yearly | **yes**, a seed | the Authority's terms of use, figures quoted with attribution |
 | `sca_lng_transits_annual` | LNG carriers through the Suez Canal each year, both directions, and their Suez Canal net tonnage, 2007 to 2025 | [annual reports](https://www.suezcanal.gov.eg/English/Downloads/Pages/default.aspx?folder=Navigation%20Reports/Annual%20Reports%E2%80%8B%E2%80%8B%E2%80%8B), one PDF a year | yearly | **yes**, the figures restated (2.10) | all rights reserved; facts quoted with attribution |
 | `eia_chokepoint_lng_annual` | LNG through each maritime chokepoint, billion cubic feet a day, by calendar year from 2020 and the first half of 2025, EIA's analysis of Vortexa's tanker tracking | [World Oil Transit Chokepoints](https://www.eia.gov/international/content/analysis/special_topics/World_Oil_Transit_Chokepoints/) | yearly | **yes** | US public domain, with the third party doubt of 2.1 |
@@ -578,8 +578,9 @@ above, which forbid copying and publication "for commercial or lucrative
 purposes" and are silent on any other.
 
 * `acp_canal_operations_monthly`, read by code from the Monthly Canal
-  Operations Summary the Authority issues as an advisory each month, December
-  2001 onwards: the figures of its traffic table, unchanged, with the
+  Operations Summary the Authority issues as an advisory each month, July
+  2006 onwards (the summaries from December 2001 to June 2006 are scanned
+  images without a text layer): the figures of its traffic table, unchanged, with the
   advisory named on each row. The summaries' own footer is carried into the
   manifest: the information "is for general purpose only" and "may vary"
   with traffic audits. The December 2023 summary is a test fixture.
@@ -1450,6 +1451,11 @@ settles for JOGMEC.
   and its projection sit on a page of the Authority's reporting host that the
   study's network does not reach, and the monthly summaries print a level
   only twice in 2023 to 2026.
+* **The summaries before July 2006 are scanned images.** The page lists them
+  from December 2001, but those to June 2006 carry no text layer, so the
+  series starts with the first that does. The page lists no summary for
+  March and April 2020, the first months of the pandemic, and the label for
+  September 2017 links a lane outage notice: three gaps the manifest names.
 * **The monthly summaries are named irregularly** (`a-01-2002.pdf`,
   `ADV40-2023-Montly-Canal-Operations-Summary-August-2023.pdf`, a `-1` copy of
   March 2024 that is password protected beside the readable one), the upload

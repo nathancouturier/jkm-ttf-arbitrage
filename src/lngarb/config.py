@@ -580,7 +580,9 @@ SOURCES: Mapping[str, Source] = _registry(
             "One PDF a month linked from the page of advisories to shipping, named "
             "irregularly; the adapter keeps the links whose label names an operations "
             "summary and fetches the months newer than the cache, ten seconds apart as "
-            "the site's robots.txt asks. The covered month is read from the PDF's subject."
+            "the site's robots.txt asks. The covered month is read from the PDF's subject. "
+            "The page lists summaries from December 2001; those to June 2006 are scanned "
+            "images without a text layer, so the series starts with July 2006."
         ),
         frequency="monthly",
         unit="hours, and counts of ships",

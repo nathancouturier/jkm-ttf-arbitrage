@@ -194,7 +194,7 @@ report) is declared once in `lngarb.config.USER_CSV_SERIES`, saved by hand as
 | US dollars per SDR, daily | International Monetary Fund, through the Deutsche Bundesbank | IMF terms, with attribution | yes |
 | Reported charter rates | this study, from Spark Commodities, LNG Prime and Hellenic Shipping News | the publishers' terms forbid republishing their articles; only the figures and their sources are kept | yes |
 | The four sea routes | this study, with searoute over Eurostat's SeaRoute network | distances MIT; lines EUPL 1.2 | yes |
-| Canal Waters Time and transits at Panama, monthly from December 2001; LNG transits by fiscal year | Panama Canal Authority | terms of use forbidding commercial reproduction; kept for this non-commercial study | yes |
+| Canal Waters Time and transits at Panama, monthly from July 2006; LNG transits by fiscal year | Panama Canal Authority | terms of use forbidding commercial reproduction; kept for this non-commercial study | yes |
 | LNG carriers through Suez by year, from 2007 | Suez Canal Authority | all rights reserved; facts restated with attribution | yes |
 | LNG through each chokepoint, by year from 2020 and by quarter | U.S. Energy Information Administration, analysis based on Vortexa data | US public domain | yes |
 

@@ -247,7 +247,7 @@ JOBS: tuple[Job, ...] = (
     ),
     Job(
         name="acp",
-        what="Panama Canal Authority, Monthly Canal Operations Summary: Canal Waters Time, transits and neopanamax slots, monthly from December 2001, ten seconds between requests",
+        what="Panama Canal Authority, Monthly Canal Operations Summary: Canal Waters Time, transits and neopanamax slots, monthly from July 2006, the first summary with a text layer, ten seconds between requests",
         series=("acp_canal_operations_monthly",),
         adapters=lambda: [AcpCanalOperationsMonthly()],
         online=_simple(lambda: [AcpCanalOperationsMonthly()]),

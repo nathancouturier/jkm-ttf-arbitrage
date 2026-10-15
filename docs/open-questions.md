@@ -1009,11 +1009,12 @@ vessels unbooked, is read; the two reported waits stay as the record shows
 them.
 
 Revised 15 October 2026: the Authority's Monthly Canal Operations Summary,
-read by code from December 2001, gives Canal Waters Time for every ship, the
+read by code from July 2006 (the summaries from December 2001 to June 2006
+are scanned images without a text layer), gives Canal Waters Time for every ship, the
 month's daily average, high and low, and never by segment or by booked and
 unbooked ships (`acp_canal_operations_monthly`). The average reached 66.5
-hours in August 2023 and 44.1 in December 2023 against about 24 in a normal
-month, below the 12 and 15 days reported for unbooked LNG carriers in those
+hours in August 2023 and 44.1 in December 2023 against 28.3 in the median
+month since July 2016, below the 12 and 15 days reported for unbooked LNG carriers in those
 months, as an average over mostly booked ships must be. The series is drawn
 on the Flows view with the two reported months marked; the engine's default
 stays no wait, and the reported waits stay in their months.
@@ -1088,7 +1089,7 @@ Raised 15 October 2026. **Decided 15 October 2026.**
 
 Question 41 settled on quoting the Authority's tariffs and advisories. Two
 series now keep its figures: the traffic table of every monthly operations
-summary since December 2001, and ten yearly LNG transit counts read by eye in
+summary since July 2006, and ten yearly LNG transit counts read by eye in
 its annual reports. The terms of use forbid copying, distribution and
 publication "for commercial or lucrative purposes" and say nothing of any
 other; the summaries' footer says the information is for general purposes
