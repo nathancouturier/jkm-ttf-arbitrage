@@ -419,7 +419,9 @@ No advisory read to 5 October 2026 announces a toll change after 2025.
 * **Waiting days** are not published by segment. The IEA gives two to three
   days for LNG carriers in normal conditions and an average of 15 days for
   unreserved slots in mid December 2023; Spark reported 12 days for unbooked
-  vessels in late July 2023 (LNG Prime, 28 July 2023). What the Authority does
+  vessels in late July 2023 (LNG Prime, 28 July 2023); EIA reported that
+  neopanamax ships "had to wait at least 17 days" in August 2023, with more
+  than 160 vessels waiting (Today in Energy, 31 October 2023). What the Authority does
   publish, monthly since December 2001 and readable by code from July 2006
   (the earlier summaries are scanned images), is Canal Waters Time, the hours from
   every ship's arrival to its departure, waiting included, as the month's daily
@@ -428,8 +430,8 @@ No advisory read to 5 October 2026 announces a toll change after 2025.
   high of 87.1, against 28.3 in the median month since the neopanamax locks
   opened in July 2016. Booked
   ships wait little and unbooked ones long, so the average bounds an LNG
-  carrier's wait from below and the reported 12 and 15 days stand as the
-  record of the unbooked case. The Flows view draws the series with the two
+  carrier's wait from below and the reported 12, 17 and 15 days stand as the
+  record of the unbooked case. The Flows view draws the series with the three
   reported months marked.
 
 Two published estimates set against the tariff of their date, this study's
@@ -451,7 +453,7 @@ was to get.
 | 26 Jun 2016 | 30 Sep 2018 | the expanded locks open (first LNG carrier 25 July 2016, from Sabine Pass); daylight and encounter restrictions on LNG carriers | the Authority's press releases of 2016 and 2018 |
 | 1 Oct 2018 | 2 Jan 2023 | restrictions lifted; up to two booked LNG slots a day; auctions from January 2021; 58 LNG transits in January 2021, a record | advisory A-29-2018; press release of 3 February 2021 |
 | 3 Jan 2023 | 29 Jul 2023 | water saving measures; neopanamax draught cut in steps to 44 feet by 19 June 2023; 12 days of delay for unbooked vessels in late July | advisories of 2023; LNG Prime, 28 July 2023 |
-| 30 Jul 2023 | 31 Oct 2023 | daily transits cut to an average of 32, 10 of them neopanamax; queues of up to 163 ships and 21 days in August, all ship types | advisory A-35-2023; IEA, Global Gas Security Review 2024 |
+| 30 Jul 2023 | 31 Oct 2023 | daily transits cut to an average of 32, 10 of them neopanamax; queues of up to 163 ships and 21 days in August, all ship types, and at least 17 days for neopanamax ships | advisory A-35-2023; IEA, Global Gas Security Review 2024; EIA, Today in Energy, 31 October 2023 |
 | 1 Nov 2023 | 15 Jan 2024 | 31 transits, 9 neopanamax, then 8, 7 and 6 neopanamax booking slots in December; unreserved LNG waits of 15 days in mid December | advisories A-48-2023 and A-53-2023; IEA, Gas Market Report Q1 2024 |
 | 16 Jan 2024 | 31 May 2024 | 24 booking slots, 7 neopanamax, full container ships ahead of LNG in the first booking period; LNG transits "almost completely dried up" by early 2024 | advisories A-54-2023 and A-08-2024; IEA |
 | 1 Jun 2024 | 14 Aug 2024 | neopanamax booking slots back to 8, 9, then 10 | advisories of 2024 |
@@ -864,7 +866,8 @@ the slot premium for the round trip at which Panama nets what the Cape does,
 Panama's lead times the cargo loaded, and the waiting days per Panama transit,
 laden and ballast alike, at which they net the same, found by bisection on the
 engine. The waits reported in 2023 are applied only in the months they were
-reported: 12 days per transit in July 2023 and 15 in December 2023. The
+reported: 12 days per transit in July 2023, 17 in August 2023 and 15 in
+December 2023. The
 result is set beside the route use Platts reported: a record 27 US cargoes to
 Asia via the Cape in March 2024, against one via Panama in that month to 27
 March, and 31 of 34 round the Cape in data running to 28 April 2026, over a

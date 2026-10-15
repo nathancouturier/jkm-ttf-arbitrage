@@ -346,8 +346,8 @@
       "state": "restricted",
       "link_label": null,
       "state_words": "open, under restrictions",
-      "words": "daily transits cut to an average of 32, 10 of them neopanamax; queues of up to 21 days in August, all ship types",
-      "source": "Panama Canal Authority, advisory A-35-2023; IEA, Global Gas Security Review 2024",
+      "words": "daily transits cut to an average of 32, 10 of them neopanamax; queues of up to 21 days in August, all ship types, and at least 17 days for neopanamax ships",
+      "source": "Panama Canal Authority, advisory A-35-2023; IEA, Global Gas Security Review 2024; EIA, Today in Energy, 31 October 2023",
       "url": null,
       "status": "published"
      },
@@ -640,8 +640,8 @@
   },
   {
    "field": "wait_months",
-   "value": "July 2023 and December 2023",
-   "label": "July 2023 and December 2023"
+   "value": "July 2023, August 2023 and December 2023",
+   "label": "July 2023, August 2023 and December 2023"
   },
   {
    "text": " only; the table under the chart gives every band's source."

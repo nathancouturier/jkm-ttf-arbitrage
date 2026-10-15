@@ -1340,14 +1340,22 @@ PARAMETERS: Mapping[str, Parameter] = _parameters(
               _SPARK_38, "2026-10-01"),
     Parameter("vessel_174k_boil_off_per_day", 0.00085, "share of the loaded volume per day", "published",
               "Spark LNG Freight Methodology 3.8, page 2, 'Boil Off Rate: 0.085% of cargo tanks at "
-              "98.5% capacity'", _SPARK_38, "2026-10-01"),
+              "98.5% capacity'; GTT, as LNG Prime reports it on 16 April 2021: NO96 Super+ 'offers a "
+              "guaranteed boil-off rate of 0,085%V/d for the current standard size design of LNG carrier "
+              "of 174,000 cbm'", "https://lngprime.com/europe/gtts-no96-containment-system-gets-upgrade/17530/",
+              "2026-10-15",
+              "Spark's document may not be linked; the address is LNG Prime's report of GTT's figure, "
+              "which Flex LNG's 173,400 m3 Mark III Flex newbuild of May 2021 also carries."),
     Parameter("vessel_174k_speed_kn", 17.0, "knots", "published",
               "Spark LNG Freight Methodology 3.8, page 2, 'Speed: 17 knots'", _SPARK_38, "2026-10-01"),
     Parameter("vessel_160k_capacity_m3", 160_000.0, "m3", "published",
               _SPARK_32 + ", page 2, 'Vessel Type: 160,000 m3 TFDE'", None, "2026-10-01"),
     Parameter("vessel_160k_boil_off_per_day", 0.001, "share of the loaded volume per day", "published",
-              _SPARK_32 + ", page 2, 'Boil Off Rate: 0.1% of cargo tanks at 98.5% capacity'", None,
-              "2026-10-01"),
+              _SPARK_32 + ", page 2, 'Boil Off Rate: 0.1% of cargo tanks at 98.5% capacity'; GTT's Mark "
+              "III Flex, as gCaptain reports it on 10 October 2012, 'reduces the boil-off rate from 0.15% "
+              "to 0.10% of the cargo volume per day' for the 160,000 to 170,000 m3 generation",
+              "https://gcaptain.com/membrane-containment-system-achieves/", "2026-10-15",
+              "Spark's document may not be linked; the address is gCaptain's report of GTT's figure."),
     Parameter("vessel_160k_speed_kn", 17.0, "knots", "published",
               _SPARK_32 + ", page 3, 'Speed: 17 knots'", None, "2026-10-01"),
     Parameter("fill", 0.985, "share of capacity loaded", "published",
@@ -1529,9 +1537,13 @@ PARAMETERS: Mapping[str, Parameter] = _parameters(
     Parameter("ets_phase_in_by_year", {"2024": 0.40, "2025": 0.70, "2026": 1.00},
               "share of a year's verified emissions surrendered, from the year named", "published",
               "Directive 2003/87/EC, Article 3gb, inserted by Directive (EU) 2023/959: 40 % of verified "
-              "emissions reported for 2024, 70 % for 2025, 100 % for 2026 and each year thereafter",
-              "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32023L0959", "2026-10-07",
-              "Nothing before 2024."),
+              "emissions reported for 2024, 70 % for 2025, 100 % for 2026 and each year thereafter; the "
+              "Commission's page on shipping emissions says the same, '2025: for 40% of their emissions "
+              "reported in 2024; 2026: for 70% of their emissions reported in 2025; 2027 onwards: for 100%'",
+              "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32023L0959", "2026-10-15",
+              "Nothing before 2024. The Commission's page: "
+              "https://climate.ec.europa.eu/areas-action/transport-decarbonisation/reducing-emissions-shipping-sector_en, "
+              "read on 15 October 2026."),
     Parameter("tco2_per_t_lng", 2.750, "tonnes of CO2 per tonne of LNG burnt", "published",
               "Regulation (EU) 2015/757, Annex I, as replaced by Delegated Regulation (EU) 2023/2776, "
               "which applies from 1 January 2024: the emission factor of LNG, 2.750 t CO2 per t of fuel",
@@ -1572,9 +1584,14 @@ PARAMETERS: Mapping[str, Parameter] = _parameters(
               "51,560 Btu per kilogramme, gross calorific value",
               "https://ec.europa.eu/eurostat/documents/3859598/5885369/NRG-2004-EN.PDF.pdf/b3c4b86f-8e88-4ca6-9188-b95320900b3f?t=1414781129000",
               "2026-10-07",
-              "GIIGNL's table could not be read by code. Spark's 23 MMBtu per m3 at the manual's 0.45 t "
-              "per m3 gives 51.11, 0.9 percent less. Used only to turn the gas burnt into tonnes for "
-              "the EU ETS."),
+              "GIIGNL's table could not be read by code: its Custody Transfer Handbook, seventh edition "
+              "(2026), is served from a storage host this study's network refuses, so it stays a manual "
+              "step (open question 51). Spark's 23 MMBtu per m3 at the manual's 0.45 t per m3 gives 51.11, "
+              "0.9 percent less. EIA's Monthly Energy Review, Table A4, holds the heat content of US gas "
+              "exports at 1,009 Btu per cubic foot every year since 2007, a convention covering pipeline "
+              "and LNG together; the ratio of EIA's volume weighted LNG export price in dollars per "
+              "thousand cubic feet to DOE's in dollars per MMBtu gives 1,036 in 2024 and 1,034 in 2025, "
+              "this study's derivation. Used only to turn the gas burnt into tonnes for the EU ETS."),
     Parameter("eua_eur_t_after_published", "the last published month", "EUR per tonne of CO2",
               "assumption",
               "this study: the last published monthly auction price, German auctions on EEX, held for "
@@ -1600,11 +1617,13 @@ PARAMETERS: Mapping[str, Parameter] = _parameters(
               "this study: an unbooked ship by default", None, "2026-10-07",
               "Booked case: 35,000 $ in 2016, 85,000 $ for booking dates from 1 June 2021, 80,000 $ "
               "in the list of January 2024, 100,000 $ from 1 January 2025."),
-    Parameter("panama_waits_reported", {"2023-07": 12.0, "2023-12": 15.0}, "days of waiting per Panama transit, by month",
-              "published",
+    Parameter("panama_waits_reported", {"2023-07": 12.0, "2023-08": 17.0, "2023-12": 15.0},
+              "days of waiting per Panama transit, by month", "published",
               "12 days of delay for unbooked vessels in late July 2023 (LNG Prime, 28 July 2023, "
-              "quoting Spark); 15 days for unreserved slots in mid December 2023 (IEA, Gas Market "
-              "Report Q1 2024)", None, "2026-10-07",
+              "quoting Spark); at least 17 days for neopanamax ships in August 2023, 'in all "
+              "directions of travel', with more than 160 vessels waiting (EIA, Today in Energy, 31 "
+              "October 2023); 15 days for unreserved slots in mid December 2023 (IEA, Gas Market "
+              "Report Q1 2024)", "https://www.eia.gov/todayinenergy/detail.php?id=60842", "2026-10-15",
               "Applied only in the month each was reported, to the laden and the ballast transit "
               "alike, to set Panama against the Cape; the default everywhere stays no wait "
               "(docs/methodology.md, the Panama table)."),

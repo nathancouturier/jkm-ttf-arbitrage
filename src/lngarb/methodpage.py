@@ -306,7 +306,7 @@ def page(now_document: Mapping[str, Any] | None = None) -> dict[str, Any]:
              reader.N("hire_window", config.PARAMETERS["hire_anchor_max_days"].value, "count"),
              reader.T(" days.")],
             [reader.T("Panama's queues enter only the Flows view's comparison of Panama with the Cape, in the "
-                      "two months a wait was reported for LNG, and its slots and auctions never; the slot premium "
+                      "three months a wait was reported for LNG, and its slots and auctions never; the slot premium "
                       "and the waiting days are inputs the reader can type.")],
             [reader.T("Port costs are Spark's figures of "), reader.D("port_costs", "2022-02-01", "month"),
              reader.T(", held for every year and both ships.")],

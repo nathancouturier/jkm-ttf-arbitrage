@@ -4968,6 +4968,34 @@
      "text": "; "
     },
     {
+     "field": "reported_2023-08",
+     "value": 17.0,
+     "format": "days"
+    },
+    {
+     "text": " days in "
+    },
+    {
+     "field": "month_2023-08",
+     "value": "2023-08-01",
+     "label": "August 2023"
+    },
+    {
+     "text": " against "
+    },
+    {
+     "field": "breakeven_2023-08",
+     "value": 10.917974,
+     "format": "days",
+     "missing": "none"
+    },
+    {
+     "text": " at the central hire"
+    },
+    {
+     "text": "; "
+    },
+    {
      "field": "reported_2023-12",
      "value": 15.0,
      "format": "days"
@@ -5038,6 +5066,46 @@
      "lead_with_wait": -0.031029
     },
     {
+     "month": "2023-08-01",
+     "label": "August 2023",
+     "hire_level": "low",
+     "hire_usd_day": -750.0,
+     "wait_reported": 17.0,
+     "wait_breakeven": 4.497628,
+     "lead_no_wait": 0.110496,
+     "lead_with_wait": -0.307153
+    },
+    {
+     "month": "2023-08-01",
+     "label": "August 2023",
+     "hire_level": "central",
+     "hire_usd_day": 55750.0,
+     "wait_reported": 17.0,
+     "wait_breakeven": 10.917974,
+     "lead_no_wait": 0.608587,
+     "lead_with_wait": -0.339023
+    },
+    {
+     "month": "2023-08-01",
+     "label": "August 2023",
+     "hire_level": "high",
+     "hire_usd_day": 447000.0,
+     "wait_reported": 17.0,
+     "wait_breakeven": 14.939326,
+     "lead_no_wait": 4.057756,
+     "lead_with_wait": -0.559711
+    },
+    {
+     "month": "2023-08-01",
+     "label": "August 2023",
+     "hire_level": "reported",
+     "hire_usd_day": 75500.0,
+     "wait_reported": 17.0,
+     "wait_breakeven": 11.745368,
+     "lead_no_wait": 0.782698,
+     "lead_with_wait": -0.350163
+    },
+    {
      "month": "2023-12-01",
      "label": "December 2023",
      "hire_level": "low",
@@ -5078,7 +5146,7 @@
      "lead_with_wait": -0.182105
     }
    ],
-   "source": "Waits reported: 12 days of delay for unbooked vessels in late July 2023 (LNG Prime, 28 July 2023, quoting Spark); 15 days for unreserved slots in mid December 2023 (IEA, Gas Market Report Q1 2024)"
+   "source": "Waits reported: 12 days of delay for unbooked vessels in late July 2023 (LNG Prime, 28 July 2023, quoting Spark); at least 17 days for neopanamax ships in August 2023, 'in all directions of travel', with more than 160 vessels waiting (EIA, Today in Energy, 31 October 2023); 15 days for unreserved slots in mid December 2023 (IEA, Gas Market Report Q1 2024)"
   },
   "canals": {
    "heading_segments": [
@@ -6388,6 +6456,10 @@
      "2023-07-01",
      "2023-07-01",
      "2023-07-01",
+     "2023-08-01",
+     "2023-08-01",
+     "2023-08-01",
+     "2023-08-01",
      "2023-12-01",
      "2023-12-01",
      "2023-12-01",

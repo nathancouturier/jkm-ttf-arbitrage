@@ -945,11 +945,23 @@ primary or wire-service document read and dated, and is added when one is.
 EIA's quarterly chokepoint table (question 52) puts LNG through Hormuz at
 7.4 billion cubic feet a day in the first quarter of 2026 and 0.8 in the
 second, against 10.5 in the fourth of 2025, which dates the fall to a
-quarter and not to a day. Two events were added on 15 October 2026 from
-documents read: the cut of Panama's booking slots from 3 November 2023
-(advisory A-48-2023) and the first US cargoes turning from Suez to the Cape,
-reported by Bloomberg on 24 December 2023; and every Panama event now links
-the Authority's advisory.
+quarter and not to a day. Twenty events were added on 15 October 2026 from
+documents read and dated, so that the three named above are drawn too: the
+2019 drought at Panama (44 feet), the JKM record of January 2021, the TTF
+record of December 2021, Freeport's fire and its restart, the two Nord Stream
+stops of 2022, the Australian strikes of September 2023, the cut of Panama's
+booking slots from 3 November 2023, the first US cargoes turning from Suez to
+the Cape on 24 December 2023, Plaquemines' and Golden Pass's first cargoes,
+China's 15 percent tariff on US LNG from 10 February 2025 (the brief's "10
+percent" was crude oil's rate), its escalation to 84 and 125 percent in April
+and the Geneva step of 14 May, the Houthis' suspension of November 2025, the
+strikes on Iran and the closure of Hormuz on 28 February 2026, QatarEnergy's
+force majeure of 4 March, the damage at Ras Laffan of 18 March, the first
+Qatari cargo through Hormuz on 10 May and the interim agreement of June
+(month dated). Wire stories are cited through gCaptain's republication,
+which may be linked; EIA's pages are public domain; Panama's advisories are
+the Authority's. The first event's address now names the Authority's release
+on the first LNG transit, not the inaugural transit of a month earlier.
 
 ### 48. How much the verdict rests on the regas discount and the cargo's energy
 
@@ -999,7 +1011,9 @@ Raised 15 October 2026. **Decided 15 October 2026, to be revised.**
 The engine adds no wait at Panama on any date; the two waits reported for LNG
 (12 days in late July 2023, 15 in mid December 2023) are applied in the Flows
 view's comparison of Panama with the Cape, in those months only, and any wait
-is an input the reader can type. The Panama Canal Authority publishes monthly
+is an input the reader can type. Added 15 October 2026: EIA's "at least 17
+days" for neopanamax ships in August 2023 is a third reported wait, applied in
+August 2023 the same way. The Panama Canal Authority publishes monthly
 operational statistics; whether they give a waiting time by segment is being
 established.
 
@@ -1033,6 +1047,16 @@ Decision: 51.56 stands, labelled published with its document, until GIIGNL's
 table or a composition of Sabine Pass LNG is read; the Model view types any
 value, and the 22 to 24 MMBtu per cubic metre sensitivity of question 48 runs
 on the energy of the cargo itself.
+
+Revised 15 October 2026: GIIGNL's Custody Transfer Handbook, seventh edition
+(2026), is public at an address on a storage host this study's network
+refuses, so reading it stays a step by hand. Two EIA anchors are recorded
+beside the parameter: EIA's Monthly Energy Review holds the heat content of
+US gas exports at 1,009 Btu per cubic foot every year since 2007, a
+convention for pipeline and LNG together, and the ratio of EIA's volume
+weighted LNG export price per thousand cubic feet to DOE's per MMBtu gives
+1,036 in 2024 and 1,034 in 2025, this study's derivation; neither is a figure
+per tonne, so 51.56 stands.
 
 ### 52. The series extended, and what is still short
 

@@ -46,7 +46,8 @@ def test_the_readme_s_counts_are_the_repository_s():
     held = len(freight_anchors.ANCHORS)
     assert "The study holds %s rates" % words.get(held, str(held)) in README
     waits = config.PARAMETERS["panama_waits_reported"].value
-    assert "with the %s and %s days reported for LNG" % tuple(int(v) for v in waits.values()) in README
+    assert "with the %s, %s and %s days reported for July, August and December 2023" % tuple(
+        int(v) for v in waits.values()) in README
     cases = json.loads((ROOT / "data" / "fixtures" / "engine-cases.json").read_text(encoding="utf-8"))
     count = len(cases["cases"]) if isinstance(cases, dict) and "cases" in cases else len(cases)
     assert "1e-9 on %d cases" % count in README

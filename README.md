@@ -35,7 +35,7 @@ Read this part first.
   median and the highest of them, and at the one reported nearest it where one
   lies within 14 days, never at a rate made up for it.
 - **The engine adds no wait at Panama.** The Flows view sets Panama against
-  the Cape with the 12 and 15 days reported for LNG in July and December 2023
+  the Cape with the 12, 17 and 15 days reported for July, August and December 2023
   only; every other restriction is drawn on the timeline, and any wait or slot
   premium is for the reader to type.
 - **"Suez closed to a US cargo" is an absence of reports.** No source read

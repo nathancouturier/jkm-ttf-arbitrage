@@ -176,7 +176,15 @@ def test_the_mixed_and_misaligned_weeks_of_each_range_are_counted_from_the_colum
 
 def test_the_events_are_lettered_in_order_of_day_and_each_has_a_source(history):
     events = history["page"]["events"]
-    assert [e["letter"] for e in events] == [chr(ord("A") + i) for i in range(len(events))]
+    # A to Z, then AA, AB and on, as the events module letters them.
+    def letter(index):
+        out = ""
+        while True:
+            out = chr(ord("A") + index % 26) + out
+            index = index // 26 - 1
+            if index < 0:
+                return out
+    assert [e["letter"] for e in events] == [letter(i) for i in range(len(events))]
     assert [e["day"] for e in events] == sorted(e["day"] for e in events)
     for event in events:
         assert event["what"].endswith(".") and event["source"]
