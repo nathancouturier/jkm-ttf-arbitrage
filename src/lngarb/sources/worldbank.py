@@ -339,7 +339,10 @@ class WorldBankGasMonthly(Adapter):
         )
         self.vintage = vintage
         self.note = (
-            "%s. Every month the workbook holds, from January 1960. The Europe series is "
+            "%s. Every month the workbook holds, from January 1960; to 1975 for the US, "
+            "1990 for Europe and 1991 for Japan the workbook repeats one annual figure "
+            "in every month of the year, and monthly observations begin in 1976, 1991 "
+            "and 1992. The Europe series is "
             "TTF from April 2015, an average import border price with a spot component "
             "from April 2010, and a border price before; the US series is the Henry Hub "
             "spot price; the Japan series, from January 1977, is an LNG import price, "

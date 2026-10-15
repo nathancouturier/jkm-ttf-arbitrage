@@ -33,7 +33,7 @@ import pandas as pd
 import pdfplumber
 
 from ..config import BOUNDS_AUCTION_REVENUE_EUR, BOUNDS_AUCTION_VOLUME_EUA, BOUNDS_EUA_EUR_T
-from .base import Adapter, SourceError, http_get
+from .base import Adapter, SourceError, http_get, read_cache
 
 __all__ = [
     "PAGE_URL", "FIRST_YEAR", "report_links", "latest_per_year", "parse_year_table", "parse_report",
@@ -44,8 +44,11 @@ PAGE_URL = (
     "https://www.dehst.de/EN/Topics/EU-ETS-1/EU-ETS-1-Information/Analyses-and-Reports/"
     "analysis-and-reports_node.html"
 )
-#: The first year read: shipping enters the EU ETS in 2024.
-FIRST_YEAR = 2024
+#: The first year read: 2019, the first year whose reports the page links under
+#: the file names read here. Shipping enters the EU ETS in 2024; the earlier
+#: years measure the German average against the Commission's over every month
+#: both cover.
+FIRST_YEAR = 2019
 #: robots.txt asks for "Crawl-delay: 30".
 DELAY_SECONDS = 31.0
 
@@ -59,12 +62,17 @@ _MONTHS = ("January", "February", "March", "April", "May", "June", "July",
            "August", "September", "October", "November", "December")
 #: One row of the year table. Reports to 2024 add a type column, EUA or EUAA
 #: (aviation allowances), and a space after the euro sign; a month auctioning
-#: both types prints its name on a line of its own, between the two rows.
+#: both types prints its name on a line of its own, between the two rows. The
+#: reports of 2019 to 2023 also print a space after the asterisks that mark an
+#: average, a comma for the decimal point now and then, and once, December
+#: 2019, the price as "25,02" followed by two euro signs; every such row is
+#: read and the odd spelling is noted.
 _ROW = re.compile(
     r"^(?:(?P<month>" + "|".join(_MONTHS) + r") )?(?:(?P<type>EUAA?) )?(?P<volume>[\d,]+) (?P<bid>[\d,]+) "
-    r"\*{0,2}[\d.]+ \*{0,2}\d+ \*{0,2}\d+ (?P<mark>\*{0,2})" + chr(0x20AC) + r" ?(?P<price>[\d,]+\.\d{2}) "
-    + chr(0x20AC) + r" ?(?P<revenue>[\d,]+)$"
+    r"\*{0,2} ?[\d.,]+ \*{0,2} ?\d+ \*{0,2} ?\d+ (?P<mark>\*{0,2}) ?(?:" + chr(0x20AC) + r" ?)?"
+    r"(?P<price>[\d,]+[.,]\d{2})(?: ?" + chr(0x20AC) + r"){1,2} ?(?P<revenue>[\d,]+)$"
 )
+_PRICE_AS_PRINTED = re.compile(r"^[\d,]+\.\d{2}$")
 _LONE_MONTH = re.compile(r"^(" + "|".join(_MONTHS) + r")$")
 _TOTAL = re.compile(r"^Total ([\d,]+) ")
 _TABLE = re.compile(r"Table \d+: Overview of the entire year (\d{4})")
@@ -133,9 +141,15 @@ def parse_year_table(text: str, *, year: int, report: str) -> pd.DataFrame:
     lines = [line.strip() for line in text[start:end].splitlines()]
     used: set[int] = set()
     eua_total: int | None = None
+    aviation = 0
     for i, line in enumerate(lines):
         match = _ROW.match(line)
         if not match:
+            continue
+        if match.group("type") == "EUAA":
+            # aviation allowances: counted, to take them out of the Total
+            # row, and never read as a month's price
+            aviation += int(match.group("volume").replace(",", ""))
             continue
         month = match.group("month")
         if month is None:
@@ -147,17 +161,22 @@ def parse_year_table(text: str, *, year: int, report: str) -> pd.DataFrame:
                 if match.group("type") == "EUA":
                     eua_total = int(match.group("volume").replace(",", ""))
                 continue
-            if match.group("type") == "EUA":
-                used.add(beside[0])
+            used.add(beside[0])
             month = lines[beside[0]]
-        if match.group("type") == "EUAA":
-            continue
         volume = int(match.group("volume").replace(",", ""))
-        price = float(match.group("price").replace(",", ""))
+        printed = match.group("price")
+        if _PRICE_AS_PRINTED.match(printed):
+            price = float(printed.replace(",", ""))
+            note = None
+        else:
+            # a comma for the decimal point: the last comma is the point
+            head, _, cents = printed.rpartition(",")
+            price = float(head.replace(",", "") + "." + cents)
+            note = "price printed as %r" % printed
         revenue = int(match.group("revenue").replace(",", ""))
-        note = None
         if abs(volume * price - revenue) > 0.005 * volume + 0.5:
-            note = "volume times price misses the revenue by %.0f EUR" % (volume * price - revenue)
+            gap = "volume times price misses the revenue by %.0f EUR" % (volume * price - revenue)
+            note = gap if note is None else note + "; " + gap
         rows.append({
             "date": pd.Timestamp(date(year, _MONTHS.index(month) + 1, 1)),
             "eua_eur_t": price,
@@ -169,14 +188,18 @@ def parse_year_table(text: str, *, year: int, report: str) -> pd.DataFrame:
         })
     totals = [_TOTAL.match(line) for line in lines]
     total = next((int(m.group(1).replace(",", "")) for m in totals if m), None)
-    expected = eua_total if eua_total is not None else total
+    # The Total row counts every allowance, aviation ones included, unless the
+    # table gives general allowances a total row of their own.
+    expected = eua_total if eua_total is not None else (None if total is None else total - aviation)
     if expected is not None and sum(row["auction_volume"] for row in rows) != expected:
         raise SourceError(
-            "report %d_%s: the months' volumes add up to %d, the year table's total of allowances "
+            "report %d_%s: the months' volumes add up to %d, the year table's total of general allowances "
             "to %d" % (year, report, sum(row["auction_volume"] for row in rows), expected))
     months = [row["date"].month for row in rows]
-    if not rows or months != list(range(1, len(rows) + 1)):
-        raise SourceError("report %d_%s: the year table's months are %s, not January onwards" % (year, report, months))
+    # Consecutive months; a year may start late, as 2019 did, when the German
+    # auctions began on 1 February after the cancelled auctions of late 2018.
+    if not rows or months != list(range(months[0], months[0] + len(rows))):
+        raise SourceError("report %d_%s: the year table's months are %s, not consecutive" % (year, report, months))
     if months[-1] < _last_month(report):
         raise SourceError(
             "report %d_%s covers to month %d but its table stops at %d" % (year, report, _last_month(report), months[-1])
@@ -214,8 +237,22 @@ class DehstEuaGermanAuctionMonthly(Adapter):
         chosen = latest_per_year(report_links(page))
         if not chosen:
             raise SourceError("the reports page links no report from %d" % FIRST_YEAR)
+        # A year whose latest report the committed cache already read is kept
+        # from the cache; only a year with a later report, or none held, is
+        # fetched, with the thirty seconds DEHSt asks for between requests.
+        existing = read_cache(self.name, directory=self.directory())
+        held: dict[int, str] = {}
+        if existing is not None and len(existing):
+            existing["date"] = pd.to_datetime(existing["date"])
+            for year, group in existing.groupby(existing["date"].dt.year):
+                held[int(year)] = str(group["report"].iloc[-1])
         frames = []
+        read = []
         for year, (report, url) in sorted(chosen.items()):
+            name = "%d_report_%s" % (year, report)
+            if held.get(year) == name:
+                frames.append(existing[existing["date"].dt.year == year])
+                continue
             if self.reports is not None:
                 payload = self.reports[(year, report)]
             else:
@@ -224,13 +261,18 @@ class DehstEuaGermanAuctionMonthly(Adapter):
                 frames.append(parse_year_table(payload, year=year, report=report))
             else:
                 frames.append(parse_report(payload, year=year, report=report))
+            read.append(name)
         frame = pd.concat(frames, ignore_index=True).sort_values("date").reset_index(drop=True)
         self.vintage = ", ".join("%d_report_%s" % (year, report) for year, (report, _url) in sorted(chosen.items()))
         self.note = (
             "German auctions on EEX only, a proxy for the EU price: each month's average "
-            "price as DEHSt's latest report of each year prints it (%s). Source: EEX, DEHSt; "
+            "price as DEHSt's latest report of each year prints it (%s); %s. Source: EEX, DEHSt; "
             "DEHSt's texts are licensed CC BY-NC-ND 4.0, and the figures are kept unchanged "
-            "for non-commercial use." % self.vintage
+            "for non-commercial use." % (
+                self.vintage,
+                ("%d report(s) read this run, %s" % (len(read), ", ".join(read))) if read
+                else "no report newer than the committed cache holds, nothing read this run",
+            )
         )
         return frame
 

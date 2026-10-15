@@ -386,7 +386,11 @@ terms, read in a browser on 8 October 2026, put its texts under CC BY-NC-ND
 4.0, which lets the contents of a database be shared for non-commercial
 purposes, unchanged (`docs/sources.md` 2.23). Over the 18 months both cover,
 the German average is 0.10 EUR/t above the Commission's on average and 1.40 at
-most. After DEHSt's last month, August 2026, 82.31 EUR/t, that month is held,
+most (revised 15 October 2026: DEHSt's reports are now read from 2019, and
+over the 76 months both cover, February 2019 to June 2025, the German average
+is 0.29 EUR/t above the Commission's on average, 0.61 in absolute terms and
+2.41 at most, in August 2022, the month of the European gas crisis's peak).
+After DEHSt's last month, August 2026, 82.31 EUR/t, that month is held,
 labelled an assumption, and the result is shown at 61 and 86 EUR/t, the range
 of 2025 the Commission's electricity market report for the fourth quarter of
 2025 prints for a secondary market price. Should DEHSt or EEX object, the

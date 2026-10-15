@@ -67,10 +67,135 @@ TABLE_2026 = "\n".join([
 ]).format(e=EURO)
 
 
+# The year table of the fourth quarter 2019 report, as its text layer reads.
+TABLE_2019 = "\n".join([
+    "Table 2: Overview of the entire year 2019",
+    "Auction Cover Successful",
+    "Month Type Bid volume Bidders Price Revenue",
+    "volume ratio bidders",
+    "February EUA 12,836,000 26,410,500 *2.06 *27 *22 *{e} 20.75 {e} 266,347,000",
+    "March EUA 16,045,000 28,360,000 *1.77 *23 *17 *{e} 21.89 {e} 351,160,870",
+    "April EUA 9,627,000 14,028,500 *1.46 *19 *16 *{e} 25.89 {e} 249,275,120",
+    "May EUA 12,836,000 21,749,500 *1.70 *25 *20 *{e} 25.32 {e} 325,039,610",
+    "June EUA 12,836,000 22,891,500 *1.78 *21 *16 *{e} 25.05 {e} 321,477,620",
+    "July EUA 12,836,000 27,407,000 *2.14 *24 *17 *{e} 27.69 {e} 355,396,750",
+    "August EUA 8,022,500 19,342,500 *2.41 *23 *16 *{e} 27.14 {e} 217,762,740",
+    "September EUA 11,338,000 21,900,000 *1.93 *22 *17 *{e} 25.79 {e} 292,378,675",
+    "EUA 11,338,000 17,177,000 *1.51 *19 *16 *{e} 24.38 {e} 276,448,785",
+    "October",
+    "EUAA 801,500 2,377,000 *2.97 *9 *5 *{e} 22.32 {e} 17,889,480",
+    "November EUA 14,172,500 25,107,500 *1.77 *19 *14 *{e} 24.62 {e} 348,898,605",
+    "December EUA 5,674,500 9,652,000 ** 1.70 * 20 * 15 ** 25,02 {e} {e} 141,949,350",
+    "Total 128,363,000 236,403,000 **1.84 *22 *17 **{e} 24.65 {e} 3,164,024,605",
+    "Source: EEX, DEHSt",
+]).format(e=EURO, r=chr(0xFFFD))
+
+# The year table of the fourth quarter 2020 report, as its text layer reads.
+TABLE_2020 = "\n".join([
+    "Table 2: Overview of the entire year 2020",
+    "Auction Successful",
+    "Month Type Bid volume Cover ratio Bidders Price Revenue",
+    "volume bidders",
+    "January EUA 9,452,000 19,601,500 *2.07 *25 *19 *{e} 24.36 {e} 230,274,350",
+    "February EUA 9,452,000 22,171,500 *2.35 *25 *15 *{e} 24.01 {e} 226,966,150",
+    "March EUA 9,452,000 19,980,000 *2.12 *21 *15 *{e} 19.76 {e} 186,771,520",
+    "April EUA 7,089,000 13,023,500 *1.84 *21 *14 *{e} 20.09 {e} 142,394,380",
+    "May EUA 7,089,000 12,611,500 *1.78 *21 *12 *{e} 20.03 {e} 142,016,300",
+    "June EUA 9,452,000 16,015,000 *1.69 *18 *13 *{e} 23.43 {e} 221,483,990",
+    "July EUA 11,815,000 22,225,500 *1.88 *21 *13 *{e} 26.88 {e} 317,539,940",
+    "August EUA 4,731,500 10,316,500 *2.18 *20 *15 *{e} 26.57 {e} 125,720,255",
+    "September EUA 10,372,000 18,885,000 *1.82 *27 *20 *{e} 27.85 {e} 288,886,130",
+    "EUA 12,965,000 23,554,000 *1.82 24 18 *{e} 25.19 {e} 326,562,420",
+    "October",
+    "EUAA 769,000 2,307,000 3.00 10 5 *{e} 26.76 {e} 20,578,440",
+    "November EUA 10,372,000 21,889,000 *2.11 *27 *17 *{e} 26.64 {e} 276,258,220",
+    "December EUA 5,191,500 8,759,500 **1.69 *25 *15 **{e} 30.23 {e} 156,914,325",
+    "Total 108,202,000 211,339,500 **1{r}95 *22 *15 **{e} 24{r}61 {e} 2,662,366,420",
+    "Source: EEX, DEHSt",
+]).format(e=EURO, r=chr(0xFFFD))
+
+# The year table of the fourth quarter 2021 report, as its text layer reads.
+TABLE_2021 = "\n".join([
+    "Table 2: Overview of the entire year 2021",
+    "Auction Cover Successful",
+    "Month Type Bid volume Bidders Price Revenue",
+    "volume ratio bidders",
+    "January EUA 2,651,000 4,208,000 1.59 27 19 {e} 33.51 {e} 88,835,010",
+    "February EUA 10,604,000 19,908,500 *1.88 *26 *20 *{e} 37.82 {e} 401,043,280",
+    "March EUA 10,604,000 17,754,500 *1.67 *24 *20 *{e} 40.59 {e} 430,442,870",
+    "April EUA 10,604,000 16,994,000 *1.60 *24 *19 *{e} 45.44 {e} 481,872,270",
+    "May EUA 7,953,000 13,982,000 *1.76 *25 *19 *{e} 51.08 {e} 406,265,750",
+    "June EUA 10,604,000 17,539,500 *1.66 *26 *19 *{e} 52.47 {e} 556,365,370",
+    "July EUA 13,255,000 19,514,000 *1.47 *23 *17 *{e} 53.48 {e} 708,930,420",
+    "August EUA 5,305,000 11,509,500 **2.17 *20 *15 **{e} 56.06 {e} 297,389,395",
+    "September EUA 7,220,000 12,426,500 *1.72 *22 *15 *{e} 60.99 {e} 440,311,700",
+    "EUA 9,025,000 17,563,500 *1.95 *21 *14 *{e} 60.37 {e} 544,875,350",
+    "October",
+    "EUAA 600,000 1,785,000 2,98 8 4 {e} 58.75 {e} 35,250,000",
+    "November EUA 7,220,000 12,178,000 *1.69 *20 *16 *{e} 66.44 {e} 479,660,700",
+    "December EUA 5,417,500 8,310,000 **1.53 *22 *16 **{e} 80.28 {e} 434,921,825",
+    "Total 101,062,500 173,673,000 **1{r}72 *23 *17 **{e} 52{r}50 {e} 5{r}306{r}163{r}940",
+    "Source: EEX, DEHSt",
+]).format(e=EURO, r=chr(0xFFFD))
+
+# The year table of the fourth quarter 2022 report, as its text layer reads.
+TABLE_2022 = "\n".join([
+    "Table 2: Overview of the entire year 2022",
+    "Auction Successful",
+    "Month Type Bid volume Cover ratio Bidders Price Revenue",
+    "volume bidders",
+    "January EUA 5,832,000 7,951,500 *1.36 *21 *19 *{e} 84.93 {e} 495,331,200",
+    "February EUA 7,776,000 12,599,000 *1.62 *21 *16 *{e} 89.80 {e} 698,245,920",
+    "March EUA 7,776,000 20,001,500 *2.57 *21 *13 *{e} 75.36 {e} 585,979,920",
+    "April EUA 7,776,000 20,026,000 *2.58 *21 *16 *{e} 82.12 {e} 638,545,680",
+    "May EUA 5,832,000 15,149,000 *2.60 *20 *17 *{e} 86.89 {e} 506,742,480",
+    "June EUA 5,832,000 13,969,500 *2.40 *19 *14 *{e} 82.21 {e} 479,448,720",
+    "July EUA 9,720,000 20,459,500 *2.11 *19 *16 *{e} 82.12 {e} 798,167,520",
+    "August EUA 3,898,000 10,337,000 **2.65 *16 *8 **{e} 89.56 {e} 349,095,160",
+    "September EUA 9,307,500 16,174,500 *1.74 *16 *13 *{e} 69.81 {e} 649,756,575",
+    "EUA 7,446,000 19,061,500 *2.56 *17 *14 *{e} 70.97 {e} 528,442,620",
+    "October",
+    "EUAA 586,500 1,178,000 2.01 6 4 {e} 68.62 {e} 40,245,630",
+    "November EUA 7,446,000 17,010,000 *2.29 *19 *14 *{e} 75.76 {e} 564,127,575",
+    "December EUA 5,588,500 12,830,500 **2.30 *18 *15 **{e} 85.63 {e} 478,515,760",
+    "Total 84,816,500 186,747,500 **2{r}20 *19 *14 **{e} 80{r}32 {e} 6,812,644,760",
+    "Source: EEX, DEHSt",
+]).format(e=EURO, r=chr(0xFFFD))
+
+# The year table of the fourth quarter 2023 report, as its text layer reads.
+TABLE_2023 = "\n".join([
+    "Table 2: Overview of the entire year 2023",
+    "Auction Cover Successful",
+    "Month Type Bid volume Bidders Price Revenue",
+    "volume ratio bidders",
+    "January EUA 5,818,500 12,115,000 *2.08 *22 *18 *{e} 81.38 {e} 473,509,530",
+    "February EUA 7,758,000 16,890,500 *2.18 *19 *14 *{e} 92.59 {e} 718,332,615",
+    "March EUA 9,697,500 21,638,500 *2.23 *19 *15 *{e} 89.43 {e} 867,286,215",
+    "April EUA 5,818,500 12,986,000 *2.23 *21 *16 *{e} 88.30 {e} 513,773,550",
+    "May EUA 5,818,500 14,379,000 *2.47 *21 *12 *{e} 84.05 {e} 489,064,320",
+    "June EUA 9,697,500 20,552,500 *2.12 *21 *12 *{e} 84.96 {e} 823,938,390",
+    "July EUA 7,758,000 16,591,000 *2.14 *19 *13 *{e} 86.76 {e} 673,045,290",
+    "August EUA 3,886,500 11,816,000 **3.04 *18 *9 **{e} 84.93 {e} 330,074,450",
+    "September EUA 10,735,000 23,176,000 *2.16 *20 *15 *{e} 82.82 {e} 889,072,700",
+    "EUA 8,588,000 16,723,000 *1.95 *21 *16 *{e} 81.29 {e} 698,118,520",
+    "October",
+    "EUAA 907,000 1,950,500 2.15 13 12 {e} 81.72 {e} 74,120,040",
+    "November EUA 8,588,000 14,467,500 *1.68 *22 *17 *{e} 76.82 {e} 659,687,220",
+    "December EUA 6,445,000 11,742,500 **1.82 *20 *17 **{e} 69.30 {e} 446,606,230",
+    "Total 91,516,000 195,028,000 **2.13 *20 *14 **{e} 83.66 {e} 7,656,629,070",
+    "Source: EEX, DEHSt",
+]).format(e=EURO, r=chr(0xFFFD))
+
+
+EARLIER = {(2019, "Q4"): TABLE_2019, (2020, "Q4"): TABLE_2020, (2021, "Q4"): TABLE_2021,
+           (2022, "Q4"): TABLE_2022, (2023, "Q4"): TABLE_2023}
+
+
 def test_the_latest_report_of_each_year_is_chosen():
     links = dehst.report_links(PAGE)
     chosen = dehst.latest_per_year(links)
-    assert {year: report for year, (report, _url) in chosen.items()} == {2024: "Q4", 2025: "Q4", 2026: "08"}
+    assert {year: report for year, (report, _url) in chosen.items()} == {
+        2019: "Q4", 2020: "Q4", 2021: "Q4", 2022: "Q4", 2023: "Q4", 2024: "Q4", 2025: "Q4", 2026: "08"}
     assert chosen[2026][1].startswith("https://www.dehst.de/SharedDocs/downloads/EN/auctioning/2026/2026_report_08.pdf")
     # A quarter counts to its third month: the report for August beats the second quarter.
     assert dehst.latest_per_year({(2026, "Q2"): "a", (2026, "08"): "b", (2026, "07"): "c"}) == {2026: ("08", "b")}
@@ -158,23 +283,59 @@ TABLE_2025 = "\n".join([
 
 
 def test_the_adapter_reads_one_report_per_year(sandbox):
-    adapter = dehst.DehstEuaGermanAuctionMonthly(page=PAGE, reports={
-        (2024, "Q4"): TABLE_2024, (2025, "Q4"): TABLE_2025, (2026, "08"): TABLE_2026,
-    })
+    reports = {**EARLIER, (2024, "Q4"): TABLE_2024, (2025, "Q4"): TABLE_2025, (2026, "08"): TABLE_2026}
+    adapter = dehst.DehstEuaGermanAuctionMonthly(page=PAGE, reports=reports)
     entry = adapter.run()
-    assert entry["status"] == "ok" and entry["observations"] == 32
-    assert entry["vintage"] == "2024_report_Q4, 2025_report_Q4, 2026_report_08"
+    assert entry["status"] == "ok" and entry["observations"] == 11 + 12 * 6 + 8
+    assert entry["vintage"] == ("2019_report_Q4, 2020_report_Q4, 2021_report_Q4, 2022_report_Q4, "
+                                "2023_report_Q4, 2024_report_Q4, 2025_report_Q4, 2026_report_08")
     assert "proxy for the EU price" in adapter.note and "non-commercial" in adapter.note
+    assert "8 report(s) read this run" in adapter.note
     frame = base.read_cache("dehst_eua_german_auction_monthly")
-    assert frame["report"].value_counts().to_dict() == {"2024_report_Q4": 12, "2025_report_Q4": 12, "2026_report_08": 8}
+    assert frame["report"].value_counts().to_dict() == {
+        "2019_report_Q4": 11, "2020_report_Q4": 12, "2021_report_Q4": 12, "2022_report_Q4": 12,
+        "2023_report_Q4": 12, "2024_report_Q4": 12, "2025_report_Q4": 12, "2026_report_08": 8}
+    # a second run reads only a year with a later report than the cache holds
+    again = dehst.DehstEuaGermanAuctionMonthly(page=PAGE, reports={(2026, "08"): TABLE_2026})
+    again.reports = {}  # nothing may be asked for
+    entry = again.run()
+    assert entry["observations"] == 11 + 12 * 6 + 8
+    assert "nothing read this run" in again.note
+
+
+def test_the_2019_table_starts_in_february_and_reads_the_odd_december_row():
+    frame = dehst.parse_year_table(TABLE_2019, year=2019, report="Q4").set_index("date")
+    assert len(frame) == 11
+    assert frame.index.min() == pd.Timestamp("2019-02-01")
+    assert frame.loc[pd.Timestamp("2019-02-01"), "eua_eur_t"] == 20.75
+    # October's aviation allowances are left out, and taken out of the Total row
+    assert frame.loc[pd.Timestamp("2019-10-01"), "eua_eur_t"] == 24.38
+    assert frame.loc[pd.Timestamp("2019-10-01"), "auction_volume"] == 11338000
+    assert frame["auction_volume"].sum() == 127561500
+    # December's price is printed "25,02" with two euro signs
+    assert frame.loc[pd.Timestamp("2019-12-01"), "eua_eur_t"] == 25.02
+    assert frame.loc[pd.Timestamp("2019-12-01"), "anomaly"] == "price printed as '25,02'"
+    assert frame.loc[pd.Timestamp("2019-12-01"), "average"] == "volume weighted"
+
+
+def test_the_2020_to_2023_tables_read_twelve_months_each():
+    for year, table in ((2020, TABLE_2020), (2021, TABLE_2021), (2022, TABLE_2022), (2023, TABLE_2023)):
+        frame = dehst.parse_year_table(table, year=year, report="Q4")
+        assert len(frame) == 12 and frame["date"].dt.month.tolist() == list(range(1, 13))
+    assert dehst.parse_year_table(TABLE_2021, year=2021, report="Q4").set_index("date").loc[pd.Timestamp("2021-12-01"), "eua_eur_t"] == 80.28
 
 
 def test_the_committed_series_and_its_overlap_with_the_commission():
     german = base.read_cache("dehst_eua_german_auction_monthly").set_index("date")["eua_eur_t"]
-    assert german.index.min() == pd.Timestamp("2024-01-01")
+    assert german.index.min() == pd.Timestamp("2019-02-01")
     assert german[pd.Timestamp("2025-07-01")] == 70.01
     common = base.read_cache("ec_eua_auction_monthly").set_index("date")["eua_eur_t"].dropna()
     both = pd.concat([common.rename("eu"), german.rename("de")], axis=1).dropna()
     gap = (both["de"] - both["eu"]).round(2)
-    assert len(both) == 18
-    assert round(gap.mean(), 2) == 0.10 and round(gap.abs().mean(), 2) == 0.64 and gap.abs().max() == 1.40
+    assert len(both) == 76
+    assert both.index.min() == pd.Timestamp("2019-02-01") and both.index.max() == pd.Timestamp("2025-06-01")
+    assert round(gap.mean(), 2) == 0.29 and round(gap.abs().mean(), 2) == 0.61 and gap.abs().max() == 2.41
+    assert gap.abs().idxmax() == pd.Timestamp("2022-08-01")
+    recent = gap[gap.index >= pd.Timestamp("2024-01-01")]
+    assert len(recent) == 18
+    assert round(recent.mean(), 2) == 0.10 and round(recent.abs().mean(), 2) == 0.64 and recent.abs().max() == 1.40

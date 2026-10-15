@@ -122,7 +122,7 @@ of January).
 | JOGMEC arrival-based price | April 2023 | from cargoes contracted and delivered in the month to cargoes delivered in the month whenever contracted |
 | ACER DES assessments | January to March 2023 | NWE priced from 19 January 2023, SE from 20 January, the EU from 8 March, the EU benchmark to TTF from 31 March |
 | EU allowance price | January 2014 | the first month the Commission's reports print in a monthly table; the 2013 reports print no monthly figure |
-| EU allowance price | after June 2025 | the Commission's latest auction report ends there; DEHSt's average of the German auctions stands in, a proxy 0.10 EUR/t above the Commission's on average over the 18 months both cover |
+| EU allowance price | after June 2025 | the Commission's latest auction report ends there; DEHSt's average of the German auctions stands in, a proxy 0.29 EUR/t above the Commission's on average over the 76 months both cover, February 2019 to June 2025, and 0.10 over 2024 to June 2025 |
 
 ### 5.1 The weekly series checked against itself
 

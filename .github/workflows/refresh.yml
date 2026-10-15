@@ -63,7 +63,7 @@ jobs:
         id: fetch
         run: |
           python scripts/refresh.py --only eia-weekly --only eia-tables --only worldbank \
-            --only eua --only h10 --only sofr --only sdr --only seeds > refresh.log 2>&1
+            --only eua --only h10 --only rates --only sdr --only seeds > refresh.log 2>&1
           cat refresh.log
 
       # The committed manifest is the one the offline pass writes from the

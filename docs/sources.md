@@ -28,7 +28,7 @@ was decided on the strength of it.
 | `eia_henry_hub_daily` | Henry Hub spot price, daily, USD/MMBtu, credited by EIA to Refinitiv | [RNGWHHDd.xls](https://www.eia.gov/dnav/ng/hist_xls/RNGWHHDd.xls) | weekly release, daily values | **yes**, with the doubt in 2.1 | US public domain |
 | `acer_lng_daily` | ACER's DES LNG assessments for NWE, SE and the EU, its EU benchmark to TTF, and the NWE spread to TTF this study computes from them, daily, EUR/MWh, from 19 January 2023 | TERMINAL's historical download, saved by hand, with the [correction notice](https://www.acer.europa.eu/sites/default/files/documents/en/Gas/LNG_Price_Assessment/LNGPA_Correction_Notice_20241220.pdf) | each weekday; extended when the download is saved again | **yes** | ACER legal notice, with the doubt in 2.7 |
 | `ec_eua_auction_monthly` | EU allowance price, monthly volume weighted average auction clearing price, EUR/t, January 2014 to June 2025 | quarterly reports linked from the [Commission's auctioning page](https://climate.ec.europa.eu/areas-action/carbon-markets/eu-emissions-trading-system-eu-ets/auctioning-allowances_en) | quarterly, lagging | **yes** | CC BY 4.0, with the doubt in 2.8 |
-| `dehst_eua_german_auction_monthly` | EU allowance price in Germany's auctions on EEX, monthly average, EUR/t, January 2024 to August 2026, the proxy after June 2025 | the latest report of each year linked from [DEHSt's reports page](https://www.dehst.de/EN/Topics/EU-ETS-1/EU-ETS-1-Information/Analyses-and-Reports/analysis-and-reports_node.html) | monthly, about a month after | **yes**, for non-commercial use, with the doubt in 2.23 | CC BY-NC-ND 4.0, figures credited to EEX and DEHSt |
+| `dehst_eua_german_auction_monthly` | EU allowance price in Germany's auctions on EEX, monthly average, EUR/t, February 2019 to August 2026, the proxy after June 2025 | the latest report of each year linked from [DEHSt's reports page](https://www.dehst.de/EN/Topics/EU-ETS-1/EU-ETS-1-Information/Analyses-and-Reports/analysis-and-reports_node.html) | monthly, about a month after | **yes**, for non-commercial use, with the doubt in 2.23 | CC BY-NC-ND 4.0, figures credited to EEX and DEHSt |
 | `meti_spot_lng_monthly` | Japan spot LNG price, DES, contract-based and arrival-based, monthly, March 2014 to March 2021 | [historical-data-e.xlsx](https://www.meti.go.jp/english/statistics/sho/slng/historical-data-e.xlsx), read once | ended | **yes** | METI terms, compatible with CC BY 4.0 |
 | `meti_spot_lng_releases` | Every figure METI's monthly releases printed, preliminary, detailed and fixed, with the day of each release, for the releases of October 2019 to March 2021 | the release PDFs, saved by hand from [METI's page](https://www.meti.go.jp/english/statistics/sho/slng/index.html) | fixed, the survey has ended | **yes** | METI terms of use, compatible with CC BY 4.0 |
 | `jogmec_spot_lng_monthly` | Japan spot LNG price, DES, contract-based and arrival-based, monthly, from April 2021 | one page per month from JOGMEC's English spot price list page | monthly, 9th to 15th | **NO**, `data/private/` until JOGMEC permits | JOGMEC terms, permission not yet requested |
@@ -36,7 +36,7 @@ was decided on the strength of it.
 | `worldbank_gas_revisions` | Every value a Pink Sheet release changed, both releases side by side | derived by this study | with each release that changes a value | **yes** | CC BY 4.0 |
 | `h10_usd_per_eur_daily` | US dollars per euro, noon buying rate in New York, daily, from 4 January 1999, the euro's first day | [FRB_h10_xml.zip](https://www.federalreserve.gov/releases/h10/data/FRB_h10_xml.zip) | weekly, Mondays | **yes** | US public domain |
 | `nyfed_sofr_daily` | Secured Overnight Financing Rate, daily, percent, from 2 April 2018 | [markets API](https://markets.newyorkfed.org/api/rates/secured/sofr/search.json) | daily, next business day | **yes**, under the New York Fed's terms | New York Fed Terms of Use |
-| `nyfed_effr_daily` | Effective federal funds rate, daily, percent, 4 January 2016 to 30 April 2018, the overnight rate before SOFR | [markets API](https://markets.newyorkfed.org/api/rates/unsecured/effr/search.json) | closed | **yes**, under the New York Fed's terms | New York Fed Terms of Use |
+| `frb_h15_effr_daily` | Effective federal funds rate, daily, percent, from 1 July 1954, the overnight rate before SOFR, read from the Board's H.15 | [FRB_h15_xml.zip](https://www.federalreserve.gov/releases/h15/data/FRB_h15_xml.zip) | daily, next business day | **yes** | US public domain |
 | `imf_usd_per_sdr_daily` | US dollars per special drawing right, daily, from July 1974, the IMF's rate as the Bundesbank republishes it, for the Suez toll | [Bundesbank API](https://api.statistiken.bundesbank.de/rest/download/BBEX3/D.USD.XDR.DA.AC.000?format=csv&lang=en) | daily | **yes**, with the IMF credited (2.20) | IMF terms for its data |
 | `freight_anchors` | Reported LNG carrier charter rates, USD per day, ten figures from February 2022 to October 2026, one per month at most, each from a dated article | written from rows kept in `lngarb.freight_anchors`; nothing fetched | as figures are verified | **yes**, figures only (2.13, 2.14) | individual figures quoted with attribution |
 | `routes` | The four sea routes from Sabine Pass, distances and lines | computed once by `scripts/routes.py` | fixed | **yes** | distances: this study, MIT; lines: EUPL 1.2; searoute Apache 2.0 |
@@ -1020,6 +1020,17 @@ S&P Global's own pages are never requested (2.14).
   the Europe series at 0.38 in January 1964. The Japan series opens in January
   1977. The study's monthly history starts in 2016; the earlier decades are the
   long view, under the definitions the Description sheet gives for each span.
+* **The early decades of the monthly workbook are annual figures repeated**
+  in every month of the year: the US column to 1975, the Europe column to
+  1990 and the Japan column to 1991, which the annual workbook confirms (its
+  values equal the monthly means). Genuine monthly observations begin in
+  January 1976, January 1991 and January 1992. No monthly statistic is
+  computed on the repeated spans; the Description sheet defines the Europe
+  column only from June 2000.
+* **The dataset terms** are read at
+  `https://www.worldbank.org/ext/en/legal/terms-conditions/datasets`, which
+  prescribes the attribution "The World Bank: Dataset name: Data source (if
+  known)"; the credits follow that form.
 
 ### 3.5 Federal Reserve H.10
 
@@ -1184,10 +1195,22 @@ S&P Global's own pages are never requested (2.14).
 ### 3.10.1 DEHSt's auctioning reports
 
 * **German auctions only, a proxy for the EU price.** Germany auctions its
-  share weekly on EEX, apart from the common auction platform. Over the 18
-  months both cover, January 2024 to June 2025, the German average is 0.10
-  EUR/t above the Commission's on average, 0.64 EUR/t in absolute terms and
-  1.40 EUR/t at most (May 2024). Used only after the Commission's last month.
+  share weekly on EEX, apart from the common auction platform. Over the 76
+  months both cover, February 2019 to June 2025, the German average is 0.29
+  EUR/t above the Commission's on average, 0.61 EUR/t in absolute terms and
+  2.41 EUR/t at most (August 2022); over January 2024 to June 2025, 0.10, 0.64
+  and 1.40 EUR/t (May 2024). Used only after the Commission's last month.
+* **Reports from 2019 are read**, the first year the page links under the
+  file names read here; 2019's table starts in February, when the German
+  auctions resumed after the cancelled auctions of late 2018. The 2019 to
+  2023 tables print a space after the asterisks that mark an average, a comma
+  for the decimal point now and then (a cover ratio of "2,98"), and once,
+  December 2019, the price as "25,02" followed by two euro signs, which is read
+  as 25.02 and noted in `anomaly`. Their Total rows count the aviation
+  allowances of October with the general ones, so the aviation volume is taken
+  out before the months are checked against the total.
+* **One report a year is fetched, and only when it is newer** than the one
+  the committed cache read for that year; the other years' rows stand.
 * **The average changes kind.** A month marked "*" is a simple average of its
   auctions, "**" a volume weighted one (August and December of each year read);
   the `average` column keeps the mark.

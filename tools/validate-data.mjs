@@ -548,7 +548,8 @@ const EMOJI = new RegExp(
 // The words a trace is made of are not written here, even in pieces: each is
 // held as the SHA-256 digest of the word, or of the two word phrase, and every
 // word and every pair of neighbouring words of a line is digested and looked
-// up. A reader of this file learns that something is forbidden, not what.
+// up. A reader of this file learns that something is forbidden, not what,
+// short of guessing words and digesting them.
 const digest = (s) => createHash("sha256").update(s).digest("hex");
 const DIGESTS = new Set([
   // single words and two word phrases, matched without regard to case
