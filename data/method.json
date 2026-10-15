@@ -25,6 +25,8 @@
    "usd": 0,
    "bp": 0,
    "share": 2,
+   "tco2_per_t": 3,
+   "slip_percent": 1,
    "boil_off_percent": 3,
    "fill_percent": 1,
    "mmbtu_per_m3": 2,

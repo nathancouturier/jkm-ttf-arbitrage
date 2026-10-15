@@ -130,7 +130,8 @@ def _clean(value: Any, places: int | None = None) -> Any:
 
 
 def inputs_json(inputs) -> dict[str, Any]:
-    """The engine's inputs as src/engine.js reads them (the same contract as data/fixtures/engine-cases.json)."""
+    """The engine's inputs as src/engine.js reads them (the same contract as data/fixtures/engine-cases.json),
+    with the methane slip the preset runs, none, as the share in percent the calculator's field types."""
     out = {
         "day": inputs.day.isoformat(),
         "vessel": asdict(inputs.vessel),
@@ -143,6 +144,7 @@ def inputs_json(inputs) -> dict[str, Any]:
                  "liquefaction_fee", "port_west_usd", "port_east_usd", "rate_percent", "spread_bp", "eua_usd_t",
                  "ets_phase", "tco2_per_t_lng", "mmbtu_per_t_lng", "ets_voyage_share", "ets_berth_share"):
         out[name] = getattr(inputs, name)
+    out["methane_slip_percent"] = 0.0
     return out
 
 

@@ -25,6 +25,8 @@
    "usd": 0,
    "bp": 0,
    "share": 2,
+   "tco2_per_t": 3,
+   "slip_percent": 1,
    "boil_off_percent": 3,
    "fill_percent": 1,
    "mmbtu_per_m3": 2,
@@ -2068,7 +2070,8 @@
   "tco2_per_t_lng": 2.77915,
   "mmbtu_per_t_lng": 51.56,
   "ets_voyage_share": 0.5,
-  "ets_berth_share": 1.0
+  "ets_berth_share": 1.0,
+  "methane_slip_percent": 0.0
  },
  "result": {
   "day": "2026-10-07",

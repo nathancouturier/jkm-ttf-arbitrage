@@ -89,6 +89,8 @@ LIMITS: Mapping[str, tuple[float, float]] = {
     "mmbtu_per_m3": (15.0, 30.0),
     "mmbtu_per_t_lng": (40.0, 60.0),
     "hh_multiple_percent": (0.0, 200.0),
+    "tco2_per_t_lng": (0.0, 10.0),
+    "methane_slip_percent": (0.0, 10.0),
 }
 
 PRESETS: tuple[Preset, ...] = (
@@ -119,6 +121,7 @@ PARAMETER_SOURCES: Mapping[str, str] = {
     "mmbtu_per_t_lng": "mmbtu_per_t_lng",
     "ets_voyage_share": "ets_voyage_share",
     "ets_berth_share": "ets_berth_share",
+    "tco2_per_t_lng": "tco2_per_t_lng",
 }
 
 #: The ship's own parameters, per ship, by the key the page uses.
@@ -238,6 +241,14 @@ def _source_words(inputs: Inputs) -> dict[str, str]:
     phases = config.PARAMETERS["ets_phase_in_by_year"]
     words["ets_phase"] = reader.dates_in_words(
         phases.source + "; the voyage's days in each calendar year at that year's share, until a share is typed")
+    slip = config.PARAMETERS
+    words["methane_slip_percent"] = reader.dates_in_words(
+        "this study: off unless a share is typed; the regulation's defaults are %s percent for a slow speed "
+        "Otto engine, the two-stroke's class, and %s for a medium speed Otto, the TFDE's (%s); from %s the "
+        "slipped share counts as methane at its warming potential of %s and leaves the carbon dioxide and "
+        "nitrous oxide of the gas burnt, before then it only leaves them"
+        % (format(100 * slip["methane_slip_174k"].value, "g"), format(100 * slip["methane_slip_160k"].value, "g"),
+           slip["methane_slip_174k"].source, slip["ets_ch4_n2o_from"].value, format(slip["gwp_ch4"].value, "g")))
     return words
 
 
@@ -378,6 +389,16 @@ def model_document(latest_day: date, latest_prices: str,
         "part_words": dict(reader.PART_WORDS),
         "part_words_premium": reader.regas_words(1.0)["part"],
         "units": {"mmbtu_per_mwh": units.MMBTU_PER_MWH, "percent_per_one": 100.0},
+        "carbon": {
+            "tco2_per_t_lng": config.PARAMETERS["tco2_per_t_lng"].value,
+            "tn2o_per_t_lng": config.PARAMETERS["tn2o_per_t_lng"].value,
+            "gwp_ch4": config.PARAMETERS["gwp_ch4"].value,
+            "gwp_n2o": config.PARAMETERS["gwp_n2o"].value,
+            "ch4_n2o_from": config.PARAMETERS["ets_ch4_n2o_from"].value,
+            "words": "The carbon factor the EU ETS counts per tonne of LNG burnt: carbon dioxide at every date, "
+                     "with nitrous oxide and the methane slipped from the day methane counts; a slip typed "
+                     "reworks the factor for the preset's date, as the Python engine does.",
+        },
         "limits": dict(LIMITS),
         "checks": named_edits(latest_day, latest_prices, [p["id"] for p in presets]),
         "title_segments": [reader.T("The calculator: every input of a cargo loading at Sabine Pass, and what it nets "
@@ -435,11 +456,18 @@ NAMED_EDITS: tuple[tuple[str, str, tuple[dict[str, Any], ...]], ...] = (
      ({"key": "mmbtu_per_m3", "value": 22.0}, {"key": "mmbtu_per_t_lng", "value": 50.0})),
     ("every voyage emission counted and none at berth", "latest",
      ({"key": "ets_voyage_share", "value": 1.0}, {"key": "ets_berth_share", "value": 0.0})),
+    ("a methane slip of 1.7 percent, counted as methane from 2026", "latest",
+     ({"key": "methane_slip_percent", "value": 1.7},)),
+    ("a methane slip of 3.1 percent in March 2024, before methane counted", "march_2024",
+     ({"key": "methane_slip_percent", "value": 3.1},)),
+    ("three tonnes of carbon dioxide equivalent per tonne of LNG burnt", "latest",
+     ({"key": "tco2_per_t_lng", "value": 3.0},)),
+    ("a slip of twelve percent, refused", "latest", ({"key": "methane_slip_percent", "value": 12.0},)),
 )
 
 _SCALARS = ("jkm", "ttf", "delta_nwe", "henry_hub", "liquefaction_fee", "hire_usd_day", "port_west_usd",
             "port_east_usd", "rate_percent", "spread_bp", "mmbtu_per_m3", "mmbtu_per_t_lng", "ets_voyage_share",
-            "ets_berth_share")
+            "ets_berth_share", "tco2_per_t_lng")
 
 
 def refusal(key: str, value: float) -> str | None:
@@ -507,6 +535,12 @@ def apply_edits(inputs: Inputs, edits: Sequence[Mapping[str, Any]], *, usd_per_e
             out = replace(out, vessel=replace(out.vessel, **{key: usable(edit)}))
         elif key == "ets_phase":
             out = replace(out, ets_by_year=None, ets_phase=usable(edit))
+        elif key == "methane_slip_percent":
+            # The slipped share leaves the gas burnt and, from 2026, counts as
+            # methane: the carbon factor of the day, worked by lngarb.worked.
+            slip = usable(edit)
+            out = replace(out, tco2_per_t_lng=float("nan") if math.isnan(slip)
+                          else worked.ets_tco2e_per_t(out.day, slip=slip / 100.0))
 
     fx_edit = next((e for e in edits if e["key"] == "usd_per_eur"), None)
     fx = usable(fx_edit) if fx_edit else usd_per_eur

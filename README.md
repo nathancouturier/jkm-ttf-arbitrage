@@ -70,7 +70,7 @@ Read this part first.
   data of their dates, the landing sentence recomposed as you type.
   `src/engine.js` mirrors `src/lngarb/engine.py` and is held to it to 1e-9 on
   254 cases, and the calculator's own handling of edits is held to its Python
-  reading on 23 named edits.
+  reading on 27 named edits.
 - **Routes, history and flows.** A map of the four routes drawn from the
   lines their distances are measured on, with when each was open to a US
   cargo, band by band with its source; every week since September 2021 and

@@ -43,7 +43,9 @@ export function present(value) {
  *   boil_off_percent, fill_percent, load_days, discharge_days, port_west_usd,
  *   port_east_usd, eua_eur_t, ets_phase, ets_voyage_share, ets_berth_share,
  *   rate_percent, spread_bp, mmbtu_per_m3, mmbtu_per_t_lng,
- *   hh_multiple_percent
+ *   hh_multiple_percent, tco2_per_t_lng, methane_slip_percent (a share of
+ *   the gas not burnt, reworked into tco2_per_t_lng for the preset's date
+ *   with model.carbon, as lngarb.worked.ets_tco2e_per_t does)
  *   per route: open (true or false), laden_sea_days, ballast_sea_days (null:
  *   an empty field, the days from the distance; NaN: missing), flex_days,
  *   ballast_route (a route id, or the route's own), canal_laden_usd,
@@ -54,7 +56,18 @@ export function present(value) {
 
 const SCALARS = Object.freeze(["jkm", "ttf", "delta_nwe", "henry_hub", "liquefaction_fee", "hire_usd_day",
   "port_west_usd", "port_east_usd", "rate_percent", "spread_bp", "mmbtu_per_m3", "mmbtu_per_t_lng",
-  "ets_voyage_share", "ets_berth_share"]);
+  "ets_voyage_share", "ets_berth_share", "tco2_per_t_lng"]);
+
+/** The carbon factor of a day with a share of the gas slipped: the carbon
+ *  dioxide of the gas burnt at every date; from the day methane counts, the
+ *  slipped share as methane at its warming potential and the nitrous oxide
+ *  of the gas burnt. The Python's lngarb.worked.ets_tco2e_per_t, step for step. */
+export function carbonFactor(carbon, day, slip) {
+  const burnt = 1 - slip;
+  let factor = carbon.tco2_per_t_lng * burnt;
+  if (day >= carbon.ch4_n2o_from) factor += slip * carbon.gwp_ch4 + burnt * carbon.tn2o_per_t_lng * carbon.gwp_n2o;
+  return factor;
+}
 const ROUTE_NUMBERS = Object.freeze(["flex_days", "canal_days", "wait_days", "canal_laden_usd", "canal_ballast_usd",
   "slot_premium_usd"]);
 
@@ -119,6 +132,9 @@ export function applyEdits(preset, edits, model) {
       // split by calendar year.
       inputs.ets_by_year = null;
       inputs.ets_phase = usable(edit);
+    } else if (edit.key === "methane_slip_percent") {
+      const slip = usable(edit);
+      inputs.tco2_per_t_lng = Number.isNaN(slip) ? Number.NaN : carbonFactor(model.carbon, inputs.day, slip / units.percent_per_one);
     }
   }
 
