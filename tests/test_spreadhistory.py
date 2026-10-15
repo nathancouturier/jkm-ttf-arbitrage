@@ -146,3 +146,42 @@ def test_the_ticks_fall_inside_their_range(history):
     for chart_range in page["weekly"]["ranges"]:
         assert all(chart_range["first"] <= t["day"] <= chart_range["last"] for t in chart_range["ticks"])
     assert all(page["monthly"]["first"] <= t["day"] <= page["monthly"]["last"] for t in page["monthly"]["ticks"])
+
+
+def test_the_parts_of_s_star_add_up_to_it_on_every_week_with_an_open_route(history):
+    weekly = history["page"]["weekly"]
+    counted = 0
+    for index, day in enumerate(weekly["day"]):
+        if day is None or weekly["route"][index] is None:
+            assert weekly["boil_off"][index] is None and weekly["regas"][index] is None and weekly["voyage"][index] is None
+            continue
+        total = weekly["boil_off"][index] + weekly["regas"][index] + weekly["voyage"][index]
+        assert abs(total - weekly["s_central"][index]) < 1e-5
+        counted += 1
+    assert counted > 200
+    for item in weekly["ranges"]:
+        values = _values(item["parts_heading_segments"])
+        assert abs(values["mean_boil_off"] + values["mean_regas"] + values["mean_voyage"] - values["mean_s"]) < 1e-5
+        assert item["parts_y"]["low"] <= values["mean_regas"] and values["mean_voyage"] <= item["parts_y"]["high"]
+
+
+def test_the_mixed_and_misaligned_weeks_of_each_range_are_counted_from_the_columns(history):
+    weekly = history["page"]["weekly"]
+    for item in weekly["ranges"]:
+        inside = [i for i, day in enumerate(weekly["day"]) if day is not None and item["first"] <= day <= item["last"]]
+        assert item["mixed_weeks"] == sum(weekly["alignment"][i] == "mixed" for i in inside)
+        assert item["misaligned_weeks"] == sum(weekly["alignment"][i] == "misaligned" for i in inside)
+    assert sum(a == "mixed" for a in weekly["alignment"]) > 0
+
+
+def test_the_events_are_lettered_in_order_of_day_and_each_has_a_source(history):
+    events = history["page"]["events"]
+    assert [e["letter"] for e in events] == [chr(ord("A") + i) for i in range(len(events))]
+    assert [e["day"] for e in events] == sorted(e["day"] for e in events)
+    for event in events:
+        assert event["what"].endswith(".") and event["source"]
+        assert event["dated_to"] in ("day", "month")
+        assert re.fullmatch(r"\d{4}-\d{2}-\d{2}", event["day"])
+    rules = history["page"]["event_rules"]
+    assert [r["day"] for r in rules] == [e["day"] for e in events]
+    assert all(r["letters"] == [e["letter"]] for r, e in zip(rules, events))

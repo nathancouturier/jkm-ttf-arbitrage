@@ -32,7 +32,7 @@ from typing import Any, Mapping, Sequence
 
 import pandas as pd
 
-from . import analysis, config, reader
+from . import analysis, config, events, reader
 
 __all__ = ["page", "ticks"]
 
@@ -102,6 +102,10 @@ def _points(rows: pd.DataFrame, frequency: str) -> list[dict[str, Any]]:
             "h_star": h_star,
             "series": central["series"],
             "alignment": central.get("alignment") if isinstance(central.get("alignment"), str) else None,
+            # the three parts of S* of the cheapest open route at the central hire
+            "boil_off": _finite(central[route + "_boil_off"]) if route else None,
+            "regas": _finite(central[route + "_regas"]) if route else None,
+            "voyage": _finite(central[route + "_voyage"]) if route else None,
         }
         reported = by.get("reported")
         if reported is not None:
@@ -261,6 +265,46 @@ def _routes_words(points: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
     return out + [reader.T(" of them. ")]
 
 
+def _parts_heading(points: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
+    """What S* was made of over the range: the mean of each part at the central hire."""
+    held = [p for p in points if p["boil_off"] is not None]
+    if not held:
+        return [reader.T("No week of the range has an open route east, so S* has no parts to show.")]
+    mean = lambda key: sum(p[key] for p in held) / len(held)  # noqa: E731
+    return [
+        reader.T("Over "), reader.N("weeks_with_parts", len(held), "count"),
+        reader.T(" weeks with an open route east, S* at the central hire was "),
+        reader.N("mean_s", mean("s_central"), "usd_mmbtu", signed=True),
+        reader.T(" $/MMBtu on average: "), reader.N("mean_boil_off", mean("boil_off"), "usd_mmbtu", signed=True),
+        reader.T(" for the gas the longer voyage burns, "),
+        reader.N("mean_regas", mean("regas"), "usd_mmbtu", signed=True),
+        reader.T(" for Europe's DES spread a cargo sold east escapes, and "),
+        reader.N("mean_voyage", mean("voyage"), "usd_mmbtu", signed=True),
+        reader.T(" for the voyage's extra cost."),
+    ]
+
+
+def _parts_desc(points: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
+    return [
+        reader.T("Three lines of the parts of S* of the cheapest open route east at the central hire, for each "
+                 "week from "), reader.D("first", points[0]["day"]), reader.T(" to "),
+        reader.D("last", points[-1]["day"]),
+        reader.T(": the gas the longer voyage burns, a thin line; Europe's DES spread the cargo escapes, a "
+                 "dashed line; and the voyage's extra cost, a dotted line; with S* itself, their sum, in ink."),
+    ]
+
+
+def _parts_caption() -> list[dict[str, Any]]:
+    return [
+        reader.T("S* is the sum of its three parts (the methodology's section on the breakeven spread): the "
+                 "gas part is what the longer voyage burns, priced at JKM; the regas part is the DES spread of "
+                 "Northwest Europe to TTF that a cargo sold east does not bear, so it falls when Europe's "
+                 "discount deepens; the voyage part is the extra hire, tolls, ports and financing of the "
+                 "voyage east over the voyage to Gate. The parts are those of the cheapest open route at the "
+                 "central hire, the route the dashed line of the first chart follows."),
+    ]
+
+
 def _weekly_desc(points: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
     return [
         reader.T("A line of JKM's premium over TTF for each week from "), reader.D("first", points[0]["day"]),
@@ -386,6 +430,12 @@ def page(rows: pd.DataFrame, breaks: pd.DataFrame, anchors: Sequence[Mapping[str
             "hstar_heading_segments": _hstar_heading(chosen),
             "hstar_desc_segments": _hstar_desc(chosen),
             "hstar_caption_segments": _hstar_caption(hstar, [a for a in anchors if start <= a["date"] <= stop]),
+            "parts_y": _domain([v for p in chosen for v in (p["s_central"], p["boil_off"], p["regas"], p["voyage"])]),
+            "parts_heading_segments": _parts_heading(chosen),
+            "parts_desc_segments": _parts_desc(chosen),
+            "parts_caption_segments": _parts_caption(),
+            "mixed_weeks": sum(p["alignment"] == "mixed" for p in chosen),
+            "misaligned_weeks": sum(p["alignment"] == "misaligned" for p in chosen),
             # The point in the accent: the latest rate reported inside the range.
             "accent_day": max((a["date"] for a in anchors if start <= a["date"] <= stop), default=None),
             "years": _by_year(chosen),
@@ -393,7 +443,7 @@ def page(rows: pd.DataFrame, breaks: pd.DataFrame, anchors: Sequence[Mapping[str
 
     weekly_gaps = _with_gaps(weekly, 7)
     keys = ("day", "spread", "s_low", "s_central", "s_high", "route", "h_star", "alignment", "reported_hire",
-            "reported_open")
+            "reported_open", "boil_off", "regas", "voyage")
     monthly_full = []
     observed = {p["day"].replace(day=1): p for p in monthly}
     month = monthly[0]["day"].replace(day=1)
@@ -407,11 +457,26 @@ def page(rows: pd.DataFrame, breaks: pd.DataFrame, anchors: Sequence[Mapping[str
                if r["month"].date() <= monthly[-1]["day"]]
     latest = max(a["date"] for a in anchors)
     meti_end = max(p["day"] for p in monthly if p["series"].startswith("meti"))
+    # The events, lettered in order of day, drawn as dotted rules where they
+    # fall inside a chart's span, and listed with their sources.
+    marked = [{**e, "day": date.fromisoformat(e["day"])} for e in events.lettered()]
+    event_rules = [{"day": e["day"], "letters": [e["letter"]]} for e in marked]
     return {
         "words": {
             "spread": "JKM over TTF", "reference": "S*, central hire", "band": "S*, low to high hire",
             "h_star": "H*, cheapest route", "reported": "Reported", "y_axis": "$/MMBtu",
             "hstar_axis": "thousand $/day",
+            "parts": {"total": "S*", "boil_off": "Gas burnt", "regas": "Europe's spread escaped",
+                      "voyage": "Voyage's extra cost"},
+            "parts_legend": "The ink line is S* at the central hire; the thin line, the gas the longer voyage "
+                            "burns; the dashed line, Europe's DES spread the cargo escapes; the dotted line, "
+                            "the voyage's extra cost.",
+            "marks_legend": "A full ring marks a week whose JKM and TTF front months name different delivery "
+                            "months on every trading day, a dashed ring one where they do on some; the "
+                            "numbered rules are the breaks in the data and the lettered rules the events "
+                            "listed under the charts.",
+            "events_caption": "Every event marked as a lettered rule: the day it took effect, what happened "
+                              "and the source. An event dated to a month is drawn on its first day.",
             "legend": "The ink line is JKM over TTF; the dashed line, S* at the central hire; the shaded band, S* "
                       "from the low to the high hire.",
             "hstar_legend": "The ink line is H* of the cheapest open route east; the rings are the charter rates "
@@ -441,6 +506,8 @@ def page(rows: pd.DataFrame, breaks: pd.DataFrame, anchors: Sequence[Mapping[str
         },
         "breaks": [{**item, "kind_words": KIND_WORDS[item["kind"]]} for item in numbered],
         "rules": rules,
+        "events": marked,
+        "event_rules": event_rules,
         "breaks_lead_segments": [
             reader.T("The numbered rules on the charts mark a change of price definition, of route, of ship or "
                      "of the EU ETS. A change of name alone, where the price runs on across it, is listed in the "

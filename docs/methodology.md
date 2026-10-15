@@ -849,12 +849,24 @@ nothing smoothed or fitted (`lngarb.spreadhistory`):
   when TTF stood far above JKM, to about a million, so the scale is drawn over
   the middle nine tenths of a range's values and every rate reported; each
   week beyond it is a short tick at the edge, counted under the chart.
+* **What S\* is made of.** Between the breakeven hire and the monthly panel,
+  the three parts of S\* of the cheapest open route at the central hire, week
+  by week, from 9.4: the gas the longer voyage burns, a thin line; Europe's
+  DES spread the cargo escapes, a dashed line; and the voyage's extra cost, a
+  dotted line; with S\* itself, their sum, in ink. Each range's heading gives
+  the mean of each part over its weeks with an open route.
 * **Marks.** Rings mark the weeks in which, by the futures calendars of 9.9,
-  the JKM and TTF front months name different delivery months; before the
-  futures of July 2022 the TTF price drawn was a spot or day-ahead price,
-  which names no delivery month, so there a ring marks the calendar, not the
-  prices. Numbered rules mark the breaks of 12.1 that change a
-  price's definition, a route, the ship or the EU ETS, listed with their
-  sources under the charts; a change of name alone is not drawn.
+  the JKM and TTF front months name different delivery months: a full ring
+  where they differ on every trading day of the week, a dashed ring where
+  they differ on some (the mixed weeks); before the futures of July 2022 the
+  TTF price drawn was a spot or day-ahead price, which names no delivery
+  month, so there a ring marks the calendar, not the prices. Numbered rules
+  mark the breaks of 12.1 that change a price's definition, a route, the
+  ship or the EU ETS, listed with their sources under the charts; a change
+  of name alone is not drawn. Lettered rules, dotted, mark the events of
+  `lngarb.events`, each dated and sourced and listed under the charts: a
+  thing that happened to the trade, never a change in the data, drawn so a
+  reader can set the spread and the breakeven against it; an event a source
+  dates to a month is drawn on its first day and says so.
 * **Ranges.** Every week, 2021 to 2023, 2024 on, and the last 52 weeks; each
   range's counts and sentences are computed for it.

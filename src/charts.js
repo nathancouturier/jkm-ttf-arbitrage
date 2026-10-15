@@ -631,15 +631,17 @@ function drawSeries(group, xs, values, yOf, className) {
  *    references [{ values, label, pattern }]: further lines, each drawn as
  *               .line--<pattern> (thin, dot or reference)
  *    series     { values: [], label }: the ink line
- *    marks      [{ index }]: a hollow ring on the series at these points
+ *    marks      [{ index, kind }]: a hollow ring on the series at these
+ *               points; kind "mixed" draws the ring dashed
  *    rules      [{ day, numbers }]: numbered rules across the plot
+ *    events     [{ day, letters }]: dotted rules lettered along the bottom
  *    points     [{ day, value, accent }]: printed points, one in the accent
  *    ticks      [{ day, label }]
  *    words      { title, desc, yAxis }
  *
  *  Values beyond the y domain are clipped at its edge, where a short tick
  *  marks each one; the artifact counts them in words. */
-export function timeChart({ width, days, first, last, y, band, reference, references, series, marks, rules, points, ticks, words, height }) {
+export function timeChart({ width, days, first, last, y, band, reference, references, series, marks, rules, events, points, ticks, words, height }) {
   const g = GEOMETRY;
   const narrow = width < g.NARROW_WIDTH;
   const top = g.PAD_TOP + g.RULE_ROOM;
@@ -698,6 +700,27 @@ export function timeChart({ width, days, first, last, y, band, reference, refere
   for (const group of groups) {
     svg.appendChild(svgEl("text", { class: "tick", x: px(labelAt(group)), y: px(top - g.LABEL_GAP), "text-anchor": "start" }, ruleLabel(group.numbers)));
   }
+  // The events: a dotted rule each, lettered just above the axis, the labels
+  // joined the same way where they would touch.
+  const eventGroups = [];
+  for (const event of events || []) {
+    const at = xOf(dayValue(event.day));
+    if (!present(at) || at < left || at > right) continue;
+    svg.appendChild(svgEl("line", { class: "mark-event", x1: px(at), x2: px(at), y1: px(top), y2: px(bottom) }));
+    eventGroups.push({ at, numbers: [...event.letters] });
+    while (eventGroups.slice(1).length > 0) {
+      const last = eventGroups.pop();
+      const before = eventGroups[eventGroups.length - 1];
+      if (labelAt(last) >= labelAt(before) + ruleLabel(before.numbers).length * g.RULE_CHAR + g.LABEL_GAP) {
+        eventGroups.push(last);
+        break;
+      }
+      before.numbers.push(...last.numbers);
+    }
+  }
+  for (const group of eventGroups) {
+    svg.appendChild(svgEl("text", { class: "tick", x: px(labelAt(group)), y: px(bottom - g.LABEL_GAP), "text-anchor": "start" }, ruleLabel(group.numbers)));
+  }
 
   // Everything inside the plot is clipped to it; what lies beyond is marked.
   const clipId = uid("history-clip");
@@ -717,7 +740,8 @@ export function timeChart({ width, days, first, last, y, band, reference, refere
   for (const mark of marks || []) {
     const value = series.values[mark.index];
     if (!present(value) || !present(xs[mark.index])) continue;
-    plot.appendChild(svgEl("circle", { class: "mark-printed", cx: px(xs[mark.index]), cy: px(yOf(value)), r: g.SMALL_RADIUS }));
+    const className = mark.kind === "mixed" ? "mark-printed mark-printed--mixed" : "mark-printed";
+    plot.appendChild(svgEl("circle", { class: className, cx: px(xs[mark.index]), cy: px(yOf(value)), r: g.SMALL_RADIUS }));
   }
   series.values.forEach((value, index) => {
     if (!present(value) || !present(xs[index]) || (value >= y.low && value <= y.high)) return;

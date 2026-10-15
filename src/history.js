@@ -5,14 +5,18 @@
  * and the hire at which that route nets what Gate does, against the charter
  * rates reported.
  *
- * THREE PANELS. The weekly spread over the band of S*, the breakeven spread
+ * FOUR PANELS. The weekly spread over the band of S*, the breakeven spread
  * of the cheapest open route east, between the low and the high hire, its
  * middle line the central hire: where the spread line runs above that line
  * the arb east was open. The breakeven hire H* of the same route, with each
  * reported charter rate as a point, the latest in the accent: a rate below
  * the line is a week the arb was open at the market's own freight. The
  * monthly spread over the same band from 2016, with the change of price
- * definition in 2021 marked.
+ * definition in 2021 marked. Between the second and the third, what S* is
+ * made of: its three parts for the cheapest open route at the central hire.
+ * Rings mark the weeks whose two front months name different delivery
+ * months, full where they do on every trading day and dashed where on some;
+ * lettered rules mark the events listed under the charts.
  *
  * RANGES. Named ranges cut the two weekly panels; each comes with its own
  * domains, ticks and sentences in data/history.json, and the address keeps
@@ -73,11 +77,16 @@ export function render(root, data, route) {
 
   root.appendChild(weeklyFigure(page, range, decimals));
   root.appendChild(hstarFigure(page, range, decimals));
+  root.appendChild(partsFigure(page, range, decimals));
   root.appendChild(monthlyFigure(page, decimals));
   root.appendChild(el("div", { class: "block" }, [
     el("h2", { class: "block__heading", text: "The breaks in the data" }),
     sentence("p", page.breaks_lead_segments, decimals, "lead"),
     breaksTable(page),
+  ]));
+  root.appendChild(el("div", { class: "block" }, [
+    el("h2", { class: "block__heading", text: "The events marked" }),
+    eventsTable(page),
   ]));
   root.appendChild(sentence("p", page.source_segments, decimals, "source-line block"));
   return title;
@@ -114,7 +123,8 @@ function weeklyFigure(page, range, decimals) {
   const days = pick(weekly.day, indexes);
   const marks = [];
   indexes.forEach((index, at) => {
-    if (index !== null && weekly.alignment[index] === "misaligned") marks.push({ index: at });
+    if (index !== null && weekly.alignment[index] === "misaligned") marks.push({ index: at, kind: "misaligned" });
+    if (index !== null && weekly.alignment[index] === "mixed") marks.push({ index: at, kind: "mixed" });
   });
   const frame = el("div", { class: "chart-frame" });
   charts.onWidthChange(frame, (width) => {
@@ -129,15 +139,51 @@ function weeklyFigure(page, range, decimals) {
       series: { values: pick(weekly.spread, indexes), label: page.words.spread },
       marks,
       rules: page.rules,
+      events: page.event_rules,
       ticks: range.ticks,
       words: { title: segmentsText(range.heading_segments, decimals), desc: segmentsText(range.desc_segments, decimals), yAxis: page.words.y_axis },
     }));
   });
   return el("figure", { class: "block", attrs: { "aria-labelledby": "view-title" } }, [
     frame,
-    el("p", { class: "source-line", text: page.words.legend }),
+    el("p", { class: "source-line", text: page.words.legend + " " + page.words.marks_legend }),
     sentence("p", range.caption_segments, decimals, "source-line"),
     disclosure("The weeks by year, in a table", () => yearsTable(range.years, page.words.weeks, decimals)),
+  ]);
+}
+
+function partsFigure(page, range, decimals) {
+  const weekly = page.weekly;
+  const indexes = slice(weekly, range);
+  const days = pick(weekly.day, indexes);
+  const frame = el("div", { class: "chart-frame" });
+  charts.onWidthChange(frame, (width) => {
+    frame.replaceChildren(charts.timeChart({
+      width,
+      days,
+      first: range.first,
+      last: range.last,
+      y: range.parts_y,
+      band: null,
+      reference: null,
+      references: [
+        { values: pick(weekly.boil_off, indexes), label: page.words.parts.boil_off, pattern: "thin" },
+        { values: pick(weekly.regas, indexes), label: page.words.parts.regas, pattern: "dash" },
+        { values: pick(weekly.voyage, indexes), label: page.words.parts.voyage, pattern: "dot" },
+      ],
+      series: { values: pick(weekly.s_central, indexes), label: page.words.parts.total },
+      marks: [],
+      rules: page.rules,
+      events: page.event_rules,
+      ticks: range.ticks,
+      words: { title: segmentsText(range.parts_heading_segments, decimals), desc: segmentsText(range.parts_desc_segments, decimals), yAxis: page.words.y_axis },
+    }));
+  });
+  return el("figure", { class: "block" }, [
+    sentence("h2", range.parts_heading_segments, decimals, "block__heading"),
+    frame,
+    el("p", { class: "source-line", text: page.words.parts_legend }),
+    sentence("p", range.parts_caption_segments, decimals, "source-line"),
   ]);
 }
 
@@ -161,6 +207,7 @@ function hstarFigure(page, range, decimals) {
       series: { values: pick(weekly.h_star, indexes), label: page.words.h_star },
       marks: [],
       rules: page.rules,
+      events: page.event_rules,
       points,
       ticks: range.ticks,
       height: width < charts.GEOMETRY.NARROW_WIDTH ? charts.GEOMETRY.HSTAR_HEIGHT_NARROW : charts.GEOMETRY.HSTAR_HEIGHT,
@@ -191,6 +238,7 @@ function monthlyFigure(page, decimals) {
       series: { values: monthly.spread, label: page.words.spread },
       marks: [],
       rules: page.rules,
+      events: page.event_rules,
       ticks: monthly.ticks,
       words: { title: segmentsText(monthly.heading_segments, decimals), desc: segmentsText(monthly.desc_segments, decimals), yAxis: page.words.y_axis },
     }));
@@ -246,6 +294,31 @@ function anchorsTable(page, decimals) {
     body,
   ]);
   return scrollTable([page.words.anchors_caption], table);
+}
+
+function eventsTable(page) {
+  const body = el("tbody");
+  for (const item of page.events) {
+    const source = item.url
+      ? el("a", { class: "text-link", text: item.source, attrs: { href: item.url, rel: "noopener" } })
+      : el("span", { text: item.source });
+    body.appendChild(el("tr", {}, [
+      el("th", { text: item.letter, attrs: { scope: "row" } }),
+      el("td", { class: "nowrap", text: formatDay(item.day) + (item.dated_to === "month" ? ", the month" : "") }),
+      el("td", { class: "words", text: item.what }),
+      el("td", { class: "words" }, [source]),
+    ]));
+  }
+  const table = el("table", { class: "table table--bands" }, [
+    el("thead", {}, [el("tr", {}, [
+      el("th", { text: "Rule", attrs: { scope: "col" } }),
+      el("th", { text: "From", attrs: { scope: "col" } }),
+      el("th", { text: "What happened", attrs: { scope: "col" } }),
+      el("th", { text: "Source", attrs: { scope: "col" } }),
+    ])]),
+    body,
+  ]);
+  return scrollTable([page.words.events_caption], table);
 }
 
 function breaksTable(page) {
