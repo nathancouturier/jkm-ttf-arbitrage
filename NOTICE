@@ -23,11 +23,13 @@ tests/fixtures/govuk_bank_holidays_2026-10-08.json:
   Licence v3.0 (https://www.gov.uk/bank-holidays.json).
 
 data/cache/worldbank_gas_monthly.csv and data/cache/worldbank_gas_revisions.csv:
-  The World Bank, Commodity Price Data (The Pink Sheet), under the Creative
-  Commons Attribution 4.0 International licence
-  (https://creativecommons.org/licenses/by/4.0/). The selection of series and
-  the revisions log are this study's. The World Bank does not endorse this
-  study.
+  The World Bank: Commodity Price Data (The Pink Sheet): Bloomberg Finance
+  L.P.; World Gas Intelligence; Thomson Reuters Datastream; The Wall Street
+  Journal; Official Statistics of Japan; World Bank, under the Creative Commons
+  Attribution 4.0 International licence
+  (https://creativecommons.org/licenses/by/4.0/), in the attribution format
+  the World Bank's dataset terms prescribe. The selection of series and the
+  revisions log are this study's. The World Bank does not endorse this study.
 
 data/cache/meti_spot_lng_monthly.csv and data/cache/meti_spot_lng_releases.csv:
   Created by processing the information in the Spot LNG Price Statistics

@@ -217,8 +217,10 @@ licences beside them.
 - European Union Agency for the Cooperation of Energy Regulators (ACER).
 - Created by processing the information in the Spot LNG Price Statistics
   (Ministry of Economy, Trade and Industry of Japan).
-- The World Bank, Commodity Price Data (The Pink Sheet), CC BY 4.0. The World
-  Bank does not endorse this study.
+- The World Bank: Commodity Price Data (The Pink Sheet): Bloomberg Finance
+  L.P.; World Gas Intelligence; Thomson Reuters Datastream; The Wall Street
+  Journal; Official Statistics of Japan; World Bank, CC BY 4.0, in the format
+  its dataset terms prescribe. The World Bank does not endorse this study.
 - European Commission auction reports, CC BY 4.0; Source: EEX, DEHSt, CC BY-NC-ND
   4.0, the monthly averages reproduced unchanged.
 - Board of Governors of the Federal Reserve System, H.10 and H.15; the Federal

@@ -297,16 +297,17 @@ def ets_phase(when: date | str) -> float:
     return float(phases[str(max(eligible))]) if eligible else 0.0
 
 
-def ets_tco2e_per_t(when: date | str, slip: float | None = None) -> float:
+def ets_tco2e_per_t(when: date | str, slip: float | None = None, tco2: float | None = None) -> float:
     """Tonnes of CO2e the EU ETS counts per tonne of LNG burnt, in the year of the day.
 
     CO2 only before the methane and nitrous oxide of 2026. With methane slip on,
     the slipped share is not burnt: it leaves the CO2 and N2O terms and counts
-    as methane at its global warming potential from 2026.
+    as methane at its global warming potential from 2026. The carbon dioxide
+    of a tonne burnt is the parameter unless one is typed.
     """
     slipped = (slip or 0.0) if _p("methane_slip_on") or slip is not None else 0.0
     burnt = 1.0 - slipped
-    factor = _p("tco2_per_t_lng") * burnt
+    factor = (_p("tco2_per_t_lng") if tco2 is None else tco2) * burnt
     if _day(when) >= date.fromisoformat(_p("ets_ch4_n2o_from")):
         factor += slipped * _p("gwp_ch4") + burnt * _p("tn2o_per_t_lng") * _p("gwp_n2o")
     return factor

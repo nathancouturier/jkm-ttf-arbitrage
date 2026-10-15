@@ -396,8 +396,9 @@ def model_document(latest_day: date, latest_prices: str,
             "gwp_n2o": config.PARAMETERS["gwp_n2o"].value,
             "ch4_n2o_from": config.PARAMETERS["ets_ch4_n2o_from"].value,
             "words": "The carbon factor the EU ETS counts per tonne of LNG burnt: carbon dioxide at every date, "
-                     "with nitrous oxide and the methane slipped from the day methane counts; a slip typed "
-                     "reworks the factor for the preset's date, as the Python engine does.",
+                     "with nitrous oxide and the methane slipped from the day methane counts; a carbon dioxide "
+                     "or a slip typed reworks the factor for the preset's date and for each calendar year the "
+                     "voyage touches, as the Python engine does.",
         },
         "limits": dict(LIMITS),
         "checks": named_edits(latest_day, latest_prices, [p["id"] for p in presets]),
@@ -460,14 +461,15 @@ NAMED_EDITS: tuple[tuple[str, str, tuple[dict[str, Any], ...]], ...] = (
      ({"key": "methane_slip_percent", "value": 1.7},)),
     ("a methane slip of 3.1 percent in March 2024, before methane counted", "march_2024",
      ({"key": "methane_slip_percent", "value": 3.1},)),
-    ("three tonnes of carbon dioxide equivalent per tonne of LNG burnt", "latest",
+    ("three tonnes of carbon dioxide per tonne of LNG burnt", "latest",
      ({"key": "tco2_per_t_lng", "value": 3.0},)),
     ("a slip of twelve percent, refused", "latest", ({"key": "methane_slip_percent", "value": 12.0},)),
 )
 
 _SCALARS = ("jkm", "ttf", "delta_nwe", "henry_hub", "liquefaction_fee", "hire_usd_day", "port_west_usd",
             "port_east_usd", "rate_percent", "spread_bp", "mmbtu_per_m3", "mmbtu_per_t_lng", "ets_voyage_share",
-            "ets_berth_share", "tco2_per_t_lng")
+            "ets_berth_share")
+_CARBON = ("tco2_per_t_lng", "methane_slip_percent")
 
 
 def refusal(key: str, value: float) -> str | None:
@@ -485,6 +487,20 @@ def refusal(key: str, value: float) -> str | None:
 
 def _number(value: Any) -> float:
     return float("nan") if value is None else float(value)
+
+
+def _recarbon(inputs: Inputs, *, tco2: float | None, slip: float | None) -> Inputs:
+    """The carbon factor reworked for a typed carbon dioxide per tonne burnt or a
+    typed slip: the slipped share leaves the gas burnt and, from the day methane
+    counts, counts as methane. Worked for the preset's day and, where the voyage
+    is split by calendar year, for each year of the split. A refused figure
+    (not a number) empties the factor, and with it the allowance line."""
+    def factor(when):
+        return worked.ets_tco2e_per_t(when, slip=slip, tco2=tco2)
+    by_year = inputs.ets_by_year
+    if by_year is not None:
+        by_year = {year: (phase, factor(date(year, 1, 1))) for year, (phase, _) in by_year.items()}
+    return replace(inputs, tco2_per_t_lng=factor(inputs.day), ets_by_year=by_year)
 
 
 def apply_edits(inputs: Inputs, edits: Sequence[Mapping[str, Any]], *, usd_per_eur: float, eua_eur_t: float | None,
@@ -506,6 +522,7 @@ def apply_edits(inputs: Inputs, edits: Sequence[Mapping[str, Any]], *, usd_per_e
 
     out = inputs
     routes = dict(out.routes)
+    typed_carbon: dict[str, float] = {}
     vessel_edit = next((e for e in edits if e["key"] == "vessel" and e["value"] in vessels), None)
     ship = vessel_edit["value"] if vessel_edit else vessel_key
     ship_tolls = tolls.get(ship, {})
@@ -535,12 +552,12 @@ def apply_edits(inputs: Inputs, edits: Sequence[Mapping[str, Any]], *, usd_per_e
             out = replace(out, vessel=replace(out.vessel, **{key: usable(edit)}))
         elif key == "ets_phase":
             out = replace(out, ets_by_year=None, ets_phase=usable(edit))
-        elif key == "methane_slip_percent":
-            # The slipped share leaves the gas burnt and, from 2026, counts as
-            # methane: the carbon factor of the day, worked by lngarb.worked.
-            slip = usable(edit)
-            out = replace(out, tco2_per_t_lng=float("nan") if math.isnan(slip)
-                          else worked.ets_tco2e_per_t(out.day, slip=slip / 100.0))
+        elif key in _CARBON:
+            typed_carbon[key] = usable(edit)
+    if typed_carbon:
+        out = _recarbon(out, tco2=typed_carbon.get("tco2_per_t_lng"),
+                        slip=None if "methane_slip_percent" not in typed_carbon
+                        else typed_carbon["methane_slip_percent"] / 100.0)
 
     fx_edit = next((e for e in edits if e["key"] == "usd_per_eur"), None)
     fx = usable(fx_edit) if fx_edit else usd_per_eur

@@ -62,9 +62,12 @@ CREDITS = (
     "The Japanese spot price before the weekly series: created by processing the information in the Spot LNG Price "
     "Statistics (Ministry of Economy, Trade and Industry of Japan) "
     "(https://www.meti.go.jp/english/statistics/sho/slng/index.html).",
-    "TTF before the weekly series: The World Bank, Commodity Price Data (The Pink Sheet), under the Creative Commons "
-    "Attribution 4.0 International licence (https://creativecommons.org/licenses/by/4.0/). The selection of series "
-    "and the revisions log are this study's. The World Bank does not endorse this study.",
+    "TTF before the weekly series, and the long view: The World Bank: Commodity Price Data (The Pink Sheet): "
+    "Bloomberg Finance L.P.; World Gas Intelligence; Thomson Reuters Datastream; The Wall Street Journal; Official "
+    "Statistics of Japan; World Bank, under the Creative Commons Attribution 4.0 International licence "
+    "(https://creativecommons.org/licenses/by/4.0/), in the attribution format the World Bank's dataset terms "
+    "prescribe. The selection of series and the revisions log are this study's. The World Bank does not endorse "
+    "this study.",
     "EU allowances: European Commission auction reports, under the Creative Commons Attribution 4.0 International "
     "licence (https://creativecommons.org/licenses/by/4.0/), the months combined from several reports by this "
     "study; after the last month they cover, Source: EEX, DEHSt, under the Creative Commons Attribution "
@@ -145,6 +148,7 @@ def inputs_json(inputs) -> dict[str, Any]:
                  "ets_phase", "tco2_per_t_lng", "mmbtu_per_t_lng", "ets_voyage_share", "ets_berth_share"):
         out[name] = getattr(inputs, name)
     out["methane_slip_percent"] = 0.0
+    out["carbon_dioxide_per_t_lng"] = config.PARAMETERS["tco2_per_t_lng"].value
     return out
 
 

@@ -215,7 +215,8 @@
     "mmbtu_per_t_lng": 51.56,
     "ets_voyage_share": 0.5,
     "ets_berth_share": 1.0,
-    "methane_slip_percent": 0.0
+    "methane_slip_percent": 0.0,
+    "carbon_dioxide_per_t_lng": 2.75
    },
    "vessel_key": "two_stroke_174k",
    "route_tolls": {
@@ -760,7 +761,8 @@
     "mmbtu_per_t_lng": 51.56,
     "ets_voyage_share": 0.5,
     "ets_berth_share": 1.0,
-    "methane_slip_percent": 0.0
+    "methane_slip_percent": 0.0,
+    "carbon_dioxide_per_t_lng": 2.75
    },
    "vessel_key": "tfde_160k",
    "route_tolls": {
@@ -1201,7 +1203,8 @@
     "mmbtu_per_t_lng": 51.56,
     "ets_voyage_share": 0.5,
     "ets_berth_share": 1.0,
-    "methane_slip_percent": 0.0
+    "methane_slip_percent": 0.0,
+    "carbon_dioxide_per_t_lng": 2.75
    },
    "vessel_key": "tfde_160k",
    "route_tolls": {
@@ -1765,7 +1768,8 @@
     "mmbtu_per_t_lng": 51.56,
     "ets_voyage_share": 0.5,
     "ets_berth_share": 1.0,
-    "methane_slip_percent": 0.0
+    "methane_slip_percent": 0.0,
+    "carbon_dioxide_per_t_lng": 2.75
    },
    "vessel_key": "two_stroke_174k",
    "route_tolls": {
@@ -2322,7 +2326,8 @@
     "mmbtu_per_t_lng": 51.56,
     "ets_voyage_share": 0.5,
     "ets_berth_share": 1.0,
-    "methane_slip_percent": 0.0
+    "methane_slip_percent": 0.0,
+    "carbon_dioxide_per_t_lng": 2.75
    },
    "vessel_key": "two_stroke_174k",
    "route_tolls": {
@@ -2872,7 +2877,8 @@
     "mmbtu_per_t_lng": 51.56,
     "ets_voyage_share": 0.5,
     "ets_berth_share": 1.0,
-    "methane_slip_percent": 0.0
+    "methane_slip_percent": 0.0,
+    "carbon_dioxide_per_t_lng": 2.75
    },
    "vessel_key": "tfde_160k",
    "route_tolls": {
@@ -3338,7 +3344,7 @@
   "gwp_ch4": 28.0,
   "gwp_n2o": 265.0,
   "ch4_n2o_from": "2026-01-01",
-  "words": "The carbon factor the EU ETS counts per tonne of LNG burnt: carbon dioxide at every date, with nitrous oxide and the methane slipped from the day methane counts; a slip typed reworks the factor for the preset's date, as the Python engine does."
+  "words": "The carbon factor the EU ETS counts per tonne of LNG burnt: carbon dioxide at every date, with nitrous oxide and the methane slipped from the day methane counts; a carbon dioxide or a slip typed reworks the factor for the preset's date and for each calendar year the voyage touches, as the Python engine does."
  },
  "limits": {
   "usd_per_eur": [
@@ -7769,15 +7775,15 @@
      "canal_laden_usd": 0.0,
      "canal_ballast_usd": 0.0,
      "slot_premium_usd": 0.0,
-     "ets_usd": 219583.90051943398,
+     "ets_usd": 253460.292400428,
      "financing_usd": 28211.793427800592,
      "canal_note": "",
-     "cost_without_hire_usd": 556742.6939472347,
-     "cost_usd": 1388589.752770764,
+     "cost_without_hire_usd": 590619.0858282286,
+     "cost_usd": 1422466.144651758,
      "p_des": 23.60515159685617,
-     "netback": 22.723036808850907,
-     "freight_conventional": 0.9023699862976936,
-     "netback_conventional": 22.70278161055848
+     "netback": 22.71444303673164,
+     "freight_conventional": 0.9111610893774253,
+     "netback_conventional": 22.693990507478745
     },
     "east": {
      "nea_panama": {
@@ -7805,14 +7811,14 @@
       "netback": 23.955175549856524,
       "freight_conventional": 1.912220789854157,
       "netback_conventional": 23.877779210145842,
-      "arb": 1.2321387410056168,
-      "s_star": -0.27411266611987983,
+      "arb": 1.2407325131248825,
+      "s_star": -0.28306893967970126,
       "boil_off": 0.46557575989171907,
       "regas": -1.1969218873266914,
-      "voyage": 0.4572334613150921,
-      "h_star_usd_day": 260505.7102151547,
+      "voyage": 0.4482771877552702,
+      "h_star_usd_day": 262102.95151770004,
       "waterfall": {
-       "start": 22.723036808850907,
+       "start": 22.71444303673164,
        "spread": 0.9691206708333314,
        "boil_off": -0.4467317750000006,
        "regas": 1.1484769726545965,
@@ -7820,7 +7826,7 @@
        "canals": -0.32867823702362015,
        "slot_premium": -0.0,
        "ports": 0.009072367369614686,
-       "carbon": 0.05570410239535917,
+       "carbon": 0.06429787451462797,
        "financing": -0.005343252964360057,
        "end": 23.955175549856524
       }
@@ -7850,14 +7856,14 @@
       "netback": 23.3366009297639,
       "freight_conventional": 2.6173335777683033,
       "netback_conventional": 23.172666422231696,
-      "arb": 0.6135641209129936,
-      "s_star": 0.35543792925424,
+      "arb": 0.6221578930322593,
+      "s_star": 0.3462699269506899,
       "boil_off": 1.0623880395327692,
       "regas": -1.2252174463950094,
-      "voyage": 0.5182673361164759,
-      "h_star_usd_day": 82656.54504654632,
+      "voyage": 0.5090993338129262,
+      "h_star_usd_day": 83373.05971152536,
       "waterfall": {
-       "start": 22.723036808850907,
+       "start": 22.71444303673164,
        "spread": 0.9467394916666648,
        "boil_off": -0.9958462500000004,
        "regas": 1.1484769726545965,
@@ -7865,7 +7871,7 @@
        "canals": -0.16086508810975222,
        "slot_premium": -0.0,
        "ports": 0.009072367369614686,
-       "carbon": 0.05570410239535917,
+       "carbon": 0.06429787451462797,
        "financing": -0.011911081156829166,
        "end": 23.3366009297639
       }
@@ -7895,14 +7901,14 @@
       "netback": 23.319939899476946,
       "freight_conventional": 2.649246288667565,
       "netback_conventional": 23.140753711332433,
-      "arb": 0.5969030906260393,
-      "s_star": 0.36979561906191094,
+      "arb": 0.605496862745305,
+      "s_star": 0.36057842678071594,
       "boil_off": 1.201042726547949,
       "regas": -1.231791225153209,
-      "voyage": 0.40054411766716885,
-      "h_star_usd_day": 75758.19793608897,
+      "voyage": 0.3913269253859743,
+      "h_star_usd_day": 76395.39495088969,
       "waterfall": {
-       "start": 22.723036808850907,
+       "start": 22.71444303673164,
        "spread": 0.941686966666665,
        "boil_off": -1.1198081999999987,
        "regas": 1.1484769726545965,
@@ -7910,7 +7916,7 @@
        "canals": -0.0,
        "slot_premium": -0.0,
        "ports": 0.009072367369614686,
-       "carbon": 0.05570410239535917,
+       "carbon": 0.06429787451462797,
        "financing": -0.013393760683722798,
        "end": 23.319939899476946
       }
@@ -7954,15 +7960,15 @@
      "canal_laden_usd": 0.0,
      "canal_ballast_usd": 0.0,
      "slot_premium_usd": 0.0,
-     "ets_usd": 58932.947566648705,
+     "ets_usd": 57106.02619208259,
      "financing_usd": 17989.001899320843,
      "canal_note": "",
-     "cost_without_hire_usd": 385868.9494659696,
-     "cost_usd": 1613833.6553483224,
+     "cost_without_hire_usd": 384042.0280914034,
+     "cost_usd": 1612006.7339737562,
      "p_des": 8.5164852459247,
-     "netback": 7.915920788717683,
-     "freight_conventional": 0.6143546717386439,
-     "netback_conventional": 7.902130574186057
+     "netback": 7.916384242618795,
+     "freight_conventional": 0.6138805759677958,
+     "netback_conventional": 7.902604669956904
     },
     "east": {
      "nea_panama": {
@@ -7990,14 +7996,14 @@
       "netback": 8.158662435181732,
       "freight_conventional": 1.3770740637684349,
       "netback_conventional": 8.102925936231566,
-      "arb": 0.24274164646404905,
-      "s_star": 0.48701905520406363,
+      "arb": 0.24227819256293692,
+      "s_star": 0.4875020584607377,
       "boil_off": 0.16421033662040455,
       "regas": -0.22771423153597806,
-      "voyage": 0.5505229501196365,
-      "h_star_usd_day": 91616.04196612322,
+      "voyage": 0.551005953376311,
+      "h_star_usd_day": 91529.90427217366,
       "waterfall": {
-       "start": 7.915920788717683,
+       "start": 7.916384242618795,
        "spread": 0.7100488083333335,
        "boil_off": -0.15756399166666687,
        "regas": 0.21849759289548915,
@@ -8005,7 +8011,7 @@
        "canals": -0.29866830544118805,
        "slot_premium": -0.0,
        "ports": 0.009072367369614686,
-       "carbon": 0.014950125842319629,
+       "carbon": 0.014486671941207717,
        "financing": -0.0034070782479821366,
        "end": 8.158662435181732
       }
@@ -8035,14 +8041,14 @@
       "netback": 7.821423907077683,
       "freight_conventional": 1.7694010534012237,
       "netback_conventional": 7.710598946598777,
-      "arb": -0.09449688163999959,
-      "s_star": 0.8408111009379997,
+      "arb": -0.09496033554111172,
+      "s_star": 0.8413055225230739,
       "boil_off": 0.3747082915866184,
       "regas": -0.23309745792472256,
-      "voyage": 0.6992002672761044,
-      "h_star_usd_day": 38621.22446928365,
+      "voyage": 0.6996946888611795,
+      "h_star_usd_day": 38582.5835195261,
       "waterfall": {
-       "start": 7.915920788717683,
+       "start": 7.916384242618795,
        "spread": 0.6936507166666669,
        "boil_off": -0.35123875000000016,
        "regas": 0.21849759289548915,
@@ -8050,7 +8056,7 @@
        "canals": -0.11411973776766439,
        "slot_premium": -0.0,
        "ports": 0.009072367369614686,
-       "carbon": 0.014950125842319629,
+       "carbon": 0.014486671941207717,
        "financing": -0.00759499611754633,
        "end": 7.821423907077683
       }
@@ -8080,14 +8086,14 @@
       "netback": 7.817750818718475,
       "freight_conventional": 1.7828341397111196,
       "netback_conventional": 7.697165860288881,
-      "arb": -0.09816996999920757,
-      "s_star": 0.8452915387054478,
+      "arb": -0.0986334239003197,
+      "s_star": 0.8457886130589127,
       "boil_off": 0.4236123256670329,
       "regas": -0.23434811846828935,
-      "voyage": 0.6560273315067062,
-      "h_star_usd_day": 39221.052995306316,
+      "voyage": 0.656524405860172,
+      "h_star_usd_day": 39186.68957046938,
       "waterfall": {
-       "start": 7.915920788717683,
+       "start": 7.916384242618795,
        "spread": 0.6899488666666669,
        "boil_off": -0.39496059999999955,
        "regas": 0.21849759289548915,
@@ -8095,7 +8101,7 @@
        "canals": -0.0,
        "slot_premium": -0.0,
        "ports": 0.009072367369614686,
-       "carbon": 0.014950125842319629,
+       "carbon": 0.014486671941207717,
        "financing": -0.00854041367469782,
        "end": 7.817750818718475
       }
@@ -8111,7 +8117,7 @@
    }
   },
   {
-   "name": "three tonnes of carbon dioxide equivalent per tonne of LNG burnt",
+   "name": "three tonnes of carbon dioxide per tonne of LNG burnt",
    "preset": "latest",
    "edits": [
     {
@@ -8139,15 +8145,15 @@
      "canal_laden_usd": 0.0,
      "canal_ballast_usd": 0.0,
      "slot_premium_usd": 0.0,
-     "ets_usd": 219583.90051943398,
+     "ets_usd": 239336.69368635857,
      "financing_usd": 28211.793427800592,
      "canal_note": "",
-     "cost_without_hire_usd": 556742.6939472347,
-     "cost_usd": 1388589.752770764,
+     "cost_without_hire_usd": 576495.4871141593,
+     "cost_usd": 1408342.5459376886,
      "p_des": 23.60515159685617,
-     "netback": 22.723036808850907,
-     "freight_conventional": 0.9023699862976936,
-     "netback_conventional": 22.70278161055848
+     "netback": 22.71802591501688,
+     "freight_conventional": 0.9074959407220335,
+     "netback_conventional": 22.69765565613414
     },
     "east": {
      "nea_panama": {
@@ -8175,14 +8181,14 @@
       "netback": 23.955175549856524,
       "freight_conventional": 1.912220789854157,
       "netback_conventional": 23.877779210145842,
-      "arb": 1.2321387410056168,
-      "s_star": -0.27411266611987983,
+      "arb": 1.2371496348396427,
+      "s_star": -0.2793349288624718,
       "boil_off": 0.46557575989171907,
       "regas": -1.1969218873266914,
-      "voyage": 0.4572334613150921,
-      "h_star_usd_day": 260505.7102151547,
+      "voyage": 0.4520111985725002,
+      "h_star_usd_day": 261437.03658537974,
       "waterfall": {
-       "start": 22.723036808850907,
+       "start": 22.71802591501688,
        "spread": 0.9691206708333314,
        "boil_off": -0.4467317750000006,
        "regas": 1.1484769726545965,
@@ -8190,7 +8196,7 @@
        "canals": -0.32867823702362015,
        "slot_premium": -0.0,
        "ports": 0.009072367369614686,
-       "carbon": 0.05570410239535917,
+       "carbon": 0.06071499622938748,
        "financing": -0.005343252964360057,
        "end": 23.955175549856524
       }
@@ -8220,14 +8226,14 @@
       "netback": 23.3366009297639,
       "freight_conventional": 2.6173335777683033,
       "netback_conventional": 23.172666422231696,
-      "arb": 0.6135641209129936,
-      "s_star": 0.35543792925424,
+      "arb": 0.6185750147470195,
+      "s_star": 0.3500922107995663,
       "boil_off": 1.0623880395327692,
       "regas": -1.2252174463950094,
-      "voyage": 0.5182673361164759,
-      "h_star_usd_day": 82656.54504654632,
+      "voyage": 0.5129216176618047,
+      "h_star_usd_day": 83074.33351788408,
       "waterfall": {
-       "start": 22.723036808850907,
+       "start": 22.71802591501688,
        "spread": 0.9467394916666648,
        "boil_off": -0.9958462500000004,
        "regas": 1.1484769726545965,
@@ -8235,7 +8241,7 @@
        "canals": -0.16086508810975222,
        "slot_premium": -0.0,
        "ports": 0.009072367369614686,
-       "carbon": 0.05570410239535917,
+       "carbon": 0.06071499622938748,
        "financing": -0.011911081156829166,
        "end": 23.3366009297639
       }
@@ -8265,14 +8271,14 @@
       "netback": 23.319939899476946,
       "freight_conventional": 2.649246288667565,
       "netback_conventional": 23.140753711332433,
-      "arb": 0.5969030906260393,
-      "s_star": 0.36979561906191094,
+      "arb": 0.6019139844600652,
+      "s_star": 0.3644212187022191,
       "boil_off": 1.201042726547949,
       "regas": -1.231791225153209,
-      "voyage": 0.40054411766716885,
-      "h_star_usd_day": 75758.19793608897,
+      "voyage": 0.39516971730747896,
+      "h_star_usd_day": 76129.73752873969,
       "waterfall": {
-       "start": 22.723036808850907,
+       "start": 22.71802591501688,
        "spread": 0.941686966666665,
        "boil_off": -1.1198081999999987,
        "regas": 1.1484769726545965,
@@ -8280,7 +8286,7 @@
        "canals": -0.0,
        "slot_premium": -0.0,
        "ports": 0.009072367369614686,
-       "carbon": 0.05570410239535917,
+       "carbon": 0.06071499622938748,
        "financing": -0.013393760683722798,
        "end": 23.319939899476946
       }
@@ -8329,15 +8335,15 @@
      "canal_laden_usd": 0.0,
      "canal_ballast_usd": 0.0,
      "slot_premium_usd": 0.0,
-     "ets_usd": 219583.90051943398,
+     "ets_usd": null,
      "financing_usd": 28211.793427800592,
      "canal_note": "",
-     "cost_without_hire_usd": 556742.6939472347,
-     "cost_usd": 1388589.752770764,
+     "cost_without_hire_usd": null,
+     "cost_usd": null,
      "p_des": 23.60515159685617,
-     "netback": 22.723036808850907,
-     "freight_conventional": 0.9023699862976936,
-     "netback_conventional": 22.70278161055848
+     "netback": null,
+     "freight_conventional": null,
+     "netback_conventional": null
     },
     "east": {
      "nea_panama": {
@@ -8365,14 +8371,14 @@
       "netback": 23.955175549856524,
       "freight_conventional": 1.912220789854157,
       "netback_conventional": 23.877779210145842,
-      "arb": 1.2321387410056168,
-      "s_star": -0.27411266611987983,
+      "arb": null,
+      "s_star": null,
       "boil_off": 0.46557575989171907,
       "regas": -1.1969218873266914,
-      "voyage": 0.4572334613150921,
-      "h_star_usd_day": 260505.7102151547,
+      "voyage": null,
+      "h_star_usd_day": null,
       "waterfall": {
-       "start": 22.723036808850907,
+       "start": null,
        "spread": 0.9691206708333314,
        "boil_off": -0.4467317750000006,
        "regas": 1.1484769726545965,
@@ -8380,7 +8386,7 @@
        "canals": -0.32867823702362015,
        "slot_premium": -0.0,
        "ports": 0.009072367369614686,
-       "carbon": 0.05570410239535917,
+       "carbon": null,
        "financing": -0.005343252964360057,
        "end": 23.955175549856524
       }
@@ -8410,14 +8416,14 @@
       "netback": 23.3366009297639,
       "freight_conventional": 2.6173335777683033,
       "netback_conventional": 23.172666422231696,
-      "arb": 0.6135641209129936,
-      "s_star": 0.35543792925424,
+      "arb": null,
+      "s_star": null,
       "boil_off": 1.0623880395327692,
       "regas": -1.2252174463950094,
-      "voyage": 0.5182673361164759,
-      "h_star_usd_day": 82656.54504654632,
+      "voyage": null,
+      "h_star_usd_day": null,
       "waterfall": {
-       "start": 22.723036808850907,
+       "start": null,
        "spread": 0.9467394916666648,
        "boil_off": -0.9958462500000004,
        "regas": 1.1484769726545965,
@@ -8425,7 +8431,7 @@
        "canals": -0.16086508810975222,
        "slot_premium": -0.0,
        "ports": 0.009072367369614686,
-       "carbon": 0.05570410239535917,
+       "carbon": null,
        "financing": -0.011911081156829166,
        "end": 23.3366009297639
       }
@@ -8455,14 +8461,14 @@
       "netback": 23.319939899476946,
       "freight_conventional": 2.649246288667565,
       "netback_conventional": 23.140753711332433,
-      "arb": 0.5969030906260393,
-      "s_star": 0.36979561906191094,
+      "arb": null,
+      "s_star": null,
       "boil_off": 1.201042726547949,
       "regas": -1.231791225153209,
-      "voyage": 0.40054411766716885,
-      "h_star_usd_day": 75758.19793608897,
+      "voyage": null,
+      "h_star_usd_day": null,
       "waterfall": {
-       "start": 22.723036808850907,
+       "start": null,
        "spread": 0.941686966666665,
        "boil_off": -1.1198081999999987,
        "regas": 1.1484769726545965,
@@ -8470,18 +8476,18 @@
        "canals": -0.0,
        "slot_premium": -0.0,
        "ports": 0.009072367369614686,
-       "carbon": 0.05570410239535917,
+       "carbon": null,
        "financing": -0.013393760683722798,
        "end": 23.319939899476946
       }
      }
     },
     "best_route_east": "nea_panama",
-    "best_destination": "NEA",
-    "best_route": "nea_panama",
-    "best_netback": 23.955175549856524,
-    "lift_margin": 20.536800549856522,
-    "full_margin": 17.536800549856522,
+    "best_destination": "NWE",
+    "best_route": "nwe_direct",
+    "best_netback": null,
+    "lift_margin": null,
+    "full_margin": null,
     "cancel": false
    }
   }

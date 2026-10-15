@@ -147,8 +147,17 @@ sheet names the sources of the gas rows (Bloomberg Finance L.P., World Gas
 Intelligence, Thomson Reuters Datastream, The Wall Street Journal, Official
 Statistics of Japan); the catalogue entry names no extra condition.
 
-**Attribution this project uses:** "The World Bank, Commodity Price Data (The
-Pink Sheet)", with the release's "Updated on" date.
+The dataset terms, read again on 15 October 2026, prescribe the form of the
+attribution:
+
+> "You agree to provide attribution to The World Bank and its data providers in
+> the following format: The World Bank: Dataset name: Data source (if known)."
+
+**Attribution this project uses:** "The World Bank: Commodity Price Data (The
+Pink Sheet): Bloomberg Finance L.P.; World Gas Intelligence; Thomson Reuters
+Datastream; The Wall Street Journal; Official Statistics of Japan; World Bank",
+the data sources being those the workbook's Description sheet names for the
+gas rows, with the release's "Updated on" date where a value is shown.
 
 ### 2.3 Federal Reserve Board, H.10 and H.15, US public domain
 
@@ -1032,10 +1041,8 @@ S&P Global's own pages are never requested (2.14).
   January 1976, January 1991 and January 1992. No monthly statistic is
   computed on the repeated spans; the Description sheet defines the Europe
   column only from June 2000.
-* **The dataset terms** are read at
-  `https://www.worldbank.org/ext/en/legal/terms-conditions/datasets`, which
-  prescribes the attribution "The World Bank: Dataset name: Data source (if
-  known)"; the credits follow that form.
+* **The dataset terms prescribe the form of the attribution** (2.2); the
+  credits in the Now view, the README and the NOTICE follow it.
 
 ### 3.5 Federal Reserve H.10
 

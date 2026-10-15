@@ -275,6 +275,13 @@ Decision: JOGMEC's series stays private and nothing derived from it is
 published. The letter in this question is ready for the owner to send; until
 JOGMEC answers, the series is used only as a private check on the public ones.
 
+Revised 15 October 2026: JOGMEC's terms also forbid a link to its website
+without written permission, and the manifest, the Provenance panel and the
+source registry carried its address. No published file carries it now: the
+source is declared not linkable, the manifest holds no address for it, the
+Provenance panel names JOGMEC without a link and says why, and only the
+adapter that reads the private pages knows where they are.
+
 ### 15. METI's preliminary figures
 
 Raised 30 September 2026. **Decided 7 October 2026.**
@@ -878,3 +885,120 @@ its exchange rate data be copied and published with the IMF credited "whether
 obtained directly from the IMF or another party". The series is committed,
 read from the Bundesbank, credited to the IMF, and checked against the IMF's
 own tables on 41 days.
+
+### 47. The events marked on the History view
+
+Raised 15 October 2026. **Decided 15 October 2026.**
+
+The brief asks for dated, sourced markers of what happened to the trade: the
+cancellations of 2020, the Red Sea, Panama's restrictions, China's tariff on
+US LNG, the Strait of Hormuz. The breaks the analysis finds in the data (a
+price's definition, a route, the ship, the EU ETS) were drawn as numbered
+rules; nothing marked an event.
+
+Decision: `lngarb.events` holds the events, one sentence each, dated to the
+day they took effect or to the first of the month a source dates them to, with
+the source and its address where the publisher may be linked. They are drawn
+as lettered, dotted rules on every chart of the History view and listed under
+the charts; they are never a break and never an input. Seven are held, each
+from a document the study already quotes. China's tariff on US LNG of
+February 2025, the Strait of Hormuz in 2026 and the Freeport outage of June
+2022 are named in the study's words but not yet drawn: each waits for a
+primary or wire-service document read and dated, and is added when one is.
+
+### 48. How much the verdict rests on the regas discount and the cargo's energy
+
+Raised 15 October 2026. **Decided 15 October 2026.**
+
+Europe's DES spread to TTF is observed from ACER where it publishes and this
+study's assumption elsewhere; the energy of a cubic metre of LNG is held at
+Spark's convention of 23 MMBtu, where a US cargo is quoted at 22 to 24. The
+worked table ran the spread's sensitivities and printed them; the site showed
+none.
+
+Decision: the Now view prices the latest week again with the spread at the
+values the study runs (minus 3, the assumption of minus 2, 0, and minus 35
+inside the window of late 2022) and the energy at 22 and 24, and says in one
+sentence whether the arb east stays as it is or which case turns it, with
+the figures in a table. The Method view prints the breakeven at the three
+energies for the same week.
+
+### 49. Where the site departs from the brief's layout, and why
+
+Raised 15 October 2026. **Decided 15 October 2026.**
+
+Four departures were made without a note here. They are declared now.
+
+* **Figtree for Satoshi.** The portfolio sets Satoshi, whose licence forbids
+  serving it from a repository; Figtree is the openly licensed face closest
+  to it. Said on the Method view, in the README and in `vendor/README.md`.
+* **Words for a missing value.** The brief writes "n/a"; the site writes "no
+  figure", or the words the artifact gives for the cell ("not published",
+  "not priced", "no crossing", "none reported", "no route open"), because a
+  reader should learn why a cell is empty without opening a file.
+* **Named ranges for a range brush.** The History view cuts its weekly panels
+  by four named ranges, buttons the address keeps, rather than a brush: a
+  brush has no keyboard, no address and no place on a phone, and the named
+  ranges carry their own sentences and tables, which a brush could not.
+* **Tariffs and reference ships in `lngarb.config`, not in seed files.** The
+  canal tariffs, the ships and every parameter are dated declarations with a
+  document, an address and the day read; they are code the tests pin, not
+  data fetched or typed into a table. The seed files hold what is computed
+  (the routes) or typed from articles (the charter rates), which the manifest
+  records as series.
+
+### 50. No waiting days at Panama in the engine
+
+Raised 15 October 2026. **Decided 15 October 2026, to be revised.**
+
+The engine adds no wait at Panama on any date; the two waits reported for LNG
+(12 days in late July 2023, 15 in mid December 2023) are applied in the Flows
+view's comparison of Panama with the Cape, in those months only, and any wait
+is an input the reader can type. The Panama Canal Authority publishes monthly
+operational statistics; whether they give a waiting time by segment is being
+established.
+
+Decision: no wait by default, stated wherever Panama is priced, until a
+published monthly series of waiting days for LNG carriers, or for neopanamax
+vessels unbooked, is read; the two reported waits stay as the record shows
+them.
+
+### 51. The energy of a tonne of LNG
+
+Raised 15 October 2026. **Decided 15 October 2026, to be revised.**
+
+The engine turns the gas burnt into tonnes for the EU ETS at 51.56 MMBtu per
+tonne, the IEA and Eurostat manual's gross calorific value, because GIIGNL's
+conversion table could not be read by code. Spark's 23 MMBtu per cubic metre
+at the manual's density gives 51.11, 0.9 percent less. The factor touches the
+carbon line only, a few cents a MMBtu at most.
+
+Decision: 51.56 stands, labelled published with its document, until GIIGNL's
+table or a composition of Sabine Pass LNG is read; the Model view types any
+value, and the 22 to 24 MMBtu per cubic metre sensitivity of question 48 runs
+on the energy of the cargo itself.
+
+### 52. The series extended, and what is still short
+
+Raised 15 October 2026. **Decided 15 October 2026.**
+
+Every series is now held from the first observation its publisher serves:
+the euro rate from January 1999, the SDR rate from July 1974, the effective
+federal funds rate from July 1954 (the Board's H.15, public domain, in place
+of the New York Fed's licensed window), the indicative SOFR from August 2014,
+the Pink Sheet from 1960 (Japan from 1977, and the early decades annual
+figures repeated, as 3.4 of the sources says), EIA's exports table from 1973,
+the Commission's allowance price from January 2014 and DEHSt's German
+auctions from February 2019. What is still short: the Commission's 2013
+reports print no monthly table (a text figure per report and the auctions one
+by one in an annex, from which the fourteen months from November 2012 could
+be computed); DEHSt's reports before 2019 sit under other file names and an
+older table; EIA's Weekly Update before September 2021 was to be read in the
+Internet Archive's captures to see from which issue it carried the two
+prices, and the archive could not be reached from the machine that builds
+the site on 15 October 2026, so the study's own count of 7 October 2026
+stands (488 issues saved from 2016, 207 carrying the item, none before 16
+September 2021); and no public weekly JKM exists before that issue.
+
+Decision: the extensions above are committed; the four shortfalls are named
+here and taken up as each source is read.

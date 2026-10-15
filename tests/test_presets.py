@@ -178,6 +178,13 @@ MOVES = {
         r["west"]["q_load_mmbtu"] < b["west"]["q_load_mmbtu"] and r["west"]["days_laden"] == pytest.approx(b["west"]["days_laden"] + 1.0)),
     "22 MMBtu per m3 and 50 MMBtu per tonne": lambda r, b: r["west"]["q_load_mmbtu"] < b["west"]["q_load_mmbtu"],
     "every voyage emission counted and none at berth": lambda r, b: r["west"]["ets_usd"] != b["west"]["ets_usd"],
+    # From 2026 the slipped share counts as methane, at a warming potential far above the carbon dioxide it leaves.
+    "a methane slip of 1.7 percent, counted as methane from 2026": lambda r, b: r["west"]["ets_usd"] > b["west"]["ets_usd"],
+    # Before 2026 it only leaves the gas burnt.
+    "a methane slip of 3.1 percent in March 2024, before methane counted": lambda r, b: (
+        r["west"]["ets_usd"] == pytest.approx(b["west"]["ets_usd"] * (1.0 - 0.031))),
+    "three tonnes of carbon dioxide per tonne of LNG burnt": lambda r, b: r["west"]["ets_usd"] > b["west"]["ets_usd"],
+    "a slip of twelve percent, refused": lambda r, b: r["west"]["ets_usd"] is None and b["west"]["ets_usd"] is not None,
 }
 
 

@@ -57,7 +57,7 @@ export const UNITS = Object.freeze({
   fill_percent: "percent",
   mmbtu_per_m3: "MMBtu per m3",
   mmbtu_per_t: "MMBtu per tonne",
-  tco2_per_t: "t CO2e per tonne of LNG",
+  tco2_per_t: "t CO2 per tonne of LNG",
   slip_percent: "percent of the gas",
   mmbtu_per_mwh: "MMBtu per MWh",
   m3: "m3",

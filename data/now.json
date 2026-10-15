@@ -2071,7 +2071,8 @@
   "mmbtu_per_t_lng": 51.56,
   "ets_voyage_share": 0.5,
   "ets_berth_share": 1.0,
-  "methane_slip_percent": 0.0
+  "methane_slip_percent": 0.0,
+  "carbon_dioxide_per_t_lng": 2.75
  },
  "result": {
   "day": "2026-10-07",
