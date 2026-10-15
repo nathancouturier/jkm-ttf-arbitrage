@@ -39,7 +39,12 @@ was decided on the strength of it.
 | `nyfed_sofr_daily` | Secured Overnight Financing Rate, daily, percent, from 2 April 2018 | [markets API](https://markets.newyorkfed.org/api/rates/secured/sofr/search.json) | daily, next business day | **yes**, under the New York Fed's terms | New York Fed Terms of Use |
 | `frb_h15_effr_daily` | Effective federal funds rate, daily, percent, from 1 July 1954, the overnight rate before SOFR, read from the Board's H.15 | [FRB_h15_xml.zip](https://www.federalreserve.gov/releases/h15/data/FRB_h15_xml.zip) | daily, next business day | **yes** | US public domain |
 | `imf_usd_per_sdr_daily` | US dollars per special drawing right, daily, from July 1974, the IMF's rate as the Bundesbank republishes it, for the Suez toll | [Bundesbank API](https://api.statistiken.bundesbank.de/rest/download/BBEX3/D.USD.XDR.DA.AC.000?format=csv&lang=en) | daily | **yes**, with the IMF credited (2.20) | IMF terms for its data |
-| `freight_anchors` | Reported LNG carrier charter rates, USD per day, ten figures from February 2022 to October 2026, one per month at most, each from a dated article | written from rows kept in `lngarb.freight_anchors`; nothing fetched | as figures are verified | **yes**, figures only (2.13, 2.14) | individual figures quoted with attribution |
+| `acp_canal_operations_monthly` | Canal Waters Time at Panama, hours from arrival to departure for every ship, the month's daily average, high and low, with the month's transits, the neopanamax locks' share and the neopanamax booking slots, monthly from December 2001 | [advisories to shipping](https://pancanal.com/en/maritime-services/advisory-to-shipping/), one PDF a month | monthly | **yes**, for non-commercial use (2.15) | the Authority's terms of use |
+| `acp_lng_transits_fiscal_year` | LNG carriers through the Panama Canal each fiscal year, October to September, fiscal 2016 to 2025, read by eye in the Authority's annual reports | written from rows kept in `lngarb.panama_transits`; nothing is fetched | yearly | **yes**, a seed | the Authority's terms of use, figures quoted with attribution |
+| `sca_lng_transits_annual` | LNG carriers through the Suez Canal each year, both directions, and their Suez Canal net tonnage, 2007 to 2025 | [annual reports](https://www.suezcanal.gov.eg/English/Downloads/Pages/default.aspx?folder=Navigation%20Reports/Annual%20Reports%E2%80%8B%E2%80%8B%E2%80%8B), one PDF a year | yearly | **yes**, the figures restated (2.10) | all rights reserved; facts quoted with attribution |
+| `eia_chokepoint_lng_annual` | LNG through each maritime chokepoint, billion cubic feet a day, by calendar year from 2020 and the first half of 2025, EIA's analysis of Vortexa's tanker tracking | [World Oil Transit Chokepoints](https://www.eia.gov/international/content/analysis/special_topics/World_Oil_Transit_Chokepoints/) | yearly | **yes** | US public domain, with the third party doubt of 2.1 |
+| `eia_steo_chokepoint_lng_quarterly` | The same by quarter, the latest six, from the Short-Term Energy Outlook's energy security article, the Panama Canal among them | [Global Energy Security](https://www.eia.gov/outlooks/steo/report/energysecurity/article.php) | quarterly | **yes** | US public domain, with the third party doubt of 2.1 |
+| `freight_anchors` | Reported LNG carrier charter rates, USD per day, 51 figures from January 2021 to October 2026, one per month at most, the first reported in the month, each from a dated article | written from rows kept in `lngarb.freight_anchors`; nothing fetched | as figures are verified | **yes**, figures only (2.13, 2.14) | individual figures quoted with attribution |
 | `routes` | The four sea routes from Sabine Pass, distances and lines | computed once by `scripts/routes.py` | fixed | **yes** | distances: this study, MIT; lines: EUPL 1.2; searoute Apache 2.0 |
 
 ---
@@ -420,6 +425,18 @@ each with the instrument or report named beside it. It copies no document and
 commits no file of the Authority's. **Redistributable: quotation only**, until
 the owner decides otherwise (section 4).
 
+Added 15 October 2026: the yearly counts are now a series,
+`sca_lng_transits_annual`, read by code from Table 3 of each annual report,
+2008 to 2025, one row a year from 2007: the number of LNG ships and their net
+tonnage, the facts restated in a CSV with the report named on each row. The
+reports themselves are read and discarded. Each circular and periodical the
+tariff tables name now carries the address of its page on the Authority's
+site (`lngarb.config.SUEZ_CIRCULAR_PAGES`), and the six monthly renewals of
+the 21 June 2023 rebate terms are listed to the one of 21 May 2026, which runs
+to 31 December 2026 (`SUEZ_REBATE_RENEWALS`). The site serves no robots.txt
+(404), so under RFC 9309 no path is closed to code; 1.5 seconds are left
+between requests.
+
 Where things are. Each circular has a page under
 `https://www.suezcanal.gov.eg/English/Navigation/NavigationCirculars/Pages/`,
 but its articles are not in that page: the page's own script fetches them from
@@ -524,7 +541,8 @@ publishers read so far:
   authorisation. S&P Global, which publishes Platts, refuses automated requests
   even for its robots.txt.
 
-The ten figures verified in readable articles are committed in
+The 51 figures verified in readable articles, or in the public title or summary
+of an article behind LNG Prime's subscription, are committed in
 `data/seed/freight_anchors.json` (question 37): for each, the figure, the day
 it refers to or the article's date, the assessment and the vessel basis,
 marked inferred where the article does not state them, the publisher and the
@@ -553,6 +571,26 @@ non-commercial study, and commits none of them. The terms grant no licence, do
 not address quotation, and may be read as forbidding any "modification or
 alteration" whatever the purpose. **Redistributable: quotation only**, and
 whether that is enough is open (question 41).
+
+Added 15 October 2026: two series are now kept from the Authority's documents,
+both for this non-commercial study and both under the reading of the terms
+above, which forbid copying and publication "for commercial or lucrative
+purposes" and are silent on any other.
+
+* `acp_canal_operations_monthly`, read by code from the Monthly Canal
+  Operations Summary the Authority issues as an advisory each month, December
+  2001 onwards: the figures of its traffic table, unchanged, with the
+  advisory named on each row. The summaries' own footer is carried into the
+  manifest: the information "is for general purpose only" and "may vary"
+  with traffic audits. The December 2023 summary is a test fixture.
+* `acp_lng_transits_fiscal_year`, a seed of ten figures read by eye in the
+  Authority's annual reports, whose charts are drawn and not typed, each with
+  its report's address.
+
+The site's robots.txt, read on 15 October 2026, allows every path to every
+client and asks for ten seconds between requests ("Crawl-delay: 10"); the
+adapter leaves ten. Should the Authority object to either series, both move
+to data/private/ (question 54).
 
 Where things are. The tariff for each year from 2023 is a PDF deck under
 `https://pancanal.com/wp-content/uploads/`, item 1010 for tolls, and a
@@ -802,6 +840,36 @@ sentence. All were read on 8 October 2026.
   Spark's (question 36).
 
 S&P Global's own pages are never requested (2.14).
+
+### 2.25 The owner's own CSV files, declared and never committed
+
+Added 15 October 2026. Some figures the owner may hold but not publish: an
+export from a subscription whose terms forbid redistribution, a table typed
+from a paid report, a page a publisher serves to a browser and not to code.
+For these the pipeline has one mechanism, `lngarb.sources.user_csv`, so that
+such a series is validated and recorded like every other and its bytes still
+never reach a commit.
+
+The owner declares the series once, in `lngarb.config.USER_CSV_SERIES`, as a
+`UserCsvDeclaration`: the series name, a label, the publisher, the page (or
+none, with `linkable=False`, where the publisher's terms forbid a link), the
+frequency, the unit, each value column with its bounds, the observation
+column, the licence named and what it permits in plain words, and how the
+file was made. The file is saved by hand as `data/private/user/<series>.csv`,
+with a `date` column in `yyyy-mm-dd` and the declared value columns, nothing
+else. `python scripts/refresh.py --only user` then reads it, refuses it on the
+same rules as a fetched frame (dates, bounds, counts, gaps at the declared
+frequency), writes it as the series' private cache and records it in the
+manifest with `committable` false and the day the file was saved as its
+vintage; offline, the entry is carried through as for any private series.
+The Provenance view names the series and its terms; the data layer's checks
+refuse any tracked file under `data/private/`.
+
+Nothing is declared in this repository: the mechanism is tested on an example
+declaration in `tests/test_sources_user_csv.py`, a weekly charter rate export
+held under a subscription. The reader of such a declaration should know that
+nothing computed from a private series is published either, as question 14
+settles for JOGMEC.
 
 ## 3. Known traps, per source
 
@@ -1377,7 +1445,22 @@ S&P Global's own pages are never requested (2.14).
   32.61 m and/or a length over 294.44 m; the 2025 deck also classes by draught.
   The booking fee depended on beam from 2021.
 * **The fresh water surcharge is not in the toll tables.** It is a separate,
-  mandatory item since 15 February 2020, set daily from Gatun Lake's level.
+  mandatory item since 15 February 2020, set daily from Gatun Lake's level by
+  a published curve (advisories ADV-03-2020 and ADV-42-2023); the daily level
+  and its projection sit on a page of the Authority's reporting host that the
+  study's network does not reach, and the monthly summaries print a level
+  only twice in 2023 to 2026.
+* **The monthly summaries are named irregularly** (`a-01-2002.pdf`,
+  `ADV40-2023-Montly-Canal-Operations-Summary-August-2023.pdf`, a `-1` copy of
+  March 2024 that is password protected beside the readable one), the upload
+  folder in the address often differs from the issue date, two months of 2004
+  link the same file, and the February 2026 summary prints January's
+  advisory number in its header. The adapter reads the covered month from
+  each PDF's subject line, never from its name.
+* **Canal Waters Time is for every ship.** The summaries do not split it by
+  segment or by booked and unbooked ships, so a month's average bounds what an
+  LNG carrier without a slot waited rather than measures it; the 12 and 15
+  day waits reported for LNG in 2023 sit above every monthly average.
 * **Advisories date changes by booking date or by transit date**, and some
   were postponed after publication: the booking fees of 70,000 and 85,000 $
   announced for 15 April 2021 took effect for booking dates from 1 June 2021.

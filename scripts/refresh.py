@@ -53,11 +53,15 @@ if str(SRC) not in sys.path:
 
 import pandas as pd  # noqa: E402
 
-from lngarb import config, freight_anchors, manual_steps, sea_routes  # noqa: E402
+from lngarb import config, freight_anchors, manual_steps, panama_transits, sea_routes  # noqa: E402
 from lngarb.sources import base  # noqa: E402
 from lngarb.sources.base import Adapter, read_cache, utc_now_iso, validate_frame  # noqa: E402
 from lngarb.sources.eia import HenryHubDaily, LngExportsMonthly, LngExportsRevisions  # noqa: E402
 from lngarb.sources.acer import AcerLngDaily  # noqa: E402
+from lngarb.sources.acp_ops import AcpCanalOperationsMonthly  # noqa: E402
+from lngarb.sources.sca_annual import ScaLngTransitsAnnual  # noqa: E402
+from lngarb.sources.eia_chokepoints import EiaChokepointLngAnnual, EiaSteoChokepointLngQuarterly  # noqa: E402
+from lngarb.sources import user_csv  # noqa: E402
 from lngarb.sources.dehst import DehstEuaGermanAuctionMonthly  # noqa: E402
 from lngarb.sources.ec_eua import EcEuaAuctionMonthly  # noqa: E402
 from lngarb.sources.h10 import UsdPerEurDaily  # noqa: E402
@@ -242,10 +246,38 @@ JOBS: tuple[Job, ...] = (
         online=_simple(lambda: [UsdPerSdrDaily()]),
     ),
     Job(
+        name="acp",
+        what="Panama Canal Authority, Monthly Canal Operations Summary: Canal Waters Time, transits and neopanamax slots, monthly from December 2001, ten seconds between requests",
+        series=("acp_canal_operations_monthly",),
+        adapters=lambda: [AcpCanalOperationsMonthly()],
+        online=_simple(lambda: [AcpCanalOperationsMonthly()]),
+    ),
+    Job(
+        name="sca",
+        what="Suez Canal Authority, annual navigation reports: LNG carriers a year and their net tonnage, from 2007",
+        series=("sca_lng_transits_annual",),
+        adapters=lambda: [ScaLngTransitsAnnual()],
+        online=_simple(lambda: [ScaLngTransitsAnnual()]),
+    ),
+    Job(
+        name="chokepoints",
+        what="EIA, LNG through each maritime chokepoint: by year from 2020 on the chokepoints page, by quarter in the Short-Term Energy Outlook's energy security article",
+        series=("eia_chokepoint_lng_annual", "eia_steo_chokepoint_lng_quarterly"),
+        adapters=lambda: [EiaChokepointLngAnnual(), EiaSteoChokepointLngQuarterly()],
+        online=_simple(lambda: [EiaChokepointLngAnnual(), EiaSteoChokepointLngQuarterly()]),
+    ),
+    Job(
+        name="user",
+        what="The owner's own CSV series under data/private/user/, declared in lngarb.config.USER_CSV_SERIES, validated and recorded, never committed; nothing unless one is declared",
+        series=tuple(d.series for d in config.USER_CSV_SERIES),
+        adapters=lambda: user_csv.adapters(),
+        online=_simple(lambda: user_csv.adapters()),
+    ),
+    Job(
         name="seeds",
-        what="The committed seed files, checked from their own contents: the sea routes and the freight anchors",
-        series=("routes", "freight_anchors"),
-        seed=lambda: [sea_routes.record_routes(), freight_anchors.record()],
+        what="The committed seed files, checked from their own contents: the sea routes, the freight anchors and Panama's LNG transits by fiscal year",
+        series=("routes", "freight_anchors", "acp_lng_transits_fiscal_year"),
+        seed=lambda: [sea_routes.record_routes(), freight_anchors.record(), panama_transits.record()],
     ),
 )
 

@@ -65,7 +65,7 @@ const MANIFEST_PATH = process.argv[2]
 const EXPECTED_SCHEMA_VERSION = 1;
 const STATUS_VALUES = new Set(["ok", "stale", "failed"]);
 const METHOD_VALUES = new Set(["published", "parsed", "reconstructed", "derived", "seed"]);
-const FREQUENCY_VALUES = new Set(["daily", "weekly", "monthly", "annual"]);
+const FREQUENCY_VALUES = new Set(["daily", "weekly", "monthly", "quarterly", "annual"]);
 const REGION_VALUES = new Set(["jkm_markets", "other_asia", "europe", "middle_east_africa", "americas"]);
 
 const REQUIRED_ENTRY_KEYS = [
@@ -113,6 +113,14 @@ const COLUMN_RULES = [
   { match: /^mmcf(_before|_after)?$/, lo: 0.0, hi: 2000000.0, what: "US gas exports in a month, MMcf" },
   { match: /^volume_mmcf$/, lo: 0.0, hi: 10000.0, what: "one LNG cargo or part of one, MMcf" },
   { match: /^usd_per_mcf(_before|_after)?$/, lo: 0.1, hi: 100.0, what: "the price of US LNG exports in a month, USD per thousand cubic feet" },
+  { match: /^(cwt_hours_(avg|high|low)|in_transit_hours_avg)$/, lo: 0.0, hi: 500.0, what: "hours in the Panama Canal's waters, a month's daily average, high or low" },
+  { match: /^(arrivals|transits)_daily_avg$/, lo: 0.0, hi: 100.0, what: "ships a day at the Panama Canal" },
+  { match: /^(transits_total|neopanamax_transits)$/, lo: 0.0, hi: 3000.0, what: "ships through the Panama Canal in a month" },
+  { match: /^neopanamax_slots_(available|used)$/, lo: 0.0, hi: 1500.0, what: "neopanamax booking slots in a month" },
+  { match: /^lng_ships$/, lo: 0.0, hi: 5000.0, what: "LNG carriers through the Suez Canal in a year" },
+  { match: /^net_ton_thousand$/, lo: 0.0, hi: 500000.0, what: "Suez Canal net tonnage of those ships, thousands" },
+  { file: /^sca_lng_transits_annual\.csv$/, match: /^report$/, lo: 2008, hi: 2100, what: "the year of the Suez Canal Authority report a row is read in" },
+  { match: /^bcf_per_day$/, lo: 0.0, hi: 100.0, what: "LNG through a chokepoint, billion cubic feet a day" },
 ];
 
 function ruleFor(column, file) {
@@ -183,8 +191,8 @@ const toUtc = (iso) => Date.UTC(Number(iso.slice(0, 4)), Number(iso.slice(5, 7))
 const fromUtc = (ms) => new Date(ms).toISOString().slice(0, 10);
 
 // Mirrors lngarb.sources.base.find_gaps. daily: every weekday in the span, no
-// holiday calendar. weekly, monthly, annual: every period must carry at least
-// one observation, reported at the start of the period.
+// holiday calendar. weekly, monthly, quarterly, annual: every period must
+// carry at least one observation, reported at the start of the period.
 function findGaps(dates, frequency) {
   const unique = [...new Set(dates)].sort();
   if (unique.length < 2) return [];
@@ -214,6 +222,14 @@ function findGaps(dates, frequency) {
       let year = Number(iso.slice(0, 4));
       let month = Number(iso.slice(5, 7)) + 1;
       if (month > 12) { month = 1; year += 1; }
+      return year + "-" + String(month).padStart(2, "0") + "-01";
+    };
+  } else if (frequency === "quarterly") {
+    anchorOf = (iso) => iso.slice(0, 4) + "-" + String(Math.floor((Number(iso.slice(5, 7)) - 1) / 3) * 3 + 1).padStart(2, "0") + "-01";
+    step = (iso) => {
+      let year = Number(iso.slice(0, 4));
+      let month = Number(iso.slice(5, 7)) + 3;
+      if (month > 12) { month -= 12; year += 1; }
       return year + "-" + String(month).padStart(2, "0") + "-01";
     };
   } else {

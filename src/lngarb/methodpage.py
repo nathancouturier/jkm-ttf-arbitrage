@@ -16,7 +16,7 @@ import math
 from datetime import date
 from typing import Any, Mapping
 
-from . import config, freight_anchors, reader, units
+from . import canals, config, freight_anchors, reader, units
 
 __all__ = ["page", "PARAMETER_WORDS", "value_words", "REPOSITORY"]
 
@@ -42,6 +42,11 @@ PARAMETER_WORDS: Mapping[str, str] = {
     "panama_capacity_is_nominal": "Panama tolls on the nominal capacity",
     "panama_fresh_water_fixed_usd": "Panama fresh water surcharge, fixed part",
     "panama_fresh_water_variable_share": "Panama fresh water surcharge, share of tolls",
+    "panama_fresh_water_curve_centre_ft": "Panama fresh water curve, centre, by date",
+    "panama_fresh_water_curve_slope_per_ft": "Panama fresh water curve, slope",
+    "panama_fresh_water_curve_max_share": "Panama fresh water curve, maximum share",
+    "panama_fresh_water_min_share_to_sep_2023": "Panama fresh water curve, minimum share to September 2023",
+    "panama_gatun_levels_printed": "Gatun Lake levels the Authority's summaries print",
     "vessel_174k_from": "First day of the two-stroke benchmark carrier",
     "port_cost_west_usd": "Port costs, Sabine Pass and Gate",
     "port_cost_east_usd": "Port costs, Sabine Pass and Futtsu",
@@ -184,6 +189,53 @@ def _energy_segments(now_document: Mapping[str, Any] | None) -> list[dict[str, A
     return segments
 
 
+#: Lake levels at which the Method view prints the Authority's curve, feet.
+FRESH_WATER_LEVELS = (72.0, 75.0, 79.0, 82.0, 85.0, 85.5, 87.0)
+
+
+def _fresh_water() -> dict[str, Any]:
+    """The variable fresh water surcharge the Authority's curve gives, against the 5 percent held."""
+    centres = config.PARAMETERS["panama_fresh_water_curve_centre_ft"].value
+    starts = sorted(centres)
+    rows = []
+    for level in FRESH_WATER_LEVELS:
+        rows.append({"level_ft": level, "shares": {
+            start: 100.0 * canals.panama_fresh_water_share_at_level(level, start) for start in starts}})
+    printed = config.PARAMETERS["panama_gatun_levels_printed"].value
+    readings = [{"day": day, "level_ft": level,
+                 "share_percent": 100.0 * canals.panama_fresh_water_share_at_level(level, day)}
+                for day, level in sorted(printed.items())]
+    held = 100.0 * config.PARAMETERS["panama_fresh_water_variable_share"].value
+    segments = [
+        reader.T("The variable part of Panama's fresh water surcharge is a share of the tolls set each day from "
+                 "Gatun Lake's level by the Authority's curve, the maximum of "),
+        reader.N("fws_max", 100.0 * config.PARAMETERS["panama_fresh_water_curve_max_share"].value, "share_percent"),
+        reader.T(" percent over one plus e to "),
+        reader.N("fws_slope", config.PARAMETERS["panama_fresh_water_curve_slope_per_ft"].value, "pp"),
+        reader.T(" times the level less the curve's centre, "),
+        reader.N("fws_centre_first", centres[starts[0]], "feet"), reader.T(" feet from "),
+        reader.D("fws_from_first", starts[0]), reader.T(" and "),
+        reader.N("fws_centre_last", centres[starts[-1]], "feet"), reader.T(" feet from "),
+        reader.D("fws_from_last", starts[-1]),
+        reader.T(". The engine holds the share at "), reader.N("fws_held", held, "share_percent"),
+        reader.T(" percent, the curve's value at its centre, because the Authority's daily level sits on a page "
+                 "the study's code cannot reach; the two levels its monthly summaries print, "),
+    ]
+    for index, r in enumerate(readings):
+        if index:
+            segments.append(reader.T(" and "))
+        segments += [reader.N("level_" + r["day"], r["level_ft"], "feet"), reader.T(" feet on "),
+                     reader.D("level_day_" + r["day"], r["day"]), reader.T(", give "),
+                     reader.N("share_" + r["day"], r["share_percent"], "pp"), reader.T(" percent")]
+    segments.append(reader.T(". The table runs the curve at a few levels under each centre; the Model view "
+                             "types any toll, surcharge included."))
+    return {"segments": segments, "rows": rows, "centres": [{"from": s, "centre_ft": centres[s]} for s in starts],
+            "readings": readings, "held_percent": held,
+            "caption": "The variable fresh water surcharge as a share of tolls, in percent, that the Authority's "
+                       "curve gives at a lake level, under the centre in force from each date; the share is held "
+                       "between 1 and 10 percent to September 2023 and 0 and 10 since."}
+
+
 def page(now_document: Mapping[str, Any] | None = None) -> dict[str, Any]:
     """The Method view's whole document body."""
     parameters = []
@@ -207,6 +259,7 @@ def page(now_document: Mapping[str, Any] | None = None) -> dict[str, Any]:
             reader.T(" of them this study's assumptions, each with its source, and what the study cannot see"),
         ],
         "formulas": _formulas(),
+        "fresh_water": _fresh_water(),
         "parameters": parameters,
         "parameters_caption": "Every parameter of the engine that is not market data or a canal tariff: its "
                               "value, whether it is published or this study's assumption, the document it is "

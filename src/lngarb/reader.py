@@ -60,6 +60,9 @@ DECIMALS: Mapping[str, int] = {
     "mmbtu_per_t": 2,
     "mmbtu_per_mwh": 6,
     "r2": 2,
+    "hours": 1,
+    "bcf_day": 1,
+    "feet": 2,
 }
 
 #: Formats whose values are whole numbers and are written as JSON integers.
@@ -1001,7 +1004,7 @@ PROVENANCE_COLUMNS = (
     {"id": "terms_words", "head": "Terms", "short": "terms"},
 )
 
-FREQUENCY_WORDS = {"daily": "daily", "weekly": "weekly", "monthly": "monthly", "annual": "yearly"}
+FREQUENCY_WORDS = {"daily": "daily", "weekly": "weekly", "monthly": "monthly", "quarterly": "quarterly", "annual": "yearly"}
 
 ORDINALS = {"1": "first", "2": "second", "3": "third", "4": "fourth"}
 

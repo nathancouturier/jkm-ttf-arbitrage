@@ -57,6 +57,27 @@ tests/fixtures/dehst_reports_page_2026-10-07.html:
   The monthly averages are reproduced unchanged; they may be reused for
   non-commercial purposes only.
 
+data/cache/acp_canal_operations_monthly.csv, data/seed/acp_lng_transits_fiscal_year.json
+and tests/fixtures/acp_ops_summary_2023-12_A-02-2024.pdf:
+  Source: Panama Canal Authority, Monthly Canal Operations Summary and annual
+  reports. The Authority's terms of use forbid copying, distribution and
+  publication of its documents for commercial or lucrative purposes; the
+  figures are kept unchanged for this non-commercial study, and the Authority
+  says the information is for general purposes only and may vary with
+  traffic audits.
+
+data/cache/sca_lng_transits_annual.csv:
+  Source: Suez Canal Authority, annual navigation reports, Table 3; the
+  counts restated with attribution, all rights reserved by the Authority.
+
+data/cache/eia_chokepoint_lng_annual.csv, data/cache/eia_steo_chokepoint_lng_quarterly.csv,
+tests/fixtures/eia_chokepoints_2026-03-03_fetched_2026-10-15.html and
+tests/fixtures/eia_steo_energysecurity_2026-08-12_fetched_2026-10-15.html:
+  Source: U.S. Energy Information Administration, World Oil Transit
+  Chokepoints (March 2026) and Short-Term Energy Outlook, Global Energy
+  Security (August and October 2026), EIA analysis based on Vortexa tanker
+  tracking data. US government publications, in the public domain.
+
 data/cache/acer_lng_daily.csv:
   Source: European Union Agency for the Cooperation of Energy Regulators
   (ACER).

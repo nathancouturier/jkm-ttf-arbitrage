@@ -32,6 +32,7 @@ export function render(root, data) {
   root.appendChild(y2020Figure(page, decimals));
   root.appendChild(y2026Figure(page, decimals));
   root.appendChild(waitsBlock(page, decimals));
+  root.appendChild(canalsBlock(page, decimals));
   root.appendChild(el("div", { class: "block" }, [sentence("p", page.limits_segments, decimals, "lead")]));
   return title;
 }
@@ -279,5 +280,90 @@ function waitsBlock(page, decimals) {
     sentence("p", page.waits.heading_segments, decimals, "lead"),
     scrollTable([page.words.waits_caption], table),
     el("p", { class: "source-line", text: page.waits.source }),
+  ]);
+}
+
+/** The months with a wait reported for LNG carriers, marked in the accent on the Canal Waters Time line. */
+function waitPoints(cwt) {
+  return cwt.days
+    .map((day, index) => ({ day, value: cwt.avg[index], accent: true }))
+    .filter((p) => cwt.wait_months.includes(p.day) && p.value !== null);
+}
+
+function chokepointTable(rows, names, captionSegments, words, decimals) {
+  const body = el("tbody");
+  for (const row of rows) {
+    body.appendChild(el("tr", {}, [
+      el("th", { text: row.label, attrs: { scope: "row" } }),
+      ...names.map((name) => figureCell(formatCell(row.values[name] === undefined ? null : row.values[name], "bcf_day", decimals), name.toLowerCase().replace(/[^a-z]+/g, "_"))),
+    ]));
+  }
+  const table = el("table", { class: "table" }, [
+    el("thead", {}, [el("tr", {}, [
+      el("th", { text: words.chokepoint_head, attrs: { scope: "col" } }),
+      ...names.map((name) => el("th", { class: "col-num", text: name, attrs: { scope: "col", "data-short": name.replace(/^(Strait of |Bab el-Mandeb |Cape of )/, "").replace(/ (Canal|Strait|Straits)$/, "") } })),
+    ])]),
+    body,
+  ]);
+  return scrollTable([sentence("span", captionSegments, decimals)], table);
+}
+
+function canalsBlock(page, decimals) {
+  const canals = page.canals;
+  const words = canals.words;
+  const cwt = canals.cwt;
+  const frame = el("div", { class: "chart-frame" });
+  charts.onWidthChange(frame, (width) => {
+    frame.replaceChildren(charts.timeChart({
+      width,
+      days: cwt.days,
+      first: cwt.days[0],
+      last: cwt.days[cwt.days.length - 1],
+      y: cwt.y,
+      band: null,
+      reference: null,
+      references: [
+        { values: cwt.high, label: "highest day", pattern: "thin" },
+        { values: cwt.low, label: "lowest day", pattern: "dot" },
+      ],
+      series: { values: cwt.avg, label: "month's average" },
+      marks: [],
+      rules: [],
+      points: waitPoints(cwt),
+      ticks: cwt.ticks,
+      words: { title: segmentsText(cwt.heading_segments, decimals), desc: cwt.desc, yAxis: words.cwt_y_axis },
+    }));
+  });
+  const body = el("tbody");
+  for (const row of canals.years) {
+    body.appendChild(el("tr", {}, [
+      el("th", { text: formatCell(row.year, "year", decimals), attrs: { scope: "row" } }),
+      figureCell(formatCell(row.suez_ships, "count", decimals), "suez_ships"),
+      figureCell(formatCell(row.suez_net_ton_thousand, "count", decimals), "suez_net_ton_thousand"),
+      figureCell(formatCell(row.panama_transits, "count", decimals), "panama_transits", { missing: "locks not yet open" }),
+    ]));
+  }
+  const years = el("table", { class: "table" }, [
+    el("thead", {}, [el("tr", {}, [
+      el("th", { text: words.year_head, attrs: { scope: "col" } }),
+      el("th", { class: "col-num", text: words.suez_head, attrs: { scope: "col", "data-short": "Suez" } }),
+      el("th", { class: "col-num", text: words.suez_tons_head, attrs: { scope: "col", "data-short": "net tons" } }),
+      el("th", { class: "col-num", text: words.panama_head, attrs: { scope: "col", "data-short": "Panama" } }),
+    ])]),
+    body,
+  ]);
+  return el("figure", { class: "block" }, [
+    el("h2", { class: "block__heading", text: words.heading }),
+    sentence("p", canals.heading_segments, decimals, "lead"),
+    scrollTable([words.years_caption], years),
+    el("p", { class: "source-line", text: words.years_source }),
+    sentence("p", cwt.heading_segments, decimals, "prose"),
+    frame,
+    el("p", { class: "source-line", text: words.cwt_legend }),
+    disclosure("LNG through each chokepoint, as EIA estimates it", () => el("div", {}, [
+      chokepointTable(canals.annual, canals.chokepoints, canals.annual_caption_segments, words, decimals),
+      chokepointTable(canals.quarterly, canals.chokepoints, canals.quarterly_caption_segments, words, decimals),
+      el("p", { class: "source-line", text: words.chokepoints_source }),
+    ])),
   ]);
 }

@@ -555,6 +555,17 @@ Decision: the route through Suez is closed to a US Gulf cargo from 13 January
 since no source shows a return. Before that it is open. The secondary source
 for March to July 2026 is quoted as corroboration only; nothing rests on it.
 
+Revised 15 October 2026: two public series now stand behind the decision. The
+Suez Canal Authority's own count of LNG ships, read by code from its annual
+reports, falls from 819 in 2023 to 119 in 2024 and 282 in 2025, and EIA's
+chokepoint tables put LNG through Bab el-Mandeb at 0.0 billion cubic feet a
+day in 2024 and the first half of 2025, with the 0.5 to 0.9 through Suez
+"almost entirely for delivery to Egypt or Jordan" in EIA's words; EIA's
+quarterly table then shows Bab el-Mandeb at 1.1 in the fourth quarter of 2025
+and 3.0 in the first of 2026, flows the press attributes to Russian Arctic
+cargoes, and a dash again in the second quarter of 2026. The day of the
+closure stands; the date of a return for a US cargo is still unshown.
+
 ### 29. The canal's monthly transit counts
 
 Raised 3 October 2026. **Decided 7 October 2026.**
@@ -569,6 +580,12 @@ Aqaba are counted and never pass Bab el Mandeb.
 
 Decision: not collected; the yearly counts are enough for the record the study
 shows.
+
+Revised 15 October 2026: the yearly counts are now a series read by code from
+the reports, 2007 to 2025, with the restatements between prints recorded
+(`sca_lng_transits_annual`); the monthly counts by ship type stay unread,
+since the Authority offers them only in an embedded dashboard and the option
+for a monthly table is commented out of its page.
 
 ### 30. Quoting the Suez Canal Authority
 
@@ -718,6 +735,26 @@ Under the 14-day window the first stands for the weeks ending 18 February to
 when LNG Prime put Atlantic rates above 30,000 and 40,000 $/day: those two
 weeks' reported hire overstates it. The second stands for the weeks ending 25
 March to 15 April, in which the arb east was open.
+
+Revised 15 October 2026: LNG Prime's articles quoting Spark were read in full
+for 2021 to 2026, 214 of them, with the gCaptain republications of Reuters
+and Bloomberg wires. Under the rule above, one figure a month at most and the
+first reported in the month, 41 months were added to the ten held: every
+month with a public Atlantic figure from January 2021 to October 2026, 51 in
+all. From August 2024 LNG Prime's articles sit behind its subscription and
+the figure is read from the article's public title or summary, which the row
+says. Each row carries the figure, its day where the article names one and
+the article's date where it does not, the assessment and the vessel, marked
+inferred where the article does not name them, the publisher and the
+address; no sentence is kept. The low, central and high hire become minus
+750, 55,750 and 447,000 $/day; by ship the median is 75,500 over the 23
+figures for the 160,000 m3 TFDE to 2023 and 46,500 over the 28 for the
+174,000 m3 two-stroke since, and whether the central hire should be set by
+ship is left here. The weekly series the same articles would give, 193
+figures, is not built: Spark's assessments stay Spark's, and the rule of one
+figure a month stands. Fridays since July 2023 with no public figure, 57 of
+them, are the gaps the rule leaves; 31 of them appear only in search engine
+summaries, which are not read.
 
 ### 38. Lloyd's List Intelligence's briefs
 
@@ -905,6 +942,14 @@ from a document the study already quotes. China's tariff on US LNG of
 February 2025, the Strait of Hormuz in 2026 and the Freeport outage of June
 2022 are named in the study's words but not yet drawn: each waits for a
 primary or wire-service document read and dated, and is added when one is.
+EIA's quarterly chokepoint table (question 52) puts LNG through Hormuz at
+7.4 billion cubic feet a day in the first quarter of 2026 and 0.8 in the
+second, against 10.5 in the fourth of 2025, which dates the fall to a
+quarter and not to a day. Two events were added on 15 October 2026 from
+documents read: the cut of Panama's booking slots from 3 November 2023
+(advisory A-48-2023) and the first US cargoes turning from Suez to the Cape,
+reported by Bloomberg on 24 December 2023; and every Panama event now links
+the Authority's advisory.
 
 ### 48. How much the verdict rests on the regas discount and the cargo's energy
 
@@ -963,6 +1008,16 @@ published monthly series of waiting days for LNG carriers, or for neopanamax
 vessels unbooked, is read; the two reported waits stay as the record shows
 them.
 
+Revised 15 October 2026: the Authority's Monthly Canal Operations Summary,
+read by code from December 2001, gives Canal Waters Time for every ship, the
+month's daily average, high and low, and never by segment or by booked and
+unbooked ships (`acp_canal_operations_monthly`). The average reached 66.5
+hours in August 2023 and 44.1 in December 2023 against about 24 in a normal
+month, below the 12 and 15 days reported for unbooked LNG carriers in those
+months, as an average over mostly booked ships must be. The series is drawn
+on the Flows view with the two reported months marked; the engine's default
+stays no wait, and the reported waits stay in their months.
+
 ### 51. The energy of a tonne of LNG
 
 Raised 15 October 2026. **Decided 15 October 2026, to be revised.**
@@ -1002,3 +1057,47 @@ September 2021); and no public weekly JKM exists before that issue.
 
 Decision: the extensions above are committed; the four shortfalls are named
 here and taken up as each source is read.
+
+### 53. The fresh water surcharge's curve, and the lake level it needs
+
+Raised 15 October 2026. **Decided 15 October 2026, to be revised.**
+
+The variable part of Panama's fresh water surcharge was held at 5 percent of
+tolls, "the middle of the Authority's range", with no curve behind it. The
+Authority publishes the curve: 10 percent over one plus e to 0.6 times the
+lake's level less 82 feet from 15 February 2020, the centre moved to 79 feet
+from 1 October 2023, the share held between 1 and 10 percent before that
+date and 0 and 10 since (advisories ADV-03-2020 and ADV-42-2023, and the
+Notes on Tolls Tariffs of February 2026). It also publishes the lake's level
+daily, with a sixty day projection, on a page of its reporting host that the
+study's network cannot reach, and no list of the share applied each day was
+found anywhere. The monthly summaries print a level twice: 79.7 feet in the
+summary of August 2023 and 85.02 feet in that of July 2024.
+
+Decision: the curve and its four constants are parameters of the engine,
+published and sourced, and `lngarb.canals.panama_fresh_water_share_at_level`
+runs it; the share stays at 5 percent in the engine, now stated as the
+curve's value at its centre, until the daily level can be read; the Method
+view prints the curve at a few levels under each centre and at the two
+levels printed, 8.0 and 0.3 percent. To be revised when the level page is
+reachable or the owner saves its history by hand into data/private/.
+
+### 54. Keeping the Panama Canal Authority's figures
+
+Raised 15 October 2026. **Decided 15 October 2026.**
+
+Question 41 settled on quoting the Authority's tariffs and advisories. Two
+series now keep its figures: the traffic table of every monthly operations
+summary since December 2001, and ten yearly LNG transit counts read by eye in
+its annual reports. The terms of use forbid copying, distribution and
+publication "for commercial or lucrative purposes" and say nothing of any
+other; the summaries' footer says the information is for general purposes
+only and may vary with traffic audits; robots.txt allows every path and asks
+for ten seconds between requests.
+
+Decision: both series are committed for this non-commercial study, the
+figures unchanged, the Authority credited and its disclaimer carried in the
+manifest, the NOTICE and the Flows view; the adapter leaves ten seconds
+between requests and fetches only the months the cache lacks. Should the
+Authority object, both move to data/private/ and the Flows view's canal
+block is withheld, as question 20 provides for DEHSt.

@@ -58,6 +58,26 @@ export function render(root, data) {
     ])),
   ]));
 
+  const fresh = method.fresh_water;
+  const freshBody = el("tbody");
+  for (const row of fresh.rows) {
+    freshBody.appendChild(el("tr", {}, [
+      el("th", { text: formatCell(row.level_ft, "feet", decimals) + " feet", attrs: { scope: "row" } }),
+      ...fresh.centres.map((c) => figureCell(formatCell(row.shares[c.from], "pp", decimals), "share_" + c.from)),
+    ]));
+  }
+  root.appendChild(el("section", { class: "block", attrs: { "aria-labelledby": "method-fresh-water" } }, [
+    el("h2", { class: "block__heading", id: "method-fresh-water", text: "Panama's fresh water surcharge" }),
+    sentence("p", fresh.segments, decimals, "prose"),
+    scrollTable([fresh.caption], el("table", { class: "table" }, [
+      el("thead", {}, [el("tr", {}, [
+        el("th", { text: "Gatun Lake level", attrs: { scope: "col" } }),
+        ...fresh.centres.map((c) => el("th", { class: "col-num", text: "Centre " + formatCell(c.centre_ft, "feet", decimals) + " feet, from " + formatDay(c.from), attrs: { scope: "col", "data-short": formatCell(c.centre_ft, "feet", decimals) + " ft" } })),
+      ])]),
+      freshBody,
+    ])),
+  ]));
+
   root.appendChild(el("section", { class: "block", attrs: { "aria-labelledby": "method-delivery" } }, [
     el("h2", { class: "block__heading", id: "method-delivery", text: "Delivery months" }),
     sentence("p", method.delivery_segments, decimals, "prose"),

@@ -69,9 +69,10 @@ def test_the_count_of_charter_rates_follows_the_list(method):
     held = len(freight_anchors.ANCHORS)
     counts = [s["value"] for item in method["limits"] for s in item if s.get("field") == "anchors"]
     assert counts == [held]
+    # A count to fourteen is spelled out; a larger one is written in figures.
     spelled = {8: "eight", 9: "nine", 10: "ten", 11: "eleven", 12: "twelve", 13: "thirteen", 14: "fourteen"}
     readme = (base.REPO_ROOT / "README.md").read_text(encoding="utf-8")
-    assert "The study holds " + spelled[held] + " rates" in readme
+    assert "The study holds " + spelled.get(held, str(held)) + " rates" in readme
 
 
 def test_the_energy_sentence_runs_the_latest_week_at_the_ends_of_the_range(method):

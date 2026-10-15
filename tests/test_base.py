@@ -190,6 +190,7 @@ def test_a_release_that_slips_a_day_for_a_holiday_is_not_a_weekly_gap():
 def test_monthly_and_annual_gaps():
     assert find_gaps(["2020-01-01", "2020-04-01"], "monthly") == ["2020-02-01", "2020-03-01"]
     assert find_gaps(["2018-06-30", "2021-01-31"], "annual") == ["2019-01-01", "2020-01-01"]
+    assert find_gaps(["2025-01-01", "2025-04-01", "2026-01-01"], "quarterly") == ["2025-07-01", "2025-10-01"]
 
 
 def test_gaps_of_a_short_or_empty_series_are_empty():

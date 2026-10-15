@@ -32,7 +32,10 @@
    "mmbtu_per_m3": 2,
    "mmbtu_per_t": 2,
    "mmbtu_per_mwh": 6,
-   "r2": 2
+   "r2": 2,
+   "hours": 1,
+   "bcf_day": 1,
+   "feet": 2
   },
   "rounding": "now.json keeps full precision, because the browser engine recomputes from its inputs; history.json and flows.json store floats to 6 places. The page prints the decimals of the format a value names.",
   "segments": "A sentence is a list of segments. A text segment holds words only. A value segment names its field and holds a value with a format, or an ISO date or a word with its label."
@@ -40,7 +43,7 @@
  "summary_segments": [
   {
    "field": "series_count",
-   "value": 22,
+   "value": 27,
    "format": "count"
   },
   {
@@ -156,6 +159,36 @@
    "terms_words": "ACER legal notice, reproduction with acknowledgement"
   },
   {
+   "id": "acp_canal_operations_monthly",
+   "label": "Canal Waters Time at Panama, hours from arrival to departure for every ship, the month's daily average, high and low, with transits and neopanamax slots",
+   "publisher": "Panama Canal Authority, Monthly Canal Operations Summary, advisories to shipping",
+   "page_url": "https://pancanal.com/en/maritime-services/advisory-to-shipping/",
+   "page_words": "",
+   "status": "ok",
+   "status_words": "checked",
+   "range_words": "February 2014 to September 2026, monthly",
+   "gaps_words": "3 months, from September 2017 to April 2020",
+   "provisional_words": "none",
+   "fetch_words": "15 October 2026 at 13:35 UTC",
+   "vintage_words": "advisories A-04-2014 to A-38-2026",
+   "terms_words": "Panama Canal Authority's terms of use; non-commercial use with attribution"
+  },
+  {
+   "id": "acp_lng_transits_fiscal_year",
+   "label": "LNG carriers through the Panama Canal each fiscal year, October to September, as the Authority's annual reports print them",
+   "publisher": "this study, from the Panama Canal Authority's annual reports",
+   "page_url": "https://pancanal.com/en/annual-reports/",
+   "page_words": "",
+   "status": "ok",
+   "status_words": "checked",
+   "range_words": "1 October 2015 to 30 September 2025, yearly",
+   "gaps_words": "none",
+   "provisional_words": "none",
+   "fetch_words": "typed by hand from cited documents, not fetched",
+   "vintage_words": "annual reports 2016 to 2025",
+   "terms_words": "Panama Canal Authority's terms of use; figures quoted with attribution"
+  },
+  {
    "id": "dehst_eua_german_auction_monthly",
    "label": "EU allowance price, German auctions on EEX, monthly average, EUR per tonne of CO2, a proxy for the EU price",
    "publisher": "German Emissions Trading Authority (DEHSt) at the German Environment Agency; source EEX, DEHSt",
@@ -199,6 +232,21 @@
    "fetch_words": "15 October 2026 at 11:59 UTC",
    "vintage_words": "reports March 2015 to June 2025",
    "terms_words": "CC BY 4.0"
+  },
+  {
+   "id": "eia_chokepoint_lng_annual",
+   "label": "LNG through each maritime chokepoint, billion cubic feet a day, by calendar year from 2020 and the latest first half, EIA's analysis of tanker tracking",
+   "publisher": "U.S. Energy Information Administration, World Oil Transit Chokepoints; analysis based on Vortexa tanker tracking data",
+   "page_url": "https://www.eia.gov/international/content/analysis/special_topics/World_Oil_Transit_Chokepoints/",
+   "page_words": "",
+   "status": "ok",
+   "status_words": "checked",
+   "range_words": "1 January 2020 to 1 January 2025, yearly",
+   "gaps_words": "none",
+   "provisional_words": "none",
+   "fetch_words": "15 October 2026 at 13:20 UTC",
+   "vintage_words": "page last updated 3 March 2026",
+   "terms_words": "public domain, US government publication; EIA analysis based on Vortexa tanker tracking data"
   },
   {
    "id": "eia_henry_hub_daily",
@@ -276,6 +324,21 @@
    "terms_words": "US public domain"
   },
   {
+   "id": "eia_steo_chokepoint_lng_quarterly",
+   "label": "LNG through each maritime chokepoint, billion cubic feet a day, by quarter, from the Short-Term Energy Outlook's energy security article",
+   "publisher": "U.S. Energy Information Administration, Short-Term Energy Outlook, Global Energy Security; analysis based on Vortexa tanker tracking data",
+   "page_url": "https://www.eia.gov/outlooks/steo/report/energysecurity/article.php",
+   "page_words": "",
+   "status": "ok",
+   "status_words": "checked",
+   "range_words": "1 January 2025 to 1 April 2026, quarterly",
+   "gaps_words": "none",
+   "provisional_words": "none",
+   "fetch_words": "15 October 2026 at 13:20 UTC",
+   "vintage_words": "article released 12 August 2026, on the page of the Outlook released 6 October 2026",
+   "terms_words": "public domain, US government publication; EIA analysis based on Vortexa tanker tracking data"
+  },
+  {
    "id": "eia_wngsr_international_weekly",
    "label": "Weekly averages of JKM and TTF, USD/MMBtu, WNGSR Supplement, from January 2026",
    "publisher": "U.S. Energy Information Administration, figures credited to Bloomberg Finance L.P.",
@@ -313,7 +376,7 @@
    "page_words": "",
    "status": "ok",
    "status_words": "checked",
-   "range_words": "10 figures typed from cited articles, not a time series",
+   "range_words": "51 figures typed from cited articles, not a time series",
    "gaps_words": "none",
    "provisional_words": "none",
    "fetch_words": "typed by hand from cited documents, not fetched",
@@ -439,6 +502,21 @@
    "fetch_words": "computed by this study, not fetched",
    "vintage_words": "searoute 1.6.0",
    "terms_words": "distances MIT; lines EUPL 1.2; searoute Apache License 2.0"
+  },
+  {
+   "id": "sca_lng_transits_annual",
+   "label": "LNG carriers through the Suez Canal each year, both directions, and their net tonnage, from the Authority's annual reports",
+   "publisher": "Suez Canal Authority, Planning and Research Department, annual navigation reports",
+   "page_url": "https://www.suezcanal.gov.eg/English/Downloads/Pages/default.aspx?folder=Navigation%20Reports/Annual%20Reports%E2%80%8B%E2%80%8B%E2%80%8B",
+   "page_words": "",
+   "status": "ok",
+   "status_words": "checked",
+   "range_words": "1 January 2007 to 1 January 2025, yearly",
+   "gaps_words": "none",
+   "provisional_words": "none",
+   "fetch_words": "15 October 2026 at 13:15 UTC",
+   "vintage_words": "reports 2008 to 2025",
+   "terms_words": "All rights reserved, Suez Canal Authority; facts restated with attribution"
   },
   {
    "id": "worldbank_gas_monthly",

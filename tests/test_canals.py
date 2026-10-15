@@ -127,3 +127,27 @@ def test_the_round_trip_is_converted_at_the_rate_of_the_day(monkeypatch):
 def test_without_an_sdr_rate_suez_is_not_priced(monkeypatch):
     monkeypatch.setattr(canals, "_usd_per_sdr", lambda day: None)
     assert canals.suez_round_trip("2022-10-12", 160_000) is None
+
+
+def test_every_suez_circular_the_tables_name_has_the_authority_s_page():
+    named = {words for table in (config.SUEZ_LNG_SURCHARGE, config.SUEZ_LNG_GENERAL_REDUCTION,
+                                 config.SUEZ_US_GULF_JAPAN_REBATE) for _, _, words in table}
+    assert named <= set(config.SUEZ_CIRCULAR_PAGES)
+    assert all(url.startswith("https://www.suezcanal.gov.eg/English/Navigation/NavigationCirculars/Pages/")
+               for url in config.SUEZ_CIRCULAR_PAGES.values())
+    assert [start for start, _, _ in config.SUEZ_REBATE_RENEWALS][-1] == "2026-07-01"
+
+
+def test_the_fresh_water_curve_gives_the_held_share_at_its_centre_and_the_printed_levels_their_shares():
+    # Before the surcharge there is no curve.
+    assert canals.panama_fresh_water_share_at_level(79.0, "2020-02-14") is None
+    # The held 5 percent is the curve at its centre: 82 feet to September 2023, 79 feet since.
+    assert canals.panama_fresh_water_share_at_level(82.0, "2023-09-30") == pytest.approx(0.05)
+    assert canals.panama_fresh_water_share_at_level(79.0, "2023-10-01") == pytest.approx(0.05)
+    # The floor of 1 percent to September 2023, none since; the ceiling of 10 percent always.
+    assert canals.panama_fresh_water_share_at_level(90.0, "2023-09-30") == pytest.approx(0.01)
+    assert canals.panama_fresh_water_share_at_level(90.0, "2023-10-01") < 0.002
+    assert canals.panama_fresh_water_share_at_level(60.0, "2024-01-01") == pytest.approx(0.10, abs=1e-4)
+    # The two levels the Authority printed.
+    assert canals.panama_fresh_water_share_at_level(79.7, "2023-09-08") == pytest.approx(0.0799, abs=0.0005)
+    assert canals.panama_fresh_water_share_at_level(85.02, "2024-08-07") == pytest.approx(0.0027, abs=0.0002)

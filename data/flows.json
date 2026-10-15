@@ -32,7 +32,10 @@
    "mmbtu_per_m3": 2,
    "mmbtu_per_t": 2,
    "mmbtu_per_mwh": 6,
-   "r2": 2
+   "r2": 2,
+   "hours": 1,
+   "bcf_day": 1,
+   "feet": 2
   },
   "rounding": "now.json keeps full precision, because the browser engine recomputes from its inputs; history.json and flows.json store floats to 6 places. The page prints the decimals of the format a value names.",
   "segments": "A sentence is a list of segments. A text segment holds words only. A value segment names its field and holds a value with a format, or an ISO date or a word with its label."
@@ -64,7 +67,7 @@
    },
    {
     "field": "open_months",
-    "value": 18,
+    "value": 15,
     "format": "count"
    },
    {
@@ -72,7 +75,7 @@
    },
    {
     "field": "share_open",
-    "value": 25.699559,
+    "value": 26.247005,
     "format": "share_percent"
    },
    {
@@ -80,7 +83,7 @@
    },
    {
     "field": "share_closed",
-    "value": 12.569787,
+    "value": 15.988205,
     "format": "share_percent"
    },
    {
@@ -109,7 +112,7 @@
    },
    {
     "field": "latest_arb",
-    "value": 0.728282,
+    "value": 0.673133,
     "format": "usd_mmbtu",
     "signed": true,
     "missing": "no price"
@@ -124,7 +127,7 @@
    },
    {
     "field": "central_hire",
-    "value": 45500.0,
+    "value": 55750.0,
     "format": "usd_day"
    },
    {
@@ -145,168 +148,168 @@
     "label": "Aug 2024",
     "share_jkm": 30.5301,
     "share_asia": 43.5426,
-    "arb": 0.342335
+    "arb": 0.287186
    },
    {
     "month": "2024-09-01",
     "label": "Sep 2024",
     "share_jkm": 27.3125,
     "share_asia": 37.8679,
-    "arb": 1.139775
+    "arb": 1.084626
    },
    {
     "month": "2024-10-01",
     "label": "Oct 2024",
     "share_jkm": 19.2382,
     "share_asia": 33.2594,
-    "arb": 0.025968
+    "arb": -0.029181
    },
    {
     "month": "2024-11-01",
     "label": "Nov 2024",
     "share_jkm": 17.0594,
     "share_asia": 25.4552,
-    "arb": -0.110686
+    "arb": -0.165835
    },
    {
     "month": "2024-12-01",
     "label": "Dec 2024",
     "share_jkm": 11.5771,
     "share_asia": 16.7335,
-    "arb": -0.114966
+    "arb": -0.170115
    },
    {
     "month": "2025-01-01",
     "label": "Jan 2025",
     "share_jkm": 4.2412,
     "share_asia": 7.5958,
-    "arb": -0.536639
+    "arb": -0.591788
    },
    {
     "month": "2025-02-01",
     "label": "Feb 2025",
     "share_jkm": 4.8111,
     "share_asia": 8.1341,
-    "arb": -1.679972
+    "arb": -1.735121
    },
    {
     "month": "2025-03-01",
     "label": "Mar 2025",
     "share_jkm": 9.4843,
     "share_asia": 14.9202,
-    "arb": 0.071341
+    "arb": 0.016192
    },
    {
     "month": "2025-04-01",
     "label": "Apr 2025",
     "share_jkm": 15.8796,
     "share_asia": 21.4804,
-    "arb": 0.188003
+    "arb": 0.132854
    },
    {
     "month": "2025-05-01",
     "label": "May 2025",
     "share_jkm": 13.7038,
     "share_asia": 22.0118,
-    "arb": 0.198734
+    "arb": 0.143585
    },
    {
     "month": "2025-06-01",
     "label": "Jun 2025",
     "share_jkm": 11.7763,
     "share_asia": 18.6093,
-    "arb": 0.239487
+    "arb": 0.184338
    },
    {
     "month": "2025-07-01",
     "label": "Jul 2025",
     "share_jkm": 12.2784,
     "share_asia": 20.661,
-    "arb": 0.514571
+    "arb": 0.459422
    },
    {
     "month": "2025-08-01",
     "label": "Aug 2025",
     "share_jkm": 12.8539,
     "share_asia": 18.3703,
-    "arb": 0.056246
+    "arb": 0.001097
    },
    {
     "month": "2025-09-01",
     "label": "Sep 2025",
     "share_jkm": 11.8786,
     "share_asia": 18.9691,
-    "arb": 0.036165
+    "arb": -0.018984
    },
    {
     "month": "2025-10-01",
     "label": "Oct 2025",
     "share_jkm": 13.8832,
     "share_asia": 18.3587,
-    "arb": 0.039682
+    "arb": -0.015467
    },
    {
     "month": "2025-11-01",
     "label": "Nov 2025",
     "share_jkm": 10.9031,
     "share_asia": 15.0228,
-    "arb": 0.223472
+    "arb": 0.168324
    },
    {
     "month": "2025-12-01",
     "label": "Dec 2025",
     "share_jkm": 8.7759,
     "share_asia": 11.9781,
-    "arb": 0.821544
+    "arb": 0.766395
    },
    {
     "month": "2026-01-01",
     "label": "Jan 2026",
     "share_jkm": 4.5209,
     "share_asia": 5.7945,
-    "arb": -1.032171
+    "arb": -1.087319
    },
    {
     "month": "2026-02-01",
     "label": "Feb 2026",
     "share_jkm": 8.6427,
     "share_asia": 14.5479,
-    "arb": -0.689653
+    "arb": -0.744802
    },
    {
     "month": "2026-03-01",
     "label": "Mar 2026",
     "share_jkm": 14.7134,
     "share_asia": 25.0521,
-    "arb": 0.385197
+    "arb": 0.330048
    },
    {
     "month": "2026-04-01",
     "label": "Apr 2026",
     "share_jkm": 15.8764,
     "share_asia": 30.3207,
-    "arb": 1.557108
+    "arb": 1.501959
    },
    {
     "month": "2026-05-01",
     "label": "May 2026",
     "share_jkm": 25.2257,
     "share_asia": 41.2823,
-    "arb": 0.835653
+    "arb": 0.780504
    },
    {
     "month": "2026-06-01",
     "label": "Jun 2026",
     "share_jkm": 20.8479,
     "share_asia": 38.7474,
-    "arb": 1.15232
+    "arb": 1.097171
    },
    {
     "month": "2026-07-01",
     "label": "Jul 2026",
     "share_jkm": 20.5034,
     "share_asia": 38.1773,
-    "arb": 0.728282
+    "arb": 0.673133
    }
   ],
   "shares": [
@@ -382,7 +385,7 @@
     },
     {
      "field": "slope",
-     "value": 1.521848,
+     "value": 1.526751,
      "format": "pp"
     },
     {
@@ -390,7 +393,7 @@
     },
     {
      "field": "t",
-     "value": 2.051764,
+     "value": 2.05223,
      "format": "t_stat"
     },
     {
@@ -422,7 +425,7 @@
     },
     {
      "field": "slope_without",
-     "value": 5.19473,
+     "value": 5.219236,
      "format": "pp"
     },
     {
@@ -430,7 +433,7 @@
     },
     {
      "field": "t_without",
-     "value": 2.719943,
+     "value": 2.71869,
      "format": "t_stat"
     },
     {
@@ -446,7 +449,7 @@
     },
     {
      "field": "r2",
-     "value": 0.100825,
+     "value": 0.101468,
      "format": "r2"
     },
     {
@@ -454,7 +457,7 @@
     },
     {
      "field": "r2_without",
-     "value": 0.248613,
+     "value": 0.251186,
      "format": "r2"
     },
     {
@@ -490,8 +493,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.776459,
-    "central": 2.098113,
-    "high": -2.290947
+    "central": 1.947777,
+    "high": -3.243109
    }
   },
   {
@@ -518,8 +521,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.663028,
-    "central": -0.015318,
-    "high": -4.421227
+    "central": -0.165654,
+    "high": -5.373389
    }
   },
   {
@@ -532,8 +535,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.220494,
-    "central": -0.457852,
-    "high": -4.861079
+    "central": -0.608188,
+    "high": -5.813241
    }
   },
   {
@@ -560,8 +563,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.445375,
-    "central": 1.174758,
-    "high": -0.74735
+    "central": 1.114784,
+    "high": -1.174486
    }
   },
   {
@@ -588,8 +591,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.769598,
-    "central": 1.498981,
-    "high": -0.423128
+    "central": 1.439007,
+    "high": -0.850263
    }
   },
   {
@@ -602,8 +605,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.07449,
-    "central": 0.803874,
-    "high": -1.118235
+    "central": 0.743899,
+    "high": -1.54537
    }
   },
   {
@@ -616,8 +619,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.576401,
-    "central": 1.305785,
-    "high": -0.616324
+    "central": 1.24581,
+    "high": -1.043459
    }
   },
   {
@@ -630,8 +633,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.770791,
-    "central": 2.500175,
-    "high": 0.578066
+    "central": 2.4402,
+    "high": 0.150931
    }
   },
   {
@@ -644,8 +647,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.465161,
-    "central": 2.194544,
-    "high": 0.272436
+    "central": 2.13457,
+    "high": -0.1547
    }
   },
   {
@@ -658,8 +661,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.646734,
-    "central": 2.376117,
-    "high": 0.454009
+    "central": 2.316143,
+    "high": 0.026873
    }
   },
   {
@@ -672,8 +675,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.385171,
-    "central": 1.114555,
-    "high": -0.807554
+    "central": 1.05458,
+    "high": -1.234689
    }
   },
   {
@@ -686,8 +689,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.993704,
-    "central": 0.723087,
-    "high": -1.199021
+    "central": 0.663113,
+    "high": -1.626157
    }
   },
   {
@@ -700,8 +703,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.965251,
-    "central": 0.694635,
-    "high": -1.227474
+    "central": 0.63466,
+    "high": -1.654609
    }
   },
   {
@@ -728,8 +731,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.955329,
-    "central": 0.684712,
-    "high": -1.237397
+    "central": 0.624738,
+    "high": -1.664532
    }
   },
   {
@@ -742,8 +745,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.69467,
-    "central": 0.424054,
-    "high": -1.498055
+    "central": 0.364079,
+    "high": -1.92519
    }
   },
   {
@@ -756,8 +759,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.275996,
-    "central": 1.00538,
-    "high": -0.916729
+    "central": 0.945405,
+    "high": -1.343864
    }
   },
   {
@@ -770,8 +773,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.278398,
-    "central": 2.007782,
-    "high": 0.085673
+    "central": 1.947807,
+    "high": -0.341462
    }
   },
   {
@@ -784,8 +787,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.541064,
-    "central": 2.270448,
-    "high": 0.348339
+    "central": 2.210473,
+    "high": -0.078796
    }
   },
   {
@@ -798,8 +801,8 @@
    "anomaly": null,
    "arb": {
     "low": 3.244885,
-    "central": 2.974268,
-    "high": 1.05216
+    "central": 2.914294,
+    "high": 0.625024
    }
   },
   {
@@ -812,8 +815,8 @@
    "anomaly": null,
    "arb": {
     "low": 4.493187,
-    "central": 4.222571,
-    "high": 2.300462
+    "central": 4.162596,
+    "high": 1.873327
    }
   },
   {
@@ -826,8 +829,8 @@
    "anomaly": null,
    "arb": {
     "low": 4.075048,
-    "central": 3.804432,
-    "high": 1.882323
+    "central": 3.744457,
+    "high": 1.455188
    }
   },
   {
@@ -840,8 +843,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.370878,
-    "central": 2.100261,
-    "high": 0.178153
+    "central": 2.040287,
+    "high": -0.248983
    }
   },
   {
@@ -854,8 +857,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.432442,
-    "central": 2.161825,
-    "high": 0.239716
+    "central": 2.101851,
+    "high": -0.187419
    }
   },
   {
@@ -868,8 +871,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.003878,
-    "central": 0.733262,
-    "high": -1.188847
+    "central": 0.673287,
+    "high": -1.615982
    }
   },
   {
@@ -882,8 +885,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.075989,
-    "central": 1.805373,
-    "high": -0.116736
+    "central": 1.745398,
+    "high": -0.543871
    }
   },
   {
@@ -896,8 +899,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.599692,
-    "central": 2.329075,
-    "high": 0.406966
+    "central": 2.269101,
+    "high": -0.020169
    }
   },
   {
@@ -910,8 +913,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.779692,
-    "central": 2.509076,
-    "high": 0.586967
+    "central": 2.449101,
+    "high": 0.159832
    }
   },
   {
@@ -924,8 +927,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.300962,
-    "central": 1.030345,
-    "high": -0.891764
+    "central": 0.970371,
+    "high": -1.318899
    }
   },
   {
@@ -938,8 +941,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.102777,
-    "central": 1.83216,
-    "high": -0.089948
+    "central": 1.772186,
+    "high": -0.517084
    }
   },
   {
@@ -952,8 +955,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.687768,
-    "central": 2.417152,
-    "high": 0.495043
+    "central": 2.357177,
+    "high": 0.067908
    }
   },
   {
@@ -966,8 +969,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.445085,
-    "central": 1.174468,
-    "high": -0.747641
+    "central": 1.114494,
+    "high": -1.174776
    }
   },
   {
@@ -980,8 +983,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.199835,
-    "central": 0.929219,
-    "high": -0.99289
+    "central": 0.869244,
+    "high": -1.420025
    }
   },
   {
@@ -994,8 +997,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.315088,
-    "central": 2.044472,
-    "high": 0.122363
+    "central": 1.984497,
+    "high": -0.304772
    }
   },
   {
@@ -1008,8 +1011,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.507063,
-    "central": 1.236447,
-    "high": -0.685662
+    "central": 1.176472,
+    "high": -1.112797
    }
   },
   {
@@ -1022,8 +1025,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.653292,
-    "central": 0.345856,
-    "high": -1.576253
+    "central": 0.285881,
+    "high": -2.003388
    }
   },
   {
@@ -1036,8 +1039,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.396587,
-    "central": 1.095539,
-    "high": -0.82657
+    "central": 1.035565,
+    "high": -1.253705
    }
   },
   {
@@ -1050,8 +1053,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.220401,
-    "central": 1.921909,
-    "high": -0.000199
+    "central": 1.861935,
+    "high": -0.427335
    }
   },
   {
@@ -1064,8 +1067,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.457191,
-    "central": 1.133204,
-    "high": -0.788905
+    "central": 1.073229,
+    "high": -1.21604
    }
   },
   {
@@ -1078,8 +1081,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.943246,
-    "central": 1.63783,
-    "high": -0.284279
+    "central": 1.577855,
+    "high": -0.711414
    }
   },
   {
@@ -1092,8 +1095,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.516374,
-    "central": 1.214805,
-    "high": -0.707304
+    "central": 1.154831,
+    "high": -1.134439
    }
   },
   {
@@ -1106,8 +1109,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.779791,
-    "central": 0.480759,
-    "high": -1.44135
+    "central": 0.420784,
+    "high": -1.868485
    }
   },
   {
@@ -1134,8 +1137,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.042977,
-    "central": 1.772001,
-    "high": -0.150108
+    "central": 1.712027,
+    "high": -0.577243
    }
   },
   {
@@ -1148,8 +1151,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.548936,
-    "central": 2.254477,
-    "high": 0.332369
+    "central": 2.194503,
+    "high": -0.094767
    }
   },
   {
@@ -1162,8 +1165,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.930773,
-    "central": 0.547893,
-    "high": -1.374216
+    "central": 0.487918,
+    "high": -1.801351
    }
   },
   {
@@ -1176,8 +1179,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.12975,
-    "central": 0.7388,
-    "high": -1.183309
+    "central": 0.678825,
+    "high": -1.610444
    }
   },
   {
@@ -1190,8 +1193,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.786185,
-    "central": 0.352342,
-    "high": -1.569767
+    "central": 0.292367,
+    "high": -1.996902
    }
   },
   {
@@ -1204,8 +1207,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.122491,
-    "central": 0.682281,
-    "high": -1.239827
+    "central": 0.622307,
+    "high": -1.666963
    }
   },
   {
@@ -1218,8 +1221,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.455669,
-    "central": 2.06653,
-    "high": 0.144421
+    "central": 2.006555,
+    "high": -0.282714
    }
   },
   {
@@ -1232,8 +1235,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.782694,
-    "central": 2.406474,
-    "high": 0.484365
+    "central": 2.346499,
+    "high": 0.05723
    }
   },
   {
@@ -1246,8 +1249,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.038046,
-    "central": 0.636662,
-    "high": -1.285447
+    "central": 0.576687,
+    "high": -1.712582
    }
   },
   {
@@ -1260,8 +1263,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.990533,
-    "central": 0.624004,
-    "high": -1.298104
+    "central": 0.56403,
+    "high": -1.725239
    }
   },
   {
@@ -1274,8 +1277,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.447097,
-    "central": 1.128878,
-    "high": -0.793231
+    "central": 1.068904,
+    "high": -1.220366
    }
   },
   {
@@ -1288,8 +1291,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.238859,
-    "central": 1.946372,
-    "high": 0.024263
+    "central": 1.886397,
+    "high": -0.402872
    }
   },
   {
@@ -1302,8 +1305,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.817162,
-    "central": 1.543818,
-    "high": -0.378291
+    "central": 1.483843,
+    "high": -0.805426
    }
   },
   {
@@ -1316,8 +1319,8 @@
    "anomaly": null,
    "arb": {
     "low": 11.009688,
-    "central": 10.739072,
-    "high": 8.816963
+    "central": 10.679097,
+    "high": 8.389828
    }
   },
   {
@@ -1330,8 +1333,8 @@
    "anomaly": null,
    "arb": {
     "low": 6.566755,
-    "central": 6.296139,
-    "high": 4.37403
+    "central": 6.236164,
+    "high": 3.946895
    }
   },
   {
@@ -1344,8 +1347,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.804316,
-    "central": 0.505336,
-    "high": -1.416773
+    "central": 0.445362,
+    "high": -1.843908
    }
   },
   {
@@ -1428,8 +1431,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.411549,
-    "central": 2.140933,
-    "high": 0.218824
+    "central": 2.080958,
+    "high": -0.208311
    }
   },
   {
@@ -1442,8 +1445,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.645419,
-    "central": 2.374802,
-    "high": 0.452694
+    "central": 2.314828,
+    "high": 0.025558
    }
   },
   {
@@ -1470,8 +1473,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.894618,
-    "central": 1.624002,
-    "high": -0.298107
+    "central": 1.564027,
+    "high": -0.725242
    }
   },
   {
@@ -1484,8 +1487,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.194545,
-    "central": 1.923928,
-    "high": 0.001819
+    "central": 1.863954,
+    "high": -0.425316
    }
   },
   {
@@ -1498,8 +1501,8 @@
    "anomaly": null,
    "arb": {
     "low": -1.069787,
-    "central": -1.340404,
-    "high": -3.262513
+    "central": -1.400378,
+    "high": -3.689648
    }
   },
   {
@@ -1512,8 +1515,8 @@
    "anomaly": null,
    "arb": {
     "low": -5.343827,
-    "central": -5.614444,
-    "high": -7.536552
+    "central": -5.674418,
+    "high": -7.963688
    }
   },
   {
@@ -1526,8 +1529,8 @@
    "anomaly": null,
    "arb": {
     "low": -2.182097,
-    "central": -2.452714,
-    "high": -4.374822
+    "central": -2.512688,
+    "high": -4.801958
    }
   },
   {
@@ -1540,8 +1543,8 @@
    "anomaly": null,
    "arb": {
     "low": -4.978719,
-    "central": -5.249336,
-    "high": -7.171445
+    "central": -5.30931,
+    "high": -7.59858
    }
   },
   {
@@ -1554,8 +1557,8 @@
    "anomaly": null,
    "arb": {
     "low": -3.409867,
-    "central": -3.680483,
-    "high": -5.602592
+    "central": -3.740458,
+    "high": -6.029727
    }
   },
   {
@@ -1568,8 +1571,8 @@
    "anomaly": null,
    "arb": {
     "low": -11.54456,
-    "central": -11.815176,
-    "high": -13.737285
+    "central": -11.875151,
+    "high": -14.16442
    }
   },
   {
@@ -1582,8 +1585,8 @@
    "anomaly": null,
    "arb": {
     "low": -16.892745,
-    "central": -17.163362,
-    "high": -19.08547
+    "central": -17.223336,
+    "high": -19.512606
    }
   },
   {
@@ -1596,8 +1599,8 @@
    "anomaly": null,
    "arb": {
     "low": -11.48555,
-    "central": -11.756167,
-    "high": -13.678276
+    "central": -11.816141,
+    "high": -14.105411
    }
   },
   {
@@ -1610,8 +1613,8 @@
    "anomaly": null,
    "arb": {
     "low": -7.530603,
-    "central": -7.80122,
-    "high": -9.723329
+    "central": -7.861194,
+    "high": -10.150464
    }
   },
   {
@@ -1624,8 +1627,8 @@
    "anomaly": null,
    "arb": {
     "low": -6.836441,
-    "central": -7.107058,
-    "high": -9.029166
+    "central": -7.167032,
+    "high": -9.456302
    }
   },
   {
@@ -1638,8 +1641,8 @@
    "anomaly": null,
    "arb": {
     "low": -6.704589,
-    "central": -6.975206,
-    "high": -8.897315
+    "central": -7.03518,
+    "high": -9.32445
    }
   },
   {
@@ -1652,8 +1655,8 @@
    "anomaly": null,
    "arb": {
     "low": 4.080589,
-    "central": 3.809972,
-    "high": 1.887863
+    "central": 3.749998,
+    "high": 1.460728
    }
   },
   {
@@ -1666,8 +1669,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.639766,
-    "central": 0.369149,
-    "high": -1.552959
+    "central": 0.309175,
+    "high": -1.980095
    }
   },
   {
@@ -1680,8 +1683,8 @@
    "anomaly": null,
    "arb": {
     "low": -0.118425,
-    "central": -0.389042,
-    "high": -2.311151
+    "central": -0.449016,
+    "high": -2.738286
    }
   },
   {
@@ -1694,8 +1697,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.063213,
-    "central": -0.207403,
-    "high": -2.129512
+    "central": -0.267378,
+    "high": -2.556647
    }
   },
   {
@@ -1708,8 +1711,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.595529,
-    "central": 0.324913,
-    "high": -1.597196
+    "central": 0.264938,
+    "high": -2.024331
    }
   },
   {
@@ -1722,8 +1725,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.580937,
-    "central": 0.310321,
-    "high": -1.611788
+    "central": 0.250346,
+    "high": -2.038923
    }
   },
   {
@@ -1736,8 +1739,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.097698,
-    "central": 0.827081,
-    "high": -1.095028
+    "central": 0.767107,
+    "high": -1.522163
    }
   },
   {
@@ -1750,8 +1753,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.158181,
-    "central": 0.887564,
-    "high": -1.034544
+    "central": 0.82759,
+    "high": -1.461679
    }
   },
   {
@@ -1764,8 +1767,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.906955,
-    "central": 1.636339,
-    "high": -0.28577
+    "central": 1.576364,
+    "high": -0.712905
    }
   },
   {
@@ -1778,8 +1781,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.985958,
-    "central": 1.715341,
-    "high": -0.206767
+    "central": 1.655367,
+    "high": -0.633903
    }
   },
   {
@@ -1792,8 +1795,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.638916,
-    "central": 2.368299,
-    "high": 0.446191
+    "central": 2.308325,
+    "high": 0.019055
    }
   },
   {
@@ -1806,8 +1809,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.561775,
-    "central": 2.291158,
-    "high": 0.369049
+    "central": 2.231184,
+    "high": -0.058086
    }
   },
   {
@@ -1820,8 +1823,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.868798,
-    "central": 0.603557,
-    "high": -1.1639
+    "central": 0.548408,
+    "high": -1.556668
    }
   },
   {
@@ -1834,8 +1837,8 @@
    "anomaly": "the countries add up to 359549 MMcf against a total of 358942",
    "arb": {
     "low": 0.634416,
-    "central": 0.32976,
-    "high": -1.437696
+    "central": 0.274611,
+    "high": -1.830465
    }
   },
   {
@@ -1848,8 +1851,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.593856,
-    "central": 0.291653,
-    "high": -1.475803
+    "central": 0.236504,
+    "high": -1.868571
    }
   },
   {
@@ -1862,8 +1865,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.627907,
-    "central": 0.349933,
-    "high": -1.417523
+    "central": 0.294784,
+    "high": -1.810292
    }
   },
   {
@@ -1876,8 +1879,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.98271,
-    "central": 0.733705,
-    "high": -1.033752
+    "central": 0.678556,
+    "high": -1.42652
    }
   },
   {
@@ -1890,8 +1893,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.727104,
-    "central": 0.478261,
-    "high": -1.289195
+    "central": 0.423112,
+    "high": -1.681963
    }
   },
   {
@@ -1904,8 +1907,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.391669,
-    "central": 1.142826,
-    "high": -0.624631
+    "central": 1.087677,
+    "high": -1.017399
    }
   },
   {
@@ -1918,8 +1921,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.591178,
-    "central": 0.342335,
-    "high": -1.425121
+    "central": 0.287186,
+    "high": -1.81789
    }
   },
   {
@@ -1932,8 +1935,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.388618,
-    "central": 1.139775,
-    "high": -0.627681
+    "central": 1.084626,
+    "high": -1.020449
    }
   },
   {
@@ -1946,8 +1949,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.27481,
-    "central": 0.025968,
-    "high": -1.741489
+    "central": -0.029181,
+    "high": -2.134257
    }
   },
   {
@@ -1960,8 +1963,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.138157,
-    "central": -0.110686,
-    "high": -1.878142
+    "central": -0.165835,
+    "high": -2.27091
    }
   },
   {
@@ -1974,8 +1977,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.133877,
-    "central": -0.114966,
-    "high": -1.882422
+    "central": -0.170115,
+    "high": -2.27519
    }
   },
   {
@@ -1988,8 +1991,8 @@
    "anomaly": null,
    "arb": {
     "low": -0.287796,
-    "central": -0.536639,
-    "high": -2.304095
+    "central": -0.591788,
+    "high": -2.696863
    }
   },
   {
@@ -2002,8 +2005,8 @@
    "anomaly": null,
    "arb": {
     "low": -1.431129,
-    "central": -1.679972,
-    "high": -3.447428
+    "central": -1.735121,
+    "high": -3.840196
    }
   },
   {
@@ -2016,8 +2019,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.320184,
-    "central": 0.071341,
-    "high": -1.696115
+    "central": 0.016192,
+    "high": -2.088883
    }
   },
   {
@@ -2030,8 +2033,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.436845,
-    "central": 0.188003,
-    "high": -1.579454
+    "central": 0.132854,
+    "high": -1.972222
    }
   },
   {
@@ -2044,8 +2047,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.452157,
-    "central": 0.198734,
-    "high": -1.568723
+    "central": 0.143585,
+    "high": -1.961491
    }
   },
   {
@@ -2058,8 +2061,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.48833,
-    "central": 0.239487,
-    "high": -1.527969
+    "central": 0.184338,
+    "high": -1.920737
    }
   },
   {
@@ -2072,8 +2075,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.763414,
-    "central": 0.514571,
-    "high": -1.252885
+    "central": 0.459422,
+    "high": -1.645654
    }
   },
   {
@@ -2086,8 +2089,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.313865,
-    "central": 0.056246,
-    "high": -1.71121
+    "central": 0.001097,
+    "high": -2.103978
    }
   },
   {
@@ -2100,8 +2103,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.303292,
-    "central": 0.036165,
-    "high": -1.731292
+    "central": -0.018984,
+    "high": -2.12406
    }
   },
   {
@@ -2114,8 +2117,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.311682,
-    "central": 0.039682,
-    "high": -1.727774
+    "central": -0.015467,
+    "high": -2.120542
    }
   },
   {
@@ -2128,8 +2131,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.492268,
-    "central": 0.223472,
-    "high": -1.543984
+    "central": 0.168324,
+    "high": -1.936752
    }
   },
   {
@@ -2142,8 +2145,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.103151,
-    "central": 0.821544,
-    "high": -0.945913
+    "central": 0.766395,
+    "high": -1.338681
    }
   },
   {
@@ -2156,8 +2159,8 @@
    "anomaly": null,
    "arb": {
     "low": -0.748387,
-    "central": -1.032171,
-    "high": -2.799627
+    "central": -1.087319,
+    "high": -3.192395
    }
   },
   {
@@ -2170,8 +2173,8 @@
    "anomaly": null,
    "arb": {
     "low": -0.411323,
-    "central": -0.689653,
-    "high": -2.457109
+    "central": -0.744802,
+    "high": -2.849878
    }
   },
   {
@@ -2184,8 +2187,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.63404,
-    "central": 0.385197,
-    "high": -1.382259
+    "central": 0.330048,
+    "high": -1.775027
    }
   },
   {
@@ -2198,8 +2201,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.805951,
-    "central": 1.557108,
-    "high": -0.210348
+    "central": 1.501959,
+    "high": -0.603116
    }
   },
   {
@@ -2212,8 +2215,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.084496,
-    "central": 0.835653,
-    "high": -0.931803
+    "central": 0.780504,
+    "high": -1.324571
    }
   },
   {
@@ -2226,8 +2229,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.401163,
-    "central": 1.15232,
-    "high": -0.615136
+    "central": 1.097171,
+    "high": -1.007904
    }
   },
   {
@@ -2240,8 +2243,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.977124,
-    "central": 0.728282,
-    "high": -1.039175
+    "central": 0.673133,
+    "high": -1.431943
    }
   }
  ],
@@ -2268,39 +2271,39 @@
   {
    "n": 115,
    "lags": 4,
-   "intercept": 0.256159,
-   "slope": 0.015218,
-   "se_intercept": 0.023722,
-   "se_slope": 0.007417,
-   "t_slope": 2.051764,
-   "r2": 0.100825,
+   "intercept": 0.257071,
+   "slope": 0.015268,
+   "se_intercept": 0.023737,
+   "se_slope": 0.007439,
+   "t_slope": 2.05223,
+   "r2": 0.101468,
    "share": "share_jkm",
    "hire_level": "central",
    "sample": "all months",
    "first_month": "2016-02",
    "last_month": "2026-07",
-   "months_open": 94,
+   "months_open": 91,
    "open_above": 55,
-   "closed_below": 19,
+   "closed_below": 22,
    "median_share": 0.233471
   },
   {
    "n": 115,
    "lags": 4,
-   "intercept": 0.28735,
-   "slope": 0.016254,
-   "se_intercept": 0.027573,
-   "se_slope": 0.007859,
-   "t_slope": 2.068217,
-   "r2": 0.116562,
+   "intercept": 0.294649,
+   "slope": 0.016399,
+   "se_intercept": 0.029381,
+   "se_slope": 0.007898,
+   "t_slope": 2.076381,
+   "r2": 0.119468,
    "share": "share_jkm",
    "hire_level": "high",
    "sample": "all months",
    "first_month": "2016-02",
    "last_month": "2026-07",
-   "months_open": 26,
-   "open_above": 21,
-   "closed_below": 53,
+   "months_open": 13,
+   "open_above": 10,
+   "closed_below": 55,
    "median_share": 0.233471
   },
   {
@@ -2325,39 +2328,39 @@
   {
    "n": 115,
    "lags": 4,
-   "intercept": 0.329996,
-   "slope": 0.017254,
-   "se_intercept": 0.025095,
-   "se_slope": 0.007433,
-   "t_slope": 2.321357,
-   "r2": 0.114812,
+   "intercept": 0.331025,
+   "slope": 0.017323,
+   "se_intercept": 0.025092,
+   "se_slope": 0.007464,
+   "t_slope": 2.320824,
+   "r2": 0.115719,
    "share": "share_asia",
    "hire_level": "central",
    "sample": "all months",
    "first_month": "2016-02",
    "last_month": "2026-07",
-   "months_open": 94,
-   "open_above": 57,
-   "closed_below": 21,
+   "months_open": 91,
+   "open_above": 56,
+   "closed_below": 23,
    "median_share": 0.318915
   },
   {
    "n": 115,
    "lags": 4,
-   "intercept": 0.365929,
-   "slope": 0.0188,
-   "se_intercept": 0.02797,
-   "se_slope": 0.008171,
-   "t_slope": 2.300825,
-   "r2": 0.13814,
+   "intercept": 0.374516,
+   "slope": 0.019041,
+   "se_intercept": 0.02964,
+   "se_slope": 0.008273,
+   "t_slope": 2.301459,
+   "r2": 0.142684,
    "share": "share_asia",
    "hire_level": "high",
    "sample": "all months",
    "first_month": "2016-02",
    "last_month": "2026-07",
-   "months_open": 26,
-   "open_above": 21,
-   "closed_below": 53,
+   "months_open": 13,
+   "open_above": 10,
+   "closed_below": 55,
    "median_share": 0.318915
   },
   {
@@ -2382,39 +2385,39 @@
   {
    "n": 84,
    "lags": 3,
-   "intercept": 0.199874,
-   "slope": 0.051947,
-   "se_intercept": 0.026968,
-   "se_slope": 0.019099,
-   "t_slope": 2.719943,
-   "r2": 0.248613,
+   "intercept": 0.202784,
+   "slope": 0.052192,
+   "se_intercept": 0.026345,
+   "se_slope": 0.019198,
+   "t_slope": 2.71869,
+   "r2": 0.251186,
    "share": "share_jkm",
    "hire_level": "central",
    "sample": "without 2020, 2022, 2026",
    "first_month": "2016-02",
    "last_month": "2025-12",
-   "months_open": 76,
+   "months_open": 73,
    "open_above": 42,
-   "closed_below": 8,
+   "closed_below": 11,
    "median_share": 0.240683
   },
   {
    "n": 84,
    "lags": 3,
-   "intercept": 0.303372,
-   "slope": 0.053941,
-   "se_intercept": 0.029948,
-   "se_slope": 0.018279,
-   "t_slope": 2.950959,
-   "r2": 0.296512,
+   "intercept": 0.326092,
+   "slope": 0.05322,
+   "se_intercept": 0.035307,
+   "se_slope": 0.017292,
+   "t_slope": 3.077689,
+   "r2": 0.300476,
    "share": "share_jkm",
    "hire_level": "high",
    "sample": "without 2020, 2022, 2026",
    "first_month": "2016-02",
    "last_month": "2025-12",
-   "months_open": 21,
-   "open_above": 16,
-   "closed_below": 37,
+   "months_open": 12,
+   "open_above": 9,
+   "closed_below": 39,
    "median_share": 0.240683
   },
   {
@@ -2439,39 +2442,39 @@
   {
    "n": 84,
    "lags": 3,
-   "intercept": 0.267814,
-   "slope": 0.053272,
-   "se_intercept": 0.029527,
-   "se_slope": 0.018804,
-   "t_slope": 2.832993,
-   "r2": 0.246116,
+   "intercept": 0.270687,
+   "slope": 0.053615,
+   "se_intercept": 0.028921,
+   "se_slope": 0.018948,
+   "t_slope": 2.82956,
+   "r2": 0.249514,
    "share": "share_asia",
    "hire_level": "central",
    "sample": "without 2020, 2022, 2026",
    "first_month": "2016-02",
    "last_month": "2025-12",
-   "months_open": 76,
-   "open_above": 42,
-   "closed_below": 8,
+   "months_open": 73,
+   "open_above": 41,
+   "closed_below": 10,
    "median_share": 0.324905
   },
   {
    "n": 84,
    "lags": 3,
-   "intercept": 0.375518,
-   "slope": 0.05763,
-   "se_intercept": 0.029529,
-   "se_slope": 0.019078,
-   "t_slope": 3.020808,
-   "r2": 0.318599,
+   "intercept": 0.400251,
+   "slope": 0.057273,
+   "se_intercept": 0.03496,
+   "se_slope": 0.018165,
+   "t_slope": 3.152891,
+   "r2": 0.327572,
    "share": "share_asia",
    "hire_level": "high",
    "sample": "without 2020, 2022, 2026",
    "first_month": "2016-02",
    "last_month": "2025-12",
-   "months_open": 21,
-   "open_above": 17,
-   "closed_below": 38,
+   "months_open": 12,
+   "open_above": 9,
+   "closed_below": 39,
    "median_share": 0.324905
   }
  ],
@@ -2506,7 +2509,7 @@
     },
     {
      "field": "open_months",
-     "value": 94,
+     "value": 91,
      "format": "count"
     },
     {
@@ -2514,7 +2517,7 @@
     },
     {
      "field": "share_open",
-     "value": 33.31151,
+     "value": 33.974255,
      "format": "share_percent"
     },
     {
@@ -2522,7 +2525,7 @@
     },
     {
      "field": "share_closed",
-     "value": 18.837009,
+     "value": 19.472899,
      "format": "share_percent"
     },
     {
@@ -2551,7 +2554,7 @@
     },
     {
      "field": "latest_arb",
-     "value": 0.728282,
+     "value": 0.673133,
      "format": "usd_mmbtu",
      "signed": true,
      "missing": "no price"
@@ -2566,7 +2569,7 @@
     },
     {
      "field": "central_hire",
-     "value": 45500.0,
+     "value": 55750.0,
      "format": "usd_day"
     },
     {
@@ -2587,7 +2590,7 @@
      "label": "Feb 2016",
      "share_jkm": 0.0,
      "share_asia": 0.0,
-     "arb": 2.098113
+     "arb": 1.947777
     },
     {
      "month": "2016-03-01",
@@ -2601,14 +2604,14 @@
      "label": "Apr 2016",
      "share_jkm": 0.0,
      "share_asia": 0.0,
-     "arb": -0.015318
+     "arb": -0.165654
     },
     {
      "month": "2016-05-01",
      "label": "May 2016",
      "share_jkm": 0.0,
      "share_asia": 0.0,
-     "arb": -0.457852
+     "arb": -0.608188
     },
     {
      "month": "2016-06-01",
@@ -2622,7 +2625,7 @@
      "label": "Jul 2016",
      "share_jkm": 19.9351,
      "share_asia": 19.9351,
-     "arb": 1.174758
+     "arb": 1.114784
     },
     {
      "month": "2016-08-01",
@@ -2636,63 +2639,63 @@
      "label": "Sep 2016",
      "share_jkm": 0.0,
      "share_asia": 21.7526,
-     "arb": 1.498981
+     "arb": 1.439007
     },
     {
      "month": "2016-10-01",
      "label": "Oct 2016",
      "share_jkm": 0.0,
      "share_asia": 0.0,
-     "arb": 0.803874
+     "arb": 0.743899
     },
     {
      "month": "2016-11-01",
      "label": "Nov 2016",
      "share_jkm": 22.2941,
      "share_asia": 31.7541,
-     "arb": 1.305785
+     "arb": 1.24581
     },
     {
      "month": "2016-12-01",
      "label": "Dec 2016",
      "share_jkm": 67.131,
      "share_asia": 67.131,
-     "arb": 2.500175
+     "arb": 2.4402
     },
     {
      "month": "2017-01-01",
      "label": "Jan 2017",
      "share_jkm": 27.1651,
      "share_asia": 34.2334,
-     "arb": 2.194544
+     "arb": 2.13457
     },
     {
      "month": "2017-02-01",
      "label": "Feb 2017",
      "share_jkm": 27.0068,
      "share_asia": 33.5436,
-     "arb": 2.376117
+     "arb": 2.316143
     },
     {
      "month": "2017-03-01",
      "label": "Mar 2017",
      "share_jkm": 16.1926,
      "share_asia": 30.6307,
-     "arb": 1.114555
+     "arb": 1.05458
     },
     {
      "month": "2017-04-01",
      "label": "Apr 2017",
      "share_jkm": 21.1328,
      "share_asia": 21.1328,
-     "arb": 0.723087
+     "arb": 0.663113
     },
     {
      "month": "2017-05-01",
      "label": "May 2017",
      "share_jkm": 27.8952,
      "share_asia": 27.8952,
-     "arb": 0.694635
+     "arb": 0.63466
     },
     {
      "month": "2017-06-01",
@@ -2706,196 +2709,196 @@
      "label": "Jul 2017",
      "share_jkm": 40.0687,
      "share_asia": 40.0687,
-     "arb": 0.684712
+     "arb": 0.624738
     },
     {
      "month": "2017-08-01",
      "label": "Aug 2017",
      "share_jkm": 30.668,
      "share_asia": 30.668,
-     "arb": 0.424054
+     "arb": 0.364079
     },
     {
      "month": "2017-09-01",
      "label": "Sep 2017",
      "share_jkm": 50.4216,
      "share_asia": 50.4216,
-     "arb": 1.00538
+     "arb": 0.945405
     },
     {
      "month": "2017-10-01",
      "label": "Oct 2017",
      "share_jkm": 70.2702,
      "share_asia": 70.2702,
-     "arb": 2.007782
+     "arb": 1.947807
     },
     {
      "month": "2017-11-01",
      "label": "Nov 2017",
      "share_jkm": 56.1734,
      "share_asia": 64.9932,
-     "arb": 2.270448
+     "arb": 2.210473
     },
     {
      "month": "2017-12-01",
      "label": "Dec 2017",
      "share_jkm": 70.4687,
      "share_asia": 74.6227,
-     "arb": 2.974268
+     "arb": 2.914294
     },
     {
      "month": "2018-01-01",
      "label": "Jan 2018",
      "share_jkm": 53.1869,
      "share_asia": 62.8113,
-     "arb": 4.222571
+     "arb": 4.162596
     },
     {
      "month": "2018-02-01",
      "label": "Feb 2018",
      "share_jkm": 66.5331,
      "share_asia": 66.5331,
-     "arb": 3.804432
+     "arb": 3.744457
     },
     {
      "month": "2018-03-01",
      "label": "Mar 2018",
      "share_jkm": 23.8485,
      "share_asia": 39.0879,
-     "arb": 2.100261
+     "arb": 2.040287
     },
     {
      "month": "2018-04-01",
      "label": "Apr 2018",
      "share_jkm": 54.239,
      "share_asia": 61.8394,
-     "arb": 2.161825
+     "arb": 2.101851
     },
     {
      "month": "2018-05-01",
      "label": "May 2018",
      "share_jkm": 43.1824,
      "share_asia": 54.0906,
-     "arb": 0.733262
+     "arb": 0.673287
     },
     {
      "month": "2018-06-01",
      "label": "Jun 2018",
      "share_jkm": 40.8172,
      "share_asia": 49.9538,
-     "arb": 1.805373
+     "arb": 1.745398
     },
     {
      "month": "2018-07-01",
      "label": "Jul 2018",
      "share_jkm": 42.1085,
      "share_asia": 48.1342,
-     "arb": 2.329075
+     "arb": 2.269101
     },
     {
      "month": "2018-08-01",
      "label": "Aug 2018",
      "share_jkm": 34.2551,
      "share_asia": 34.2551,
-     "arb": 2.509076
+     "arb": 2.449101
     },
     {
      "month": "2018-09-01",
      "label": "Sep 2018",
      "share_jkm": 50.2415,
      "share_asia": 57.5054,
-     "arb": 1.030345
+     "arb": 0.970371
     },
     {
      "month": "2018-10-01",
      "label": "Oct 2018",
      "share_jkm": 50.3133,
      "share_asia": 58.2494,
-     "arb": 1.83216
+     "arb": 1.772186
     },
     {
      "month": "2018-11-01",
      "label": "Nov 2018",
      "share_jkm": 41.7986,
      "share_asia": 41.7986,
-     "arb": 2.417152
+     "arb": 2.357177
     },
     {
      "month": "2018-12-01",
      "label": "Dec 2018",
      "share_jkm": 44.48,
      "share_asia": 53.3125,
-     "arb": 1.174468
+     "arb": 1.114494
     },
     {
      "month": "2019-01-01",
      "label": "Jan 2019",
      "share_jkm": 29.8477,
      "share_asia": 35.3895,
-     "arb": 0.929219
+     "arb": 0.869244
     },
     {
      "month": "2019-02-01",
      "label": "Feb 2019",
      "share_jkm": 30.67,
      "share_asia": 47.7907,
-     "arb": 2.044472
+     "arb": 1.984497
     },
     {
      "month": "2019-03-01",
      "label": "Mar 2019",
      "share_jkm": 19.2411,
      "share_asia": 32.5185,
-     "arb": 1.236447
+     "arb": 1.176472
     },
     {
      "month": "2019-04-01",
      "label": "Apr 2019",
      "share_jkm": 26.3094,
      "share_asia": 31.879,
-     "arb": 0.345856
+     "arb": 0.285881
     },
     {
      "month": "2019-05-01",
      "label": "May 2019",
      "share_jkm": 19.6959,
      "share_asia": 34.0155,
-     "arb": 1.095539
+     "arb": 1.035565
     },
     {
      "month": "2019-06-01",
      "label": "Jun 2019",
      "share_jkm": 24.6602,
      "share_asia": 29.3478,
-     "arb": 1.921909
+     "arb": 1.861935
     },
     {
      "month": "2019-07-01",
      "label": "Jul 2019",
      "share_jkm": 34.3861,
      "share_asia": 41.2186,
-     "arb": 1.133204
+     "arb": 1.073229
     },
     {
      "month": "2019-08-01",
      "label": "Aug 2019",
      "share_jkm": 30.1217,
      "share_asia": 35.3894,
-     "arb": 1.63783
+     "arb": 1.577855
     },
     {
      "month": "2019-09-01",
      "label": "Sep 2019",
      "share_jkm": 24.2881,
      "share_asia": 39.3353,
-     "arb": 1.214805
+     "arb": 1.154831
     },
     {
      "month": "2019-10-01",
      "label": "Oct 2019",
      "share_jkm": 39.2969,
      "share_asia": 47.1119,
-     "arb": 0.480759
+     "arb": 0.420784
     },
     {
      "month": "2019-11-01",
@@ -2909,112 +2912,112 @@
      "label": "Dec 2019",
      "share_jkm": 28.6147,
      "share_asia": 36.4622,
-     "arb": 1.772001
+     "arb": 1.712027
     },
     {
      "month": "2020-01-01",
      "label": "Jan 2020",
      "share_jkm": 34.3037,
      "share_asia": 38.4195,
-     "arb": 2.254477
+     "arb": 2.194503
     },
     {
      "month": "2020-02-01",
      "label": "Feb 2020",
      "share_jkm": 17.5216,
      "share_asia": 20.6239,
-     "arb": 0.547893
+     "arb": 0.487918
     },
     {
      "month": "2020-03-01",
      "label": "Mar 2020",
      "share_jkm": 30.5663,
      "share_asia": 43.525,
-     "arb": 0.7388
+     "arb": 0.678825
     },
     {
      "month": "2020-04-01",
      "label": "Apr 2020",
      "share_jkm": 30.3099,
      "share_asia": 45.0678,
-     "arb": 0.352342
+     "arb": 0.292367
     },
     {
      "month": "2020-05-01",
      "label": "May 2020",
      "share_jkm": 30.6145,
      "share_asia": 42.3112,
-     "arb": 0.682281
+     "arb": 0.622307
     },
     {
      "month": "2020-06-01",
      "label": "Jun 2020",
      "share_jkm": 48.6135,
      "share_asia": 57.8845,
-     "arb": 2.06653
+     "arb": 2.006555
     },
     {
      "month": "2020-07-01",
      "label": "Jul 2020",
      "share_jkm": 32.7355,
      "share_asia": 51.421,
-     "arb": 2.406474
+     "arb": 2.346499
     },
     {
      "month": "2020-08-01",
      "label": "Aug 2020",
      "share_jkm": 45.4128,
      "share_asia": 60.5625,
-     "arb": 0.636662
+     "arb": 0.576687
     },
     {
      "month": "2020-09-01",
      "label": "Sep 2020",
      "share_jkm": 39.2129,
      "share_asia": 52.696,
-     "arb": 0.624004
+     "arb": 0.56403
     },
     {
      "month": "2020-10-01",
      "label": "Oct 2020",
      "share_jkm": 37.9717,
      "share_asia": 51.9789,
-     "arb": 1.128878
+     "arb": 1.068904
     },
     {
      "month": "2020-11-01",
      "label": "Nov 2020",
      "share_jkm": 47.5249,
      "share_asia": 56.4683,
-     "arb": 1.946372
+     "arb": 1.886397
     },
     {
      "month": "2020-12-01",
      "label": "Dec 2020",
      "share_jkm": 49.8394,
      "share_asia": 53.2059,
-     "arb": 1.543818
+     "arb": 1.483843
     },
     {
      "month": "2021-01-01",
      "label": "Jan 2021",
      "share_jkm": 55.5617,
      "share_asia": 65.6842,
-     "arb": 10.739072
+     "arb": 10.679097
     },
     {
      "month": "2021-02-01",
      "label": "Feb 2021",
      "share_jkm": 19.0946,
      "share_asia": 25.7072,
-     "arb": 6.296139
+     "arb": 6.236164
     },
     {
      "month": "2021-03-01",
      "label": "Mar 2021",
      "share_jkm": 31.7136,
      "share_asia": 40.3338,
-     "arb": 0.505336
+     "arb": 0.445362
     },
     {
      "month": "2021-04-01",
@@ -3056,14 +3059,14 @@
      "label": "Sep 2021",
      "share_jkm": 33.7396,
      "share_asia": 47.0815,
-     "arb": 2.140933
+     "arb": 2.080958
     },
     {
      "month": "2021-10-01",
      "label": "Oct 2021",
      "share_jkm": 40.5556,
      "share_asia": 45.3095,
-     "arb": 2.374802
+     "arb": 2.314828
     },
     {
      "month": "2021-11-01",
@@ -3077,392 +3080,392 @@
      "label": "Dec 2021",
      "share_jkm": 26.5305,
      "share_asia": 27.8112,
-     "arb": 1.624002
+     "arb": 1.564027
     },
     {
      "month": "2022-01-01",
      "label": "Jan 2022",
      "share_jkm": 14.0152,
      "share_asia": 16.9437,
-     "arb": 1.923928
+     "arb": 1.863954
     },
     {
      "month": "2022-02-01",
      "label": "Feb 2022",
      "share_jkm": 14.9003,
      "share_asia": 20.8076,
-     "arb": -1.340404
+     "arb": -1.400378
     },
     {
      "month": "2022-03-01",
      "label": "Mar 2022",
      "share_jkm": 15.571,
      "share_asia": 21.2264,
-     "arb": -5.614444
+     "arb": -5.674418
     },
     {
      "month": "2022-04-01",
      "label": "Apr 2022",
      "share_jkm": 14.1684,
      "share_asia": 19.4048,
-     "arb": -2.452714
+     "arb": -2.512688
     },
     {
      "month": "2022-05-01",
      "label": "May 2022",
      "share_jkm": 16.3771,
      "share_asia": 20.3384,
-     "arb": -5.249336
+     "arb": -5.30931
     },
     {
      "month": "2022-06-01",
      "label": "Jun 2022",
      "share_jkm": 20.2418,
      "share_asia": 27.2042,
-     "arb": -3.680483
+     "arb": -3.740458
     },
     {
      "month": "2022-07-01",
      "label": "Jul 2022",
      "share_jkm": 20.8658,
      "share_asia": 27.5838,
-     "arb": -11.815176
+     "arb": -11.875151
     },
     {
      "month": "2022-08-01",
      "label": "Aug 2022",
      "share_jkm": 25.1113,
      "share_asia": 30.0558,
-     "arb": -17.163362
+     "arb": -17.223336
     },
     {
      "month": "2022-09-01",
      "label": "Sep 2022",
      "share_jkm": 15.8386,
      "share_asia": 20.8202,
-     "arb": -11.756167
+     "arb": -11.816141
     },
     {
      "month": "2022-10-01",
      "label": "Oct 2022",
      "share_jkm": 26.2143,
      "share_asia": 30.8191,
-     "arb": -7.80122
+     "arb": -7.861194
     },
     {
      "month": "2022-11-01",
      "label": "Nov 2022",
      "share_jkm": 19.6277,
      "share_asia": 23.1466,
-     "arb": -7.107058
+     "arb": -7.167032
     },
     {
      "month": "2022-12-01",
      "label": "Dec 2022",
      "share_jkm": 18.0787,
      "share_asia": 23.198,
-     "arb": -6.975206
+     "arb": -7.03518
     },
     {
      "month": "2023-01-01",
      "label": "Jan 2023",
      "share_jkm": 18.8623,
      "share_asia": 23.2739,
-     "arb": 3.809972
+     "arb": 3.749998
     },
     {
      "month": "2023-02-01",
      "label": "Feb 2023",
      "share_jkm": 14.0577,
      "share_asia": 18.9304,
-     "arb": 0.369149
+     "arb": 0.309175
     },
     {
      "month": "2023-03-01",
      "label": "Mar 2023",
      "share_jkm": 12.6489,
      "share_asia": 16.6001,
-     "arb": -0.389042
+     "arb": -0.449016
     },
     {
      "month": "2023-04-01",
      "label": "Apr 2023",
      "share_jkm": 13.7371,
      "share_asia": 18.7427,
-     "arb": -0.207403
+     "arb": -0.267378
     },
     {
      "month": "2023-05-01",
      "label": "May 2023",
      "share_jkm": 16.0933,
      "share_asia": 19.0112,
-     "arb": 0.324913
+     "arb": 0.264938
     },
     {
      "month": "2023-06-01",
      "label": "Jun 2023",
      "share_jkm": 22.0193,
      "share_asia": 31.8915,
-     "arb": 0.310321
+     "arb": 0.250346
     },
     {
      "month": "2023-07-01",
      "label": "Jul 2023",
      "share_jkm": 31.1818,
      "share_asia": 39.5006,
-     "arb": 0.827081
+     "arb": 0.767107
     },
     {
      "month": "2023-08-01",
      "label": "Aug 2023",
      "share_jkm": 26.7974,
      "share_asia": 38.0573,
-     "arb": 0.887564
+     "arb": 0.82759
     },
     {
      "month": "2023-09-01",
      "label": "Sep 2023",
      "share_jkm": 23.3471,
      "share_asia": 32.4626,
-     "arb": 1.636339
+     "arb": 1.576364
     },
     {
      "month": "2023-10-01",
      "label": "Oct 2023",
      "share_jkm": 20.1053,
      "share_asia": 27.362,
-     "arb": 1.715341
+     "arb": 1.655367
     },
     {
      "month": "2023-11-01",
      "label": "Nov 2023",
      "share_jkm": 20.646,
      "share_asia": 26.2663,
-     "arb": 2.368299
+     "arb": 2.308325
     },
     {
      "month": "2023-12-01",
      "label": "Dec 2023",
      "share_jkm": 19.6856,
      "share_asia": 26.1357,
-     "arb": 2.291158
+     "arb": 2.231184
     },
     {
      "month": "2024-01-01",
      "label": "Jan 2024",
      "share_jkm": 13.749,
      "share_asia": 19.2464,
-     "arb": 0.603557
+     "arb": 0.548408
     },
     {
      "month": "2024-02-01",
      "label": "Feb 2024",
      "share_jkm": 19.0791,
      "share_asia": 27.2114,
-     "arb": 0.32976
+     "arb": 0.274611
     },
     {
      "month": "2024-03-01",
      "label": "Mar 2024",
      "share_jkm": 21.0054,
      "share_asia": 31.5198,
-     "arb": 0.291653
+     "arb": 0.236504
     },
     {
      "month": "2024-04-01",
      "label": "Apr 2024",
      "share_jkm": 20.7589,
      "share_asia": 36.2619,
-     "arb": 0.349933
+     "arb": 0.294784
     },
     {
      "month": "2024-05-01",
      "label": "May 2024",
      "share_jkm": 28.7399,
      "share_asia": 46.9634,
-     "arb": 0.733705
+     "arb": 0.678556
     },
     {
      "month": "2024-06-01",
      "label": "Jun 2024",
      "share_jkm": 26.7683,
      "share_asia": 39.8643,
-     "arb": 0.478261
+     "arb": 0.423112
     },
     {
      "month": "2024-07-01",
      "label": "Jul 2024",
      "share_jkm": 30.0013,
      "share_asia": 45.3925,
-     "arb": 1.142826
+     "arb": 1.087677
     },
     {
      "month": "2024-08-01",
      "label": "Aug 2024",
      "share_jkm": 30.5301,
      "share_asia": 43.5426,
-     "arb": 0.342335
+     "arb": 0.287186
     },
     {
      "month": "2024-09-01",
      "label": "Sep 2024",
      "share_jkm": 27.3125,
      "share_asia": 37.8679,
-     "arb": 1.139775
+     "arb": 1.084626
     },
     {
      "month": "2024-10-01",
      "label": "Oct 2024",
      "share_jkm": 19.2382,
      "share_asia": 33.2594,
-     "arb": 0.025968
+     "arb": -0.029181
     },
     {
      "month": "2024-11-01",
      "label": "Nov 2024",
      "share_jkm": 17.0594,
      "share_asia": 25.4552,
-     "arb": -0.110686
+     "arb": -0.165835
     },
     {
      "month": "2024-12-01",
      "label": "Dec 2024",
      "share_jkm": 11.5771,
      "share_asia": 16.7335,
-     "arb": -0.114966
+     "arb": -0.170115
     },
     {
      "month": "2025-01-01",
      "label": "Jan 2025",
      "share_jkm": 4.2412,
      "share_asia": 7.5958,
-     "arb": -0.536639
+     "arb": -0.591788
     },
     {
      "month": "2025-02-01",
      "label": "Feb 2025",
      "share_jkm": 4.8111,
      "share_asia": 8.1341,
-     "arb": -1.679972
+     "arb": -1.735121
     },
     {
      "month": "2025-03-01",
      "label": "Mar 2025",
      "share_jkm": 9.4843,
      "share_asia": 14.9202,
-     "arb": 0.071341
+     "arb": 0.016192
     },
     {
      "month": "2025-04-01",
      "label": "Apr 2025",
      "share_jkm": 15.8796,
      "share_asia": 21.4804,
-     "arb": 0.188003
+     "arb": 0.132854
     },
     {
      "month": "2025-05-01",
      "label": "May 2025",
      "share_jkm": 13.7038,
      "share_asia": 22.0118,
-     "arb": 0.198734
+     "arb": 0.143585
     },
     {
      "month": "2025-06-01",
      "label": "Jun 2025",
      "share_jkm": 11.7763,
      "share_asia": 18.6093,
-     "arb": 0.239487
+     "arb": 0.184338
     },
     {
      "month": "2025-07-01",
      "label": "Jul 2025",
      "share_jkm": 12.2784,
      "share_asia": 20.661,
-     "arb": 0.514571
+     "arb": 0.459422
     },
     {
      "month": "2025-08-01",
      "label": "Aug 2025",
      "share_jkm": 12.8539,
      "share_asia": 18.3703,
-     "arb": 0.056246
+     "arb": 0.001097
     },
     {
      "month": "2025-09-01",
      "label": "Sep 2025",
      "share_jkm": 11.8786,
      "share_asia": 18.9691,
-     "arb": 0.036165
+     "arb": -0.018984
     },
     {
      "month": "2025-10-01",
      "label": "Oct 2025",
      "share_jkm": 13.8832,
      "share_asia": 18.3587,
-     "arb": 0.039682
+     "arb": -0.015467
     },
     {
      "month": "2025-11-01",
      "label": "Nov 2025",
      "share_jkm": 10.9031,
      "share_asia": 15.0228,
-     "arb": 0.223472
+     "arb": 0.168324
     },
     {
      "month": "2025-12-01",
      "label": "Dec 2025",
      "share_jkm": 8.7759,
      "share_asia": 11.9781,
-     "arb": 0.821544
+     "arb": 0.766395
     },
     {
      "month": "2026-01-01",
      "label": "Jan 2026",
      "share_jkm": 4.5209,
      "share_asia": 5.7945,
-     "arb": -1.032171
+     "arb": -1.087319
     },
     {
      "month": "2026-02-01",
      "label": "Feb 2026",
      "share_jkm": 8.6427,
      "share_asia": 14.5479,
-     "arb": -0.689653
+     "arb": -0.744802
     },
     {
      "month": "2026-03-01",
      "label": "Mar 2026",
      "share_jkm": 14.7134,
      "share_asia": 25.0521,
-     "arb": 0.385197
+     "arb": 0.330048
     },
     {
      "month": "2026-04-01",
      "label": "Apr 2026",
      "share_jkm": 15.8764,
      "share_asia": 30.3207,
-     "arb": 1.557108
+     "arb": 1.501959
     },
     {
      "month": "2026-05-01",
      "label": "May 2026",
      "share_jkm": 25.2257,
      "share_asia": 41.2823,
-     "arb": 0.835653
+     "arb": 0.780504
     },
     {
      "month": "2026-06-01",
      "label": "Jun 2026",
      "share_jkm": 20.8479,
      "share_asia": 38.7474,
-     "arb": 1.15232
+     "arb": 1.097171
     },
     {
      "month": "2026-07-01",
      "label": "Jul 2026",
      "share_jkm": 20.5034,
      "share_asia": 38.1773,
-     "arb": 0.728282
+     "arb": 0.673133
     }
    ],
    "shares": [
@@ -3547,7 +3550,7 @@
      },
      {
       "field": "slope",
-      "value": 1.521848,
+      "value": 1.526751,
       "format": "pp"
      },
      {
@@ -3555,7 +3558,7 @@
      },
      {
       "field": "t",
-      "value": 2.051764,
+      "value": 2.05223,
       "format": "t_stat"
      },
      {
@@ -3587,7 +3590,7 @@
      },
      {
       "field": "slope_without",
-      "value": 5.19473,
+      "value": 5.219236,
       "format": "pp"
      },
      {
@@ -3595,7 +3598,7 @@
      },
      {
       "field": "t_without",
-      "value": 2.719943,
+      "value": 2.71869,
       "format": "t_stat"
      },
      {
@@ -3611,7 +3614,7 @@
      },
      {
       "field": "r2",
-      "value": 0.100825,
+      "value": 0.101468,
       "format": "r2"
      },
      {
@@ -3619,7 +3622,7 @@
      },
      {
       "field": "r2_without",
-      "value": 0.248613,
+      "value": 0.251186,
       "format": "r2"
      },
      {
@@ -3651,7 +3654,7 @@
     },
     {
      "field": "slope",
-     "value": 1.725415,
+     "value": 1.73228,
      "format": "pp"
     },
     {
@@ -3667,7 +3670,7 @@
     },
     {
      "field": "r2",
-     "value": 0.114812,
+     "value": 0.115719,
      "format": "r2"
     },
     {
@@ -3675,7 +3678,7 @@
     },
     {
      "field": "slope_without",
-     "value": 5.327174,
+     "value": 5.361465,
      "format": "pp"
     },
     {
@@ -3691,7 +3694,7 @@
     },
     {
      "field": "r2_without",
-     "value": 0.246116,
+     "value": 0.249514,
      "format": "r2"
     },
     {
@@ -3720,7 +3723,7 @@
     },
     {
      "field": "sign_open",
-     "value": 94,
+     "value": 91,
      "format": "count"
     },
     {
@@ -3728,7 +3731,7 @@
     },
     {
      "field": "sign_open_above",
-     "value": 57,
+     "value": 56,
      "format": "count"
     },
     {
@@ -3744,7 +3747,7 @@
     },
     {
      "field": "sign_closed",
-     "value": 21,
+     "value": 24,
      "format": "count"
     },
     {
@@ -3752,7 +3755,7 @@
     },
     {
      "field": "sign_closed_below",
-     "value": 21,
+     "value": 23,
      "format": "count"
     },
     {
@@ -3784,15 +3787,15 @@
      "sample": "all months",
      "hire_level": "central",
      "n": 115,
-     "slope_pp": 1.521848,
-     "t": 2.051764,
-     "r2": 0.100825,
+     "slope_pp": 1.526751,
+     "t": 2.05223,
+     "r2": 0.101468,
      "lags": 4,
      "first_month": "2016-02-01",
      "last_month": "2026-07-01",
      "open_above": 55,
-     "open_below": 39,
-     "closed_below": 19,
+     "open_below": 36,
+     "closed_below": 22,
      "closed_above": 2,
      "median_share": 23.347078
     },
@@ -3802,16 +3805,16 @@
      "sample": "all months",
      "hire_level": "high",
      "n": 115,
-     "slope_pp": 1.625416,
-     "t": 2.068217,
-     "r2": 0.116562,
+     "slope_pp": 1.639883,
+     "t": 2.076381,
+     "r2": 0.119468,
      "lags": 4,
      "first_month": "2016-02-01",
      "last_month": "2026-07-01",
-     "open_above": 21,
-     "open_below": 5,
-     "closed_below": 53,
-     "closed_above": 36,
+     "open_above": 10,
+     "open_below": 3,
+     "closed_below": 55,
+     "closed_above": 47,
      "median_share": 23.347078
     },
     {
@@ -3838,16 +3841,16 @@
      "sample": "all months",
      "hire_level": "central",
      "n": 115,
-     "slope_pp": 1.725415,
-     "t": 2.321357,
-     "r2": 0.114812,
+     "slope_pp": 1.73228,
+     "t": 2.320824,
+     "r2": 0.115719,
      "lags": 4,
      "first_month": "2016-02-01",
      "last_month": "2026-07-01",
-     "open_above": 57,
-     "open_below": 37,
-     "closed_below": 21,
-     "closed_above": 0,
+     "open_above": 56,
+     "open_below": 35,
+     "closed_below": 23,
+     "closed_above": 1,
      "median_share": 31.89149
     },
     {
@@ -3856,16 +3859,16 @@
      "sample": "all months",
      "hire_level": "high",
      "n": 115,
-     "slope_pp": 1.879994,
-     "t": 2.300825,
-     "r2": 0.13814,
+     "slope_pp": 1.90409,
+     "t": 2.301459,
+     "r2": 0.142684,
      "lags": 4,
      "first_month": "2016-02-01",
      "last_month": "2026-07-01",
-     "open_above": 21,
-     "open_below": 5,
-     "closed_below": 53,
-     "closed_above": 36,
+     "open_above": 10,
+     "open_below": 3,
+     "closed_below": 55,
+     "closed_above": 47,
      "median_share": 31.89149
     },
     {
@@ -3892,15 +3895,15 @@
      "sample": "without 2020, 2022, 2026",
      "hire_level": "central",
      "n": 84,
-     "slope_pp": 5.19473,
-     "t": 2.719943,
-     "r2": 0.248613,
+     "slope_pp": 5.219236,
+     "t": 2.71869,
+     "r2": 0.251186,
      "lags": 3,
      "first_month": "2016-02-01",
      "last_month": "2025-12-01",
      "open_above": 42,
-     "open_below": 34,
-     "closed_below": 8,
+     "open_below": 31,
+     "closed_below": 11,
      "closed_above": 0,
      "median_share": 24.068277
     },
@@ -3910,16 +3913,16 @@
      "sample": "without 2020, 2022, 2026",
      "hire_level": "high",
      "n": 84,
-     "slope_pp": 5.394127,
-     "t": 2.950959,
-     "r2": 0.296512,
+     "slope_pp": 5.321995,
+     "t": 3.077689,
+     "r2": 0.300476,
      "lags": 3,
      "first_month": "2016-02-01",
      "last_month": "2025-12-01",
-     "open_above": 16,
-     "open_below": 5,
-     "closed_below": 37,
-     "closed_above": 26,
+     "open_above": 9,
+     "open_below": 3,
+     "closed_below": 39,
+     "closed_above": 33,
      "median_share": 24.068277
     },
     {
@@ -3946,16 +3949,16 @@
      "sample": "without 2020, 2022, 2026",
      "hire_level": "central",
      "n": 84,
-     "slope_pp": 5.327174,
-     "t": 2.832993,
-     "r2": 0.246116,
+     "slope_pp": 5.361465,
+     "t": 2.82956,
+     "r2": 0.249514,
      "lags": 3,
      "first_month": "2016-02-01",
      "last_month": "2025-12-01",
-     "open_above": 42,
-     "open_below": 34,
-     "closed_below": 8,
-     "closed_above": 0,
+     "open_above": 41,
+     "open_below": 32,
+     "closed_below": 10,
+     "closed_above": 1,
      "median_share": 32.490529
     },
     {
@@ -3964,16 +3967,16 @@
      "sample": "without 2020, 2022, 2026",
      "hire_level": "high",
      "n": 84,
-     "slope_pp": 5.762995,
-     "t": 3.020808,
-     "r2": 0.318599,
+     "slope_pp": 5.727285,
+     "t": 3.152891,
+     "r2": 0.327572,
      "lags": 3,
      "first_month": "2016-02-01",
      "last_month": "2025-12-01",
-     "open_above": 17,
-     "open_below": 4,
-     "closed_below": 38,
-     "closed_above": 25,
+     "open_above": 9,
+     "open_below": 3,
+     "closed_below": 39,
+     "closed_above": 33,
      "median_share": 32.490529
     }
    ],
@@ -4045,13 +4048,13 @@
      "label": "January",
      "loading": {
       "low": 3.042326,
-      "central": 2.410922,
-      "high": -1.904416
+      "central": 2.276273,
+      "high": -2.768614
      },
      "notice": {
       "low": 1.887833,
-      "central": 1.244696,
-      "high": -1.629124
+      "central": 1.110047,
+      "high": -2.160953
      },
      "notice_day": "2019-11-20",
      "cancelled": null,
@@ -4064,13 +4067,13 @@
      "label": "February",
      "loading": {
       "low": 0.862849,
-      "central": 0.143021,
-      "high": -2.7981
+      "central": 0.008372,
+      "high": -3.329929
      },
      "notice": {
       "low": 2.353962,
-      "central": 1.701835,
-      "high": -1.145673
+      "central": 1.567186,
+      "high": -1.677502
      },
      "notice_day": "2019-12-20",
      "cancelled": null,
@@ -4083,13 +4086,13 @@
      "label": "March",
      "loading": {
       "low": 1.007644,
-      "central": 0.279748,
-      "high": -2.852281
+      "central": 0.145098,
+      "high": -3.38411
      },
      "notice": {
       "low": 3.439613,
-      "central": 2.807956,
-      "high": -1.331148
+      "central": 2.673307,
+      "high": -1.862977
      },
      "notice_day": "2020-01-20",
      "cancelled": null,
@@ -4102,13 +4105,13 @@
      "label": "April",
      "loading": {
       "low": 0.146801,
-      "central": -0.623989,
-      "high": -3.369559
+      "central": -0.758638,
+      "high": -3.901388
      },
      "notice": {
       "low": 3.157188,
-      "central": 2.498383,
-      "high": -1.816955
+      "central": 2.363734,
+      "high": -2.642139
      },
      "notice_day": "2020-02-20",
      "cancelled": null,
@@ -4121,13 +4124,13 @@
      "label": "May",
      "loading": {
       "low": -0.048218,
-      "central": -0.825374,
-      "high": -3.900884
+      "central": -0.960023,
+      "high": -4.432713
      },
      "notice": {
       "low": 0.971623,
-      "central": 0.232871,
-      "high": -2.690583
+      "central": 0.098222,
+      "high": -3.222411
      },
      "notice_day": "2020-03-20",
      "cancelled": null,
@@ -4140,13 +4143,13 @@
      "label": "June",
      "loading": {
       "low": 1.558798,
-      "central": 0.832713,
-      "high": -3.482625
+      "central": 0.698064,
+      "high": -4.158875
      },
      "notice": {
       "low": 1.104103,
-      "central": 0.365296,
-      "high": -2.769086
+      "central": 0.230647,
+      "high": -3.300914
      },
      "notice_day": "2020-04-20",
      "cancelled": 46.0,
@@ -4159,13 +4162,13 @@
      "label": "July",
      "loading": {
       "low": 1.780779,
-      "central": 1.067612,
-      "high": -3.247725
+      "central": 0.932963,
+      "high": -4.206689
      },
      "notice": {
       "low": 0.137251,
-      "central": -0.633445,
-      "high": -3.407315
+      "central": -0.768094,
+      "high": -3.939143
      },
      "notice_day": "2020-05-20",
      "cancelled": 50.0,
@@ -4178,13 +4181,13 @@
      "label": "August",
      "loading": {
       "low": 0.41811,
-      "central": -0.320221,
-      "high": -3.350111
+      "central": -0.45487,
+      "high": -3.88194
      },
      "notice": {
       "low": 0.074384,
-      "central": -0.702822,
-      "high": -3.836401
+      "central": -0.837471,
+      "high": -4.36823
      },
      "notice_day": "2020-06-20",
      "cancelled": 45.0,
@@ -4197,13 +4200,13 @@
      "label": "September",
      "loading": {
       "low": 1.868332,
-      "central": 1.164857,
-      "high": -1.852376
+      "central": 1.030208,
+      "high": -2.384205
      },
      "notice": {
       "low": 1.424398,
-      "central": 0.698414,
-      "high": -3.616923
+      "central": 0.563765,
+      "high": -4.325976
      },
      "notice_day": "2020-07-20",
      "cancelled": 30.0,
@@ -4216,13 +4219,13 @@
      "label": "October",
      "loading": {
       "low": 2.711297,
-      "central": 2.056132,
-      "high": -1.465975
+      "central": 1.921483,
+      "high": -1.997804
      },
      "notice": {
       "low": 2.172226,
-      "central": 1.491358,
-      "high": -2.823979
+      "central": 1.356709,
+      "high": -3.782943
      },
      "notice_day": "2020-08-20",
      "cancelled": null,
@@ -4235,13 +4238,13 @@
      "label": "November",
      "loading": {
       "low": 3.188928,
-      "central": 2.559495,
-      "high": -1.755843
+      "central": 2.424846,
+      "high": -2.311934
      },
      "notice": {
       "low": 0.700002,
-      "central": -0.038525,
-      "high": -3.068032
+      "central": -0.173174,
+      "high": -3.59986
      },
      "notice_day": "2020-09-20",
      "cancelled": null,
@@ -4254,13 +4257,13 @@
      "label": "December",
      "loading": {
       "low": 3.784703,
-      "central": 3.174413,
-      "high": -0.762634
+      "central": 3.039764,
+      "high": -1.294462
      },
      "notice": {
       "low": 1.756718,
-      "central": 1.053312,
-      "high": -1.981682
+      "central": 0.918663,
+      "high": -2.51351
      },
      "notice_day": "2020-10-20",
      "cancelled": null,
@@ -4270,7 +4273,7 @@
     }
    ],
    "y": {
-    "low": -4.0,
+    "low": -6.0,
     "high": 4.0,
     "step": 2.0
    },
@@ -4387,7 +4390,7 @@
     },
     {
      "field": "weeks_reported",
-     "value": 8,
+     "value": 12,
      "format": "count"
     },
     {
@@ -4395,8 +4398,8 @@
     },
     {
      "field": "first_reported",
-     "value": "2026-02-18",
-     "label": "18 February 2026"
+     "value": "2026-01-07",
+     "label": "7 January 2026"
     },
     {
      "text": " to "
@@ -4414,7 +4417,7 @@
     },
     {
      "field": "hire_0",
-     "value": 92000.0,
+     "value": 22500.0,
      "format": "usd_day"
     },
     {
@@ -4425,6 +4428,28 @@
     },
     {
      "field": "hire_1",
+     "value": 71750.0,
+     "format": "usd_day"
+    },
+    {
+     "text": " $/day"
+    },
+    {
+     "text": " and "
+    },
+    {
+     "field": "hire_2",
+     "value": 92000.0,
+     "format": "usd_day"
+    },
+    {
+     "text": " $/day"
+    },
+    {
+     "text": " and "
+    },
+    {
+     "field": "hire_3",
      "value": 161750.0,
      "format": "usd_day"
     },
@@ -4482,6 +4507,22 @@
     },
     {
      "text": ""
+    },
+    {
+     "field": "share_2025-12",
+     "value": 11.9781,
+     "format": "share_percent"
+    },
+    {
+     "text": " percent in "
+    },
+    {
+     "field": "month_2025-12",
+     "value": "2025-12-01",
+     "label": "December 2025"
+    },
+    {
+     "text": ", "
     },
     {
      "field": "share_2026-01",
@@ -4674,94 +4715,94 @@
     1.01
    ],
    "panama": [
-    0.6665,
-    0.572092,
-    0.289605,
-    0.594534,
-    0.033393,
-    -0.631124,
-    -0.251534,
-    0.967659,
-    0.083098,
-    0.096851,
-    -0.529224,
-    -2.870693,
-    0.039667,
-    0.442899,
-    -0.650802,
-    0.891808,
-    0.157933,
-    1.319758,
-    0.664578,
-    0.058365,
-    0.282688,
-    0.428839,
-    0.047259,
-    1.236671,
-    0.543552,
-    0.649813,
-    2.134955,
-    1.009857,
-    0.293044,
-    0.005224,
-    -0.22377,
-    -0.286155,
-    0.961141,
-    1.476999,
-    -0.029864,
-    0.189993,
-    -0.359822,
-    -0.393907,
-    -0.197232,
-    -0.158108,
-    2.008275,
-    1.147523,
-    -0.19561
+    0.723975,
+    0.629567,
+    0.34708,
+    0.652009,
+    0.090868,
+    -0.573649,
+    -0.194059,
+    1.025135,
+    0.140573,
+    0.154326,
+    -0.471749,
+    -2.813218,
+    0.097143,
+    0.500374,
+    -0.593327,
+    0.949284,
+    0.215409,
+    1.377233,
+    0.722054,
+    0.11584,
+    0.340163,
+    0.486314,
+    0.104734,
+    1.294146,
+    0.601027,
+    0.707288,
+    2.19243,
+    1.067333,
+    0.350519,
+    0.062699,
+    -0.166295,
+    -0.22868,
+    1.018616,
+    1.534474,
+    0.027612,
+    0.247468,
+    -0.302347,
+    -0.336432,
+    -0.139757,
+    -0.100633,
+    2.06575,
+    1.204998,
+    -0.138135
    ],
    "cape": [
-    1.022963,
-    0.913453,
-    0.62604,
-    0.959562,
-    0.396598,
-    -0.223811,
-    0.201547,
-    1.412864,
-    0.476896,
-    0.473727,
-    -0.170705,
-    -2.479743,
-    0.603917,
-    1.01391,
-    -0.054521,
-    1.485374,
-    0.704976,
-    1.852773,
-    1.15042,
-    0.559742,
-    0.80386,
-    0.949285,
-    0.595192,
-    1.800233,
-    1.085128,
-    1.205521,
-    2.689133,
-    1.493661,
-    0.761434,
-    0.504724,
-    0.323047,
-    0.328441,
-    1.627852,
-    2.128432,
-    0.595412,
-    0.861294,
-    0.341812,
-    0.341584,
-    0.590293,
-    0.682672,
-    2.851096,
-    1.937057,
-    0.572309
+    1.171231,
+    1.061722,
+    0.774309,
+    1.10783,
+    0.544866,
+    -0.075542,
+    0.349816,
+    1.561133,
+    0.625165,
+    0.621996,
+    -0.022436,
+    -2.331475,
+    0.752185,
+    1.162179,
+    0.093748,
+    1.633643,
+    0.853245,
+    2.001042,
+    1.298688,
+    0.708011,
+    0.952129,
+    1.097553,
+    0.74346,
+    1.948501,
+    1.233396,
+    1.35379,
+    2.837402,
+    1.641929,
+    0.909702,
+    0.652992,
+    0.471316,
+    0.476709,
+    1.77612,
+    2.276701,
+    0.74368,
+    1.009562,
+    0.49008,
+    0.489852,
+    0.738562,
+    0.83094,
+    2.999364,
+    2.085325,
+    0.720577
    ],
    "y": {
     "low": -4.0,
@@ -4820,8 +4861,8 @@
      "platts": 0.533,
      "study": {
       "low": 1.32508,
-      "central": 1.076237,
-      "high": -0.691219
+      "central": 1.021088,
+      "high": -1.083987
      },
      "reported": null
     },
@@ -4830,8 +4871,8 @@
      "platts": -0.677,
      "study": {
       "low": 1.202072,
-      "central": 0.578306,
-      "high": -3.85212
+      "central": 0.440066,
+      "high": -4.836659
      },
      "reported": null
     }
@@ -4916,7 +4957,7 @@
     },
     {
      "field": "breakeven_2023-07",
-     "value": 10.209617,
+     "value": 10.807605,
      "format": "days",
      "missing": "none"
     },
@@ -4944,7 +4985,7 @@
     },
     {
      "field": "breakeven_2023-12",
-     "value": 10.672381,
+     "value": 11.160922,
      "format": "days",
      "missing": "none"
     },
@@ -4970,21 +5011,21 @@
      "month": "2023-07-01",
      "label": "July 2023",
      "hire_level": "central",
-     "hire_usd_day": 45500.0,
+     "hire_usd_day": 55750.0,
      "wait_reported": 12.0,
-     "wait_breakeven": 10.209617,
-     "lead_no_wait": 0.499212,
-     "lead_with_wait": -0.087543
+     "wait_breakeven": 10.807605,
+     "lead_no_wait": 0.589574,
+     "lead_with_wait": -0.065047
     },
     {
      "month": "2023-07-01",
      "label": "July 2023",
      "hire_level": "high",
-     "hire_usd_day": 374000.0,
+     "hire_usd_day": 447000.0,
      "wait_reported": 12.0,
-     "wait_breakeven": 14.752232,
-     "lead_no_wait": 3.395192,
-     "lead_with_wait": 0.63342
+     "wait_breakeven": 14.934757,
+     "lead_no_wait": 4.038743,
+     "lead_with_wait": 0.793634
     },
     {
      "month": "2023-07-01",
@@ -5010,24 +5051,1193 @@
      "month": "2023-12-01",
      "label": "December 2023",
      "hire_level": "central",
-     "hire_usd_day": 45500.0,
+     "hire_usd_day": 55750.0,
      "wait_reported": 15.0,
-     "wait_breakeven": 10.672381,
-     "lead_no_wait": 0.595095,
-     "lead_with_wait": -0.241309
+     "wait_breakeven": 11.160922,
+     "lead_no_wait": 0.685457,
+     "lead_with_wait": -0.23578
     },
     {
      "month": "2023-12-01",
      "label": "December 2023",
      "hire_level": "high",
-     "hire_usd_day": 374000.0,
+     "hire_usd_day": 447000.0,
      "wait_reported": 15.0,
-     "wait_breakeven": 14.729547,
-     "lead_no_wait": 3.491075,
-     "lead_with_wait": -0.064101
+     "wait_breakeven": 14.910848,
+     "lead_no_wait": 4.134626,
+     "lead_with_wait": -0.024721
+    },
+    {
+     "month": "2023-12-01",
+     "label": "December 2023",
+     "hire_level": "reported",
+     "hire_usd_day": 155250.0,
+     "wait_reported": 15.0,
+     "wait_breakeven": 13.434387,
+     "lead_no_wait": 1.562626,
+     "lead_with_wait": -0.182105
     }
    ],
    "source": "Waits reported: 12 days of delay for unbooked vessels in late July 2023 (LNG Prime, 28 July 2023, quoting Spark); 15 days for unreserved slots in mid December 2023 (IEA, Gas Market Report Q1 2024)"
+  },
+  "canals": {
+   "heading_segments": [
+    {
+     "text": "What the canal authorities count: "
+    },
+    {
+     "field": "suez_latest",
+     "value": 282,
+     "format": "count"
+    },
+    {
+     "text": " LNG carriers through Suez in "
+    },
+    {
+     "field": "suez_latest_year",
+     "value": 2025,
+     "format": "year"
+    },
+    {
+     "text": " after "
+    },
+    {
+     "field": "suez_before",
+     "value": 119,
+     "format": "count"
+    },
+    {
+     "text": " in "
+    },
+    {
+     "field": "suez_before_year",
+     "value": 2024,
+     "format": "year"
+    },
+    {
+     "text": " and "
+    },
+    {
+     "field": "suez_peak",
+     "value": 1083,
+     "format": "count"
+    },
+    {
+     "text": " in "
+    },
+    {
+     "field": "suez_peak_year",
+     "value": 2011,
+     "format": "year"
+    },
+    {
+     "text": ", the most; "
+    },
+    {
+     "field": "panama_latest",
+     "value": 61,
+     "format": "count"
+    },
+    {
+     "text": " through Panama in the fiscal year to September "
+    },
+    {
+     "field": "panama_latest_year",
+     "value": 2025,
+     "format": "year"
+    },
+    {
+     "text": " after "
+    },
+    {
+     "field": "panama_peak",
+     "value": 537,
+     "format": "count"
+    },
+    {
+     "text": " in fiscal "
+    },
+    {
+     "field": "panama_peak_year",
+     "value": 2021,
+     "format": "year"
+    },
+    {
+     "text": ". Both count every LNG carrier in both directions, Suez's deliveries to Egypt and Jordan and ballast legs included, so neither is a count of US cargoes bound for Asia."
+    }
+   ],
+   "years": [
+    {
+     "year": 2007,
+     "suez_ships": 358,
+     "suez_net_ton_thousand": 32776,
+     "panama_transits": null
+    },
+    {
+     "year": 2008,
+     "suez_ships": 429,
+     "suez_net_ton_thousand": 38987,
+     "panama_transits": null
+    },
+    {
+     "year": 2009,
+     "suez_ships": 525,
+     "suez_net_ton_thousand": 52900,
+     "panama_transits": null
+    },
+    {
+     "year": 2010,
+     "suez_ships": 855,
+     "suez_net_ton_thousand": 91040,
+     "panama_transits": null
+    },
+    {
+     "year": 2011,
+     "suez_ships": 1083,
+     "suez_net_ton_thousand": 121831,
+     "panama_transits": null
+    },
+    {
+     "year": 2012,
+     "suez_ships": 800,
+     "suez_net_ton_thousand": 88636,
+     "panama_transits": null
+    },
+    {
+     "year": 2013,
+     "suez_ships": 649,
+     "suez_net_ton_thousand": 70317,
+     "panama_transits": null
+    },
+    {
+     "year": 2014,
+     "suez_ships": 614,
+     "suez_net_ton_thousand": 66894,
+     "panama_transits": null
+    },
+    {
+     "year": 2015,
+     "suez_ships": 670,
+     "suez_net_ton_thousand": 72996,
+     "panama_transits": null
+    },
+    {
+     "year": 2016,
+     "suez_ships": 575,
+     "suez_net_ton_thousand": 61242,
+     "panama_transits": 15
+    },
+    {
+     "year": 2017,
+     "suez_ships": 567,
+     "suez_net_ton_thousand": 59953,
+     "panama_transits": 163
+    },
+    {
+     "year": 2018,
+     "suez_ships": 691,
+     "suez_net_ton_thousand": 73480,
+     "panama_transits": 290
+    },
+    {
+     "year": 2019,
+     "suez_ships": 750,
+     "suez_net_ton_thousand": 84700,
+     "panama_transits": 399
+    },
+    {
+     "year": 2020,
+     "suez_ships": 686,
+     "suez_net_ton_thousand": 77500,
+     "panama_transits": 419
+    },
+    {
+     "year": 2021,
+     "suez_ships": 937,
+     "suez_net_ton_thousand": 100968,
+     "panama_transits": 537
+    },
+    {
+     "year": 2022,
+     "suez_ships": 901,
+     "suez_net_ton_thousand": 100614,
+     "panama_transits": 374
+    },
+    {
+     "year": 2023,
+     "suez_ships": 819,
+     "suez_net_ton_thousand": 91849,
+     "panama_transits": 326
+    },
+    {
+     "year": 2024,
+     "suez_ships": 119,
+     "suez_net_ton_thousand": 13176,
+     "panama_transits": 115
+    },
+    {
+     "year": 2025,
+     "suez_ships": 282,
+     "suez_net_ton_thousand": 30627,
+     "panama_transits": 61
+    }
+   ],
+   "cwt": {
+    "heading_segments": [
+     {
+      "text": "Canal Waters Time at Panama, the hours from a ship's arrival to its departure, waiting included, averaged over every ship in the month: "
+     },
+     {
+      "field": "cwt_median",
+      "value": 28.3,
+      "format": "hours"
+     },
+     {
+      "text": " hours in the median month since the neopanamax locks opened in "
+     },
+     {
+      "field": "neopanamax_from",
+      "value": "2016-07-01",
+      "label": "July 2016"
+     },
+     {
+      "text": ", "
+     },
+     {
+      "field": "cwt_peak",
+      "value": 66.53,
+      "format": "hours"
+     },
+     {
+      "text": " in "
+     },
+     {
+      "field": "cwt_peak_month",
+      "value": "2023-08-01",
+      "label": "August 2023"
+     },
+     {
+      "text": ", the highest month, when the day's high reached "
+     },
+     {
+      "field": "cwt_peak_high",
+      "value": 104.8,
+      "format": "hours"
+     },
+     {
+      "text": " hours. The Authority counts every ship and does not split the figure by segment or by booked and unbooked ships, so a month's average bounds what an LNG carrier without a slot waited rather than measures it."
+     }
+    ],
+    "days": [
+     "2014-02-01",
+     "2014-03-01",
+     "2014-04-01",
+     "2014-05-01",
+     "2014-06-01",
+     "2014-07-01",
+     "2014-08-01",
+     "2014-09-01",
+     "2014-10-01",
+     "2014-11-01",
+     "2014-12-01",
+     "2015-01-01",
+     "2015-02-01",
+     "2015-03-01",
+     "2015-04-01",
+     "2015-05-01",
+     "2015-06-01",
+     "2015-07-01",
+     "2015-08-01",
+     "2015-09-01",
+     "2015-10-01",
+     "2015-11-01",
+     "2015-12-01",
+     "2016-01-01",
+     "2016-02-01",
+     "2016-03-01",
+     "2016-04-01",
+     "2016-05-01",
+     "2016-06-01",
+     "2016-07-01",
+     "2016-08-01",
+     "2016-09-01",
+     "2016-10-01",
+     "2016-11-01",
+     "2016-12-01",
+     "2017-01-01",
+     "2017-02-01",
+     "2017-03-01",
+     "2017-04-01",
+     "2017-05-01",
+     "2017-06-01",
+     "2017-07-01",
+     "2017-08-01",
+     "2017-10-01",
+     "2017-11-01",
+     "2017-12-01",
+     "2018-01-01",
+     "2018-02-01",
+     "2018-03-01",
+     "2018-04-01",
+     "2018-05-01",
+     "2018-06-01",
+     "2018-07-01",
+     "2018-08-01",
+     "2018-09-01",
+     "2018-10-01",
+     "2018-11-01",
+     "2018-12-01",
+     "2019-01-01",
+     "2019-02-01",
+     "2019-03-01",
+     "2019-04-01",
+     "2019-05-01",
+     "2019-06-01",
+     "2019-07-01",
+     "2019-08-01",
+     "2019-09-01",
+     "2019-10-01",
+     "2019-11-01",
+     "2019-12-01",
+     "2020-01-01",
+     "2020-02-01",
+     "2020-05-01",
+     "2020-06-01",
+     "2020-07-01",
+     "2020-08-01",
+     "2020-09-01",
+     "2020-10-01",
+     "2020-11-01",
+     "2020-12-01",
+     "2021-01-01",
+     "2021-02-01",
+     "2021-03-01",
+     "2021-04-01",
+     "2021-05-01",
+     "2021-06-01",
+     "2021-07-01",
+     "2021-08-01",
+     "2021-09-01",
+     "2021-10-01",
+     "2021-11-01",
+     "2021-12-01",
+     "2022-01-01",
+     "2022-02-01",
+     "2022-03-01",
+     "2022-04-01",
+     "2022-05-01",
+     "2022-06-01",
+     "2022-07-01",
+     "2022-08-01",
+     "2022-09-01",
+     "2022-10-01",
+     "2022-11-01",
+     "2022-12-01",
+     "2023-01-01",
+     "2023-02-01",
+     "2023-03-01",
+     "2023-04-01",
+     "2023-05-01",
+     "2023-06-01",
+     "2023-07-01",
+     "2023-08-01",
+     "2023-09-01",
+     "2023-10-01",
+     "2023-11-01",
+     "2023-12-01",
+     "2024-01-01",
+     "2024-02-01",
+     "2024-03-01",
+     "2024-04-01",
+     "2024-05-01",
+     "2024-06-01",
+     "2024-07-01",
+     "2024-08-01",
+     "2024-09-01",
+     "2024-10-01",
+     "2024-11-01",
+     "2024-12-01",
+     "2025-01-01",
+     "2025-02-01",
+     "2025-03-01",
+     "2025-04-01",
+     "2025-05-01",
+     "2025-06-01",
+     "2025-07-01",
+     "2025-08-01",
+     "2025-09-01",
+     "2025-10-01",
+     "2025-11-01",
+     "2025-12-01",
+     "2026-01-01",
+     "2026-02-01",
+     "2026-03-01",
+     "2026-04-01",
+     "2026-05-01",
+     "2026-06-01",
+     "2026-07-01",
+     "2026-08-01",
+     "2026-09-01"
+    ],
+    "avg": [
+     30.98,
+     34.72,
+     27.45,
+     26.5,
+     23.77,
+     24.34,
+     28.61,
+     38.8,
+     32.51,
+     32.33,
+     28.85,
+     27.71,
+     30.8,
+     39.72,
+     30.09,
+     29.02,
+     24.75,
+     23.94,
+     29.87,
+     37.24,
+     62.67,
+     50.85,
+     24.2,
+     26.84,
+     31.76,
+     31.24,
+     23.28,
+     27.65,
+     22.88,
+     25.22,
+     28.26,
+     29.07,
+     27.14,
+     29.86,
+     28.9,
+     38.79,
+     27.86,
+     27.46,
+     26.35,
+     24.87,
+     26.03,
+     29.83,
+     31.53,
+     32.86,
+     25.83,
+     24.53,
+     23.35,
+     26.76,
+     27.66,
+     28.61,
+     24.97,
+     22.03,
+     23.59,
+     25.8,
+     25.51,
+     23.83,
+     24.52,
+     21.87,
+     25.58,
+     25.94,
+     22.27,
+     23.19,
+     25.07,
+     22.14,
+     24.85,
+     34.25,
+     25.64,
+     32.95,
+     33.01,
+     30.62,
+     31.73,
+     36.84,
+     26.21,
+     25.13,
+     28.34,
+     31.35,
+     38.58,
+     47.49,
+     39.53,
+     51.76,
+     51.88,
+     38.68,
+     38.15,
+     35.14,
+     38.46,
+     34.02,
+     51.04,
+     37.99,
+     24.21,
+     38.57,
+     46.42,
+     43.65,
+     41.89,
+     47.45,
+     35.67,
+     33.16,
+     44.78,
+     39.26,
+     34.34,
+     38.33,
+     37.18,
+     38.49,
+     55.79,
+     48.76,
+     38.91,
+     35.18,
+     39.31,
+     43.89,
+     33.16,
+     30.94,
+     46.99,
+     66.53,
+     50.23,
+     53.72,
+     40.71,
+     44.1,
+     32.1,
+     20.9,
+     20.7,
+     20.2,
+     22.9,
+     19.1,
+     18.3,
+     18.3,
+     20.2,
+     20.1,
+     21.1,
+     21.7,
+     20.2,
+     20.8,
+     19.3,
+     20.7,
+     19.1,
+     18.9,
+     20.8,
+     21.6,
+     21.4,
+     20.2,
+     18.4,
+     20.81,
+     20.3,
+     19.1,
+     21.39,
+     32.33,
+     31.2,
+     23.8,
+     25.38,
+     34.9,
+     37.97
+    ],
+    "high": [
+     52.47,
+     46.89,
+     36.65,
+     44.09,
+     30.28,
+     28.12,
+     39.44,
+     71.63,
+     41.72,
+     42.05,
+     43.67,
+     39.25,
+     40.77,
+     68.94,
+     38.53,
+     47.5,
+     31.78,
+     34.69,
+     40.72,
+     80.78,
+     79.41,
+     80.73,
+     31.83,
+     36.16,
+     42.1,
+     46.62,
+     30.37,
+     47.97,
+     33.87,
+     36.82,
+     54.43,
+     37.91,
+     38.72,
+     48.85,
+     41.2,
+     59.54,
+     35.41,
+     46.75,
+     36.0,
+     41.23,
+     70.17,
+     39.55,
+     49.64,
+     44.14,
+     42.64,
+     38.53,
+     32.08,
+     51.03,
+     47.73,
+     44.38,
+     40.1,
+     29.17,
+     33.98,
+     36.27,
+     34.45,
+     36.58,
+     36.14,
+     27.92,
+     34.72,
+     39.56,
+     29.22,
+     33.53,
+     37.17,
+     33.59,
+     34.92,
+     49.92,
+     34.06,
+     47.78,
+     50.78,
+     40.99,
+     42.89,
+     70.34,
+     45.32,
+     37.05,
+     19.0,
+     61.23,
+     57.06,
+     63.43,
+     59.06,
+     68.51,
+     75.16,
+     71.53,
+     50.88,
+     53.73,
+     56.73,
+     46.9,
+     95.43,
+     64.3,
+     44.26,
+     59.99,
+     66.43,
+     79.71,
+     94.29,
+     72.08,
+     66.4,
+     43.32,
+     68.92,
+     53.82,
+     53.32,
+     60.83,
+     59.72,
+     68.98,
+     86.66,
+     86.28,
+     66.01,
+     56.07,
+     60.08,
+     66.01,
+     44.19,
+     52.44,
+     76.39,
+     104.8,
+     77.85,
+     100.23,
+     61.15,
+     87.06,
+     84.9,
+     33.8,
+     34.5,
+     28.4,
+     38.4,
+     31.4,
+     26.1,
+     26.1,
+     31.3,
+     26.4,
+     33.6,
+     29.3,
+     29.6,
+     28.3,
+     27.6,
+     26.3,
+     22.2,
+     27.6,
+     26.9,
+     32.2,
+     27.0,
+     28.1,
+     23.4,
+     33.63,
+     29.52,
+     23.7,
+     32.02,
+     56.72,
+     61.68,
+     52.06,
+     41.13,
+     69.41,
+     78.15
+    ],
+    "low": [
+     19.82,
+     27.03,
+     18.23,
+     18.46,
+     17.52,
+     16.06,
+     21.09,
+     20.52,
+     24.87,
+     23.9,
+     18.75,
+     18.26,
+     21.16,
+     25.68,
+     24.12,
+     20.94,
+     16.33,
+     18.03,
+     24.77,
+     19.96,
+     41.05,
+     20.46,
+     17.52,
+     20.41,
+     23.19,
+     19.93,
+     16.63,
+     16.63,
+     16.11,
+     19.21,
+     15.01,
+     20.82,
+     16.97,
+     16.89,
+     17.77,
+     23.46,
+     20.75,
+     17.95,
+     19.23,
+     17.11,
+     17.54,
+     23.01,
+     22.32,
+     21.86,
+     17.64,
+     18.67,
+     15.67,
+     19.19,
+     19.03,
+     19.03,
+     18.53,
+     16.64,
+     16.8,
+     18.56,
+     19.96,
+     15.42,
+     16.33,
+     17.69,
+     15.85,
+     18.17,
+     17.42,
+     15.55,
+     15.62,
+     17.42,
+     18.89,
+     19.71,
+     18.11,
+     23.4,
+     24.16,
+     23.23,
+     25.92,
+     20.71,
+     17.8,
+     15.87,
+     40.38,
+     15.27,
+     22.66,
+     21.8,
+     23.42,
+     31.33,
+     34.47,
+     21.22,
+     25.49,
+     22.19,
+     20.99,
+     18.37,
+     24.36,
+     20.62,
+     16.55,
+     21.27,
+     24.67,
+     25.73,
+     22.79,
+     24.46,
+     21.43,
+     23.25,
+     26.33,
+     29.94,
+     20.28,
+     20.1,
+     21.55,
+     23.41,
+     29.3,
+     25.11,
+     24.47,
+     22.17,
+     22.28,
+     22.71,
+     20.89,
+     18.62,
+     18.65,
+     24.36,
+     25.24,
+     30.96,
+     15.91,
+     17.46,
+     15.8,
+     14.3,
+     14.2,
+     15.5,
+     15.7,
+     15.0,
+     14.8,
+     14.8,
+     14.4,
+     15.9,
+     14.9,
+     17.6,
+     16.2,
+     16.2,
+     16.2,
+     15.9,
+     15.1,
+     15.4,
+     15.7,
+     16.4,
+     15.8,
+     15.9,
+     15.3,
+     14.4,
+     16.13,
+     16.3,
+     15.96,
+     18.92,
+     17.26,
+     16.65,
+     17.42,
+     20.25,
+     17.6
+    ],
+    "y": {
+     "low": 0.0,
+     "high": 150.0,
+     "step": 50.0
+    },
+    "ticks": [
+     {
+      "day": "2015-01-01",
+      "label": "2015"
+     },
+     {
+      "day": "2016-01-01",
+      "label": "2016"
+     },
+     {
+      "day": "2017-01-01",
+      "label": "2017"
+     },
+     {
+      "day": "2018-01-01",
+      "label": "2018"
+     },
+     {
+      "day": "2019-01-01",
+      "label": "2019"
+     },
+     {
+      "day": "2020-01-01",
+      "label": "2020"
+     },
+     {
+      "day": "2021-01-01",
+      "label": "2021"
+     },
+     {
+      "day": "2022-01-01",
+      "label": "2022"
+     },
+     {
+      "day": "2023-01-01",
+      "label": "2023"
+     },
+     {
+      "day": "2024-01-01",
+      "label": "2024"
+     },
+     {
+      "day": "2025-01-01",
+      "label": "2025"
+     },
+     {
+      "day": "2026-01-01",
+      "label": "2026"
+     }
+    ],
+    "wait_months": [
+     "2023-07-01",
+     "2023-07-01",
+     "2023-07-01",
+     "2023-07-01",
+     "2023-12-01",
+     "2023-12-01",
+     "2023-12-01",
+     "2023-12-01"
+    ],
+    "desc": "A line of the month's average Canal Waters Time in hours, between a thin line of the month's highest day and a dotted line of its lowest. The months with a wait reported for LNG carriers are marked in the accent."
+   },
+   "chokepoints": [
+    "Panama Canal",
+    "Suez Canal",
+    "Bab el-Mandeb Strait",
+    "Cape of Good Hope",
+    "Strait of Hormuz",
+    "Strait of Malacca",
+    "Danish Straits",
+    "Turkish Straits"
+   ],
+   "annual": [
+    {
+     "date": "2020-01-01",
+     "label": "2020",
+     "values": {
+      "Bab el-Mandeb Strait": 3.8,
+      "Cape of Good Hope": 3.5,
+      "Danish Straits": 0.5,
+      "Strait of Hormuz": 10.7,
+      "Strait of Malacca": 7.4,
+      "Suez Canal": 3.8,
+      "Turkish Straits": 0.6
+     }
+    },
+    {
+     "date": "2021-01-01",
+     "label": "2021",
+     "values": {
+      "Bab el-Mandeb Strait": 4.7,
+      "Cape of Good Hope": 3.3,
+      "Danish Straits": 0.5,
+      "Strait of Hormuz": 10.8,
+      "Strait of Malacca": 8.9,
+      "Suez Canal": 4.7,
+      "Turkish Straits": 0.6
+     }
+    },
+    {
+     "date": "2022-01-01",
+     "label": "2022",
+     "values": {
+      "Bab el-Mandeb Strait": 4.6,
+      "Cape of Good Hope": 1.5,
+      "Danish Straits": 1.1,
+      "Strait of Hormuz": 11.0,
+      "Strait of Malacca": 8.3,
+      "Suez Canal": 4.6,
+      "Turkish Straits": 0.6
+     }
+    },
+    {
+     "date": "2023-01-01",
+     "label": "2023",
+     "values": {
+      "Bab el-Mandeb Strait": 4.2,
+      "Cape of Good Hope": 2.1,
+      "Danish Straits": 1.4,
+      "Strait of Hormuz": 10.6,
+      "Strait of Malacca": 9.4,
+      "Suez Canal": 4.1,
+      "Turkish Straits": 0.5
+     }
+    },
+    {
+     "date": "2024-01-01",
+     "label": "2024",
+     "values": {
+      "Bab el-Mandeb Strait": 0.0,
+      "Cape of Good Hope": 7.8,
+      "Danish Straits": 1.4,
+      "Strait of Hormuz": 10.5,
+      "Strait of Malacca": 10.1,
+      "Suez Canal": 0.5,
+      "Turkish Straits": 0.5
+     }
+    },
+    {
+     "date": "2025-01-01",
+     "label": "2025 first half",
+     "values": {
+      "Bab el-Mandeb Strait": 0.0,
+      "Cape of Good Hope": 5.7,
+      "Danish Straits": 1.6,
+      "Strait of Hormuz": 11.4,
+      "Strait of Malacca": 9.2,
+      "Suez Canal": 0.9,
+      "Turkish Straits": 0.6
+     }
+    }
+   ],
+   "quarterly": [
+    {
+     "date": "2025-01-01",
+     "label": "Q1 2025",
+     "values": {
+      "Bab el-Mandeb Strait": 0.3,
+      "Cape of Good Hope": 4.2,
+      "Danish Straits": 1.6,
+      "Panama Canal": 0.2,
+      "Strait of Hormuz": 11.7,
+      "Strait of Malacca": 9.1,
+      "Suez Canal": 0.8,
+      "Turkish Straits": 1.1
+     }
+    },
+    {
+     "date": "2025-04-01",
+     "label": "Q2 2025",
+     "values": {
+      "Bab el-Mandeb Strait": null,
+      "Cape of Good Hope": 7.0,
+      "Danish Straits": 1.6,
+      "Panama Canal": 0.3,
+      "Strait of Hormuz": 11.0,
+      "Strait of Malacca": 9.5,
+      "Suez Canal": 0.8,
+      "Turkish Straits": 0.3
+     }
+    },
+    {
+     "date": "2025-07-01",
+     "label": "Q3 2025",
+     "values": {
+      "Bab el-Mandeb Strait": null,
+      "Cape of Good Hope": 6.3,
+      "Danish Straits": 1.5,
+      "Panama Canal": 0.4,
+      "Strait of Hormuz": 10.9,
+      "Strait of Malacca": 8.9,
+      "Suez Canal": 2.1,
+      "Turkish Straits": 0.2
+     }
+    },
+    {
+     "date": "2025-10-01",
+     "label": "Q4 2025",
+     "values": {
+      "Bab el-Mandeb Strait": 1.1,
+      "Cape of Good Hope": 6.0,
+      "Danish Straits": 1.9,
+      "Panama Canal": 0.3,
+      "Strait of Hormuz": 10.5,
+      "Strait of Malacca": 10.1,
+      "Suez Canal": 1.6,
+      "Turkish Straits": 0.8
+     }
+    },
+    {
+     "date": "2026-01-01",
+     "label": "Q1 2026",
+     "values": {
+      "Bab el-Mandeb Strait": 3.0,
+      "Cape of Good Hope": 4.8,
+      "Danish Straits": 1.8,
+      "Panama Canal": 0.3,
+      "Strait of Hormuz": 7.4,
+      "Strait of Malacca": 8.3,
+      "Suez Canal": 1.8,
+      "Turkish Straits": 0.8
+     }
+    },
+    {
+     "date": "2026-04-01",
+     "label": "Q2 2026",
+     "values": {
+      "Bab el-Mandeb Strait": null,
+      "Cape of Good Hope": 9.7,
+      "Danish Straits": 1.4,
+      "Panama Canal": 0.6,
+      "Strait of Hormuz": 0.8,
+      "Strait of Malacca": 5.5,
+      "Suez Canal": 1.5,
+      "Turkish Straits": 0.3
+     }
+    }
+   ],
+   "annual_caption_segments": [
+    {
+     "text": "LNG through each chokepoint in billion cubic feet a day, EIA's analysis of Vortexa's tanker tracking, by calendar year and the first half of "
+    },
+    {
+     "field": "annual_last_year",
+     "value": 2025,
+     "format": "year"
+    },
+    {
+     "text": "; volumes in both directions, not split by origin."
+    }
+   ],
+   "quarterly_caption_segments": [
+    {
+     "text": "The same by quarter, from the Short-Term Energy Outlook's energy security article, the "
+    },
+    {
+     "field": "quarterly_first_quarter",
+     "value": "first",
+     "label": "first"
+    },
+    {
+     "text": " quarter of "
+    },
+    {
+     "field": "quarterly_first_year",
+     "value": 2025,
+     "format": "year"
+    },
+    {
+     "text": " to the "
+    },
+    {
+     "field": "quarterly_last_quarter",
+     "value": "second",
+     "label": "second"
+    },
+    {
+     "text": " quarter of "
+    },
+    {
+     "field": "quarterly_last_year",
+     "value": 2026,
+     "format": "year"
+    },
+    {
+     "text": "; a cell EIA prints as a dash is left empty, since EIA does not say whether it is zero or not available."
+    }
+   ],
+   "years_caption": "LNG carriers through the two canals a year, as their authorities count them: Suez by calendar year with their Suez Canal net tonnage in thousands of tons, Panama by fiscal year ending on 30 September, from the neopanamax locks' first full fiscal year.",
+   "words": {
+    "heading": "The canals, as their authorities count them",
+    "cwt_legend": "Ink: the month's average Canal Waters Time. Thin: the month's highest day. Dotted: its lowest. Accent: the months with a wait reported for LNG carriers. Source: Panama Canal Authority, Monthly Canal Operations Summary, advisories A-04-2014 to A-38-2026; non-commercial use, and the Authority's figures may vary with traffic audits.",
+    "years_source": "Sources: Suez Canal Authority, annual navigation reports, Table 3; Panama Canal Authority, annual reports, read by eye in their charts and text.",
+    "chokepoints_source": "Source: U.S. Energy Information Administration, World Oil Transit Chokepoints and Short-Term Energy Outlook, analysis based on Vortexa tanker tracking data, with the vintages the Provenance view records.",
+    "suez_head": "Suez, LNG carriers",
+    "suez_tons_head": "Suez, net tons, thousands",
+    "panama_head": "Panama, LNG carriers, fiscal year",
+    "year_head": "Year",
+    "chokepoint_head": "Period",
+    "cwt_y_axis": "hours"
+   }
   },
   "limits_segments": [
    {

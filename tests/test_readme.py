@@ -43,7 +43,8 @@ def test_the_readme_s_regression_figures_are_the_flows_artifact_s():
 def test_the_readme_s_counts_are_the_repository_s():
     words = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six", 7: "seven", 8: "eight", 9: "nine",
              10: "ten", 11: "eleven", 12: "twelve"}
-    assert "The study holds %s rates" % words[len(freight_anchors.ANCHORS)] in README
+    held = len(freight_anchors.ANCHORS)
+    assert "The study holds %s rates" % words.get(held, str(held)) in README
     waits = config.PARAMETERS["panama_waits_reported"].value
     assert "with the %s and %s days reported for LNG" % tuple(int(v) for v in waits.values()) in README
     cases = json.loads((ROOT / "data" / "fixtures" / "engine-cases.json").read_text(encoding="utf-8"))

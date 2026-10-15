@@ -32,7 +32,10 @@
    "mmbtu_per_m3": 2,
    "mmbtu_per_t": 2,
    "mmbtu_per_mwh": 6,
-   "r2": 2
+   "r2": 2,
+   "hours": 1,
+   "bcf_day": 1,
+   "feet": 2
   },
   "rounding": "now.json keeps full precision, because the browser engine recomputes from its inputs; history.json and flows.json store floats to 6 places. The page prints the decimals of the format a value names.",
   "segments": "A sentence is a list of segments. A text segment holds words only. A value segment names its field and holds a value with a format, or an ISO date or a word with its label."
@@ -698,7 +701,7 @@
     },
     {
      "field": "open_months",
-     "value": 18,
+     "value": 15,
      "format": "count"
     },
     {
@@ -706,7 +709,7 @@
     },
     {
      "field": "share_open",
-     "value": 25.699559,
+     "value": 26.247005,
      "format": "share_percent"
     },
     {
@@ -714,7 +717,7 @@
     },
     {
      "field": "share_closed",
-     "value": 12.569787,
+     "value": 15.988205,
      "format": "share_percent"
     },
     {
@@ -728,7 +731,7 @@
    "summary_segments": [
     {
      "field": "series_count",
-     "value": 22,
+     "value": 27,
      "format": "count"
     },
     {
@@ -1488,14 +1491,14 @@
   ],
   "x": {
    "low": 0.0,
-   "high": 400000.0,
-   "step": 100000.0,
+   "high": 600000.0,
+   "step": 200000.0,
    "divisor": 1000.0,
    "axis": "Hire, thousand $/day"
   },
   "y": {
    "low": -2.0,
-   "high": 6.0,
+   "high": 10.0,
    "step": 2.0,
    "axis": "S*, $/MMBtu"
   },
@@ -1510,8 +1513,8 @@
       -0.45074384682176216
      ],
      [
-      400000.0,
-      1.7921917811386585
+      600000.0,
+      2.9136595951188653
      ]
     ],
     "h_star": 260505.7102151547,
@@ -1527,8 +1530,8 @@
       -0.08585867641282263
      ],
      [
-      400000.0,
-      5.700227615329791
+      600000.0,
+      8.593270761201097
      ]
     ],
     "h_star": 75758.19793608897,
@@ -1613,8 +1616,8 @@
      "values": {
       "at_hire": -0.27411266611987983,
       "low": -0.45494935112418844,
-      "central": -0.19560991914126546,
-      "high": 1.6464009653212308,
+      "central": -0.13813469367477893,
+      "high": 2.0557367174240078,
       "h_star": 260505.7102151547
      },
      "missing_words": "no crossing"
@@ -1625,8 +1628,8 @@
      "values": {
       "at_hire": 0.35543792925424,
       "low": -0.057209695059395216,
-      "central": 0.5345717816694595,
-      "high": 4.737819675840903,
+      "central": 0.6657233521877473,
+      "high": 5.671874763434559,
       "h_star": 82656.54504654632
      },
      "missing_words": "no crossing"
@@ -1637,8 +1640,8 @@
      "values": {
       "at_hire": 0.36979561906191094,
       "low": -0.09670758820983849,
-      "central": 0.5723086392729009,
-      "high": 5.3241320063665185,
+      "central": 0.7205771004988044,
+      "high": 6.380092754609549,
       "h_star": 75758.19793608897
      },
      "missing_words": "no crossing"
@@ -1678,7 +1681,7 @@
     },
     {
      "field": "level_central",
-     "value": 45500.0,
+     "value": 55750.0,
      "format": "usd_day"
     },
     {
@@ -1694,7 +1697,7 @@
     },
     {
      "field": "level_high",
-     "value": 374000.0,
+     "value": 447000.0,
      "format": "usd_day"
     },
     {
@@ -1921,8 +1924,8 @@
    },
    "levels": {
     "low": -750.0,
-    "central": 45500.0,
-    "high": 374000.0
+    "central": 55750.0,
+    "high": 447000.0
    }
   },
   "regas_discount": {
@@ -2267,37 +2270,37 @@
    }
   },
   "central": {
-   "hire_usd_day": 45500.0,
+   "hire_usd_day": 55750.0,
    "best_route_east": "nea_panama",
    "best_destination": "NEA",
-   "best_netback": 23.786062087278566,
-   "lift_margin": 20.36768708727857,
+   "best_netback": 23.662246873605422,
+   "lift_margin": 20.24387187360542,
    "arb": {
-    "nea_panama": 1.1568133600014825,
-    "nea_suez": 0.4456501680655869,
-    "nea_cape": 0.40808737605872025
+    "nea_panama": 1.1016644203377481,
+    "nea_suez": 0.32271316687373997,
+    "nea_cape": 0.2698472993219312
    },
    "s_star": {
-    "nea_panama": -0.19560991914126546,
-    "nea_suez": 0.5345717816694595,
-    "nea_cape": 0.5723086392729009
+    "nea_panama": -0.13813469367477893,
+    "nea_suez": 0.6657233521877473,
+    "nea_cape": 0.7205771004988044
    }
   },
   "high": {
-   "hire_usd_day": 374000.0,
+   "hire_usd_day": 447000.0,
    "best_route_east": "nea_panama",
    "best_destination": "NWE",
-   "best_netback": 20.428578384634132,
-   "lift_margin": 17.01020338463413,
+   "best_netback": 19.939540530713476,
+   "lift_margin": 16.521165530713475,
    "arb": {
-    "nea_panama": -0.6106429014169272,
-    "nea_suez": -3.4943307969610053,
-    "nea_cape": -4.0223384978959125
+    "nea_panama": -1.0034109595099068,
+    "nea_suez": -4.369882122522471,
+    "nea_cape": -5.006877580996942
    },
    "s_star": {
-    "nea_panama": 1.6464009653212308,
-    "nea_suez": 4.737819675840903,
-    "nea_cape": 5.3241320063665185
+    "nea_panama": 2.0557367174240078,
+    "nea_suez": 5.671874763434559,
+    "nea_cape": 6.380092754609549
    }
   }
  }

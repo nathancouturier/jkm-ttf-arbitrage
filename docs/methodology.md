@@ -77,6 +77,13 @@ basis points; they are not forecasts of where prices can go.
 | Price of US LNG exports in one month, USD per thousand cubic feet | 0.1 to 100 | a price read per MMcf or in cents would be a thousand or a hundred times too large; from 2016 the release of 30 September 2026 runs from 1.86 to 40.44 |
 | A DES LNG price level, EUR/MWh | 1 to 400 | a guard against a unit or a parse error in ACER's assessments, not a range the market implies |
 | An EU allowance price, EUR per tonne of CO2 | 1 to 200 | a guard against a unit or a parse error, not a range the market implies |
+| Hours in the Panama Canal's waters, a month's daily average, high or low | 0 to 500 | the drought of 2023 took a month's highest day to 104.8 hours; a figure read in minutes would be sixty times too large |
+| Ships a day arriving at or transiting the Panama Canal | 0 to 100 | the record is below fifty |
+| Ships through the Panama Canal in a month, or one of its locks | 0 to 3,000 | about a thousand a month in all, three hundred of them neopanamax |
+| Neopanamax booking slots offered or used in a month | 0 to 1,500 | at most about three hundred a month |
+| LNG carriers through the Suez Canal in a year | 0 to 5,000 | 1,083 in 2011, the most the Authority counted |
+| Suez Canal net tonnage of those ships in a year, thousands | 0 to 500,000 | 121,831 in 2011; a figure read in tons would be a thousand times too large |
+| LNG through a chokepoint, billion cubic feet a day | 0 to 100 | world LNG trade is near sixty; the Strait of Hormuz carried 11.7 in the first quarter of 2025 |
 
 The ranges are declared once in `src/lngarb/config.py` and repeated, on
 purpose, in `tools/validate-data.mjs`, which measures the committed files
@@ -386,12 +393,20 @@ No advisory read to 5 October 2026 announces a toll change after 2025.
 * **Fresh water surcharge**, mandatory on every transit since 15 February
   2020: 10,000 $ per transit for a ship over 300 feet, plus a percentage of the
   tolls set daily from the level of Gatun Lake. From 15 February 2020 the
-  percentage is 0.10 / (1 + e^(0.6 (x - 82))), x the lake level in feet, with a
-  floor of 1 percent; from 1 January 2023 it ranges from 0 to 10 percent; from
-  1 October 2023 the curve is centred on 79 feet and applies to the total
+  percentage is 0.10 / (1 + e^(0.6 (x - 82))), x the lake level in feet at noon
+  the day before, rounded to a tenth, held between 1 percent (above 85.5
+  feet) and 10 percent (below 72 feet); from 1 October 2023 the curve is
+  centred on 79 feet, runs from 0 to 10 percent and applies to the total
   tolls. At the 2025 toll it adds 10,000 $ to 75,670 $ to a laden transit of a
-  174,000 m3 carrier (this study's arithmetic). The lake levels of past days
-  were not collected.
+  174,000 m3 carrier (this study's arithmetic). The curve is in the engine
+  (`lngarb.canals.panama_fresh_water_share_at_level`, with its centre, slope,
+  ceiling and floor as parameters), but not the level: the Authority's daily
+  history and projection of the level sit on a page of its reporting host
+  that the study's network does not reach, so the engine holds the share at 5
+  percent, the curve's value at its centre, and the Method view prints the
+  curve at a few levels and at the two the Authority's monthly summaries
+  print, 79.7 feet in early September 2023 (8.0 percent under the 82 foot
+  curve) and 85.02 feet in July 2024 (0.3 percent under the 79 foot curve).
 * **Booking fees for a neopanamax vessel**, paid only by a ship that books a
   slot: 35,000 $ when neopanamax bookings opened in 2016; 70,000 $ or 85,000 $
   by beam (under or over 42.67 m) for booking dates from 1 June 2021; 80,000 $
@@ -404,7 +419,16 @@ No advisory read to 5 October 2026 announces a toll change after 2025.
 * **Waiting days** are not published by segment. The IEA gives two to three
   days for LNG carriers in normal conditions and an average of 15 days for
   unreserved slots in mid December 2023; Spark reported 12 days for unbooked
-  vessels in late July 2023 (LNG Prime, 28 July 2023).
+  vessels in late July 2023 (LNG Prime, 28 July 2023). What the Authority does
+  publish, monthly since December 2001, is Canal Waters Time, the hours from
+  every ship's arrival to its departure, waiting included, as the month's daily
+  average, high and low (`acp_canal_operations_monthly`): 66.5 hours on
+  average in August 2023 with a high of 104.8, 44.1 in December 2023 with a
+  high of 87.1, against about 24 hours in a normal month since 2016. Booked
+  ships wait little and unbooked ones long, so the average bounds an LNG
+  carrier's wait from below and the reported 12 and 15 days stand as the
+  record of the unbooked case. The Flows view draws the series with the two
+  reported months marked.
 
 Two published estimates set against the tariff of their date, this study's
 arithmetic: the IEA's 0.6 to 0.7 million $ for a 170,000 m3 carrier "for
@@ -731,10 +755,10 @@ run:
 | Suez rebate on the surcharge | not applied | applied | the rebate is written on normal tolls (open question 26) |
 | Panama capacity charged | the nominal capacity | none | the canal's admeasurement rules were not read (open question 39) |
 | Panama booking fee | none, an unbooked ship | none | the booked case is a scenario (open question 40) |
-| hire where no rate was reported within 14 days | 45,500 $/day | -750 and 374,000 | the median, lowest and highest of the freight anchors |
+| hire where no rate was reported within 14 days | 55,750 $/day | -750 and 447,000 | the median, lowest and highest of the 51 freight anchors; by ship, the median is 75,500 over the 23 figures for the 160,000 m3 TFDE to 2023 and 46,500 over the 28 for the 174,000 m3 two-stroke since (open question 37) |
 | EU allowance price after the last published month | the last month published, held (on 8 October 2026 August 2026, 82.31 EUR/t, German auctions) | 61 and 86 | the last published month held, and the Commission's range for 2025 |
 | funding spread | 150 bp | none | the convention of the study's copper sibling |
-| Panama variable fresh water surcharge | 5 percent of tolls | 0 and 10 | the middle of the Authority's range |
+| Panama variable fresh water surcharge | 5 percent of tolls | 0 and 10; the Authority's curve at a few levels and at the two levels it printed, on the Method view | the curve's value at its centre; the daily level is not reachable by code |
 | Suez closed to a US cargo | from 13 January 2024 | none | the day after the last laden LNG transit |
 | methane slip | off | 1.7 percent (174,000 m3), 3.1 percent (160,000 m3) | the regulation's defaults for the likely engine classes |
 | monthly loading day | the 15th | none | a monthly observation loads in the middle of its month |
@@ -844,6 +868,30 @@ Asia via the Cape in March 2024, against one via Panama in that month to 27
 March, and 31 of 34 round the Cape in data running to 28 April 2026, over a
 period not stated, when auctioned slots had made Panama impractical for spot
 cargoes according to Platts' sources (2.24 of `docs/sources.md`).
+
+### 12.4.1 What the canal authorities and EIA count
+
+Added 15 October 2026. Three observed series are set under the route analysis
+on the Flows view, none of them an input to the engine:
+
+* **LNG carriers through each canal by year.** The Suez Canal Authority's
+  annual reports count LNG ships both ways, 2007 to 2025: 819 in 2023, 119 in
+  2024, 282 in 2025 (`sca_lng_transits_annual`). The Panama Canal Authority's
+  annual reports count LNG carrier transits by fiscal year, 15 in fiscal 2016
+  to 537 in fiscal 2021, 326 in 2023, 115 in 2024 and 61 in 2025
+  (`acp_lng_transits_fiscal_year`). Both include deliveries to the canal's
+  own region and ballast legs, so neither is a count of US cargoes to Asia;
+  what they show is the collapse of each route in the year the study closes
+  or restricts it, and Panama's decline continuing through 2025.
+* **Canal Waters Time at Panama by month** (`acp_canal_operations_monthly`,
+  section 8.2), with the months of the two reported LNG waits marked.
+* **LNG through each chokepoint**, EIA's estimate from Vortexa's tanker
+  tracking in billion cubic feet a day, by year from 2020 and by quarter for
+  the latest six quarters (`eia_chokepoint_lng_annual`,
+  `eia_steo_chokepoint_lng_quarterly`): Suez and Bab el-Mandeb fall from 4.1
+  and 4.2 in 2023 to 0.5 and 0.0 in 2024 while the Cape rises from 2.1 to
+  7.8; the Strait of Hormuz falls from 10.5 in the fourth quarter of 2025 to
+  0.8 in the second of 2026. A cell EIA prints as a dash is left missing.
 
 ### 12.5 The history on the site
 

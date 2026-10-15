@@ -24,15 +24,16 @@ Read this part first.
 - **It shows an association, not a decision.** Over 115 months from February
   2016 to July 2026, a dollar more of arb east at loading went with 1.7 points
   more of US exports by vessel going to Asia, at a t statistic of 2.3 with
-  Newey-West errors, and an R squared of 0.11. Without 2020, 2022 and 2026 the
-  slope is 5.3 points and R squared 0.25. Long term contracts, Panama's slots,
+  Newey-West errors, and an R squared of 0.12. Without 2020, 2022 and 2026 the
+  slope is 5.4 points and R squared 0.25. Long term contracts, Panama's slots,
   China's tariff on US LNG from February 2025 and the cost of a ship already
   chartered also move cargoes, and the test cannot separate them.
-- **Charter rates are sparse.** The study holds ten rates, reported by Spark
-  and the trade press, each dated by the day it refers to or, where the
-  article gives none, by the article's date. Every date is worked at the
-  lowest, the median and the highest of them, and at the one reported nearest
-  it where one lies within 14 days, never at a rate made up for it.
+- **Charter rates are one a month at most.** The study holds 51 rates,
+  reported by Spark and the trade press from January 2021, the first reported
+  in each month, each dated by the day it refers to or, where the article
+  gives none, by the article's date. Every date is worked at the lowest, the
+  median and the highest of them, and at the one reported nearest it where one
+  lies within 14 days, never at a rate made up for it.
 - **The engine adds no wait at Panama.** The Flows view sets Panama against
   the Cape with the 12 and 15 days reported for LNG in July and December 2023
   only; every other restriction is drawn on the timeline, and any wait or slot
@@ -164,6 +165,14 @@ records with what is lost without each:
 4. **METI's monthly releases**, one PDF per month from 2014 to 2021, saved from
    a browser for the preliminary figures.
 
+A fifth kind of step is the owner's own: a series held under terms that
+forbid publishing it (a subscription's export, a table typed from a paid
+report) is declared once in `lngarb.config.USER_CSV_SERIES`, saved by hand as
+`data/private/user/<series>.csv`, and read by `python scripts/refresh.py
+--only user`, which validates it like every other series and records it with
+`committable` false; the file never reaches a commit (`docs/sources.md`,
+2.25). None is declared in this repository.
+
 ---
 
 ## Provenance
@@ -185,6 +194,9 @@ records with what is lost without each:
 | US dollars per SDR, daily | International Monetary Fund, through the Deutsche Bundesbank | IMF terms, with attribution | yes |
 | Reported charter rates | this study, from Spark Commodities, LNG Prime and Hellenic Shipping News | the publishers' terms forbid republishing their articles; only the figures and their sources are kept | yes |
 | The four sea routes | this study, with searoute over Eurostat's SeaRoute network | distances MIT; lines EUPL 1.2 | yes |
+| Canal Waters Time and transits at Panama, monthly from December 2001; LNG transits by fiscal year | Panama Canal Authority | terms of use forbidding commercial reproduction; kept for this non-commercial study | yes |
+| LNG carriers through Suez by year, from 2007 | Suez Canal Authority | all rights reserved; facts restated with attribution | yes |
+| LNG through each chokepoint, by year from 2020 and by quarter | U.S. Energy Information Administration, analysis based on Vortexa data | US public domain | yes |
 
 Every series' terms, quoted in its publisher's own words, and every trap met
 in reading it, are in [`docs/sources.md`](docs/sources.md); the site's

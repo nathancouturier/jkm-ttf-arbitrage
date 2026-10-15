@@ -1,0 +1,43 @@
+date,period,chokepoint,bcf_per_day
+2020-01-01,year,Bab el-Mandeb Strait,3.8
+2020-01-01,year,Cape of Good Hope,3.5
+2020-01-01,year,Danish Straits,0.5
+2020-01-01,year,Strait of Hormuz,10.7
+2020-01-01,year,Strait of Malacca,7.4
+2020-01-01,year,Suez Canal,3.8
+2020-01-01,year,Turkish Straits,0.6
+2021-01-01,year,Bab el-Mandeb Strait,4.7
+2021-01-01,year,Cape of Good Hope,3.3
+2021-01-01,year,Danish Straits,0.5
+2021-01-01,year,Strait of Hormuz,10.8
+2021-01-01,year,Strait of Malacca,8.9
+2021-01-01,year,Suez Canal,4.7
+2021-01-01,year,Turkish Straits,0.6
+2022-01-01,year,Bab el-Mandeb Strait,4.6
+2022-01-01,year,Cape of Good Hope,1.5
+2022-01-01,year,Danish Straits,1.1
+2022-01-01,year,Strait of Hormuz,11
+2022-01-01,year,Strait of Malacca,8.3
+2022-01-01,year,Suez Canal,4.6
+2022-01-01,year,Turkish Straits,0.6
+2023-01-01,year,Bab el-Mandeb Strait,4.2
+2023-01-01,year,Cape of Good Hope,2.1
+2023-01-01,year,Danish Straits,1.4
+2023-01-01,year,Strait of Hormuz,10.6
+2023-01-01,year,Strait of Malacca,9.4
+2023-01-01,year,Suez Canal,4.1
+2023-01-01,year,Turkish Straits,0.5
+2024-01-01,year,Bab el-Mandeb Strait,0
+2024-01-01,year,Cape of Good Hope,7.8
+2024-01-01,year,Danish Straits,1.4
+2024-01-01,year,Strait of Hormuz,10.5
+2024-01-01,year,Strait of Malacca,10.1
+2024-01-01,year,Suez Canal,0.5
+2024-01-01,year,Turkish Straits,0.5
+2025-01-01,first_half,Bab el-Mandeb Strait,0
+2025-01-01,first_half,Cape of Good Hope,5.7
+2025-01-01,first_half,Danish Straits,1.6
+2025-01-01,first_half,Strait of Hormuz,11.4
+2025-01-01,first_half,Strait of Malacca,9.2
+2025-01-01,first_half,Suez Canal,0.9
+2025-01-01,first_half,Turkish Straits,0.6

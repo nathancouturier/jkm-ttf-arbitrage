@@ -628,6 +628,8 @@ def find_gaps(dates: Iterable[Any], frequency: str) -> list[str]:
                       day for a holiday is not a missing week.
             monthly   every calendar month must carry an observation. A gap is
                       reported as the first of the month.
+            quarterly every calendar quarter must carry an observation. A gap
+                      is reported as the first day of the quarter.
             annual    every year must carry an observation. A gap is reported
                       as the first of January.
 
@@ -657,6 +659,9 @@ def find_gaps(dates: Iterable[Any], frequency: str) -> list[str]:
     elif frequency == "monthly":
         anchors = pd.DatetimeIndex(index.to_period("M").to_timestamp()).unique()
         expected = pd.date_range(anchors.min(), anchors.max(), freq="MS")
+    elif frequency == "quarterly":
+        anchors = pd.DatetimeIndex(index.to_period("Q").to_timestamp()).unique()
+        expected = pd.date_range(anchors.min(), anchors.max(), freq="QS")
     else:  # annual
         anchors = pd.DatetimeIndex(index.to_period("Y").to_timestamp()).unique()
         expected = pd.date_range(anchors.min(), anchors.max(), freq="YS")

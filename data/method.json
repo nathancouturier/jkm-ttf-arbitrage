@@ -32,7 +32,10 @@
    "mmbtu_per_m3": 2,
    "mmbtu_per_t": 2,
    "mmbtu_per_mwh": 6,
-   "r2": 2
+   "r2": 2,
+   "hours": 1,
+   "bcf_day": 1,
+   "feet": 2
   },
   "rounding": "now.json keeps full precision, because the browser engine recomputes from its inputs; history.json and flows.json store floats to 6 places. The page prints the decimals of the format a value names.",
   "segments": "A sentence is a list of segments. A text segment holds words only. A value segment names its field and holds a value with a format, or an ISO date or a word with its label."
@@ -51,7 +54,7 @@
   },
   {
    "field": "parameters",
-   "value": 49,
+   "value": 54,
    "format": "count"
   },
   {
@@ -148,6 +151,198 @@
    ]
   }
  ],
+ "fresh_water": {
+  "segments": [
+   {
+    "text": "The variable part of Panama's fresh water surcharge is a share of the tolls set each day from Gatun Lake's level by the Authority's curve, the maximum of "
+   },
+   {
+    "field": "fws_max",
+    "value": 10.0,
+    "format": "share_percent"
+   },
+   {
+    "text": " percent over one plus e to "
+   },
+   {
+    "field": "fws_slope",
+    "value": 0.6,
+    "format": "pp"
+   },
+   {
+    "text": " times the level less the curve's centre, "
+   },
+   {
+    "field": "fws_centre_first",
+    "value": 82.0,
+    "format": "feet"
+   },
+   {
+    "text": " feet from "
+   },
+   {
+    "field": "fws_from_first",
+    "value": "2020-02-15",
+    "label": "15 February 2020"
+   },
+   {
+    "text": " and "
+   },
+   {
+    "field": "fws_centre_last",
+    "value": 79.0,
+    "format": "feet"
+   },
+   {
+    "text": " feet from "
+   },
+   {
+    "field": "fws_from_last",
+    "value": "2023-10-01",
+    "label": "1 October 2023"
+   },
+   {
+    "text": ". The engine holds the share at "
+   },
+   {
+    "field": "fws_held",
+    "value": 5.0,
+    "format": "share_percent"
+   },
+   {
+    "text": " percent, the curve's value at its centre, because the Authority's daily level sits on a page the study's code cannot reach; the two levels its monthly summaries print, "
+   },
+   {
+    "field": "level_2023-09-08",
+    "value": 79.7,
+    "format": "feet"
+   },
+   {
+    "text": " feet on "
+   },
+   {
+    "field": "level_day_2023-09-08",
+    "value": "2023-09-08",
+    "label": "8 September 2023"
+   },
+   {
+    "text": ", give "
+   },
+   {
+    "field": "share_2023-09-08",
+    "value": 7.989910002494705,
+    "format": "pp"
+   },
+   {
+    "text": " percent"
+   },
+   {
+    "text": " and "
+   },
+   {
+    "field": "level_2024-08-07",
+    "value": 85.02,
+    "format": "feet"
+   },
+   {
+    "text": " feet on "
+   },
+   {
+    "field": "level_day_2024-08-07",
+    "value": "2024-08-07",
+    "label": "7 August 2024"
+   },
+   {
+    "text": ", give "
+   },
+   {
+    "field": "share_2024-08-07",
+    "value": 0.2659699357686587,
+    "format": "pp"
+   },
+   {
+    "text": " percent"
+   },
+   {
+    "text": ". The table runs the curve at a few levels under each centre; the Model view types any toll, surcharge included."
+   }
+  ],
+  "rows": [
+   {
+    "level_ft": 72.0,
+    "shares": {
+     "2020-02-15": 9.975273768433654,
+     "2023-10-01": 9.85225968306727
+    }
+   },
+   {
+    "level_ft": 75.0,
+    "shares": {
+     "2020-02-15": 9.85225968306727,
+     "2023-10-01": 9.168273035060777
+    }
+   },
+   {
+    "level_ft": 79.0,
+    "shares": {
+     "2020-02-15": 8.581489350995124,
+     "2023-10-01": 5.0
+    }
+   },
+   {
+    "level_ft": 82.0,
+    "shares": {
+     "2020-02-15": 5.0,
+     "2023-10-01": 1.4185106490048782
+    }
+   },
+   {
+    "level_ft": 85.0,
+    "shares": {
+     "2020-02-15": 1.4185106490048782,
+     "2023-10-01": 0.2659699357686587
+    }
+   },
+   {
+    "level_ft": 85.5,
+    "shares": {
+     "2020-02-15": 1.0909682119561293,
+     "2023-10-01": 0.1984030573407751
+    }
+   },
+   {
+    "level_ft": 87.0,
+    "shares": {
+     "2020-02-15": 1.0,
+     "2023-10-01": 0.08162571153159898
+    }
+   }
+  ],
+  "centres": [
+   {
+    "from": "2020-02-15",
+    "centre_ft": 82.0
+   },
+   {
+    "from": "2023-10-01",
+    "centre_ft": 79.0
+   }
+  ],
+  "readings": [
+   {
+    "day": "2023-09-08",
+    "level_ft": 79.7,
+    "share_percent": 7.989910002494705
+   },
+   {
+    "day": "2024-08-07",
+    "level_ft": 85.02,
+    "share_percent": 0.2659699357686587
+   }
+  ],
+  "held_percent": 5.0,
+  "caption": "The variable fresh water surcharge as a share of tolls, in percent, that the Authority's curve gives at a lake level, under the centre in force from each date; the share is held between 1 and 10 percent to September 2023 and 0 and 10 since."
+ },
  "parameters": [
   {
    "key": "mmbtu_per_m3_lng",
@@ -297,7 +492,57 @@
    "source": "this study: the middle of the Authority's range of 0 to 10 percent",
    "url": null,
    "read_on": "2026-10-07",
-   "note": "Set daily from Gatun Lake's level, which is not collected; 0 and 10 percent are the ends of the range, and the study runs neither. Before 2023 the range was 1 to 10 percent."
+   "note": "Set daily from Gatun Lake's level, which the Authority publishes on a page this study cannot reach by code; 5 percent is what the Authority's curve gives at a lake of 79.0 feet from October 2023 and of 82.0 feet before, the centres of its two curves. The lake stood at 79.7 feet in early September 2023 and 85.02 feet in July 2024, the two readings the Authority's summaries print, which the curve of each day turns into 8.0 and 0.3 percent (docs/methodology.md, section 8, and open question 53)."
+  },
+  {
+   "key": "panama_fresh_water_curve_centre_ft",
+   "name": "Panama fresh water curve, centre, by date",
+   "value_words": "82 days in 15 February 2020; 79 days in 1 October 2023",
+   "status": "published",
+   "source": "Panama Canal Authority, advisory ADV-03-2020 ('10%/(1+e^(0.6(x-82)))', from 15 February 2020) and advisory ADV-42-2023 ('changing the Gatun Lake level curve center from 82 feet to 79 feet', from 1 October 2023)",
+   "url": "https://pancanal.com/wp-content/uploads/2023/01/ADV42-2023-Modification-to-the-Fresh-Water-Surcharge-variable-component.pdf",
+   "read_on": "2026-10-15",
+   "note": "The share of tolls is the curve's maximum over one plus e to the slope times the lake's level less the centre, the level in feet at noon the day before the transit, rounded to a tenth; the study runs the curve only to set the two levels the Authority printed and any level a reader types against the 5 percent assumption."
+  },
+  {
+   "key": "panama_fresh_water_curve_slope_per_ft",
+   "name": "Panama fresh water curve, slope",
+   "value_words": "0.6 per foot of lake level",
+   "status": "published",
+   "source": "Panama Canal Authority, advisory ADV-03-2020, the exponent's coefficient; unchanged by ADV-42-2023 and the Notes on Tolls Tariffs of February 2026, page 20",
+   "url": "https://pancanal.com/wp-content/uploads/2020/01/ADV-03-2020.pdf",
+   "read_on": "2026-10-15",
+   "note": null
+  },
+  {
+   "key": "panama_fresh_water_curve_max_share",
+   "name": "Panama fresh water curve, maximum share",
+   "value_words": "10 percent of tolls",
+   "status": "published",
+   "source": "Panama Canal Authority, advisory ADV-03-2020: 'a maximum of 10 percent of the vessel's tolls when Gatun Lake level falls below 72.0 feet'",
+   "url": "https://pancanal.com/wp-content/uploads/2020/01/ADV-03-2020.pdf",
+   "read_on": "2026-10-15",
+   "note": null
+  },
+  {
+   "key": "panama_fresh_water_min_share_to_sep_2023",
+   "name": "Panama fresh water curve, minimum share to September 2023",
+   "value_words": "1 percent of tolls",
+   "status": "published",
+   "source": "Panama Canal Authority, advisory ADV-03-2020: 'from a minimum of 1 percent of the vessel's tolls, when Gatun Lake level is above 85.5 feet'; ADV-42-2023 lets the share run from 0 percent from 1 October 2023",
+   "url": "https://pancanal.com/wp-content/uploads/2020/01/ADV-03-2020.pdf",
+   "read_on": "2026-10-15",
+   "note": null
+  },
+  {
+   "key": "panama_gatun_levels_printed",
+   "name": "Gatun Lake levels the Authority's summaries print",
+   "value_words": "79.7 days in 8 September 2023; 85.02 days in 7 August 2024",
+   "status": "published",
+   "source": "Panama Canal Authority, Monthly Canal Operations Summary for August 2023 (advisory A-40-2023 of 8 September 2023: 'Gatun Lake, now at 24.2 meters (79.7 feet)') and for July 2024 (advisory A-27-2024: 'Gatun Lake today is at 85.02 feet (25.91 m)')",
+   "url": "https://pancanal.com/wp-content/uploads/2024/08/ADV27-2024-Monthly-Canal-Operations-Summary-July-2024.pdf",
+   "read_on": "2026-10-15",
+   "note": "The only two readings in the summaries of 2023 to 2026; the Authority's daily history and projection of the level sit on a page the study's network cannot reach, and no daily list of the share applied is published anywhere found. The day of the July 2024 reading is the advisory's own date, since the summary says 'today' and prints no date beside it."
   },
   {
    "key": "vessel_174k_from",
@@ -758,7 +1003,7 @@
    },
    {
     "field": "anchors",
-    "value": 10,
+    "value": 51,
     "format": "count"
    },
    {

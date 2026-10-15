@@ -74,6 +74,24 @@ BOUNDS_USD_PER_SDR = (0.9, 2.0)
 #: the market implies, a guard against a unit or a parse error: the largest
 #: monthly LNG total in the 31 August 2026 release is 573,089 MMcf, March 2026.
 BOUNDS_EXPORTS_MMCF = (0.0, 2000000.0)
+
+#: Hours a ship spends in the Panama Canal's waters, arrival to departure, as
+#: a month's daily average, high or low; the drought of 2023 took the high of
+#: a month past a hundred hours.
+BOUNDS_CANAL_HOURS = (0.0, 500.0)
+#: Ships a day arriving at or transiting the Panama Canal; the record is below fifty.
+BOUNDS_DAILY_TRANSITS = (0.0, 100.0)
+#: Ships transiting the Panama Canal in a month, or one of its locks; or the
+#: Suez Canal in a year, by type.
+BOUNDS_MONTHLY_TRANSITS = (0.0, 3000.0)
+#: Booking slots the Panama Canal offers or uses in a month for one class.
+BOUNDS_MONTHLY_SLOTS = (0.0, 1500.0)
+#: LNG carriers through the Suez Canal in a year, both directions.
+BOUNDS_ANNUAL_LNG_TRANSITS = (0.0, 5000.0)
+#: Suez Canal net tonnage of those ships in a year, thousands.
+BOUNDS_ANNUAL_NET_TON_THOUSAND = (0.0, 500000.0)
+#: LNG through a chokepoint, billion cubic feet a day; world trade is near sixty.
+BOUNDS_LNG_BCF_PER_DAY = (0.0, 100.0)
 #: The price of US LNG exports in one month, USD per thousand cubic feet. Not a
 #: range the market implies, a guard against a unit error: a price read per
 #: MMcf or in cents would be a thousand or a hundred times too large. From 2016
@@ -218,7 +236,7 @@ EIA_DESTINATIONS: Mapping[str, Destination] = MappingProxyType(
 
 #: The frequencies this project handles. Gap detection needs to know which one a
 #: series is, because a missing weekday in a weekly series is not a gap.
-FREQUENCIES = ("daily", "weekly", "monthly", "annual")
+FREQUENCIES = ("daily", "weekly", "monthly", "quarterly", "annual")
 
 #: How a series came to exist.
 #:
@@ -443,7 +461,74 @@ _DEHST_NOTE = (
 )
 
 
+_ACP_NOTE = (
+    "The Panama Canal Authority's terms of use, read on 15 October 2026: the site's information, documents and "
+    "reports are the Authority's property, and 'their copying, distribution, transmission, reproduction or "
+    "publication for commercial or lucrative purposes is prohibited'; the tables add that the information 'is "
+    "for general purpose only' and 'may vary' with traffic audits. This non-commercial study keeps the figures "
+    "unchanged, credits the Authority and carries its disclaimer (docs/sources.md, section 2.17)."
+)
+_EIA_CHOKEPOINT_NOTE = (
+    "US government publication in the public domain, acknowledged with its publication date as EIA asks; the "
+    "tables are EIA's analysis based on Vortexa tanker tracking data, which EIA credits and this study credits "
+    "in turn. Volumes, not transits, and not split by origin."
+)
+
+@dataclass(frozen=True)
+class UserCsvDeclaration:
+    """A series the owner saves by hand as data/private/user/<series>.csv, never committed.
+
+    For a table the owner may hold but not redistribute (a subscription's
+    export, a figure typed from a paid report), or one no publisher serves to
+    code. The file has a date column and the value columns declared here; the
+    adapter lngarb.sources.user_csv validates it as it validates every other
+    series, writes its manifest entry with committable False, and the file
+    stays under data/private/, which is never tracked. Declaring one here is
+    the whole of what the owner does in code; the manual step is saving the
+    file (docs/sources.md, section 2.25).
+    """
+
+    #: the series name, and the file's stem under data/private/user/
+    series: str
+    #: one sentence a human reads on the provenance panel
+    label: str
+    #: who published the figures the owner typed or exported
+    publisher: str
+    #: the human readable page, or an empty string with linkable False
+    page_url: str
+    #: one of FREQUENCIES
+    frequency: str
+    #: the unit of the value columns
+    unit: str
+    #: value column -> (lo, hi), inclusive; every value column of the file
+    columns: Mapping[str, tuple[float, float]]
+    #: the column whose non blank cells are the observations
+    observation_column: str
+    #: the licence, named, and what it permits and forbids, in plain words
+    licence: str
+    licence_note: str
+    #: how the owner made the file, carried into the manifest's note
+    how: str
+    #: False when the publisher's terms forbid a link
+    linkable: bool = True
+
+    def source(self) -> Source:
+        return Source(
+            series=self.series, label=self.label, publisher=self.publisher,
+            page_url=self.page_url if self.linkable else "", machine_url=None,
+            url_note="Saved by hand as data/private/user/%s.csv; nothing is fetched. %s" % (self.series, self.how),
+            frequency=self.frequency, unit=self.unit, method="published", licence=self.licence,
+            licence_note=self.licence_note, committable=False, linkable=self.linkable,
+        )
+
+
+#: The owner's own CSV series, none unless declared; an example sits in
+#: tests/test_sources_user_csv.py and the form in docs/sources.md, section 2.25.
+USER_CSV_SERIES: tuple[UserCsvDeclaration, ...] = ()
+
+
 SOURCES: Mapping[str, Source] = _registry(
+    *[declaration.source() for declaration in USER_CSV_SERIES],
     # -- European Commission, EUA -----------------------------------------
     Source(
         series="ec_eua_auction_monthly",
@@ -482,6 +567,104 @@ SOURCES: Mapping[str, Source] = _registry(
         method="parsed",
         licence="CC BY-NC-ND 4.0 for DEHSt's reports, figures credited to EEX and DEHSt; non-commercial use",
         licence_note=_DEHST_NOTE,
+        committable=True,
+    ),
+    # -- Panama Canal Authority, operations ---------------------------------
+    Source(
+        series="acp_canal_operations_monthly",
+        label="Canal Waters Time at Panama, hours from arrival to departure for every ship, the month's daily average, high and low, with transits and neopanamax slots",
+        publisher="Panama Canal Authority, Monthly Canal Operations Summary, advisories to shipping",
+        page_url="https://pancanal.com/en/maritime-services/advisory-to-shipping/",
+        machine_url=None,
+        url_note=(
+            "One PDF a month linked from the page of advisories to shipping, named "
+            "irregularly; the adapter keeps the links whose label names an operations "
+            "summary and fetches the months newer than the cache, ten seconds apart as "
+            "the site's robots.txt asks. The covered month is read from the PDF's subject."
+        ),
+        frequency="monthly",
+        unit="hours, and counts of ships",
+        method="parsed",
+        licence="Panama Canal Authority's terms of use; non-commercial use with attribution",
+        licence_note=_ACP_NOTE,
+        committable=True,
+    ),
+    Source(
+        series="acp_lng_transits_fiscal_year",
+        label="LNG carriers through the Panama Canal each fiscal year, October to September, as the Authority's annual reports print them",
+        publisher="this study, from the Panama Canal Authority's annual reports",
+        page_url="https://pancanal.com/en/annual-reports/",
+        machine_url=None,
+        url_note=(
+            "Written by lngarb.panama_transits from rows kept in the code, each read in a "
+            "dated report whose charts are drawn, not typed; nothing is fetched. The "
+            "address of each report is kept with its row."
+        ),
+        frequency="annual",
+        unit="ships a fiscal year",
+        method="seed",
+        licence="Panama Canal Authority's terms of use; figures quoted with attribution",
+        licence_note=_ACP_NOTE,
+        committable=True,
+    ),
+    # -- Suez Canal Authority, transits -------------------------------------
+    Source(
+        series="sca_lng_transits_annual",
+        label="LNG carriers through the Suez Canal each year, both directions, and their net tonnage, from the Authority's annual reports",
+        publisher="Suez Canal Authority, Planning and Research Department, annual navigation reports",
+        page_url=("https://www.suezcanal.gov.eg/English/Downloads/Pages/default.aspx?folder=Navigation%20Reports/"
+                  "Annual%20Reports%E2%80%8B%E2%80%8B%E2%80%8B"),
+        machine_url=("https://www.suezcanal.gov.eg/English/Downloads/DownloadsDocLibrary/Navigation%20Reports/"
+                     "Annual%20Reports%E2%80%8B%E2%80%8B%E2%80%8B/{year}.pdf"),
+        url_note=(
+            "One PDF a year, 2008 onwards, each with a text layer; the folder's name ends "
+            "in three zero width spaces that the address carries percent encoded. The "
+            "adapter reads the years after the cache's latest report until the site "
+            "answers 404. The site serves no robots.txt (404), so no path is closed."
+        ),
+        frequency="annual",
+        unit="ships a year, and thousands of Suez Canal net tons",
+        method="parsed",
+        licence="All rights reserved, Suez Canal Authority; facts restated with attribution",
+        licence_note=(
+            "The Authority's site carries no licence and no terms page, only the footer 'All Right "
+            "Reserved Suez Canal Authority'. The counts and tonnages are facts, restated here with "
+            "attribution as the study already restates the Authority's tolls; the reports themselves "
+            "are not kept in the repository (docs/sources.md, section 2.18)."
+        ),
+        committable=True,
+    ),
+    # -- EIA, chokepoints ----------------------------------------------------
+    Source(
+        series="eia_chokepoint_lng_annual",
+        label="LNG through each maritime chokepoint, billion cubic feet a day, by calendar year from 2020 and the latest first half, EIA's analysis of tanker tracking",
+        publisher="U.S. Energy Information Administration, World Oil Transit Chokepoints; analysis based on Vortexa tanker tracking data",
+        page_url="https://www.eia.gov/international/content/analysis/special_topics/World_Oil_Transit_Chokepoints/",
+        machine_url="https://www.eia.gov/international/content/analysis/special_topics/World_Oil_Transit_Chokepoints/",
+        url_note="HTML tables on the analysis page, one per chokepoint; the rows 'LNG flows through ...' are kept.",
+        frequency="annual",
+        unit="billion cubic feet per day",
+        method="published",
+        licence="public domain, US government publication; EIA analysis based on Vortexa tanker tracking data",
+        licence_note=_EIA_CHOKEPOINT_NOTE,
+        committable=True,
+    ),
+    Source(
+        series="eia_steo_chokepoint_lng_quarterly",
+        label="LNG through each maritime chokepoint, billion cubic feet a day, by quarter, from the Short-Term Energy Outlook's energy security article",
+        publisher="U.S. Energy Information Administration, Short-Term Energy Outlook, Global Energy Security; analysis based on Vortexa tanker tracking data",
+        page_url="https://www.eia.gov/outlooks/steo/report/energysecurity/article.php",
+        machine_url="https://www.eia.gov/outlooks/steo/report/energysecurity/article.php",
+        url_note=(
+            "HTML tables on the article, revised with the Outlook and showing the latest six "
+            "quarters; the rows 'LNG flows through ...' are kept, and a quarter that drops "
+            "off the page stays in the cache from the vintage that carried it."
+        ),
+        frequency="quarterly",
+        unit="billion cubic feet per day",
+        method="published",
+        licence="public domain, US government publication; EIA analysis based on Vortexa tanker tracking data",
+        licence_note=_EIA_CHOKEPOINT_NOTE,
         committable=True,
     ),
     # -- ACER -------------------------------------------------------------
@@ -998,16 +1181,20 @@ PANAMA_TOLLS: tuple[PanamaTollPeriod, ...] = (
         laden_bands=(2.50, 2.15, 2.07, 1.96), ballast_bands=(2.23, 1.88, 1.80, 1.71),
         roundtrip_bands=(2.00, 1.75, 1.60, 1.50),
         source=("Panama Canal Authority, approved tolls tables, implementation 1 April 2016, "
-                "read from the Internet Archive's capture of 4 August 2016"),
-        url="http://www.pancanal.com/peajes/ApprovedTollsTables-v2.pdf",
+                "read from the Internet Archive's capture of 4 August 2016 and confirmed in the "
+                "Authority's Tolls Assessment of May 2023, page 11, 'Proposed LNG Vessel Toll Structure "
+                "for 2016'; the tables' own address no longer serves them"),
+        url="https://pancanal.com/wp-content/uploads/2023/06/Tolls-Assessment_May-2023.pdf",
     ),
     PanamaTollPeriod(
         "2017-10-01", "2020-03-31",
         laden_bands=(2.88, 2.47, 2.38, 2.25), ballast_bands=(2.56, 2.16, 2.07, 1.97),
         roundtrip_bands=(2.30, 2.01, 1.84, 1.73),
         source=("Panama Canal Authority, tolls approved 1 August 2017, implementation 1 October "
-                "2017, read from the Internet Archive's capture of 21 September 2017"),
-        url="http://www.pancanal.com/peajes/pdf/2018/2018-ApprovedTolls.pdf",
+                "2017, read from the Internet Archive's capture of 21 September 2017 and confirmed in the "
+                "Authority's Tolls Assessment of May 2023, page 21, 'Tolls - LNG Vessels effective "
+                "October 1, 2017'"),
+        url="https://pancanal.com/wp-content/uploads/2023/06/Tolls-Assessment_May-2023.pdf",
     ),
     PanamaTollPeriod(
         "2020-04-01", "2022-12-31",
@@ -1110,6 +1297,36 @@ SUEZ_US_GULF_JAPAN_REBATE: tuple[tuple[str, float, str], ...] = (
 )
 SUEZ_US_GULF_JAPAN_REBATE_END = "2026-12-31"
 
+#: The Suez Canal Authority's page for each circular and periodical the three
+#: tables name, keyed by the words they name it with. The pages render each
+#: text from the Authority's API; the PDFs linked from them are scanned images.
+_SCA_PAGES = "https://www.suezcanal.gov.eg/English/Navigation/NavigationCirculars/Pages/"
+SUEZ_CIRCULAR_PAGES: Mapping[str, str] = MappingProxyType({
+    "circular 2/2015": _SCA_PAGES + "nc02.2015.aspx",
+    "periodical of 31 March 2020": _SCA_PAGES + "pc_31-03-2020.aspx",
+    "periodical of 21 June 2020": _SCA_PAGES + "PC_21-06-2020.aspx",
+    "periodical of 26 October 2021": _SCA_PAGES + "PC_26-10-2021.aspx",
+    "periodical of 14 March 2022, the reduction cancelled": _SCA_PAGES + "PC_14-03-2022.aspx",
+    "circular 5/2022": _SCA_PAGES + "nc_5-2022.aspx",
+    "periodical 20/2026": _SCA_PAGES + "PC_20_2026.aspx",
+    "circular 7/2017": _SCA_PAGES + "nc07.2017.aspx",
+    "periodical of 25 September 2018": _SCA_PAGES + "PC-25-09-2018.aspx",
+    "periodical of 12 September 2019": _SCA_PAGES + "PC_12-09-2019.aspx",
+    "periodical of 31 March 2020, renewed to 31 December 2021": _SCA_PAGES + "pc_31-03-2020_1.aspx",
+    "periodical of 21 December 2021": _SCA_PAGES + "PC_21-12-2021.aspx",
+    "periodical of 18 December 2022": _SCA_PAGES + "PC_72017-18-12-2022.aspx",
+    "periodical of 21 June 2023, renewed six monthly to 31 December 2026": _SCA_PAGES + "PC72017_21-6-2023.aspx",
+})
+#: The renewals of the 21 June 2023 terms, each for six months, to the end named above.
+SUEZ_REBATE_RENEWALS: tuple[tuple[str, str, str], ...] = (
+    ("2024-01-01", "periodical of 13 December 2023", _SCA_PAGES + "PC7.2017_13-12-2023.aspx"),
+    ("2024-07-01", "periodical of 4 June 2024", _SCA_PAGES + "PC7.2017_5-6-2024.aspx"),
+    ("2025-01-01", "periodical of 3 December 2024", _SCA_PAGES + "PC7.2017_04-12-2024.aspx"),
+    ("2025-07-01", "periodical 7/2025 of 27 May 2025", _SCA_PAGES + "PC_7-2025.aspx"),
+    ("2026-01-01", "periodical 21/2025 of 17 November 2025", _SCA_PAGES + "PC_21-2025.aspx"),
+    ("2026-07-01", "periodical 8/2026 of 21 May 2026", _SCA_PAGES + "cir_8_2026.aspx"),
+)
+
 
 PARAMETERS: Mapping[str, Parameter] = _parameters(
     Parameter("mmbtu_per_m3_lng", 23.0, "MMBtu per m3 of LNG", "published",
@@ -1156,8 +1373,47 @@ PARAMETERS: Mapping[str, Parameter] = _parameters(
               "2026-10-06", "Mandatory from 15 February 2020 for ships over 300 feet."),
     Parameter("panama_fresh_water_variable_share", 0.05, "share of tolls", "assumption",
               "this study: the middle of the Authority's range of 0 to 10 percent", None, "2026-10-07",
-              "Set daily from Gatun Lake's level, which is not collected; 0 and 10 percent are the ends of "
-              "the range, and the study runs neither. Before 2023 the range was 1 to 10 percent."),
+              "Set daily from Gatun Lake's level, which the Authority publishes on a page this study cannot "
+              "reach by code; 5 percent is what the Authority's curve gives at a lake of 79.0 feet from "
+              "October 2023 and of 82.0 feet before, the centres of its two curves. The lake stood at 79.7 "
+              "feet in early September 2023 and 85.02 feet in July 2024, the two readings the Authority's "
+              "summaries print, which the curve of each day turns into 8.0 and 0.3 percent (docs/methodology.md, "
+              "section 8, and open question 53)."),
+    Parameter("panama_fresh_water_curve_centre_ft", {"2020-02-15": 82.0, "2023-10-01": 79.0},
+              "feet of Gatun Lake level, the centre of the Authority's curve, by the date it applies from", "published",
+              "Panama Canal Authority, advisory ADV-03-2020 ('10%/(1+e^(0.6(x-82)))', from 15 February 2020) "
+              "and advisory ADV-42-2023 ('changing the Gatun Lake level curve center from 82 feet to 79 feet', "
+              "from 1 October 2023)",
+              "https://pancanal.com/wp-content/uploads/2023/01/ADV42-2023-Modification-to-the-Fresh-Water-Surcharge-variable-component.pdf",
+              "2026-10-15",
+              "The share of tolls is the curve's maximum over one plus e to the slope times the lake's level "
+              "less the centre, the level in feet at noon the day before the transit, rounded to a tenth; the "
+              "study runs the curve only to set the two levels the Authority printed and any level a reader "
+              "types against the 5 percent assumption."),
+    Parameter("panama_fresh_water_curve_slope_per_ft", 0.6, "per foot of lake level", "published",
+              "Panama Canal Authority, advisory ADV-03-2020, the exponent's coefficient; unchanged by ADV-42-2023 "
+              "and the Notes on Tolls Tariffs of February 2026, page 20",
+              "https://pancanal.com/wp-content/uploads/2020/01/ADV-03-2020.pdf", "2026-10-15"),
+    Parameter("panama_fresh_water_curve_max_share", 0.10, "share of tolls", "published",
+              "Panama Canal Authority, advisory ADV-03-2020: 'a maximum of 10 percent of the vessel's tolls when "
+              "Gatun Lake level falls below 72.0 feet'",
+              "https://pancanal.com/wp-content/uploads/2020/01/ADV-03-2020.pdf", "2026-10-15"),
+    Parameter("panama_fresh_water_min_share_to_sep_2023", 0.01, "share of tolls", "published",
+              "Panama Canal Authority, advisory ADV-03-2020: 'from a minimum of 1 percent of the vessel's tolls, "
+              "when Gatun Lake level is above 85.5 feet'; ADV-42-2023 lets the share run from 0 percent from "
+              "1 October 2023",
+              "https://pancanal.com/wp-content/uploads/2020/01/ADV-03-2020.pdf", "2026-10-15"),
+    Parameter("panama_gatun_levels_printed", {"2023-09-08": 79.7, "2024-08-07": 85.02},
+              "feet of Gatun Lake level, by the day of the summary that prints it", "published",
+              "Panama Canal Authority, Monthly Canal Operations Summary for August 2023 (advisory A-40-2023 of "
+              "8 September 2023: 'Gatun Lake, now at 24.2 meters (79.7 feet)') and for July 2024 (advisory "
+              "A-27-2024: 'Gatun Lake today is at 85.02 feet (25.91 m)')",
+              "https://pancanal.com/wp-content/uploads/2024/08/ADV27-2024-Monthly-Canal-Operations-Summary-July-2024.pdf",
+              "2026-10-15",
+              "The only two readings in the summaries of 2023 to 2026; the Authority's daily history and "
+              "projection of the level sit on a page the study's network cannot reach, and no daily list of "
+              "the share applied is published anywhere found. The day of the July 2024 reading is the "
+              "advisory's own date, since the summary says 'today' and prints no date beside it."),
     Parameter("vessel_174k_from", "2024-01-02", "date", "published",
               "Spark LNG Freight Methodology 3.8, page 7, change log: '3.5 2 January 2024 - Vessel "
               "Type updated to 174,000 m3 2 Stroke'", _SPARK_38, "2026-10-01",
