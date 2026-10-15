@@ -22,19 +22,21 @@ HEADER = (
     "last update,2026-10-06 11:34:41,\n"
 )
 ROWS = (
-    "2015-12-31,1.400000,\n"
+    "1974-06-28,1.300000,\n"
+    "1974-07-01,1.206010,\n"
     "2016-01-01,.,No value available\n"
     "2016-01-04,1.500000,\n"
 )
 
 
-def test_days_from_2016_with_no_rate_kept_as_missing():
+def test_days_from_july_1974_with_no_rate_kept_as_missing():
     frame, updated = sdr.parse_bbk_csv((HEADER + ROWS).encode("utf-8-sig"))
     assert updated == "2026-10-06 11:34:41"
-    assert frame["date"].tolist() == [pd.Timestamp("2016-01-01"), pd.Timestamp("2016-01-04")]
-    assert math.isnan(frame["usd_per_sdr"].iloc[0])
-    assert frame["flag"].iloc[0] == "No value available"
-    assert frame["usd_per_sdr"].iloc[1] == 1.5
+    assert frame["date"].tolist() == [pd.Timestamp("1974-07-01"), pd.Timestamp("2016-01-01"), pd.Timestamp("2016-01-04")]
+    assert frame["usd_per_sdr"].iloc[0] == 1.20601
+    assert math.isnan(frame["usd_per_sdr"].iloc[1])
+    assert frame["flag"].iloc[1] == "No value available"
+    assert frame["usd_per_sdr"].iloc[2] == 1.5
 
 
 def test_a_file_of_another_series_or_unit_is_refused():

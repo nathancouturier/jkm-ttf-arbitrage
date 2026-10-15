@@ -24,8 +24,11 @@ two months are revised: June 2026 read 12.83 in the release of 2 July 2026 and
 11.79 in the release of 2 September 2026. Its last two months are therefore
 marked provisional, and every value a release changes goes to a revisions log.
 
-Months from January 2015 are kept: the study's monthly history starts there and
-TTF enters the Europe series in April 2015.
+Every month the workbook holds is kept, from January 1960 for Europe and the US
+and from January 1977 for Japan. The study's own monthly history starts in
+2016, and TTF enters the Europe series in April 2015; the earlier decades are
+border and import prices under the definitions above, held for the long view
+and for the record, never joined to a spot price without the break marked.
 
 This module is adapted from the World Bank adapter of the sibling repository
 crack-spread-study, which reads the Europe series alone.
@@ -43,7 +46,7 @@ from urllib.parse import urljoin
 
 import pandas as pd
 
-from ..config import BOUNDS_HENRY_HUB_USD_MMBTU, BOUNDS_LNG_USD_MMBTU
+from ..config import BOUNDS_WORLDBANK_GAS_USD_MMBTU
 from .base import Adapter, SourceError, http_get, read_cache
 
 __all__ = [
@@ -60,7 +63,7 @@ LANDING_PAGE = "https://www.worldbank.org/en/research/commodity-markets"
 WORKBOOK_FILENAME = "CMO-Historical-Data-Monthly.xlsx"
 SHEET = "Monthly Prices"
 EXPECTED_UNIT = "($/mmbtu)"
-FIRST_MONTH = pd.Timestamp("2015-01-01")
+FIRST_MONTH = pd.Timestamp("1960-01-01")
 
 #: column in the cache -> the label the World Bank prints above it
 SERIES: Mapping[str, str] = {
@@ -165,7 +168,7 @@ def _find_column(rows: list[list], label: str) -> tuple[int, int]:
 
 
 def parse_workbook(payload: bytes) -> tuple[pd.DataFrame, str]:
-    """The three gas series from January 2015, and the release's 'Updated on' line."""
+    """The three gas series, every month from January 1960, and the release's 'Updated on' line."""
     import openpyxl
 
     try:
@@ -287,7 +290,7 @@ class WorldBankGasRevisions(Adapter):
 
 
 class WorldBankGasMonthly(Adapter):
-    """Europe gas, US gas at Henry Hub and Japan LNG import price, monthly, from 2015."""
+    """Europe gas, US gas at Henry Hub and Japan LNG import price, monthly, from 1960."""
 
     name = "worldbank_gas_monthly"
     source = "World Bank Commodity Price Data (The Pink Sheet)"
@@ -297,11 +300,7 @@ class WorldBankGasMonthly(Adapter):
     frequency = "monthly"
     method = "published"
     required_cols = ("date", "release") + tuple(SERIES)
-    bounds = {
-        "europe_gas_usd_mmbtu": BOUNDS_LNG_USD_MMBTU,
-        "henry_hub_usd_mmbtu": BOUNDS_HENRY_HUB_USD_MMBTU,
-        "japan_lng_import_usd_mmbtu": BOUNDS_LNG_USD_MMBTU,
-    }
+    bounds = {name: BOUNDS_WORLDBANK_GAS_USD_MMBTU for name in SERIES}
     min_observations = {name: 100 for name in SERIES}
     observation_column = "europe_gas_usd_mmbtu"
 
@@ -340,10 +339,12 @@ class WorldBankGasMonthly(Adapter):
         )
         self.vintage = vintage
         self.note = (
-            "%s. The Europe series is TTF from April 2015 and a border price before; "
-            "the US series is the Henry Hub spot price; the Japan series is an LNG "
-            "import price, cif, whose last two months the World Bank calls estimates, "
-            "so provisional_from applies to that column only." % how
+            "%s. Every month the workbook holds, from January 1960. The Europe series is "
+            "TTF from April 2015, an average import border price with a spot component "
+            "from April 2010, and a border price before; the US series is the Henry Hub "
+            "spot price; the Japan series, from January 1977, is an LNG import price, "
+            "cif, whose last two months the World Bank calls estimates, so "
+            "provisional_from applies to that column only." % how
         )
         return frame
 

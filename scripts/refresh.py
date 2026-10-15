@@ -65,7 +65,7 @@ from lngarb.sources.jogmec import JogmecSpotLngMonthly  # noqa: E402
 from lngarb.sources.doe import DoeLngExportCargoes  # noqa: E402
 from lngarb.sources.meti import MetiSpotLngMonthly, MetiSpotLngReleases  # noqa: E402
 from lngarb.sources.sofr import SofrDaily  # noqa: E402
-from lngarb.sources.effr import EffrDaily  # noqa: E402
+from lngarb.sources.h15 import EffrDaily  # noqa: E402
 from lngarb.sources.sdr import UsdPerSdrDaily  # noqa: E402
 from lngarb.sources.worldbank import WorldBankGasMonthly, WorldBankGasRevisions  # noqa: E402
 from lngarb.sources.eia_ngwu import (  # noqa: E402
@@ -226,9 +226,9 @@ JOBS: tuple[Job, ...] = (
         online=_simple(lambda: [UsdPerEurDaily()]),
     ),
     Job(
-        name="sofr",
-        what="New York Fed SOFR, daily, and EFFR before it, 2016 to April 2018, for the financing line",
-        series=("nyfed_sofr_daily", "nyfed_effr_daily"),
+        name="rates",
+        what="New York Fed SOFR, daily, and the Board's H.15 effective federal funds rate from 1954, for the financing line",
+        series=("nyfed_sofr_daily", "frb_h15_effr_daily"),
         adapters=lambda: [SofrDaily(), EffrDaily()],
         online=_simple(lambda: [SofrDaily(), EffrDaily()]),
     ),
@@ -329,6 +329,14 @@ def existing_entries() -> dict[str, dict]:
 def finalise_manifest(mode: str, before: bytes | None, started: str) -> tuple[dict, bool]:
     """Attach the manual steps and the run block, then write, or restore the old bytes."""
     payload = manual_steps.apply(base.manifest_read())
+    # A series the registry no longer declares has no adapter to keep its entry
+    # true, so the entry goes with it; nothing is deleted from disk.
+    dropped = [e["series"] for e in payload["series"] if e["series"] not in config.SOURCES]
+    for name in dropped:
+        base.manifest_remove(name)
+    if dropped:
+        payload = manual_steps.apply(base.manifest_read())
+        print("manifest entries dropped, no longer declared: %s" % ", ".join(dropped))
     payload["generated_at"] = utc_now_iso()
     payload["run"] = {
         "mode": mode,

@@ -196,6 +196,16 @@ unsecured where SOFR is secured. The Board's H.15 carries the same figures in
 the public domain and agrees on every day, should the New York Fed's terms ever
 stand in the way.
 
+Revised 15 October 2026: the effective federal funds rate is now read from the
+Board's H.15 release package, series RIFSPFF_N.B, in the public domain and
+from 1 July 1954, so that any loading date can be priced and the rate travels
+under one set of terms with the euro rate. On the 585 days the New York Fed's
+API served for 2016 to April 2018 the two agree on every day. The New York
+Fed's EFFR cache and fixture are withdrawn; its notice now covers SOFR alone.
+The same day the caches of H.10, the SDR rate, the Pink Sheet and EIA's exports
+table were extended to every observation their sources serve: 4 January 1999,
+1 July 1974, January 1960 (Japan from January 1977) and January 1973.
+
 ### 13. Third party sources behind the World Bank's gas rows
 
 Raised 30 September 2026. **Decided 8 October 2026.**

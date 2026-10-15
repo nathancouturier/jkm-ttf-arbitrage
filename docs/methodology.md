@@ -66,12 +66,14 @@ basis points; they are not forecasts of where prices can go.
 | Quantity | Range | Why this range |
 |---|---|---|
 | JKM, TTF and Japanese spot LNG, USD/MMBtu | 1 to 120 | the highest monthly value in the World Bank's Europe gas series is 70.04, August 2022 |
+| The World Bank's monthly gas series, USD/MMBtu | 0.1 to 120 | the series run from 1960: the US series opens at 0.14 in January 1960 and the Europe series at 0.38 in January 1964, so the floor sits below them |
 | Henry Hub, USD/MMBtu | 0.5 to 50 | EIA's daily spot price printed 30.72 on 23 January 2026 and 25.01 on 26 January 2026; the bound catches a price read in cents, not a high price (open question 3) |
 | US dollars per euro | 0.8 to 1.7 | the euro's range on H.10 since 1999 is 0.8270 (25 October 2000) to 1.6010 (22 April 2008) |
 | Reported charter hire, USD per day | minus 10,000 to 500,000 | a spot charter rate can be assessed below zero; the reported figures are in the freight anchors |
 | DES LNG spreads to the TTF front month, EUR/MWh | minus 40 to 20 | widened when ACER's history was read: its EU benchmark ran from minus 23.938 on 3 March 2026, when TTF jumped and the assessed half-month did not, to 7.687 in June 2026 |
-| US dollars per SDR | 1 to 2 | a rate read the other way up, SDR per dollar, would be below 1 |
-| SOFR, and EFFR before it, percent per year | minus 1 to 15 | a rate read in basis points would be a hundred times too large |
+| US dollars per SDR | 0.9 to 2 | a rate read the other way up, SDR per dollar, sits below 0.9 on every day since 1987; the dollar per SDR itself fell to 0.9586 on 26 February 1985, so the floor sits below it and the guard is weaker in the 1980s |
+| SOFR, percent per year | minus 1 to 15 | a rate read in basis points would be a hundred times too large |
+| The effective federal funds rate, percent per year | minus 1 to 30 | the daily rate ran above 15 on 294 business days of 1979 to 1982 and reached 22.36 on 22 July 1981; a rate read in basis points would still be a hundred times too large |
 | US gas exports in one month, MMcf | 0 to 2,000,000 | the largest monthly LNG total in EIA's release of 31 August 2026 is 573,089, March 2026 |
 | Price of US LNG exports in one month, USD per thousand cubic feet | 0.1 to 100 | a price read per MMcf or in cents would be a thousand or a hundred times too large; from 2016 the release of 30 September 2026 runs from 1.86 to 40.44 |
 | A DES LNG price level, EUR/MWh | 1 to 400 | a guard against a unit or a parse error in ACER's assessments, not a range the market implies |
@@ -93,7 +95,7 @@ independently of the Python that wrote them.
 | ACER DES assessments | the publication day; the half-month assessed is stored beside it where ACER's roll table gives it (31 March 2023 to early January 2025) |
 | EU allowance price | the month of the auctions, dated on the 1st |
 | EIA exports by destination | the month, dated on the 15th as EIA dates it |
-| EIA Henry Hub, H.10, SOFR | the trading or value day |
+| EIA Henry Hub, H.10, H.15, SOFR | the trading or value day |
 | World Bank Pink Sheet | the month, dated on the 1st |
 
 Gaps in the manifest are computed at each series' frequency: for a daily series
@@ -500,7 +502,8 @@ For a destination d and a route r, in US dollars:
   laden days, on an actual over 365 basis. The fixed fee, and its carrying
   cost, are owed whether or not the cargo is lifted, so they are left out, as
   the lift test requires. The overnight rate is SOFR from 2 April 2018 and the
-  effective federal funds rate before it.
+  effective federal funds rate before it, as the Federal Reserve Board's H.15
+  publishes it from July 1954.
 
 `C0` is the same stack without hire.
 
@@ -565,7 +568,7 @@ the Supplement for the week ending that day, or, before the weekly prices
 begin, METI's contract-based monthly price as a labelled proxy for JKM and the
 World Bank's TTF; Henry Hub as the loading month's average of EIA's daily spot;
 the euro rate of H.10 on or before the day; SOFR, or the effective federal funds
-rate before 2 April 2018; the Northwest Europe DES discount as ACER's NWE
+rate of H.15 before 2 April 2018; the Northwest Europe DES discount as ACER's NWE
 spread to the TTF front month (the EU benchmark plus the NWE assessment less
 the EU one, computed from ACER's figures), averaged over the days the price
 spans, the week to the day for a weekly price and the calendar month for a

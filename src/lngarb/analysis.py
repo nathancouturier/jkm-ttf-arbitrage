@@ -398,9 +398,13 @@ def export_shares() -> pd.DataFrame:
     Trucks to Canada and Mexico and re-exports of foreign LNG are left out. A
     month whose countries do not add up to the total within half an MMcf per
     country, the rounding of the figures, is noted; the shares use the total.
+    Months before the first month of the analysis are left out: EIA's table
+    runs from 1973 and its by vessel block from 2013, when the only cargoes
+    were Kenai's and re-exports, before Sabine Pass shipped.
     """
     frame = base.read_cache("eia_lng_exports_monthly")
-    vessel = frame[frame["block"] == "exports by vessel"]
+    first = pd.Timestamp(_p("analysis_first_month") + "-01")
+    vessel = frame[(frame["block"] == "exports by vessel") & (frame["date"] >= first)]
     rows = []
     for day, group in vessel.groupby("date"):
         total = group.loc[group["code"] == "Z00", "mmcf"]

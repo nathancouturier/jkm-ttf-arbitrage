@@ -34,7 +34,8 @@ __all__ = ["API_URL", "FIRST_DAY", "parse_bbk_csv", "UsdPerSdrDaily"]
 API_URL = "https://api.statistiken.bundesbank.de/rest/download/BBEX3/D.USD.XDR.DA.AC.000?format=csv&lang=en"
 #: The IMF's own page for the rates, where a reader can check any day.
 PAGE_URL = "https://www.imf.org/external/np/fin/data/param_rms_mth.aspx"
-FIRST_DAY = pd.Timestamp("2016-01-01")
+#: The series' own first day in the Bundesbank's file. Nothing before it is served, so the whole series is kept.
+FIRST_DAY = pd.Timestamp("1974-07-01")
 SERIES = "BBEX3.D.USD.XDR.DA.AC.000"
 
 _DAY = re.compile(r"^\d{4}-\d{2}-\d{2}$")
@@ -78,7 +79,7 @@ def parse_bbk_csv(payload: bytes | str) -> tuple[pd.DataFrame, str]:
 
 
 class UsdPerSdrDaily(Adapter):
-    """US dollars per SDR, daily from 2016, the IMF's rate through the Bundesbank."""
+    """US dollars per SDR, daily from July 1974, the IMF's rate through the Bundesbank."""
 
     name = "imf_usd_per_sdr_daily"
     source = "International Monetary Fund, exchange rate data, as republished by the Deutsche Bundesbank"
@@ -89,7 +90,7 @@ class UsdPerSdrDaily(Adapter):
     method = "published"
     required_cols = ("date", "usd_per_sdr", "flag")
     bounds = {"usd_per_sdr": BOUNDS_USD_PER_SDR}
-    min_observations = {"usd_per_sdr": 2500}
+    min_observations = {"usd_per_sdr": 12000}
     observation_column = "usd_per_sdr"
 
     def __init__(self, *, from_file=None, fetched_at: str | None = None):

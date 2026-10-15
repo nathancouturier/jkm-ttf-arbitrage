@@ -95,17 +95,18 @@ const ISO_STAMP = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/;
 
 const COLUMN_RULES = [
   { match: /_printed$/, text: true, what: "a value kept as the source printed it, which is text" },
+  { file: /^worldbank_gas_monthly\.csv$/, match: /_usd_mmbtu$/, lo: 0.1, hi: 120.0, what: "a Pink Sheet gas price, USD/MMBtu, from 1960" },
   { match: /^henry_hub_usd_mmbtu$/, lo: 0.5, hi: 50.0, what: "Henry Hub, USD/MMBtu" },
   { match: /_usd_mmbtu$/, lo: 1.0, hi: 120.0, what: "JKM, TTF or spot LNG, USD/MMBtu" },
   { match: /^usd_per_eur$/, lo: 0.8, hi: 1.7, what: "US dollars per euro" },
   { match: /^sofr_percent$/, lo: -1.0, hi: 15.0, what: "SOFR, percent per year" },
-  { match: /^effr_percent$/, lo: -1.0, hi: 15.0, what: "EFFR, percent per year" },
-  { match: /^usd_per_sdr$/, lo: 1.0, hi: 2.0, what: "US dollars per SDR" },
+  { match: /^effr_percent$/, lo: -1.0, hi: 30.0, what: "the effective federal funds rate, percent per year, from 1954" },
+  { match: /^usd_per_sdr$/, lo: 0.9, hi: 2.0, what: "US dollars per SDR, from 1974" },
   { match: /^eua_eur_t$/, lo: 1.0, hi: 200.0, what: "an EU allowance price, EUR per tonne of CO2" },
   { match: /^auction_volume$/, lo: 0.0, hi: 50000000.0, what: "allowances Germany auctioned in a month" },
   { match: /^revenue_eur$/, lo: 0.0, hi: 5000000000.0, what: "the revenue of Germany's auctions in a month, EUR" },
   { match: /^reports_printing_it$/, lo: 1.0, hi: 20.0, what: "a count of the reports that print a month" },
-  { match: /^value_(before|after)$/, lo: 0.5, hi: 120.0, what: "a Pink Sheet gas price before or after a revision, USD/MMBtu" },
+  { match: /^value_(before|after)$/, lo: 0.1, hi: 120.0, what: "a Pink Sheet gas price before or after a revision, USD/MMBtu" },
   { match: /^hire_usd_day$/, lo: -10000.0, hi: 500000.0, what: "reported LNG carrier hire, USD per day" },
   { match: /_spread_eur_mwh$/, lo: -40.0, hi: 20.0, what: "a DES LNG spread to TTF, EUR/MWh" },
   { match: /_des_eur_mwh$/, lo: 1.0, hi: 400.0, what: "a DES LNG price level, EUR/MWh" },
@@ -114,8 +115,12 @@ const COLUMN_RULES = [
   { match: /^usd_per_mcf(_before|_after)?$/, lo: 0.1, hi: 100.0, what: "the price of US LNG exports in a month, USD per thousand cubic feet" },
 ];
 
-function ruleFor(column) {
-  for (const rule of COLUMN_RULES) if (rule.match.test(column)) return rule;
+function ruleFor(column, file) {
+  const name = path.basename(file || "");
+  for (const rule of COLUMN_RULES) {
+    if (rule.file && !rule.file.test(name)) continue;
+    if (rule.match.test(column)) return rule;
+  }
   return null;
 }
 
@@ -471,7 +476,7 @@ check("every numeric column is classified and inside its bounds", () => {
       const cells = csv.rows.map((r) => (r[at] || "").trim()).filter((c) => c !== "");
       if (!cells.length) return;
       const numeric = cells.filter((c) => /^-?\d+(\.\d+)?$/.test(c));
-      const rule = ruleFor(column);
+      const rule = ruleFor(column, entry.file);
       if (rule && rule.text) return;
       if (numeric.length === 0) return; // a text column
       if (numeric.length !== cells.length) {

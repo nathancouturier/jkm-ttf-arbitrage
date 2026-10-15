@@ -77,9 +77,11 @@ EXPORTS_XLS_URL = "https://www.eia.gov/dnav/ng/xls/NG_MOVE_EXPC_S1_M.xls"
 HENRY_HUB_PAGE_URL = "https://www.eia.gov/dnav/ng/hist/rngwhhdd.htm"
 HENRY_HUB_XLS_URL = "https://www.eia.gov/dnav/ng/hist_xls/RNGWHHDd.xls"
 
-#: The first month kept. Shale era exports from Sabine Pass start in February
-#: 2016; January 2016 is kept so the first cargo is visible as a change.
-EXPORTS_FIRST_MONTH = pd.Timestamp("2016-01-15")
+#: The first month kept: the first month of EIA's table, January 1973, when the
+#: only LNG leaving the United States was Kenai's, in Alaska, for Japan. Every
+#: month is kept; the flow analysis starts in 2016, when Sabine Pass shipped
+#: its first cargo, and selects its months itself.
+EXPORTS_FIRST_MONTH = pd.Timestamp("1973-01-15")
 
 #: Source key patterns of the LNG blocks. Anything else in the workbook is
 #: pipeline or compressed gas and is not read.

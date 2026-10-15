@@ -218,7 +218,7 @@ def overnight_rate_detail(when: date | str) -> tuple[float, date, str]:
     if day >= date(2018, 4, 2):
         value, seen = _on_or_before("nyfed_sofr_daily", "sofr_percent", day)
         return value, seen, "SOFR"
-    value, seen = _on_or_before("nyfed_effr_daily", "effr_percent", day)
+    value, seen = _on_or_before("frb_h15_effr_daily", "effr_percent", day)
     return value, seen, "the effective federal funds rate"
 
 
@@ -227,7 +227,7 @@ def overnight_rate_on(when: date | str) -> tuple[float, str]:
     value, seen, name = overnight_rate_detail(when)
     if name == "SOFR":
         return value, "SOFR of %s, New York Fed" % seen
-    return value, "effective federal funds rate of %s, New York Fed, before SOFR" % seen
+    return value, "effective federal funds rate of %s, Federal Reserve Board H.15, before SOFR" % seen
 
 
 def _month_price(frame: pd.DataFrame, day: date) -> float | None:

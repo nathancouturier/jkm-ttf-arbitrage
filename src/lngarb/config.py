@@ -26,6 +26,11 @@ from typing import Any, Mapping
 
 #: JKM, TTF and Japanese spot LNG, USD/MMBtu
 BOUNDS_LNG_USD_MMBTU = (1.0, 120.0)
+#: The World Bank's monthly gas series, USD/MMBtu, which run from 1960: the US
+#: series opens at 0.14 in January 1960 and the Europe series at 0.38 in January
+#: 1964, so the floor sits below them. A guard against a unit or a parse error,
+#: not a range the market implies.
+BOUNDS_WORLDBANK_GAS_USD_MMBTU = (0.1, 120.0)
 #: Henry Hub, USD/MMBtu
 BOUNDS_HENRY_HUB_USD_MMBTU = (0.5, 50.0)
 #: US dollars per euro
@@ -51,13 +56,20 @@ BOUNDS_AUCTION_VOLUME_EUA = (0.0, 50000000.0)
 #: The revenue of Germany's auctions in one month, EUR. A guard against a parse
 #: error: the largest month of 2024 to August 2026 is 633,208,900, August 2024.
 BOUNDS_AUCTION_REVENUE_EUR = (0.0, 5000000000.0)
-#: SOFR, and EFFR before it, percent per year. Not a range the market implies,
-#: a guard against a unit error: a rate read in basis points would be a hundred
-#: times too large.
+#: SOFR, percent per year. Not a range the market implies, a guard against a
+#: unit error: a rate read in basis points would be a hundred times too large.
 BOUNDS_SOFR_PERCENT = (-1.0, 15.0)
-#: US dollars per SDR. Not a range the rate implies, a guard against a rate read
-#: the other way up, SDR per dollar, which would be below 1.
-BOUNDS_USD_PER_SDR = (1.0, 2.0)
+#: The effective federal funds rate, percent per year, from 1954: the daily rate
+#: ran above 15 on 294 business days of 1979 to 1982 and reached 22.36 on 22
+#: July 1981, so its ceiling sits above them. The same guard against a rate read
+#: in basis points.
+BOUNDS_EFFR_PERCENT = (-1.0, 30.0)
+#: US dollars per SDR, from July 1974. A guard against a rate read the other way
+#: up, SDR per dollar: since 1987 that reading would sit below 0.9 on every day.
+#: In the 1980s the two readings overlap, the dollar per SDR itself falling to
+#: 0.9586 on 26 February 1985, so the floor sits below that and the guard is
+#: weaker there.
+BOUNDS_USD_PER_SDR = (0.9, 2.0)
 #: US natural gas exports in one month, MMcf, any block or total. Not a range
 #: the market implies, a guard against a unit or a parse error: the largest
 #: monthly LNG total in the 31 August 2026 release is 573,089 MMcf, March 2026.
@@ -359,15 +371,13 @@ _H10_NOTE = (
     "Nothing read marks the H.10 euro rate as third party material."
 )
 
-_EFFR_NOTE = (
-    "Licensed, not public domain, on the same terms as SOFR: the New York Fed's "
-    "Terms of Use grant a non-exclusive licence to use, copy and distribute its "
-    "content, with its attribution line, the reference rate notice and disclaimer "
-    "wherever the rate is shown, redistribution 'with the same permissions, "
-    "conditions, and restrictions', and modified content labelled as not the New "
-    "York Fed's. The terms name no third party licence for EFFR, which is "
-    "calculated from FR 2420 reports. The committed cache is distributed under those "
-    "terms, not under this repository's MIT licence."
+_H15_NOTE = (
+    "The Federal Reserve Board: 'Unless otherwise indicated, information on Board's "
+    "website is in the public domain and may be copied and distributed without "
+    "permission. Please cite to the Board as the source of the information.' "
+    "Nothing read marks the H.15 federal funds series as third party material; the "
+    "New York Fed, which calculates the rate, is named as its calculator wherever "
+    "the rate is shown."
 )
 
 _SOFR_NOTE = (
@@ -564,7 +574,7 @@ SOURCES: Mapping[str, Source] = _registry(
     # -- World Bank, Federal Reserve Board, New York Fed -------------------
     Source(
         series="worldbank_gas_monthly",
-        label="World Bank Pink Sheet gas prices, monthly, USD/MMBtu: Europe, US Henry Hub, Japan LNG import price",
+        label="World Bank Pink Sheet gas prices, monthly, USD/MMBtu, from 1960: Europe, US Henry Hub, and Japan LNG import price from 1977",
         publisher="The World Bank, Commodity Price Data (The Pink Sheet)",
         page_url="https://www.worldbank.org/en/research/commodity-markets",
         machine_url=None,
@@ -598,7 +608,7 @@ SOURCES: Mapping[str, Source] = _registry(
     ),
     Source(
         series="h10_usd_per_eur_daily",
-        label="US dollars per euro, daily noon buying rate in New York, Federal Reserve H.10",
+        label="US dollars per euro, daily noon buying rate in New York, Federal Reserve H.10, from the euro's first day in 1999",
         publisher="Board of Governors of the Federal Reserve System, H.10",
         page_url="https://www.federalreserve.gov/releases/h10/hist/dat00_eu.htm",
         machine_url="https://www.federalreserve.gov/releases/h10/data/FRB_h10_xml.zip",
@@ -636,27 +646,30 @@ SOURCES: Mapping[str, Source] = _registry(
         committable=True,
     ),
     Source(
-        series="nyfed_effr_daily",
-        label="Effective federal funds rate, daily, percent, 2016 to April 2018, from the New York Fed",
-        publisher="Federal Reserve Bank of New York",
-        page_url="https://www.newyorkfed.org/markets/reference-rates/effr",
-        machine_url="https://markets.newyorkfed.org/api/rates/unsecured/effr/search.json",
+        series="frb_h15_effr_daily",
+        label="Effective federal funds rate, daily, percent, from July 1954, Federal Reserve H.15, the overnight rate before SOFR",
+        publisher="Board of Governors of the Federal Reserve System, H.15",
+        page_url="https://www.federalreserve.gov/releases/h15/",
+        machine_url="https://www.federalreserve.gov/releases/h15/data/FRB_h15_xml.zip",
         url_note=(
-            "The New York Fed's markets API, one window from 1 January 2016 to 30 "
-            "April 2018, the month after SOFR began. Rows come newest first, in two "
-            "layouts either side of 1 March 2016, when the rate's source and method "
-            "changed; days with no publication have no row. The series is closed."
+            "The release page's XML package, series RIFSPFF_N.B, the route the Board "
+            "says will remain once its Data Download Program is retired. Every business "
+            "day has a row from 1 July 1954; a day with no rate carries OBS_STATUS ND "
+            "and the sentinel OBS_VALUE -9999, which is read as missing and never as a "
+            "rate. Released daily. The New York Fed calculates the rate; the Board "
+            "republishes it in the public domain, and the two agree on every day of 2016 "
+            "to April 2018 compared."
         ),
         frequency="daily",
         unit="percent per year",
         method="published",
-        licence="New York Fed Terms of Use",
-        licence_note=_EFFR_NOTE,
+        licence="US public domain",
+        licence_note=_H15_NOTE,
         committable=True,
     ),
     Source(
         series="imf_usd_per_sdr_daily",
-        label="US dollars per special drawing right, daily, from 2016, the IMF's rate through the Bundesbank",
+        label="US dollars per special drawing right, daily, from July 1974, the IMF's rate through the Bundesbank",
         publisher="International Monetary Fund, as republished by the Deutsche Bundesbank",
         page_url="https://www.imf.org/external/np/fin/data/param_rms_mth.aspx",
         machine_url="https://api.statistiken.bundesbank.de/rest/download/BBEX3/D.USD.XDR.DA.AC.000?format=csv&lang=en",
@@ -735,7 +748,7 @@ SOURCES: Mapping[str, Source] = _registry(
     # -- EIA, the data tables -------------------------------------------
     Source(
         series="eia_lng_exports_monthly",
-        label="US LNG exports and re-exports by destination country, monthly, MMcf, and their prices, USD per Mcf, the latest release",
+        label="US LNG exports and re-exports by destination country, monthly, MMcf, and their prices, USD per Mcf, every month of EIA's table from 1973, the latest release",
         publisher="U.S. Energy Information Administration",
         page_url="https://www.eia.gov/dnav/ng/ng_move_expc_s1_m.htm",
         machine_url="https://www.eia.gov/dnav/ng/xls/NG_MOVE_EXPC_S1_M.xls",

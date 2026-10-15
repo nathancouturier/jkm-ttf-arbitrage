@@ -32,12 +32,12 @@ was decided on the strength of it.
 | `meti_spot_lng_monthly` | Japan spot LNG price, DES, contract-based and arrival-based, monthly, March 2014 to March 2021 | [historical-data-e.xlsx](https://www.meti.go.jp/english/statistics/sho/slng/historical-data-e.xlsx), read once | ended | **yes** | METI terms, compatible with CC BY 4.0 |
 | `meti_spot_lng_releases` | Every figure METI's monthly releases printed, preliminary, detailed and fixed, with the day of each release, for the releases of October 2019 to March 2021 | the release PDFs, saved by hand from [METI's page](https://www.meti.go.jp/english/statistics/sho/slng/index.html) | fixed, the survey has ended | **yes** | METI terms of use, compatible with CC BY 4.0 |
 | `jogmec_spot_lng_monthly` | Japan spot LNG price, DES, contract-based and arrival-based, monthly, from April 2021 | one page per month from JOGMEC's English spot price list page | monthly, 9th to 15th | **NO**, `data/private/` until JOGMEC permits | JOGMEC terms, permission not yet requested |
-| `worldbank_gas_monthly` | Europe gas (TTF from April 2015), US gas at Henry Hub, and Japan LNG import price, monthly, USD/MMBtu, from 2015 | read from the [commodity markets page](https://www.worldbank.org/en/research/commodity-markets); the file's path changes | monthly, early in the month | **yes** | CC BY 4.0 |
+| `worldbank_gas_monthly` | Europe gas (TTF from April 2015, border and import prices before), US gas at Henry Hub, and Japan LNG import price, monthly, USD/MMBtu, from 1960, Japan from 1977 | read from the [commodity markets page](https://www.worldbank.org/en/research/commodity-markets); the file's path changes | monthly, early in the month | **yes** | CC BY 4.0 |
 | `worldbank_gas_revisions` | Every value a Pink Sheet release changed, both releases side by side | derived by this study | with each release that changes a value | **yes** | CC BY 4.0 |
-| `h10_usd_per_eur_daily` | US dollars per euro, noon buying rate in New York, daily, from 2015 | [FRB_h10_xml.zip](https://www.federalreserve.gov/releases/h10/data/FRB_h10_xml.zip) | weekly, Mondays | **yes** | US public domain |
+| `h10_usd_per_eur_daily` | US dollars per euro, noon buying rate in New York, daily, from 4 January 1999, the euro's first day | [FRB_h10_xml.zip](https://www.federalreserve.gov/releases/h10/data/FRB_h10_xml.zip) | weekly, Mondays | **yes** | US public domain |
 | `nyfed_sofr_daily` | Secured Overnight Financing Rate, daily, percent, from 2 April 2018 | [markets API](https://markets.newyorkfed.org/api/rates/secured/sofr/search.json) | daily, next business day | **yes**, under the New York Fed's terms | New York Fed Terms of Use |
 | `nyfed_effr_daily` | Effective federal funds rate, daily, percent, 4 January 2016 to 30 April 2018, the overnight rate before SOFR | [markets API](https://markets.newyorkfed.org/api/rates/unsecured/effr/search.json) | closed | **yes**, under the New York Fed's terms | New York Fed Terms of Use |
-| `imf_usd_per_sdr_daily` | US dollars per special drawing right, daily, from 2016, the IMF's rate as the Bundesbank republishes it, for the Suez toll | [Bundesbank API](https://api.statistiken.bundesbank.de/rest/download/BBEX3/D.USD.XDR.DA.AC.000?format=csv&lang=en) | daily | **yes**, with the IMF credited (2.20) | IMF terms for its data |
+| `imf_usd_per_sdr_daily` | US dollars per special drawing right, daily, from July 1974, the IMF's rate as the Bundesbank republishes it, for the Suez toll | [Bundesbank API](https://api.statistiken.bundesbank.de/rest/download/BBEX3/D.USD.XDR.DA.AC.000?format=csv&lang=en) | daily | **yes**, with the IMF credited (2.20) | IMF terms for its data |
 | `freight_anchors` | Reported LNG carrier charter rates, USD per day, ten figures from February 2022 to October 2026, one per month at most, each from a dated article | written from rows kept in `lngarb.freight_anchors`; nothing fetched | as figures are verified | **yes**, figures only (2.13, 2.14) | individual figures quoted with attribution |
 | `routes` | The four sea routes from Sabine Pass, distances and lines | computed once by `scripts/routes.py` | fixed | **yes** | distances: this study, MIT; lines: EUPL 1.2; searoute Apache 2.0 |
 
@@ -149,7 +149,7 @@ Statistics of Japan); the catalogue entry names no extra condition.
 **Attribution this project uses:** "The World Bank, Commodity Price Data (The
 Pink Sheet)", with the release's "Updated on" date.
 
-### 2.3 Federal Reserve Board, H.10, US public domain
+### 2.3 Federal Reserve Board, H.10 and H.15, US public domain
 
 Read at `https://www.federalreserve.gov/disclaimer.htm` on 30 September 2026,
 "Last Update: August 02, 2024":
@@ -167,7 +167,15 @@ What the rate is, from `https://www.federalreserve.gov/releases/h10/about.htm`:
 
 **Redistributable: yes**, citing the Board.
 
-### 2.4 Federal Reserve Bank of New York, SOFR and EFFR, licensed
+The same disclaimer covers the H.15 release, "Selected Interest Rates", whose
+package `FRB_h15_xml.zip` carries the effective federal funds rate from 1 July
+1954 as series RIFSPFF_N.B. The rate is calculated by the Federal Reserve Bank
+of New York, which publishes it under its own terms (2.4); the Board's copy is
+read here, in the public domain, and the New York Fed is named as the rate's
+calculator wherever it is shown. On the 585 days from 4 January 2016 to 30
+April 2018 the two publications agree on every day.
+
+### 2.4 Federal Reserve Bank of New York, SOFR, licensed, and EFFR, read from the Board instead
 
 Read at `https://www.newyorkfed.org/privacy/termsofuse` on 30 September 2026,
 "Last Updated: 6/9/2023". The API's own description says use of the reference
@@ -204,8 +212,10 @@ rates its notice covers; the third party licence sentence names only SOFR and
 BGCR.
 
 **Redistributable: yes, under the New York Fed's terms, not this repository's.**
-The committed SOFR and EFFR caches travel under those terms, not under the MIT
-licence.
+The committed SOFR cache travels under those terms, not under the MIT licence.
+The effective federal funds rate was read from this API until 15 October 2026;
+it is now read from the Board's H.15 (2.3), in the public domain and from 1954,
+and nothing of the New York Fed's EFFR response is committed any more.
 The financing line the study computes from SOFR is this study's derivative and
 is labelled as such. The site shows the completed notice wherever SOFR or the
 financing line appears.
@@ -1005,9 +1015,11 @@ S&P Global's own pages are never requested (2.14).
   of 2 July 2026 and 11.79 in that of 2 September 2026.
 * **The "Terms of use for Datasets" link redirects to the general terms**, which
   are narrower. The dataset terms are one level down.
-* **Kept from January 2015.** Earlier values (Europe 0.38 in January 1964, US
-  0.14 in January 1960) would fail the study's validation ranges, and the study's
-  monthly history starts in 2015.
+* **Every month from January 1960 is kept**, with its own validation range,
+  0.1 to 120 USD/MMBtu, because the US series opens at 0.14 in January 1960 and
+  the Europe series at 0.38 in January 1964. The Japan series opens in January
+  1977. The study's monthly history starts in 2016; the earlier decades are the
+  long view, under the definitions the Description sheet gives for each span.
 
 ### 3.5 Federal Reserve H.10
 
@@ -1025,7 +1037,13 @@ S&P Global's own pages are never requested (2.14).
 * **The direction of the quote is not in the data columns.** The series' short
   description, "EMU Members Euro (USD per EUR)", is checked on every parse.
 * **Cross check:** from 2015 the XML agrees with the history page
-  `dat00_eu.htm` on all 3,062 weekdays, no data days included.
+  `dat00_eu.htm` on all 3,062 weekdays, no data days included. The whole series
+  is kept, 7,235 weekdays from 4 January 1999, the euro's first trading day, in
+  the package prepared on 28 September 2026.
+* **The H.15 package is laid out the same way**, 70 MB of XML holding 263
+  series, of which the effective federal funds rate, RIFSPFF_N.B, is read
+  through the same parser: 18,859 business days from 1 July 1954, 680 of them
+  no data days.
 
 ### 3.6 New York Fed SOFR
 
@@ -1037,18 +1055,16 @@ S&P Global's own pages are never requested (2.14).
 * **Percentiles can be the string "NA"** (31 May 2019, 5 August 2021) and can be
   negative. Only the rate is read.
 * **No SOFR exists before 2 April 2018.** Nothing is filled in. Before then the
-  financing line runs on EFFR (open question 12), a different rate: unsecured
-  where SOFR is secured.
-* **EFFR's source and method change inside its window.** From 1 March 2016 it
-  is a volume weighted median of FR 2420 transactions; before, a volume
-  weighted mean of brokered trades. The cache's method column says which.
-* **EFFR's API rows come in two layouts in one response**: the 39 rows before 1
-  March 2016 carry intraday figures, the rest percentiles and volume. The API's
-  own description names the rate `percent`, where every row carries
-  `percentRate`.
-* **The Board's H.15 carries the same EFFR**, public domain: on all 585 days from
-  4 January 2016 to 30 April 2018 the two agree. The New York Fed's copy is read
-  because it is the rate's publisher and the study already reads its API.
+  financing line runs on the effective federal funds rate (open question 12), a
+  different rate: unsecured where SOFR is secured, read from the Board's H.15.
+* **EFFR's source and method changed on 1 March 2016.** From then it is a volume
+  weighted median of FR 2420 transactions; before, a volume weighted mean of
+  brokered trades. The Board's series runs through the change as one series.
+* **The New York Fed's EFFR API, read until 15 October 2026, serves rows in two
+  layouts in one response**: the 39 rows before 1 March 2016 carry intraday
+  figures, the rest percentiles and volume. On all 585 days from 4 January 2016
+  to 30 April 2018 it agrees with the Board's H.15, which is read instead now,
+  in the public domain and from 1954.
 
 ### 3.7 METI spot LNG
 
@@ -1390,8 +1406,8 @@ the study runs without it, on the labelled position given.
 3. **The Henry Hub bound** is 0.5 to 50 USD/MMBtu (question 3).
 4. **The euro rate** is read from the H.10 release page package (question 11).
 5. **SOFR** is published under the New York Fed's terms with its notice, and
-   the **effective federal funds rate** stands in before 2 April 2018 on the
-   same terms (question 12).
+   the **effective federal funds rate** stands in before 2 April 2018, read from
+   the Board's H.15 in the public domain, from July 1954 (question 12).
 6. **JOGMEC's series** stays private; **owner**: send the permission request
    drafted in question 14.
 7. **METI's monthly PDFs**: the releases of October 2019 to March 2021 were
