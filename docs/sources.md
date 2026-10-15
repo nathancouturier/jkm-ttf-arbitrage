@@ -27,7 +27,7 @@ was decided on the strength of it.
 | `doe_lng_export_cargoes` | US LNG exports and re-exports cargo by cargo from January 2016: departure date, exporter, docket, supplier, ship, port of exit, destination, MMcf | read from the year's page on the [report list](https://www.energy.gov/hgeo/listings/natural-gas-imports-and-exports-monthly-reports); the file's path changes | monthly, with DOE's report | **yes** | US public domain |
 | `eia_henry_hub_daily` | Henry Hub spot price, daily, USD/MMBtu, credited by EIA to Refinitiv | [RNGWHHDd.xls](https://www.eia.gov/dnav/ng/hist_xls/RNGWHHDd.xls) | weekly release, daily values | **yes**, with the doubt in 2.1 | US public domain |
 | `acer_lng_daily` | ACER's DES LNG assessments for NWE, SE and the EU, its EU benchmark to TTF, and the NWE spread to TTF this study computes from them, daily, EUR/MWh, from 19 January 2023 | TERMINAL's historical download, saved by hand, with the [correction notice](https://www.acer.europa.eu/sites/default/files/documents/en/Gas/LNG_Price_Assessment/LNGPA_Correction_Notice_20241220.pdf) | each weekday; extended when the download is saved again | **yes** | ACER legal notice, with the doubt in 2.7 |
-| `ec_eua_auction_monthly` | EU allowance price, monthly volume weighted average auction clearing price, EUR/t, January 2023 to June 2025 | quarterly reports linked from the [Commission's auctioning page](https://climate.ec.europa.eu/areas-action/carbon-markets/eu-emissions-trading-system-eu-ets/auctioning-allowances_en) | quarterly, lagging | **yes** | CC BY 4.0, with the doubt in 2.8 |
+| `ec_eua_auction_monthly` | EU allowance price, monthly volume weighted average auction clearing price, EUR/t, January 2014 to June 2025 | quarterly reports linked from the [Commission's auctioning page](https://climate.ec.europa.eu/areas-action/carbon-markets/eu-emissions-trading-system-eu-ets/auctioning-allowances_en) | quarterly, lagging | **yes** | CC BY 4.0, with the doubt in 2.8 |
 | `dehst_eua_german_auction_monthly` | EU allowance price in Germany's auctions on EEX, monthly average, EUR/t, January 2024 to August 2026, the proxy after June 2025 | the latest report of each year linked from [DEHSt's reports page](https://www.dehst.de/EN/Topics/EU-ETS-1/EU-ETS-1-Information/Analyses-and-Reports/analysis-and-reports_node.html) | monthly, about a month after | **yes**, for non-commercial use, with the doubt in 2.23 | CC BY-NC-ND 4.0, figures credited to EEX and DEHSt |
 | `meti_spot_lng_monthly` | Japan spot LNG price, DES, contract-based and arrival-based, monthly, March 2014 to March 2021 | [historical-data-e.xlsx](https://www.meti.go.jp/english/statistics/sho/slng/historical-data-e.xlsx), read once | ended | **yes** | METI terms, compatible with CC BY 4.0 |
 | `meti_spot_lng_releases` | Every figure METI's monthly releases printed, preliminary, detailed and fixed, with the day of each release, for the releases of October 2019 to March 2021 | the release PDFs, saved by hand from [METI's page](https://www.meti.go.jp/english/statistics/sho/slng/index.html) | fixed, the survey has ended | **yes** | METI terms of use, compatible with CC BY 4.0 |
@@ -1162,8 +1162,19 @@ S&P Global's own pages are never requested (2.14).
 ### 3.10 European Commission auction reports
 
 * **Each report's Table 1 covers fifteen months**, so several editions are read
-  and each month is taken from the latest that prints it. Months printed by up
-  to five editions agree exactly.
+  and each month is taken from the latest that prints it. No two editions
+  disagree on any of the 137 months from January 2014 to June 2025.
+* **The reports were monthly in 2015 and 2016 and quarterly since**, and the
+  first with a monthly Table 1 is the report for January to March 2015, which
+  reaches back to January 2014; the 2013 and 2014 reports print the period's
+  weighted average in their text and the auctions one by one in an annex, with
+  no monthly table, so the series starts in January 2014. Fifty three reports
+  are read for the first build; afterwards only reports newer than the latest
+  the cache holds are fetched, and the committed rows stand for the rest.
+* **Months are spelt three ways across the editions**: "March 2015", "Dec.
+  2014" and "Sept. 2014" in 2015 and 2016, "December 2016" to 2022, and "Mar
+  23" since 2023, with thousands separated by spaces or commas. Every spelling
+  is read; the year may have two or four digits.
 * **The reports lag.** On 8 October 2026 the latest covers April to June 2025;
   after June 2025 the study uses DEHSt's averages of the German auctions, a
   labelled proxy (3.10.1).

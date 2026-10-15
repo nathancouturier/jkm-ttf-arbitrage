@@ -164,7 +164,7 @@
    "range_words": "January 2024 to August 2026, monthly",
    "gaps_words": "none",
    "provisional_words": "none",
-   "fetch_words": "9 October 2026 at 16:18 UTC",
+   "fetch_words": "15 October 2026 at 11:40 UTC",
    "vintage_words": "the fourth quarter report of 2024, the fourth quarter report of 2025, the report of August 2026",
    "terms_words": "CC BY-NC-ND 4.0 for DEHSt's reports, figures credited to EEX and DEHSt; non-commercial use"
   },
@@ -191,11 +191,11 @@
    "page_words": "",
    "status": "ok",
    "status_words": "checked",
-   "range_words": "January 2023 to June 2025, monthly",
-   "gaps_words": "none",
+   "range_words": "January 2014 to June 2025, monthly",
+   "gaps_words": "1 month, from January 2021 to January 2021",
    "provisional_words": "none",
-   "fetch_words": "9 October 2026 at 16:16 UTC",
-   "vintage_words": "reports March 2024 to June 2025",
+   "fetch_words": "15 October 2026 at 11:36 UTC",
+   "vintage_words": "reports March 2015 to June 2025",
    "terms_words": "CC BY 4.0"
   },
   {

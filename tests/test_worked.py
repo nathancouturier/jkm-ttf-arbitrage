@@ -64,8 +64,15 @@ def test_the_allowance_price_after_the_last_report_is_the_labelled_assumption():
     assert config.PARAMETERS["eua_eur_t_after_published"].value == "the last published month"
     value, source = worked.eua_eur_t_in(date(2024, 3, 27))
     assert value == 57.7 and source.startswith("European Commission")
+    # the Commission's reports reach back to January 2014; June 2022 is theirs
+    value, source = worked.eua_eur_t_in(date(2022, 6, 1))
+    assert value == 82.79 and source.startswith("European Commission")
+    # January 2021, when no auction was held, is missing, not filled
     with pytest.raises(MissingInput):
-        worked.eua_eur_t_in(date(2022, 6, 1))
+        worked.eua_eur_t_in(date(2021, 1, 15))
+    # before the first month of the first monthly table
+    with pytest.raises(MissingInput):
+        worked.eua_eur_t_in(date(2013, 12, 1))
 
 
 def test_the_german_auctions_follow_the_commission_reports():
