@@ -37,7 +37,7 @@ from dataclasses import asdict, dataclass, replace
 from datetime import date
 from typing import Any, Callable, Mapping, Sequence
 
-from . import canals, config, reader, units, worked
+from . import canals, config, delivery, reader, units, worked
 from .cases import WEST, Inputs, evaluate
 from .engine import Vessel
 
@@ -253,6 +253,36 @@ def _assumed(inputs: Inputs) -> list[str]:
     return out
 
 
+def _delivery_segments(preset: Preset, inputs: Inputs) -> list[dict[str, Any]]:
+    """Which delivery months the preset's two prices name, and whether they agree (lngarb.delivery)."""
+    if preset.prices == "monthly":
+        return [reader.T(" JKM is a monthly average of spot cargoes and TTF a monthly average, so no delivery "
+                         "month is named: the month's averages stand for the month.")]
+    day = inputs.day
+    jkm_month = delivery.jkm_front_month(day)
+    ttf_month = delivery.ttf_front_month(day)
+    tag, share = delivery.week_alignment(day)
+    segments = [reader.T(" On the week's last day the JKM front month names delivery in "),
+                reader.D("jkm_month", jkm_month, "month")]
+    ttf_source = inputs.sources.get("ttf", "")
+    if "spot" in ttf_source or "day-ahead" in ttf_source:
+        segments += [reader.T(" and TTF is a spot price, which names no delivery month; the week counts as "),
+                     reader.W("alignment", tag), reader.T(" by the futures calendars alone.")]
+        return segments
+    segments += [reader.T(" and the TTF front month delivery in "), reader.D("ttf_month", ttf_month, "month")]
+    if tag == "aligned":
+        segments += [reader.T(": the week is "), reader.W("alignment", "aligned"),
+                     reader.T(", every trading day naming the same month for both.")]
+    elif tag == "misaligned":
+        segments += [reader.T(": the week is "), reader.W("alignment", "misaligned"),
+                     reader.T(", no trading day naming the same month for both, so the spread sets two arrival "
+                              "periods against each other.")]
+    else:
+        segments += [reader.T(": the week is "), reader.W("alignment", "mixed"), reader.T(", the same month on "),
+                     reader.N("aligned_share", share, "share"), reader.T(" of its trading days.")]
+    return segments
+
+
 def _lead(preset: Preset, inputs: Inputs, missing: Mapping[str, str]) -> list[dict[str, Any]]:
     assumed = [ASSUMPTION_WORDS[key] for key in _assumed(inputs)]
     segments = [
@@ -261,6 +291,7 @@ def _lead(preset: Preset, inputs: Inputs, missing: Mapping[str, str]) -> list[di
         reader.W("assumed", reader.listed(assumed)),
         reader.T(" are this study's assumptions, each named under its field or the route table."),
     ]
+    segments += _delivery_segments(preset, inputs)
     if missing:
         names = [MISSING_WORDS[key] for key in MISSING_WORDS if key in missing]
         segments += [

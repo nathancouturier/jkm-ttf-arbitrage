@@ -202,6 +202,13 @@ def now(obs: pd.DataFrame | None = None, *, flows_document: dict[str, Any] | Non
         cost = reader.cost_section(result, inputs, day=day, steps=WATERFALL_STEPS, delta_observed=delta is not None)
         breakeven = reader.breakeven_section(result, inputs, day=day, levels=levels, hire=hire_info,
                                              evaluate_at=at_hire)
+        assumed_delta = float(config.PARAMETERS["delta_nwe_eur_mwh"].value)
+        breakeven["sensitivities"] = reader.sensitivities_section(
+            result, inputs, day=day, usd_per_eur=usd_per_eur,
+            evaluate_at=lambda **changes: evaluate(replace(inputs, **changes)),
+            delta_observed=delta is not None, delta_assumed_eur_mwh=assumed_delta,
+            delta_values=[-3.0, assumed_delta, 0.0] + ([-35.0] if worked.wide_regas_discount_on(day) else []),
+            k_values=list(ENERGY_SENSITIVITY))
         document = {
             **reader.header("now", day, "the landing sentence, the date of every input, the netbacks, the steps "
                                         "of the arb and the breakeven lines for the latest week, with the engine's "
@@ -266,6 +273,11 @@ def now(obs: pd.DataFrame | None = None, *, flows_document: dict[str, Any] | Non
             }
         return _clean(document)
 
+
+#: The ends of the range quoted for the energy of a cubic metre of US LNG, run
+#: as a sensitivity on the latest week beside the study's 23 (docs/methodology.md,
+#: section 11).
+ENERGY_SENSITIVITY = (22.0, 24.0)
 
 HISTORY_COLUMNS = [
     "day", "frequency", "series", "basis", "alignment", "aligned_share", "hire_level", "hire_usd_day",
@@ -384,13 +396,13 @@ def model(now_document: dict[str, Any]) -> dict[str, Any]:
     })
 
 
-def method(data_day: date) -> dict[str, Any]:
+def method(data_day: date, now_document: dict[str, Any] | None = None) -> dict[str, Any]:
     """The Method view: the engine as formulas, every parameter with its source, the limits and the credits."""
     return _clean({
         **reader.header("method", data_day, "the engine as formulas, every parameter of the parameter table with "
                                             "its value, status and source, the units, the limits and the credits"),
         "conventions": reader.conventions(),
-        **methodpage.page(),
+        **methodpage.page(now_document),
         "credits": list(CREDITS),
     })
 
@@ -425,7 +437,7 @@ def write_all() -> list[Path]:
             "history.json": history(rows, obs),
             "flows.json": flows_document,
             "provenance.json": provenance_document,
-            "method.json": method(date.fromisoformat(now_document["as_of"])),
+            "method.json": method(date.fromisoformat(now_document["as_of"]), now_document),
         }
     return [_write(name, document) for name, document in documents.items()]
 

@@ -158,7 +158,33 @@ def _formulas() -> list[dict[str, Any]]:
     ]
 
 
-def page() -> dict[str, Any]:
+def _energy_segments(now_document: Mapping[str, Any] | None) -> list[dict[str, Any]]:
+    """The latest week's breakeven at 22, 23 and 24 MMBtu per cubic metre, from the Now document's sensitivities."""
+    k_now = config.PARAMETERS["mmbtu_per_m3_lng"].value
+    if now_document is None:
+        return [reader.T("The study holds "), reader.N("k_now", k_now, "mmbtu_per_m3"),
+                reader.T(" MMBtu per cubic metre, a market convention for a lean cargo, and runs the latest week "
+                         "at the ends of the range quoted for a US cargo as a sensitivity in the Now view's "
+                         "breakeven section.")]
+    rows = {r["id"]: r for r in now_document["breakeven"]["sensitivities"]["rows"]}
+    today = rows["today"]
+    segments = [reader.T("The study holds "), reader.N("k_now", k_now, "mmbtu_per_m3"),
+                reader.T(" MMBtu per cubic metre, a market convention for a lean cargo. For the week to "),
+                reader.D("as_of", now_document["as_of"]),
+                reader.T(", S* of the cheapest open route east is "),
+                reader.N("s_star_now", today["values"]["s_star"], "usd_mmbtu", signed=True, missing="no route open"),
+                reader.T(" $/MMBtu at that value")]
+    for key in sorted(k for k in rows if k.startswith("energy_")):
+        row = rows[key]
+        segments += [reader.T(", "), reader.N("s_star_" + key, row["values"]["s_star"], "usd_mmbtu", signed=True,
+                                                missing="no route open"),
+                     reader.T(" at "), reader.N(key, float(key.split("_")[1]), "mmbtu_per_m3")]
+    segments += [reader.T(" MMBtu per cubic metre: a richer cargo carries more energy for the same hire, "
+                          "and every reader can type any value in the Model view.")]
+    return segments
+
+
+def page(now_document: Mapping[str, Any] | None = None) -> dict[str, Any]:
     """The Method view's whole document body."""
     parameters = []
     for name, parameter in config.PARAMETERS.items():
@@ -205,13 +231,24 @@ def page() -> dict[str, Any]:
                      "trading day the two front months name different delivery months, and after it they agree "
                      "again. A week is aligned when every trading day of "
                      "it names the same month for both, misaligned when none does, and mixed otherwise; the History "
-                     "view rings the misaligned weeks."),
+                     "view rings the misaligned weeks in full and the mixed ones in half. A JKM price is for a "
+                     "cargo delivered in its month to Japan, Korea, China or Taiwan, and a TTF price for gas "
+                     "delivered through its month at the Dutch hub: the two name arrival periods, not loading "
+                     "days. The engine prices a cargo loading in the week at the week's two averages whatever "
+                     "months they name, as a seller choosing a market that week sees them; the voyage east "
+                     "lands three to seven weeks after loading, so a week whose two front months differ sets "
+                     "two arrival periods against each other, and the Model view says of each preset which "
+                     "months its prices name."),
         ],
+        "energy_segments": _energy_segments(now_document),
         "limits": [
             [reader.T("A spread is an association, not a decision: long term contracts with Asian buyers move "
                       "their cargoes whatever the spot economics.")],
             [reader.T("Charter rates are the "), reader.N("anchors", len(freight_anchors.ANCHORS), "count"),
-             reader.T(" that Spark and the trade press reported; the study runs every date at the lowest, the "
+             reader.T(" that Spark and the trade press reported, each of them "),
+             reader.W("assessment", "Spark30S Atlantic"), reader.T(", "),
+             reader.W("assessment_words", freight_anchors.ASSESSMENT_WORDS["Spark30S Atlantic"]),
+             reader.T("; the study runs every date at the lowest, the "
                       "median and the highest of them, and at the one reported nearest it where one lies within "),
              reader.N("hire_window", config.PARAMETERS["hire_anchor_max_days"].value, "count"),
              reader.T(" days.")],

@@ -58,6 +58,34 @@ export function render(inner, data) {
   block.appendChild(sentence("p", section.source_segments, decimals, "source-line"));
   block.appendChild(disclosure("S* at each charter rate and H*, route by route", () => table(section, decimals)));
   inner.appendChild(block);
+
+  /* What moves the verdict: the week priced again with Europe's DES spread and
+     the cargo's energy at the values the study runs as sensitivities. */
+  const moves = section.sensitivities;
+  const movesBlock = el("div", { class: "block" }, [
+    sentence("h3", moves.heading_segments, decimals, "block__heading"),
+    disclosure("The week priced again, input by input", () => sensitivityTable(moves, decimals)),
+  ]);
+  inner.appendChild(movesBlock);
+}
+
+function sensitivityTable(moves, decimals) {
+  const body = el("tbody");
+  for (const row of moves.rows) {
+    const tr = el("tr", { attrs: { "data-id": row.id } }, [el("th", { text: row.name, attrs: { scope: "row" } })]);
+    for (const column of moves.columns) {
+      const value = row.values[column.id];
+      tr.appendChild(figureCell(formatCell(value, column.format, decimals, column.signed === true), column.id, { missing: row.missing_words }));
+    }
+    tr.appendChild(el("td", { class: "words", text: row.words }));
+    body.appendChild(tr);
+  }
+  const head = el("tr", {}, [el("th", { text: "Case", attrs: { scope: "col" } })]);
+  for (const column of moves.columns) {
+    head.appendChild(el("th", { class: "col-num", text: column.head + ", " + UNITS[column.format], attrs: { scope: "col" } }));
+  }
+  head.appendChild(el("th", { text: "What the case is", attrs: { scope: "col" } }));
+  return el("table", { class: "table" }, [sentence("caption", moves.caption_segments, decimals), el("thead", {}, [head]), body]);
 }
 
 function table(section, decimals) {

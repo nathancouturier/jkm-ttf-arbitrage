@@ -314,6 +314,17 @@
      "label": "Spark30S Atlantic"
     },
     {
+     "text": ", "
+    },
+    {
+     "field": "assessment_words",
+     "value": "Spark's spot charter rate for a thirty day round trip in the Atlantic basin, 25 days at sea, a day to load, a day to discharge and three flex days, in dollars a day",
+     "label": "Spark's spot charter rate for a thirty day round trip in the Atlantic basin, 25 days at sea, a day to load, a day to discharge and three flex days, in dollars a day"
+    },
+    {
+     "text": ","
+    },
+    {
      "text": " for a "
     },
     {
@@ -1701,7 +1712,171 @@
    {
     "text": "."
    }
-  ]
+  ],
+  "sensitivities": {
+   "heading_segments": [
+    {
+     "text": "With Europe's DES spread at "
+    },
+    {
+     "field": "deltas",
+     "value": "\u22123 EUR/MWh, \u22122 EUR/MWh and 0 EUR/MWh",
+     "label": "\u22123 EUR/MWh, \u22122 EUR/MWh and 0 EUR/MWh"
+    },
+    {
+     "text": " in place of "
+    },
+    {
+     "field": "delta_now",
+     "value": -3.5833999999999997,
+     "format": "eur_mwh",
+     "signed": true
+    },
+    {
+     "text": ", and the cargo's energy at "
+    },
+    {
+     "field": "energies",
+     "value": "22 and 24",
+     "label": "22 and 24"
+    },
+    {
+     "text": " MMBtu per cubic metre in place of "
+    },
+    {
+     "field": "k_now",
+     "value": 23.0,
+     "format": "mmbtu_per_m3"
+    },
+    {
+     "text": ", the arb east "
+    },
+    {
+     "text": "stays "
+    },
+    {
+     "field": "state",
+     "value": "open",
+     "label": "open"
+    },
+    {
+     "text": " in every case."
+    }
+   ],
+   "columns": [
+    {
+     "id": "s_star",
+     "head": "S*, cheapest open route",
+     "format": "usd_mmbtu",
+     "signed": true
+    },
+    {
+     "id": "arb",
+     "head": "Best netback over Gate",
+     "format": "usd_mmbtu",
+     "signed": true
+    },
+    {
+     "id": "lift_margin",
+     "head": "Lift margin",
+     "format": "usd_mmbtu",
+     "signed": true
+    }
+   ],
+   "rows": [
+    {
+     "id": "today",
+     "name": "As priced, via Panama",
+     "route": "nea_panama",
+     "values": {
+      "s_star": -0.27411266611987983,
+      "arb": 1.2321387410056168,
+      "lift_margin": 20.536800549856522
+     },
+     "open": true,
+     "words": "Europe's DES spread as observed",
+     "missing_words": "no route open"
+    },
+    {
+     "id": "delta_minus_3_0",
+     "name": "Europe's DES spread at \u22123 EUR/MWh, via Panama",
+     "route": "nea_panama",
+     "values": {
+      "s_star": -0.07924627412725016,
+      "arb": 1.04515948503456,
+      "lift_margin": 20.536800549856522
+     },
+     "open": true,
+     "words": "the discount this study runs as a sensitivity",
+     "missing_words": "no route open"
+    },
+    {
+     "id": "delta_minus_2_0",
+     "name": "Europe's DES spread at \u22122 EUR/MWh, via Panama",
+     "route": "nea_panama",
+     "values": {
+      "s_star": 0.25477222431743485,
+      "arb": 0.7246602461400471,
+      "lift_margin": 20.536800549856522
+     },
+     "open": true,
+     "words": "the study's assumption where ACER publishes nothing",
+     "missing_words": "no route open"
+    },
+    {
+     "id": "delta_0_0",
+     "name": "Europe's DES spread at 0 EUR/MWh, via Panama",
+     "route": "nea_panama",
+     "values": {
+      "s_star": 0.9228092212068084,
+      "arb": 0.08366176835102124,
+      "lift_margin": 20.536800549856522
+     },
+     "open": true,
+     "words": "the discount this study runs as a sensitivity",
+     "missing_words": "no route open"
+    },
+    {
+     "id": "energy_22",
+     "name": "Cargo energy at 22 MMBtu per cubic metre, via Panama",
+     "route": "nea_panama",
+     "values": {
+      "s_star": -0.25094363766922356,
+      "arb": 1.2099074693277423,
+      "lift_margin": 20.50141487177752
+     },
+     "open": true,
+     "words": "the ends of the range quoted for a US cargo",
+     "missing_words": "no route open"
+    },
+    {
+     "id": "energy_24",
+     "name": "Cargo energy at 24 MMBtu per cubic metre, via Panama",
+     "route": "nea_panama",
+     "values": {
+      "s_star": -0.2953509421996472,
+      "arb": 1.2525174067103428,
+      "lift_margin": 20.56923742142895
+     },
+     "open": true,
+     "words": "the ends of the range quoted for a US cargo",
+     "missing_words": "no route open"
+    }
+   ],
+   "caption_segments": [
+    {
+     "text": "The week to "
+    },
+    {
+     "field": "as_of",
+     "value": "2026-10-07",
+     "label": "7 October 2026"
+    },
+    {
+     "text": " priced again, at the hire used today, with one input changed at a time: S* of the cheapest open route east, that route's netback over Gate, and the lift margin. The regas discount is the DES spread of Northwest Europe to the TTF front month, observed from ACER where it publishes and the study's assumption elsewhere; the energy of a cubic metre is a market convention the study holds at one value."
+    }
+   ]
+  }
  },
  "not_priced": [],
  "week": {

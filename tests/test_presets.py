@@ -236,3 +236,20 @@ def test_a_missing_exchange_rate_keeps_the_preset_and_names_it(monkeypatch):
     assert math.isnan(march["usd_per_eur"]) and march["eua_eur_t"] is None
     assert march["verdict_segments"] is None
     assert "with no exchange rate to convert it" in march["source_words"]["delta_nwe"]
+
+
+def test_each_preset_says_which_delivery_months_its_prices_name(model):
+    for preset in model["presets"]:
+        words = "".join(s.get("text", s.get("label", "")) for s in preset["lead_segments"])
+        if preset["id"] == "april_2020":
+            assert "no delivery month is named" in words
+            continue
+        assert "the JKM front month names delivery in" in words
+        assert any(w in words for w in ("aligned", "misaligned", "mixed"))
+    found = {p["id"]: "".join(s.get("text", s.get("label", "")) for s in p["lead_segments"])
+             for p in model["presets"]}
+    # 7 October 2026 is before the JKM roll on the 16th, and before the TTF expiry: both name November
+    assert "November 2026 and the TTF front month delivery in November 2026" in found["latest"]
+    assert "every trading day naming the same month" in found["latest"]
+    # Spark's week, February 2022, when TTF was a spot price: the calendar alone
+    assert "spot price, which names no delivery month" in found["spark_example"]

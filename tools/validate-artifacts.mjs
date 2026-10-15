@@ -60,6 +60,8 @@ const REQUIRED = Object.freeze({
     "breakeven.spread.value", "breakeven.spread.label_segments", "breakeven.heading_segments",
     "breakeven.desc_segments", "breakeven.caption_segments", "breakeven.source_segments",
     "breakeven.table.columns", "breakeven.table.rows", "breakeven.table.caption_segments",
+    "breakeven.sensitivities.heading_segments", "breakeven.sensitivities.columns", "breakeven.sensitivities.rows",
+    "breakeven.sensitivities.caption_segments",
   ],
   model: [
     "presets", "unavailable", "vessels.tfde_160k", "vessels.two_stroke_174k", "route_names", "route_short", "part_words",
@@ -100,7 +102,7 @@ const REQUIRED = Object.freeze({
   ],
   method: [
     "title_segments", "formulas", "parameters", "parameters_caption", "units", "units_segments", "delivery_segments",
-    "limits", "documents", "type_words", "credits",
+    "energy_segments", "limits", "documents", "type_words", "credits",
   ],
   provenance: [
     "columns", "series", "summary_segments", "table_caption", "manual_heading", "manual_intro", "manual_steps",
@@ -120,6 +122,8 @@ const ROW_FIELDS = Object.freeze({
     "breakeven.lines": ["route", "pattern", "points", "h_star", "label"],
     "breakeven.table.columns": ["id", "head", "format"],
     "breakeven.table.rows": ["route", "name", "values", "missing_words"],
+    "breakeven.sensitivities.columns": ["id", "head", "format"],
+    "breakeven.sensitivities.rows": ["id", "name", "values", "words", "missing_words"],
   },
   model: {
     presets: ["id", "label", "day", "inputs", "result", "lead_segments", "verdict_segments", "usd_per_eur", "eua_eur_t",

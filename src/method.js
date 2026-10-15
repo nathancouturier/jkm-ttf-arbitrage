@@ -48,6 +48,7 @@ export function render(root, data) {
   root.appendChild(el("section", { class: "block", attrs: { "aria-labelledby": "method-units" } }, [
     el("h2", { class: "block__heading", id: "method-units", text: "Units and conversions" }),
     sentence("p", method.units_segments, decimals, "prose"),
+    sentence("p", method.energy_segments, decimals, "prose"),
     scrollTable(["The conversions the engine uses."], el("table", { class: "table" }, [
       el("thead", {}, [el("tr", {}, [
         el("th", { text: "Conversion", attrs: { scope: "col" } }),

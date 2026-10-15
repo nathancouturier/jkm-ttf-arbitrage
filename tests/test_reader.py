@@ -290,3 +290,28 @@ def test_a_plural_step_takes_a_plural_verb():
     assert {"canals", "ports", "carbon"} <= reader.PLURAL_STEPS
     for step in reader.PLURAL_STEPS:
         assert not reader.STEP_SHORT[step].endswith("fee")
+
+
+# --------------------------------------------------------------------------
+# What moves the verdict
+# --------------------------------------------------------------------------
+
+def test_the_sensitivities_price_the_week_again_input_by_input(now):
+    moves = now["breakeven"]["sensitivities"]
+    rows = {r["id"]: r for r in moves["rows"]}
+    assert list(moves["rows"])[0]["id"] == "today"
+    # Europe's DES spread at -3, at the study's assumption and at 0, unless one is today's
+    deltas = [r for r in moves["rows"] if r["id"].startswith("delta_")]
+    assert 2 <= len(deltas) <= 4
+    for row in deltas:
+        assert row["values"]["lift_margin"] == pytest.approx(rows["today"]["values"]["lift_margin"])
+    # the cargo's energy at 22 and 24: more energy, a lower breakeven for the same hire
+    assert rows["energy_24"]["values"]["s_star"] < rows["energy_22"]["values"]["s_star"]
+    # every row names the cheapest open route, or says none is
+    for row in moves["rows"]:
+        assert row["missing_words"] == "no route open"
+        assert set(row["values"]) == {"s_star", "arb", "lift_margin"}
+        assert isinstance(row["open"], bool) and row["words"]
+    words = "".join(s.get("text", s.get("label", "")) for s in moves["heading_segments"])
+    assert "the arb east" in words and ("stays" in words or "turns with" in words)
+    assert not any(ch.isdigit() for s in moves["heading_segments"] if "text" in s for ch in s["text"])

@@ -671,7 +671,77 @@
  ],
  "delivery_segments": [
   {
-   "text": "JKM futures for a month stop trading in the middle of the month before, and Dutch TTF futures two UK business days before the month begins, so from the middle of a month to TTF's last trading day the two front months name different delivery months, and after it they agree again. A week is aligned when every trading day of it names the same month for both, misaligned when none does, and mixed otherwise; the History view rings the misaligned weeks."
+   "text": "JKM futures for a month stop trading in the middle of the month before, and Dutch TTF futures two UK business days before the month begins, so from the middle of a month to TTF's last trading day the two front months name different delivery months, and after it they agree again. A week is aligned when every trading day of it names the same month for both, misaligned when none does, and mixed otherwise; the History view rings the misaligned weeks in full and the mixed ones in half. A JKM price is for a cargo delivered in its month to Japan, Korea, China or Taiwan, and a TTF price for gas delivered through its month at the Dutch hub: the two name arrival periods, not loading days. The engine prices a cargo loading in the week at the week's two averages whatever months they name, as a seller choosing a market that week sees them; the voyage east lands three to seven weeks after loading, so a week whose two front months differ sets two arrival periods against each other, and the Model view says of each preset which months its prices name."
+  }
+ ],
+ "energy_segments": [
+  {
+   "text": "The study holds "
+  },
+  {
+   "field": "k_now",
+   "value": 23.0,
+   "format": "mmbtu_per_m3"
+  },
+  {
+   "text": " MMBtu per cubic metre, a market convention for a lean cargo. For the week to "
+  },
+  {
+   "field": "as_of",
+   "value": "2026-10-07",
+   "label": "7 October 2026"
+  },
+  {
+   "text": ", S* of the cheapest open route east is "
+  },
+  {
+   "field": "s_star_now",
+   "value": -0.27411266611987983,
+   "format": "usd_mmbtu",
+   "signed": true,
+   "missing": "no route open"
+  },
+  {
+   "text": " $/MMBtu at that value"
+  },
+  {
+   "text": ", "
+  },
+  {
+   "field": "s_star_energy_22",
+   "value": -0.25094363766922356,
+   "format": "usd_mmbtu",
+   "signed": true,
+   "missing": "no route open"
+  },
+  {
+   "text": " at "
+  },
+  {
+   "field": "energy_22",
+   "value": 22.0,
+   "format": "mmbtu_per_m3"
+  },
+  {
+   "text": ", "
+  },
+  {
+   "field": "s_star_energy_24",
+   "value": -0.2953509421996472,
+   "format": "usd_mmbtu",
+   "signed": true,
+   "missing": "no route open"
+  },
+  {
+   "text": " at "
+  },
+  {
+   "field": "energy_24",
+   "value": 24.0,
+   "format": "mmbtu_per_m3"
+  },
+  {
+   "text": " MMBtu per cubic metre: a richer cargo carries more energy for the same hire, and every reader can type any value in the Model view."
   }
  ],
  "limits": [
@@ -690,7 +760,23 @@
     "format": "count"
    },
    {
-    "text": " that Spark and the trade press reported; the study runs every date at the lowest, the median and the highest of them, and at the one reported nearest it where one lies within "
+    "text": " that Spark and the trade press reported, each of them "
+   },
+   {
+    "field": "assessment",
+    "value": "Spark30S Atlantic",
+    "label": "Spark30S Atlantic"
+   },
+   {
+    "text": ", "
+   },
+   {
+    "field": "assessment_words",
+    "value": "Spark's spot charter rate for a thirty day round trip in the Atlantic basin, 25 days at sea, a day to load, a day to discharge and three flex days, in dollars a day",
+    "label": "Spark's spot charter rate for a thirty day round trip in the Atlantic basin, 25 days at sea, a day to load, a day to discharge and three flex days, in dollars a day"
+   },
+   {
+    "text": "; the study runs every date at the lowest, the median and the highest of them, and at the one reported nearest it where one lies within "
    },
    {
     "field": "hire_window",

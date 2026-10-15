@@ -95,7 +95,7 @@
   {
    "day": "2021-09-15",
    "kind": "definition",
-   "what": "monthly JKM from METI contract-based (a proxy for JKM); World Bank TTF to mean of the month's weekly averages: East Asia swap, delivery month named; TTF day-ahead; East Asia swap, delivery month named; TTF spot, product not named, after 5 month(s) with no public JKM",
+   "what": "the monthly JKM from METI's contract-based spot price for Japan, a proxy, with the World Bank's TTF, to the mean of each month's weekly averages, after 5 months with no public JKM",
    "source": "METI ends in March 2021; JOGMEC's continuation stays private"
   },
   {
@@ -5495,7 +5495,7 @@
     "number": 2,
     "day": "2021-09-15",
     "kind": "definition",
-    "what": "monthly JKM from METI contract-based (a proxy for JKM); World Bank TTF to mean of the month's weekly averages: East Asia swap, delivery month named; TTF day-ahead; East Asia swap, delivery month named; TTF spot, product not named, after 5 month(s) with no public JKM",
+    "what": "the monthly JKM from METI's contract-based spot price for Japan, a proxy, with the World Bank's TTF, to the mean of each month's weekly averages, after 5 months with no public JKM",
     "source": "METI ends in March 2021; JOGMEC's continuation stays private",
     "kind_words": "price definition"
    },

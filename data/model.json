@@ -63,6 +63,33 @@
      "text": " are this study's assumptions, each named under its field or the route table."
     },
     {
+     "text": " On the week's last day the JKM front month names delivery in "
+    },
+    {
+     "field": "jkm_month",
+     "value": "2026-11-01",
+     "label": "November 2026"
+    },
+    {
+     "text": " and the TTF front month delivery in "
+    },
+    {
+     "field": "ttf_month",
+     "value": "2026-11-01",
+     "label": "November 2026"
+    },
+    {
+     "text": ": the week is "
+    },
+    {
+     "field": "alignment",
+     "value": "aligned",
+     "label": "aligned"
+    },
+    {
+     "text": ", every trading day naming the same month for both."
+    },
+    {
      "text": " Change any input."
     }
    ],
@@ -591,6 +618,9 @@
      "text": " are this study's assumptions, each named under its field or the route table."
     },
     {
+     "text": " JKM is a monthly average of spot cargoes and TTF a monthly average, so no delivery month is named: the month's averages stand for the month."
+    },
+    {
      "text": " The data hold no figure of "
     },
     {
@@ -1011,6 +1041,33 @@
     },
     {
      "text": " are this study's assumptions, each named under its field or the route table."
+    },
+    {
+     "text": " On the week's last day the JKM front month names delivery in "
+    },
+    {
+     "field": "jkm_month",
+     "value": "2022-11-01",
+     "label": "November 2022"
+    },
+    {
+     "text": " and the TTF front month delivery in "
+    },
+    {
+     "field": "ttf_month",
+     "value": "2022-11-01",
+     "label": "November 2022"
+    },
+    {
+     "text": ": the week is "
+    },
+    {
+     "field": "alignment",
+     "value": "aligned",
+     "label": "aligned"
+    },
+    {
+     "text": ", every trading day naming the same month for both."
     },
     {
      "text": " Change any input."
@@ -1547,6 +1604,33 @@
      "text": " are this study's assumptions, each named under its field or the route table."
     },
     {
+     "text": " On the week's last day the JKM front month names delivery in "
+    },
+    {
+     "field": "jkm_month",
+     "value": "2024-05-01",
+     "label": "May 2024"
+    },
+    {
+     "text": " and the TTF front month delivery in "
+    },
+    {
+     "field": "ttf_month",
+     "value": "2024-04-01",
+     "label": "April 2024"
+    },
+    {
+     "text": ": the week is "
+    },
+    {
+     "field": "alignment",
+     "value": "misaligned",
+     "label": "misaligned"
+    },
+    {
+     "text": ", no trading day naming the same month for both, so the spread sets two arrival periods against each other."
+    },
+    {
      "text": " Change any input."
     }
    ],
@@ -2074,6 +2158,33 @@
      "text": " are this study's assumptions, each named under its field or the route table."
     },
     {
+     "text": " On the week's last day the JKM front month names delivery in "
+    },
+    {
+     "field": "jkm_month",
+     "value": "2026-05-01",
+     "label": "May 2026"
+    },
+    {
+     "text": " and the TTF front month delivery in "
+    },
+    {
+     "field": "ttf_month",
+     "value": "2026-04-01",
+     "label": "April 2026"
+    },
+    {
+     "text": ": the week is "
+    },
+    {
+     "field": "alignment",
+     "value": "misaligned",
+     "label": "misaligned"
+    },
+    {
+     "text": ", no trading day naming the same month for both, so the spread sets two arrival periods against each other."
+    },
+    {
      "text": " Change any input."
     }
    ],
@@ -2599,6 +2710,25 @@
     },
     {
      "text": " are this study's assumptions, each named under its field or the route table."
+    },
+    {
+     "text": " On the week's last day the JKM front month names delivery in "
+    },
+    {
+     "field": "jkm_month",
+     "value": "2022-03-01",
+     "label": "March 2022"
+    },
+    {
+     "text": " and TTF is a spot price, which names no delivery month; the week counts as "
+    },
+    {
+     "field": "alignment",
+     "value": "aligned",
+     "label": "aligned"
+    },
+    {
+     "text": " by the futures calendars alone."
     },
     {
      "text": " Change any input."

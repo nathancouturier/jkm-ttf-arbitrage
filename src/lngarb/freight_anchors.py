@@ -27,7 +27,21 @@ from typing import Any
 from .config import BOUNDS_HIRE_USD_DAY
 from .sources import base
 
-__all__ = ["Anchor", "ANCHORS", "seed_path", "problems", "write_seed", "record", "hire_levels"]
+__all__ = ["Anchor", "ANCHORS", "ASSESSMENT_WORDS", "seed_path", "problems", "write_seed", "record", "hire_levels"]
+
+#: What each assessment named in the anchors is, in words a reader needs once:
+#: from Spark's LNG Freight Methodology 3.8, named and not linked (docs/sources.md
+#: 2.13). Spark30S is the Atlantic basin's spot charter rate for a thirty day
+#: round trip, 25 days at sea at 17 knots, a day to load, a day to discharge
+#: and three flex days, in dollars a day, assessed daily since April 2022 and
+#: twice a week before; the ship is the 174,000 m3 two-stroke from 2 January
+#: 2024 and the 160,000 m3 TFDE before.
+ASSESSMENT_WORDS: dict[str, str] = {
+    "Spark30S Atlantic": (
+        "Spark's spot charter rate for a thirty day round trip in the Atlantic basin, 25 days at sea, "
+        "a day to load, a day to discharge and three flex days, in dollars a day"
+    ),
+}
 
 SCHEMA_VERSION = 1
 

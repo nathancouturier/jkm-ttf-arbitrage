@@ -72,3 +72,18 @@ def test_the_count_of_charter_rates_follows_the_list(method):
     spelled = {8: "eight", 9: "nine", 10: "ten", 11: "eleven", 12: "twelve", 13: "thirteen", 14: "fourteen"}
     readme = (base.REPO_ROOT / "README.md").read_text(encoding="utf-8")
     assert "The study holds " + spelled[held] + " rates" in readme
+
+
+def test_the_energy_sentence_runs_the_latest_week_at_the_ends_of_the_range(method):
+    values = {s["field"]: s["value"] for s in method["energy_segments"] if "field" in s}
+    assert values["k_now"] == config.PARAMETERS["mmbtu_per_m3_lng"].value
+    assert values["energy_22"] == 22.0 and values["energy_24"] == 24.0
+    assert values["s_star_energy_24"] < values["s_star_energy_22"]
+    assert not any(ch.isdigit() for s in method["energy_segments"] if "text" in s for ch in s["text"])
+
+
+def test_the_charter_rate_limit_says_what_the_assessment_is(method):
+    words = ["".join(s.get("text", s.get("label", "")) for s in segments) for segments in method["limits"]]
+    assert any("Spark30S Atlantic, Spark's spot charter rate for a thirty day round trip" in w for w in words)
+    delivery = "".join(s.get("text", "") for s in method["delivery_segments"])
+    assert "arrival periods, not loading days" in delivery

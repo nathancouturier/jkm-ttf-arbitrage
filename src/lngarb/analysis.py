@@ -346,8 +346,9 @@ def breaks(obs: pd.DataFrame | None = None) -> pd.DataFrame:
         if previous is not None and r.series.split("_")[0] != previous.series.split("_")[0]:
             gap = (r.day.to_period("M") - previous.day.to_period("M")).n - 1
             rows.append({"day": r.day, "kind": "definition",
-                         "what": "monthly JKM from %s to %s, after %d month(s) with no public JKM"
-                                 % (previous.basis, r.basis, gap),
+                         "what": "the monthly JKM from METI's contract-based spot price for Japan, a proxy, with "
+                                 "the World Bank's TTF, to the mean of each month's weekly averages, after %d "
+                                 "month%s with no public JKM" % (gap, "" if gap == 1 else "s"),
                          "source": "METI ends in March 2021; JOGMEC's continuation stays private"})
         previous = r
     parameters = config.PARAMETERS
