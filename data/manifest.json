@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-15T11:40:34Z",
+  "generated_at": "2026-10-15T11:45:19Z",
   "series": [
     {
       "series": "acer_lng_daily",
@@ -3252,10 +3252,10 @@
       "source": "this study, from figures reported by Spark Commodities, LNG Prime and Hellenic Shipping News",
       "url": null,
       "page_url": "https://lngprime.com/",
-      "linkable": null,
+      "linkable": true,
       "machine_fetched": false,
       "fetched_at": null,
-      "checked_at": "2026-10-15T11:11:17Z",
+      "checked_at": "2026-10-15T11:45:19Z",
       "rows": 10,
       "observations": 10,
       "file_rows": 10,
@@ -4169,10 +4169,10 @@
       "source": "this study, computed with searoute 1.6.0 over the network it bundles, which its README credits to Eurostat's Searoute",
       "url": null,
       "page_url": "https://github.com/genthalili/searoute-py",
-      "linkable": null,
+      "linkable": true,
       "machine_fetched": false,
       "fetched_at": null,
-      "checked_at": "2026-10-15T11:11:17Z",
+      "checked_at": "2026-10-15T11:45:19Z",
       "rows": 4,
       "observations": 4,
       "file_rows": 4,
@@ -4308,9 +4308,9 @@
   ],
   "manual_steps_note": "Work this pipeline cannot do for itself. Each entry says what it is, why it exists, what it costs to skip it and how to do it. They are repeated against the series they affect in the manual_step field of those entries.",
   "run": {
-    "mode": "online",
-    "started_at": "2026-10-15T11:36:21Z",
-    "finished_at": "2026-10-15T11:40:34Z",
+    "mode": "offline",
+    "started_at": "2026-10-15T11:45:18Z",
+    "finished_at": "2026-10-15T11:45:19Z",
     "script": "scripts/refresh.py"
   }
 }

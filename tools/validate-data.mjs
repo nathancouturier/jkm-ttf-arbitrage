@@ -331,6 +331,7 @@ check("provenance is consistent, and what may not be redistributed says so in wo
     if (entry.committable === false && !/not|prohibit|forbid/i.test(String(entry.licence_note || ""))) {
       problems.push(name + " is not committable but its licence_note never says what is not permitted");
     }
+    if (typeof entry.linkable !== "boolean") problems.push(name + " does not say whether it may be linked");
     if (entry.linkable === false) {
       if (entry.page_url || entry.url) problems.push(name + " may not be linked but carries an address");
     } else if (!String(entry.page_url || "").startsWith("http")) {

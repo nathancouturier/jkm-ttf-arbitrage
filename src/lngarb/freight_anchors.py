@@ -230,6 +230,7 @@ def record() -> dict:
         "source": registered.publisher,
         "url": None,
         "page_url": registered.page_url,
+        "linkable": registered.linkable,
         "machine_fetched": False,
         "fetched_at": None,
         "checked_at": base.utc_now_iso(),
