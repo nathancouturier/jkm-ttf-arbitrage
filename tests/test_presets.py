@@ -66,8 +66,9 @@ def test_a_figure_the_data_do_not_hold_is_shown_missing_not_filled(model):
         if preset["id"] not in ("april_2020", "latest"):
             assert preset["missing"] == [] and preset["verdict_segments"], preset["id"]
             assert preset["inputs"]["hire_usd_day"] is not None
-    levels = model["hire_levels"]
-    assert levels["low"] < levels["central"] < levels["high"]
+    for key in ("tfde_160k", "two_stroke_174k"):
+        levels = model["hire_levels"][key]
+        assert levels["low"] < levels["central"] < levels["high"] and levels["count"] > 0
 
 
 def test_the_lead_names_every_assumption_and_each_field_says_it(model):

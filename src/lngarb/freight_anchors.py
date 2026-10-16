@@ -24,10 +24,18 @@ from datetime import date
 from pathlib import Path
 from typing import Any
 
-from .config import BOUNDS_HIRE_USD_DAY
+from .config import BOUNDS_HIRE_USD_DAY, PARAMETERS
 from .sources import base
 
-__all__ = ["Anchor", "ANCHORS", "ASSESSMENT_WORDS", "seed_path", "problems", "write_seed", "record", "hire_levels"]
+__all__ = ["Anchor", "ANCHORS", "ASSESSMENT_WORDS", "SHIPS", "seed_path", "problems", "write_seed", "record",
+           "ship_on", "anchor_day", "hire_levels", "hire_levels_by_ship"]
+
+#: The two ships the engine prices with, keyed as the Model view keys them, in
+#: the order they served: the 160,000 m3 TFDE to 1 January 2024 and the
+#: 174,000 m3 two-stroke from 2 January 2024, the day Spark's benchmark changed
+#: ship (lngarb.config, vessel_174k_from). A reported rate belongs to the ship
+#: of its own day, whatever the article names.
+SHIPS: tuple[tuple[str, str], ...] = (("tfde_160k", "160,000 m3 TFDE"), ("two_stroke_174k", "174,000 m3 two-stroke"))
 
 #: What each assessment named in the anchors is, in words a reader needs once:
 #: from Spark's LNG Freight Methodology 3.8, named and not linked (docs/sources.md
@@ -572,14 +580,43 @@ def write_seed() -> Path:
     return path
 
 
-def hire_levels(anchors: tuple[Anchor, ...] = ANCHORS) -> dict[str, float]:
-    """The low, central and high hire from the reported figures: lowest, median, highest.
+def anchor_day(anchor: Anchor) -> date:
+    """The day a figure refers to, or its article's day when none is stated."""
+    return date.fromisoformat(anchor.rate_date or anchor.article_date)
 
-    Used where a date has no reported figure of its own, so that the result is
-    shown at three levels rather than at one invented rate.
+
+def ship_on(when: date | str) -> str:
+    """The key of the ship the engine prices a day with."""
+    day = date.fromisoformat(when) if isinstance(when, str) else when
+    return SHIPS[1][0] if day >= date.fromisoformat(PARAMETERS["vessel_174k_from"].value) else SHIPS[0][0]
+
+
+def hire_levels(anchors: tuple[Anchor, ...] = ANCHORS, *, when: date | str | None = None) -> dict[str, float]:
+    """The low, central and high hire: the lowest, the median and the highest of the figures reported.
+
+    With a day, the figures are those reported for the ship the engine prices
+    that day with, so that a date with no reported figure of its own runs at
+    three levels its own ship saw, never at one invented rate; without a day,
+    every figure counts.
     """
-    values = [a.hire_usd_day for a in anchors]
+    chosen = list(anchors) if when is None else [a for a in anchors if ship_on(anchor_day(a)) == ship_on(when)]
+    if not chosen:
+        raise ValueError("no reported charter rate for the ship of %s" % when)
+    values = [a.hire_usd_day for a in chosen]
     return {"low": min(values), "central": float(statistics.median(values)), "high": max(values)}
+
+
+def hire_levels_by_ship(anchors: tuple[Anchor, ...] = ANCHORS) -> dict[str, dict[str, Any]]:
+    """The three levels for each ship, with the count of figures and the span they cover, keyed as the Model view keys the ships."""
+    out: dict[str, dict[str, Any]] = {}
+    for key, words in SHIPS:
+        chosen = [a for a in anchors if ship_on(anchor_day(a)) == key]
+        if not chosen:
+            continue
+        days = sorted(anchor_day(a) for a in chosen)
+        out[key] = {**hire_levels(tuple(chosen)), "ship": words, "count": len(chosen),
+                    "first": days[0].isoformat(), "last": days[-1].isoformat()}
+    return out
 
 
 def record() -> dict:
@@ -598,16 +635,17 @@ def record() -> dict:
     if found:
         status, note = "failed", "; ".join(found)
     else:
-        levels = hire_levels()
+        by_ship = hire_levels_by_ship()
         note = (
-            "%d reported charter rates from %s to %s, one per month at most, each from a "
-            "dated article, never interpolated. Low, central and high hire for a date with "
-            "no figure of its own: %s, %s and %s $/day, the lowest, the median and the "
-            "highest. A seed, not a time series."
+            "%d reported charter rates from %s to %s, one per month at most, the first reported in the "
+            "month, each from a dated article, never interpolated. Low, central and high hire for a date "
+            "with no figure of its own, the lowest, the median and the highest of the figures reported for "
+            "the ship the date is priced with: %s. A seed, not a time series."
             % (
                 len(ANCHORS), ANCHORS[0].month, ANCHORS[-1].month,
-                format(levels["low"], ",.0f"), format(levels["central"], ",.0f"),
-                format(levels["high"], ",.0f"),
+                "; ".join("%s, %s, %s and %s $/day over %d figures" % (
+                    v["ship"], format(v["low"], ",.0f"), format(v["central"], ",.0f"), format(v["high"], ",.0f"),
+                    v["count"]) for v in by_ship.values()),
             )
         )
     entry = {

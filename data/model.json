@@ -3309,10 +3309,25 @@
   }
  },
  "hire_levels": {
-  "low": -750.0,
-  "central": 55750.0,
-  "high": 447000.0,
-  "words": "the lowest, the median and the highest of the charter rates reported, the three levels the analysis runs on every date"
+  "tfde_160k": {
+   "low": -750.0,
+   "central": 75500.0,
+   "high": 447000.0,
+   "ship": "160,000 m3 TFDE",
+   "count": 23,
+   "first": "2021-01-08",
+   "last": "2023-12-01"
+  },
+  "two_stroke_174k": {
+   "low": 4250.0,
+   "central": 45500.0,
+   "high": 161750.0,
+   "ship": "174,000 m3 two-stroke",
+   "count": 28,
+   "first": "2024-01-05",
+   "last": "2026-10-02"
+  },
+  "words": "the lowest, the median and the highest of the charter rates reported for the ship this preset is priced with, the three levels the analysis runs on every date"
  },
  "toll_words": "Canal tolls: the tariffs in force on each transit's day, read with this study's assumptions: an unbooked ship at its nominal capacity, Panama's fresh water surcharge at 5 percent of tolls, and Suez's net tonnage from capacity (docs/methodology.md, sections 6 and 8).",
  "route_names": {

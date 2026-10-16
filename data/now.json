@@ -701,7 +701,7 @@
     },
     {
      "field": "open_months",
-     "value": 15,
+     "value": 18,
      "format": "count"
     },
     {
@@ -709,7 +709,7 @@
     },
     {
      "field": "share_open",
-     "value": 26.247005,
+     "value": 25.699559,
      "format": "share_percent"
     },
     {
@@ -717,7 +717,7 @@
     },
     {
      "field": "share_closed",
-     "value": 15.988205,
+     "value": 12.569787,
      "format": "share_percent"
     },
     {
@@ -1470,6 +1470,26 @@
     "text": "H*, where a route's line crosses today's spread, is the hire above which that route pays less than Gate."
    },
    {
+    "text": " Via "
+   },
+   {
+    "field": "route",
+    "value": "Panama",
+    "label": "Panama"
+   },
+   {
+    "text": " it is "
+   },
+   {
+    "field": "h_star",
+    "value": 260505.7102151547,
+    "format": "usd_day",
+    "signed": true
+   },
+   {
+    "text": " $/day, off this axis."
+   },
+   {
     "text": " "
    },
    {
@@ -1491,15 +1511,15 @@
   ],
   "x": {
    "low": 0.0,
-   "high": 600000.0,
-   "step": 200000.0,
+   "high": 200000.0,
+   "step": 50000.0,
    "divisor": 1000.0,
    "axis": "Hire, thousand $/day"
   },
   "y": {
-   "low": -2.0,
-   "high": 10.0,
-   "step": 2.0,
+   "low": -1.0,
+   "high": 3.0,
+   "step": 1.0,
    "axis": "S*, $/MMBtu"
   },
   "lines": [
@@ -1513,8 +1533,8 @@
       -0.45074384682176216
      ],
      [
-      600000.0,
-      2.9136595951188653
+      200000.0,
+      0.6707239671584482
      ]
     ],
     "h_star": 260505.7102151547,
@@ -1530,8 +1550,8 @@
       -0.08585867641282263
      ],
      [
-      600000.0,
-      8.593270761201097
+      200000.0,
+      2.807184469458484
      ]
     ],
     "h_star": 75758.19793608897,
@@ -1615,9 +1635,9 @@
      "name": "Panama",
      "values": {
       "at_hire": -0.27411266611987983,
-      "low": -0.45494935112418844,
-      "central": -0.13813469367477893,
-      "high": 2.0557367174240078,
+      "low": -0.4269126557746823,
+      "central": -0.19560991914126546,
+      "high": 0.4562432477347329,
       "h_star": 260505.7102151547
      },
      "missing_words": "no crossing"
@@ -1627,9 +1647,9 @@
      "name": "Suez, closed",
      "values": {
       "at_hire": 0.35543792925424,
-      "low": -0.057209695059395216,
-      "central": 0.6657233521877473,
-      "high": 5.671874763434559,
+      "low": 0.006766680803181657,
+      "central": 0.5345717816694595,
+      "high": 2.0220225204744224,
       "h_star": 82656.54504654632
      },
      "missing_words": "no crossing"
@@ -1639,9 +1659,9 @@
      "name": "The Cape",
      "values": {
       "at_hire": 0.36979561906191094,
-      "low": -0.09670758820983849,
-      "central": 0.7205771004988044,
-      "high": 6.380092754609549,
+      "low": -0.024381509563056625,
+      "central": 0.5723086392729009,
+      "high": 2.253889967810597,
       "h_star": 75758.19793608897
      },
      "missing_words": "no crossing"
@@ -1664,9 +1684,8 @@
     },
     {
      "field": "level_low",
-     "value": -750.0,
-     "format": "usd_day",
-     "signed": true
+     "value": 4250.0,
+     "format": "usd_day"
     },
     {
      "text": ", "
@@ -1681,7 +1700,7 @@
     },
     {
      "field": "level_central",
-     "value": 55750.0,
+     "value": 45500.0,
      "format": "usd_day"
     },
     {
@@ -1697,7 +1716,7 @@
     },
     {
      "field": "level_high",
-     "value": 447000.0,
+     "value": 161750.0,
      "format": "usd_day"
     },
     {
@@ -1923,9 +1942,9 @@
     "publisher": "LNG Prime, quoting Spark Commodities"
    },
    "levels": {
-    "low": -750.0,
-    "central": 55750.0,
-    "high": 447000.0
+    "low": 4250.0,
+    "central": 45500.0,
+    "high": 161750.0
    }
   },
   "regas_discount": {
@@ -2253,54 +2272,54 @@
  },
  "at_levels": {
   "low": {
-   "hire_usd_day": -750.0,
+   "hire_usd_day": 4250.0,
    "best_route_east": "nea_panama",
    "best_destination": "NEA",
-   "best_netback": 24.34474049043789,
-   "lift_margin": 20.926365490437888,
+   "best_netback": 24.284342825231477,
+   "lift_margin": 20.86596782523148,
    "arb": {
-    "nea_panama": 1.4056561365329934,
-    "nea_suez": 1.0003659051507618,
-    "nea_cape": 1.0318535759686185
+    "nea_panama": 1.378754214745804,
+    "nea_suez": 0.940396636276688,
+    "nea_cape": 0.964419392194575
    },
    "s_star": {
-    "nea_panama": -0.45494935112418844,
-    "nea_suez": -0.057209695059395216,
-    "nea_cape": -0.09670758820983849
+    "nea_panama": -0.4269126557746823,
+    "nea_suez": 0.006766680803181657,
+    "nea_cape": -0.024381509563056625
    }
   },
   "central": {
-   "hire_usd_day": 55750.0,
+   "hire_usd_day": 45500.0,
    "best_route_east": "nea_panama",
    "best_destination": "NEA",
-   "best_netback": 23.662246873605422,
-   "lift_margin": 20.24387187360542,
+   "best_netback": 23.786062087278566,
+   "lift_margin": 20.36768708727857,
    "arb": {
-    "nea_panama": 1.1016644203377481,
-    "nea_suez": 0.32271316687373997,
-    "nea_cape": 0.2698472993219312
+    "nea_panama": 1.1568133600014825,
+    "nea_suez": 0.4456501680655869,
+    "nea_cape": 0.40808737605872025
    },
    "s_star": {
-    "nea_panama": -0.13813469367477893,
-    "nea_suez": 0.6657233521877473,
-    "nea_cape": 0.7205771004988044
+    "nea_panama": -0.19560991914126546,
+    "nea_suez": 0.5345717816694595,
+    "nea_cape": 0.5723086392729009
    }
   },
   "high": {
-   "hire_usd_day": 447000.0,
+   "hire_usd_day": 161750.0,
    "best_route_east": "nea_panama",
-   "best_destination": "NWE",
-   "best_netback": 19.939540530713476,
-   "lift_margin": 16.521165530713475,
+   "best_destination": "NEA",
+   "best_netback": 22.381816371229455,
+   "lift_margin": 18.963441371229457,
    "arb": {
-    "nea_panama": -1.0034109595099068,
-    "nea_suez": -4.369882122522471,
-    "nea_cape": -5.006877580996942
+    "nea_panama": 0.5313436784493071,
+    "nea_suez": -0.9486353332566075,
+    "nea_cape": -1.1597573966877839
    },
    "s_star": {
-    "nea_panama": 2.0557367174240078,
-    "nea_suez": 5.671874763434559,
-    "nea_cape": 6.380092754609549
+    "nea_panama": 0.4562432477347329,
+    "nea_suez": 2.0220225204744224,
+    "nea_cape": 2.253889967810597
    }
   }
  }

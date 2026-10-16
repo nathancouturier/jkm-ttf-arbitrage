@@ -330,8 +330,10 @@ function groupFieldset(group) {
 /* Buttons that type one of the three hire levels the analysis runs into a
  * hire field the data leave empty. Nothing is typed until one is pressed. */
 function addHireLevels(field) {
-  const { model, decimals } = held;
-  const levels = model.hire_levels;
+  const { model, decimals, preset } = held;
+  // The three levels of the ship the preset is priced with.
+  const levels = model.hire_levels[preset.vessel_key];
+  if (!levels) return;
   const row = el("div", { class: "choice-row model-levels", attrs: { role: "group", "aria-label": "Hire levels the analysis runs" } });
   for (const [name, words] of [["low", "Low"], ["central", "Central"], ["high", "High"]]) {
     const button = el("button", { class: "choice", text: words + ", " + formatNumber(levels[name], "usd_day", decimals) + " " + UNITS.usd_day, attrs: { type: "button" } });
@@ -343,7 +345,7 @@ function addHireLevels(field) {
     row.appendChild(button);
   }
   field.wrapper.appendChild(row);
-  field.wrapper.appendChild(el("span", { class: "model-field__source", text: capitalised(levels.words) + "." }));
+  field.wrapper.appendChild(el("span", { class: "model-field__source", text: capitalised(model.hire_levels.words) + " (" + levels.ship + ", " + formatNumber(levels.count, "count", decimals) + " figures)." }));
 }
 
 /* TTF in $/MMBtu or EUR/MWh. The figure on the screen is what is priced, in

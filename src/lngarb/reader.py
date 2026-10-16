@@ -865,8 +865,27 @@ def _months_between(first: str, last: str) -> int:
     return (b - a).n + 1
 
 
+def _central_by_ship_segments(levels_by_ship: Mapping[str, Mapping[str, Any]]) -> list[dict[str, Any]]:
+    """'55,750 $/day for the 160,000 m3 TFDE to 1 January 2024 and 46,500 for the 174,000 m3 two-stroke since'."""
+    from .config import PARAMETERS
+    keys = list(levels_by_ship)
+    out: list[dict[str, Any]] = []
+    for index, key in enumerate(keys):
+        levels = levels_by_ship[key]
+        if index:
+            out.append(T(" and "))
+        out += [N("central_hire_" + key, levels["central"], "usd_day"), T(" $/day for the "), W("ship_" + key, levels["ship"])]
+        if index == 0 and len(keys) > 1:
+            out += [T(" to "), D("ship_change", PARAMETERS["vessel_174k_from"].value), T(" and ")]
+            out += [N("central_hire_" + keys[1], levels_by_ship[keys[1]]["central"], "usd_day"), T(" $/day for the "),
+                    W("ship_" + keys[1], levels_by_ship[keys[1]]["ship"]), T(" since")]
+            break
+    return out
+
+
 def flows_panel(months: Sequence[Mapping[str, Any]], regressions: Sequence[Mapping[str, Any]],
-                excluded_years: Sequence[int], central_hire: float, *, window: int | None = FLOWS_MONTHS) -> dict[str, Any]:
+                excluded_years: Sequence[int], levels_by_ship: Mapping[str, Mapping[str, Any]], *,
+                window: int | None = FLOWS_MONTHS) -> dict[str, Any]:
     """The latest months of exports by vessel (every month held when window is
     None), the share to the JKM markets and to Asia against the arb at loading
     at the central hire, and the regression on every month, in words. The
@@ -967,8 +986,9 @@ def flows_panel(months: Sequence[Mapping[str, Any]], regressions: Sequence[Mappi
         ],
         "source_segments": [
             T("Exports from EIA's US natural gas exports by country, by vessel; the arb from this study's engine at the "
-              "central hire, "), N("central_hire", central_hire, "usd_day"), T(" $/day. Data to "),
-            D("last_month", last, "month"), T("."),
+              "central hire of the ship each month is priced with, "),
+            *_central_by_ship_segments(levels_by_ship),
+            T(". Data to "), D("last_month", last, "month"), T("."),
         ],
         "months": rows,
         "shares": [

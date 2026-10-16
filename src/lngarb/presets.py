@@ -332,7 +332,7 @@ def complete(result: Mapping[str, Any]) -> bool:
 def model_document(latest_day: date, latest_prices: str,
                    inputs_json: Callable[[Inputs], dict[str, Any]]) -> dict[str, Any]:
     """model.json's body: the presets, the ships, the words the form uses."""
-    from .freight_anchors import hire_levels
+    from .freight_anchors import hire_levels_by_ship
 
     vessels = _vessels()
     presets, unavailable = [], []
@@ -371,15 +371,16 @@ def model_document(latest_day: date, latest_prices: str,
                                                liquefaction_fee=inputs.liquefaction_fee, weekly=False)["segments"]
             if complete(result) else None,
         })
-    levels = hire_levels()
     return {
         "presets": presets,
         "unavailable": unavailable,
         "vessels": vessels,
         "vessel_sources": {key: {field: _parameter_words(name) for field, name in fields.items()}
                            for key, fields in SHIP_SOURCES.items()},
-        "hire_levels": {**levels, "words": "the lowest, the median and the highest of the charter rates reported, "
-                                           "the three levels the analysis runs on every date"},
+        "hire_levels": {**hire_levels_by_ship(),
+                        "words": "the lowest, the median and the highest of the charter rates reported for the "
+                                 "ship this preset is priced with, the three levels the analysis runs on every "
+                                 "date"},
         "toll_words": "Canal tolls: the tariffs in force on each transit's day, read with this study's assumptions: "
                       "an unbooked ship at its nominal capacity, Panama's fresh water surcharge at 5 percent of "
                       "tolls, and Suez's net tonnage from capacity (docs/methodology.md, sections 6 and 8).",

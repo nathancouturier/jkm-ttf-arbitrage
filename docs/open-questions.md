@@ -749,8 +749,14 @@ inferred where the article does not name them, the publisher and the
 address; no sentence is kept. The low, central and high hire become minus
 750, 55,750 and 447,000 $/day; by ship the median is 75,500 over the 23
 figures for the 160,000 m3 TFDE to 2023 and 46,500 over the 28 for the
-174,000 m3 two-stroke since, and whether the central hire should be set by
-ship is left here. The weekly series the same articles would give, 193
+174,000 m3 two-stroke since. Decided 16 October 2026: the three levels are
+set by ship. A date is run at the lowest, the median and the highest of the
+figures reported for the ship the engine prices it with, the day of the
+figure deciding its ship, since the TFDE's figures carry the crisis of 2021
+to 2022 and describe a two-stroke date badly, and the two-stroke's figures
+describe a 2022 date no better: minus 750, 75,500 and 447,000 $/day for the
+TFDE over 23 figures, 4,250, 45,500 and 161,750 for the two-stroke over 28.
+The Model view's buttons offer the levels of the preset's ship. The weekly series the same articles would give, 193
 figures, is not built: Spark's assessments stay Spark's, and the rule of one
 figure a month stands. Fridays since July 2023 with no public figure, 57 of
 them, are the gaps the rule leaves; 31 of them appear only in search engine

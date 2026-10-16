@@ -30,7 +30,7 @@ from typing import Any, Mapping, Sequence
 
 import pandas as pd
 
-from . import analysis, config, panama_transits, reader
+from . import analysis, config, freight_anchors, panama_transits, reader
 from .sources import base
 from .spreadhistory import ticks
 from .reported import reported
@@ -57,8 +57,8 @@ def _iso(value: Any) -> str:
 
 
 def _whole(months: Sequence[Mapping[str, Any]], regressions: Sequence[Mapping[str, Any]], excluded: Sequence[int],
-           central: float) -> dict[str, Any]:
-    panel = reader.flows_panel(months, regressions, excluded, central, window=None)
+           levels_by_ship: Mapping[str, Mapping[str, Any]]) -> dict[str, Any]:
+    panel = reader.flows_panel(months, regressions, excluded, levels_by_ship, window=None)
     rows = panel["months"]
     panel["ticks"] = [i for i, r in enumerate(rows) if r["month"][5:7] == "01"] or [0]
     panel["ticks_narrow"] = [i for i, r in enumerate(rows) if r["month"][5:7] == "01" and int(r["month"][:4]) % 2 == 0] or [0]
@@ -475,12 +475,13 @@ def _canals(wait_months: Sequence[str]) -> dict[str, Any]:
 
 
 def page(rows: pd.DataFrame, months: Sequence[Mapping[str, Any]], regressions: Sequence[Mapping[str, Any]],
-         excluded: Sequence[int], levels: Mapping[str, float]) -> dict[str, Any]:
-    """The Flows view's layer of flows.json."""
+         excluded: Sequence[int], levels: Mapping[str, Mapping[str, Any]]) -> dict[str, Any]:
+    """The Flows view's layer of flows.json; levels are the hire levels by ship."""
     return {
-        "whole": _whole(months, regressions, excluded, levels["central"]),
+        "whole": _whole(months, regressions, excluded, levels),
         "test": _test(regressions, excluded),
-        "y2020": _y2020(levels),
+        # 2020 is priced with the TFDE, so its three levels are that ship's.
+        "y2020": _y2020(freight_anchors.hire_levels(when=date(2020, 1, 1))),
         "y2026": _y2026(rows, months),
         "waits": _waits(rows),
         "canals": _canals([r["month"] for r in _waits(rows)["rows"]]),

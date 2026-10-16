@@ -537,7 +537,7 @@ def inputs_on(when: date | str, jkm: float, ttf: float, price_sources: dict[str,
         hire_usd_day, hire_source = nearest_hire(day)
         if hire_usd_day is None:
             if missing is None:
-                raise MissingInput(hire_source + "; give a hire, such as one of %s" % hire_levels())
+                raise MissingInput(hire_source + "; give a hire, such as one of %s" % hire_levels(when=day))
             missing["hire"] = hire_source
             hire_usd_day, hire_source = float("nan"), "missing: " + hire_source
     else:

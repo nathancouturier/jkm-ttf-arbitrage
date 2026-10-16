@@ -759,7 +759,7 @@ run:
 | Suez rebate on the surcharge | not applied | applied | the rebate is written on normal tolls (open question 26) |
 | Panama capacity charged | the nominal capacity | none | the canal's admeasurement rules were not read (open question 39) |
 | Panama booking fee | none, an unbooked ship | none | the booked case is a scenario (open question 40) |
-| hire where no rate was reported within 14 days | 55,750 $/day | -750 and 447,000 | the median, lowest and highest of the 51 freight anchors; by ship, the median is 75,500 over the 23 figures for the 160,000 m3 TFDE to 2023 and 46,500 over the 28 for the 174,000 m3 two-stroke since (open question 37) |
+| hire where no rate was reported within 14 days | the median of the figures reported for the ship the date is priced with: 75,500 $/day for the 160,000 m3 TFDE to 1 January 2024 (23 figures), 45,500 for the 174,000 m3 two-stroke since (28) | that ship's lowest and highest: -750 and 447,000; 4,250 and 161,750 | the rates of one ship describe the other badly: the TFDE's figures carry the crisis of 2021 to 2022 (open question 37) |
 | EU allowance price after the last published month | the last month published, held (on 8 October 2026 August 2026, 82.31 EUR/t, German auctions) | 61 and 86 | the last published month held, and the Commission's range for 2025 |
 | funding spread | 150 bp | none | the convention of the study's copper sibling |
 | Panama variable fresh water surcharge | 5 percent of tolls | 0 and 10; the Authority's curve at a few levels and at the two levels it printed, on the Method view | the curve's value at its centre; the daily level is not reachable by code |
@@ -799,8 +799,10 @@ result. Nothing is fitted: no parameter is searched and nothing is forecast.
   November 2019, when METI published no contract-based price, and November
   2021, which holds two weekly averages (`analysis.months_without_observation`).
 * **Hire**: each observation at the low, central and high hire of the freight
-  anchors (the lowest, median and highest reported figure), and at the figure
-  reported nearest its date where one lies within 14 days.
+  anchors (the lowest, median and highest figure reported for the ship the
+  observation is priced with, the 160,000 m3 TFDE to 1 January 2024 and the
+  174,000 m3 two-stroke since), and at the figure reported nearest its date
+  where one lies within 14 days.
 * **Breaks**: every week whose stored basis changes, the change of series, the
   ship of 2 January 2024, the routes (Panama from 26 June 2016, Suez closed to
   a US cargo from 13 January 2024), the EU ETS phase-in and the allowance price

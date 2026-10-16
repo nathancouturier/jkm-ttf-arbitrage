@@ -24,16 +24,18 @@ Read this part first.
 - **It shows an association, not a decision.** Over 115 months from February
   2016 to July 2026, a dollar more of arb east at loading went with 1.7 points
   more of US exports by vessel going to Asia, at a t statistic of 2.3 with
-  Newey-West errors, and an R squared of 0.12. Without 2020, 2022 and 2026 the
-  slope is 5.4 points and R squared 0.25. Long term contracts, Panama's slots,
+  Newey-West errors, and an R squared of 0.11. Without 2020, 2022 and 2026 the
+  slope is 5.5 points and R squared 0.25. Long term contracts, Panama's slots,
   China's tariff on US LNG from February 2025 and the cost of a ship already
   chartered also move cargoes, and the test cannot separate them.
 - **Charter rates are one a month at most.** The study holds 51 rates,
   reported by Spark and the trade press from January 2021, the first reported
   in each month, each dated by the day it refers to or, where the article
   gives none, by the article's date. Every date is worked at the lowest, the
-  median and the highest of them, and at the one reported nearest it where one
-  lies within 14 days, never at a rate made up for it.
+  median and the highest of those reported for the ship it is priced with (the
+  160,000 m3 TFDE to 1 January 2024, the 174,000 m3 two-stroke since), and at
+  the one reported nearest it where one lies within 14 days, never at a rate
+  made up for it.
 - **The engine adds no wait at Panama.** The Flows view sets Panama against
   the Cape with the 12, 17 and 15 days reported for July, August and December 2023
   only; every other restriction is drawn on the timeline, and any wait or slot

@@ -239,10 +239,29 @@ def _monthly_heading(points: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]
     return segments + [reader.T(".")]
 
 
-def _levels_segments(levels: Mapping[str, float]) -> list[dict[str, Any]]:
-    return [reader.N("hire_low", levels["low"], "usd_day"), reader.T(", "),
-            reader.N("hire_central", levels["central"], "usd_day"), reader.T(" and "),
-            reader.N("hire_high", levels["high"], "usd_day"), reader.T(" $/day")]
+def _levels_segments(levels: Mapping[str, Any], key: str = "") -> list[dict[str, Any]]:
+    suffix = "_" + key if key else ""
+    return [reader.N("hire_low" + suffix, levels["low"], "usd_day"), reader.T(", "),
+            reader.N("hire_central" + suffix, levels["central"], "usd_day"), reader.T(" and "),
+            reader.N("hire_high" + suffix, levels["high"], "usd_day"), reader.T(" $/day")]
+
+
+def _levels_by_ship_segments(levels_by_ship: Mapping[str, Mapping[str, Any]]) -> list[dict[str, Any]]:
+    """'for the 160,000 m3 TFDE to 1 January 2024, a, b and c $/day over 23 figures; for the 174,000 m3 two-stroke since, ...'."""
+    out: list[dict[str, Any]] = []
+    keys = list(levels_by_ship)
+    for index, key in enumerate(keys):
+        levels = levels_by_ship[key]
+        if index:
+            out.append(reader.T("; "))
+        out += [reader.T("for the "), reader.W("ship_" + key, levels["ship"])]
+        if index == 0 and len(keys) > 1:
+            out += [reader.T(" to "), reader.D("ship_change", config.PARAMETERS["vessel_174k_from"].value)]
+        elif index:
+            out.append(reader.T(" since"))
+        out += [reader.T(", "), *_levels_segments(levels, key), reader.T(" over "),
+                reader.N("hire_count_" + key, levels["count"], "count"), reader.T(" figures")]
+    return out
 
 
 def _routes_words(points: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
@@ -317,12 +336,13 @@ def _weekly_desc(points: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
     ]
 
 
-def _weekly_caption(points: Sequence[Mapping[str, Any]], levels: Mapping[str, float]) -> list[dict[str, Any]]:
+def _weekly_caption(points: Sequence[Mapping[str, Any]], levels: Mapping[str, Mapping[str, Any]]) -> list[dict[str, Any]]:
     rings = sum(p["alignment"] == "misaligned" for p in points)
     return [
         *_routes_words(points),
-        reader.T("The hire levels are the lowest, the median and the highest charter rate reported: "),
-        *_levels_segments(levels), reader.T(". Rings: the "), reader.N("misaligned", rings, "count"),
+        reader.T("The hire levels are the lowest, the median and the highest charter rate reported for the ship "
+                 "each week is priced with: "),
+        *_levels_by_ship_segments(levels), reader.T(". Rings: the "), reader.N("misaligned", rings, "count"),
         reader.T(" weeks in which, by the futures calendars, the JKM and TTF front months name different delivery "
                  "months; where the prices drawn were swaps, spot or day-ahead, as before the futures of mid "),
         reader.D("futures_from", "2022-07-13", "month"),
@@ -389,7 +409,7 @@ def _columns(points: Sequence[Mapping[str, Any] | None], keys: Sequence[str]) ->
 
 
 def page(rows: pd.DataFrame, breaks: pd.DataFrame, anchors: Sequence[Mapping[str, Any]],
-         months_without: pd.DataFrame, levels: Mapping[str, float]) -> dict[str, Any]:
+         months_without: pd.DataFrame, levels: Mapping[str, Mapping[str, Any]]) -> dict[str, Any]:
     """The History view's layer of history.json."""
     weekly = _points(rows, "weekly")
     monthly = _points(rows, "monthly")

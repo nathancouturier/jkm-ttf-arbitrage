@@ -46,7 +46,7 @@ import pandas as pd
 
 from . import analysis, config, delivery, flowspage, methodpage, presets, reader, routemap, spreadhistory, units, worked
 from .cases import WATERFALL_STEPS, evaluate
-from .freight_anchors import ANCHORS, hire_levels
+from .freight_anchors import ANCHORS, hire_levels, hire_levels_by_ship
 from .sources import base
 
 __all__ = ["SCHEMA_VERSION", "now", "model", "routes", "history", "flows", "provenance", "method", "write_all",
@@ -168,10 +168,10 @@ def now(obs: pd.DataFrame | None = None, *, flows_document: dict[str, Any] | Non
         if provenance_document is None:
             provenance_document = provenance()
         weekly = obs[obs["frequency"] == "weekly"].sort_values("day", ascending=False)
-        levels = hire_levels()
         not_priced = []
         for latest in weekly.to_dict("records"):
             day = latest["day"].date()
+            levels = hire_levels(when=day)
             reported, reported_source = worked.nearest_hire(day)
             hire = reported if reported is not None else levels["central"]
             try:
@@ -250,7 +250,7 @@ def now(obs: pd.DataFrame | None = None, *, flows_document: dict[str, Any] | Non
                               "incomplete_month": "incomplete month" in inputs.sources["henry_hub"]},
                 "hire": {"value": hire, "unit": "USD/day",
                          "source": reported_source if reported is not None else
-                         "central level of the freight anchors; %s" % reported_source,
+                         "central level of the freight anchors for the ship of the date; %s" % reported_source,
                          "reported": reported is not None,
                          "nearest_reported": {"value": anchor.hire_usd_day,
                                               "date": worked._anchor_day(anchor), "publisher": anchor.publisher},
@@ -311,14 +311,14 @@ def history(rows: pd.DataFrame | None = None, obs: pd.DataFrame | None = None) -
                                                          "the breaks and the freight anchors"),
         "conventions": reader.conventions(),
         "first": frame["day"].min(), "last": frame["day"].max(),
-        "hire_levels": hire_levels(),
+        "hire_levels": hire_levels_by_ship(),
         "columns": list(frame.columns),
         "rows": records,
         "breaks": breaks.to_dict("records"),
         "months_without_observation": without.to_dict("records"),
         "freight_anchors": anchors,
         # The History view's layer: what the page draws and says, computed here.
-        "page": spreadhistory.page(rows, breaks, anchors, without, hire_levels()),
+        "page": spreadhistory.page(rows, breaks, anchors, without, hire_levels_by_ship()),
     }, ROUND_DP)
 
 
@@ -342,12 +342,12 @@ def flows(rows: pd.DataFrame | None = None) -> dict[str, Any]:
                                                          "at loading, and the regressions"),
         "conventions": reader.conventions(),
         "first": joined["month"].min(), "last": joined["month"].max(),
-        "panel": reader.flows_panel(clean_months, _clean(tests), excluded, hire_levels()["central"]),
+        "panel": reader.flows_panel(clean_months, _clean(tests), excluded, hire_levels_by_ship()),
         "months": months,
         "regressions": tests,
         "excluded_years": excluded,
         # The Flows view's layer: what the page draws and says, computed here.
-        "page": flowspage.page(rows, clean_months, _clean(tests), excluded, hire_levels()),
+        "page": flowspage.page(rows, clean_months, _clean(tests), excluded, hire_levels_by_ship()),
     }, ROUND_DP)
 
 

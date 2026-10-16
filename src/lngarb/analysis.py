@@ -266,7 +266,7 @@ def window(day: pd.Timestamp, frequency: str) -> tuple[date, date]:
 
 
 def _hires(day: date, levels: Mapping[str, float]) -> list[tuple[str, float, str]]:
-    out = [(name, float(value), "%s of the freight anchors" % name) for name, value in levels.items()]
+    out = [(name, float(value), "%s of the freight anchors for the ship of the date" % name) for name, value in levels.items()]
     reported, source = worked.nearest_hire(day)
     if reported is not None:
         out.append(("reported", float(reported), source))
@@ -280,21 +280,22 @@ def work(obs: pd.DataFrame | None = None, *, levels: Mapping[str, float] | None 
     plus "reported" where a charter rate was reported near the date. missing
     lists each observation the data cannot price, with the input it lacks.
     """
-    levels = dict(hire_levels() if levels is None else levels)
     with reading_once():
         obs = observations() if obs is None else obs
         rows, missing = [], []
         for o in obs.itertuples(index=False):
             day = o.day.date()
+            # The three levels are those of the ship the day is priced with, unless given.
+            on_day = dict(hire_levels(when=day) if levels is None else levels)
             try:
                 inputs = worked.inputs_on(
                     day, o.jkm, o.ttf, {"jkm": o.jkm_source, "ttf": o.ttf_source},
-                    hire_usd_day=levels["central"], delta_window=window(o.day, o.frequency),
+                    hire_usd_day=on_day["central"], delta_window=window(o.day, o.frequency),
                 )
             except worked.MissingInput as exc:
                 missing.append({"day": o.day, "frequency": o.frequency, "series": o.series, "reason": str(exc)})
                 continue
-            for level, hire, hire_source in _hires(day, levels):
+            for level, hire, hire_source in _hires(day, on_day):
                 out = evaluate(replace(inputs, hire_usd_day=hire))
                 row = {column: getattr(o, column) for column in OBSERVATION_COLUMNS}
                 row.update({"hire_level": level, "hire_usd_day": hire, "hire_source": hire_source})
@@ -605,7 +606,7 @@ def lift_margins_2020(year: int = 2020, *, levels: Mapping[str, float] | None = 
     JKM futures for M stop trading in M-1; METI's price stands in for it. The
     ship, routes, euro rate and overnight rate are those of the loading day.
     """
-    levels = dict(hire_levels() if levels is None else levels)
+    levels = dict(hire_levels(when=date(year, 1, 1)) if levels is None else levels)
     loading_day = int(_p("analysis_monthly_loading_day"))
     rows = []
     with reading_once():
