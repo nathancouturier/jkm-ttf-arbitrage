@@ -462,6 +462,12 @@ short quotations, each attributed, from these:
   > purposes without special permission from the copyright holder, provided
   > acknowledgment of the source is made."
 
+  The Institute's site answers 403 to a request from code (read 15 October
+  2026), so the paper is read in a browser; the date it gives for the last
+  laden LNG transit, 12 January 2024, is corroborated by the Reuters and
+  Bloomberg wire stories of December 2023 and January 2024 that gCaptain
+  republishes, which the History view's events cite.
+
 * International Energy Agency, Gas Market Reports from Q1 2024 to Q3 2026 and
   the Global Gas Security Review 2024, read on 1 October 2026. The last page of
   each report reads:
