@@ -1047,7 +1047,7 @@
     "name": "Futtsu via Suez",
     "open": false,
     "accent": false,
-    "value": 23.663957311599283,
+    "value": 23.663819376956454,
     "detail_segments": [
      {
       "text": "Closed: "
@@ -1062,7 +1062,7 @@
      },
      {
       "field": "gap",
-      "value": -2.205307462896968,
+      "value": -2.2054453975397976,
       "format": "usd_mmbtu",
       "signed": true
      },
@@ -1468,7 +1468,7 @@
      "name": "Canal tolls",
      "values": {
       "nea_panama": -0.32867823702362015,
-      "nea_suez": -0.16086508810975222,
+      "nea_suez": -0.1610030227525831,
       "nea_cape": -0.0
      }
     },
@@ -1518,7 +1518,7 @@
      "name": "The arb over Gate",
      "values": {
       "nea_panama": -1.5787284165025532,
-      "nea_suez": -2.205307462896968,
+      "nea_suez": -2.2054453975397976,
       "nea_cape": -2.223775483052478
      }
     }
@@ -1777,11 +1777,11 @@
      "route": "nea_suez",
      "name": "Suez, closed",
      "values": {
-      "at_hire": 1.01266465287598,
-      "low": 0.6000170285623447,
-      "central": 1.1917985052911995,
-      "high": 5.395046399462647,
-      "h_star": -152369.79733968442
+      "at_hire": 1.0128118042206573,
+      "low": 0.6001641799070221,
+      "central": 1.1919456566358804,
+      "high": 5.395193550807324,
+      "h_star": -152381.2977836135
      },
      "missing_words": "no crossing"
     },
@@ -1991,12 +1991,12 @@
     "distance_nm": 14624.2,
     "open": false,
     "why_closed": "laden transit 2026-10-31: no US Gulf cargo reported through the Red Sea after 12 January 2024, so treated as closed",
-    "canal_laden_usd": 342834.00712,
-    "canal_ballast_usd": 291291.34425599995,
+    "canal_laden_usd": 343127.972,
+    "canal_ballast_usd": 291541.1136,
     "canal_days": 0.0,
     "wait_days": 0.0,
     "slot_premium_usd": 0.0,
-    "canal_note": "Suez toll for 102,000 SCNT. Laden transit 2026-10-31: Suez Canal Authority, circular 7/2023, transit dues schedules applicable from 15 January 2024; surcharge 19.0 percent, periodical 20/2026; rebate 75.0 percent, periodical of 21 June 2023, renewed six monthly to 31 December 2026; 253,418 SDR at 1.35284 USD per SDR of 2026-10-14. Ballast transit 2026-12-10: surcharge 19.0 percent, periodical 20/2026; rebate 75.0 percent, periodical of 21 June 2023, renewed six monthly to 31 December 2026; 215,318 SDR at 1.35284 USD per SDR of 2026-10-14. SDR rates of the IMF, through the Bundesbank",
+    "canal_note": "Suez toll for 102,000 SCNT. Laden transit 2026-10-31: Suez Canal Authority, circular 7/2023, transit dues schedules applicable from 15 January 2024; surcharge 19.0 percent, periodical 20/2026; rebate 75.0 percent, periodical of 21 June 2023, renewed six monthly to 31 December 2026; 253,418 SDR at 1.354 USD per SDR of 2026-10-15. Ballast transit 2026-12-10: surcharge 19.0 percent, periodical 20/2026; rebate 75.0 percent, periodical of 21 June 2023, renewed six monthly to 31 December 2026; 215,318 SDR at 1.354 USD per SDR of 2026-10-15. SDR rates of the IMF, through the Bundesbank",
     "ballast_distance_nm": null,
     "ballast_canal_days": null,
     "ballast_wait_days": null,
@@ -2150,36 +2150,36 @@
     "q_delivered_mmbtu": 3695067.994025,
     "hire_usd": 2321148.529411765,
     "port_usd": 273184.0,
-    "canal_laden_usd": 342834.00712,
-    "canal_ballast_usd": 291291.34425599995,
+    "canal_laden_usd": 343127.972,
+    "canal_ballast_usd": 291541.1136,
     "slot_premium_usd": 0.0,
     "ets_usd": 0.0,
     "financing_usd": 78009.679420718,
-    "canal_note": "Suez toll for 102,000 SCNT. Laden transit 2026-10-31: Suez Canal Authority, circular 7/2023, transit dues schedules applicable from 15 January 2024; surcharge 19.0 percent, periodical 20/2026; rebate 75.0 percent, periodical of 21 June 2023, renewed six monthly to 31 December 2026; 253,418 SDR at 1.35284 USD per SDR of 2026-10-14. Ballast transit 2026-12-10: surcharge 19.0 percent, periodical 20/2026; rebate 75.0 percent, periodical of 21 June 2023, renewed six monthly to 31 December 2026; 215,318 SDR at 1.35284 USD per SDR of 2026-10-14. SDR rates of the IMF, through the Bundesbank",
-    "cost_without_hire_usd": 985319.0307967179,
-    "cost_usd": 3306467.5602084827,
+    "canal_note": "Suez toll for 102,000 SCNT. Laden transit 2026-10-31: Suez Canal Authority, circular 7/2023, transit dues schedules applicable from 15 January 2024; surcharge 19.0 percent, periodical 20/2026; rebate 75.0 percent, periodical of 21 June 2023, renewed six monthly to 31 December 2026; 253,418 SDR at 1.354 USD per SDR of 2026-10-15. Ballast transit 2026-12-10: surcharge 19.0 percent, periodical 20/2026; rebate 75.0 percent, periodical of 21 June 2023, renewed six monthly to 31 December 2026; 215,318 SDR at 1.354 USD per SDR of 2026-10-15. SDR rates of the IMF, through the Bundesbank",
+    "cost_without_hire_usd": 985862.7650207181,
+    "cost_usd": 3307011.2944324827,
     "p_des": 26.14,
-    "netback": 23.663957311599283,
-    "freight_conventional": 2.6414902275622225,
-    "netback_conventional": 23.498509772437778,
-    "arb": -2.205307462896968,
-    "s_star": 1.01266465287598,
+    "netback": 23.663819376956454,
+    "freight_conventional": 2.6416373789069016,
+    "netback_conventional": 23.4983626210931,
+    "arb": -2.2054453975397976,
+    "s_star": 1.0128118042206573,
     "boil_off": 1.1781446055835552,
     "regas": -0.6841963362300789,
-    "voyage": 0.5187163835225043,
-    "h_star_usd_day": -152369.79733968442,
+    "voyage": 0.518863534867183,
+    "h_star_usd_day": -152381.2977836135,
     "waterfall": {
      "start": 25.86926477449625,
      "spread": -1.2560702166666664,
      "boil_off": -1.1043525000000003,
      "regas": 0.6413422688739214,
      "hire": -0.3778063939066597,
-     "canals": -0.16086508810975222,
+     "canals": -0.1610030227525831,
      "slot_premium": -0.0,
      "ports": 0.009072367369614686,
      "carbon": 0.05573397855647226,
      "financing": -0.01236187901390008,
-     "end": 23.663957311599283
+     "end": 23.663819376956454
     }
    },
    "nea_cape": {
