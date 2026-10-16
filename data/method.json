@@ -2,7 +2,7 @@
  "schema_version": 1,
  "artifact": "method",
  "generated_by": "src/lngarb/export.py",
- "data_date": "2026-10-07",
+ "data_date": "2026-10-14",
  "describes": "the engine as formulas, every parameter of the parameter table with its value, status and source, the units, the limits and the credits",
  "source": "the committed caches in data/cache and data/seed and the manifest, nothing from data/private; no network",
  "conventions": {
@@ -150,43 +150,43 @@
   "rows": [
    {
     "k": 22.0,
-    "best_netback": 23.919789871777517,
+    "best_netback": 25.856110368095123,
     "routes": {
      "nea_panama": {
-      "arb": 1.2176576291028063,
-      "s_star": -0.25902071373250024
+      "arb": -1.6009596881804313,
+      "s_star": 0.32849117321151056
      },
      "nea_cape": {
-      "arb": 0.585754932655334,
-      "s_star": 0.3817525006467406
+      "arb": -2.242673800798247,
+      "s_star": 1.0653646476855378
      }
     }
    },
    {
     "k": 23.0,
-    "best_netback": 23.955175549856524,
+    "best_netback": 25.86926477449625,
     "routes": {
      "nea_panama": {
-      "arb": 1.2398889007806808,
-      "s_star": -0.2821897421831565
+      "arb": -1.5787284165025532,
+      "s_star": 0.3053221447608543
      },
      "nea_cape": {
-      "arb": 0.6046532504011033,
-      "s_star": 0.36148323750636635
+      "arb": -2.223775483052478,
+      "s_star": 1.0450953845451636
      }
     }
    },
    {
     "k": 24.0,
-    "best_netback": 23.987612421428953,
+    "best_netback": 25.881322980363954,
     "routes": {
      "nea_panama": {
-      "arb": 1.2602675664854033,
-      "s_star": -0.3034280182629203
+      "arb": -1.5583497507978272,
+      "s_star": 0.2840838686810869
      },
      "nea_cape": {
-      "arb": 0.6219767083347207,
-      "s_star": 0.3429030796276962
+      "arb": -2.206452025118857,
+      "s_star": 1.0265152266664899
      }
     }
    }
@@ -205,8 +205,8 @@
    },
    {
     "field": "as_of",
-    "value": "2026-10-07",
-    "label": "7 October 2026"
+    "value": "2026-10-14",
+    "label": "14 October 2026"
    },
    {
     "text": " at each energy content: the best netback, and the arb and S* of each open route east, in $/MMBtu."
@@ -216,7 +216,7 @@
    },
    {
     "field": "k_s_star_range",
-    "value": 0.04440730453042008,
+    "value": 0.04440730453042363,
     "format": "usd_mmbtu"
    },
    {
@@ -229,23 +229,23 @@
    {
     "route": "nwe_direct",
     "name": "Gate",
-    "exact": 22.715286649075843,
-    "conventional": 22.695027115855506,
-    "difference": 0.02025953322033658
+    "exact": 25.86926477449625,
+    "conventional": 25.847343639668033,
+    "difference": 0.02192113482821867
    },
    {
     "route": "nea_panama",
     "name": "Futtsu via Panama",
-    "exact": 23.955175549856524,
-    "conventional": 23.877779210145842,
-    "difference": 0.07739633971068116
+    "exact": 24.290536357993698,
+    "conventional": 24.21252250968898,
+    "difference": 0.07801384830471747
    },
    {
     "route": "nea_cape",
     "name": "Futtsu via the Cape",
-    "exact": 23.319939899476946,
-    "conventional": 23.140753711332433,
-    "difference": 0.17918618814451293
+    "exact": 23.645489291443774,
+    "conventional": 23.464529376720566,
+    "difference": 0.18095991472320705
    }
   ],
   "caption_segments": [
@@ -254,8 +254,8 @@
    },
    {
     "field": "as_of",
-    "value": "2026-10-07",
-    "label": "7 October 2026"
+    "value": "2026-10-14",
+    "label": "14 October 2026"
    },
    {
     "text": ": the netback per MMBtu loaded, the exact form the study uses, against the conventional one per MMBtu delivered, and the difference, in $/MMBtu."

@@ -2,7 +2,7 @@
  "schema_version": 1,
  "artifact": "routes",
  "generated_by": "src/lngarb/export.py",
- "data_date": "2026-10-07",
+ "data_date": "2026-10-14",
  "describes": "the map of the four routes from Sabine Pass, their distances, days and tolls, and when each was open to a US cargo",
  "source": "the committed caches in data/cache and data/seed and the manifest, nothing from data/private; no network",
  "conventions": {
@@ -35,7 +35,7 @@
   "rounding": "now.json keeps full precision, because the browser engine recomputes from its inputs; history.json and flows.json store floats to 6 places. The page prints the decimals of the format a value names.",
   "segments": "A sentence is a list of segments. A text segment holds words only. A value segment names its field and holds a value with a format, or an ISO date or a word with its label."
  },
- "as_of": "2026-10-07",
+ "as_of": "2026-10-14",
  "heading_segments": [
   {
    "text": "From Sabine Pass, Futtsu is "
@@ -77,8 +77,8 @@
   },
   {
    "field": "as_of",
-   "value": "2026-10-07",
-   "label": "7 October 2026"
+   "value": "2026-10-14",
+   "label": "14 October 2026"
   },
   {
    "text": ", "
@@ -112,7 +112,7 @@
     "id": "nea_panama",
     "d": "M338.7 101.4L338.8 101.5L338.9 101.8L339.1 101.9L339.2 102.1L340.3 102.6L340.3 102.9L342.1 104.5L343.6 105.8L344.2 106.3L346.8 108.7L348.3 110.0L349.3 111.1L354.9 117.7L355.5 118.3L356.6 119.6L357.3 120.3L357.8 120.8L358.6 122.6L365.1 134.2L366.8 137.9L368.9 142.5L372.0 149.4L372.2 150.7L372.4 150.8L372.5 150.9L372.6 150.9L372.7 150.9L372.9 151.1L373.0 151.2L373.2 151.7L373.2 152.2L372.8 155.0L371.5 156.0L368.6 156.2L365.3 155.0L352.8 148.7L350.1 147.4L345.6 145.2L324.2 135.3L310.8 129.6L306.7 126.4L304.2 124.4L300.4 121.5L297.6 119.3L291.7 113.0L285.3 105.6L282.0 103.9L276.0 100.8L267.5 95.7L265.7 94.6L265.0 94.2L262.1 92.7L260.0 91.6L253.8 88.2L253.4 88.0L252.4 87.5L252.0 87.3L244.5 83.8L241.1 82.1L238.2 80.9L233.1 78.9L228.0 76.8L214.9 71.8L210.0 70.1L204.0 68.1L198.2 66.1L193.7 65.1L192.8 64.9L191.0 64.5L183.2 62.8L180.0 62.3L176.2 61.8L170.8 61.0L162.4 59.9L151.2 57.5L138.4 54.3L132.0 52.8L94.0 65.1L60.0 76.8L49.3 81.5L38.5 87.2L37.1 88.6L35.8 89.3L35.1 88.8L35.5 88.2",
     "pattern": "solid",
-    "accent": true,
+    "accent": false,
     "open": true,
     "label": "via Panama",
     "label_x": 214.9,
@@ -184,15 +184,7 @@
    "text": "The four routes as the distances are measured, each drawn from the same line: Gate in a thin line, Panama solid, Suez dashed and the Cape dotted. Futtsu is at both edges of the map."
   },
   {
-   "text": " The accent is the route the latest cargo nets most by, "
-  },
-  {
-   "field": "best_route",
-   "value": "Panama",
-   "label": "Panama"
-  },
-  {
-   "text": "."
+   "text": " Gate nets the latest cargo most, so no route east is in the accent."
   }
  ],
  "map_scroll_words": "The map is wider than the screen and scrolls sideways: Futtsu by Panama is to the left, Suez and the Cape to the right.",
@@ -226,8 +218,8 @@
    "distance_nm": 14624.2,
    "sea_days": 35.84362745098039,
    "days_total": 73.68725490196078,
-   "canal_laden_usd": 342580.58911999996,
-   "canal_ballast_usd": 291076.02585599996,
+   "canal_laden_usd": 342834.00712,
+   "canal_ballast_usd": 291291.34425599995,
    "open": false,
    "status_words": "closed: no US Gulf cargo reported through the Red Sea after 12 January 2024, so treated as closed"
   },
@@ -257,8 +249,8 @@
   },
   {
    "field": "as_of",
-   "value": "2026-10-07",
-   "label": "7 October 2026"
+   "value": "2026-10-14",
+   "label": "14 October 2026"
   },
   {
    "text": "."
@@ -266,7 +258,7 @@
  ],
  "timeline": {
   "first": "2016-01-01",
-  "last": "2026-10-07",
+  "last": "2026-10-14",
   "rows": [
    {
     "route": "nwe_direct",
@@ -275,7 +267,7 @@
     "bands": [
      {
       "start": "2016-01-01",
-      "end": "2026-10-07",
+      "end": "2026-10-14",
       "state": "open",
       "link_label": null,
       "state_words": "open",
@@ -425,7 +417,7 @@
      },
      {
       "start": "2026-09-04",
-      "end": "2026-10-07",
+      "end": "2026-10-14",
       "state": "restricted",
       "link_label": null,
       "state_words": "open, under restrictions",
@@ -553,7 +545,7 @@
      },
      {
       "start": "2026-08-01",
-      "end": "2026-10-07",
+      "end": "2026-10-14",
       "state": "unknown",
       "link_label": null,
       "state_words": "no source read",
@@ -571,7 +563,7 @@
     "bands": [
      {
       "start": "2016-01-01",
-      "end": "2026-10-07",
+      "end": "2026-10-14",
       "state": "open",
       "link_label": null,
       "state_words": "open",
@@ -598,7 +590,7 @@
   },
   {
    "field": "panama_restricted_days",
-   "value": 329,
+   "value": 336,
    "format": "count"
   },
   {
@@ -606,7 +598,7 @@
   },
   {
    "field": "days_since_suez",
-   "value": 999,
+   "value": 1006,
    "format": "count"
   },
   {
@@ -627,8 +619,8 @@
   },
   {
    "field": "as_of",
-   "value": "2026-10-07",
-   "label": "7 October 2026"
+   "value": "2026-10-14",
+   "label": "14 October 2026"
   },
   {
    "text": ". The engine adds no waiting days at Panama; the analysis sets Panama against the Cape with the waits reported for LNG, in "
@@ -648,8 +640,8 @@
   },
   {
    "field": "as_of",
-   "value": "2026-10-07",
-   "label": "7 October 2026"
+   "value": "2026-10-14",
+   "label": "14 October 2026"
   },
   {
    "text": "."
