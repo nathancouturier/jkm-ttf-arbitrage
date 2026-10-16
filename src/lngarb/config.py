@@ -1413,17 +1413,28 @@ PARAMETERS: Mapping[str, Parameter] = _parameters(
               "when Gatun Lake level is above 85.5 feet'; ADV-42-2023 lets the share run from 0 percent from "
               "1 October 2023",
               "https://pancanal.com/wp-content/uploads/2020/01/ADV-03-2020.pdf", "2026-10-15"),
-    Parameter("panama_gatun_levels_printed", {"2023-09-08": 79.7, "2024-08-07": 85.02},
+    Parameter("panama_gatun_levels_printed", {"2023-09-08": 79.7, "2024-08-09": 85.02},
               "feet of Gatun Lake level, by the day of the summary that prints it", "published",
               "Panama Canal Authority, Monthly Canal Operations Summary for August 2023 (advisory A-40-2023 of "
               "8 September 2023: 'Gatun Lake, now at 24.2 meters (79.7 feet)') and for July 2024 (advisory "
-              "A-27-2024: 'Gatun Lake today is at 85.02 feet (25.91 m)')",
+              "A-27-2024 of 9 August 2024: 'Gatun Lake today is at 85.02 feet (25.91 m)')",
               "https://pancanal.com/wp-content/uploads/2024/08/ADV27-2024-Monthly-Canal-Operations-Summary-July-2024.pdf",
-              "2026-10-15",
-              "The only two readings in the summaries of 2023 to 2026; the Authority's daily history and "
-              "projection of the level sit on a page the study's network cannot reach, and no daily list of "
-              "the share applied is published anywhere found. The day of the July 2024 reading is the "
-              "advisory's own date, since the summary says 'today' and prints no date beside it."),
+              "2026-10-16",
+              "The only two readings in the 240 summaries read, July 2006 to September 2026, and in the "
+              "advisories of 2019 to 2026; the Authority's daily history and projection of the level sit on "
+              "a host the study's network refuses (evtms-rpts.pancanal.com), and no daily list of the share "
+              "applied is published anywhere found. The day of the July 2024 reading is the advisory's own "
+              "date, since the summary says 'today' and prints no date beside it."),
+    Parameter("panama_gatun_level_fiscal_year_average", {"2023": 83.65, "2024": 81.98, "2025": 87.028},
+              "feet of Gatun Lake level, the fiscal year's average, October to September", "published",
+              "Panama Canal Authority, annual reports: FY2023, 'the average Gatun reservoir level during the "
+              "same year was 83.65 feet (25.50 m)'; FY2024, 'The average water level of the Gatun reservoir "
+              "during FY-2024 was 81.98 feet (25.00 m)'; FY2025, 'The average water level of Gatun reservoir "
+              "during FY-2025 was 87.028 feet (26.53 m)'",
+              "https://pancanal.com/wp-content/uploads/2026/02/Informe-2025Eng.pdf", "2026-10-16",
+              "The reports before FY2023 print no average level. A year's average level does not give the "
+              "year's average surcharge, since the curve bends; the Method view prints what the curve gives "
+              "at the average, as a mark."),
     Parameter("vessel_174k_from", "2024-01-02", "date", "published",
               "Spark LNG Freight Methodology 3.8, page 7, change log: '3.5 2 January 2024 - Vessel "
               "Type updated to 174,000 m3 2 Stroke'", _SPARK_38, "2026-10-01",

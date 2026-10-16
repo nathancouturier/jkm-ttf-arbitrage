@@ -112,7 +112,8 @@ const REQUIRED = Object.freeze({
   method: [
     "title_segments", "formulas", "parameters", "parameters_caption", "units", "units_segments", "delivery_segments",
     "energy_segments", "limits", "documents", "type_words", "credits",
-    "fresh_water.segments", "fresh_water.rows", "fresh_water.centres", "fresh_water.readings", "fresh_water.caption",
+    "fresh_water.segments", "fresh_water.rows", "fresh_water.centres", "fresh_water.readings", "fresh_water.yearly",
+    "fresh_water.caption",
   ],
   provenance: [
     "columns", "series", "summary_segments", "table_caption", "manual_heading", "manual_intro", "manual_steps",
@@ -173,6 +174,7 @@ const ROW_FIELDS = Object.freeze({
     "fresh_water.rows": ["level_ft", "shares"],
     "fresh_water.centres": ["from", "centre_ft"],
     "fresh_water.readings": ["day", "level_ft", "share_percent"],
+    "fresh_water.yearly": ["fiscal_year", "level_ft", "share_percent"],
     parameters: ["key", "name", "value_words", "status", "source", "read_on"],
     units: ["words", "value", "format"],
     documents: ["label", "href"],

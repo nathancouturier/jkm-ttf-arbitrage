@@ -47,6 +47,7 @@ PARAMETER_WORDS: Mapping[str, str] = {
     "panama_fresh_water_curve_max_share": "Panama fresh water curve, maximum share",
     "panama_fresh_water_min_share_to_sep_2023": "Panama fresh water curve, minimum share to September 2023",
     "panama_gatun_levels_printed": "Gatun Lake levels the Authority's summaries print",
+    "panama_gatun_level_fiscal_year_average": "Gatun Lake level, average of the fiscal year, from the Authority's annual reports",
     "vessel_174k_from": "First day of the two-stroke benchmark carrier",
     "port_cost_west_usd": "Port costs, Sabine Pass and Gate",
     "port_cost_east_usd": "Port costs, Sabine Pass and Futtsu",
@@ -104,6 +105,11 @@ def value_words(value: Any, unit: str) -> str:
     if isinstance(value, dict):
         if unit.startswith("share"):
             return "; ".join("%s percent from %s" % (_number(float(v) * 100.0), k) for k, v in sorted(value.items()))
+        if unit.startswith("feet"):
+            # Lake levels, by the day printed or by the fiscal year averaged.
+            joiner = "from " if "applies from" in unit else "on "
+            return "; ".join("%s feet %s" % (_number(float(v)), ("in fiscal " + k) if len(k) == 4 else (joiner + _day(k)))
+                             for k, v in sorted(value.items()))
         return "; ".join("%s days in %s" % (_number(float(v)), _day(k)) for k, v in sorted(value.items()))
     if isinstance(value, (tuple, list)):
         if all(isinstance(v, str) for v in value):
@@ -205,6 +211,10 @@ def _fresh_water() -> dict[str, Any]:
     readings = [{"day": day, "level_ft": level,
                  "share_percent": 100.0 * canals.panama_fresh_water_share_at_level(level, day)}
                 for day, level in sorted(printed.items())]
+    averages = config.PARAMETERS["panama_gatun_level_fiscal_year_average"].value
+    yearly = [{"fiscal_year": int(year), "level_ft": level,
+               "share_percent": 100.0 * canals.panama_fresh_water_share_at_level(level, "%s-09-30" % year)}
+              for year, level in sorted(averages.items())]
     held = 100.0 * config.PARAMETERS["panama_fresh_water_variable_share"].value
     segments = [
         reader.T("The variable part of Panama's fresh water surcharge is a share of the tolls set each day from "
@@ -227,10 +237,22 @@ def _fresh_water() -> dict[str, Any]:
         segments += [reader.N("level_" + r["day"], r["level_ft"], "feet"), reader.T(" feet on "),
                      reader.D("level_day_" + r["day"], r["day"]), reader.T(", give "),
                      reader.N("share_" + r["day"], r["share_percent"], "pp"), reader.T(" percent")]
-    segments.append(reader.T(". The table runs the curve at a few levels under each centre; the Model view "
-                             "types any toll, surcharge included."))
+    segments.append(reader.T(". The Authority's annual reports give the fiscal year's average level, "))
+    for index, r in enumerate(yearly):
+        if index:
+            segments.append(reader.T(", "))
+        segments += [reader.N("avg_level_%d" % r["fiscal_year"], r["level_ft"], "feet"), reader.T(" feet in fiscal "),
+                     reader.N("avg_year_%d" % r["fiscal_year"], r["fiscal_year"], "year")]
+    segments.append(reader.T(", at which the curve in force at the year's end gives "))
+    for index, r in enumerate(yearly):
+        if index:
+            segments.append(reader.T(", "))
+        segments.append(reader.N("avg_share_%d" % r["fiscal_year"], r["share_percent"], "pp"))
+    segments.append(reader.T(" percent, a mark and not the year's average surcharge, since the curve bends. The table "
+                             "runs the curve at a few levels under each centre; the Model view types any toll, "
+                             "surcharge included."))
     return {"segments": segments, "rows": rows, "centres": [{"from": s, "centre_ft": centres[s]} for s in starts],
-            "readings": readings, "held_percent": held,
+            "readings": readings, "yearly": yearly, "held_percent": held,
             "caption": "The variable fresh water surcharge as a share of tolls, in percent, that the Authority's "
                        "curve gives at a lake level, under the centre in force from each date; the share is held "
                        "between 1 and 10 percent to September 2023 and 0 and 10 since."}

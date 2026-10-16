@@ -1113,6 +1113,17 @@ view prints the curve at a few levels under each centre and at the two
 levels printed, 8.0 and 0.3 percent. To be revised when the level page is
 reachable or the owner saves its history by hand into data/private/.
 
+Revised 16 October 2026: the 240 summaries and the advisories of 2019 to 2026
+were searched by code for a printed level; the two above are the only ones.
+The Authority's annual reports give the fiscal year's average level from
+FY2023: 83.65 feet, 81.98 in FY2024 and 87.028 in FY2025, recorded as a
+parameter and printed on the Method view with what the curve gives at each,
+a mark and not the year's average surcharge. The daily level host,
+evtms-rpts.pancanal.com, and the hydrology dashboard host are refused by the
+network policy of the machine that builds the site; allowing them, or saving
+the Authority's CSV of historical levels by hand as a user series (sources
+2.25), is what remains.
+
 ### 54. Keeping the Panama Canal Authority's figures
 
 Raised 15 October 2026. **Decided 15 October 2026.**
