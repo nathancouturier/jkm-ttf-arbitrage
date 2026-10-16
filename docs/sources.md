@@ -27,8 +27,8 @@ was decided on the strength of it.
 | `doe_lng_export_cargoes` | US LNG exports and re-exports cargo by cargo from January 2016: departure date, exporter, docket, supplier, ship, port of exit, destination, MMcf | read from the year's page on the [report list](https://www.energy.gov/hgeo/listings/natural-gas-imports-and-exports-monthly-reports); the file's path changes | monthly, with DOE's report | **yes** | US public domain |
 | `eia_henry_hub_daily` | Henry Hub spot price, daily, USD/MMBtu, credited by EIA to Refinitiv | [RNGWHHDd.xls](https://www.eia.gov/dnav/ng/hist_xls/RNGWHHDd.xls) | weekly release, daily values | **yes**, with the doubt in 2.1 | US public domain |
 | `acer_lng_daily` | ACER's DES LNG assessments for NWE, SE and the EU, its EU benchmark to TTF, and the NWE spread to TTF this study computes from them, daily, EUR/MWh, from 19 January 2023 | TERMINAL's historical download, saved by hand, with the [correction notice](https://www.acer.europa.eu/sites/default/files/documents/en/Gas/LNG_Price_Assessment/LNGPA_Correction_Notice_20241220.pdf) | each weekday; extended when the download is saved again | **yes** | ACER legal notice, with the doubt in 2.7 |
-| `ec_eua_auction_monthly` | EU allowance price, monthly volume weighted average auction clearing price, EUR/t, January 2014 to June 2025 | quarterly reports linked from the [Commission's auctioning page](https://climate.ec.europa.eu/areas-action/carbon-markets/eu-emissions-trading-system-eu-ets/auctioning-allowances_en) | quarterly, lagging | **yes** | CC BY 4.0, with the doubt in 2.8 |
-| `dehst_eua_german_auction_monthly` | EU allowance price in Germany's auctions on EEX, monthly average, EUR/t, February 2019 to August 2026, the proxy after June 2025 | the latest report of each year linked from [DEHSt's reports page](https://www.dehst.de/EN/Topics/EU-ETS-1/EU-ETS-1-Information/Analyses-and-Reports/analysis-and-reports_node.html) | monthly, about a month after | **yes**, for non-commercial use, with the doubt in 2.23 | CC BY-NC-ND 4.0, figures credited to EEX and DEHSt |
+| `ec_eua_auction_monthly` | EU allowance price, monthly volume weighted average auction clearing price, EUR/t, November 2012 to June 2025 | quarterly reports linked from the [Commission's auctioning page](https://climate.ec.europa.eu/areas-action/carbon-markets/eu-emissions-trading-system-eu-ets/auctioning-allowances_en) | quarterly, lagging | **yes** | CC BY 4.0, with the doubt in 2.8 |
+| `dehst_eua_german_auction_monthly` | EU allowance price in Germany's auctions on EEX, monthly average, EUR/t, January 2013 to August 2026, the proxy after June 2025 | the latest report of each year linked from [DEHSt's reports page](https://www.dehst.de/EN/Topics/EU-ETS-1/EU-ETS-1-Information/Analyses-and-Reports/analysis-and-reports_node.html) | monthly, about a month after | **yes**, for non-commercial use, with the doubt in 2.23 | CC BY-NC-ND 4.0, figures credited to EEX and DEHSt |
 | `meti_spot_lng_monthly` | Japan spot LNG price, DES, contract-based and arrival-based, monthly, March 2014 to March 2021 | [historical-data-e.xlsx](https://www.meti.go.jp/english/statistics/sho/slng/historical-data-e.xlsx), read once | ended | **yes** | METI terms, compatible with CC BY 4.0 |
 | `meti_spot_lng_releases` | Every figure METI's monthly releases printed, preliminary, detailed and fixed, with the day of each release, for the releases of October 2019 to March 2021 | the release PDFs, saved by hand from [METI's page](https://www.meti.go.jp/english/statistics/sho/slng/index.html) | fixed, the survey has ended | **yes** | METI terms of use, compatible with CC BY 4.0 |
 | `jogmec_spot_lng_monthly` | Japan spot LNG price, DES, contract-based and arrival-based, monthly, from April 2021 | one page per month from JOGMEC's English spot price list page | monthly, 9th to 15th | **NO**, `data/private/` until JOGMEC permits | JOGMEC terms, permission not yet requested |
@@ -1258,14 +1258,23 @@ settles for JOGMEC.
 
 * **Each report's Table 1 covers fifteen months**, so several editions are read
   and each month is taken from the latest that prints it. No two editions
-  disagree on any of the 137 months from January 2014 to June 2025.
+  disagree on any of the 137 months from January 2014 to June 2025, except
+  May 2014, which the 2014 reports print as 5.018 and the report of July 2015
+  as 5.02, a rounding the cache records.
 * **The reports were monthly in 2015 and 2016 and quarterly since**, and the
   first with a monthly Table 1 is the report for January to March 2015, which
-  reaches back to January 2014; the 2013 and 2014 reports print the period's
-  weighted average in their text and the auctions one by one in an annex, with
-  no monthly table, so the series starts in January 2014. Fifty three reports
-  are read for the first build; afterwards only reports newer than the latest
-  the cache holds are fetched, and the committed rows stand for the rest.
+  reaches back to January 2014. The reports of December 2013 to December 2014
+  carry instead an overview table ("Table 3: overview" or "Table 2: Overview")
+  of the months since November 2012, the first month of the platform, or of
+  the latest twelve: the months listed upwards or downwards, the year printed
+  on the first row of each year only, the price a volume weighted average
+  marked with two asterisks, or a simple average marked with one where every
+  auction of the month sold the same volume, as in May to August 2013. The
+  eleven reports before December 2013 print the period's weighted average in
+  their text and the auctions one by one in an annex, with no monthly table.
+  The series starts in November 2012. Sixty six reports are read for the
+  first build; afterwards only reports newer than the latest the cache holds
+  are fetched, and the committed rows stand for the rest.
 * **Months are spelt three ways across the editions**: "March 2015", "Dec.
   2014" and "Sept. 2014" in 2015 and 2016, "December 2016" to 2022, and "Mar
   23" since 2023, with thousands separated by spaces or commas. Every spelling
@@ -1279,13 +1288,24 @@ settles for JOGMEC.
 ### 3.10.1 DEHSt's auctioning reports
 
 * **German auctions only, a proxy for the EU price.** Germany auctions its
-  share weekly on EEX, apart from the common auction platform. Over the 76
-  months both cover, February 2019 to June 2025, the German average is 0.29
-  EUR/t above the Commission's on average, 0.61 EUR/t in absolute terms and
-  2.41 EUR/t at most (August 2022); over January 2024 to June 2025, 0.10, 0.64
-  and 1.40 EUR/t (May 2024). Used only after the Commission's last month.
-* **Reports from 2019 are read**, the first year the page links under the
-  file names read here; 2019's table starts in February, when the German
+  share weekly on EEX, apart from the common auction platform. Over the 147
+  months both cover, January 2013 to June 2025, the German average is 0.13
+  EUR/t above the Commission's on average, 0.37 EUR/t in absolute terms and
+  2.41 EUR/t at most (August 2022); over February 2019 to June 2025, 0.29,
+  0.61 and 2.41; over January 2024 to June 2025, 0.10, 0.64 and 1.40 EUR/t
+  (May 2024). Used only after the Commission's last month.
+* **Reports from 2013 are read.** The reports page links the reports from
+  2019 under the file names read here; those of 2013 to 2018 are listed in
+  the site's sitemap (`Sitemap_Aktuelles.xml`, the one file the sitemap index
+  names), each year's annual report on a landing page that links its PDF, so
+  a first build makes two requests a year for them, thirty seconds apart, and
+  a later build none. Their year tables have the shape of the later ones; the
+  2013 and 2014 tables print no type column and the asterisks before the
+  figures, the 2018 table stops at November, when the year's last auctions
+  were cancelled, and prints its total row's cover ratio and price without
+  their decimal points, so the months are checked against the Total row less
+  the aviation allowances instead. December 2018 and January 2019 are the
+  series' two gaps. 2019's table starts in February, when the German
   auctions resumed after the cancelled auctions of late 2018. The 2019 to
   2023 tables print a space after the asterisks that mark an average, a comma
   for the decimal point now and then (a cover ratio of "2,98"), and once,

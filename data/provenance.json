@@ -196,11 +196,11 @@
    "page_words": "",
    "status": "ok",
    "status_words": "checked",
-   "range_words": "February 2019 to August 2026, monthly",
-   "gaps_words": "none",
+   "range_words": "January 2013 to August 2026, monthly",
+   "gaps_words": "2 months, from December 2018 to January 2019",
    "provisional_words": "none",
-   "fetch_words": "15 October 2026 at 12:02 UTC",
-   "vintage_words": "the fourth quarter report of 2019, the fourth quarter report of 2020, the fourth quarter report of 2021, the fourth quarter report of 2022, the fourth quarter report of 2023, the fourth quarter report of 2024, the fourth quarter report of 2025, the report of August 2026",
+   "fetch_words": "16 October 2026 at 12:01 UTC",
+   "vintage_words": "2013 report annual, 2014 report annual, 2015 report annual, 2016 report annual, 2017 report annual, 2018 report annual, the fourth quarter report of 2019, the fourth quarter report of 2020, the fourth quarter report of 2021, the fourth quarter report of 2022, the fourth quarter report of 2023, the fourth quarter report of 2024, the fourth quarter report of 2025, the report of August 2026",
    "terms_words": "CC BY-NC-ND 4.0 for DEHSt's reports, figures credited to EEX and DEHSt; non-commercial use"
   },
   {
@@ -226,11 +226,11 @@
    "page_words": "",
    "status": "ok",
    "status_words": "checked",
-   "range_words": "January 2014 to June 2025, monthly",
+   "range_words": "November 2012 to June 2025, monthly",
    "gaps_words": "1 month, from January 2021 to January 2021",
    "provisional_words": "none",
-   "fetch_words": "15 October 2026 at 11:59 UTC",
-   "vintage_words": "reports March 2015 to June 2025",
+   "fetch_words": "16 October 2026 at 11:51 UTC",
+   "vintage_words": "reports December 2013 to June 2025",
    "terms_words": "CC BY 4.0"
   },
   {

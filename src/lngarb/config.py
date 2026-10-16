@@ -1611,10 +1611,10 @@ PARAMETERS: Mapping[str, Parameter] = _parameters(
               "https://www.dehst.de/EN/Topics/EU-ETS-1/EU-ETS-1-Information/Analyses-and-Reports/analysis-and-reports_node.html",
               "2026-10-08",
               "The Commission's reports stop in June 2025; DEHSt's German auction averages follow, "
-              "as a proxy, to August 2026 (open question 20). Over the 76 months both cover, February "
-              "2019 to June 2025, the German average is 0.29 EUR/t above the Commission's on average, "
-              "0.61 in absolute terms and 2.41 at most, in August 2022; over January 2024 to June "
-              "2025, 0.10, 0.64 and 1.40."),
+              "as a proxy, to August 2026 (open question 20). Over the 147 months both cover, January "
+              "2013 to June 2025, the German average is 0.13 EUR/t above the Commission's on average, "
+              "0.37 in absolute terms and 2.41 at most, in August 2022; over February 2019 to June "
+              "2025, 0.29, 0.61 and 2.41; over January 2024 to June 2025, 0.10, 0.64 and 1.40."),
     Parameter("suez_scnt_per_m3", 85_000.0 / 145_000.0, "tons of Suez Canal Net Tonnage per m3 of capacity",
               "assumption",
               "this study, from a canal agency's approximation, 'ca 85.000 SCNT (145.000m3; 75.000dwt)' "

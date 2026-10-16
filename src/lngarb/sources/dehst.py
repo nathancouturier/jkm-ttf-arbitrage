@@ -44,11 +44,15 @@ PAGE_URL = (
     "https://www.dehst.de/EN/Topics/EU-ETS-1/EU-ETS-1-Information/Analyses-and-Reports/"
     "analysis-and-reports_node.html"
 )
-#: The first year read: 2019, the first year whose reports the page links under
-#: the file names read here. Shipping enters the EU ETS in 2024; the earlier
-#: years measure the German average against the Commission's over every month
-#: both cover.
-FIRST_YEAR = 2019
+#: The first year read: 2013, the first year DEHSt's annual report prints the
+#: year table. The reports page links the reports from 2019; those of 2013 to
+#: 2018 are listed in the site's sitemap, each year's annual report read.
+#: Shipping enters the EU ETS in 2024; the earlier years measure the German
+#: average against the Commission's over every month both cover.
+FIRST_YEAR = 2013
+#: The first year the reports page links; the years before are found in the sitemap.
+PAGE_FIRST_YEAR = 2019
+SITEMAP_URL = "https://www.dehst.de/Sitemap_Aktuelles.xml"
 #: robots.txt asks for "Crawl-delay: 30".
 DELAY_SECONDS = 31.0
 
@@ -58,6 +62,11 @@ _LINK = re.compile(
     r'href="(https://www\.dehst\.de/SharedDocs/downloads/EN/auctioning/(\d{4})/'
     r'(\d{4})_report_(\d{2}|Q[1-4])\.pdf[^"]*)"'
 )
+#: The sitemap's entry for a year's annual report, a landing page that links the PDF.
+_SITEMAP_ANNUAL = re.compile(
+    r"<loc>(https://www\.dehst\.de/SharedDocs/downloads/EN/auctioning/(\d{4})/Auctioning_(\d{4})_annual-report\.html)</loc>"
+)
+_PDF_ON_PAGE = re.compile(r'href="([^"]*Auctioning_\d{4}_annual-report\.pdf[^"]*)"')
 _MONTHS = ("January", "February", "March", "April", "May", "June", "July",
            "August", "September", "October", "November", "December")
 #: One row of the year table. Reports to 2024 add a type column, EUA or EUAA
@@ -96,8 +105,32 @@ def report_links(page_html: bytes | str) -> dict[tuple[int, str], str]:
     return links
 
 
+def sitemap_annual_pages(sitemap_xml: bytes | str, *, before: int = PAGE_FIRST_YEAR) -> dict[tuple[int, str], str]:
+    """(year, "annual") -> the landing page of the year's annual report, for the years before the page links any."""
+    if isinstance(sitemap_xml, bytes):
+        sitemap_xml = sitemap_xml.decode("utf-8", errors="replace")
+    pages: dict[tuple[int, str], str] = {}
+    for url, folder, year in _SITEMAP_ANNUAL.findall(sitemap_xml):
+        if folder == year and FIRST_YEAR <= int(year) < before:
+            pages[(int(year), "annual")] = url
+    return pages
+
+
+def pdf_on_page(page_html: bytes | str, *, year: int) -> str:
+    """The address of the annual report's PDF, from its landing page."""
+    if isinstance(page_html, bytes):
+        page_html = page_html.decode("utf-8", errors="replace")
+    found = _PDF_ON_PAGE.findall(page_html)
+    if not found:
+        raise SourceError("the landing page of the %d annual report links no PDF" % year)
+    href = found[0].replace("&amp;", "&")
+    return href if href.startswith("http") else "https://www.dehst.de" + href
+
+
 def _last_month(report: str) -> int:
-    """The last month a report covers: its month, or the quarter's third month."""
+    """The last month a report covers: its month, the quarter's third month, or December for an annual report."""
+    if report == "annual":
+        return 12
     return 3 * int(report[1]) if report.startswith("Q") else int(report)
 
 
@@ -105,7 +138,9 @@ def latest_per_year(links: dict[tuple[int, str], str], *, first_year: int = FIRS
     """year -> (report id, URL) of the report covering the most months of that year."""
     chosen: dict[int, tuple[str, str]] = {}
     for (year, report), url in links.items():
-        if year < first_year:
+        if year < first_year or (year < PAGE_FIRST_YEAR and report != "annual"):
+            # before the page's first year only the annual reports are read;
+            # the page's stray links to a few older monthly reports are left
             continue
         if year not in chosen or _last_month(report) > _last_month(chosen[year][0]):
             chosen[year] = (report, url)
@@ -141,15 +176,11 @@ def parse_year_table(text: str, *, year: int, report: str) -> pd.DataFrame:
     lines = [line.strip() for line in text[start:end].splitlines()]
     used: set[int] = set()
     eua_total: int | None = None
+    euaa_total: int | None = None
     aviation = 0
     for i, line in enumerate(lines):
         match = _ROW.match(line)
         if not match:
-            continue
-        if match.group("type") == "EUAA":
-            # aviation allowances: counted, to take them out of the Total
-            # row, and never read as a month's price
-            aviation += int(match.group("volume").replace(",", ""))
             continue
         month = match.group("month")
         if month is None:
@@ -160,9 +191,20 @@ def parse_year_table(text: str, *, year: int, report: str) -> pd.DataFrame:
             if not beside:
                 if match.group("type") == "EUA":
                     eua_total = int(match.group("volume").replace(",", ""))
+                elif match.group("type") == "EUAA":
+                    euaa_total = int(match.group("volume").replace(",", ""))
+                continue
+            if match.group("type") == "EUAA":
+                # a month's aviation allowances: counted, to take them out of
+                # the Total row, never read as the month's price, and the
+                # month's name left to the general allowances' row
+                aviation += int(match.group("volume").replace(",", ""))
                 continue
             used.add(beside[0])
             month = lines[beside[0]]
+        elif match.group("type") == "EUAA":
+            aviation += int(match.group("volume").replace(",", ""))
+            continue
         volume = int(match.group("volume").replace(",", ""))
         printed = match.group("price")
         if _PRICE_AS_PRINTED.match(printed):
@@ -189,8 +231,11 @@ def parse_year_table(text: str, *, year: int, report: str) -> pd.DataFrame:
     totals = [_TOTAL.match(line) for line in lines]
     total = next((int(m.group(1).replace(",", "")) for m in totals if m), None)
     # The Total row counts every allowance, aviation ones included, unless the
-    # table gives general allowances a total row of their own.
-    expected = eua_total if eua_total is not None else (None if total is None else total - aviation)
+    # table gives general allowances a total row of their own; the 2018 table
+    # prints that row's figures without their decimal points, so the aviation
+    # total row, or the months' aviation rows, are taken out of the Total instead.
+    expected = eua_total if eua_total is not None else (
+        None if total is None else total - (euaa_total if euaa_total is not None else aviation))
     if expected is not None and sum(row["auction_volume"] for row in rows) != expected:
         raise SourceError(
             "report %d_%s: the months' volumes add up to %d, the year table's total of general allowances "
@@ -200,7 +245,10 @@ def parse_year_table(text: str, *, year: int, report: str) -> pd.DataFrame:
     # auctions began on 1 February after the cancelled auctions of late 2018.
     if not rows or months != list(range(months[0], months[0] + len(rows))):
         raise SourceError("report %d_%s: the year table's months are %s, not consecutive" % (year, report, months))
-    if months[-1] < _last_month(report):
+    # An annual report's table may stop before December, as 2018's does at
+    # November, when the year's last auctions were cancelled: the months
+    # after it are missing, which the manifest's gaps record.
+    if months[-1] < _last_month(report) and report != "annual":
         raise SourceError(
             "report %d_%s covers to month %d but its table stops at %d" % (year, report, _last_month(report), months[-1])
         )
@@ -226,17 +274,17 @@ class DehstEuaGermanAuctionMonthly(Adapter):
     min_observations = {"eua_eur_t": 12, "auction_volume": 12, "revenue_eur": 12}
     observation_column = "eua_eur_t"
 
-    def __init__(self, *, page: bytes | None = None, reports: dict[tuple[int, str], bytes | str] | None = None):
-        # page and reports stand in for the network in a run without it; a
-        # report is its PDF, or the text of its year table
+    def __init__(self, *, page: bytes | None = None, reports: dict[tuple[int, str], bytes | str] | None = None,
+                 sitemap: bytes | None = None):
+        # page, sitemap and reports stand in for the network in a run without
+        # it; a report is its PDF, or the text of its year table
         self.page = page
         self.reports = reports
+        self.sitemap = sitemap
 
     def fetch(self) -> pd.DataFrame:
         page = self.page if self.page is not None else http_get(PAGE_URL, delay=DELAY_SECONDS).content
-        chosen = latest_per_year(report_links(page))
-        if not chosen:
-            raise SourceError("the reports page links no report from %d" % FIRST_YEAR)
+        links = report_links(page)
         # A year whose latest report the committed cache already read is kept
         # from the cache; only a year with a later report, or none held, is
         # fetched, with the thirty seconds DEHSt asks for between requests.
@@ -246,6 +294,20 @@ class DehstEuaGermanAuctionMonthly(Adapter):
             existing["date"] = pd.to_datetime(existing["date"])
             for year, group in existing.groupby(existing["date"].dt.year):
                 held[int(year)] = str(group["report"].iloc[-1])
+        # The years before the page's first come from the sitemap, one annual
+        # report each; a year the cache holds is kept without a request.
+        older = [year for year in range(FIRST_YEAR, PAGE_FIRST_YEAR) if held.get(year) != "%d_report_annual" % year]
+        if self.reports is not None:
+            links.update({key: "" for key in self.reports if key[1] == "annual"})
+        elif older:
+            sitemap = self.sitemap if self.sitemap is not None else http_get(SITEMAP_URL, delay=DELAY_SECONDS).content
+            links.update(sitemap_annual_pages(sitemap))
+        for year in range(FIRST_YEAR, PAGE_FIRST_YEAR):
+            if year not in older:
+                links.setdefault((year, "annual"), "")
+        chosen = latest_per_year(links)
+        if not chosen:
+            raise SourceError("the reports page links no report from %d" % FIRST_YEAR)
         frames = []
         read = []
         for year, (report, url) in sorted(chosen.items()):
@@ -255,6 +317,10 @@ class DehstEuaGermanAuctionMonthly(Adapter):
                 continue
             if self.reports is not None:
                 payload = self.reports[(year, report)]
+            elif report == "annual":
+                # the sitemap gives the landing page; the PDF is linked from it
+                landing = http_get(url, timeout=120, delay=DELAY_SECONDS).content
+                payload = http_get(pdf_on_page(landing, year=year), timeout=180, delay=DELAY_SECONDS).content
             else:
                 payload = http_get(url, timeout=120, delay=DELAY_SECONDS).content
             if isinstance(payload, str):
@@ -266,9 +332,10 @@ class DehstEuaGermanAuctionMonthly(Adapter):
         self.vintage = ", ".join("%d_report_%s" % (year, report) for year, (report, _url) in sorted(chosen.items()))
         self.note = (
             "German auctions on EEX only, a proxy for the EU price: each month's average "
-            "price as DEHSt's latest report of each year prints it (%s); %s. Source: EEX, DEHSt; "
-            "DEHSt's texts are licensed CC BY-NC-ND 4.0, and the figures are kept unchanged "
-            "for non-commercial use." % (
+            "price as DEHSt's latest report of each year prints it (%s), the annual reports of 2013 "
+            "to 2018 found in the site's sitemap, the later reports on its reports page; %s. Source: "
+            "EEX, DEHSt; DEHSt's texts are licensed CC BY-NC-ND 4.0, and the figures are kept "
+            "unchanged for non-commercial use." % (
                 self.vintage,
                 ("%d report(s) read this run, %s" % (len(read), ", ".join(read))) if read
                 else "no report newer than the committed cache holds, nothing read this run",

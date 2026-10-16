@@ -401,7 +401,11 @@ the German average is 0.10 EUR/t above the Commission's on average and 1.40 at
 most (revised 15 October 2026: DEHSt's reports are now read from 2019, and
 over the 76 months both cover, February 2019 to June 2025, the German average
 is 0.29 EUR/t above the Commission's on average, 0.61 in absolute terms and
-2.41 at most, in August 2022, the month of the European gas crisis's peak).
+2.41 at most, in August 2022, the month of the European gas crisis's peak;
+revised 16 October 2026: DEHSt's annual reports of 2013 to 2018, found in
+its sitemap, take the German series back to January 2013, and over the 147
+months both cover the German average is 0.13 EUR/t above the Commission's,
+0.37 in absolute terms, 2.41 at most).
 After DEHSt's last month, August 2026, 82.31 EUR/t, that month is held,
 labelled an assumption, and the result is shown at 61 and 86 EUR/t, the range
 of 2025 the Commission's electricity market report for the fourth quarter of
@@ -1088,6 +1092,16 @@ September 2021); and no public weekly JKM exists before that issue.
 
 Decision: the extensions above are committed; the four shortfalls are named
 here and taken up as each source is read.
+
+Revised 16 October 2026: the Commission's reports of December 2013 to
+December 2014 do print a monthly table, an overview from November 2012 that
+the first reading missed; the allowance price now runs from November 2012,
+the first month of the common auction platform, with the months whose
+auctions sold equal volumes marked as the simple averages the reports print
+them as. DEHSt's reports before 2019 are listed in its sitemap, not on its
+reports page; their annual reports' year tables are now read, and the German
+series runs from January 2013, with December 2018 and January 2019 missing,
+the months of the cancelled auctions.
 
 ### 53. The fresh water surcharge's curve, and the lake level it needs
 

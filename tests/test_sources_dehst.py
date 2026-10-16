@@ -191,6 +191,54 @@ EARLIER = {(2019, "Q4"): TABLE_2019, (2020, "Q4"): TABLE_2020, (2021, "Q4"): TAB
            (2022, "Q4"): TABLE_2022, (2023, "Q4"): TABLE_2023}
 
 
+# The 2013 annual report's table: no type column, the asterisks before the figures,
+# a space between the asterisks and the euro sign on the weighted rows.
+TABLE_2013 = "\n".join([
+    "Table 1: Overview of the entire year 2013",
+    "January 9,045,000 23,962,000 **2.71 *15 *12 ** {e}4.71 {e}42,612,000",
+    "February 15,075,000 40,245,000 *2.67 *16 *11 *{e}4.14 {e}62,460,750",
+    "March 20,100,000 44,931,000 *2.24 *19 *14 *{e}4.12 {e}82,862,250",
+    "April 16,080,000 33,578,000 *2.09 *18 *11 *{e}3.88 {e}62,310,000",
+    "May 20,100,000 53,848,000 *2.68 *18 *13 *{e}3.46 {e}69,465,600",
+    "June 16,080,000 42,437,000 *2.64 *17 *11 *{e}4.29 {e}68,983,200",
+    "July 16,080,000 43,575,500 *2.71 *18 *14 *{e}4.17 {e}67,093,800",
+    "August 10,050,000 42,789,000 *4.26 *17 *11 *{e}4.43 {e}44,501,400",
+    "September 16,080,000 43,883,000 *2.73 *20 *16 *{e}5.28 {e}84,822,000",
+    "October 16,080,000 67,292,000 *4.19 *19 *16 *{e}4.86 {e}78,189,000",
+    "November 20,100,000 71,270,500 *3.54 *18 *16 *{e}4.54 {e}91,294,200",
+    "December 7,690,500 21,700,500 **2.82 *24 *19 **{e}4.77 {e}36,659,220",
+    "Source: EEX, DEHSt",
+]).format(e=EURO)
+
+
+def test_the_2013_annual_table_reads_without_a_type_column():
+    frame = dehst.parse_year_table(TABLE_2013, year=2013, report="annual").set_index("date")
+    assert len(frame) == 12
+    assert frame.loc[pd.Timestamp("2013-01-01"), "eua_eur_t"] == 4.71
+    assert frame.loc[pd.Timestamp("2013-01-01"), "average"] == "volume weighted"
+    assert frame.loc[pd.Timestamp("2013-02-01"), "average"] == "simple"
+    assert frame.loc[pd.Timestamp("2013-12-01"), "eua_eur_t"] == 4.77
+    assert frame["report"].unique().tolist() == ["2013_report_annual"]
+
+
+def test_the_sitemap_names_the_annual_reports_before_2019_and_their_pages_link_the_pdf():
+    sitemap = "\n".join([
+        "<urlset><url><loc>https://www.dehst.de/SharedDocs/downloads/EN/auctioning/2018/Auctioning_2018_annual-report.html</loc></url>",
+        "<url><loc>https://www.dehst.de/SharedDocs/downloads/EN/auctioning/2018/2018_report_10.html</loc></url>",
+        "<url><loc>https://www.dehst.de/SharedDocs/downloads/EN/auctioning/2013/Auctioning_2013_annual-report.html</loc></url>",
+        "<url><loc>https://www.dehst.de/SharedDocs/downloads/EN/auctioning/2019/Auctioning_2019_annual-report.html</loc></url>",
+        "<url><loc>https://www.dehst.de/SharedDocs/downloads/EN/auctioning/2012/Auctioning_2012_annual-report.html</loc></url></urlset>",
+    ])
+    pages = dehst.sitemap_annual_pages(sitemap)
+    assert sorted(pages) == [(2013, "annual"), (2018, "annual")]
+    landing = '<a href="/SharedDocs/downloads/EN/auctioning/2018/Auctioning_2018_annual-report.pdf?__blob=publicationFile&amp;v=2">PDF</a>'
+    assert dehst.pdf_on_page(landing, year=2018) == (
+        "https://www.dehst.de/SharedDocs/downloads/EN/auctioning/2018/Auctioning_2018_annual-report.pdf?__blob=publicationFile&v=2")
+    # Before 2019 only an annual report is chosen; the page's stray older monthly links are not.
+    assert dehst.latest_per_year({(2013, "10"): "a", (2013, "annual"): "b", (2019, "Q4"): "c"}) == {
+        2013: ("annual", "b"), 2019: ("Q4", "c")}
+
+
 def test_the_latest_report_of_each_year_is_chosen():
     links = dehst.report_links(PAGE)
     chosen = dehst.latest_per_year(links)
@@ -327,15 +375,19 @@ def test_the_2020_to_2023_tables_read_twelve_months_each():
 
 def test_the_committed_series_and_its_overlap_with_the_commission():
     german = base.read_cache("dehst_eua_german_auction_monthly").set_index("date")["eua_eur_t"]
-    assert german.index.min() == pd.Timestamp("2019-02-01")
+    assert german.index.min() == pd.Timestamp("2013-01-01")
+    assert german[pd.Timestamp("2013-01-01")] == 4.71 and german[pd.Timestamp("2018-11-01")] == 17.70
+    assert pd.Timestamp("2018-12-01") not in german.index and pd.Timestamp("2019-01-01") not in german.index
     assert german[pd.Timestamp("2025-07-01")] == 70.01
     common = base.read_cache("ec_eua_auction_monthly").set_index("date")["eua_eur_t"].dropna()
     both = pd.concat([common.rename("eu"), german.rename("de")], axis=1).dropna()
     gap = (both["de"] - both["eu"]).round(2)
-    assert len(both) == 76
-    assert both.index.min() == pd.Timestamp("2019-02-01") and both.index.max() == pd.Timestamp("2025-06-01")
-    assert round(gap.mean(), 2) == 0.29 and round(gap.abs().mean(), 2) == 0.61 and gap.abs().max() == 2.41
+    assert len(both) == 147
+    assert both.index.min() == pd.Timestamp("2013-01-01") and both.index.max() == pd.Timestamp("2025-06-01")
+    assert round(gap.mean(), 2) == 0.13 and round(gap.abs().mean(), 2) == 0.37 and gap.abs().max() == 2.41
     assert gap.abs().idxmax() == pd.Timestamp("2022-08-01")
+    since_2019 = gap[gap.index >= pd.Timestamp("2019-02-01")]
+    assert len(since_2019) == 76 and round(since_2019.mean(), 2) == 0.29 and round(since_2019.abs().mean(), 2) == 0.61
     recent = gap[gap.index >= pd.Timestamp("2024-01-01")]
     assert len(recent) == 18
     assert round(recent.mean(), 2) == 0.10 and round(recent.abs().mean(), 2) == 0.64 and recent.abs().max() == 1.40
