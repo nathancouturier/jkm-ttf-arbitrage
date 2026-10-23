@@ -265,10 +265,6 @@
   {
    "month": "2021-11-01",
    "reason": "2 weekly average(s) in the month, fewer than 3"
-  },
-  {
-   "month": "2026-10-01",
-   "reason": "2 weekly average(s) in the month, fewer than 3"
   }
  ],
  "freight_anchors": [
@@ -978,7 +974,7 @@
     "2026-09-23",
     "2026-09-30",
     "2026-10-07",
-    null,
+    "2026-10-14",
     "2026-10-21"
    ],
    "spread": [
@@ -1242,7 +1238,7 @@
     1.26,
     1.71,
     1.01,
-    null,
+    -1.34,
     0.61
    ],
    "s_low": [
@@ -1506,7 +1502,7 @@
     1.776972,
     0.91622,
     -0.426913,
-    null,
+    0.152301,
     0.173532
    ],
    "s_central": [
@@ -1770,7 +1766,7 @@
     2.008275,
     1.147523,
     -0.19561,
-    null,
+    0.383604,
     0.404835
    ],
    "s_high": [
@@ -2034,7 +2030,7 @@
     2.660128,
     1.799376,
     0.456243,
-    null,
+    1.035457,
     1.056688
    ],
    "route": [
@@ -2298,7 +2294,7 @@
     "panama",
     "panama",
     "panama",
-    null,
+    "panama",
     "panama"
    ],
    "h_star": [
@@ -2562,7 +2558,7 @@
     -87945.612977,
     145810.92487,
     260505.710215,
-    null,
+    -261883.549244,
     82088.719969
    ],
    "alignment": [
@@ -2826,7 +2822,7 @@
     "misaligned",
     "mixed",
     "aligned",
-    null,
+    "aligned",
     "mixed"
    ],
    "reported_hire": [
@@ -3090,7 +3086,7 @@
     25250.0,
     31500.0,
     31500.0,
-    null,
+    31500.0,
     null
    ],
    "reported_open": [
@@ -3354,7 +3350,7 @@
     false,
     true,
     true,
-    null,
+    false,
     null
    ],
    "boil_off": [
@@ -3618,7 +3614,7 @@
     0.472527,
     0.454303,
     0.465576,
-    null,
+    0.516304,
     0.537535
    ],
    "regas": [
@@ -3882,7 +3878,7 @@
     1.001138,
     0.158325,
     -1.196922,
-    null,
+    -0.668395,
     -0.668395
    ],
    "voyage": [
@@ -4146,7 +4142,7 @@
     0.53461,
     0.534895,
     0.535736,
-    null,
+    0.535695,
     0.535695
    ],
    "ranges": [
@@ -4219,7 +4215,7 @@
       },
       {
        "field": "weeks",
-       "value": 243,
+       "value": 244,
        "format": "count"
       },
       {
@@ -4432,7 +4428,7 @@
       },
       {
        "field": "weeks_near",
-       "value": 159,
+       "value": 160,
        "format": "count"
       },
       {
@@ -4542,7 +4538,7 @@
       },
       {
        "field": "weeks_with_parts",
-       "value": 243,
+       "value": 244,
        "format": "count"
       },
       {
@@ -4550,7 +4546,7 @@
       },
       {
        "field": "mean_s",
-       "value": 0.490645,
+       "value": 0.490206,
        "format": "usd_mmbtu",
        "signed": true
       },
@@ -4559,7 +4555,7 @@
       },
       {
        "field": "mean_boil_off",
-       "value": 0.411081,
+       "value": 0.411512,
        "format": "usd_mmbtu",
        "signed": true
       },
@@ -4568,7 +4564,7 @@
       },
       {
        "field": "mean_regas",
-       "value": -0.550089,
+       "value": -0.550574,
        "format": "usd_mmbtu",
        "signed": true
       },
@@ -4577,7 +4573,7 @@
       },
       {
        "field": "mean_voyage",
-       "value": 0.629653,
+       "value": 0.629268,
        "format": "usd_mmbtu",
        "signed": true
       },
@@ -4648,8 +4644,8 @@
       {
        "year": 2026,
        "open": 28,
-       "count": 41,
-       "ttf_above": 14
+       "count": 42,
+       "ttf_above": 15
       }
      ]
     },
@@ -5207,7 +5203,7 @@
       },
       {
        "field": "weeks",
-       "value": 133,
+       "value": 134,
        "format": "count"
       },
       {
@@ -5218,7 +5214,7 @@
       },
       {
        "field": "worst_year",
-       "value": 2025,
+       "value": 2026,
        "format": "year"
       },
       {
@@ -5226,7 +5222,7 @@
       },
       {
        "field": "worst_open",
-       "value": 31,
+       "value": 28,
        "format": "count"
       },
       {
@@ -5234,7 +5230,7 @@
       },
       {
        "field": "worst_weeks",
-       "value": 46,
+       "value": 42,
        "format": "count"
       },
       {
@@ -5242,7 +5238,7 @@
       },
       {
        "field": "worst_ttf_above",
-       "value": 8,
+       "value": 15,
        "format": "count"
       },
       {
@@ -5420,7 +5416,7 @@
       },
       {
        "field": "weeks_near",
-       "value": 86,
+       "value": 87,
        "format": "count"
       },
       {
@@ -5519,7 +5515,7 @@
       },
       {
        "field": "weeks_with_parts",
-       "value": 133,
+       "value": 134,
        "format": "count"
       },
       {
@@ -5527,7 +5523,7 @@
       },
       {
        "field": "mean_s",
-       "value": 0.34468,
+       "value": 0.34497,
        "format": "usd_mmbtu",
        "signed": true
       },
@@ -5536,7 +5532,7 @@
       },
       {
        "field": "mean_boil_off",
-       "value": 0.249795,
+       "value": 0.251784,
        "format": "usd_mmbtu",
        "signed": true
       },
@@ -5545,7 +5541,7 @@
       },
       {
        "field": "mean_regas",
-       "value": -0.452692,
+       "value": -0.454302,
        "format": "usd_mmbtu",
        "signed": true
       },
@@ -5554,7 +5550,7 @@
       },
       {
        "field": "mean_voyage",
-       "value": 0.547577,
+       "value": 0.547488,
        "format": "usd_mmbtu",
        "signed": true
       },
@@ -5607,8 +5603,8 @@
       {
        "year": 2026,
        "open": 28,
-       "count": 41,
-       "ttf_above": 14
+       "count": 42,
+       "ttf_above": 15
       }
      ]
     },
@@ -5685,7 +5681,7 @@
       },
       {
        "field": "weeks",
-       "value": 48,
+       "value": 49,
        "format": "count"
       },
       {
@@ -5712,7 +5708,7 @@
       },
       {
        "field": "worst_weeks",
-       "value": 41,
+       "value": 42,
        "format": "count"
       },
       {
@@ -5720,7 +5716,7 @@
       },
       {
        "field": "worst_ttf_above",
-       "value": 14,
+       "value": 15,
        "format": "count"
       },
       {
@@ -5898,7 +5894,7 @@
       },
       {
        "field": "weeks_near",
-       "value": 26,
+       "value": 27,
        "format": "count"
       },
       {
@@ -5983,7 +5979,7 @@
       },
       {
        "field": "weeks_with_parts",
-       "value": 48,
+       "value": 49,
        "format": "count"
       },
       {
@@ -5991,7 +5987,7 @@
       },
       {
        "field": "mean_s",
-       "value": 0.287986,
+       "value": 0.289938,
        "format": "usd_mmbtu",
        "signed": true
       },
@@ -6000,7 +5996,7 @@
       },
       {
        "field": "mean_boil_off",
-       "value": 0.307902,
+       "value": 0.312155,
        "format": "usd_mmbtu",
        "signed": true
       },
@@ -6009,7 +6005,7 @@
       },
       {
        "field": "mean_regas",
-       "value": -0.559546,
+       "value": -0.561767,
        "format": "usd_mmbtu",
        "signed": true
       },
@@ -6018,7 +6014,7 @@
       },
       {
        "field": "mean_voyage",
-       "value": 0.53963,
+       "value": 0.53955,
        "format": "usd_mmbtu",
        "signed": true
       },
@@ -6065,8 +6061,8 @@
       {
        "year": 2026,
        "open": 28,
-       "count": 41,
-       "ttf_above": 14
+       "count": 42,
+       "ttf_above": 15
       }
      ]
     }
@@ -6202,7 +6198,8 @@
     "2026-06-15",
     "2026-07-15",
     "2026-08-15",
-    "2026-09-15"
+    "2026-09-15",
+    "2026-10-15"
    ],
    "spread": [
     2.7,
@@ -6333,7 +6330,8 @@
     2.2075,
     0.956,
     1.0975,
-    -0.114
+    -0.114,
+    0.093333
    ],
    "s_low": [
     -0.444384,
@@ -6464,7 +6462,8 @@
     0.77527,
     -0.034305,
     -0.0516,
-    0.338772
+    0.338772,
+    0.142468
    ],
    "s_central": [
     0.770653,
@@ -6595,7 +6594,8 @@
     1.006573,
     0.196998,
     0.179703,
-    0.570075
+    0.570075,
+    0.373771
    ],
    "s_high": [
     6.068311,
@@ -6726,7 +6726,8 @@
     1.658426,
     0.848851,
     0.831556,
-    1.221928
+    1.221928,
+    1.025624
    ],
    "route": [
     "cape",
@@ -6800,6 +6801,7 @@
     "panama",
     "panama",
     null,
+    "panama",
     "panama",
     "panama",
     "panama",
@@ -6988,10 +6990,11 @@
     "weekly_mean_wngsr",
     "weekly_mean_wngsr",
     "weekly_mean_wngsr",
+    "weekly_mean_wngsr",
     "weekly_mean_wngsr"
    ],
    "first": "2016-01-15",
-   "last": "2026-09-15",
+   "last": "2026-10-15",
    "y": {
     "low": -20.0,
     "high": 20.0,
@@ -7061,7 +7064,7 @@
     },
     {
      "field": "months",
-     "value": 118,
+     "value": 119,
      "format": "count"
     },
     {
@@ -7117,8 +7120,8 @@
     },
     {
      "field": "last_month",
-     "value": "2026-09-15",
-     "label": "September 2026"
+     "value": "2026-10-15",
+     "label": "October 2026"
     },
     {
      "text": ", over the band of S* of the cheapest open route east from the low to the high hire, with a dashed line at the central hire. A month with no observation is a gap in the line."
@@ -7138,7 +7141,7 @@
     },
     {
      "field": "cheapest_count_panama",
-     "value": 114,
+     "value": 115,
      "format": "count"
     },
     {
@@ -7252,7 +7255,7 @@
     {
      "year": 2026,
      "open": 6,
-     "count": 9,
+     "count": 10,
      "ttf_above": 4
     }
    ],
@@ -8727,6 +8730,10 @@
  ["2026-09-15","monthly","weekly_mean_wngsr","mean of the month's weekly averages: Supplement: JKM product not named; TTF product not named",null,null,"high",161750.0,25.074,25.188,-0.114,-0.428717,2.95,"174,000 m3 two-stroke",22.977301,"panama",-1.281857,1.221928,19.584801,false,true,1.221928,0.473241,-0.436772,1.185458,-76496.317946,-1.281857,false,2.815175,1.07988,-0.447097,2.182392,-67176.314648,-2.745709,true,3.053319,1.220818,-0.449496,2.281998,-57211.087021,-2.953092],
  ["2026-09-15","monthly","weekly_mean_wngsr","mean of the month's weekly averages: Supplement: JKM product not named; TTF product not named",null,null,"low",4250.0,25.074,25.188,-0.114,-0.428717,2.95,"174,000 m3 two-stroke",24.032417,"panama",-0.434446,0.338772,20.639917,false,true,0.338772,0.473241,-0.436772,0.302303,-76496.317946,-0.434446,false,0.799919,1.07988,-0.447097,0.167137,-67176.314648,-0.856677,true,0.775048,1.220818,-0.449496,0.003726,-57211.087021,-0.828916],
  ["2026-09-15","monthly","weekly_mean_wngsr","mean of the month's weekly averages: Supplement: JKM product not named; TTF product not named",null,null,"reported",25250.0,25.074,25.188,-0.114,-0.428717,2.95,"174,000 m3 two-stroke",23.891735,"panama",-0.547434,0.456526,20.499235,false,true,0.456526,0.473241,-0.436772,0.420057,-76496.317946,-0.547434,false,1.06862,1.07988,-0.447097,0.435837,-67176.314648,-1.108548,true,1.078817,1.220818,-0.449496,0.307496,-57211.087021,-1.112139],
+ ["2026-10-15","monthly","weekly_mean_wngsr","mean of the month's weekly averages: Supplement: JKM product not named; TTF product not named",null,null,"central",45500.0,27.05,26.956667,0.093333,-0.656069,2.9725,"174,000 m3 two-stroke",25.264175,"panama",-0.269087,0.373771,21.8458,false,true,0.373771,0.506472,-0.668395,0.535695,-4512.647536,-0.269087,false,1.168857,1.155708,-0.684196,0.697346,-38556.329557,-1.008159,true,1.221673,1.306542,-0.687867,0.602998,-32503.651321,-1.052023],
+ ["2026-10-15","monthly","weekly_mean_wngsr","mean of the month's weekly averages: Supplement: JKM product not named; TTF product not named",null,null,"high",161750.0,27.05,26.956667,0.093333,-0.656069,2.9725,"174,000 m3 two-stroke",24.485399,"panama",-0.894557,1.025624,21.067024,false,true,1.025624,0.506472,-0.668395,1.187548,-4512.647536,-0.894557,false,2.656308,1.155708,-0.684196,2.184796,-38556.329557,-2.402445,true,2.903254,1.306542,-0.687867,2.28458,-32503.651321,-2.619867],
+ ["2026-10-15","monthly","weekly_mean_wngsr","mean of the month's weekly averages: Supplement: JKM product not named; TTF product not named",null,null,"low",4250.0,27.05,26.956667,0.093333,-0.656069,2.9725,"174,000 m3 two-stroke",25.540514,"panama",-0.047146,0.142468,22.122139,false,true,0.142468,0.506472,-0.668395,0.304392,-4512.647536,-0.047146,false,0.641052,1.155708,-0.684196,0.169541,-38556.329557,-0.513413,true,0.624983,1.306542,-0.687867,0.006308,-32503.651321,-0.49569],
+ ["2026-10-15","monthly","weekly_mean_wngsr","mean of the month's weekly averages: Supplement: JKM product not named; TTF product not named",null,null,"reported",31500.0,27.05,26.956667,0.093333,-0.656069,2.9725,"174,000 m3 two-stroke",25.357963,"panama",-0.193762,0.295268,21.939588,false,true,0.295268,0.506472,-0.668395,0.457192,-4512.647536,-0.193762,false,0.989723,1.155708,-0.684196,0.518212,-38556.329557,-0.840245,true,1.01916,1.306542,-0.687867,0.400485,-32503.651321,-0.863207],
  ["2021-09-15","weekly","ngwu","East Asia swap, delivery month named; TTF spot, product not named","aligned",1.0,"central",75500.0,18.69,17.96,0.73,-0.692292,5.161429,"160,000 m3 TFDE",16.172851,"panama",0.319113,0.394932,10.556321,false,true,0.394932,0.399964,-0.70771,0.702677,130038.379544,0.319113,true,1.326632,0.916686,-0.727627,1.137573,33128.288719,-0.552668,true,1.504752,1.037386,-0.73228,1.199647,26880.203063,-0.713103],
  ["2021-09-15","weekly","ngwu","East Asia swap, delivery month named; TTF spot, product not named","aligned",1.0,"high",447000.0,18.69,17.96,0.73,-0.692292,5.161429,"160,000 m3 TFDE",13.466353,"panama",-1.854596,2.677322,7.53071,false,true,2.677322,0.399964,-0.70771,2.985067,130038.379544,-1.854596,true,6.557686,0.916686,-0.727627,6.368627,33128.288719,-5.39826,true,7.424574,1.037386,-0.73228,7.119468,26880.203063,-6.16187],
  ["2021-09-15","weekly","ngwu","East Asia swap, delivery month named; TTF spot, product not named","aligned",1.0,"low",-750.0,18.69,17.96,0.73,-0.692292,5.161429,"160,000 m3 TFDE",16.728357,"panama",0.765265,-0.073526,11.557979,false,true,-0.073526,0.399964,-0.70771,0.234219,130038.379544,0.765265,true,0.252963,0.916686,-0.727627,0.063904,33128.288719,0.441885,true,0.289715,1.037386,-0.73228,-0.015391,26880.203063,0.40525],
@@ -9612,6 +9619,10 @@
  ["2026-10-07","weekly","wngsr","Supplement: JKM product not named; TTF product not named","aligned",1.0,"high",161750.0,25.79,24.78,1.01,-1.174848,2.9725,"174,000 m3 two-stroke",21.850473,"panama",0.531344,0.456243,18.963441,false,true,0.456243,0.465576,-1.196922,1.187589,260505.710215,0.531344,false,2.022023,1.062388,-1.225217,2.184852,82656.545047,-0.948635,true,2.25389,1.201043,-1.231791,2.284638,75758.197936,-1.159757],
  ["2026-10-07","weekly","wngsr","Supplement: JKM product not named; TTF product not named","aligned",1.0,"low",4250.0,25.79,24.78,1.01,-1.174848,2.9725,"174,000 m3 two-stroke",22.905589,"panama",1.378754,-0.426913,20.865968,false,true,-0.426913,0.465576,-1.196922,0.304433,260505.710215,1.378754,false,0.006767,1.062388,-1.225217,0.169596,82656.545047,0.940397,true,-0.024382,1.201043,-1.231791,0.006367,75758.197936,0.964419],
  ["2026-10-07","weekly","wngsr","Supplement: JKM product not named; TTF product not named","aligned",1.0,"reported",31500.0,25.79,24.78,1.01,-1.174848,2.9725,"174,000 m3 two-stroke",22.723037,"panama",1.232139,-0.274113,20.536801,false,true,-0.274113,0.465576,-1.196922,0.457233,260505.710215,1.232139,false,0.355438,1.062388,-1.225217,0.518267,82656.545047,0.613564,true,0.369796,1.201043,-1.231791,0.400544,75758.197936,0.596903],
+ ["2026-10-14","weekly","wngsr","Supplement: JKM product not named; TTF product not named","aligned",1.0,"central",45500.0,26.14,27.48,-1.34,-0.656069,2.9725,"174,000 m3 two-stroke",25.775761,"panama",-1.653842,0.383604,22.357386,false,true,0.383604,0.516304,-0.668395,0.535695,-261883.549244,-1.653842,false,1.191294,1.178145,-0.684196,0.697346,-152330.365692,-2.372748,true,1.247038,1.331907,-0.687867,0.602998,-133345.45007,-2.412059],
+ ["2026-10-14","weekly","wngsr","Supplement: JKM product not named; TTF product not named","aligned",1.0,"high",161750.0,26.14,27.48,-1.34,-0.656069,2.9725,"174,000 m3 two-stroke",24.996985,"panama",-2.279311,1.035457,21.57861,false,true,1.035457,0.516304,-0.668395,1.187548,-261883.549244,-2.279311,false,2.678745,1.178145,-0.684196,2.184796,-152330.365692,-3.767034,true,2.928619,1.331907,-0.687867,2.28458,-133345.45007,-3.979904],
+ ["2026-10-14","weekly","wngsr","Supplement: JKM product not named; TTF product not named","aligned",1.0,"low",4250.0,26.14,27.48,-1.34,-0.656069,2.9725,"174,000 m3 two-stroke",26.052101,"panama",-1.431901,0.152301,22.633726,false,true,0.152301,0.516304,-0.668395,0.304392,-261883.549244,-1.431901,false,0.663489,1.178145,-0.684196,0.169541,-152330.365692,-1.878002,true,0.650348,1.331907,-0.687867,0.006308,-133345.45007,-1.855727],
+ ["2026-10-14","weekly","wngsr","Supplement: JKM product not named; TTF product not named","aligned",1.0,"reported",31500.0,26.14,27.48,-1.34,-0.656069,2.9725,"174,000 m3 two-stroke",25.869549,"panama",-1.578516,0.305101,22.451174,false,true,0.305101,0.516304,-0.668395,0.457192,-261883.549244,-1.578516,false,1.01216,1.178145,-0.684196,0.518212,-152330.365692,-2.204835,true,1.044525,1.331907,-0.687867,0.400485,-133345.45007,-2.223244],
  ["2026-10-21","weekly","wngsr","Supplement: JKM product not named; TTF product not named","mixed",0.2,"central",45500.0,29.22,28.61,0.61,-0.656069,2.9725,"174,000 m3 two-stroke",26.880396,"panama",0.196861,0.404835,23.658883,false,true,0.404835,0.537535,-0.668395,0.535695,82088.719969,0.196861,false,1.23974,1.226591,-0.684196,0.697346,-3716.622898,-0.590297,true,1.301807,1.386676,-0.687867,0.602998,-2325.565116,-0.645016],
  ["2026-10-21","weekly","wngsr","Supplement: JKM product not named; TTF product not named","mixed",0.2,"high",161750.0,29.22,28.61,0.61,-0.656069,2.9725,"174,000 m3 two-stroke",26.10162,"panama",-0.428608,1.056688,22.683245,false,true,1.056688,0.537535,-0.668395,1.187548,82088.719969,-0.428608,false,2.727191,1.226591,-0.684196,2.184796,-3716.622898,-1.984582,true,2.983388,1.386676,-0.687867,2.28458,-2325.565116,-2.21286],
  ["2026-10-21","weekly","wngsr","Supplement: JKM product not named; TTF product not named","mixed",0.2,"low",4250.0,29.22,28.61,0.61,-0.656069,2.9725,"174,000 m3 two-stroke",27.156736,"panama",0.418802,0.173532,24.157163,false,true,0.173532,0.537535,-0.668395,0.304392,82088.719969,0.418802,false,0.711935,1.226591,-0.684196,0.169541,-3716.622898,-0.095551,true,0.705117,1.386676,-0.687867,0.006308,-2325.565116,-0.088684]

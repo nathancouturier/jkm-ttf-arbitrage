@@ -347,7 +347,7 @@
    "status": "ok",
    "status_words": "checked",
    "range_words": "28 January 2026 to 21 October 2026, weekly",
-   "gaps_words": "1 date, from 12 October 2026 to 12 October 2026",
+   "gaps_words": "none",
    "provisional_words": "none",
    "fetch_words": "23 October 2026 at 09:39 UTC",
    "vintage_words": "not recorded",

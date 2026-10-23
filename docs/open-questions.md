@@ -245,9 +245,9 @@ written permission); both require a company name and limit the message to
 >
 > My name is Nathan Couturier. I am an individual building a public,
 > non-commercial study of the US LNG export arbitrage between Europe and
-> Northeast Asia. The code and results will be published in a public GitHub
-> repository (planned address: github.com/nathancouturier/jkm-ttf-arbitrage)
-> and on its GitHub Pages website.
+> Northeast Asia. The code and results are published in a public GitHub
+> repository (github.com/nathancouturier/jkm-ttf-arbitrage) and on its GitHub
+> Pages website; nothing read from JOGMEC is part of them yet.
 >
 > I would like to ask JOGMEC's permission to use the series "Monthly spot LNG
 > prices for delivery to Japan" from April 2021 onwards: the contract-based and
@@ -272,7 +272,9 @@ written permission); both require a company name and limit the message to
 > [email address]
 
 Decision: JOGMEC's series stays private and nothing derived from it is
-published. The letter in this question is ready for the owner to send; until
+published. The letter in this question is ready for the owner to send (its
+second paragraph revised on 23 October 2026, the repository and the site
+being public since 9 October); until
 JOGMEC answers, the series is used only as a private check on the public ones.
 
 Revised 15 October 2026: JOGMEC's terms also forbid a link to its website

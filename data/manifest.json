@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-23T09:39:05Z",
+  "generated_at": "2026-10-23T11:46:35Z",
   "series": [
     {
       "series": "acer_lng_daily",
@@ -151,7 +151,7 @@
       "linkable": true,
       "machine_fetched": false,
       "fetched_at": null,
-      "checked_at": "2026-10-16T12:29:27Z",
+      "checked_at": "2026-10-23T11:46:35Z",
       "rows": 10,
       "observations": 10,
       "file_rows": 10,
@@ -2629,15 +2629,13 @@
       "machine_fetched": true,
       "fetched_at": "2026-10-23T09:39:05Z",
       "checked_at": null,
-      "rows": 38,
-      "observations": 38,
-      "file_rows": 38,
+      "rows": 39,
+      "observations": 39,
+      "file_rows": 39,
       "first_date": "2026-01-28",
       "last_date": "2026-10-21",
       "frequency": "weekly",
-      "gaps": [
-        "2026-10-12"
-      ],
+      "gaps": [],
       "provisional_from": null,
       "vintage": null,
       "method": "parsed",
@@ -3380,7 +3378,7 @@
       "linkable": true,
       "machine_fetched": false,
       "fetched_at": null,
-      "checked_at": "2026-10-16T12:29:27Z",
+      "checked_at": "2026-10-23T11:46:35Z",
       "rows": 51,
       "observations": 51,
       "file_rows": 51,
@@ -4368,7 +4366,7 @@
       "linkable": true,
       "machine_fetched": false,
       "fetched_at": null,
-      "checked_at": "2026-10-16T12:29:27Z",
+      "checked_at": "2026-10-23T11:46:35Z",
       "rows": 4,
       "observations": 4,
       "file_rows": 4,
@@ -4533,9 +4531,9 @@
   ],
   "manual_steps_note": "Work this pipeline cannot do for itself. Each entry says what it is, why it exists, what it costs to skip it and how to do it. They are repeated against the series they affect in the manual_step field of those entries.",
   "run": {
-    "mode": "online",
-    "started_at": "2026-10-23T09:38:55Z",
-    "finished_at": "2026-10-23T09:39:05Z",
+    "mode": "offline",
+    "started_at": "2026-10-23T11:46:33Z",
+    "finished_at": "2026-10-23T11:46:35Z",
     "script": "scripts/refresh.py"
   }
 }
