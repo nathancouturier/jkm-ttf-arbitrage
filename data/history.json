@@ -2,7 +2,7 @@
  "schema_version": 1,
  "artifact": "history",
  "generated_by": "src/lngarb/export.py",
- "data_date": "2026-10-07",
+ "data_date": "2026-10-21",
  "describes": "every weekly and monthly observation at each hire level, the breaks and the freight anchors",
  "source": "the committed caches in data/cache and data/seed and the manifest, nothing from data/private; no network",
  "conventions": {
@@ -41,7 +41,7 @@
   "segments": "A sentence is a list of segments. A text segment holds words only. A value segment names its field and holds a value with a format, or an ISO date or a word with its label."
  },
  "first": "2016-01-15",
- "last": "2026-10-07",
+ "last": "2026-10-21",
  "hire_levels": {
   "tfde_160k": {
    "low": -750.0,
@@ -268,7 +268,7 @@
   },
   {
    "month": "2026-10-01",
-   "reason": "1 weekly average(s) in the month, fewer than 3"
+   "reason": "2 weekly average(s) in the month, fewer than 3"
   }
  ],
  "freight_anchors": [
@@ -977,7 +977,9 @@
     "2026-09-16",
     "2026-09-23",
     "2026-09-30",
-    "2026-10-07"
+    "2026-10-07",
+    null,
+    "2026-10-21"
    ],
    "spread": [
     0.73,
@@ -1239,7 +1241,9 @@
     -1.82,
     1.26,
     1.71,
-    1.01
+    1.01,
+    null,
+    0.61
    ],
    "s_low": [
     -0.073526,
@@ -1501,7 +1505,9 @@
     -0.389411,
     1.776972,
     0.91622,
-    -0.426913
+    -0.426913,
+    null,
+    0.173532
    ],
    "s_central": [
     0.394932,
@@ -1763,7 +1769,9 @@
     -0.158108,
     2.008275,
     1.147523,
-    -0.19561
+    -0.19561,
+    null,
+    0.404835
    ],
    "s_high": [
     2.677322,
@@ -2025,7 +2033,9 @@
     0.493745,
     2.660128,
     1.799376,
-    0.456243
+    0.456243,
+    null,
+    1.056688
    ],
    "route": [
     "panama",
@@ -2287,6 +2297,8 @@
     "panama",
     "panama",
     "panama",
+    "panama",
+    null,
     "panama"
    ],
    "h_star": [
@@ -2549,7 +2561,9 @@
     -250877.962682,
     -87945.612977,
     145810.92487,
-    260505.710215
+    260505.710215,
+    null,
+    82088.719969
    ],
    "alignment": [
     "aligned",
@@ -2811,7 +2825,9 @@
     "mixed",
     "misaligned",
     "mixed",
-    "aligned"
+    "aligned",
+    null,
+    "mixed"
    ],
    "reported_hire": [
     null,
@@ -3073,7 +3089,9 @@
     25250.0,
     25250.0,
     31500.0,
-    31500.0
+    31500.0,
+    null,
+    null
    ],
    "reported_open": [
     null,
@@ -3335,7 +3353,9 @@
     false,
     false,
     true,
-    true
+    true,
+    null,
+    null
    ],
    "boil_off": [
     0.399964,
@@ -3597,7 +3617,9 @@
     0.512171,
     0.472527,
     0.454303,
-    0.465576
+    0.465576,
+    null,
+    0.537535
    ],
    "regas": [
     -0.70771,
@@ -3859,7 +3881,9 @@
     -1.203885,
     1.001138,
     0.158325,
-    -1.196922
+    -1.196922,
+    null,
+    -0.668395
    ],
    "voyage": [
     0.702677,
@@ -4121,14 +4145,16 @@
     0.533605,
     0.53461,
     0.534895,
-    0.535736
+    0.535736,
+    null,
+    0.535695
    ],
    "ranges": [
     {
      "id": "all",
      "label": "Every week",
      "first": "2021-09-15",
-     "last": "2026-10-07",
+     "last": "2026-10-21",
      "y": {
       "low": -20.0,
       "high": 10.0,
@@ -4177,15 +4203,15 @@
       },
       {
        "field": "last",
-       "value": "2026-10-07",
-       "label": "7 October 2026"
+       "value": "2026-10-21",
+       "label": "21 October 2026"
       },
       {
        "text": ", JKM's premium over TTF was above what the cheapest route east needs at the central hire, so the arb east was open, in "
       },
       {
        "field": "weeks_open",
-       "value": 145,
+       "value": 146,
        "format": "count"
       },
       {
@@ -4193,7 +4219,7 @@
       },
       {
        "field": "weeks",
-       "value": 242,
+       "value": 243,
        "format": "count"
       },
       {
@@ -4252,8 +4278,8 @@
       },
       {
        "field": "last",
-       "value": "2026-10-07",
-       "label": "7 October 2026"
+       "value": "2026-10-21",
+       "label": "21 October 2026"
       },
       {
        "text": ", over a shaded band of the breakeven spread S* of the cheapest open route east, from the low to the high hire, with a dashed line at the central hire. Where the line runs above the dashed line the arb east was open. Rings mark the weeks in which, by the futures calendars, the JKM and TTF front months name different delivery months; numbered rules mark the breaks listed under the charts."
@@ -4443,8 +4469,8 @@
       },
       {
        "field": "last",
-       "value": "2026-10-07",
-       "label": "7 October 2026"
+       "value": "2026-10-21",
+       "label": "21 October 2026"
       },
       {
        "text": ", with each charter rate reported as a point, the latest in the accent. A rate below the line is a week the arb east was open at the market's own freight."
@@ -4516,7 +4542,7 @@
       },
       {
        "field": "weeks_with_parts",
-       "value": 242,
+       "value": 243,
        "format": "count"
       },
       {
@@ -4524,7 +4550,7 @@
       },
       {
        "field": "mean_s",
-       "value": 0.490999,
+       "value": 0.490645,
        "format": "usd_mmbtu",
        "signed": true
       },
@@ -4533,7 +4559,7 @@
       },
       {
        "field": "mean_boil_off",
-       "value": 0.410559,
+       "value": 0.411081,
        "format": "usd_mmbtu",
        "signed": true
       },
@@ -4542,7 +4568,7 @@
       },
       {
        "field": "mean_regas",
-       "value": -0.5496,
+       "value": -0.550089,
        "format": "usd_mmbtu",
        "signed": true
       },
@@ -4551,7 +4577,7 @@
       },
       {
        "field": "mean_voyage",
-       "value": 0.630041,
+       "value": 0.629653,
        "format": "usd_mmbtu",
        "signed": true
       },
@@ -4573,8 +4599,8 @@
       },
       {
        "field": "last",
-       "value": "2026-10-07",
-       "label": "7 October 2026"
+       "value": "2026-10-21",
+       "label": "21 October 2026"
       },
       {
        "text": ": the gas the longer voyage burns, a thin line; Europe's DES spread the cargo escapes, a dashed line; and the voyage's extra cost, a dotted line; with S* itself, their sum, in ink."
@@ -4585,7 +4611,7 @@
        "text": "S* is the sum of its three parts (the methodology's section on the breakeven spread): the gas part is what the longer voyage burns, priced at JKM; the regas part is the DES spread of Northwest Europe to TTF that a cargo sold east does not bear, so it falls when Europe's discount deepens; the voyage part is the extra hire, tolls, ports and financing of the voyage east over the voyage to Gate. The parts are those of the cheapest open route at the central hire, the route the dashed line of the first chart follows."
       }
      ],
-     "mixed_weeks": 93,
+     "mixed_weeks": 94,
      "misaligned_weeks": 63,
      "accent_day": "2026-10-02",
      "years": [
@@ -4621,8 +4647,8 @@
       },
       {
        "year": 2026,
-       "open": 27,
-       "count": 40,
+       "open": 28,
+       "count": 41,
        "ttf_above": 14
       }
      ]
@@ -5116,7 +5142,7 @@
      "id": "from_2024",
      "label": "2024 on",
      "first": "2024-01-10",
-     "last": "2026-10-07",
+     "last": "2026-10-21",
      "y": {
       "low": -4.0,
       "high": 6.0,
@@ -5131,24 +5157,20 @@
      },
      "ticks": [
       {
-       "day": "2024-06-01",
-       "label": "Jun 2024"
+       "day": "2024-07-01",
+       "label": "Jul 2024"
       },
       {
-       "day": "2024-11-01",
-       "label": "Nov 2024"
+       "day": "2025-01-01",
+       "label": "Jan 2025"
       },
       {
-       "day": "2025-04-01",
-       "label": "Apr 2025"
+       "day": "2025-07-01",
+       "label": "Jul 2025"
       },
       {
-       "day": "2025-09-01",
-       "label": "Sep 2025"
-      },
-      {
-       "day": "2026-02-01",
-       "label": "Feb 2026"
+       "day": "2026-01-01",
+       "label": "Jan 2026"
       },
       {
        "day": "2026-07-01",
@@ -5169,15 +5191,15 @@
       },
       {
        "field": "last",
-       "value": "2026-10-07",
-       "label": "7 October 2026"
+       "value": "2026-10-21",
+       "label": "21 October 2026"
       },
       {
        "text": ", JKM's premium over TTF was above what the cheapest route east needs at the central hire, so the arb east was open, in "
       },
       {
        "field": "weeks_open",
-       "value": 95,
+       "value": 96,
        "format": "count"
       },
       {
@@ -5185,7 +5207,7 @@
       },
       {
        "field": "weeks",
-       "value": 132,
+       "value": 133,
        "format": "count"
       },
       {
@@ -5244,8 +5266,8 @@
       },
       {
        "field": "last",
-       "value": "2026-10-07",
-       "label": "7 October 2026"
+       "value": "2026-10-21",
+       "label": "21 October 2026"
       },
       {
        "text": ", over a shaded band of the breakeven spread S* of the cheapest open route east, from the low to the high hire, with a dashed line at the central hire. Where the line runs above the dashed line the arb east was open. Rings mark the weeks in which, by the futures calendars, the JKM and TTF front months name different delivery months; numbered rules mark the breaks listed under the charts."
@@ -5435,8 +5457,8 @@
       },
       {
        "field": "last",
-       "value": "2026-10-07",
-       "label": "7 October 2026"
+       "value": "2026-10-21",
+       "label": "21 October 2026"
       },
       {
        "text": ", with each charter rate reported as a point, the latest in the accent. A rate below the line is a week the arb east was open at the market's own freight."
@@ -5497,7 +5519,7 @@
       },
       {
        "field": "weeks_with_parts",
-       "value": 132,
+       "value": 133,
        "format": "count"
       },
       {
@@ -5505,7 +5527,7 @@
       },
       {
        "field": "mean_s",
-       "value": 0.344224,
+       "value": 0.34468,
        "format": "usd_mmbtu",
        "signed": true
       },
@@ -5514,7 +5536,7 @@
       },
       {
        "field": "mean_boil_off",
-       "value": 0.247615,
+       "value": 0.249795,
        "format": "usd_mmbtu",
        "signed": true
       },
@@ -5523,7 +5545,7 @@
       },
       {
        "field": "mean_regas",
-       "value": -0.451058,
+       "value": -0.452692,
        "format": "usd_mmbtu",
        "signed": true
       },
@@ -5532,7 +5554,7 @@
       },
       {
        "field": "mean_voyage",
-       "value": 0.547667,
+       "value": 0.547577,
        "format": "usd_mmbtu",
        "signed": true
       },
@@ -5554,8 +5576,8 @@
       },
       {
        "field": "last",
-       "value": "2026-10-07",
-       "label": "7 October 2026"
+       "value": "2026-10-21",
+       "label": "21 October 2026"
       },
       {
        "text": ": the gas the longer voyage burns, a thin line; Europe's DES spread the cargo escapes, a dashed line; and the voyage's extra cost, a dotted line; with S* itself, their sum, in ink."
@@ -5566,7 +5588,7 @@
        "text": "S* is the sum of its three parts (the methodology's section on the breakeven spread): the gas part is what the longer voyage burns, priced at JKM; the regas part is the DES spread of Northwest Europe to TTF that a cargo sold east does not bear, so it falls when Europe's discount deepens; the voyage part is the extra hire, tolls, ports and financing of the voyage east over the voyage to Gate. The parts are those of the cheapest open route at the central hire, the route the dashed line of the first chart follows."
       }
      ],
-     "mixed_weeks": 50,
+     "mixed_weeks": 51,
      "misaligned_weeks": 35,
      "accent_day": "2026-10-02",
      "years": [
@@ -5584,8 +5606,8 @@
       },
       {
        "year": 2026,
-       "open": 27,
-       "count": 40,
+       "open": 28,
+       "count": 41,
        "ttf_above": 14
       }
      ]
@@ -5593,8 +5615,8 @@
     {
      "id": "last_52",
      "label": "The last 52 weeks",
-     "first": "2025-10-15",
-     "last": "2026-10-07",
+     "first": "2025-10-29",
+     "last": "2026-10-21",
      "y": {
       "low": -4.0,
       "high": 6.0,
@@ -5639,16 +5661,16 @@
       },
       {
        "field": "first",
-       "value": "2025-10-15",
-       "label": "15 October 2025"
+       "value": "2025-10-29",
+       "label": "29 October 2025"
       },
       {
        "text": " to the week ending "
       },
       {
        "field": "last",
-       "value": "2026-10-07",
-       "label": "7 October 2026"
+       "value": "2026-10-21",
+       "label": "21 October 2026"
       },
       {
        "text": ", JKM's premium over TTF was above what the cheapest route east needs at the central hire, so the arb east was open, in "
@@ -5663,7 +5685,7 @@
       },
       {
        "field": "weeks",
-       "value": 49,
+       "value": 48,
        "format": "count"
       },
       {
@@ -5682,7 +5704,7 @@
       },
       {
        "field": "worst_open",
-       "value": 27,
+       "value": 28,
        "format": "count"
       },
       {
@@ -5690,7 +5712,7 @@
       },
       {
        "field": "worst_weeks",
-       "value": 40,
+       "value": 41,
        "format": "count"
       },
       {
@@ -5714,16 +5736,16 @@
       },
       {
        "field": "first",
-       "value": "2025-10-15",
-       "label": "15 October 2025"
+       "value": "2025-10-29",
+       "label": "29 October 2025"
       },
       {
        "text": " to "
       },
       {
        "field": "last",
-       "value": "2026-10-07",
-       "label": "7 October 2026"
+       "value": "2026-10-21",
+       "label": "21 October 2026"
       },
       {
        "text": ", over a shaded band of the breakeven spread S* of the cheapest open route east, from the low to the high hire, with a dashed line at the central hire. Where the line runs above the dashed line the arb east was open. Rings mark the weeks in which, by the futures calendars, the JKM and TTF front months name different delivery months; numbered rules mark the breaks listed under the charts."
@@ -5855,7 +5877,7 @@
       },
       {
        "field": "misaligned",
-       "value": 13,
+       "value": 12,
        "format": "count"
       },
       {
@@ -5876,7 +5898,7 @@
       },
       {
        "field": "weeks_near",
-       "value": 27,
+       "value": 26,
        "format": "count"
       },
       {
@@ -5892,7 +5914,7 @@
       },
       {
        "field": "weeks_near_open",
-       "value": 16,
+       "value": 15,
        "format": "count"
       },
       {
@@ -5905,16 +5927,16 @@
       },
       {
        "field": "first",
-       "value": "2025-10-15",
-       "label": "15 October 2025"
+       "value": "2025-10-29",
+       "label": "29 October 2025"
       },
       {
        "text": " to "
       },
       {
        "field": "last",
-       "value": "2026-10-07",
-       "label": "7 October 2026"
+       "value": "2026-10-21",
+       "label": "21 October 2026"
       },
       {
        "text": ", with each charter rate reported as a point, the latest in the accent. A rate below the line is a week the arb east was open at the market's own freight."
@@ -5961,7 +5983,7 @@
       },
       {
        "field": "weeks_with_parts",
-       "value": 49,
+       "value": 48,
        "format": "count"
       },
       {
@@ -5969,7 +5991,7 @@
       },
       {
        "field": "mean_s",
-       "value": 0.279856,
+       "value": 0.287986,
        "format": "usd_mmbtu",
        "signed": true
       },
@@ -5978,7 +6000,7 @@
       },
       {
        "field": "mean_boil_off",
-       "value": 0.299,
+       "value": 0.307902,
        "format": "usd_mmbtu",
        "signed": true
       },
@@ -5987,7 +6009,7 @@
       },
       {
        "field": "mean_regas",
-       "value": -0.559469,
+       "value": -0.559546,
        "format": "usd_mmbtu",
        "signed": true
       },
@@ -5996,7 +6018,7 @@
       },
       {
        "field": "mean_voyage",
-       "value": 0.540326,
+       "value": 0.53963,
        "format": "usd_mmbtu",
        "signed": true
       },
@@ -6010,16 +6032,16 @@
       },
       {
        "field": "first",
-       "value": "2025-10-15",
-       "label": "15 October 2025"
+       "value": "2025-10-29",
+       "label": "29 October 2025"
       },
       {
        "text": " to "
       },
       {
        "field": "last",
-       "value": "2026-10-07",
-       "label": "7 October 2026"
+       "value": "2026-10-21",
+       "label": "21 October 2026"
       },
       {
        "text": ": the gas the longer voyage burns, a thin line; Europe's DES spread the cargo escapes, a dashed line; and the voyage's extra cost, a dotted line; with S* itself, their sum, in ink."
@@ -6030,20 +6052,20 @@
        "text": "S* is the sum of its three parts (the methodology's section on the breakeven spread): the gas part is what the longer voyage burns, priced at JKM; the regas part is the DES spread of Northwest Europe to TTF that a cargo sold east does not bear, so it falls when Europe's discount deepens; the voyage part is the extra hire, tolls, ports and financing of the voyage east over the voyage to Gate. The parts are those of the cheapest open route at the central hire, the route the dashed line of the first chart follows."
       }
      ],
-     "mixed_weeks": 19,
-     "misaligned_weeks": 13,
+     "mixed_weeks": 20,
+     "misaligned_weeks": 12,
      "accent_day": "2026-10-02",
      "years": [
       {
        "year": 2025,
-       "open": 8,
-       "count": 9,
+       "open": 7,
+       "count": 7,
        "ttf_above": 0
       },
       {
        "year": 2026,
-       "open": 27,
-       "count": 40,
+       "open": 28,
+       "count": 41,
        "ttf_above": 14
       }
      ]
@@ -8293,8 +8315,8 @@
    },
    {
     "field": "as_of",
-    "value": "2026-10-07",
-    "label": "7 October 2026"
+    "value": "2026-10-21",
+    "label": "21 October 2026"
    },
    {
     "text": "."
@@ -9589,6 +9611,9 @@
  ["2026-10-07","weekly","wngsr","Supplement: JKM product not named; TTF product not named","aligned",1.0,"central",45500.0,25.79,24.78,1.01,-1.174848,2.9725,"174,000 m3 two-stroke",22.629249,"panama",1.156813,-0.19561,20.367687,false,true,-0.19561,0.465576,-1.196922,0.535736,260505.710215,1.156813,false,0.534572,1.062388,-1.225217,0.697401,82656.545047,0.44565,true,0.572309,1.201043,-1.231791,0.603057,75758.197936,0.408087],
  ["2026-10-07","weekly","wngsr","Supplement: JKM product not named; TTF product not named","aligned",1.0,"high",161750.0,25.79,24.78,1.01,-1.174848,2.9725,"174,000 m3 two-stroke",21.850473,"panama",0.531344,0.456243,18.963441,false,true,0.456243,0.465576,-1.196922,1.187589,260505.710215,0.531344,false,2.022023,1.062388,-1.225217,2.184852,82656.545047,-0.948635,true,2.25389,1.201043,-1.231791,2.284638,75758.197936,-1.159757],
  ["2026-10-07","weekly","wngsr","Supplement: JKM product not named; TTF product not named","aligned",1.0,"low",4250.0,25.79,24.78,1.01,-1.174848,2.9725,"174,000 m3 two-stroke",22.905589,"panama",1.378754,-0.426913,20.865968,false,true,-0.426913,0.465576,-1.196922,0.304433,260505.710215,1.378754,false,0.006767,1.062388,-1.225217,0.169596,82656.545047,0.940397,true,-0.024382,1.201043,-1.231791,0.006367,75758.197936,0.964419],
- ["2026-10-07","weekly","wngsr","Supplement: JKM product not named; TTF product not named","aligned",1.0,"reported",31500.0,25.79,24.78,1.01,-1.174848,2.9725,"174,000 m3 two-stroke",22.723037,"panama",1.232139,-0.274113,20.536801,false,true,-0.274113,0.465576,-1.196922,0.457233,260505.710215,1.232139,false,0.355438,1.062388,-1.225217,0.518267,82656.545047,0.613564,true,0.369796,1.201043,-1.231791,0.400544,75758.197936,0.596903]
+ ["2026-10-07","weekly","wngsr","Supplement: JKM product not named; TTF product not named","aligned",1.0,"reported",31500.0,25.79,24.78,1.01,-1.174848,2.9725,"174,000 m3 two-stroke",22.723037,"panama",1.232139,-0.274113,20.536801,false,true,-0.274113,0.465576,-1.196922,0.457233,260505.710215,1.232139,false,0.355438,1.062388,-1.225217,0.518267,82656.545047,0.613564,true,0.369796,1.201043,-1.231791,0.400544,75758.197936,0.596903],
+ ["2026-10-21","weekly","wngsr","Supplement: JKM product not named; TTF product not named","mixed",0.2,"central",45500.0,29.22,28.61,0.61,-0.656069,2.9725,"174,000 m3 two-stroke",26.880396,"panama",0.196861,0.404835,23.658883,false,true,0.404835,0.537535,-0.668395,0.535695,82088.719969,0.196861,false,1.23974,1.226591,-0.684196,0.697346,-3716.622898,-0.590297,true,1.301807,1.386676,-0.687867,0.602998,-2325.565116,-0.645016],
+ ["2026-10-21","weekly","wngsr","Supplement: JKM product not named; TTF product not named","mixed",0.2,"high",161750.0,29.22,28.61,0.61,-0.656069,2.9725,"174,000 m3 two-stroke",26.10162,"panama",-0.428608,1.056688,22.683245,false,true,1.056688,0.537535,-0.668395,1.187548,82088.719969,-0.428608,false,2.727191,1.226591,-0.684196,2.184796,-3716.622898,-1.984582,true,2.983388,1.386676,-0.687867,2.28458,-2325.565116,-2.21286],
+ ["2026-10-21","weekly","wngsr","Supplement: JKM product not named; TTF product not named","mixed",0.2,"low",4250.0,29.22,28.61,0.61,-0.656069,2.9725,"174,000 m3 two-stroke",27.156736,"panama",0.418802,0.173532,24.157163,false,true,0.173532,0.537535,-0.668395,0.304392,82088.719969,0.418802,false,0.711935,1.226591,-0.684196,0.169541,-3716.622898,-0.095551,true,0.705117,1.386676,-0.687867,0.006308,-2325.565116,-0.088684]
  ]
 }

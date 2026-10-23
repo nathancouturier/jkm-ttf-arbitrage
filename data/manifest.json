@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-16T12:29:27Z",
+  "generated_at": "2026-10-23T09:39:05Z",
   "series": [
     {
       "series": "acer_lng_daily",
@@ -2467,7 +2467,7 @@
       "page_url": "https://www.eia.gov/naturalgas/weekly/",
       "linkable": true,
       "machine_fetched": true,
-      "fetched_at": "2026-10-09T16:14:19Z",
+      "fetched_at": "2026-10-23T09:39:00Z",
       "checked_at": null,
       "rows": 205,
       "observations": 205,
@@ -2531,7 +2531,7 @@
       "page_url": "https://www.eia.gov/naturalgas/weekly/",
       "linkable": true,
       "machine_fetched": true,
-      "fetched_at": "2026-10-09T16:14:09Z",
+      "fetched_at": "2026-10-23T09:38:58Z",
       "checked_at": null,
       "rows": 488,
       "observations": 488,
@@ -2627,22 +2627,24 @@
       "page_url": "https://www.eia.gov/naturalgas/weekly/supplement/",
       "linkable": true,
       "machine_fetched": true,
-      "fetched_at": "2026-10-09T16:14:52Z",
+      "fetched_at": "2026-10-23T09:39:05Z",
       "checked_at": null,
-      "rows": 37,
-      "observations": 37,
-      "file_rows": 37,
+      "rows": 38,
+      "observations": 38,
+      "file_rows": 38,
       "first_date": "2026-01-28",
-      "last_date": "2026-10-07",
+      "last_date": "2026-10-21",
       "frequency": "weekly",
-      "gaps": [],
+      "gaps": [
+        "2026-10-12"
+      ],
       "provisional_from": null,
       "vintage": null,
       "method": "parsed",
       "committable": true,
       "licence_note": "US government publications are in the public domain. EIA's reuse page says 'You may use and/or distribute any of our data, files, databases, reports, graphs, charts, and other information products', with an acknowledgment that includes the publication date. One doubt, recorded rather than resolved: these weekly prices are credited in the text to Bloomberg Finance L.P., and the same page says material 'contributed or licensed by private individuals, companies, or organizations' 'may be protected'. Whether figures EIA prints under a third party's credit fall under that sentence is not settled by the page. The parsed weekly values are committed with the credit shown wherever they are used; should EIA or a rights holder object, the series moves to data/private/ (docs/open-questions.md, question 2).",
       "status": "ok",
-      "note": "37 week(s): 3 collected while each was the current issue, the latest the release of 2026-10-08, 5 read from the Internet Archive's captures of the current issue's own files, and 29 read in a browser from EIA's archive pages, which robots.txt closes to code, as the manual step.",
+      "note": "38 week(s): 4 collected while each was the current issue, the latest the release of 2026-10-22, 5 read from the Internet Archive's captures of the current issue's own files, and 29 read in a browser from EIA's archive pages, which robots.txt closes to code, as the manual step.",
       "file": "data/cache/eia_wngsr_international_weekly.csv",
       "unit": "USD per MMBtu",
       "licence": "US public domain, with the third party credit doubt",
@@ -4531,9 +4533,9 @@
   ],
   "manual_steps_note": "Work this pipeline cannot do for itself. Each entry says what it is, why it exists, what it costs to skip it and how to do it. They are repeated against the series they affect in the manual_step field of those entries.",
   "run": {
-    "mode": "offline",
-    "started_at": "2026-10-16T12:29:26Z",
-    "finished_at": "2026-10-16T12:29:27Z",
+    "mode": "online",
+    "started_at": "2026-10-23T09:38:55Z",
+    "finished_at": "2026-10-23T09:39:05Z",
     "script": "scripts/refresh.py"
   }
 }

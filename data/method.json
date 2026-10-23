@@ -2,7 +2,7 @@
  "schema_version": 1,
  "artifact": "method",
  "generated_by": "src/lngarb/export.py",
- "data_date": "2026-10-07",
+ "data_date": "2026-10-21",
  "describes": "the engine as formulas, every parameter of the parameter table with its value, status and source, the units, the limits and the credits",
  "source": "the committed caches in data/cache and data/seed and the manifest, nothing from data/private; no network",
  "conventions": {
@@ -1034,15 +1034,15 @@
   },
   {
    "field": "as_of",
-   "value": "2026-10-07",
-   "label": "7 October 2026"
+   "value": "2026-10-21",
+   "label": "21 October 2026"
   },
   {
    "text": ", S* of the cheapest open route east is "
   },
   {
    "field": "s_star_now",
-   "value": -0.27411266611987983,
+   "value": 0.40483464100119804,
    "format": "usd_mmbtu",
    "signed": true,
    "missing": "no route open"
@@ -1055,7 +1055,7 @@
   },
   {
    "field": "s_star_energy_22",
-   "value": -0.25094363766922356,
+   "value": 0.4315719761327017,
    "format": "usd_mmbtu",
    "signed": true,
    "missing": "no route open"
@@ -1073,7 +1073,7 @@
   },
   {
    "field": "s_star_energy_24",
-   "value": -0.2953509421996472,
+   "value": 0.3803254171306598,
    "format": "usd_mmbtu",
    "signed": true,
    "missing": "no route open"

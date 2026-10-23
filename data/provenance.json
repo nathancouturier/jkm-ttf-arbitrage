@@ -2,7 +2,7 @@
  "schema_version": 1,
  "artifact": "provenance",
  "generated_by": "src/lngarb/export.py",
- "data_date": "2026-10-14",
+ "data_date": "2026-10-21",
  "describes": "the manifest of every series in words, the work done by hand and the credits",
  "source": "the committed caches in data/cache and data/seed and the manifest, nothing from data/private; no network",
  "conventions": {
@@ -304,7 +304,7 @@
    "range_words": "15 September 2021 to 21 January 2026, weekly",
    "gaps_words": "23 dates, from 8 November 2021 to 29 December 2025",
    "provisional_words": "none",
-   "fetch_words": "9 October 2026 at 16:14 UTC",
+   "fetch_words": "23 October 2026 at 09:39 UTC",
    "vintage_words": "not recorded",
    "terms_words": "US public domain, with the third party credit doubt"
   },
@@ -319,7 +319,7 @@
    "range_words": "7 January 2016 to 22 January 2026, weekly",
    "gaps_words": "37 dates, from 21 November 2016 to 29 December 2025",
    "provisional_words": "none",
-   "fetch_words": "9 October 2026 at 16:14 UTC",
+   "fetch_words": "23 October 2026 at 09:38 UTC",
    "vintage_words": "not recorded",
    "terms_words": "US public domain"
   },
@@ -346,10 +346,10 @@
    "page_words": "",
    "status": "ok",
    "status_words": "checked",
-   "range_words": "28 January 2026 to 7 October 2026, weekly",
-   "gaps_words": "none",
+   "range_words": "28 January 2026 to 21 October 2026, weekly",
+   "gaps_words": "1 date, from 12 October 2026 to 12 October 2026",
    "provisional_words": "none",
-   "fetch_words": "9 October 2026 at 16:14 UTC",
+   "fetch_words": "23 October 2026 at 09:39 UTC",
    "vintage_words": "not recorded",
    "terms_words": "US public domain, with the third party credit doubt"
   },

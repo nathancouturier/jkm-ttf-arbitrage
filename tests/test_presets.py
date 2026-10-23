@@ -3,10 +3,11 @@
 from __future__ import annotations
 
 import json
+from datetime import date
 
 import pytest
 
-from lngarb import presets
+from lngarb import delivery, presets, reader
 from lngarb.sources import base
 
 DATA = base.REPO_ROOT / "data"
@@ -148,7 +149,9 @@ def test_no_source_in_words_holds_a_machine_date(model):
 
 #: For each named edit, the line it must move and how, against its preset.
 MOVES = {
-    "a hire of 300,000 $/day": lambda r, b: r["west"]["hire_usd"] > b["west"]["hire_usd"],
+    # The latest week may hold no reported rate within fourteen days: then the base hire is None.
+    "a hire of 300,000 $/day": lambda r, b: r["west"]["hire_usd"] is not None and r["west"]["hire_usd"] > 0 and (
+        b["west"]["hire_usd"] is None or r["west"]["hire_usd"] > b["west"]["hire_usd"]),
     "Panama closed": lambda r, b: not r["east"]["nea_panama"]["open"] and b["east"]["nea_panama"]["open"],
     "laden via Panama, back by the Cape": lambda r, b: r["east"]["nea_panama"]["days_ballast"] > b["east"]["nea_panama"]["days_ballast"],
     "days at sea typed for the Cape": lambda r, b: r["east"]["nea_cape"]["days_total"] == pytest.approx(30.0 + 28.0 + 2.0),
@@ -174,7 +177,10 @@ MOVES = {
     "a hire typed where the data hold none": lambda r, b: r["west"]["netback"] is not None and b["west"]["netback"] is None,
     # Refused, the rate is missing, and with it the allowance in dollars.
     "an exchange rate of zero, refused": lambda r, b: r["west"]["ets_usd"] is None and r["spread"] == b["spread"],
-    "the lift test at 120 percent of Henry Hub": lambda r, b: r["lift_margin"] < b["lift_margin"],
+    # With no hire for the week there is no netback, so no lift margin before or after.
+    "the lift test at 120 percent of Henry Hub": lambda r, b: (
+        (r["lift_margin"] is None and b["lift_margin"] is None and b["west"]["hire_usd"] is None)
+        or r["lift_margin"] < b["lift_margin"]),
     "a fill of 95 percent and two days to load": lambda r, b: (
         r["west"]["q_load_mmbtu"] < b["west"]["q_load_mmbtu"] and r["west"]["days_laden"] == pytest.approx(b["west"]["days_laden"] + 1.0)),
     "22 MMBtu per m3 and 50 MMBtu per tonne": lambda r, b: r["west"]["q_load_mmbtu"] < b["west"]["q_load_mmbtu"],
@@ -256,8 +262,15 @@ def test_each_preset_says_which_delivery_months_its_prices_name(model):
         assert any(w in words for w in ("aligned", "misaligned", "mixed"))
     found = {p["id"]: "".join(s.get("text", s.get("label", "")) for s in p["lead_segments"])
              for p in model["presets"]}
-    # 7 October 2026 is before the JKM roll on the 16th, and before the TTF expiry: both name November
-    assert "November 2026 and the TTF front month delivery in November 2026" in found["latest"]
-    assert "every trading day naming the same month" in found["latest"]
+    # The latest week names the months the calendars give for its last day, whatever week it is.
+    (latest,) = [p for p in model["presets"] if p["id"] == "latest"]
+    last_day = date.fromisoformat(latest["result"]["day"])
+    jkm_words = reader.D("jkm_month", delivery.jkm_front_month(last_day), "month")["label"]
+    ttf_words = reader.D("ttf_month", delivery.ttf_front_month(last_day), "month")["label"]
+    assert "%s and the TTF front month delivery in %s" % (jkm_words, ttf_words) in found["latest"]
+    tag, _ = delivery.week_alignment(last_day)
+    assert {"aligned": "every trading day naming the same month",
+            "misaligned": "no trading day naming the same month",
+            "mixed": "the same month on"}[tag] in found["latest"]
     # Spark's week, February 2022, when TTF was a spot price: the calendar alone
     assert "spot price, which names no delivery month" in found["spark_example"]
