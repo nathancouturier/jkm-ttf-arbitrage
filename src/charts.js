@@ -88,8 +88,6 @@ export const GEOMETRY = Object.freeze({
   RULE_CHAR: 7.5,
   /* The events: a short mark up from the foot of the plot, or a bar along it
    * for a period, its letter above. */
-  EVENT_TICK: 10,
-  EVENT_BAR: 3,
 });
 
 /* The mantissas of decimal notation, a fact about how numbers are written. */
@@ -635,11 +633,10 @@ function drawSeries(group, xs, values, yOf, className) {
  *    references [{ values, label, pattern }]: further lines, each drawn as
  *               .line--<pattern> (thin, dot or reference)
  *    series     { values: [], label }: the ink line
- *    marks      [{ index, kind }]: a hollow ring on the series at these points,
- *               a solid dot where kind is "mixed"
+ *    marks      [{ index, kind }]: a hollow ring on the series at these
+ *               points; kind "mixed" draws the ring dashed
  *    rules      [{ day, numbers }]: numbered rules across the plot
- *    events     [{ day, end, letter }]: lettered marks at the foot of the plot,
- *               a bar for a period that has an end
+ *    events     [{ day, letters }]: dotted rules lettered along the bottom
  *    points     [{ day, value, accent }]: printed points, one in the accent
  *    ticks      [{ day, label }]
  *    words      { title, desc, yAxis }
@@ -705,6 +702,27 @@ export function timeChart({ width, days, first, last, y, band, reference, refere
   for (const group of groups) {
     svg.appendChild(svgEl("text", { class: "tick", x: px(labelAt(group)), y: px(top - g.LABEL_GAP), "text-anchor": "start" }, ruleLabel(group.numbers)));
   }
+  // The events: a dotted rule each, lettered just above the axis, the labels
+  // joined the same way where they would touch.
+  const eventGroups = [];
+  for (const event of events || []) {
+    const at = xOf(dayValue(event.day));
+    if (!present(at) || at < left || at > right) continue;
+    svg.appendChild(svgEl("line", { class: "mark-event", x1: px(at), x2: px(at), y1: px(top), y2: px(bottom) }));
+    eventGroups.push({ at, numbers: [...event.letters] });
+    while (eventGroups.slice(1).length > 0) {
+      const last = eventGroups.pop();
+      const before = eventGroups[eventGroups.length - 1];
+      if (labelAt(last) >= labelAt(before) + ruleLabel(before.numbers).length * g.RULE_CHAR + g.LABEL_GAP) {
+        eventGroups.push(last);
+        break;
+      }
+      before.numbers.push(...last.numbers);
+    }
+  }
+  for (const group of eventGroups) {
+    svg.appendChild(svgEl("text", { class: "tick", x: px(labelAt(group)), y: px(bottom - g.LABEL_GAP), "text-anchor": "start" }, ruleLabel(group.numbers)));
+  }
 
   // Everything inside the plot is clipped to it; what lies beyond is marked.
   const clipId = uid("history-clip");
@@ -724,10 +742,8 @@ export function timeChart({ width, days, first, last, y, band, reference, refere
   for (const mark of marks || []) {
     const value = series.values[mark.index];
     if (!present(value) || !present(xs[mark.index])) continue;
-    // A mixed week is a solid dot, a misaligned one a ring.
-    plot.appendChild(mark.kind === "mixed"
-      ? svgEl("circle", { class: "mark-series-fill", cx: px(xs[mark.index]), cy: px(yOf(value)), r: g.SMALL_RADIUS })
-      : svgEl("circle", { class: "mark-printed", cx: px(xs[mark.index]), cy: px(yOf(value)), r: g.SMALL_RADIUS }));
+    const className = mark.kind === "mixed" ? "mark-printed mark-printed--mixed" : "mark-printed";
+    plot.appendChild(svgEl("circle", { class: className, cx: px(xs[mark.index]), cy: px(yOf(value)), r: g.SMALL_RADIUS }));
   }
   series.values.forEach((value, index) => {
     if (!present(value) || !present(xs[index]) || (value >= y.low && value <= y.high)) return;
@@ -744,28 +760,6 @@ export function timeChart({ width, days, first, last, y, band, reference, refere
 
   // The events: a mark, or a bar for a period, at the foot of the plot, its
   // letter above; letters that would touch join the one before.
-  const eventLabels = [];
-  for (const item of events || []) {
-    const from = Math.max(xOf(dayValue(item.day)), left);
-    const to = Math.min(item.end ? xOf(dayValue(item.end)) : xOf(dayValue(item.day)), right);
-    if (!present(from) || !present(to) || to < left || from > right || to < from) continue;
-    if (item.end) {
-      svg.appendChild(svgEl("rect", { class: "mark-event-fill", x: px(from), y: px(bottom - g.EVENT_BAR), width: px(Math.max(to - from, g.EVENT_BAR)), height: px(g.EVENT_BAR) }));
-    } else {
-      svg.appendChild(svgEl("line", { class: "mark-event", x1: px(from), x2: px(from), y1: px(bottom), y2: px(bottom - g.EVENT_TICK) }));
-    }
-    const before = eventLabels[eventLabels.length - 1];
-    const placed = (label) => Math.min(label.at, right - label.text.length * g.RULE_CHAR);
-    if (before && Math.min(from, right - item.letter.length * g.RULE_CHAR) < placed(before) + before.text.length * g.RULE_CHAR + g.LABEL_GAP) {
-      before.text += ", " + item.letter;
-    } else {
-      eventLabels.push({ at: from, text: item.letter });
-    }
-  }
-  for (const label of eventLabels) {
-    haloText(svg, { class: "tick event-label", x: px(Math.min(label.at, right - label.text.length * g.RULE_CHAR)), y: px(bottom - g.EVENT_TICK - g.LABEL_GAP), "text-anchor": "start" }, label.text);
-  }
-
   // Labels at the right end of each line, apart.
   const labels = [];
   const lastPresent = (values) => {

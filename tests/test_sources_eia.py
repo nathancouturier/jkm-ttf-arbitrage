@@ -105,9 +105,9 @@ def test_the_regions_are_the_five_the_flow_analysis_names():
 # The workbook's structure, and what is and is not read
 # --------------------------------------------------------------------------
 
-def test_the_frame_starts_in_january_2016_and_dates_months_on_the_15th():
+def test_the_frame_starts_with_the_table_in_january_1973_and_dates_months_on_the_15th():
     frame, _, _ = eia.parse_exports_workbook(AUGUST)
-    assert frame["date"].min() == pd.Timestamp("2016-01-15")
+    assert frame["date"].min() == pd.Timestamp("1973-01-15")
     assert frame["date"].max() == pd.Timestamp("2026-06-15")
     assert set(frame["date"].dt.day) == {15}
     assert frame["date"].is_monotonic_increasing
@@ -183,16 +183,22 @@ def test_every_row_carries_the_price_of_its_own_series():
     priced = frame["usd_per_mcf"].dropna()
     assert len(priced) > 1000
     assert priced.min() > 0
-    # Prices and volumes do not always come together. One price stands on a
-    # volume printed as 0 (Canada by truck, January 2018), and eight months of
-    # 2019 carry a volume with no price. Both are kept as EIA prints them.
+    # Prices and volumes do not always come together. Two prices stand on no
+    # volume: re-exports to Mexico in November 2013, whose volume cell is
+    # empty, and Canada by truck in January 2018, whose volume is printed as
+    # 0. Over the whole table 242 rows carry a volume with no price: the
+    # Kenai years of 1973 to 1988 and 1997 to 2000, with the LNG total of the
+    # same months, and eight months of 2019. All are kept as EIA prints them.
     no_volume = frame[frame["usd_per_mcf"].notna() & ~(frame["mmcf"] > 0)]
-    assert no_volume["series_id"].tolist() == ["NGM_EPG0_ETR_NUS-NCA_MMCF"]
-    assert no_volume["date"].tolist() == [pd.Timestamp("2018-01-15")]
-    assert no_volume["usd_per_mcf"].item() == 19.21
+    assert no_volume["series_id"].tolist() == ["NGM_EPG0_ERE_NUS-NMX_MMCF", "NGM_EPG0_ETR_NUS-NCA_MMCF"]
+    assert no_volume["date"].tolist() == [pd.Timestamp("2013-11-15"), pd.Timestamp("2018-01-15")]
+    assert no_volume["usd_per_mcf"].tolist() == [13.45, 19.21]
     no_price = frame[frame["usd_per_mcf"].isna() & (frame["mmcf"] > 0)]
-    assert len(no_price) == 8
-    assert set(no_price["date"].dt.year) == {2019}
+    assert len(no_price) == 242
+    assert set(no_price["date"].dt.year) == set(range(1973, 1989)) | set(range(1997, 2001)) | {2019}
+    since_2016 = no_price[no_price["date"] >= pd.Timestamp("2016-01-01")]
+    assert len(since_2016) == 8
+    assert set(since_2016["date"].dt.year) == {2019}
 
 
 def test_a_price_series_missing_from_data_2_stops_the_parse(monkeypatch):

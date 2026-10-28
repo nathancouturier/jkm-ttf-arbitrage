@@ -25,16 +25,19 @@ Read this part first.
   2016 to July 2026, a dollar more of arb east at loading went with 1.7 points
   more of US exports by vessel going to Asia, at a t statistic of 2.3 with
   Newey-West errors, and an R squared of 0.11. Without 2020, 2022 and 2026 the
-  slope is 5.3 points and R squared 0.25. Long term contracts, Panama's slots,
+  slope is 5.5 points and R squared 0.25. Long term contracts, Panama's slots,
   China's tariff on US LNG from February 2025 and the cost of a ship already
   chartered also move cargoes, and the test cannot separate them.
-- **Charter rates are sparse.** The study holds ten rates, reported by Spark
-  and the trade press, each dated by the day it refers to or, where the
-  article gives none, by the article's date. Every date is worked at the
-  lowest, the median and the highest of them, and at the one reported nearest
-  it where one lies within 14 days, never at a rate made up for it.
+- **Charter rates are one a month at most.** The study holds 51 rates,
+  reported by Spark and the trade press from January 2021, the first reported
+  in each month, each dated by the day it refers to or, where the article
+  gives none, by the article's date. Every date is worked at the lowest, the
+  median and the highest of those reported for the ship it is priced with (the
+  160,000 m3 TFDE to 1 January 2024, the 174,000 m3 two-stroke since), and at
+  the one reported nearest it where one lies within 14 days, never at a rate
+  made up for it.
 - **The engine adds no wait at Panama.** The Flows view sets Panama against
-  the Cape with the 12 and 15 days reported for LNG in July and December 2023
+  the Cape with the 12, 17 and 15 days reported for July, August and December 2023
   only; every other restriction is drawn on the timeline, and any wait or slot
   premium is for the reader to type.
 - **"Suez closed to a US cargo" is an absence of reports.** No source read
@@ -70,7 +73,7 @@ Read this part first.
   data of their dates, the landing sentence recomposed as you type.
   `src/engine.js` mirrors `src/lngarb/engine.py` and is held to it to 1e-9 on
   254 cases, and the calculator's own handling of edits is held to its Python
-  reading on 23 named edits.
+  reading on 27 named edits.
 - **Routes, history and flows.** A map of the four routes drawn from the
   lines their distances are measured on, with when each was open to a US
   cargo, band by band with its source; every week since September 2021 and
@@ -164,6 +167,14 @@ records with what is lost without each:
 4. **METI's monthly releases**, one PDF per month from 2014 to 2021, saved from
    a browser for the preliminary figures.
 
+A fifth kind of step is the owner's own: a series held under terms that
+forbid publishing it (a subscription's export, a table typed from a paid
+report) is declared once in `lngarb.config.USER_CSV_SERIES`, saved by hand as
+`data/private/user/<series>.csv`, and read by `python scripts/refresh.py
+--only user`, which validates it like every other series and records it with
+`committable` false; the file never reaches a commit (`docs/sources.md`,
+2.25). None is declared in this repository.
+
 ---
 
 ## Provenance
@@ -178,12 +189,16 @@ records with what is lost without each:
 | Japan spot LNG price, monthly, to March 2021 | Ministry of Economy, Trade and Industry of Japan | compatible with CC BY 4.0 | yes |
 | Japan spot LNG price, monthly, from April 2021 | Japan Organization for Metals and Energy Security | permission not granted | no, private |
 | Pink Sheet gas prices, monthly, and their revisions | The World Bank | CC BY 4.0 | yes |
-| EU allowance price, monthly | European Commission; after June 2025, DEHSt's German auctions on EEX | CC BY 4.0; CC BY-NC-ND 4.0 | yes |
+| EU allowance price, monthly, from November 2012 | European Commission; after June 2025, DEHSt's German auctions on EEX, read from 2013 | CC BY 4.0; CC BY-NC-ND 4.0 | yes |
 | US dollars per euro, daily | Federal Reserve Board, H.10 | US public domain | yes |
-| SOFR, and EFFR before it, daily | Federal Reserve Bank of New York | New York Fed Terms of Use | yes |
+| SOFR, daily, and the indicative SOFR of August 2014 to March 2018 | Federal Reserve Bank of New York | New York Fed Terms of Use | yes |
+| Effective federal funds rate, daily, from 1954, before the indicative SOFR | Federal Reserve Board, H.15 | US public domain | yes |
 | US dollars per SDR, daily | International Monetary Fund, through the Deutsche Bundesbank | IMF terms, with attribution | yes |
 | Reported charter rates | this study, from Spark Commodities, LNG Prime and Hellenic Shipping News | the publishers' terms forbid republishing their articles; only the figures and their sources are kept | yes |
 | The four sea routes | this study, with searoute over Eurostat's SeaRoute network | distances MIT; lines EUPL 1.2 | yes |
+| Canal Waters Time and transits at Panama, monthly from July 2006; LNG transits by fiscal year | Panama Canal Authority | terms of use forbidding commercial reproduction; kept for this non-commercial study | yes |
+| LNG carriers through Suez by year, from 2007 | Suez Canal Authority | all rights reserved; facts restated with attribution | yes |
+| LNG through each chokepoint, by year from 2020 and by quarter | U.S. Energy Information Administration, analysis based on Vortexa data | US public domain | yes |
 
 Every series' terms, quoted in its publisher's own words, and every trap met
 in reading it, are in [`docs/sources.md`](docs/sources.md); the site's
@@ -216,12 +231,15 @@ licences beside them.
 - European Union Agency for the Cooperation of Energy Regulators (ACER).
 - Created by processing the information in the Spot LNG Price Statistics
   (Ministry of Economy, Trade and Industry of Japan).
-- The World Bank, Commodity Price Data (The Pink Sheet), CC BY 4.0. The World
-  Bank does not endorse this study.
+- The World Bank: Commodity Price Data (The Pink Sheet): Bloomberg Finance
+  L.P.; World Gas Intelligence; Thomson Reuters Datastream; The Wall Street
+  Journal; Official Statistics of Japan; World Bank, CC BY 4.0, in the format
+  its dataset terms prescribe. The World Bank does not endorse this study.
 - European Commission auction reports, CC BY 4.0; Source: EEX, DEHSt, CC BY-NC-ND
   4.0, the monthly averages reproduced unchanged.
-- Board of Governors of the Federal Reserve System; the Federal Reserve Bank of
-  New York, whose notice on SOFR and EFFR is in `NOTICE`.
+- Board of Governors of the Federal Reserve System, H.10 and H.15; the Federal
+  Reserve Bank of New York, which calculates the federal funds rate and whose
+  notice on SOFR is in `NOTICE`.
 - International Monetary Fund, exchange rate data, through the Deutsche
   Bundesbank.
 - Spark Commodities, LNG Prime and Hellenic Shipping News, for the charter

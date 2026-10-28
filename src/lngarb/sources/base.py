@@ -628,6 +628,8 @@ def find_gaps(dates: Iterable[Any], frequency: str) -> list[str]:
                       day for a holiday is not a missing week.
             monthly   every calendar month must carry an observation. A gap is
                       reported as the first of the month.
+            quarterly every calendar quarter must carry an observation. A gap
+                      is reported as the first day of the quarter.
             annual    every year must carry an observation. A gap is reported
                       as the first of January.
 
@@ -657,6 +659,9 @@ def find_gaps(dates: Iterable[Any], frequency: str) -> list[str]:
     elif frequency == "monthly":
         anchors = pd.DatetimeIndex(index.to_period("M").to_timestamp()).unique()
         expected = pd.date_range(anchors.min(), anchors.max(), freq="MS")
+    elif frequency == "quarterly":
+        anchors = pd.DatetimeIndex(index.to_period("Q").to_timestamp()).unique()
+        expected = pd.date_range(anchors.min(), anchors.max(), freq="QS")
     else:  # annual
         anchors = pd.DatetimeIndex(index.to_period("Y").to_timestamp()).unique()
         expected = pd.date_range(anchors.min(), anchors.max(), freq="YS")
@@ -850,6 +855,9 @@ STATUS_VALUES = ("ok", "stale", "failed")
 #   frequency     gap lists mean nothing without it, see find_gaps
 #   page_url      the human page, the stable thing to link on the provenance
 #                 panel when a machine URL has to be discovered
+#   linkable      whether the publisher's pages may be linked; False when its
+#                 terms require a permission not granted, and url and page_url
+#                 are then empty (added here, not in the sibling)
 #   observations  rows counts the lines in the file, observations counts the
 #                 ones that carry a value for this series
 ENTRY_KEYS = (
@@ -857,6 +865,7 @@ ENTRY_KEYS = (
     "source",
     "url",
     "page_url",
+    "linkable",
     "machine_fetched",
     "fetched_at",
     "checked_at",
@@ -1056,6 +1065,10 @@ class Adapter:
     url: str = ""
     #: the human readable page, for the provenance panel
     page_url: str = ""
+    #: False when the publisher's terms require a permission for a link that
+    #: has not been granted: url and page_url are then written empty, and the
+    #: adapter keeps the addresses it reads to itself.
+    linkable: bool = True
     #: unit of the value columns
     unit: str = ""
     #: one of lngarb.config.FREQUENCIES. Gap detection needs it.
@@ -1176,7 +1189,7 @@ class Adapter:
             raise SourceError(
                 "%s is not registered in lngarb.config.SOURCES" % (self.name,)
             )
-        for field in ("frequency", "method", "committable"):
+        for field in ("frequency", "method", "committable", "linkable"):
             mine = getattr(self, field)
             theirs = getattr(registered, field)
             if mine != theirs:
@@ -1221,8 +1234,9 @@ class Adapter:
         return {
             "series": self.name,
             "source": self.source,
-            "url": self.url,
-            "page_url": self.page_url,
+            "url": self.url if self.linkable else "",
+            "page_url": self.page_url if self.linkable else "",
+            "linkable": bool(self.linkable),
             "machine_fetched": bool(self.machine_fetched),
             "fetched_at": (self.fetched_at or utc_now_iso()) if self.machine_fetched else None,
             "checked_at": None if self.machine_fetched else utc_now_iso(),

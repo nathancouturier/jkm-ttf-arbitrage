@@ -148,28 +148,51 @@ def test_the_ticks_fall_inside_their_range(history):
     assert all(page["monthly"]["first"] <= t["day"] <= page["monthly"]["last"] for t in page["monthly"]["ticks"])
 
 
-def _counts_by_part(points):
-    counts = {"boil_off": 0, "regas": 0, "voyage": 0}
-    for p in points:
-        parts = {k: p[k] for k in counts if p[k] is not None}
-        if parts:
-            counts[max(parts, key=lambda k: abs(parts[k]))] += 1
-    return counts
-
-
-def test_the_parts_of_s_star_add_up_and_each_range_counts_the_largest(history):
+def test_the_parts_of_s_star_add_up_to_it_on_every_week_with_an_open_route(history):
     weekly = history["page"]["weekly"]
-    keys = ("day", "boil_off", "regas", "voyage", "s_central")
-    points = [dict(zip(keys, values)) for values in zip(*(weekly[k] for k in keys)) if values[0] is not None]
-    for p in points:
-        if p["s_central"] is not None:
-            # values are rounded to six places in the artifact
-            assert p["boil_off"] + p["regas"] + p["voyage"] == pytest.approx(p["s_central"], abs=2e-6)
-    for r in weekly["ranges"]:
-        chosen = [p for p in points if r["first"] <= p["day"] <= r["last"]]
-        counts = _counts_by_part(chosen)
-        named = [s["value"] for s in r["parts_heading_segments"] if s.get("format") == "count"]
-        assert named == [c for c in sorted(counts.values(), reverse=True) if c], r["id"]
+    counted = 0
+    for index, day in enumerate(weekly["day"]):
+        if day is None or weekly["route"][index] is None:
+            assert weekly["boil_off"][index] is None and weekly["regas"][index] is None and weekly["voyage"][index] is None
+            continue
+        total = weekly["boil_off"][index] + weekly["regas"][index] + weekly["voyage"][index]
+        assert abs(total - weekly["s_central"][index]) < 1e-5
+        counted += 1
+    assert counted > 200
+    for item in weekly["ranges"]:
+        values = _values(item["parts_heading_segments"])
+        assert abs(values["mean_boil_off"] + values["mean_regas"] + values["mean_voyage"] - values["mean_s"]) < 1e-5
+        assert item["parts_y"]["low"] <= values["mean_regas"] and values["mean_voyage"] <= item["parts_y"]["high"]
+
+
+def test_the_mixed_and_misaligned_weeks_of_each_range_are_counted_from_the_columns(history):
+    weekly = history["page"]["weekly"]
+    for item in weekly["ranges"]:
+        inside = [i for i, day in enumerate(weekly["day"]) if day is not None and item["first"] <= day <= item["last"]]
+        assert item["mixed_weeks"] == sum(weekly["alignment"][i] == "mixed" for i in inside)
+        assert item["misaligned_weeks"] == sum(weekly["alignment"][i] == "misaligned" for i in inside)
+    assert sum(a == "mixed" for a in weekly["alignment"]) > 0
+
+
+def test_the_events_are_lettered_in_order_of_day_and_each_has_a_source(history):
+    events = history["page"]["events"]
+    # A to Z, then AA, AB and on, as the events module letters them.
+    def letter(index):
+        out = ""
+        while True:
+            out = chr(ord("A") + index % 26) + out
+            index = index // 26 - 1
+            if index < 0:
+                return out
+    assert [e["letter"] for e in events] == [letter(i) for i in range(len(events))]
+    assert [e["day"] for e in events] == sorted(e["day"] for e in events)
+    for event in events:
+        assert event["what"].endswith(".") and event["source"]
+        assert event["dated_to"] in ("day", "month")
+        assert re.fullmatch(r"\d{4}-\d{2}-\d{2}", event["day"])
+    rules = history["page"]["event_rules"]
+    assert [r["day"] for r in rules] == sorted({e["day"] for e in events})
+    assert [letter for r in rules for letter in r["letters"]] == [e["letter"] for e in events]
 
 
 def test_the_regas_panel_counts_weeks_observed_and_the_assumption_equals_the_spread_where_unobserved(history):

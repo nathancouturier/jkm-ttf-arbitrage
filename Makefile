@@ -5,7 +5,7 @@
 # help target prints those commands. Recipes use tabs, POSIX sh.
 
 .DEFAULT_GOAL := help
-.PHONY: help data data-offline data-jobs routes acer build serve test validate gate site
+.PHONY: help data data-offline data-jobs routes build serve acer test validate gate site
 
 help:
 	@echo "targets"
@@ -17,20 +17,23 @@ help:
 	@echo "                     equivalent: python scripts/refresh.py --list"
 	@echo "  make routes        recompute the four sea routes with searoute 1.6.0 and rewrite the seed"
 	@echo "                     equivalent: python scripts/routes.py (needs searoute==1.6.0 installed)"
-	@echo "  make acer          parse ACER's history saved by hand and the main site's documents"
-	@echo "                     equivalent: python scripts/refresh.py --only acer"
-	@echo "  make build         the site's data from the committed caches, no network"
-	@echo "                     equivalent: PYTHONPATH=src python -m lngarb.export, then python -m lngarb.versions"
-	@echo "  make serve         the site at http://localhost:8131/jkm-ttf-arbitrage/"
+	@echo "  make build         rewrite the JSON files the site reads and the content hashes in index.html"
+	@echo "                     equivalent: PYTHONPATH=src python -m lngarb.export"
+	@echo "                                 PYTHONPATH=src python -m lngarb.versions"
+	@echo "  make serve         serve the site at http://localhost:8131/jkm-ttf-arbitrage/"
 	@echo "                     equivalent: python scripts/serve.py --port 8131"
+	@echo "  make acer          read ACER's TERMINAL download saved by hand into data/private/acer/ and ACER's notice"
+	@echo "                     equivalent: python scripts/refresh.py --only acer"
 	@echo "  make test          the python suite"
 	@echo "                     equivalent: python -m pytest tests"
 	@echo "  make validate      the node validators, no network, no python"
 	@echo "                     equivalent: node tools/<each>.mjs, for validate-data, validate-engine,"
 	@echo "                                 validate-artifacts, check-paths, check-literals, check-styles"
-	@echo "  make gate          everything that must pass before a change lands"
+	@echo "  make gate          everything that must pass before a change lands, as the build workflow runs it"
 	@echo "                     equivalent: python scripts/refresh.py --offline"
+	@echo "                                 git diff --exit-code -- data/manifest.json data/cache data/seed"
 	@echo "                                 python -m pytest tests"
+	@echo "                                 make build, then git diff --exit-code -- data index.html"
 	@echo "                                 the node validators above"
 	@echo "  make site          the page in a headless browser: the calculator's form and every screenshot"
 	@echo "                     equivalent: python scripts/serve.py --port 8131   (in another shell)"
@@ -49,15 +52,15 @@ data-jobs:
 routes:
 	python scripts/routes.py
 
-acer:
-	python scripts/refresh.py --only acer
-
 build:
 	PYTHONPATH=src python -m lngarb.export
 	PYTHONPATH=src python -m lngarb.versions
 
 serve:
 	python scripts/serve.py --port 8131
+
+acer:
+	python scripts/refresh.py --only acer
 
 test:
 	python -m pytest tests
@@ -72,7 +75,11 @@ validate:
 
 gate:
 	python scripts/refresh.py --offline
+	git diff --exit-code -- data/manifest.json data/cache data/seed
 	python -m pytest tests
+	PYTHONPATH=src python -m lngarb.export
+	PYTHONPATH=src python -m lngarb.versions
+	git diff --exit-code -- data index.html
 	node tools/validate-data.mjs
 	node tools/validate-engine.mjs
 	node tools/validate-artifacts.mjs

@@ -341,8 +341,9 @@ AVAILABILITY: Mapping[str, Sequence[tuple[str, str, str, str, str | None, str]]]
          "19 June 2023; 12 days of delay for unbooked vessels in late July",
          "Panama Canal Authority, advisories of 2023; LNG Prime, 28 July 2023", None, "published"),
         ("2023-07-30", "restricted", "daily transits cut to an average of 32, 10 of them neopanamax; queues of "
-         "up to 21 days in August, all ship types",
-         "Panama Canal Authority, advisory A-35-2023; IEA, Global Gas Security Review 2024", None, "published"),
+         "up to 21 days in August, all ship types, and at least 17 days for neopanamax ships",
+         "Panama Canal Authority, advisory A-35-2023; IEA, Global Gas Security Review 2024; EIA, Today in "
+         "Energy, 31 October 2023", None, "published"),
         ("2023-11-01", "restricted", "31 transits a day, 9 of them neopanamax, then 8, 7 and 6 neopanamax "
          "booking slots in December; waits of 15 days for unreserved LNG carriers in mid December",
          "Panama Canal Authority, advisories A-48-2023 and A-53-2023; IEA, Gas Market Report Q1 2024", None,

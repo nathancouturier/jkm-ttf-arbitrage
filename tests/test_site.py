@@ -68,13 +68,13 @@ def test_a_publisher_whose_terms_forbid_links_is_linked_from_nothing_the_page_re
     Its address stays in the registry, for the code that reads it privately,
     and its domain appears in nothing the page loads or links to.
     """
-    from urllib.parse import urlsplit
-
     from lngarb.config import SOURCES
 
+    # the registry carries no address for a publisher that may not be linked;
     # the registrable domain, so a link to any of the publisher's hosts fails
-    domains = {".".join(urlsplit(s.page_url).hostname.split(".")[-3:]) for s in SOURCES.values() if not s.linkable}
-    assert domains == {"jogmec.go.jp"}
+    assert {s.series for s in SOURCES.values() if not s.linkable} == {"jogmec_spot_lng_monthly"}
+    assert all(not s.page_url and not s.machine_url for s in SOURCES.values() if not s.linkable)
+    domains = {"jogmec.go.jp"}
     page = [ROOT / "index.html", ROOT / "README.md", ROOT / "NOTICE",
             *sorted((ROOT / "data").glob("*.json")), *sorted((ROOT / "src").glob("*.js"))]
     for path in page:
@@ -88,7 +88,7 @@ def test_the_provenance_row_of_an_unlinkable_publisher_has_no_page_url():
 
     rows = json.loads((ROOT / "data" / "provenance.json").read_text(encoding="utf-8"))["series"]
     row = next(r for r in rows if r["id"] == "jogmec_spot_lng_monthly")
-    assert row["page_url"] is None
+    assert not row["page_url"] and row["page_words"]
     entries = base.manifest_read()["series"]
     entry = next(e for e in entries if e["series"] == "jogmec_spot_lng_monthly")
-    assert (entry["linkable"], entry["url"], entry["page_url"]) == (False, None, None)
+    assert entry["linkable"] is False and not entry["url"] and not entry["page_url"]

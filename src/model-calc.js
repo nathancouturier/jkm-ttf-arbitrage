@@ -43,7 +43,10 @@ export function present(value) {
  *   boil_off_percent, fill_percent, load_days, discharge_days, port_west_usd,
  *   port_east_usd, eua_eur_t, ets_phase, ets_voyage_share, ets_berth_share,
  *   rate_percent, spread_bp, mmbtu_per_m3, mmbtu_per_t_lng,
- *   hh_multiple_percent, methane_slip (true or false), methane_slip_percent
+ *   hh_multiple_percent, tco2_per_t_lng (the carbon dioxide of a tonne burnt)
+ *   and methane_slip_percent (a share of the gas not burnt), both reworked
+ *   into the carbon factor of the preset's date and of each year the voyage
+ *   touches, with model.carbon, as lngarb.worked.ets_tco2e_per_t does)
  *   per route: open (true or false), laden_sea_days, ballast_sea_days (null:
  *   an empty field, the days from the distance; NaN: missing), flex_days,
  *   ballast_route (a route id, or the route's own), canal_laden_usd,
@@ -55,6 +58,36 @@ export function present(value) {
 const SCALARS = Object.freeze(["jkm", "ttf", "delta_nwe", "henry_hub", "liquefaction_fee", "hire_usd_day",
   "port_west_usd", "port_east_usd", "rate_percent", "spread_bp", "mmbtu_per_m3", "mmbtu_per_t_lng",
   "ets_voyage_share", "ets_berth_share"]);
+const CARBON = Object.freeze(["tco2_per_t_lng", "methane_slip_percent"]);
+
+/** The carbon factor reworked for a typed carbon dioxide per tonne burnt or a
+ *  typed slip, for the preset's day and, where the voyage is split by calendar
+ *  year, for each year of the split: the Python's presets, step for step. A
+ *  refused figure (NaN) empties the factor, and with it the allowance line. */
+function recarbon(inputs, carbon, units, typed) {
+  const slip = "methane_slip_percent" in typed ? typed.methane_slip_percent / units.percent_per_one : 0;
+  const tco2 = "tco2_per_t_lng" in typed ? typed.tco2_per_t_lng : carbon.tco2_per_t_lng;
+  inputs.tco2_per_t_lng = carbonFactor(carbon, inputs.day, slip, tco2);
+  if (inputs.ets_by_year) {
+    // The first day of each year, written as the artifact writes the day
+    // methane counts from, which is itself a first of January.
+    const firstOfJanuary = carbon.ch4_n2o_from.slice(carbon.ch4_n2o_from.indexOf("-"));
+    for (const [year, [phase]] of Object.entries(inputs.ets_by_year)) {
+      inputs.ets_by_year[year] = [phase, carbonFactor(carbon, year + firstOfJanuary, slip, tco2)];
+    }
+  }
+}
+
+/** The carbon factor of a day with a share of the gas slipped: the carbon
+ *  dioxide of the gas burnt at every date; from the day methane counts, the
+ *  slipped share as methane at its warming potential and the nitrous oxide
+ *  of the gas burnt. The Python's lngarb.worked.ets_tco2e_per_t, step for step. */
+export function carbonFactor(carbon, day, slip, tco2 = carbon.tco2_per_t_lng) {
+  const burnt = 1 - slip;
+  let factor = tco2 * burnt;
+  if (day >= carbon.ch4_n2o_from) factor += slip * carbon.gwp_ch4 + burnt * carbon.tn2o_per_t_lng * carbon.gwp_n2o;
+  return factor;
+}
 const ROUTE_NUMBERS = Object.freeze(["flex_days", "canal_days", "wait_days", "canal_laden_usd", "canal_ballast_usd",
   "slot_premium_usd"]);
 
@@ -106,6 +139,7 @@ export function applyEdits(preset, edits, model) {
     }
   }
 
+  const typedCarbon = {};
   for (const edit of edits) {
     if (edit.route) continue;
     if (SCALARS.includes(edit.key)) inputs[edit.key] = usable(edit);
@@ -119,29 +153,9 @@ export function applyEdits(preset, edits, model) {
       // split by calendar year.
       inputs.ets_by_year = null;
       inputs.ets_phase = usable(edit);
-    }
+    } else if (CARBON.includes(edit.key)) typedCarbon[edit.key] = usable(edit);
   }
-
-  // Methane slip, when ticked: the ship's default share, or the one typed.
-  // The slipped share is not burnt: it leaves the CO2 and N2O terms and, from
-  // the year methane enters the EU ETS, counts at its warming potential, as
-  // lngarb.worked.ets_tco2e_per_t counts it.
-  const slipOn = edits.find((edit) => edit.key === "methane_slip");
-  if (slipOn && slipOn.value === true && model.carbon) {
-    const carbon = model.carbon;
-    const typed = edits.find((edit) => edit.key === "methane_slip_percent");
-    const share = typed ? usable(typed) / units.percent_per_one : carbon.slip[ship];
-    const factor = (year) => {
-      const burnt = 1 - share;
-      let out = carbon.tco2_per_t_lng * burnt;
-      if (year >= carbon.ch4_n2o_from_year) out += share * carbon.gwp_ch4 + burnt * carbon.tn2o_per_t_lng * carbon.gwp_n2o;
-      return out;
-    };
-    if (inputs.ets_by_year) {
-      for (const year of Object.keys(inputs.ets_by_year)) inputs.ets_by_year[year][1] = factor(Number(year));
-    }
-    inputs.tco2_per_t_lng = factor(Number(String(inputs.day).split("-")[0]));
-  }
+  if (Object.keys(typedCarbon).length) recarbon(inputs, model.carbon, units, typedCarbon);
 
   // Figures quoted in euros, converted at the exchange rate in force: the
   // preset's, or the one typed. An allowance price the preset does not hold

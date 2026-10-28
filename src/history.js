@@ -5,14 +5,18 @@
  * and the hire at which that route nets what Gate does, against the charter
  * rates reported.
  *
- * THREE PANELS. The weekly spread over the band of S*, the breakeven spread
+ * FOUR PANELS. The weekly spread over the band of S*, the breakeven spread
  * of the cheapest open route east, between the low and the high hire, its
  * middle line the central hire: where the spread line runs above that line
  * the arb east was open. The breakeven hire H* of the same route, with each
  * reported charter rate as a point, the latest in the accent: a rate below
  * the line is a week the arb was open at the market's own freight. The
  * monthly spread over the same band from 2016, with the change of price
- * definition in 2021 marked.
+ * definition in 2021 marked. Between the second and the third, what S* is
+ * made of: its three parts for the cheapest open route at the central hire.
+ * Rings mark the weeks whose two front months name different delivery
+ * months, full where they do on every trading day and dashed where on some;
+ * lettered rules mark the events listed under the charts.
  *
  * RANGES. Named ranges cut the two weekly panels; each comes with its own
  * domains, ticks and sentences in data/history.json, and the address keeps
@@ -120,7 +124,6 @@ export function render(root, data, route) {
     sentence("p", page.breaks_lead_segments, decimals, "lead"),
     breaksTable(page),
   ]));
-  root.appendChild(sentence("p", page.source_segments, decimals, "source-line block"));
   return title;
 }
 
@@ -169,9 +172,8 @@ function weeklyFigure(page, range, decimals, chosenRoute, routes) {
   const days = pick(weekly.day, indexes);
   const marks = [];
   indexes.forEach((index, at) => {
-    if (index === null) return;
-    if (weekly.alignment[index] === "misaligned") marks.push({ index: at });
-    else if (weekly.alignment[index] === "mixed") marks.push({ index: at, kind: "mixed" });
+    if (index !== null && weekly.alignment[index] === "misaligned") marks.push({ index: at, kind: "misaligned" });
+    if (index !== null && weekly.alignment[index] === "mixed") marks.push({ index: at, kind: "mixed" });
   });
   const frame = el("div", { class: "chart-frame" });
   charts.onWidthChange(frame, (width) => {
@@ -187,7 +189,7 @@ function weeklyFigure(page, range, decimals, chosenRoute, routes) {
       marks,
       points: lastPoint(days, pick(weekly.spread, indexes)),
       rules: page.rules,
-      events: page.event_marks,
+      events: page.event_rules,
       ticks: range.ticks,
       words: {
         title: chosenRoute ? segmentsText(chosenRoute.caption_segments, decimals) : segmentsText(range.heading_segments, decimals),
@@ -200,9 +202,47 @@ function weeklyFigure(page, range, decimals, chosenRoute, routes) {
     routes,
     frame,
     ...(chosenRoute ? [sentence("p", chosenRoute.caption_segments, decimals, "source-line")] : []),
-    el("p", { class: "source-line", text: page.words.legend }),
+    el("p", { class: "source-line", text: page.words.legend + " " + page.words.marks_legend }),
     sentence("p", range.caption_segments, decimals, "source-line"),
+    sentence("p", page.source_segments, decimals, "source-line"),
     disclosure("The weeks by year, in a table", () => yearsTable(range.years, page.words.weeks, decimals)),
+  ]);
+}
+
+function partsFigure(page, range, decimals) {
+  const weekly = page.weekly;
+  const indexes = slice(weekly, range);
+  const days = pick(weekly.day, indexes);
+  const frame = el("div", { class: "chart-frame" });
+  charts.onWidthChange(frame, (width) => {
+    frame.replaceChildren(charts.timeChart({
+      width,
+      days,
+      first: range.first,
+      last: range.last,
+      y: range.parts_y,
+      band: null,
+      reference: null,
+      references: [
+        { values: pick(weekly.boil_off, indexes), label: page.words.parts.boil_off, pattern: "thin" },
+        { values: pick(weekly.regas, indexes), label: page.words.parts.regas, pattern: "dash" },
+        { values: pick(weekly.voyage, indexes), label: page.words.parts.voyage, pattern: "dot" },
+      ],
+      series: { values: pick(weekly.s_central, indexes), label: page.words.parts.total },
+      marks: [],
+      rules: page.rules,
+      events: page.event_rules,
+      points: lastPoint(days, pick(weekly.s_central, indexes)),
+      ticks: range.ticks,
+      words: { title: segmentsText(range.parts_heading_segments, decimals), desc: segmentsText(range.parts_desc_segments, decimals), yAxis: page.words.y_axis },
+    }));
+  });
+  return el("figure", { class: "block" }, [
+    sentence("h2", range.parts_heading_segments, decimals, "block__heading"),
+    frame,
+    el("p", { class: "source-line", text: page.words.parts_legend }),
+    sentence("p", range.parts_caption_segments, decimals, "source-line"),
+    sentence("p", page.source_segments, decimals, "source-line"),
   ]);
 }
 
@@ -226,6 +266,7 @@ function hstarFigure(page, range, decimals) {
       series: { values: pick(weekly.h_star, indexes), label: page.words.h_star },
       marks: [],
       rules: page.rules,
+      events: page.event_rules,
       points,
       ticks: range.ticks,
       height: width < charts.GEOMETRY.NARROW_WIDTH ? charts.GEOMETRY.HSTAR_HEIGHT_NARROW : charts.GEOMETRY.HSTAR_HEIGHT,
@@ -237,6 +278,7 @@ function hstarFigure(page, range, decimals) {
     frame,
     el("p", { class: "source-line", text: page.words.hstar_legend }),
     sentence("p", range.hstar_caption_segments, decimals, "source-line"),
+    sentence("p", page.source_segments, decimals, "source-line"),
     disclosure("The charter rates reported, in a table", () => anchorsTable(page, decimals)),
   ]);
 }
@@ -258,7 +300,7 @@ function netbacksFigure(page, range, decimals) {
       series: { values: pick(weekly.west_netback, indexes), label: page.words.netbacks.west },
       marks: [],
       rules: page.rules,
-      events: page.event_marks,
+      events: page.event_rules,
       ticks: range.ticks,
       height: width < charts.GEOMETRY.NARROW_WIDTH ? charts.GEOMETRY.HSTAR_HEIGHT_NARROW : charts.GEOMETRY.HSTAR_HEIGHT,
       words: { title: segmentsText(range.netbacks_heading_segments, decimals), desc: page.words.netbacks_legend, yAxis: page.words.y_axis },
@@ -273,40 +315,6 @@ function netbacksFigure(page, range, decimals) {
 
 /* The three parts of S* of the cheapest open route, week by week: which one
  * dominates changes with the market. */
-function partsFigure(page, range, decimals) {
-  const weekly = page.weekly;
-  const indexes = slice(weekly, range);
-  const frame = el("div", { class: "chart-frame" });
-  charts.onWidthChange(frame, (width) => {
-    frame.replaceChildren(charts.timeChart({
-      width,
-      days: pick(weekly.day, indexes),
-      first: range.first,
-      last: range.last,
-      y: range.parts_y,
-      band: null,
-      reference: null,
-      references: [
-        { values: pick(weekly.boil_off, indexes), label: page.words.parts.boil_off, pattern: "thin" },
-        { values: pick(weekly.regas, indexes), label: page.words.parts.regas, pattern: "dot" },
-        { values: pick(weekly.voyage, indexes), label: page.words.parts.voyage, pattern: "reference" },
-      ],
-      series: { values: pick(weekly.s_central, indexes), label: page.words.parts.s_star },
-      marks: [],
-      rules: page.rules,
-      ticks: range.ticks,
-      height: width < charts.GEOMETRY.NARROW_WIDTH ? charts.GEOMETRY.HSTAR_HEIGHT_NARROW : charts.GEOMETRY.HSTAR_HEIGHT,
-      words: { title: segmentsText(range.parts_heading_segments, decimals), desc: page.words.parts_legend, yAxis: page.words.y_axis },
-    }));
-  });
-  return el("figure", { class: "block" }, [
-    sentence("h2", range.parts_heading_segments, decimals, "block__heading"),
-    frame,
-    el("p", { class: "source-line", text: page.words.parts_legend }),
-  ]);
-}
-
-/* Europe's DES spread to TTF as the engine took it, against the assumption. */
 function regasFigure(page, range, decimals) {
   const weekly = page.weekly;
   const indexes = slice(weekly, range);
@@ -351,7 +359,8 @@ function monthlyFigure(page, decimals) {
       marks: [],
       points: lastPoint(monthly.day, monthly.spread),
       rules: page.rules,
-      events: page.event_marks,
+      events: page.event_rules,
+      points: lastPoint(monthly.day, monthly.spread),
       ticks: monthly.ticks,
       words: { title: segmentsText(monthly.heading_segments, decimals), desc: segmentsText(monthly.desc_segments, decimals), yAxis: page.words.y_axis },
     }));
@@ -361,6 +370,7 @@ function monthlyFigure(page, decimals) {
     frame,
     el("p", { class: "source-line", text: page.words.legend }),
     sentence("p", monthly.caption_segments, decimals, "source-line"),
+    sentence("p", page.source_segments, decimals, "source-line"),
     disclosure("The months by year, in a table", () => yearsTable(monthly.years, page.words.months, decimals)),
   ]);
 }
@@ -414,21 +424,22 @@ function anchorsTable(page, decimals) {
 function eventsTable(page) {
   const body = el("tbody");
   for (const item of page.events) {
+    const source = item.url
+      ? el("a", { class: "text-link", text: item.source, attrs: { href: item.url, rel: "noopener" } })
+      : el("span", { text: item.source });
     body.appendChild(el("tr", {}, [
       el("th", { text: item.letter, attrs: { scope: "row" } }),
-      el("td", { class: "nowrap", text: formatDay(item.day) }),
-      el("td", { class: "nowrap", text: item.end ? formatDay(item.end) : "" }),
+      el("td", { class: "nowrap", text: formatDay(item.day) + (item.end ? " to " + formatDay(item.end) : "") + (item.dated_to === "month" ? ", the month" : "") }),
       el("td", { class: "words", text: item.what }),
-      el("td", { class: "words" }, [el("a", { class: "text-link", text: item.publisher, attrs: { href: item.url, rel: "noopener" } })]),
+      el("td", { class: "words" }, [source]),
     ]));
   }
   const table = el("table", { class: "table table--bands" }, [
     el("thead", {}, [el("tr", {}, [
-      el("th", { text: "Mark", attrs: { scope: "col" } }),
+      el("th", { text: "Rule", attrs: { scope: "col" } }),
       el("th", { text: "From", attrs: { scope: "col" } }),
-      el("th", { text: "To", attrs: { scope: "col" } }),
       el("th", { text: "What happened", attrs: { scope: "col" } }),
-      el("th", { text: "Read in", attrs: { scope: "col" } }),
+      el("th", { text: "Source", attrs: { scope: "col" } }),
     ])]),
     body,
   ]);

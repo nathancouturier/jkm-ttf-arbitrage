@@ -32,6 +32,7 @@ export function render(root, data) {
   root.appendChild(y2020Figure(page, decimals));
   root.appendChild(y2026Figure(page, decimals));
   root.appendChild(waitsBlock(page, decimals));
+  root.appendChild(canalsBlock(page, decimals));
   root.appendChild(el("div", { class: "block" }, [sentence("p", page.limits_segments, decimals, "lead")]));
   return title;
 }
@@ -130,6 +131,14 @@ function testBlock(page, decimals) {
   ]);
 }
 
+/* The months with a reported count of cancellations, as points on the notice
+ * line, the month with the most of them in the accent. */
+function cancelledPoints(months) {
+  const reported = months.filter((m) => m.cancelled !== null && m.cancelled !== undefined && m.notice.central !== null);
+  const most = reported.reduce((best, m) => (best === null || m.cancelled > best.cancelled ? m : best), null);
+  return reported.map((m) => ({ day: m.month, value: m.notice.central, accent: m === most }));
+}
+
 function y2020Figure(page, decimals) {
   const y2020 = page.y2020;
   const frame = el("div", { class: "chart-frame" });
@@ -146,7 +155,8 @@ function y2020Figure(page, decimals) {
       series: { values: y2020.months.map((m) => m.notice.central), label: page.words.notice },
       marks: [],
       rules: [],
-      events: y2020.cancelled_marks || [],
+      // The months EIA reported cancellations for, printed; the one with the most in the accent.
+      points: cancelledPoints(y2020.months),
       ticks: y2020.ticks,
       words: { title: segmentsText(y2020.heading_segments, decimals), desc: y2020.desc, yAxis: page.words.y_axis },
     }));
@@ -207,7 +217,8 @@ function y2026Figure(page, decimals) {
       series: { values: y2026.spread, label: page.words.spread },
       marks: [],
       rules: [],
-      points: y2026.accent ? [{ day: y2026.accent.day, value: y2026.accent.value, accent: true }] : [],
+      // The week set beside Platts' assessment, in the accent.
+      points: y2026.days.map((day, index) => ({ day, value: y2026.spread[index], accent: true })).filter((p) => p.day === y2026.assessment_week && p.value !== null),
       ticks: y2026.ticks,
       words: { title: segmentsText(y2026.heading_segments, decimals), desc: y2026.desc, yAxis: page.words.y_axis },
     }));
@@ -241,6 +252,7 @@ function y2026Figure(page, decimals) {
   return el("figure", { class: "block" }, [
     el("h2", { class: "block__heading", text: page.words.y2026_heading }),
     sentence("p", y2026.heading_segments, decimals, "lead"),
+    sentence("p", y2026.spring_segments, decimals, "prose"),
     frame,
     el("p", { class: "source-line", text: page.words.y2026_legend }),
     sentence("p", y2026.source_segments, decimals, "source-line"),
@@ -300,5 +312,90 @@ function waitsBlock(page, decimals) {
     sentence("p", waits.march_2024_segments, decimals, "prose"),
     scrollTable([page.words.waits_caption], table),
     el("p", { class: "source-line", text: page.waits.source }),
+  ]);
+}
+
+/** The months with a wait reported for LNG carriers, marked in the accent on the Canal Waters Time line. */
+function waitPoints(cwt) {
+  return cwt.days
+    .map((day, index) => ({ day, value: cwt.avg[index], accent: true }))
+    .filter((p) => cwt.wait_months.includes(p.day) && p.value !== null);
+}
+
+function chokepointTable(rows, names, captionSegments, words, decimals) {
+  const body = el("tbody");
+  for (const row of rows) {
+    body.appendChild(el("tr", {}, [
+      el("th", { text: row.label, attrs: { scope: "row" } }),
+      ...names.map((name) => figureCell(formatCell(row.values[name] === undefined ? null : row.values[name], "bcf_day", decimals), name.toLowerCase().replace(/[^a-z]+/g, "_"))),
+    ]));
+  }
+  const table = el("table", { class: "table" }, [
+    el("thead", {}, [el("tr", {}, [
+      el("th", { text: words.chokepoint_head, attrs: { scope: "col" } }),
+      ...names.map((name) => el("th", { class: "col-num", text: name, attrs: { scope: "col", "data-short": name.replace(/^(Strait of |Bab el-Mandeb |Cape of )/, "").replace(/ (Canal|Strait|Straits)$/, "") } })),
+    ])]),
+    body,
+  ]);
+  return scrollTable([sentence("span", captionSegments, decimals)], table);
+}
+
+function canalsBlock(page, decimals) {
+  const canals = page.canals;
+  const words = canals.words;
+  const cwt = canals.cwt;
+  const frame = el("div", { class: "chart-frame" });
+  charts.onWidthChange(frame, (width) => {
+    frame.replaceChildren(charts.timeChart({
+      width,
+      days: cwt.days,
+      first: cwt.days[0],
+      last: cwt.days[cwt.days.length - 1],
+      y: cwt.y,
+      band: null,
+      reference: null,
+      references: [
+        { values: cwt.high, label: "highest day", pattern: "thin" },
+        { values: cwt.low, label: "lowest day", pattern: "dot" },
+      ],
+      series: { values: cwt.avg, label: "month's average" },
+      marks: [],
+      rules: [],
+      points: waitPoints(cwt),
+      ticks: cwt.ticks,
+      words: { title: segmentsText(cwt.heading_segments, decimals), desc: cwt.desc, yAxis: words.cwt_y_axis },
+    }));
+  });
+  const body = el("tbody");
+  for (const row of canals.years) {
+    body.appendChild(el("tr", {}, [
+      el("th", { text: formatCell(row.year, "year", decimals), attrs: { scope: "row" } }),
+      figureCell(formatCell(row.suez_ships, "count", decimals), "suez_ships"),
+      figureCell(formatCell(row.suez_net_ton_thousand, "count", decimals), "suez_net_ton_thousand"),
+      figureCell(formatCell(row.panama_transits, "count", decimals), "panama_transits", { missing: "locks not yet open" }),
+    ]));
+  }
+  const years = el("table", { class: "table" }, [
+    el("thead", {}, [el("tr", {}, [
+      el("th", { text: words.year_head, attrs: { scope: "col" } }),
+      el("th", { class: "col-num", text: words.suez_head, attrs: { scope: "col", "data-short": "Suez" } }),
+      el("th", { class: "col-num", text: words.suez_tons_head, attrs: { scope: "col", "data-short": "net tons" } }),
+      el("th", { class: "col-num", text: words.panama_head, attrs: { scope: "col", "data-short": "Panama" } }),
+    ])]),
+    body,
+  ]);
+  return el("figure", { class: "block" }, [
+    el("h2", { class: "block__heading", text: words.heading }),
+    sentence("p", canals.heading_segments, decimals, "lead"),
+    scrollTable([words.years_caption], years),
+    el("p", { class: "source-line", text: words.years_source }),
+    sentence("p", cwt.heading_segments, decimals, "prose"),
+    frame,
+    el("p", { class: "source-line", text: words.cwt_legend }),
+    disclosure("LNG through each chokepoint, as EIA estimates it", () => el("div", {}, [
+      chokepointTable(canals.annual, canals.chokepoints, canals.annual_caption_segments, words, decimals),
+      chokepointTable(canals.quarterly, canals.chokepoints, canals.quarterly_caption_segments, words, decimals),
+      el("p", { class: "source-line", text: words.chokepoints_source }),
+    ])),
   ]);
 }

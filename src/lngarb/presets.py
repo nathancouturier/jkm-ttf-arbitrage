@@ -89,6 +89,7 @@ LIMITS: Mapping[str, tuple[float, float]] = {
     "mmbtu_per_m3": (15.0, 30.0),
     "mmbtu_per_t_lng": (40.0, 60.0),
     "hh_multiple_percent": (0.0, 200.0),
+    "tco2_per_t_lng": (0.0, 10.0),
     "methane_slip_percent": (0.0, 10.0),
 }
 
@@ -120,6 +121,7 @@ PARAMETER_SOURCES: Mapping[str, str] = {
     "mmbtu_per_t_lng": "mmbtu_per_t_lng",
     "ets_voyage_share": "ets_voyage_share",
     "ets_berth_share": "ets_berth_share",
+    "tco2_per_t_lng": "tco2_per_t_lng",
 }
 
 #: The ship's own parameters, per ship, by the key the page uses.
@@ -178,29 +180,6 @@ def _vessels() -> dict[str, Any]:
     small = worked.vessel_on("2023-12-31")
     big = worked.vessel_on("2024-01-02")
     return {"tfde_160k": asdict(small), "two_stroke_174k": asdict(big)}
-
-
-def carbon() -> dict[str, Any]:
-    """What the page needs to count methane slip as lngarb.worked does: the
-    factors of the CO2e a tonne of LNG burnt gives, the year methane and
-    nitrous oxide enter the EU ETS, and each ship's default slip share."""
-    p = config.PARAMETERS
-    return {
-        "tco2_per_t_lng": p["tco2_per_t_lng"].value, "tn2o_per_t_lng": p["tn2o_per_t_lng"].value,
-        "gwp_ch4": p["gwp_ch4"].value, "gwp_n2o": p["gwp_n2o"].value,
-        "ch4_n2o_from_year": date.fromisoformat(p["ets_ch4_n2o_from"].value).year,
-        "slip": {"tfde_160k": p["methane_slip_160k"].value, "two_stroke_174k": p["methane_slip_174k"].value},
-        "on": bool(p["methane_slip_on"].value),
-    }
-
-
-def with_slip(inputs: Inputs, share: float) -> Inputs:
-    """The inputs with this share of the LNG burnt slipped unburnt: each year's
-    CO2e factor as lngarb.worked.ets_tco2e_per_t gives it, the phases kept."""
-    years = None if inputs.ets_by_year is None else {
-        year: (phase, worked.ets_tco2e_per_t(date(year, 1, 1), share)) for year, (phase, _) in inputs.ets_by_year.items()}
-    return replace(inputs, ets_by_year=years,
-                   tco2_per_t_lng=worked.ets_tco2e_per_t(date(inputs.day.year, 1, 1), share))
 
 
 def _vessel_key(vessel: Vessel, vessels: Mapping[str, Any]) -> str:
@@ -264,6 +243,14 @@ def _source_words(inputs: Inputs) -> dict[str, str]:
     phases = config.PARAMETERS["ets_phase_in_by_year"]
     words["ets_phase"] = reader.dates_in_words(
         phases.source + "; the voyage's days in each calendar year at that year's share, until a share is typed")
+    slip = config.PARAMETERS
+    words["methane_slip_percent"] = reader.dates_in_words(
+        "this study: off unless a share is typed; the regulation's defaults are %s percent for a slow speed "
+        "Otto engine, the two-stroke's class, and %s for a medium speed Otto, the TFDE's (%s); from %s the "
+        "slipped share counts as methane at its warming potential of %s and leaves the carbon dioxide and "
+        "nitrous oxide of the gas burnt, before then it only leaves them"
+        % (format(100 * slip["methane_slip_174k"].value, "g"), format(100 * slip["methane_slip_160k"].value, "g"),
+           slip["methane_slip_174k"].source, slip["ets_ch4_n2o_from"].value, format(slip["gwp_ch4"].value, "g")))
     return words
 
 
@@ -279,37 +266,34 @@ def _assumed(inputs: Inputs) -> list[str]:
     return out
 
 
-def alignment(preset: Preset, day: date) -> dict[str, Any]:
-    """Whether the preset's JKM and TTF are for the same delivery month: for a
-    week, the share of its trading days on which the two front months name
-    the same month (lngarb.delivery), with each front month on the day; a
-    monthly preset compares monthly averages that name no delivery month."""
+def _delivery_segments(preset: Preset, inputs: Inputs) -> list[dict[str, Any]]:
+    """Which delivery months the preset's two prices name, and whether they agree (lngarb.delivery)."""
     if preset.prices == "monthly":
-        return {"tag": "not named", "share": None, "jkm_month": None, "ttf_month": None}
+        return [reader.T(" JKM is a monthly average of spot cargoes and TTF a monthly average, so no delivery "
+                         "month is named: the month's averages stand for the month.")]
+    day = inputs.day
+    jkm_month = delivery.jkm_front_month(day)
+    ttf_month = delivery.ttf_front_month(day)
     tag, share = delivery.week_alignment(day)
-    return {"tag": tag, "share": share, "jkm_month": delivery.jkm_front_month(day),
-            "ttf_month": delivery.ttf_front_month(day)}
-
-
-def _alignment_segments(found: Mapping[str, Any]) -> list[dict[str, Any]]:
-    """The delivery month flag in words, for the lead."""
-    if found["tag"] == "not named":
-        return [reader.T(" JKM's stand-in and TTF are monthly averages that name no delivery month, so the two are "
-                         "compared "), reader.W("alignment_status_word", "without a delivery month"), reader.T(".")]
-    if found["tag"] == "aligned":
-        return [reader.T(" Both front months were for "), reader.D("delivery_month", found["ttf_month"], "month"),
-                reader.T(" delivery every day of the week.")]
-    if found["tag"] == "misaligned":
-        share = [reader.T(" The two front months named different delivery months every day of the week")]
+    segments = [reader.T(" On the week's last day the JKM front month names delivery in "),
+                reader.D("jkm_month", jkm_month, "month")]
+    ttf_source = inputs.sources.get("ttf", "")
+    if "spot" in ttf_source or "day-ahead" in ttf_source:
+        segments += [reader.T(" and TTF is a spot price, which names no delivery month; the week counts as "),
+                     reader.W("alignment", tag), reader.T(" by the futures calendars alone.")]
+        return segments
+    segments += [reader.T(" and the TTF front month delivery in "), reader.D("ttf_month", ttf_month, "month")]
+    if tag == "aligned":
+        segments += [reader.T(": the week is "), reader.W("alignment", "aligned"),
+                     reader.T(", every trading day naming the same month for both.")]
+    elif tag == "misaligned":
+        segments += [reader.T(": the week is "), reader.W("alignment", "misaligned"),
+                     reader.T(", no trading day naming the same month for both, so the spread sets two arrival "
+                              "periods against each other.")]
     else:
-        share = [reader.T(" The two front months named the same delivery month on "),
-                 reader.N("aligned_share", found["share"] * 100.0, "share_percent"),
-                 reader.T(" percent of the week's days")]
-    return share + [
-            reader.T(", so the week is "), reader.W("alignment_status_word", found["tag"]),
-            reader.T(" and the two prices are compared across delivery months: on the loading day, JKM's front "
-                     "month was for "), reader.D("jkm_month", found["jkm_month"], "month"),
-            reader.T(" and TTF's for "), reader.D("ttf_month", found["ttf_month"], "month"), reader.T(".")]
+        segments += [reader.T(": the week is "), reader.W("alignment", "mixed"), reader.T(", the same month on "),
+                     reader.N("aligned_share", share, "share"), reader.T(" of its trading days.")]
+    return segments
 
 
 def _lead(preset: Preset, inputs: Inputs, missing: Mapping[str, str]) -> list[dict[str, Any]]:
@@ -319,8 +303,8 @@ def _lead(preset: Preset, inputs: Inputs, missing: Mapping[str, str]) -> list[di
         reader.T(". Prices and rates are the data's nearest that date, each dated under its field; "),
         reader.W("assumed", reader.listed(assumed)),
         reader.T(" are this study's assumptions, each named under its field or the route table."),
-        *_alignment_segments(alignment(preset, inputs.day)),
     ]
+    segments += _delivery_segments(preset, inputs)
     if missing:
         names = [MISSING_WORDS[key] for key in MISSING_WORDS if key in missing]
         segments += [
@@ -350,7 +334,7 @@ def complete(result: Mapping[str, Any]) -> bool:
 def model_document(latest_day: date, latest_prices: str,
                    inputs_json: Callable[[Inputs], dict[str, Any]]) -> dict[str, Any]:
     """model.json's body: the presets, the ships, the words the form uses."""
-    from .freight_anchors import hire_levels
+    from .freight_anchors import hire_levels_by_ship
 
     vessels = _vessels()
     presets, unavailable = [], []
@@ -374,7 +358,6 @@ def model_document(latest_day: date, latest_prices: str,
             "prices": preset.prices,
             "about": preset.about,
             "lead_segments": _lead(preset, inputs, missing),
-            "alignment": alignment(preset, inputs.day),
             "inputs": inputs_json(inputs),
             "vessel_key": vessel_key,
             "route_tolls": tolls,
@@ -390,15 +373,16 @@ def model_document(latest_day: date, latest_prices: str,
                                                liquefaction_fee=inputs.liquefaction_fee, weekly=False)["segments"]
             if complete(result) else None,
         })
-    levels = hire_levels()
     return {
         "presets": presets,
         "unavailable": unavailable,
         "vessels": vessels,
         "vessel_sources": {key: {field: _parameter_words(name) for field, name in fields.items()}
                            for key, fields in SHIP_SOURCES.items()},
-        "hire_levels": {**levels, "words": "the lowest, the median and the highest of the charter rates reported, "
-                                           "the three levels the analysis runs on every date"},
+        "hire_levels": {**hire_levels_by_ship(),
+                        "words": "the lowest, the median and the highest of the charter rates reported for the "
+                                 "ship this preset is priced with, the three levels the analysis runs on every "
+                                 "date"},
         "toll_words": "Canal tolls: the tariffs in force on each transit's day, read with this study's assumptions: "
                       "an unbooked ship at its nominal capacity, Panama's fresh water surcharge at 5 percent of "
                       "tolls, and Suez's net tonnage from capacity (docs/methodology.md, sections 6 and 8).",
@@ -408,8 +392,18 @@ def model_document(latest_day: date, latest_prices: str,
         "part_words": dict(reader.PART_WORDS),
         "part_words_premium": reader.regas_words(1.0)["part"],
         "units": {"mmbtu_per_mwh": units.MMBTU_PER_MWH, "percent_per_one": 100.0},
+        "carbon": {
+            "tco2_per_t_lng": config.PARAMETERS["tco2_per_t_lng"].value,
+            "tn2o_per_t_lng": config.PARAMETERS["tn2o_per_t_lng"].value,
+            "gwp_ch4": config.PARAMETERS["gwp_ch4"].value,
+            "gwp_n2o": config.PARAMETERS["gwp_n2o"].value,
+            "ch4_n2o_from": config.PARAMETERS["ets_ch4_n2o_from"].value,
+            "words": "The carbon factor the EU ETS counts per tonne of LNG burnt: carbon dioxide at every date, "
+                     "with nitrous oxide and the methane slipped from the day methane counts; a carbon dioxide "
+                     "or a slip typed reworks the factor for the preset's date and for each calendar year the "
+                     "voyage touches, as the Python engine does.",
+        },
         "limits": dict(LIMITS),
-        "carbon": carbon(),
         "checks": named_edits(latest_day, latest_prices, [p["id"] for p in presets]),
         "title_segments": [reader.T("The calculator: every input of a cargo loading at Sabine Pass, and what it nets "
                                     "at Gate and at Futtsu by each route")],
@@ -466,17 +460,19 @@ NAMED_EDITS: tuple[tuple[str, str, tuple[dict[str, Any], ...]], ...] = (
      ({"key": "mmbtu_per_m3", "value": 22.0}, {"key": "mmbtu_per_t_lng", "value": 50.0})),
     ("every voyage emission counted and none at berth", "latest",
      ({"key": "ets_voyage_share", "value": 1.0}, {"key": "ets_berth_share", "value": 0.0})),
-    ("methane slip counted, at the ship's default share", "latest", ({"key": "methane_slip", "value": True},)),
-    ("methane slip of 3.1 percent on the smaller ship, every emission surrendered", "latest",
-     ({"key": "vessel", "value": "tfde_160k"}, {"key": "methane_slip", "value": True},
-      {"key": "methane_slip_percent", "value": 3.1}, {"key": "ets_phase", "value": 1.0})),
-    ("a slip of 12 percent, refused", "latest",
-     ({"key": "methane_slip", "value": True}, {"key": "methane_slip_percent", "value": 12.0})),
+    ("a methane slip of 1.7 percent, counted as methane from 2026", "latest",
+     ({"key": "methane_slip_percent", "value": 1.7},)),
+    ("a methane slip of 3.1 percent in March 2024, before methane counted", "march_2024",
+     ({"key": "methane_slip_percent", "value": 3.1},)),
+    ("three tonnes of carbon dioxide per tonne of LNG burnt", "latest",
+     ({"key": "tco2_per_t_lng", "value": 3.0},)),
+    ("a slip of twelve percent, refused", "latest", ({"key": "methane_slip_percent", "value": 12.0},)),
 )
 
 _SCALARS = ("jkm", "ttf", "delta_nwe", "henry_hub", "liquefaction_fee", "hire_usd_day", "port_west_usd",
             "port_east_usd", "rate_percent", "spread_bp", "mmbtu_per_m3", "mmbtu_per_t_lng", "ets_voyage_share",
             "ets_berth_share")
+_CARBON = ("tco2_per_t_lng", "methane_slip_percent")
 
 
 def refusal(key: str, value: float) -> str | None:
@@ -494,6 +490,20 @@ def refusal(key: str, value: float) -> str | None:
 
 def _number(value: Any) -> float:
     return float("nan") if value is None else float(value)
+
+
+def _recarbon(inputs: Inputs, *, tco2: float | None, slip: float | None) -> Inputs:
+    """The carbon factor reworked for a typed carbon dioxide per tonne burnt or a
+    typed slip: the slipped share leaves the gas burnt and, from the day methane
+    counts, counts as methane. Worked for the preset's day and, where the voyage
+    is split by calendar year, for each year of the split. A refused figure
+    (not a number) empties the factor, and with it the allowance line."""
+    def factor(when):
+        return worked.ets_tco2e_per_t(when, slip=slip, tco2=tco2)
+    by_year = inputs.ets_by_year
+    if by_year is not None:
+        by_year = {year: (phase, factor(date(year, 1, 1))) for year, (phase, _) in by_year.items()}
+    return replace(inputs, tco2_per_t_lng=factor(inputs.day), ets_by_year=by_year)
 
 
 def apply_edits(inputs: Inputs, edits: Sequence[Mapping[str, Any]], *, usd_per_eur: float, eua_eur_t: float | None,
@@ -515,6 +525,7 @@ def apply_edits(inputs: Inputs, edits: Sequence[Mapping[str, Any]], *, usd_per_e
 
     out = inputs
     routes = dict(out.routes)
+    typed_carbon: dict[str, float] = {}
     vessel_edit = next((e for e in edits if e["key"] == "vessel" and e["value"] in vessels), None)
     ship = vessel_edit["value"] if vessel_edit else vessel_key
     ship_tolls = tolls.get(ship, {})
@@ -544,13 +555,12 @@ def apply_edits(inputs: Inputs, edits: Sequence[Mapping[str, Any]], *, usd_per_e
             out = replace(out, vessel=replace(out.vessel, **{key: usable(edit)}))
         elif key == "ets_phase":
             out = replace(out, ets_by_year=None, ets_phase=usable(edit))
-
-    # Methane slip, when ticked: the ship's default share, or the one typed.
-    slip_on = next((e for e in edits if e["key"] == "methane_slip"), None)
-    if slip_on is not None and slip_on["value"] is True:
-        typed = next((e for e in edits if e["key"] == "methane_slip_percent"), None)
-        share = usable(typed) / 100.0 if typed else carbon()["slip"][ship]
-        out = with_slip(out, share)
+        elif key in _CARBON:
+            typed_carbon[key] = usable(edit)
+    if typed_carbon:
+        out = _recarbon(out, tco2=typed_carbon.get("tco2_per_t_lng"),
+                        slip=None if "methane_slip_percent" not in typed_carbon
+                        else typed_carbon["methane_slip_percent"] / 100.0)
 
     fx_edit = next((e for e in edits if e["key"] == "usd_per_eur"), None)
     fx = usable(fx_edit) if fx_edit else usd_per_eur

@@ -25,6 +25,8 @@ from .engine import Vessel
 from .freight_anchors import ANCHORS, hire_levels
 from .sea_routes import canal_distances, routes_json
 from .sources.base import read_cache
+from .sources.sofr import FIRST_VALUE_DATE as SOFR_FIRST
+from .sources.sofr_indicative import FIRST_VALUE_DATE as INDICATIVE_FIRST
 
 __all__ = ["MissingInput", "inputs_on", "delta_nwe_on", "delta_nwe_between", "vessel_on", "distances", "transit_days", "routes_on", "henry_hub_month",
            "usd_per_eur_on", "overnight_rate_on", "eua_eur_t_in", "ets_phase", "ets_tco2e_per_t", "nearest_hire",
@@ -213,21 +215,29 @@ def usd_per_eur_on(when: date | str) -> tuple[float, str]:
 
 def overnight_rate_detail(when: date | str) -> tuple[float, date, str]:
     """The overnight rate on or before the day, the day it is of, and its name:
-    SOFR from its first value date, the effective federal funds rate before it."""
+    SOFR from its first value date, the New York Fed's indicative SOFR from
+    22 August 2014 to the day before, and the effective federal funds rate
+    before that."""
     day = _day(when)
-    if day >= date(2018, 4, 2):
+    if day >= date.fromisoformat(SOFR_FIRST):
         value, seen = _on_or_before("nyfed_sofr_daily", "sofr_percent", day)
         return value, seen, "SOFR"
-    value, seen = _on_or_before("nyfed_effr_daily", "effr_percent", day)
+    if day >= date.fromisoformat(INDICATIVE_FIRST):
+        value, seen = _on_or_before("nyfed_sofr_indicative_daily", "sofr_percent", day)
+        return value, seen, "indicative SOFR"
+    value, seen = _on_or_before("frb_h15_effr_daily", "effr_percent", day)
     return value, seen, "the effective federal funds rate"
 
 
 def overnight_rate_on(when: date | str) -> tuple[float, str]:
-    """SOFR from its first value date, the effective federal funds rate before it."""
+    """SOFR from its first value date, the indicative SOFR before it from August 2014, the
+    effective federal funds rate before that."""
     value, seen, name = overnight_rate_detail(when)
     if name == "SOFR":
         return value, "SOFR of %s, New York Fed" % seen
-    return value, "effective federal funds rate of %s, New York Fed, before SOFR" % seen
+    if name == "indicative SOFR":
+        return value, "indicative SOFR of %s, computed by the New York Fed before SOFR was published" % seen
+    return value, "effective federal funds rate of %s, Federal Reserve Board H.15, before SOFR" % seen
 
 
 def _month_price(frame: pd.DataFrame, day: date) -> float | None:
@@ -287,16 +297,17 @@ def ets_phase(when: date | str) -> float:
     return float(phases[str(max(eligible))]) if eligible else 0.0
 
 
-def ets_tco2e_per_t(when: date | str, slip: float | None = None) -> float:
+def ets_tco2e_per_t(when: date | str, slip: float | None = None, tco2: float | None = None) -> float:
     """Tonnes of CO2e the EU ETS counts per tonne of LNG burnt, in the year of the day.
 
     CO2 only before the methane and nitrous oxide of 2026. With methane slip on,
     the slipped share is not burnt: it leaves the CO2 and N2O terms and counts
-    as methane at its global warming potential from 2026.
+    as methane at its global warming potential from 2026. The carbon dioxide
+    of a tonne burnt is the parameter unless one is typed.
     """
     slipped = (slip or 0.0) if _p("methane_slip_on") or slip is not None else 0.0
     burnt = 1.0 - slipped
-    factor = _p("tco2_per_t_lng") * burnt
+    factor = (_p("tco2_per_t_lng") if tco2 is None else tco2) * burnt
     if _day(when) >= date.fromisoformat(_p("ets_ch4_n2o_from")):
         factor += slipped * _p("gwp_ch4") + burnt * _p("tn2o_per_t_lng") * _p("gwp_n2o")
     return factor
@@ -526,7 +537,7 @@ def inputs_on(when: date | str, jkm: float, ttf: float, price_sources: dict[str,
         hire_usd_day, hire_source = nearest_hire(day)
         if hire_usd_day is None:
             if missing is None:
-                raise MissingInput(hire_source + "; give a hire, such as one of %s" % hire_levels())
+                raise MissingInput(hire_source + "; give a hire, such as one of %s" % hire_levels(when=day))
             missing["hire"] = hire_source
             hire_usd_day, hire_source = float("nan"), "missing: " + hire_source
     else:

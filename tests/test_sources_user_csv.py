@@ -1,84 +1,84 @@
-"""The optional private layer: its files are checked, refused whole when wrong, and never published."""
+"""The owner's own CSV series: declared once, saved by hand, validated, never committed."""
 
 from __future__ import annotations
 
-import subprocess
+import dataclasses
 
 import pandas as pd
 import pytest
 
-from lngarb.sources import base, user_csv
+from lngarb import config
+from lngarb.sources import user_csv
 from lngarb.sources.base import SourceError
 
-HEADER = "date,series,contract_month,value,unit,source\n"
+#: The example of a declaration: a subscription's weekly charter rate export the
+#: owner may hold and not redistribute.
+EXAMPLE = config.UserCsvDeclaration(
+    series="owner_charter_rates_weekly",
+    label="A weekly charter rate export the owner holds under a subscription, USD per day",
+    publisher="the assessment's publisher, named by the owner",
+    page_url="https://example.org/freight",
+    frequency="weekly",
+    unit="USD per day",
+    columns={"hire_usd_day": config.BOUNDS_HIRE_USD_DAY},
+    observation_column="hire_usd_day",
+    licence="the publisher's subscription terms",
+    licence_note="The export may be used by the subscriber and not redistributed; it stays under data/private/.",
+    how="Exported from the publisher's platform by the owner, one row a week.",
+)
 
 
-def _write(tmp_path, name, body):
-    path = tmp_path / name
-    path.write_text(HEADER + body, encoding="utf-8")
-    return path
+def _write(root, text):
+    root.mkdir(parents=True, exist_ok=True)
+    (root / "owner_charter_rates_weekly.csv").write_text(text, encoding="utf-8")
 
 
-def test_no_directory_means_no_layer(tmp_path):
-    assert user_csv.read(tmp_path / "absent") is None
-    assert user_csv.summary(None) == {"present": False}
+def test_a_declaration_registers_as_a_private_published_source():
+    source = EXAMPLE.source()
+    assert source.committable is False and source.method == "published" and source.linkable
+    assert source.url_note.startswith("Saved by hand as data/private/user/owner_charter_rates_weekly.csv")
+    unlinked = dataclasses.replace(EXAMPLE, linkable=False, page_url="").source()
+    assert unlinked.page_url == "" and not unlinked.linkable
 
 
-def test_a_good_file_is_read_and_the_aligned_spread_computed(tmp_path):
-    _write(tmp_path, "a.csv",
-           "2026-03-18,jkm_settlement,2026-05,15.10,USD/MMBtu,an exchange's settlement file\n"
-           "2026-03-18,ttf_settlement,2026-05,14.20,USD/MMBtu,an exchange's settlement file\n"
-           "2026-03-18,ttf_settlement,2026-04,14.60,USD/MMBtu,an exchange's settlement file\n"
-           "2026-03-18,freight_rate,,92000,USD/day,a broker's report\n")
-    frame = user_csv.read(tmp_path)
-    assert len(frame) == 4
-    spread = user_csv.aligned_spread(frame)
-    assert spread["contract_month"].tolist() == ["2026-05"]
-    assert spread["spread"].iloc[0] == pytest.approx(0.9)
-    assert user_csv.summary(frame) == {"present": True, "rows": 4, "first": "2026-03-18", "last": "2026-03-18",
-                                       "series": ["freight_rate", "jkm_settlement", "ttf_settlement"]}
+def test_the_file_is_read_sorted_and_the_note_says_when_it_was_saved(tmp_path):
+    _write(tmp_path, "date,hire_usd_day\n2026-01-09,30000\n2026-01-02,28500\n2026-01-16,\n")
+    adapter = user_csv.UserCsv(EXAMPLE, root=tmp_path)
+    frame = adapter.fetch()
+    assert frame["date"].tolist() == [pd.Timestamp("2026-01-02"), pd.Timestamp("2026-01-09"), pd.Timestamp("2026-01-16")]
+    assert frame["hire_usd_day"].tolist()[:2] == [28500.0, 30000.0] and pd.isna(frame["hire_usd_day"].iloc[2])
+    assert adapter.directory() == "private" and not adapter.machine_fetched
+    assert adapter.note.startswith("Exported from the publisher's platform by the owner")
+    assert "never committed" in adapter.note and adapter.vintage.startswith("the owner's file, saved 20")
 
 
-@pytest.mark.parametrize("row, words", [
-    ("2026-03-18,jkm_settlement,,15.1,USD/MMBtu,x\n", "contract month"),
-    ("2026-03-18,jkm_settlement,2026-05,,USD/MMBtu,x\n", "not a number"),
-    ("2026-03-18,jkm_settlement,2026-05,0,USD/MMBtu,x\n", "outside"),
-    ("2026-03-18,jkm_settlement,2026-05,15.1,EUR/MWh,x\n", "unit"),
-    ("18/03/2026,jkm_settlement,2026-05,15.1,USD/MMBtu,x\n", "yyyy-mm-dd"),
-    ("2026-03-18,brent,2026-05,80,USD/bbl,x\n", "not one of"),
-    ("2026-03-18,freight_rate,2026-05,92000,USD/day,x\n", "no contract month"),
-    ("2026-03-18,jkm_settlement,2026-05,15.1,USD/MMBtu,\n", "no source"),
-    ("2026-03-18,jkm_settlement,2026-13,15.1,USD/MMBtu,x\n", "contract month"),
-    ("2026-03-18,jkm_settlement,abcd-ef,15.1,USD/MMBtu,x\n", "contract month"),
-    ("2026-03-18,jkm_settlement,2020-01,15.1,USD/MMBtu,x\n", "expired"),
-    ("20260318,jkm_settlement,2026-05,15.1,USD/MMBtu,x\n", "yyyy-mm-dd"),
-    ("2026-W12-3,jkm_settlement,2026-05,15.1,USD/MMBtu,x\n", "yyyy-mm-dd"),
-    ("2999-01-04,jkm_settlement,2999-02,15.1,USD/MMBtu,x\n", "future"),
-    ("2026-03-18,jkm_settlement,2026-05,nan,USD/MMBtu,x\n", "not a number"),
+@pytest.mark.parametrize("text, why", [
+    ("day,hire_usd_day\n2026-01-02,1\n", "no date column"),
+    ("date,rate\n2026-01-02,1\n", "lacks the declared column"),
+    ("date,hire_usd_day,extra\n2026-01-02,1,2\n", "the declaration does not"),
+    ("date,hire_usd_day\n2 Jan 2026,1\n", "does not read as yyyy-mm-dd"),
 ])
-def test_a_file_that_breaks_a_rule_is_refused_whole(tmp_path, row, words):
-    _write(tmp_path, "bad.csv", row)
-    with pytest.raises(SourceError) as caught:
-        user_csv.read(tmp_path)
-    assert words in str(caught.value)
+def test_a_file_that_does_not_match_its_declaration_is_refused(tmp_path, text, why):
+    _write(tmp_path, text)
+    with pytest.raises(SourceError, match=why):
+        user_csv.UserCsv(EXAMPLE, root=tmp_path).fetch()
 
 
-def test_wrong_columns_are_refused(tmp_path):
-    (tmp_path / "x.csv").write_text("date,value\n2026-03-18,1\n", encoding="utf-8")
-    with pytest.raises(SourceError, match="columns"):
-        user_csv.read(tmp_path)
+def test_a_missing_file_is_named_not_invented(tmp_path):
+    with pytest.raises(SourceError, match="is not there"):
+        user_csv.UserCsv(EXAMPLE, root=tmp_path).fetch()
 
 
-def test_the_layer_lives_where_git_ignores_it():
-    assert user_csv.DIRECTORY.relative_to(base.REPO_ROOT).as_posix() == "data/private/user"
-    probe = "data/private/user/settlements.csv"
-    result = subprocess.run(["git", "check-ignore", "-q", probe], cwd=base.REPO_ROOT)
-    assert result.returncode == 0, "data/private/user is not ignored by git"
+def test_the_bounds_and_frequency_apply_as_to_a_fetched_series(tmp_path):
+    from lngarb.sources.base import validate_frame
+    _write(tmp_path, "date,hire_usd_day\n2026-01-02,30000\n2026-01-09,900000\n")
+    adapter = user_csv.UserCsv(EXAMPLE, root=tmp_path)
+    frame = adapter.fetch()
+    problems = validate_frame(frame, date_col="date", required_cols=adapter.required_cols, bounds=adapter.bounds,
+                              min_rows=1, min_observations=adapter.min_observations, previous=None, unique_dates=True)
+    assert any("hire_usd_day" in p for p in problems)
 
 
-def test_the_same_settlement_in_two_files_is_refused(tmp_path):
-    row = "2026-03-18,jkm_settlement,2026-05,15.10,USD/MMBtu,x\n"
-    _write(tmp_path, "a.csv", row)
-    _write(tmp_path, "b.csv", row.replace("15.10", "15.20"))
-    with pytest.raises(SourceError, match="two files"):
-        user_csv.read(tmp_path)
+def test_nothing_is_declared_in_the_repository_as_committed():
+    assert config.USER_CSV_SERIES == ()
+    assert user_csv.adapters() == []

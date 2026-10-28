@@ -47,7 +47,7 @@ import pandas as pd
 
 from . import analysis, config, delivery, events, flowspage, methodpage, presets, reader, routemap, spreadhistory, units, worked
 from .cases import WATERFALL_STEPS, evaluate
-from .freight_anchors import ANCHORS, hire_levels
+from .freight_anchors import ANCHORS, hire_levels, hire_levels_by_ship
 from .sources import base
 
 __all__ = ["SCHEMA_VERSION", "now", "model", "routes", "history", "flows", "provenance", "method", "write_all",
@@ -63,20 +63,25 @@ CREDITS = (
     "The Japanese spot price before the weekly series: created by processing the information in the Spot LNG Price "
     "Statistics (Ministry of Economy, Trade and Industry of Japan) "
     "(https://www.meti.go.jp/english/statistics/sho/slng/index.html).",
-    "TTF before the weekly series: The World Bank, Commodity Price Data (The Pink Sheet), under the Creative Commons "
-    "Attribution 4.0 International licence (https://creativecommons.org/licenses/by/4.0/). The selection of series "
-    "and the revisions log are this study's. The World Bank does not endorse this study.",
+    "TTF before the weekly series, and the long view: The World Bank: Commodity Price Data (The Pink Sheet): "
+    "Bloomberg Finance L.P.; World Gas Intelligence; Thomson Reuters Datastream; The Wall Street Journal; Official "
+    "Statistics of Japan; World Bank, under the Creative Commons Attribution 4.0 International licence "
+    "(https://creativecommons.org/licenses/by/4.0/), in the attribution format the World Bank's dataset terms "
+    "prescribe. The selection of series and the revisions log are this study's. The World Bank does not endorse "
+    "this study.",
     "EU allowances: European Commission auction reports, under the Creative Commons Attribution 4.0 International "
     "licence (https://creativecommons.org/licenses/by/4.0/), the months combined from several reports by this "
     "study; after the last month they cover, Source: EEX, DEHSt, under the Creative Commons Attribution "
     "NonCommercial NoDerivatives 4.0 International licence (https://creativecommons.org/licenses/by-nc-nd/4.0/), "
     "the monthly averages reproduced unchanged, for non-commercial reuse only.",
     "US LNG exports cargo by cargo: U.S. Department of Energy, Office of Fossil Energy and Carbon Management.",
-    "The Secured Overnight Financing Rate (SOFR) and the Effective Federal Funds Rate (EFFR) are subject to the "
-    "Terms of Use posted at newyorkfed.org. The New York Fed is not responsible for publication of the SOFR or the "
-    "EFFR by Nathan Couturier, does not sanction or endorse any particular republication, and has no liability for "
-    "your use.",
-    "Dollars per euro: Board of Governors of the Federal Reserve System, H.10. Dollars per SDR: Source: "
+    "The Secured Overnight Financing Rate (SOFR), and the indicative SOFR the New York Fed computed for August 2014 "
+    "to March 2018, are subject to the Terms of Use posted at newyorkfed.org. The New York Fed is not responsible "
+    "for publication of the SOFR by Nathan Couturier, does not sanction or endorse any particular republication, "
+    "and has no liability for your use.",
+    "Dollars per euro: Board of Governors of the Federal Reserve System, H.10. The effective federal funds rate "
+    "before SOFR: Board of Governors of the Federal Reserve System, H.15, a rate the Federal Reserve Bank of New "
+    "York calculates. Dollars per SDR: Source: "
     "International Monetary Fund, exchange rate data, SDR valuation "
     "(https://www.imf.org/external/np/fin/data/param_rms_mth.aspx), read through the Deutsche Bundesbank.",
     "Charter rates: as reported by the publishers each figure names, listed with the history.",
@@ -129,7 +134,8 @@ def _clean(value: Any, places: int | None = None) -> Any:
 
 
 def inputs_json(inputs) -> dict[str, Any]:
-    """The engine's inputs as src/engine.js reads them (the same contract as data/fixtures/engine-cases.json)."""
+    """The engine's inputs as src/engine.js reads them (the same contract as data/fixtures/engine-cases.json),
+    with the methane slip the preset runs, none, as the share in percent the calculator's field types."""
     out = {
         "day": inputs.day.isoformat(),
         "vessel": asdict(inputs.vessel),
@@ -142,6 +148,8 @@ def inputs_json(inputs) -> dict[str, Any]:
                  "liquefaction_fee", "port_west_usd", "port_east_usd", "rate_percent", "spread_bp", "eua_usd_t",
                  "ets_phase", "tco2_per_t_lng", "mmbtu_per_t_lng", "ets_voyage_share", "ets_berth_share"):
         out[name] = getattr(inputs, name)
+    out["methane_slip_percent"] = 0.0
+    out["carbon_dioxide_per_t_lng"] = config.PARAMETERS["tco2_per_t_lng"].value
     return out
 
 
@@ -161,10 +169,10 @@ def now(obs: pd.DataFrame | None = None, *, flows_document: dict[str, Any] | Non
         if provenance_document is None:
             provenance_document = provenance()
         weekly = obs[obs["frequency"] == "weekly"].sort_values("day", ascending=False)
-        levels = hire_levels()
         not_priced = []
         for latest in weekly.to_dict("records"):
             day = latest["day"].date()
+            levels = hire_levels(when=day)
             reported, reported_source = worked.nearest_hire(day)
             hire = reported if reported is not None else levels["central"]
             try:
@@ -205,17 +213,13 @@ def now(obs: pd.DataFrame | None = None, *, flows_document: dict[str, Any] | Non
         cost = reader.cost_section(result, inputs, day=day, steps=WATERFALL_STEPS, delta_observed=delta is not None)
         breakeven = reader.breakeven_section(result, inputs, day=day, levels=levels, hire=hire_info,
                                              evaluate_at=at_hire)
-        assumed_eur = float(config.PARAMETERS["delta_nwe_eur_mwh"].value)
-
-        def cheapest_at(delta_usd: float) -> tuple[str | None, float]:
-            route, s_star = analysis._cheapest_open(evaluate(replace(inputs, delta_nwe=delta_usd)))
-            return route, s_star
-
-        regas = reader.regas_sensitivity(
-            spread=result["spread"], delta=inputs.delta_nwe,
-            observed=not inputs.sources["delta_nwe"].startswith("assumption"),
-            at_zero=cheapest_at(0.0), at_assumed=cheapest_at(units.eur_mwh_to_usd_mmbtu(assumed_eur, usd_per_eur)),
-            assumed_eur_mwh=assumed_eur, weeks=analysis.regas_sensitivity(obs))
+        assumed_delta = float(config.PARAMETERS["delta_nwe_eur_mwh"].value)
+        breakeven["sensitivities"] = reader.sensitivities_section(
+            result, inputs, day=day, usd_per_eur=usd_per_eur,
+            evaluate_at=lambda **changes: evaluate(replace(inputs, **changes)),
+            delta_observed=delta is not None, delta_assumed_eur_mwh=assumed_delta,
+            delta_values=[-3.0, assumed_delta, 0.0] + ([-35.0] if worked.wide_regas_discount_on(day) else []),
+            k_values=list(ENERGY_SENSITIVITY))
         document = {
             **reader.header("now", day, "the landing sentence, the date of every input, the netbacks, the steps "
                                         "of the arb and the breakeven lines for the latest week, with the engine's "
@@ -224,7 +228,6 @@ def now(obs: pd.DataFrame | None = None, *, flows_document: dict[str, Any] | Non
             "as_of": day,
             "verdict": reader.verdict(result, day, hh_multiple, delta_nwe=inputs.delta_nwe,
                                       liquefaction_fee=inputs.liquefaction_fee),
-            "regas_sensitivity": regas,
             "closing": reader.closing(result, hh_multiple),
             "data_dates": reader.data_dates(
                 day=day, week={"series": latest["series"], "alignment": latest["alignment"],
@@ -252,7 +255,7 @@ def now(obs: pd.DataFrame | None = None, *, flows_document: dict[str, Any] | Non
                               "incomplete_month": "incomplete month" in inputs.sources["henry_hub"]},
                 "hire": {"value": hire, "unit": "USD/day",
                          "source": reported_source if reported is not None else
-                         "central level of the freight anchors; %s" % reported_source,
+                         "central level of the freight anchors for the ship of the date; %s" % reported_source,
                          "reported": reported is not None,
                          "nearest_reported": {"value": anchor.hire_usd_day,
                                               "date": worked._anchor_day(anchor), "publisher": anchor.publisher},
@@ -272,6 +275,11 @@ def now(obs: pd.DataFrame | None = None, *, flows_document: dict[str, Any] | Non
         }
         return _clean(document)
 
+
+#: The ends of the range quoted for the energy of a cubic metre of US LNG, run
+#: as a sensitivity on the latest week beside the study's 23 (docs/methodology.md,
+#: section 11).
+ENERGY_SENSITIVITY = (22.0, 24.0)
 
 HISTORY_COLUMNS = [
     "day", "frequency", "series", "basis", "alignment", "aligned_share", "jkm_month", "ttf_month", "hire_level",
@@ -299,15 +307,15 @@ def history(rows: pd.DataFrame | None = None, obs: pd.DataFrame | None = None) -
                                                          "the breaks and the freight anchors"),
         "conventions": reader.conventions(),
         "first": frame["day"].min(), "last": frame["day"].max(),
-        "hire_levels": hire_levels(),
+        "hire_levels": hire_levels_by_ship(),
         "columns": list(frame.columns),
         "rows": records,
         "breaks": breaks.to_dict("records"),
         "months_without_observation": without.to_dict("records"),
         "freight_anchors": anchors,
         # The History view's layer: what the page draws and says, computed here.
-        "page": spreadhistory.page(rows, breaks, anchors, without, hire_levels(), events.lettered(), events.LEFT_OUT,
-                                   analysis.regas_sensitivity(obs)),
+        "page": spreadhistory.page(rows, breaks, anchors, without, hire_levels_by_ship(),
+                                   regas=analysis.regas_sensitivity(obs)),
     }, ROUND_DP)
 
 
@@ -333,12 +341,12 @@ def flows(rows: pd.DataFrame | None = None) -> dict[str, Any]:
                                                          "at loading, and the regressions"),
         "conventions": reader.conventions(),
         "first": joined["month"].min(), "last": joined["month"].max(),
-        "panel": reader.flows_panel(clean_months, _clean(tests), excluded, hire_levels()["central"]),
+        "panel": reader.flows_panel(clean_months, _clean(tests), excluded, hire_levels_by_ship()),
         "months": months,
         "regressions": tests,
         "excluded_years": excluded,
         # The Flows view's layer: what the page draws and says, computed here.
-        "page": flowspage.page(rows, clean_months, _clean(tests), excluded, hire_levels(),
+        "page": flowspage.page(rows, clean_months, _clean(tests), excluded, hire_levels_by_ship(),
                                analysis.regas_sensitivity()),
     }, ROUND_DP)
 
@@ -395,24 +403,21 @@ def model(now_document: dict[str, Any]) -> dict[str, Any]:
     })
 
 
-def method(data_day: date, latest: Mapping[str, Any] | None = None) -> dict[str, Any]:
+def method(data_day: date, now_document: dict[str, Any] | None = None,
+           latest: Mapping[str, Any] | None = None) -> dict[str, Any]:
     """The Method view: the engine as formulas, every parameter with its source, the limits and the credits.
 
-    latest, the latest week's inputs and output, gives the energy content
-    sensitivity and the exact against the conventional netback."""
+    now_document, the Now view's document, gives the energy content sensitivity
+    sentence; latest, the latest week's inputs and output, the exact against the
+    conventional netback."""
     tables = None
     if latest is not None:
-        inputs = latest["inputs"]
-        tables = {
-            "k_sensitivity": methodpage.k_sensitivity(
-                latest["day"], lambda k: evaluate(replace(inputs, mmbtu_per_m3=k))),
-            "conventional": methodpage.conventional(latest["day"], latest["result"]),
-        }
+        tables = {"conventional": methodpage.conventional(latest["day"], latest["result"])}
     return _clean({
         **reader.header("method", data_day, "the engine as formulas, every parameter of the parameter table with "
                                             "its value, status and source, the units, the limits and the credits"),
         "conventions": reader.conventions(),
-        **methodpage.page(tables),
+        **methodpage.page(now_document, tables),
         "credits": list(CREDITS),
     })
 
@@ -448,7 +453,8 @@ def write_all() -> list[Path]:
             "history.json": history(rows, obs),
             "flows.json": flows_document,
             "provenance.json": provenance_document,
-            "method.json": method(date.fromisoformat(now_document["as_of"]), latest),
+            "method.json": method(date.fromisoformat(now_document["as_of"]), now_document,
+                                  {"day": date.fromisoformat(now_document["as_of"]), "result": now_document["result"]}),
         }
     return [_write(name, document) for name, document in documents.items()]
 

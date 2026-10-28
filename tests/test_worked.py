@@ -64,8 +64,18 @@ def test_the_allowance_price_after_the_last_report_is_the_labelled_assumption():
     assert config.PARAMETERS["eua_eur_t_after_published"].value == "the last published month"
     value, source = worked.eua_eur_t_in(date(2024, 3, 27))
     assert value == 57.7 and source.startswith("European Commission")
+    # the Commission's reports reach back to November 2012; June 2022 is theirs
+    value, source = worked.eua_eur_t_in(date(2022, 6, 1))
+    assert value == 82.79 and source.startswith("European Commission")
+    # January 2021, when no auction was held, is missing, not filled
     with pytest.raises(MissingInput):
-        worked.eua_eur_t_in(date(2022, 6, 1))
+        worked.eua_eur_t_in(date(2021, 1, 15))
+    # December 2013 is in the overview table of the Commission's first monthly report
+    value, source = worked.eua_eur_t_in(date(2013, 12, 1))
+    assert value == 4.61 and source.startswith("European Commission")
+    # before November 2012, the first month of the common auction platform
+    with pytest.raises(MissingInput):
+        worked.eua_eur_t_in(date(2012, 10, 1))
 
 
 def test_the_german_auctions_follow_the_commission_reports():
@@ -118,10 +128,17 @@ def test_suez_without_an_sdr_rate_is_shown_and_never_offered(monkeypatch):
     assert result["best_route_east"] != "nea_suez" and result["best_route"] != "nea_suez"
 
 
-def test_the_overnight_rate_is_effr_before_sofr():
-    assert "effective federal funds" in worked.overnight_rate_on(date(2017, 6, 1))[1]
-    assert worked.overnight_rate_on(date(2016, 1, 4))[0] == 0.36
-    assert "SOFR" in worked.overnight_rate_on(date(2018, 4, 2))[1]
+def test_the_overnight_rate_is_sofr_then_the_indicative_sofr_then_effr():
+    assert worked.overnight_rate_on(date(2018, 4, 2))[1].startswith("SOFR of")
+    # the indicative SOFR from 22 August 2014 to the day before SOFR: 36 basis points on 4 January 2016
+    value, source = worked.overnight_rate_on(date(2016, 1, 4))
+    assert source.startswith("indicative SOFR of 2016-01-04") and value == 0.36
+    assert worked.overnight_rate_on(date(2017, 6, 1))[1].startswith("indicative SOFR")
+    assert worked.overnight_rate_on(date(2018, 3, 31))[1].startswith("indicative SOFR of 2018-03-29")
+    # before August 2014, the effective federal funds rate of H.15
+    value, source = worked.overnight_rate_on(date(2014, 8, 21))
+    assert "effective federal funds rate of 2014-08-21" in source and 0.0 <= value < 0.5
+    assert "effective federal funds" in worked.overnight_rate_on(date(2000, 3, 1))[1]
 
 
 def test_henry_hub_is_the_loading_month_average():

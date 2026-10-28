@@ -292,6 +292,41 @@ def test_a_plural_step_takes_a_plural_verb():
         assert not reader.STEP_SHORT[step].endswith("fee")
 
 
+# --------------------------------------------------------------------------
+# What moves the verdict
+# --------------------------------------------------------------------------
+
+def test_the_sensitivities_price_the_week_again_input_by_input(now):
+    moves = now["breakeven"]["sensitivities"]
+    rows = {r["id"]: r for r in moves["rows"]}
+    assert list(moves["rows"])[0]["id"] == "today"
+    # Europe's DES spread at -3, at the study's assumption and at 0, unless one is today's.
+    # A wider spread lowers Gate's netback, so the arb east over Gate rises and the lift
+    # margin, taken on the best netback of every route, can only fall; the lift margin
+    # stays today's while the best netback is east, and moves once Gate's is the best.
+    deltas = [r for r in moves["rows"] if r["id"].startswith("delta_")]
+    assert 2 <= len(deltas) <= 4
+
+    def delta_of(row):
+        return float(row["id"][len("delta_"):].replace("minus_", "-").replace("_", "."))
+
+    ordered = sorted(deltas, key=delta_of)
+    for lower, higher in zip(ordered, ordered[1:]):
+        assert lower["values"]["lift_margin"] <= higher["values"]["lift_margin"] + 1e-9
+        assert lower["values"]["arb"] >= higher["values"]["arb"] - 1e-9
+    assert min(r["values"]["lift_margin"] for r in deltas) <= rows["today"]["values"]["lift_margin"] + 1e-9
+    # the cargo's energy at 22 and 24: more energy, a lower breakeven for the same hire
+    assert rows["energy_24"]["values"]["s_star"] < rows["energy_22"]["values"]["s_star"]
+    # every row names the cheapest open route, or says none is
+    for row in moves["rows"]:
+        assert row["missing_words"] == "no route open"
+        assert set(row["values"]) == {"s_star", "arb", "lift_margin"}
+        assert isinstance(row["open"], bool) and row["words"]
+    words = "".join(s.get("text", s.get("label", "")) for s in moves["heading_segments"])
+    assert "the arb east" in words and ("stays" in words or "turns with" in words)
+    assert not any(ch.isdigit() for s in moves["heading_segments"] if "text" in s for ch in s["text"])
+
+
 def test_the_now_view_says_when_the_arb_closes_east_and_for_the_cargo():
     import json
 

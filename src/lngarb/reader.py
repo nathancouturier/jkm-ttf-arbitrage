@@ -25,6 +25,9 @@ from typing import Any, Callable, Mapping, Sequence
 
 import pandas as pd
 
+from . import units
+from .freight_anchors import ASSESSMENT_WORDS
+
 __all__ = ["DECIMALS", "T", "N", "D", "W", "header", "conventions", "nice_domain", "ROUTE_NAMES"]
 
 SCHEMA_VERSION = 1
@@ -49,12 +52,17 @@ DECIMALS: Mapping[str, int] = {
     "usd": 0,
     "bp": 0,
     "share": 2,
+    "tco2_per_t": 3,
+    "slip_percent": 1,
     "boil_off_percent": 3,
     "fill_percent": 1,
     "mmbtu_per_m3": 2,
     "mmbtu_per_t": 2,
     "mmbtu_per_mwh": 6,
     "r2": 2,
+    "hours": 1,
+    "bcf_day": 1,
+    "feet": 2,
 }
 
 #: Formats whose values are whole numbers and are written as JSON integers.
@@ -475,8 +483,10 @@ def data_dates(*, day: date, week: Mapping[str, Any], inputs, usd_per_eur: tuple
     if hire["reported"]:
         hire_segments = [
             T("Hire "), N("hire", hire["value"], "usd_day"), T(" $/day, "), W("assessment", anchor.assessment),
-            T(" for a "), W("vessel", anchor.vessel), T(" carrier, "),
         ]
+        if anchor.assessment in ASSESSMENT_WORDS:
+            hire_segments += [T(", "), W("assessment_words", ASSESSMENT_WORDS[anchor.assessment]), T(",")]
+        hire_segments += [T(" for a "), W("vessel", anchor.vessel), T(" carrier, ")]
         if anchor.rate_date:
             hire_segments += [T("the rate for "), D("hire_date", hire["date"]), T(" as reported by "),
                               W("publisher", anchor.publisher)]
@@ -845,6 +855,84 @@ def breakeven_section(result: Mapping[str, Any], inputs, *, day: date, levels: M
     }
 
 
+def _best_open(result: Mapping[str, Any]) -> tuple[str | None, float | None, float | None]:
+    """The cheapest open route east, its S* and its netback over Gate; None where no route is open."""
+    route = _cheapest_open(result)
+    if route is None:
+        return None, None, None
+    lines = result["east"][route]
+    return route, lines["s_star"], (None if _missing(lines["arb"]) else lines["arb"])
+
+
+def sensitivities_section(result: Mapping[str, Any], inputs, *, day: date, usd_per_eur: float,
+                          evaluate_at: Callable[..., Mapping[str, Any]], delta_observed: bool,
+                          delta_assumed_eur_mwh: float, delta_values: Sequence[float],
+                          k_values: Sequence[float]) -> dict[str, Any]:
+    """What moves the verdict: the week priced again with Europe's DES spread at the
+    values the study runs as sensitivities, and with the cargo's energy at the ends
+    of the range the market quotes for a US cargo, each row the cheapest open
+    route east, its S*, its netback over Gate and the lift margin.
+
+    The heading says whether the arb east stays as it is across every case,
+    and names the cases that turn it, so a reader sees at once how much the
+    verdict rests on the one input ACER does not always cover and on a
+    conversion the study holds at one value."""
+    k_now = inputs.mmbtu_per_m3
+    delta_now_eur = units.usd_mmbtu_to_eur_mwh(inputs.delta_nwe, usd_per_eur)
+    route, s_star, arb = _best_open(result)
+    base_open = arb is not None and arb > 0
+    rows = [{"id": "today", "name": "As priced", "route": route, "values": {
+        "s_star": s_star, "arb": arb, "lift_margin": result["lift_margin"]}, "open": base_open,
+        "words": ("Europe's DES spread as observed" if delta_observed else "Europe's DES spread as assumed")}]
+    for delta in delta_values:
+        if abs(delta - delta_now_eur) < 0.005:
+            continue
+        out = evaluate_at(delta_nwe=units.eur_mwh_to_usd_mmbtu(delta, usd_per_eur))
+        r, s, a = _best_open(out)
+        rows.append({"id": "delta_%s" % str(delta).replace("-", "minus_").replace(".", "_"),
+                     "name": "Europe's DES spread at %s EUR/MWh" % format(delta, ".0f").replace("-", chr(0x2212)),
+                     "route": r, "values": {"s_star": s, "arb": a, "lift_margin": out["lift_margin"]},
+                     "open": a is not None and a > 0, "words": "the discount this study runs as a sensitivity"
+                     if delta != delta_assumed_eur_mwh else "the study's assumption where ACER publishes nothing"})
+    for k in k_values:
+        out = evaluate_at(mmbtu_per_m3=k)
+        r, s, a = _best_open(out)
+        rows.append({"id": "energy_%s" % format(k, ".0f"), "name": "Cargo energy at %s MMBtu per cubic metre" % format(k, ".0f"),
+                     "route": r, "values": {"s_star": s, "arb": a, "lift_margin": out["lift_margin"]},
+                     "open": a is not None and a > 0, "words": "the ends of the range quoted for a US cargo"})
+    turned = [r for r in rows[1:] if r["open"] != base_open]
+    state = "open" if base_open else "closed"
+    heading = [T("With Europe's DES spread at "),
+               W("deltas", listed([format(d, ".0f").replace("-", chr(0x2212)) + " EUR/MWh" for d in delta_values])),
+               T(" in place of "), N("delta_now", delta_now_eur, "eur_mwh", signed=True),
+               T(", and the cargo's energy at "), W("energies", listed([format(k, ".0f") for k in k_values])),
+               T(" MMBtu per cubic metre in place of "), N("k_now", k_now, "mmbtu_per_m3"), T(", the arb east ")]
+    if not turned:
+        heading += [T("stays "), W("state", state), T(" in every case.")]
+    else:
+        heading += [T("is "), W("state", state), T(" as priced and turns with "),
+                    W("turned", listed([r["name"] for r in turned])), T(".")]
+    columns = [
+        {"id": "s_star", "head": "S*, cheapest open route", "format": "usd_mmbtu", "signed": True},
+        {"id": "arb", "head": "Best netback over Gate", "format": "usd_mmbtu", "signed": True},
+        {"id": "lift_margin", "head": "Lift margin", "format": "usd_mmbtu", "signed": True},
+    ]
+    for row in rows:
+        row["name"] = row["name"] + (", via " + ROUTE_SHORT[row["route"]] if row["route"] else "")
+        row["missing_words"] = "no route open"
+    return {
+        "heading_segments": heading,
+        "columns": columns,
+        "rows": rows,
+        "caption_segments": [T("The week to "), D("as_of", day), T(" priced again, at the hire used today, with one "
+                               "input changed at a time: S* of the cheapest open route east, that route's netback "
+                               "over Gate, and the lift margin. The regas discount is the DES spread of Northwest "
+                               "Europe to the TTF front month, observed from ACER where it publishes and the "
+                               "study's assumption elsewhere; the energy of a cubic metre is a market convention "
+                               "the study holds at one value.")],
+    }
+
+
 def sections(result: Mapping[str, Any], *, netbacks: Mapping[str, Any], cost: Mapping[str, Any],
              breakeven: Mapping[str, Any], flows_heading: Sequence[Mapping[str, Any]],
              provenance_summary: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
@@ -871,8 +959,27 @@ def _months_between(first: str, last: str) -> int:
     return (b - a).n + 1
 
 
+def _central_by_ship_segments(levels_by_ship: Mapping[str, Mapping[str, Any]]) -> list[dict[str, Any]]:
+    """'55,750 $/day for the 160,000 m3 TFDE to 1 January 2024 and 46,500 for the 174,000 m3 two-stroke since'."""
+    from .config import PARAMETERS
+    keys = list(levels_by_ship)
+    out: list[dict[str, Any]] = []
+    for index, key in enumerate(keys):
+        levels = levels_by_ship[key]
+        if index:
+            out.append(T(" and "))
+        out += [N("central_hire_" + key, levels["central"], "usd_day"), T(" $/day for the "), W("ship_" + key, levels["ship"])]
+        if index == 0 and len(keys) > 1:
+            out += [T(" to "), D("ship_change", PARAMETERS["vessel_174k_from"].value), T(" and ")]
+            out += [N("central_hire_" + keys[1], levels_by_ship[keys[1]]["central"], "usd_day"), T(" $/day for the "),
+                    W("ship_" + keys[1], levels_by_ship[keys[1]]["ship"]), T(" since")]
+            break
+    return out
+
+
 def flows_panel(months: Sequence[Mapping[str, Any]], regressions: Sequence[Mapping[str, Any]],
-                excluded_years: Sequence[int], central_hire: float, *, window: int | None = FLOWS_MONTHS) -> dict[str, Any]:
+                excluded_years: Sequence[int], levels_by_ship: Mapping[str, Mapping[str, Any]], *,
+                window: int | None = FLOWS_MONTHS) -> dict[str, Any]:
     """The latest months of exports by vessel (every month held when window is
     None), the share to the JKM markets and to Asia against the arb at loading
     at the central hire, and the regression on every month, in words. The
@@ -977,8 +1084,9 @@ def flows_panel(months: Sequence[Mapping[str, Any]], regressions: Sequence[Mappi
         ],
         "source_segments": [
             T("Exports from EIA's US natural gas exports by country, by vessel; the arb from this study's engine at the "
-              "central hire, "), N("central_hire", central_hire, "usd_day"), T(" $/day. Data to "),
-            D("last_month", last, "month"), T("."),
+              "central hire of the ship each month is priced with, "),
+            *_central_by_ship_segments(levels_by_ship),
+            T(". Data to "), D("last_month", last, "month"), T("."),
         ],
         "months": rows,
         "shares": [
@@ -1020,7 +1128,7 @@ PROVENANCE_COLUMNS = (
     {"id": "terms_words", "head": "Terms", "short": "terms"},
 )
 
-FREQUENCY_WORDS = {"daily": "daily", "weekly": "weekly", "monthly": "monthly", "annual": "yearly"}
+FREQUENCY_WORDS = {"daily": "daily", "weekly": "weekly", "monthly": "monthly", "quarterly": "quarterly", "annual": "yearly"}
 
 ORDINALS = {"1": "first", "2": "second", "3": "third", "4": "fourth"}
 
@@ -1110,10 +1218,10 @@ def provenance(manifest: Mapping[str, Any], sources: Mapping[str, Any], credits:
             "id": entry["series"],
             "label": source.label if source is not None else entry["series"],
             "publisher": source.publisher if source is not None else entry.get("source", ""),
-            # None when the publisher's terms forbid a link: the table then
-            # names it in plain text.
-            "page_url": (None if (source is not None and not source.linkable) or entry.get("linkable") is False
-                         else entry.get("page_url") or (source.page_url if source is not None else "")),
+            "page_url": (entry.get("page_url") or (source.page_url if source is not None else ""))
+            if entry.get("linkable") is not False else "",
+            "page_words": "" if entry.get("linkable") is not False
+            else "its page is not linked: its terms require written permission for a link, not requested",
             "status": status,
             "status_words": status_words,
             "range_words": range_words,

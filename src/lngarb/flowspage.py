@@ -23,14 +23,16 @@ the regression of docs/methodology.md section 12.2.
 
 from __future__ import annotations
 
+import json
 import math
 from datetime import date
 from typing import Any, Mapping, Sequence
 
 import pandas as pd
 
-from . import analysis, config, reader, worked
+from . import analysis, config, freight_anchors, panama_transits, reader, worked
 from .cases import evaluate
+from .sources import base
 from .spreadhistory import ticks
 from .reported import reported
 
@@ -40,6 +42,8 @@ SHARE_WORDS = {"share_jkm": "the JKM markets", "share_asia": "all Asia"}
 LEVEL_WORDS = {"low": "low", "central": "central", "high": "high"}
 #: The 2026 panel starts with the first week of the Supplement's predecessor's
 #: last winter: the weeks Platts' route counts and assessment speak to.
+#: percent in one
+PERCENT = 100.0
 FROM_2026 = date(2025, 12, 1)
 #: The waits chart starts with Panama's water saving measures of January 2023.
 WAITS_FROM = "2023-01-01"
@@ -56,8 +60,8 @@ def _iso(value: Any) -> str:
 
 
 def _whole(months: Sequence[Mapping[str, Any]], regressions: Sequence[Mapping[str, Any]], excluded: Sequence[int],
-           central: float) -> dict[str, Any]:
-    panel = reader.flows_panel(months, regressions, excluded, central, window=None)
+           levels_by_ship: Mapping[str, Mapping[str, Any]]) -> dict[str, Any]:
+    panel = reader.flows_panel(months, regressions, excluded, levels_by_ship, window=None)
     rows = panel["months"]
     panel["ticks"] = [i for i, r in enumerate(rows) if r["month"][5:7] == "01"] or [0]
     panel["ticks_narrow"] = [i for i, r in enumerate(rows) if r["month"][5:7] == "01" and int(r["month"][:4]) % 2 == 0] or [0]
@@ -216,6 +220,62 @@ def _y2020(levels: Mapping[str, float]) -> dict[str, Any]:
     }
 
 
+def _spring_2026(rows: pd.DataFrame, months: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
+    """Did the arb east open in 2026, at what hire, and did the cargoes follow: the weeks
+    of 2026 that a reported charter rate stands for, worked at that rate and at the
+    central hire, and EIA's share of exports to Asia in the months around them."""
+    year = rows[(rows["frequency"] == "weekly") & (rows["day"].dt.year == 2026)].sort_values("day")
+    reported = year[year["hire_level"] == "reported"]
+    central = year[year["hire_level"] == "central"].set_index("day")
+    if reported.empty:
+        return [reader.T("No charter rate reported in the latest year stands for a week of the data, so the arb "
+                         "at the market's own freight cannot be read for it.")]
+    # The weeks of the first half of the year a reported rate stood for: the
+    # spring, when the question of the year was whether the arb opened and at
+    # what hire.
+    weeks = [w for w in reported.to_dict("records") if w["day"].month <= 6]
+    if not weeks:
+        weeks = reported.to_dict("records")[:1]
+    opened = [w for w in weeks if _finite(w["arb"]) is not None and w["arb"] > 0]
+    at_central = [w for w in weeks if _finite(central.at[w["day"], "arb"]) is not None and central.at[w["day"], "arb"] > 0]
+    hires = sorted({float(w["hire_usd_day"]) for w in weeks})
+    segments = [reader.T("In the first half of the latest year a reported charter rate stands for "),
+                reader.N("weeks_reported", len(weeks), "count"),
+                reader.T(" weeks, ending "), reader.D("first_reported", weeks[0]["day"]), reader.T(" to "),
+                reader.D("last_reported", weeks[-1]["day"]), reader.T(", at ")]
+    for index, hire in enumerate(hires):
+        segments += [reader.T(" and " if index else ""), reader.N("hire_%d" % index, hire, "usd_day"), reader.T(" $/day")]
+    segments += [reader.T(". At those rates the arb east was open in "), reader.N("open_reported", len(opened), "count"),
+                 reader.T(" of them")]
+    if opened:
+        segments += [reader.T(", first in the week ending "), reader.D("first_open", opened[0]["day"]),
+                     reader.T(" and last in the week ending "), reader.D("last_open", opened[-1]["day"]),
+                     reader.T(", via "), reader.W("route_open", reader.ROUTE_SHORT["nea_" + str(opened[-1]["best_route_east"])])]
+    segments += [reader.T("; at the central hire, in "), reader.N("open_central", len(at_central), "count"), reader.T(".")]
+    by_month = {m["month"][:7]: m for m in months}
+    spans = [w["day"].strftime("%Y-%m") for w in weeks]
+    first_month = pd.Timestamp(spans[0] + "-01")
+    before = (first_month - pd.DateOffset(months=1)).strftime("%Y-%m")
+    after = (pd.Timestamp(spans[-1] + "-01") + pd.DateOffset(months=1)).strftime("%Y-%m")
+    named = [before] + sorted(set(spans)) + [after]
+    held = [(key, by_month[key]) for key in named if key in by_month and by_month[key].get("share_asia") is not None]
+    if len(held) < 2:
+        segments += [reader.T(" EIA's exports by destination do not yet reach the months after, so whether the cargoes "
+                              "followed cannot be read.")]
+        return segments
+    segments += [reader.T(" By EIA's exports by destination, the share of US exports by vessel going to Asia was ")]
+    for index, (key, month) in enumerate(held):
+        segments += [reader.T(", " if 0 < index < len(held) - 1 else (" and " if index else "")),
+                     reader.N("share_" + key, PERCENT * month["share_asia"], "share_percent"),
+                     reader.T(" percent in "), reader.D("month_" + key, key + "-01", "month")]
+    first_share, last_share = held[0][1]["share_asia"], held[-1][1]["share_asia"]
+    rose = last_share > first_share
+    segments += [reader.T(": the cargoes "), reader.W("followed", "followed" if (rose and opened) or (not rose and not opened) else "did not follow"),
+                 reader.T(" the arb, the share "), reader.W("direction", "rising" if rose else "falling"),
+                 reader.T(" over the months the open weeks fell in" if opened else " over those months"),
+                 reader.T(", with the share's other movers, the contracts, the slots and the tariff, unseparated.")]
+    return segments
+
 def _y2026(rows: pd.DataFrame, months: Sequence[Mapping[str, Any]] = (),
            regas: pd.DataFrame | None = None) -> dict[str, Any]:
     weekly = rows[(rows["frequency"] == "weekly") & (rows["hire_level"] == "central")
@@ -269,6 +329,7 @@ def _y2026(rows: pd.DataFrame, months: Sequence[Mapping[str, Any]] = (),
                                           if v is not None], 5)
     return {
         "heading_segments": heading,
+        "spring_segments": _spring_2026(rows, months),
         "story_segments": _y2026_story(rows, points, _iso(week), months, regas),
         # The point in the accent: the week the arb east first opened via the cheaper route.
         "accent": _accent_2026(points, _iso(week)),
@@ -515,15 +576,168 @@ def _march_2024(months: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
     return out
 
 
-def page(rows: pd.DataFrame, months: Sequence[Mapping[str, Any]], regressions: Sequence[Mapping[str, Any]],
-         excluded: Sequence[int], levels: Mapping[str, float], regas: pd.DataFrame | None = None) -> dict[str, Any]:
-    """The Flows view's layer of flows.json."""
+#: Where the neopanamax locks opened: the summaries print their transits from this month.
+NEOPANAMAX_FROM = "2016-07-01"
+#: The chokepoints the tables print, in the order the page shows them.
+CHOKEPOINT_ORDER = ("Panama Canal", "Suez Canal", "Bab el-Mandeb Strait", "Cape of Good Hope", "Strait of Hormuz",
+                    "Strait of Malacca", "Danish Straits", "Turkish Straits")
+
+
+def _cwt_figure(ops: pd.DataFrame, wait_months: Sequence[str]) -> dict[str, Any]:
+    """Canal Waters Time by month, the average as the line, the high and low as references."""
+    ops = ops.sort_values("date")
+    days = [_iso(d) for d in ops["date"]]
+    avg = [_finite(v) for v in ops["cwt_hours_avg"]]
+    high = [_finite(v) for v in ops["cwt_hours_high"]]
+    low = [_finite(v) for v in ops["cwt_hours_low"]]
+    y_low, y_high, step = reader.nice_domain([v for v in avg + high + low if v is not None], 5)
+    peak = ops.loc[ops["cwt_hours_avg"].idxmax()]
+    recent = ops[ops["date"] >= pd.Timestamp(NEOPANAMAX_FROM)]
+    heading = [
+        reader.T("Canal Waters Time at Panama, the hours from a ship's arrival to its departure, waiting included, "
+                 "averaged over every ship in the month: "),
+        reader.N("cwt_median", float(recent["cwt_hours_avg"].median()), "hours"),
+        reader.T(" hours in the median month since the neopanamax locks opened in "),
+        reader.D("neopanamax_from", NEOPANAMAX_FROM, "month"),
+        reader.T(", "), reader.N("cwt_peak", float(peak["cwt_hours_avg"]), "hours"),
+        reader.T(" in "), reader.D("cwt_peak_month", _iso(peak["date"]), "month"),
+        reader.T(", the highest month, when the day's high reached "),
+        reader.N("cwt_peak_high", float(peak["cwt_hours_high"]), "hours"),
+        reader.T(" hours. The Authority counts every ship and does not split the figure by segment or by "
+                 "booked and unbooked ships, so a month's average bounds what an LNG carrier without a slot "
+                 "waited rather than measures it."),
+    ]
     return {
-        "whole": _whole(months, regressions, excluded, levels["central"]),
+        "heading_segments": heading,
+        "days": days, "avg": avg, "high": high, "low": low,
+        "y": {"low": y_low, "high": y_high, "step": step},
+        "ticks": ticks(date.fromisoformat(days[0]), date.fromisoformat(days[-1])),
+        "wait_months": [m for m in wait_months if m in days],
+        "desc": "A line of the month's average Canal Waters Time in hours, between a thin line of the month's "
+                "highest day and a dotted line of its lowest. The months with a wait reported for LNG carriers "
+                "are marked in the accent.",
+    }
+
+
+def _years_table(sca: pd.DataFrame) -> list[dict[str, Any]]:
+    panama = {t.fiscal_year: t.transits for t in panama_transits.TRANSITS}
+    out = []
+    for r in sca.sort_values("date").to_dict("records"):
+        year = pd.Timestamp(r["date"]).year
+        out.append({"year": year, "suez_ships": int(r["lng_ships"]), "suez_net_ton_thousand": int(r["net_ton_thousand"]),
+                    "panama_transits": panama.get(year)})
+    return out
+
+
+def _chokepoint_rows(frame: pd.DataFrame, *, period: bool) -> list[dict[str, Any]]:
+    out = []
+    keys = ["date", "period"] if period else ["date"]
+    for key, group in frame.groupby(keys, sort=True):
+        day = key[0]
+        label = (str(pd.Timestamp(day).year) + (" first half" if period and key[1] == "first_half" else "")) if period \
+            else ("Q%d %d" % ((pd.Timestamp(day).month - 1) // 3 + 1, pd.Timestamp(day).year))
+        values = {r["chokepoint"]: _finite(r["bcf_per_day"]) for r in group.to_dict("records")}
+        out.append({"date": _iso(day), "label": label, "values": values})
+    return out
+
+
+def _quarter_segments(field: str, day: str) -> list[dict[str, Any]]:
+    """A quarter in words and a year as a value: 'first quarter of 2025'."""
+    when = pd.Timestamp(day)
+    return [reader.W(field + "_quarter", reader.ORDINALS[str((when.month - 1) // 3 + 1)]), reader.T(" quarter of "),
+            reader.N(field + "_year", when.year, "year")]
+
+
+def _canals(wait_months: Sequence[str]) -> dict[str, Any]:
+    """What the canal authorities and EIA count: transits by year, Canal Waters Time by month, LNG by chokepoint."""
+    ops = base.read_cache("acp_canal_operations_monthly")
+    sca = base.read_cache("sca_lng_transits_annual")
+    annual = base.read_cache("eia_chokepoint_lng_annual")
+    quarterly = base.read_cache("eia_steo_chokepoint_lng_quarterly")
+    for name, frame in (("acp_canal_operations_monthly", ops), ("sca_lng_transits_annual", sca),
+                        ("eia_chokepoint_lng_annual", annual), ("eia_steo_chokepoint_lng_quarterly", quarterly)):
+        if frame is None or not len(frame):
+            raise ValueError("the Flows view needs the committed cache %s" % name)
+    years = _years_table(sca)
+    latest = years[-1]
+    before = years[-2]
+    peak = max(years, key=lambda r: r["suez_ships"])
+    fiscal = panama_transits.TRANSITS
+    fiscal_peak = max(fiscal, key=lambda t: t.transits)
+    chokepoints = [c for c in CHOKEPOINT_ORDER if c in set(annual["chokepoint"]) | set(quarterly["chokepoint"])]
+    heading = [
+        reader.T("What the canal authorities count: "), reader.N("suez_latest", latest["suez_ships"], "count"),
+        reader.T(" LNG carriers through Suez in "), reader.N("suez_latest_year", latest["year"], "year"),
+        reader.T(" after "), reader.N("suez_before", before["suez_ships"], "count"), reader.T(" in "),
+        reader.N("suez_before_year", before["year"], "year"), reader.T(" and "),
+        reader.N("suez_peak", peak["suez_ships"], "count"), reader.T(" in "),
+        reader.N("suez_peak_year", peak["year"], "year"), reader.T(", the most; "),
+        reader.N("panama_latest", fiscal[-1].transits, "count"),
+        reader.T(" through Panama in the fiscal year to September "),
+        reader.N("panama_latest_year", fiscal[-1].fiscal_year, "year"), reader.T(" after "),
+        reader.N("panama_peak", fiscal_peak.transits, "count"), reader.T(" in fiscal "),
+        reader.N("panama_peak_year", fiscal_peak.fiscal_year, "year"),
+        reader.T(". Both count every LNG carrier in both directions, Suez's deliveries to Egypt and Jordan and "
+                 "ballast legs included, so neither is a count of US cargoes bound for Asia."),
+    ]
+    annual_rows = _chokepoint_rows(annual, period=True)
+    quarterly_rows = _chokepoint_rows(quarterly, period=False)
+    manifest = json.loads((base.DATA / "manifest.json").read_text(encoding="utf-8"))
+    ops_entry = next((e for e in manifest["series"] if e["series"] == "acp_canal_operations_monthly"), {})
+    return {
+        "heading_segments": heading,
+        "years": years,
+        "cwt": _cwt_figure(ops, wait_months),
+        "chokepoints": chokepoints,
+        "annual": annual_rows,
+        "quarterly": quarterly_rows,
+        "annual_caption_segments": [
+            reader.T("LNG through each chokepoint in billion cubic feet a day, EIA's analysis of Vortexa's tanker "
+                     "tracking, by calendar year and the first half of "),
+            reader.N("annual_last_year", pd.Timestamp(annual_rows[-1]["date"]).year, "year"),
+            reader.T("; volumes in both directions, not split by origin."),
+        ],
+        "quarterly_caption_segments": [
+            reader.T("The same by quarter, from the Short-Term Energy Outlook's energy security article, the "),
+            *_quarter_segments("quarterly_first", quarterly_rows[0]["date"]), reader.T(" to the "),
+            *_quarter_segments("quarterly_last", quarterly_rows[-1]["date"]),
+            reader.T("; a cell EIA prints as a dash is left empty, since EIA does not say whether it is zero or "
+                     "not available."),
+        ],
+        "years_caption": ("LNG carriers through the two canals a year, as their authorities count them: Suez by "
+                          "calendar year with their Suez Canal net tonnage in thousands of tons, Panama by fiscal "
+                          "year ending on 30 September, from the neopanamax locks' first full fiscal year."),
+        "words": {
+            "heading": "The canals, as their authorities count them",
+            "cwt_legend": ("Ink: the month's average Canal Waters Time. Thin: the month's highest day. Dotted: its "
+                           "lowest. Accent: the months with a wait reported for LNG carriers. Source: Panama "
+                           "Canal Authority, Monthly Canal Operations Summary, " + str(ops_entry.get("vintage") or "")
+                           + "; non-commercial use, and the Authority's figures may vary with traffic audits."),
+            "years_source": ("Sources: Suez Canal Authority, annual navigation reports, Table 3; Panama Canal "
+                             "Authority, annual reports, read by eye in their charts and text."),
+            "chokepoints_source": ("Source: U.S. Energy Information Administration, World Oil Transit Chokepoints "
+                                   "and Short-Term Energy Outlook, analysis based on Vortexa tanker tracking data, "
+                                   "with the vintages the Provenance view records."),
+            "suez_head": "Suez, LNG carriers", "suez_tons_head": "Suez, net tons, thousands",
+            "panama_head": "Panama, LNG carriers, fiscal year", "year_head": "Year",
+            "chokepoint_head": "Period", "cwt_y_axis": "hours",
+        },
+    }
+
+
+def page(rows: pd.DataFrame, months: Sequence[Mapping[str, Any]], regressions: Sequence[Mapping[str, Any]],
+         excluded: Sequence[int], levels: Mapping[str, Mapping[str, Any]],
+         regas: pd.DataFrame | None = None) -> dict[str, Any]:
+    """The Flows view's layer of flows.json; levels are the hire levels by ship, regas
+    the weeks of Europe's DES spread, observed or assumed (lngarb.analysis.regas_sensitivity)."""
+    return {
+        "whole": _whole(months, regressions, excluded, levels),
         "test": _test(regressions, excluded),
-        "y2020": _y2020(levels),
+        # 2020 is priced with the TFDE, so its three levels are that ship's.
+        "y2020": _y2020(freight_anchors.hire_levels(when=date(2020, 1, 1))),
         "y2026": _y2026(rows, months, regas),
         "waits": _waits(rows),
+        "canals": _canals([r["month"] for r in _waits(rows)["rows"]]),
         "limits_segments": [
             reader.T("What the test cannot separate: long term contracts with Asian buyers, whose cargoes move "
                      "whatever the spot economics; the slot constraints at Panama; China's tariff on US LNG from "),

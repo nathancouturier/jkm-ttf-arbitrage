@@ -11,9 +11,11 @@ from lngarb.freight_anchors import ANCHORS
 
 def test_the_rows_keep_their_rules():
     assert freight_anchors.problems() == []
-    assert len(ANCHORS) == 10
-    assert [a.month for a in ANCHORS][0] == "2022-02"
+    assert len(ANCHORS) == 51
+    assert [a.month for a in ANCHORS][0] == "2021-01"
     assert [a.month for a in ANCHORS][-1] == "2026-10"
+    # One figure a month at most, the first reported in the month; the rule of question 37.
+    assert len({a.month for a in ANCHORS}) == len(ANCHORS)
 
 
 def test_the_committed_seed_is_the_rows_here():
@@ -38,7 +40,15 @@ def test_no_row_rests_on_a_source_the_study_dropped_or_links_spark():
 
 
 def test_low_central_and_high_hire_are_the_lowest_median_and_highest():
-    assert freight_anchors.hire_levels() == {"low": -750.0, "central": 45_500.0, "high": 374_000.0}
+    assert freight_anchors.hire_levels() == {"low": -750.0, "central": 55_750.0, "high": 447_000.0}
+    # By ship: the figures of each ship's own days, the two-stroke from 2 January 2024.
+    by_ship = freight_anchors.hire_levels_by_ship()
+    assert list(by_ship) == ["tfde_160k", "two_stroke_174k"]
+    assert by_ship["tfde_160k"]["count"] + by_ship["two_stroke_174k"]["count"] == len(ANCHORS)
+    assert by_ship["tfde_160k"]["last"] < "2024-01-02" <= by_ship["two_stroke_174k"]["first"]
+    assert freight_anchors.hire_levels(when="2023-12-31") == {k: by_ship["tfde_160k"][k] for k in ("low", "central", "high")}
+    assert freight_anchors.hire_levels(when="2024-01-02")["central"] == by_ship["two_stroke_174k"]["central"]
+    assert by_ship["two_stroke_174k"]["central"] < by_ship["tfde_160k"]["central"]
 
 
 def test_a_row_dated_in_another_month_or_out_of_range_is_reported():

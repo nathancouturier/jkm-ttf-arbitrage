@@ -42,9 +42,13 @@ def test_the_september_release_values_and_range():
     frame, vintage = worldbank.parse_workbook(SEPTEMBER)
     assert vintage == "Updated on September 02, 2026"
     assert worldbank.release_date(vintage) == "2026-09-02"
-    assert frame["date"].iloc[0] == pd.Timestamp("2015-01-01")
+    assert frame["date"].iloc[0] == pd.Timestamp("1960-01-01")
     assert frame["date"].iloc[-1] == pd.Timestamp("2026-08-01")
-    assert len(frame) == 140
+    assert len(frame) == 800
+    assert at(frame, "1960-01-01", "henry_hub_usd_mmbtu") == 0.14
+    assert at(frame, "1960-01-01", "europe_gas_usd_mmbtu") == 0.4
+    assert math.isnan(at(frame, "1960-01-01", "japan_lng_import_usd_mmbtu"))
+    assert at(frame, "1977-01-01", "japan_lng_import_usd_mmbtu") == 2.77
     expected = {
         "2016-01-01": (4.4, 2.27, 8.4),
         "2020-05-01": (1.58, 1.75, 10.08),

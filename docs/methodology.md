@@ -1,7 +1,7 @@
 # Methodology
 
 How this study turns published figures into the numbers it shows: the data
-layer, the engine, the analysis and the site.
+layer, the engine, the analysis and the site, each in its section.
 
 ---
 
@@ -70,16 +70,25 @@ basis points; they are not forecasts of where prices can go.
 | Quantity | Range | Why this range |
 |---|---|---|
 | JKM, TTF and Japanese spot LNG, USD/MMBtu | 1 to 120 | the highest monthly value in the World Bank's Europe gas series is 70.04, August 2022 |
+| The World Bank's monthly gas series, USD/MMBtu | 0.1 to 120 | the series run from 1960: the US series opens at 0.14 in January 1960 and the Europe series at 0.38 in January 1964, so the floor sits below them |
 | Henry Hub, USD/MMBtu | 0.5 to 50 | EIA's daily spot price printed 30.72 on 23 January 2026 and 25.01 on 26 January 2026; the bound catches a price read in cents, not a high price (open question 3) |
 | US dollars per euro | 0.8 to 1.7 | the euro's range on H.10 since 1999 is 0.8270 (25 October 2000) to 1.6010 (22 April 2008) |
 | Reported charter hire, USD per day | minus 10,000 to 500,000 | a spot charter rate can be assessed below zero; the reported figures are in the freight anchors |
 | DES LNG spreads to the TTF front month, EUR/MWh | minus 40 to 20 | widened when ACER's history was read: its EU benchmark ran from minus 23.938 on 3 March 2026, when TTF jumped and the assessed half-month did not, to 7.687 in June 2026 |
-| US dollars per SDR | 1 to 2 | a rate read the other way up, SDR per dollar, would be below 1 |
-| SOFR, and EFFR before it, percent per year | minus 1 to 15 | a rate read in basis points would be a hundred times too large |
+| US dollars per SDR | 0.9 to 2 | a rate read the other way up, SDR per dollar, sits below 0.9 on every day since 1987; the dollar per SDR itself fell to 0.9586 on 26 February 1985, so the floor sits below it and the guard is weaker in the 1980s |
+| SOFR, percent per year | minus 1 to 15 | a rate read in basis points would be a hundred times too large |
+| The effective federal funds rate, percent per year | minus 1 to 30 | the daily rate ran above 15 on 294 business days of 1979 to 1982 and reached 22.36 on 22 July 1981; a rate read in basis points would still be a hundred times too large |
 | US gas exports in one month, MMcf | 0 to 2,000,000 | the largest monthly LNG total in EIA's release of 31 August 2026 is 573,089, March 2026 |
 | Price of US LNG exports in one month, USD per thousand cubic feet | 0.1 to 100 | a price read per MMcf or in cents would be a thousand or a hundred times too large; from 2016 the release of 30 September 2026 runs from 1.86 to 40.44 |
 | A DES LNG price level, EUR/MWh | 1 to 400 | a guard against a unit or a parse error in ACER's assessments, not a range the market implies |
 | An EU allowance price, EUR per tonne of CO2 | 1 to 200 | a guard against a unit or a parse error, not a range the market implies |
+| Hours in the Panama Canal's waters, a month's daily average, high or low | 0 to 500 | the drought of 2023 took a month's highest day to 104.8 hours; a figure read in minutes would be sixty times too large |
+| Ships a day arriving at or transiting the Panama Canal | 0 to 100 | the record is below fifty |
+| Ships through the Panama Canal in a month, or one of its locks | 0 to 3,000 | about a thousand a month in all, three hundred of them neopanamax |
+| Neopanamax booking slots offered or used in a month | 0 to 1,500 | at most about three hundred a month |
+| LNG carriers through the Suez Canal in a year | 0 to 5,000 | 1,083 in 2011, the most the Authority counted |
+| Suez Canal net tonnage of those ships in a year, thousands | 0 to 500,000 | 121,831 in 2011; a figure read in tons would be a thousand times too large |
+| LNG through a chokepoint, billion cubic feet a day | 0 to 100 | world LNG trade is near sixty; the Strait of Hormuz carried 11.7 in the first quarter of 2025 |
 
 The ranges are declared once in `src/lngarb/config.py` and repeated, on
 purpose, in `tools/validate-data.mjs`, which measures the committed files
@@ -97,7 +106,7 @@ independently of the Python that wrote them.
 | ACER DES assessments | the publication day; the half-month assessed is stored beside it where ACER's roll table gives it (31 March 2023 to early January 2025) |
 | EU allowance price | the month of the auctions, dated on the 1st |
 | EIA exports by destination | the month, dated on the 15th as EIA dates it |
-| EIA Henry Hub, H.10, SOFR | the trading or value day |
+| EIA Henry Hub, H.10, H.15, SOFR | the trading or value day |
 | World Bank Pink Sheet | the month, dated on the 1st |
 
 Gaps in the manifest are computed at each series' frequency: for a daily series
@@ -123,7 +132,8 @@ of January).
 | Japanese spot LNG | between March and April 2021 | METI's survey ends and JOGMEC's continues it; the two are kept as two series |
 | JOGMEC arrival-based price | April 2023 | from cargoes contracted and delivered in the month to cargoes delivered in the month whenever contracted |
 | ACER DES assessments | January to March 2023 | NWE priced from 19 January 2023, SE from 20 January, the EU from 8 March, the EU benchmark to TTF from 31 March |
-| EU allowance price | after June 2025 | the Commission's latest auction report ends there; DEHSt's average of the German auctions stands in, a proxy 0.10 EUR/t above the Commission's on average over the 18 months both cover |
+| EU allowance price | November 2012 | the first month of the common auction platform, from the overview table of the Commission's report of December 2013; no earlier auction on the platform |
+| EU allowance price | after June 2025 | the Commission's latest auction report ends there; DEHSt's average of the German auctions stands in, a proxy 0.13 EUR/t above the Commission's on average over the 147 months both cover, January 2013 to June 2025, 0.29 over February 2019 to June 2025 and 0.10 over 2024 to June 2025 |
 
 ### 5.1 The weekly series checked against itself
 
@@ -388,12 +398,20 @@ No advisory read to 5 October 2026 announces a toll change after 2025.
 * **Fresh water surcharge**, mandatory on every transit since 15 February
   2020: 10,000 $ per transit for a ship over 300 feet, plus a percentage of the
   tolls set daily from the level of Gatun Lake. From 15 February 2020 the
-  percentage is 0.10 / (1 + e^(0.6 (x - 82))), x the lake level in feet, with a
-  floor of 1 percent; from 1 January 2023 it ranges from 0 to 10 percent; from
-  1 October 2023 the curve is centred on 79 feet and applies to the total
+  percentage is 0.10 / (1 + e^(0.6 (x - 82))), x the lake level in feet at noon
+  the day before, rounded to a tenth, held between 1 percent (above 85.5
+  feet) and 10 percent (below 72 feet); from 1 October 2023 the curve is
+  centred on 79 feet, runs from 0 to 10 percent and applies to the total
   tolls. At the 2025 toll it adds 10,000 $ to 75,670 $ to a laden transit of a
-  174,000 m3 carrier (this study's arithmetic). The lake levels of past days
-  were not collected.
+  174,000 m3 carrier (this study's arithmetic). The curve is in the engine
+  (`lngarb.canals.panama_fresh_water_share_at_level`, with its centre, slope,
+  ceiling and floor as parameters), but not the level: the Authority's daily
+  history and projection of the level sit on a page of its reporting host
+  that the study's network does not reach, so the engine holds the share at 5
+  percent, the curve's value at its centre, and the Method view prints the
+  curve at a few levels and at the two the Authority's monthly summaries
+  print, 79.7 feet in early September 2023 (8.0 percent under the 82 foot
+  curve) and 85.02 feet in July 2024 (0.3 percent under the 79 foot curve).
 * **Booking fees for a neopanamax vessel**, paid only by a ship that books a
   slot: 35,000 $ when neopanamax bookings opened in 2016; 70,000 $ or 85,000 $
   by beam (under or over 42.67 m) for booking dates from 1 June 2021; 80,000 $
@@ -406,7 +424,20 @@ No advisory read to 5 October 2026 announces a toll change after 2025.
 * **Waiting days** are not published by segment. The IEA gives two to three
   days for LNG carriers in normal conditions and an average of 15 days for
   unreserved slots in mid December 2023; Spark reported 12 days for unbooked
-  vessels in late July 2023 (LNG Prime, 28 July 2023).
+  vessels in late July 2023 (LNG Prime, 28 July 2023); EIA reported that
+  neopanamax ships "had to wait at least 17 days" in August 2023, with more
+  than 160 vessels waiting (Today in Energy, 31 October 2023). What the Authority does
+  publish, monthly since December 2001 and readable by code from July 2006
+  (the earlier summaries are scanned images), is Canal Waters Time, the hours from
+  every ship's arrival to its departure, waiting included, as the month's daily
+  average, high and low (`acp_canal_operations_monthly`): 66.5 hours on
+  average in August 2023 with a high of 104.8, 44.1 in December 2023 with a
+  high of 87.1, against 28.3 in the median month since the neopanamax locks
+  opened in July 2016. Booked
+  ships wait little and unbooked ones long, so the average bounds an LNG
+  carrier's wait from below and the reported 12, 17 and 15 days stand as the
+  record of the unbooked case. The Flows view draws the series with the three
+  reported months marked.
 
 Two published estimates set against the tariff of their date, this study's
 arithmetic: the IEA's 0.6 to 0.7 million $ for a 170,000 m3 carrier "for
@@ -427,7 +458,7 @@ was to get.
 | 26 Jun 2016 | 30 Sep 2018 | the expanded locks open (first LNG carrier 25 July 2016, from Sabine Pass); daylight and encounter restrictions on LNG carriers | the Authority's press releases of 2016 and 2018 |
 | 1 Oct 2018 | 2 Jan 2023 | restrictions lifted; up to two booked LNG slots a day; auctions from January 2021; 58 LNG transits in January 2021, a record | advisory A-29-2018; press release of 3 February 2021 |
 | 3 Jan 2023 | 29 Jul 2023 | water saving measures; neopanamax draught cut in steps to 44 feet by 19 June 2023; 12 days of delay for unbooked vessels in late July | advisories of 2023; LNG Prime, 28 July 2023 |
-| 30 Jul 2023 | 31 Oct 2023 | daily transits cut to an average of 32, 10 of them neopanamax; queues of up to 163 ships and 21 days in August, all ship types | advisory A-35-2023; IEA, Global Gas Security Review 2024 |
+| 30 Jul 2023 | 31 Oct 2023 | daily transits cut to an average of 32, 10 of them neopanamax; queues of up to 163 ships and 21 days in August, all ship types, and at least 17 days for neopanamax ships | advisory A-35-2023; IEA, Global Gas Security Review 2024; EIA, Today in Energy, 31 October 2023 |
 | 1 Nov 2023 | 15 Jan 2024 | 31 transits, 9 neopanamax, then 8, 7 and 6 neopanamax booking slots in December; unreserved LNG waits of 15 days in mid December | advisories A-48-2023 and A-53-2023; IEA, Gas Market Report Q1 2024 |
 | 16 Jan 2024 | 31 May 2024 | 24 booking slots, 7 neopanamax, full container ships ahead of LNG in the first booking period; LNG transits "almost completely dried up" by early 2024 | advisories A-54-2023 and A-08-2024; IEA |
 | 1 Jun 2024 | 14 Aug 2024 | neopanamax booking slots back to 8, 9, then 10 | advisories of 2024 |
@@ -505,8 +536,11 @@ For a destination d and a route r, in US dollars:
   lifted, `1.15 x HH x Q_load`, at the overnight rate plus a spread, for the
   laden days, on an actual over 365 basis. The fixed fee, and its carrying
   cost, are owed whether or not the cargo is lifted, so they are left out, as
-  the lift test requires. The overnight rate is SOFR from 2 April 2018 and the
-  effective federal funds rate before it.
+  the lift test requires. The overnight rate is SOFR from 2 April 2018, the
+  indicative SOFR the New York Fed computed by the same method from 22 August
+  2014 to 29 March 2018, and before that the effective federal funds rate, as
+  the Federal Reserve Board's H.15 publishes it from July 1954, an unsecured
+  rate standing in for a secured one.
 
 `C0` is the same stack without hire.
 
@@ -570,8 +604,9 @@ form everywhere and shows both for the latest date.
 the Supplement for the week ending that day, or, before the weekly prices
 begin, METI's contract-based monthly price as a labelled proxy for JKM and the
 World Bank's TTF; Henry Hub as the loading month's average of EIA's daily spot;
-the euro rate of H.10 on or before the day; SOFR, or the effective federal funds
-rate before 2 April 2018; the Northwest Europe DES discount as ACER's NWE
+the euro rate of H.10 on or before the day; SOFR, the indicative SOFR before
+2 April 2018 and from 22 August 2014, or the effective federal funds rate of
+H.15 before that; the Northwest Europe DES discount as ACER's NWE
 spread to the TTF front month (the EU benchmark plus the NWE assessment less
 the EU one, computed from ACER's figures), averaged over the days the price
 spans, the week to the day for a weekly price and the calendar month for a
@@ -678,6 +713,15 @@ the visitor's figures laid over them.
 
 ---
 
+Added 15 October 2026: the carbon factor the EU ETS counts per tonne of LNG
+burnt and a methane slip are fields of their own in the calculator. A slip
+typed reworks the factor for the preset's date as `lngarb.worked.ets_tco2e_per_t`
+does, the slipped share leaving the gas burnt and, from the day methane counts,
+counting as methane at its warming potential; `src/model-calc.js` carries the
+same arithmetic and `tools/validate-engine.mjs` holds the two together on four
+named edits. Every preset also says which delivery months its two prices name
+and whether the week is aligned, mixed or misaligned (9.9).
+
 ## 10. The tests that pin the engine
 
 | # | Test | Where |
@@ -712,7 +756,9 @@ was read. The site's Method view prints that table. The assumptions, and the
 published values used as scenarios, each with the alternatives the study
 names for it. `scripts/worked_table.py` runs those of the liquefaction fee,
 the regas discount, the Suez tonnage and rebate, and the hire on the worked
-dates; the others are named, not run:
+dates; the Now view runs the regas discount and the energy of a cubic metre on
+the latest week and says whether the arb east turns; the others are named, not
+run:
 
 | Parameter | Value | Alternatives | Why |
 |---|---|---|---|
@@ -723,10 +769,10 @@ dates; the others are named, not run:
 | Suez rebate on the surcharge | not applied | applied | the rebate is written on normal tolls (open question 26) |
 | Panama capacity charged | the nominal capacity | none | the canal's admeasurement rules were not read (open question 39) |
 | Panama booking fee | none, an unbooked ship | none | the booked case is a scenario (open question 40) |
-| hire where no rate was reported within 14 days | 45,500 $/day | -750 and 374,000 | the median, lowest and highest of the freight anchors |
+| hire where no rate was reported within 14 days | the median of the figures reported for the ship the date is priced with: 75,500 $/day for the 160,000 m3 TFDE to 1 January 2024 (23 figures), 45,500 for the 174,000 m3 two-stroke since (28) | that ship's lowest and highest: -750 and 447,000; 4,250 and 161,750 | the rates of one ship describe the other badly: the TFDE's figures carry the crisis of 2021 to 2022 (open question 37) |
 | EU allowance price after the last published month | the last month published, held (on 8 October 2026 August 2026, 82.31 EUR/t, German auctions) | 61 and 86 | the last published month held, and the Commission's range for 2025 |
 | funding spread | 150 bp | none | the convention of the study's copper sibling |
-| Panama variable fresh water surcharge | 5 percent of tolls | 0 and 10 | the middle of the Authority's range |
+| Panama variable fresh water surcharge | 5 percent of tolls | 0 and 10; the Authority's curve at a few levels and at the two levels it printed, on the Method view | the curve's value at its centre; the daily level is not reachable by code |
 | Suez closed to a US cargo | from 13 January 2024 | none | the day after the last laden LNG transit |
 | methane slip | off | 1.7 percent (174,000 m3), 3.1 percent (160,000 m3) | the regulation's defaults for the likely engine classes |
 | monthly loading day | the 15th | none | a monthly observation loads in the middle of its month |
@@ -734,6 +780,9 @@ dates; the others are named, not run:
 | first month of the monthly history | January 2016 | none | the first overnight rate held; Sabine Pass's first cargo followed in February 2016 |
 | years the flows test is also run without | 2020, 2022, 2026 | none | the cancellations, the European gas crisis, the Strait of Hormuz |
 | Panama waiting days reported, published | 12 per transit in July 2023, 15 in December 2023 | in those months only, against no wait | Spark in late July 2023, the IEA in mid December 2023 |
+| energy of a cubic metre of LNG, published | 23 MMBtu | 22 and 24, run on the latest week | Spark's convention for a lean cargo; the ends of the range quoted for a US cargo |
+| share of a price's weekdays ACER must cover for its spread to stand | one half | none, not run | a threshold this study chose; below it the regas discount above applies |
+| days a reported charter rate stands for | 14 | none, not run | Spark assessed twice a week until April 2022 and daily after; a rate further away is not taken to describe the date |
 
 ---
 
@@ -770,8 +819,10 @@ result. Nothing is fitted: no parameter is searched and nothing is forecast.
   arbitrage of 28 April 2026), are kept in `src/lngarb/reported.py`, each with
   its publisher, address and the day it was read (docs/sources.md 2.24).
 * **Hire**: each observation at the low, central and high hire of the freight
-  anchors (the lowest, median and highest reported figure), and at the figure
-  reported nearest its date where one lies within 14 days.
+  anchors (the lowest, median and highest figure reported for the ship the
+  observation is priced with, the 160,000 m3 TFDE to 1 January 2024 and the
+  174,000 m3 two-stroke since), and at the figure reported nearest its date
+  where one lies within 14 days.
 * **Breaks**: every week whose stored basis changes, the change of series, the
   ship of 2 January 2024, the routes (Panama from 26 June 2016, Suez closed to
   a US cargo from 13 January 2024), the EU ETS phase-in and the allowance price
@@ -839,7 +890,8 @@ the slot premium for the round trip at which Panama nets what the Cape does,
 Panama's lead times the cargo loaded, and the waiting days per Panama transit,
 laden and ballast alike, at which they net the same, found by bisection on the
 engine. The waits reported in 2023 are applied only in the months they were
-reported: 12 days per transit in July 2023 and 15 in December 2023. The
+reported: 12 days per transit in July 2023, 17 in August 2023 and 15 in
+December 2023. The
 result is set beside the route use Platts reported: a record 27 US cargoes to
 Asia via the Cape in March 2024, against one via Panama in that month to 27
 March, and 31 of 34 round the Cape in data running to 28 April 2026, over a
@@ -847,6 +899,30 @@ period not stated, when auctioned slots had made Panama impractical for spot
 cargoes according to Platts' sources (2.24 of `docs/sources.md`). The Flows
 view draws the breakeven wait month by month from January 2023, with the waits
 reported as points.
+
+### 12.4.1 What the canal authorities and EIA count
+
+Added 15 October 2026. Three observed series are set under the route analysis
+on the Flows view, none of them an input to the engine:
+
+* **LNG carriers through each canal by year.** The Suez Canal Authority's
+  annual reports count LNG ships both ways, 2007 to 2025: 819 in 2023, 119 in
+  2024, 282 in 2025 (`sca_lng_transits_annual`). The Panama Canal Authority's
+  annual reports count LNG carrier transits by fiscal year, 15 in fiscal 2016
+  to 537 in fiscal 2021, 326 in 2023, 115 in 2024 and 61 in 2025
+  (`acp_lng_transits_fiscal_year`). Both include deliveries to the canal's
+  own region and ballast legs, so neither is a count of US cargoes to Asia;
+  what they show is the collapse of each route in the year the study closes
+  or restricts it, and Panama's decline continuing through 2025.
+* **Canal Waters Time at Panama by month** (`acp_canal_operations_monthly`,
+  section 8.2), with the months of the two reported LNG waits marked.
+* **LNG through each chokepoint**, EIA's estimate from Vortexa's tanker
+  tracking in billion cubic feet a day, by year from 2020 and by quarter for
+  the latest six quarters (`eia_chokepoint_lng_annual`,
+  `eia_steo_chokepoint_lng_quarterly`): Suez and Bab el-Mandeb fall from 4.1
+  and 4.2 in 2023 to 0.5 and 0.0 in 2024 while the Cape rises from 2.1 to
+  7.8; the Strait of Hormuz falls from 10.5 in the fourth quarter of 2025 to
+  0.8 in the second of 2026. A cell EIA prints as a dash is left missing.
 
 ### 12.5 The history on the site
 
@@ -879,16 +955,24 @@ nothing smoothed or fitted (`lngarb.spreadhistory`):
   when TTF stood far above JKM, to about a million, so the scale is drawn over
   the middle nine tenths of a range's values and every rate reported; each
   week beyond it is a short tick at the edge, counted under the chart.
+* **What S\* is made of.** Between the breakeven hire and the monthly panel,
+  the three parts of S\* of the cheapest open route at the central hire, week
+  by week, from 9.4: the gas the longer voyage burns, a thin line; Europe's
+  DES spread the cargo escapes, a dashed line; and the voyage's extra cost, a
+  dotted line; with S\* itself, their sum, in ink. Each range's heading gives
+  the mean of each part over its weeks with an open route.
 * **Marks.** Rings mark the weeks in which, by the futures calendars of 9.9,
-  the JKM and TTF front months name different delivery months every day, and
-  solid dots the mixed weeks, in which they differ on some days; before the
-  futures of July 2022 the TTF price drawn was a spot or day-ahead price,
-  which names no delivery month, so there a mark shows the calendar, not the
-  prices. Numbered rules mark the breaks of 12.1 that change a
-  price's definition, a route, the ship, the EU ETS or the source of Europe's
-  DES spread (ACER's observed figures from 31 March 2023), listed with their
-  sources under the charts; a change of name alone is not drawn. Lettered
-  marks at the foot of the spread charts are the dated events of
-  `lngarb.events`, each from one document, listed with what was left out.
+  the JKM and TTF front months name different delivery months: a full ring
+  where they differ on every trading day of the week, a dashed ring where
+  they differ on some (the mixed weeks); before the futures of July 2022 the
+  TTF price drawn was a spot or day-ahead price, which names no delivery
+  month, so there a ring marks the calendar, not the prices. Numbered rules
+  mark the breaks of 12.1 that change a price's definition, a route, the
+  ship or the EU ETS, listed with their sources under the charts; a change
+  of name alone is not drawn. Lettered rules, dotted, mark the events of
+  `lngarb.events`, each dated and sourced and listed under the charts: a
+  thing that happened to the trade, never a change in the data, drawn so a
+  reader can set the spread and the breakeven against it; an event a source
+  dates to a month is drawn on its first day and says so.
 * **Ranges.** Every week, 2021 to 2023, 2024 on, and the last 52 weeks; each
   range's counts and sentences are computed for it.

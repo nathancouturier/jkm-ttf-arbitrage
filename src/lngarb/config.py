@@ -26,6 +26,11 @@ from typing import Any, Mapping
 
 #: JKM, TTF and Japanese spot LNG, USD/MMBtu
 BOUNDS_LNG_USD_MMBTU = (1.0, 120.0)
+#: The World Bank's monthly gas series, USD/MMBtu, which run from 1960: the US
+#: series opens at 0.14 in January 1960 and the Europe series at 0.38 in January
+#: 1964, so the floor sits below them. A guard against a unit or a parse error,
+#: not a range the market implies.
+BOUNDS_WORLDBANK_GAS_USD_MMBTU = (0.1, 120.0)
 #: Henry Hub, USD/MMBtu
 BOUNDS_HENRY_HUB_USD_MMBTU = (0.5, 50.0)
 #: US dollars per euro
@@ -51,17 +56,42 @@ BOUNDS_AUCTION_VOLUME_EUA = (0.0, 50000000.0)
 #: The revenue of Germany's auctions in one month, EUR. A guard against a parse
 #: error: the largest month of 2024 to August 2026 is 633,208,900, August 2024.
 BOUNDS_AUCTION_REVENUE_EUR = (0.0, 5000000000.0)
-#: SOFR, and EFFR before it, percent per year. Not a range the market implies,
-#: a guard against a unit error: a rate read in basis points would be a hundred
-#: times too large.
+#: SOFR, percent per year. Not a range the market implies, a guard against a
+#: unit error: a rate read in basis points would be a hundred times too large.
 BOUNDS_SOFR_PERCENT = (-1.0, 15.0)
-#: US dollars per SDR. Not a range the rate implies, a guard against a rate read
-#: the other way up, SDR per dollar, which would be below 1.
-BOUNDS_USD_PER_SDR = (1.0, 2.0)
+#: The effective federal funds rate, percent per year, from 1954: the daily rate
+#: ran above 15 on 294 business days of 1979 to 1982 and reached 22.36 on 22
+#: July 1981, so its ceiling sits above them. The same guard against a rate read
+#: in basis points.
+BOUNDS_EFFR_PERCENT = (-1.0, 30.0)
+#: US dollars per SDR, from July 1974. A guard against a rate read the other way
+#: up, SDR per dollar: since 1987 that reading would sit below 0.9 on every day.
+#: In the 1980s the two readings overlap, the dollar per SDR itself falling to
+#: 0.9586 on 26 February 1985, so the floor sits below that and the guard is
+#: weaker there.
+BOUNDS_USD_PER_SDR = (0.9, 2.0)
 #: US natural gas exports in one month, MMcf, any block or total. Not a range
 #: the market implies, a guard against a unit or a parse error: the largest
 #: monthly LNG total in the 31 August 2026 release is 573,089 MMcf, March 2026.
 BOUNDS_EXPORTS_MMCF = (0.0, 2000000.0)
+
+#: Hours a ship spends in the Panama Canal's waters, arrival to departure, as
+#: a month's daily average, high or low; the drought of 2023 took the high of
+#: a month past a hundred hours.
+BOUNDS_CANAL_HOURS = (0.0, 500.0)
+#: Ships a day arriving at or transiting the Panama Canal; the record is below fifty.
+BOUNDS_DAILY_TRANSITS = (0.0, 100.0)
+#: Ships transiting the Panama Canal in a month, or one of its locks; or the
+#: Suez Canal in a year, by type.
+BOUNDS_MONTHLY_TRANSITS = (0.0, 3000.0)
+#: Booking slots the Panama Canal offers or uses in a month for one class.
+BOUNDS_MONTHLY_SLOTS = (0.0, 1500.0)
+#: LNG carriers through the Suez Canal in a year, both directions.
+BOUNDS_ANNUAL_LNG_TRANSITS = (0.0, 5000.0)
+#: Suez Canal net tonnage of those ships in a year, thousands.
+BOUNDS_ANNUAL_NET_TON_THOUSAND = (0.0, 500000.0)
+#: LNG through a chokepoint, billion cubic feet a day; world trade is near sixty.
+BOUNDS_LNG_BCF_PER_DAY = (0.0, 100.0)
 #: The price of US LNG exports in one month, USD per thousand cubic feet. Not a
 #: range the market implies, a guard against a unit error: a price read per
 #: MMcf or in cents would be a thousand or a hundred times too large. From 2016
@@ -206,7 +236,7 @@ EIA_DESTINATIONS: Mapping[str, Destination] = MappingProxyType(
 
 #: The frequencies this project handles. Gap detection needs to know which one a
 #: series is, because a missing weekday in a weekly series is not a gap.
-FREQUENCIES = ("daily", "weekly", "monthly", "annual")
+FREQUENCIES = ("daily", "weekly", "monthly", "quarterly", "annual")
 
 #: How a series came to exist.
 #:
@@ -254,12 +284,21 @@ class Source:
     #: whether the cache may be committed to a public repository. False sends
     #: the cache to data/private/ and keeps it out of the deploy.
     committable: bool
-    #: whether the publisher's terms let a public page link to it. False keeps
-    #: every URL of the source out of the manifest and the site's data, and the
-    #: provenance table names the publisher in plain text.
+    #: whether the publisher's page may be linked. False when the publisher's
+    #: terms require permission for a link that has not been granted: page_url
+    #: is then empty, the manifest and the provenance panel carry no address,
+    #: and the adapter alone knows where to fetch.
     linkable: bool = True
 
     def __post_init__(self) -> None:
+        if self.linkable and not self.page_url.startswith("http"):
+            raise ValueError(
+                "source %r is linkable but carries no page_url to link" % (self.series,)
+            )
+        if not self.linkable and (self.page_url or self.machine_url):
+            raise ValueError(
+                "source %r may not be linked but carries an address" % (self.series,)
+            )
         if self.frequency not in FREQUENCIES:
             raise ValueError(
                 "source %r declares frequency %r, not one of %s"
@@ -351,15 +390,13 @@ _H10_NOTE = (
     "Nothing read marks the H.10 euro rate as third party material."
 )
 
-_EFFR_NOTE = (
-    "Licensed, not public domain, on the same terms as SOFR: the New York Fed's "
-    "Terms of Use grant a non-exclusive licence to use, copy and distribute its "
-    "content, with its attribution line, the reference rate notice and disclaimer "
-    "wherever the rate is shown, redistribution 'with the same permissions, "
-    "conditions, and restrictions', and modified content labelled as not the New "
-    "York Fed's. The terms name no third party licence for EFFR, which is "
-    "calculated from FR 2420 reports. The committed cache is distributed under those "
-    "terms, not under this repository's MIT licence."
+_H15_NOTE = (
+    "The Federal Reserve Board: 'Unless otherwise indicated, information on Board's "
+    "website is in the public domain and may be copied and distributed without "
+    "permission. Please cite to the Board as the source of the information.' "
+    "Nothing read marks the H.15 federal funds series as third party material; the "
+    "New York Fed, which calculates the rate, is named as its calculator wherever "
+    "the rate is shown."
 )
 
 _SOFR_NOTE = (
@@ -425,7 +462,74 @@ _DEHST_NOTE = (
 )
 
 
+_ACP_NOTE = (
+    "The Panama Canal Authority's terms of use, read on 15 October 2026: the site's information, documents and "
+    "reports are the Authority's property, and 'their copying, distribution, transmission, reproduction or "
+    "publication for commercial or lucrative purposes is prohibited'; the tables add that the information 'is "
+    "for general purpose only' and 'may vary' with traffic audits. This non-commercial study keeps the figures "
+    "unchanged, credits the Authority and carries its disclaimer (docs/sources.md, section 2.17)."
+)
+_EIA_CHOKEPOINT_NOTE = (
+    "US government publication in the public domain, acknowledged with its publication date as EIA asks; the "
+    "tables are EIA's analysis based on Vortexa tanker tracking data, which EIA credits and this study credits "
+    "in turn. Volumes, not transits, and not split by origin."
+)
+
+@dataclass(frozen=True)
+class UserCsvDeclaration:
+    """A series the owner saves by hand as data/private/user/<series>.csv, never committed.
+
+    For a table the owner may hold but not redistribute (a subscription's
+    export, a figure typed from a paid report), or one no publisher serves to
+    code. The file has a date column and the value columns declared here; the
+    adapter lngarb.sources.user_csv validates it as it validates every other
+    series, writes its manifest entry with committable False, and the file
+    stays under data/private/, which is never tracked. Declaring one here is
+    the whole of what the owner does in code; the manual step is saving the
+    file (docs/sources.md, section 2.25).
+    """
+
+    #: the series name, and the file's stem under data/private/user/
+    series: str
+    #: one sentence a human reads on the provenance panel
+    label: str
+    #: who published the figures the owner typed or exported
+    publisher: str
+    #: the human readable page, or an empty string with linkable False
+    page_url: str
+    #: one of FREQUENCIES
+    frequency: str
+    #: the unit of the value columns
+    unit: str
+    #: value column -> (lo, hi), inclusive; every value column of the file
+    columns: Mapping[str, tuple[float, float]]
+    #: the column whose non blank cells are the observations
+    observation_column: str
+    #: the licence, named, and what it permits and forbids, in plain words
+    licence: str
+    licence_note: str
+    #: how the owner made the file, carried into the manifest's note
+    how: str
+    #: False when the publisher's terms forbid a link
+    linkable: bool = True
+
+    def source(self) -> Source:
+        return Source(
+            series=self.series, label=self.label, publisher=self.publisher,
+            page_url=self.page_url if self.linkable else "", machine_url=None,
+            url_note="Saved by hand as data/private/user/%s.csv; nothing is fetched. %s" % (self.series, self.how),
+            frequency=self.frequency, unit=self.unit, method="published", licence=self.licence,
+            licence_note=self.licence_note, committable=False, linkable=self.linkable,
+        )
+
+
+#: The owner's own CSV series, none unless declared; an example sits in
+#: tests/test_sources_user_csv.py and the form in docs/sources.md, section 2.25.
+USER_CSV_SERIES: tuple[UserCsvDeclaration, ...] = ()
+
+
 SOURCES: Mapping[str, Source] = _registry(
+    *[declaration.source() for declaration in USER_CSV_SERIES],
     # -- European Commission, EUA -----------------------------------------
     Source(
         series="ec_eua_auction_monthly",
@@ -464,6 +568,106 @@ SOURCES: Mapping[str, Source] = _registry(
         method="parsed",
         licence="CC BY-NC-ND 4.0 for DEHSt's reports, figures credited to EEX and DEHSt; non-commercial use",
         licence_note=_DEHST_NOTE,
+        committable=True,
+    ),
+    # -- Panama Canal Authority, operations ---------------------------------
+    Source(
+        series="acp_canal_operations_monthly",
+        label="Canal Waters Time at Panama, hours from arrival to departure for every ship, the month's daily average, high and low, with transits and neopanamax slots",
+        publisher="Panama Canal Authority, Monthly Canal Operations Summary, advisories to shipping",
+        page_url="https://pancanal.com/en/maritime-services/advisory-to-shipping/",
+        machine_url=None,
+        url_note=(
+            "One PDF a month linked from the page of advisories to shipping, named "
+            "irregularly; the adapter keeps the links whose label names an operations "
+            "summary and fetches the months newer than the cache, ten seconds apart as "
+            "the site's robots.txt asks. The covered month is read from the PDF's subject. "
+            "The page lists summaries from December 2001; those to June 2006 are scanned "
+            "images without a text layer, so the series starts with July 2006."
+        ),
+        frequency="monthly",
+        unit="hours, and counts of ships",
+        method="parsed",
+        licence="Panama Canal Authority's terms of use; non-commercial use with attribution",
+        licence_note=_ACP_NOTE,
+        committable=True,
+    ),
+    Source(
+        series="acp_lng_transits_fiscal_year",
+        label="LNG carriers through the Panama Canal each fiscal year, October to September, as the Authority's annual reports print them",
+        publisher="this study, from the Panama Canal Authority's annual reports",
+        page_url="https://pancanal.com/en/annual-reports/",
+        machine_url=None,
+        url_note=(
+            "Written by lngarb.panama_transits from rows kept in the code, each read in a "
+            "dated report whose charts are drawn, not typed; nothing is fetched. The "
+            "address of each report is kept with its row."
+        ),
+        frequency="annual",
+        unit="ships a fiscal year",
+        method="seed",
+        licence="Panama Canal Authority's terms of use; figures quoted with attribution",
+        licence_note=_ACP_NOTE,
+        committable=True,
+    ),
+    # -- Suez Canal Authority, transits -------------------------------------
+    Source(
+        series="sca_lng_transits_annual",
+        label="LNG carriers through the Suez Canal each year, both directions, and their net tonnage, from the Authority's annual reports",
+        publisher="Suez Canal Authority, Planning and Research Department, annual navigation reports",
+        page_url=("https://www.suezcanal.gov.eg/English/Downloads/Pages/default.aspx?folder=Navigation%20Reports/"
+                  "Annual%20Reports%E2%80%8B%E2%80%8B%E2%80%8B"),
+        machine_url=("https://www.suezcanal.gov.eg/English/Downloads/DownloadsDocLibrary/Navigation%20Reports/"
+                     "Annual%20Reports%E2%80%8B%E2%80%8B%E2%80%8B/{year}.pdf"),
+        url_note=(
+            "One PDF a year, 2008 onwards, each with a text layer; the folder's name ends "
+            "in three zero width spaces that the address carries percent encoded. The "
+            "adapter reads the years after the cache's latest report until the site "
+            "answers 404. The site serves no robots.txt (404), so no path is closed."
+        ),
+        frequency="annual",
+        unit="ships a year, and thousands of Suez Canal net tons",
+        method="parsed",
+        licence="All rights reserved, Suez Canal Authority; facts restated with attribution",
+        licence_note=(
+            "The Authority's site carries no licence and no terms page, only the footer 'All Right "
+            "Reserved Suez Canal Authority'. The counts and tonnages are facts, restated here with "
+            "attribution as the study already restates the Authority's tolls; the reports themselves "
+            "are not kept in the repository (docs/sources.md, section 2.18)."
+        ),
+        committable=True,
+    ),
+    # -- EIA, chokepoints ----------------------------------------------------
+    Source(
+        series="eia_chokepoint_lng_annual",
+        label="LNG through each maritime chokepoint, billion cubic feet a day, by calendar year from 2020 and the latest first half, EIA's analysis of tanker tracking",
+        publisher="U.S. Energy Information Administration, World Oil Transit Chokepoints; analysis based on Vortexa tanker tracking data",
+        page_url="https://www.eia.gov/international/content/analysis/special_topics/World_Oil_Transit_Chokepoints/",
+        machine_url="https://www.eia.gov/international/content/analysis/special_topics/World_Oil_Transit_Chokepoints/",
+        url_note="HTML tables on the analysis page, one per chokepoint; the rows 'LNG flows through ...' are kept.",
+        frequency="annual",
+        unit="billion cubic feet per day",
+        method="published",
+        licence="public domain, US government publication; EIA analysis based on Vortexa tanker tracking data",
+        licence_note=_EIA_CHOKEPOINT_NOTE,
+        committable=True,
+    ),
+    Source(
+        series="eia_steo_chokepoint_lng_quarterly",
+        label="LNG through each maritime chokepoint, billion cubic feet a day, by quarter, from the Short-Term Energy Outlook's energy security article",
+        publisher="U.S. Energy Information Administration, Short-Term Energy Outlook, Global Energy Security; analysis based on Vortexa tanker tracking data",
+        page_url="https://www.eia.gov/outlooks/steo/report/energysecurity/article.php",
+        machine_url="https://www.eia.gov/outlooks/steo/report/energysecurity/article.php",
+        url_note=(
+            "HTML tables on the article, revised with the Outlook and showing the latest six "
+            "quarters; the rows 'LNG flows through ...' are kept, and a quarter that drops "
+            "off the page stays in the cache from the vintage that carried it."
+        ),
+        frequency="quarterly",
+        unit="billion cubic feet per day",
+        method="published",
+        licence="public domain, US government publication; EIA analysis based on Vortexa tanker tracking data",
+        licence_note=_EIA_CHOKEPOINT_NOTE,
         committable=True,
     ),
     # -- ACER -------------------------------------------------------------
@@ -530,12 +734,15 @@ SOURCES: Mapping[str, Source] = _registry(
         series="jogmec_spot_lng_monthly",
         label="Japan spot LNG price, monthly, DES, contract-based and arrival-based, JOGMEC, from April 2021, private",
         publisher="Japan Organization for Metals and Energy Security",
-        page_url="https://journal.jogmec.go.jp/oilgas/nglng-en/spotprice/index.html",
-        machine_url="https://journal.jogmec.go.jp/oilgas/nglng-en/spotprice/index.html",
+        page_url="",
+        machine_url=None,
         url_note=(
-            "One page per month, YYYYMM-preliminary.html, linked from the list page; "
-            "the confirmed figure of a month is printed on the next month's page. "
-            "Pages are edited in place and have been renamed once."
+            "No address is carried here: JOGMEC's English terms do not permit a link "
+            "to its website without its written permission, which has not been "
+            "requested. The adapter alone holds the addresses it reads, one page per "
+            "month linked from JOGMEC's list page; the confirmed figure of a month is "
+            "printed on the next month's page. Pages are edited in place and have "
+            "been renamed once."
         ),
         frequency="monthly",
         unit="USD per MMBtu, DES (JOGMEC writes USD/MBtu)",
@@ -543,10 +750,9 @@ SOURCES: Mapping[str, Source] = _registry(
         licence="JOGMEC terms of use, permission not yet requested",
         licence_note=(
             "JOGMEC's terms do not permit use beyond private use, education and "
-            "quotation without its prior permission, and its English terms do not "
-            "permit linking to its website without written permission. Permission has "
-            "not been requested yet. Until it is granted this series stays in data/private/ and "
-            "nothing derived from it is published."
+            "quotation without its prior permission, nor a link to its website "
+            "without its written permission. Kept in data/private/, not published "
+            "and not linked until permission is granted."
         ),
         committable=False,
         linkable=False,
@@ -554,7 +760,7 @@ SOURCES: Mapping[str, Source] = _registry(
     # -- World Bank, Federal Reserve Board, New York Fed -------------------
     Source(
         series="worldbank_gas_monthly",
-        label="World Bank Pink Sheet gas prices, monthly, USD/MMBtu: Europe, US Henry Hub, Japan LNG import price",
+        label="World Bank Pink Sheet gas prices, monthly, USD/MMBtu, from 1960: Europe, US Henry Hub, and Japan LNG import price from 1977",
         publisher="The World Bank, Commodity Price Data (The Pink Sheet)",
         page_url="https://www.worldbank.org/en/research/commodity-markets",
         machine_url=None,
@@ -588,7 +794,7 @@ SOURCES: Mapping[str, Source] = _registry(
     ),
     Source(
         series="h10_usd_per_eur_daily",
-        label="US dollars per euro, daily noon buying rate in New York, Federal Reserve H.10",
+        label="US dollars per euro, daily noon buying rate in New York, Federal Reserve H.10, from the euro's first day in 1999",
         publisher="Board of Governors of the Federal Reserve System, H.10",
         page_url="https://www.federalreserve.gov/releases/h10/hist/dat00_eu.htm",
         machine_url="https://www.federalreserve.gov/releases/h10/data/FRB_h10_xml.zip",
@@ -626,27 +832,49 @@ SOURCES: Mapping[str, Source] = _registry(
         committable=True,
     ),
     Source(
-        series="nyfed_effr_daily",
-        label="Effective federal funds rate, daily, percent, 2016 to April 2018, from the New York Fed",
+        series="nyfed_sofr_indicative_daily",
+        label="Indicative Secured Overnight Financing Rate, daily, percent, 22 August 2014 to 29 March 2018, computed by the New York Fed before it published SOFR",
         publisher="Federal Reserve Bank of New York",
-        page_url="https://www.newyorkfed.org/markets/reference-rates/effr",
-        machine_url="https://markets.newyorkfed.org/api/rates/unsecured/effr/search.json",
+        page_url="https://www.newyorkfed.org/markets/reference-rates/additional-information-about-reference-rates",
+        machine_url="https://www.newyorkfed.org/medialibrary/media/markets/Data%20Release.xlsx",
         url_note=(
-            "The New York Fed's markets API, one window from 1 January 2016 to 30 "
-            "April 2018, the month after SOFR began. Rows come newest first, in two "
-            "layouts either side of 1 March 2016, when the rate's source and method "
-            "changed; days with no publication have no row. The series is closed."
+            "The workbook the page links as 'Daily indicative TGCR, BGCR, and SOFR volume "
+            "and rate data (Aug. 2014 - Mar. 2018)', sheet 'VWM Rates', the SOFR column, "
+            "basis points read into percent. A closed file, fetched once; the financing "
+            "line runs on it between the effective federal funds rate and SOFR."
         ),
         frequency="daily",
         unit="percent per year",
         method="published",
         licence="New York Fed Terms of Use",
-        licence_note=_EFFR_NOTE,
+        licence_note=_SOFR_NOTE,
+        committable=True,
+    ),
+    Source(
+        series="frb_h15_effr_daily",
+        label="Effective federal funds rate, daily, percent, from July 1954, Federal Reserve H.15, the overnight rate before SOFR",
+        publisher="Board of Governors of the Federal Reserve System, H.15",
+        page_url="https://www.federalreserve.gov/releases/h15/",
+        machine_url="https://www.federalreserve.gov/releases/h15/data/FRB_h15_xml.zip",
+        url_note=(
+            "The release page's XML package, series RIFSPFF_N.B, the route the Board "
+            "says will remain once its Data Download Program is retired. Every business "
+            "day has a row from 1 July 1954; a day with no rate carries OBS_STATUS ND "
+            "and the sentinel OBS_VALUE -9999, which is read as missing and never as a "
+            "rate. Released daily. The New York Fed calculates the rate; the Board "
+            "republishes it in the public domain, and the two agree on every day of 2016 "
+            "to April 2018 compared."
+        ),
+        frequency="daily",
+        unit="percent per year",
+        method="published",
+        licence="US public domain",
+        licence_note=_H15_NOTE,
         committable=True,
     ),
     Source(
         series="imf_usd_per_sdr_daily",
-        label="US dollars per special drawing right, daily, from 2016, the IMF's rate through the Bundesbank",
+        label="US dollars per special drawing right, daily, from July 1974, the IMF's rate through the Bundesbank",
         publisher="International Monetary Fund, as republished by the Deutsche Bundesbank",
         page_url="https://www.imf.org/external/np/fin/data/param_rms_mth.aspx",
         machine_url="https://api.statistiken.bundesbank.de/rest/download/BBEX3/D.USD.XDR.DA.AC.000?format=csv&lang=en",
@@ -705,7 +933,7 @@ SOURCES: Mapping[str, Source] = _registry(
         url_note=(
             "Written by lngarb.events from rows kept in the code, each read by hand in "
             "one dated document whose address the row carries; nothing is fetched. An "
-            "event left out is listed with the reason. docs/sources.md, section 2.25, "
+            "event left out is listed with the reason. docs/sources.md, section 2.26, "
             "names the documents."
         ),
         frequency="annual",
@@ -748,7 +976,7 @@ SOURCES: Mapping[str, Source] = _registry(
     # -- EIA, the data tables -------------------------------------------
     Source(
         series="eia_lng_exports_monthly",
-        label="US LNG exports and re-exports by destination country, monthly, MMcf, and their prices, USD per Mcf, the latest release",
+        label="US LNG exports and re-exports by destination country, monthly, MMcf, and their prices, USD per Mcf, every month of EIA's table from 1973, the latest release",
         publisher="U.S. Energy Information Administration",
         page_url="https://www.eia.gov/dnav/ng/ng_move_expc_s1_m.htm",
         machine_url="https://www.eia.gov/dnav/ng/xls/NG_MOVE_EXPC_S1_M.xls",
@@ -979,16 +1207,20 @@ PANAMA_TOLLS: tuple[PanamaTollPeriod, ...] = (
         laden_bands=(2.50, 2.15, 2.07, 1.96), ballast_bands=(2.23, 1.88, 1.80, 1.71),
         roundtrip_bands=(2.00, 1.75, 1.60, 1.50),
         source=("Panama Canal Authority, approved tolls tables, implementation 1 April 2016, "
-                "read from the Internet Archive's capture of 4 August 2016"),
-        url="http://www.pancanal.com/peajes/ApprovedTollsTables-v2.pdf",
+                "read from the Internet Archive's capture of 4 August 2016 and confirmed in the "
+                "Authority's Tolls Assessment of May 2023, page 11, 'Proposed LNG Vessel Toll Structure "
+                "for 2016'; the tables' own address no longer serves them"),
+        url="https://pancanal.com/wp-content/uploads/2023/06/Tolls-Assessment_May-2023.pdf",
     ),
     PanamaTollPeriod(
         "2017-10-01", "2020-03-31",
         laden_bands=(2.88, 2.47, 2.38, 2.25), ballast_bands=(2.56, 2.16, 2.07, 1.97),
         roundtrip_bands=(2.30, 2.01, 1.84, 1.73),
         source=("Panama Canal Authority, tolls approved 1 August 2017, implementation 1 October "
-                "2017, read from the Internet Archive's capture of 21 September 2017"),
-        url="http://www.pancanal.com/peajes/pdf/2018/2018-ApprovedTolls.pdf",
+                "2017, read from the Internet Archive's capture of 21 September 2017 and confirmed in the "
+                "Authority's Tolls Assessment of May 2023, page 21, 'Tolls - LNG Vessels effective "
+                "October 1, 2017'"),
+        url="https://pancanal.com/wp-content/uploads/2023/06/Tolls-Assessment_May-2023.pdf",
     ),
     PanamaTollPeriod(
         "2020-04-01", "2022-12-31",
@@ -1091,6 +1323,36 @@ SUEZ_US_GULF_JAPAN_REBATE: tuple[tuple[str, float, str], ...] = (
 )
 SUEZ_US_GULF_JAPAN_REBATE_END = "2026-12-31"
 
+#: The Suez Canal Authority's page for each circular and periodical the three
+#: tables name, keyed by the words they name it with. The pages render each
+#: text from the Authority's API; the PDFs linked from them are scanned images.
+_SCA_PAGES = "https://www.suezcanal.gov.eg/English/Navigation/NavigationCirculars/Pages/"
+SUEZ_CIRCULAR_PAGES: Mapping[str, str] = MappingProxyType({
+    "circular 2/2015": _SCA_PAGES + "nc02.2015.aspx",
+    "periodical of 31 March 2020": _SCA_PAGES + "pc_31-03-2020.aspx",
+    "periodical of 21 June 2020": _SCA_PAGES + "PC_21-06-2020.aspx",
+    "periodical of 26 October 2021": _SCA_PAGES + "PC_26-10-2021.aspx",
+    "periodical of 14 March 2022, the reduction cancelled": _SCA_PAGES + "PC_14-03-2022.aspx",
+    "circular 5/2022": _SCA_PAGES + "nc_5-2022.aspx",
+    "periodical 20/2026": _SCA_PAGES + "PC_20_2026.aspx",
+    "circular 7/2017": _SCA_PAGES + "nc07.2017.aspx",
+    "periodical of 25 September 2018": _SCA_PAGES + "PC-25-09-2018.aspx",
+    "periodical of 12 September 2019": _SCA_PAGES + "PC_12-09-2019.aspx",
+    "periodical of 31 March 2020, renewed to 31 December 2021": _SCA_PAGES + "pc_31-03-2020_1.aspx",
+    "periodical of 21 December 2021": _SCA_PAGES + "PC_21-12-2021.aspx",
+    "periodical of 18 December 2022": _SCA_PAGES + "PC_72017-18-12-2022.aspx",
+    "periodical of 21 June 2023, renewed six monthly to 31 December 2026": _SCA_PAGES + "PC72017_21-6-2023.aspx",
+})
+#: The renewals of the 21 June 2023 terms, each for six months, to the end named above.
+SUEZ_REBATE_RENEWALS: tuple[tuple[str, str, str], ...] = (
+    ("2024-01-01", "periodical of 13 December 2023", _SCA_PAGES + "PC7.2017_13-12-2023.aspx"),
+    ("2024-07-01", "periodical of 4 June 2024", _SCA_PAGES + "PC7.2017_5-6-2024.aspx"),
+    ("2025-01-01", "periodical of 3 December 2024", _SCA_PAGES + "PC7.2017_04-12-2024.aspx"),
+    ("2025-07-01", "periodical 7/2025 of 27 May 2025", _SCA_PAGES + "PC_7-2025.aspx"),
+    ("2026-01-01", "periodical 21/2025 of 17 November 2025", _SCA_PAGES + "PC_21-2025.aspx"),
+    ("2026-07-01", "periodical 8/2026 of 21 May 2026", _SCA_PAGES + "cir_8_2026.aspx"),
+)
+
 
 PARAMETERS: Mapping[str, Parameter] = _parameters(
     Parameter("mmbtu_per_m3_lng", 23.0, "MMBtu per m3 of LNG", "published",
@@ -1102,14 +1364,22 @@ PARAMETERS: Mapping[str, Parameter] = _parameters(
               _SPARK_38, "2026-10-01"),
     Parameter("vessel_174k_boil_off_per_day", 0.00085, "share of the loaded volume per day", "published",
               "Spark LNG Freight Methodology 3.8, page 2, 'Boil Off Rate: 0.085% of cargo tanks at "
-              "98.5% capacity'", _SPARK_38, "2026-10-01"),
+              "98.5% capacity'; GTT, as LNG Prime reports it on 16 April 2021: NO96 Super+ 'offers a "
+              "guaranteed boil-off rate of 0,085%V/d for the current standard size design of LNG carrier "
+              "of 174,000 cbm'", "https://lngprime.com/europe/gtts-no96-containment-system-gets-upgrade/17530/",
+              "2026-10-15",
+              "Spark's document may not be linked; the address is LNG Prime's report of GTT's figure, "
+              "which Flex LNG's 173,400 m3 Mark III Flex newbuild of May 2021 also carries."),
     Parameter("vessel_174k_speed_kn", 17.0, "knots", "published",
               "Spark LNG Freight Methodology 3.8, page 2, 'Speed: 17 knots'", _SPARK_38, "2026-10-01"),
     Parameter("vessel_160k_capacity_m3", 160_000.0, "m3", "published",
               _SPARK_32 + ", page 2, 'Vessel Type: 160,000 m3 TFDE'", None, "2026-10-01"),
     Parameter("vessel_160k_boil_off_per_day", 0.001, "share of the loaded volume per day", "published",
-              _SPARK_32 + ", page 2, 'Boil Off Rate: 0.1% of cargo tanks at 98.5% capacity'", None,
-              "2026-10-01"),
+              _SPARK_32 + ", page 2, 'Boil Off Rate: 0.1% of cargo tanks at 98.5% capacity'; GTT's Mark "
+              "III Flex, as gCaptain reports it on 10 October 2012, 'reduces the boil-off rate from 0.15% "
+              "to 0.10% of the cargo volume per day' for the 160,000 to 170,000 m3 generation",
+              "https://gcaptain.com/membrane-containment-system-achieves/", "2026-10-15",
+              "Spark's document may not be linked; the address is gCaptain's report of GTT's figure."),
     Parameter("vessel_160k_speed_kn", 17.0, "knots", "published",
               _SPARK_32 + ", page 3, 'Speed: 17 knots'", None, "2026-10-01"),
     Parameter("fill", 0.985, "share of capacity loaded", "published",
@@ -1137,8 +1407,58 @@ PARAMETERS: Mapping[str, Parameter] = _parameters(
               "2026-10-06", "Mandatory from 15 February 2020 for ships over 300 feet."),
     Parameter("panama_fresh_water_variable_share", 0.05, "share of tolls", "assumption",
               "this study: the middle of the Authority's range of 0 to 10 percent", None, "2026-10-07",
-              "Set daily from Gatun Lake's level, which is not collected; 0 and 10 percent are the ends of "
-              "the range, and the study runs neither. Before 2023 the range was 1 to 10 percent."),
+              "Set daily from Gatun Lake's level, which the Authority publishes on a page this study cannot "
+              "reach by code; 5 percent is what the Authority's curve gives at a lake of 79.0 feet from "
+              "October 2023 and of 82.0 feet before, the centres of its two curves. The lake stood at 79.7 "
+              "feet in early September 2023 and 85.02 feet in July 2024, the two readings the Authority's "
+              "summaries print, which the curve of each day turns into 8.0 and 0.3 percent (docs/methodology.md, "
+              "section 8, and open question 53)."),
+    Parameter("panama_fresh_water_curve_centre_ft", {"2020-02-15": 82.0, "2023-10-01": 79.0},
+              "feet of Gatun Lake level, the centre of the Authority's curve, by the date it applies from", "published",
+              "Panama Canal Authority, advisory ADV-03-2020 ('10%/(1+e^(0.6(x-82)))', from 15 February 2020) "
+              "and advisory ADV-42-2023 ('changing the Gatun Lake level curve center from 82 feet to 79 feet', "
+              "from 1 October 2023)",
+              "https://pancanal.com/wp-content/uploads/2023/01/ADV42-2023-Modification-to-the-Fresh-Water-Surcharge-variable-component.pdf",
+              "2026-10-15",
+              "The share of tolls is the curve's maximum over one plus e to the slope times the lake's level "
+              "less the centre, the level in feet at noon the day before the transit, rounded to a tenth; the "
+              "study runs the curve only to set the two levels the Authority printed and any level a reader "
+              "types against the 5 percent assumption."),
+    Parameter("panama_fresh_water_curve_slope_per_ft", 0.6, "per foot of lake level", "published",
+              "Panama Canal Authority, advisory ADV-03-2020, the exponent's coefficient; unchanged by ADV-42-2023 "
+              "and the Notes on Tolls Tariffs of February 2026, page 20",
+              "https://pancanal.com/wp-content/uploads/2020/01/ADV-03-2020.pdf", "2026-10-15"),
+    Parameter("panama_fresh_water_curve_max_share", 0.10, "share of tolls", "published",
+              "Panama Canal Authority, advisory ADV-03-2020: 'a maximum of 10 percent of the vessel's tolls when "
+              "Gatun Lake level falls below 72.0 feet'",
+              "https://pancanal.com/wp-content/uploads/2020/01/ADV-03-2020.pdf", "2026-10-15"),
+    Parameter("panama_fresh_water_min_share_to_sep_2023", 0.01, "share of tolls", "published",
+              "Panama Canal Authority, advisory ADV-03-2020: 'from a minimum of 1 percent of the vessel's tolls, "
+              "when Gatun Lake level is above 85.5 feet'; ADV-42-2023 lets the share run from 0 percent from "
+              "1 October 2023",
+              "https://pancanal.com/wp-content/uploads/2020/01/ADV-03-2020.pdf", "2026-10-15"),
+    Parameter("panama_gatun_levels_printed", {"2023-09-08": 79.7, "2024-08-09": 85.02},
+              "feet of Gatun Lake level, by the day of the summary that prints it", "published",
+              "Panama Canal Authority, Monthly Canal Operations Summary for August 2023 (advisory A-40-2023 of "
+              "8 September 2023: 'Gatun Lake, now at 24.2 meters (79.7 feet)') and for July 2024 (advisory "
+              "A-27-2024 of 9 August 2024: 'Gatun Lake today is at 85.02 feet (25.91 m)')",
+              "https://pancanal.com/wp-content/uploads/2024/08/ADV27-2024-Monthly-Canal-Operations-Summary-July-2024.pdf",
+              "2026-10-16",
+              "The only two readings in the 240 summaries read, July 2006 to September 2026, and in the "
+              "advisories of 2019 to 2026; the Authority's daily history and projection of the level sit on "
+              "a host the study's network refuses (evtms-rpts.pancanal.com), and no daily list of the share "
+              "applied is published anywhere found. The day of the July 2024 reading is the advisory's own "
+              "date, since the summary says 'today' and prints no date beside it."),
+    Parameter("panama_gatun_level_fiscal_year_average", {"2023": 83.65, "2024": 81.98, "2025": 87.028},
+              "feet of Gatun Lake level, the fiscal year's average, October to September", "published",
+              "Panama Canal Authority, annual reports: FY2023, 'the average Gatun reservoir level during the "
+              "same year was 83.65 feet (25.50 m)'; FY2024, 'The average water level of the Gatun reservoir "
+              "during FY-2024 was 81.98 feet (25.00 m)'; FY2025, 'The average water level of Gatun reservoir "
+              "during FY-2025 was 87.028 feet (26.53 m)'",
+              "https://pancanal.com/wp-content/uploads/2026/02/Informe-2025Eng.pdf", "2026-10-16",
+              "The reports before FY2023 print no average level. A year's average level does not give the "
+              "year's average surcharge, since the curve bends; the Method view prints what the curve gives "
+              "at the average, as a mark."),
     Parameter("vessel_174k_from", "2024-01-02", "date", "published",
               "Spark LNG Freight Methodology 3.8, page 7, change log: '3.5 2 January 2024 - Vessel "
               "Type updated to 174,000 m3 2 Stroke'", _SPARK_38, "2026-10-01",
@@ -1252,9 +1572,13 @@ PARAMETERS: Mapping[str, Parameter] = _parameters(
     Parameter("ets_phase_in_by_year", {"2024": 0.40, "2025": 0.70, "2026": 1.00},
               "share of a year's verified emissions surrendered, from the year named", "published",
               "Directive 2003/87/EC, Article 3gb, inserted by Directive (EU) 2023/959: 40 % of verified "
-              "emissions reported for 2024, 70 % for 2025, 100 % for 2026 and each year thereafter",
-              "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32023L0959", "2026-10-07",
-              "Nothing before 2024."),
+              "emissions reported for 2024, 70 % for 2025, 100 % for 2026 and each year thereafter; the "
+              "Commission's page on shipping emissions says the same, '2025: for 40% of their emissions "
+              "reported in 2024; 2026: for 70% of their emissions reported in 2025; 2027 onwards: for 100%'",
+              "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32023L0959", "2026-10-15",
+              "Nothing before 2024. The Commission's page: "
+              "https://climate.ec.europa.eu/areas-action/transport-decarbonisation/reducing-emissions-shipping-sector_en, "
+              "read on 15 October 2026."),
     Parameter("tco2_per_t_lng", 2.750, "tonnes of CO2 per tonne of LNG burnt", "published",
               "Regulation (EU) 2015/757, Annex I, as replaced by Delegated Regulation (EU) 2023/2776, "
               "which applies from 1 January 2024: the emission factor of LNG, 2.750 t CO2 per t of fuel",
@@ -1295,9 +1619,14 @@ PARAMETERS: Mapping[str, Parameter] = _parameters(
               "51,560 Btu per kilogramme, gross calorific value",
               "https://ec.europa.eu/eurostat/documents/3859598/5885369/NRG-2004-EN.PDF.pdf/b3c4b86f-8e88-4ca6-9188-b95320900b3f?t=1414781129000",
               "2026-10-07",
-              "GIIGNL's table could not be read by code. Spark's 23 MMBtu per m3 at the manual's 0.45 t "
-              "per m3 gives 51.11, 0.9 percent less. Used only to turn the gas burnt into tonnes for "
-              "the EU ETS."),
+              "GIIGNL's table could not be read by code: its Custody Transfer Handbook, seventh edition "
+              "(2026), is served from a storage host this study's network refuses, so it stays a manual "
+              "step (open question 51). Spark's 23 MMBtu per m3 at the manual's 0.45 t per m3 gives 51.11, "
+              "0.9 percent less. EIA's Monthly Energy Review, Table A4, holds the heat content of US gas "
+              "exports at 1,009 Btu per cubic foot every year since 2007, a convention covering pipeline "
+              "and LNG together; the ratio of EIA's volume weighted LNG export price in dollars per "
+              "thousand cubic feet to DOE's in dollars per MMBtu gives 1,036 in 2024 and 1,034 in 2025, "
+              "this study's derivation. Used only to turn the gas burnt into tonnes for the EU ETS."),
     Parameter("eua_eur_t_after_published", "the last published month", "EUR per tonne of CO2",
               "assumption",
               "this study: the last published monthly auction price, German auctions on EEX, held for "
@@ -1306,9 +1635,10 @@ PARAMETERS: Mapping[str, Parameter] = _parameters(
               "https://www.dehst.de/EN/Topics/EU-ETS-1/EU-ETS-1-Information/Analyses-and-Reports/analysis-and-reports_node.html",
               "2026-10-08",
               "The Commission's reports stop in June 2025; DEHSt's German auction averages follow, "
-              "as a proxy, to August 2026 (open question 20). Over the 18 months both cover, January "
-              "2024 to June 2025, the German average is 0.10 EUR/t above the Commission's on average, "
-              "0.64 in absolute terms and 1.40 at most."),
+              "as a proxy, to August 2026 (open question 20). Over the 147 months both cover, January "
+              "2013 to June 2025, the German average is 0.13 EUR/t above the Commission's on average, "
+              "0.37 in absolute terms and 2.41 at most, in August 2022; over February 2019 to June "
+              "2025, 0.29, 0.61 and 2.41; over January 2024 to June 2025, 0.10, 0.64 and 1.40."),
     Parameter("suez_scnt_per_m3", 85_000.0 / 145_000.0, "tons of Suez Canal Net Tonnage per m3 of capacity",
               "assumption",
               "this study, from a canal agency's approximation, 'ca 85.000 SCNT (145.000m3; 75.000dwt)' "
@@ -1322,13 +1652,13 @@ PARAMETERS: Mapping[str, Parameter] = _parameters(
               "this study: an unbooked ship by default", None, "2026-10-07",
               "Booked case: 35,000 $ in 2016, 85,000 $ for booking dates from 1 June 2021, 80,000 $ "
               "in the list of January 2024, 100,000 $ from 1 January 2025."),
-    Parameter("panama_waits_reported", {"2023-07": 12.0, "2023-12": 15.0}, "days of waiting per Panama transit, by month",
-              "published",
+    Parameter("panama_waits_reported", {"2023-07": 12.0, "2023-08": 17.0, "2023-12": 15.0},
+              "days of waiting per Panama transit, by month", "published",
               "12 days of delay for unbooked vessels in late July 2023 (LNG Prime, 28 July 2023, "
-              "quoting Spark); 15 days for unreserved slots in mid December 2023 (IEA, Gas Market "
-              "Report Q1 2024)",
-              "https://lngprime.com/americas/spark-lng-freight-rates-remain-at-about-71000-per-day/87422/",
-              "2026-10-07",
+              "quoting Spark); at least 17 days for neopanamax ships in August 2023, 'in all "
+              "directions of travel', with more than 160 vessels waiting (EIA, Today in Energy, 31 "
+              "October 2023); 15 days for unreserved slots in mid December 2023 (IEA, Gas Market "
+              "Report Q1 2024)", "https://www.eia.gov/todayinenergy/detail.php?id=60842", "2026-10-15",
               "Applied only in the month each was reported, to the laden and the ballast transit "
               "alike, to set Panama against the Cape; the default everywhere stays no wait "
               "(docs/methodology.md, the Panama table)."),
@@ -1337,7 +1667,7 @@ PARAMETERS: Mapping[str, Parameter] = _parameters(
               "US LNG from 10 February 2025",
               "https://energypolicy.columbia.edu/?p=23258", "2026-09-30",
               "A limit of the flows test, named on the Flows view. Reports differ on the rate, 15 or 25 "
-              "percent; the Chinese notice was not read (open question 54)."),
+              "percent; the Chinese notice was not read (open question 56)."),
     # -- The analysis -------------------------------------------------------
     Parameter("analysis_monthly_loading_day", 15, "day of the month", "assumption",
               "this study: a monthly observation loads in the middle of its month", None, "2026-10-08",

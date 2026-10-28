@@ -53,11 +53,15 @@ if str(SRC) not in sys.path:
 
 import pandas as pd  # noqa: E402
 
-from lngarb import config, events, freight_anchors, manual_steps, sea_routes  # noqa: E402
+from lngarb import config, events, freight_anchors, manual_steps, panama_transits, sea_routes  # noqa: E402
 from lngarb.sources import base  # noqa: E402
 from lngarb.sources.base import Adapter, read_cache, utc_now_iso, validate_frame  # noqa: E402
 from lngarb.sources.eia import HenryHubDaily, LngExportsMonthly, LngExportsRevisions  # noqa: E402
 from lngarb.sources.acer import AcerLngDaily  # noqa: E402
+from lngarb.sources.acp_ops import AcpCanalOperationsMonthly  # noqa: E402
+from lngarb.sources.sca_annual import ScaLngTransitsAnnual  # noqa: E402
+from lngarb.sources.eia_chokepoints import EiaChokepointLngAnnual, EiaSteoChokepointLngQuarterly  # noqa: E402
+from lngarb.sources import user_csv  # noqa: E402
 from lngarb.sources.dehst import DehstEuaGermanAuctionMonthly  # noqa: E402
 from lngarb.sources.ec_eua import EcEuaAuctionMonthly  # noqa: E402
 from lngarb.sources.h10 import UsdPerEurDaily  # noqa: E402
@@ -65,7 +69,8 @@ from lngarb.sources.jogmec import JogmecSpotLngMonthly  # noqa: E402
 from lngarb.sources.doe import DoeLngExportCargoes  # noqa: E402
 from lngarb.sources.meti import MetiSpotLngMonthly, MetiSpotLngReleases  # noqa: E402
 from lngarb.sources.sofr import SofrDaily  # noqa: E402
-from lngarb.sources.effr import EffrDaily  # noqa: E402
+from lngarb.sources.h15 import EffrDaily  # noqa: E402
+from lngarb.sources.sofr_indicative import SofrIndicativeDaily  # noqa: E402
 from lngarb.sources.sdr import UsdPerSdrDaily  # noqa: E402
 from lngarb.sources.worldbank import WorldBankGasMonthly, WorldBankGasRevisions  # noqa: E402
 from lngarb.sources.eia_ngwu import (  # noqa: E402
@@ -226,11 +231,12 @@ JOBS: tuple[Job, ...] = (
         online=_simple(lambda: [UsdPerEurDaily()]),
     ),
     Job(
-        name="sofr",
-        what="New York Fed SOFR, daily, and EFFR before it, 2016 to April 2018, for the financing line",
-        series=("nyfed_sofr_daily", "nyfed_effr_daily"),
-        adapters=lambda: [SofrDaily(), EffrDaily()],
-        online=_simple(lambda: [SofrDaily(), EffrDaily()]),
+        name="rates",
+        what=("New York Fed SOFR, daily, its indicative SOFR of 2014 to 2018, and the Board's H.15 effective "
+              "federal funds rate from 1954, for the financing line"),
+        series=("nyfed_sofr_daily", "nyfed_sofr_indicative_daily", "frb_h15_effr_daily"),
+        adapters=lambda: [SofrDaily(), SofrIndicativeDaily(), EffrDaily()],
+        online=_simple(lambda: [SofrDaily(), SofrIndicativeDaily(), EffrDaily()]),
     ),
     Job(
         name="sdr",
@@ -240,10 +246,38 @@ JOBS: tuple[Job, ...] = (
         online=_simple(lambda: [UsdPerSdrDaily()]),
     ),
     Job(
+        name="acp",
+        what="Panama Canal Authority, Monthly Canal Operations Summary: Canal Waters Time, transits and neopanamax slots, monthly from July 2006, the first summary with a text layer, ten seconds between requests",
+        series=("acp_canal_operations_monthly",),
+        adapters=lambda: [AcpCanalOperationsMonthly()],
+        online=_simple(lambda: [AcpCanalOperationsMonthly()]),
+    ),
+    Job(
+        name="sca",
+        what="Suez Canal Authority, annual navigation reports: LNG carriers a year and their net tonnage, from 2007",
+        series=("sca_lng_transits_annual",),
+        adapters=lambda: [ScaLngTransitsAnnual()],
+        online=_simple(lambda: [ScaLngTransitsAnnual()]),
+    ),
+    Job(
+        name="chokepoints",
+        what="EIA, LNG through each maritime chokepoint: by year from 2020 on the chokepoints page, by quarter in the Short-Term Energy Outlook's energy security article",
+        series=("eia_chokepoint_lng_annual", "eia_steo_chokepoint_lng_quarterly"),
+        adapters=lambda: [EiaChokepointLngAnnual(), EiaSteoChokepointLngQuarterly()],
+        online=_simple(lambda: [EiaChokepointLngAnnual(), EiaSteoChokepointLngQuarterly()]),
+    ),
+    Job(
+        name="user",
+        what="The owner's own CSV series under data/private/user/, declared in lngarb.config.USER_CSV_SERIES, validated and recorded, never committed; nothing unless one is declared",
+        series=tuple(d.series for d in config.USER_CSV_SERIES),
+        adapters=lambda: user_csv.adapters(),
+        online=_simple(lambda: user_csv.adapters()),
+    ),
+    Job(
         name="seeds",
-        what="The committed seed files, checked from their own contents: the sea routes, the freight anchors and the events",
-        series=("routes", "freight_anchors", "events"),
-        seed=lambda: [sea_routes.record_routes(), freight_anchors.record(), events.record()],
+        what="The committed seed files, checked from their own contents: the sea routes, the freight anchors, the events and Panama's LNG transits by fiscal year",
+        series=("routes", "freight_anchors", "events", "acp_lng_transits_fiscal_year"),
+        seed=lambda: [sea_routes.record_routes(), freight_anchors.record(), events.record(), panama_transits.record()],
     ),
 )
 
@@ -331,6 +365,14 @@ def existing_entries() -> dict[str, dict]:
 def finalise_manifest(mode: str, before: bytes | None, started: str) -> tuple[dict, bool]:
     """Attach the manual steps and the run block, then write, or restore the old bytes."""
     payload = manual_steps.apply(base.manifest_read())
+    # A series the registry no longer declares has no adapter to keep its entry
+    # true, so the entry goes with it; nothing is deleted from disk.
+    dropped = [e["series"] for e in payload["series"] if e["series"] not in config.SOURCES]
+    for name in dropped:
+        base.manifest_remove(name)
+    if dropped:
+        payload = manual_steps.apply(base.manifest_read())
+        print("manifest entries dropped, no longer declared: %s" % ", ".join(dropped))
     # Entries carried through from the committed manifest (a private cache
     # absent from this machine) meet the link terms too.
     for entry in payload["series"]:
@@ -419,6 +461,26 @@ def revalidate(adapter: Adapter, previous: Mapping[str, Any] | None) -> dict:
         note = "revalidated offline from the committed cache. No fetch, no network."
     entry = Adapter._entry(adapter, status="ok", frame=frame, note=note)
     return carry_forward(entry, previous)
+
+
+#: What an adapter declares about its series rather than measures from a cache:
+#: offline, a private series not on this machine keeps its measured entry and
+#: takes these from the adapter, so a changed declaration (an address withdrawn,
+#: a licence note reworded) reaches the manifest without the private file.
+_DECLARED_KEYS = ("source", "url", "page_url", "linkable", "unit", "frequency", "method",
+                  "committable", "licence_note", "licence")
+
+
+def redeclare(adapter: Adapter, previous: Mapping[str, Any] | None) -> dict | None:
+    """The committed entry of a private series with the adapter's declaration on
+    it, or None when nothing is committed for it. Measures nothing."""
+    if not previous:
+        return None
+    declared = Adapter._entry(adapter, status="ok", frame=None, note="")
+    entry = dict(previous)
+    for key in _DECLARED_KEYS:
+        entry[key] = declared.get(key)
+    return entry
 
 
 def _private_check(adapter: Adapter) -> tuple[bool, str]:
@@ -526,6 +588,9 @@ def main(argv: Sequence[str] | None = None) -> int:
                     print("        %-40s private, %s" % (adapter.name, note))
                     if not valid:
                         args.failures.append({"series": adapter.name, "error": note, "traceback": ""})
+                    redeclared = redeclare(adapter, previous.get(adapter.name))
+                    if redeclared is not None:
+                        base.manifest_upsert(redeclared)
                     continue
                 if adapter.written_when_needed and read_cache(
                     adapter.name, date_col=adapter.date_col, directory=adapter.directory()

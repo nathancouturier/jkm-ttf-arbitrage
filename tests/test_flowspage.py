@@ -104,6 +104,28 @@ def test_no_sentence_holds_a_figure_in_its_words(flows):
                 assert not re.search(r"\d", segment["text"]), segment["text"]
 
 
+def test_the_spring_of_2026_is_told_from_the_reported_weeks_and_eia_s_shares(flows, history):
+    rows = [dict(zip(history["columns"], row)) for row in history["rows"]]
+    segments = flows["page"]["y2026"]["spring_segments"]
+    values = {s["field"]: s["value"] for s in segments if "field" in s}
+    words = "".join(s.get("text", s.get("label", "")) for s in segments)
+    reported = sorted((r for r in rows if r["frequency"] == "weekly" and r["hire_level"] == "reported"
+                       and r["day"].startswith("2026")), key=lambda r: r["day"])
+    # the weeks of the first half of the year a reported rate stood for
+    block = [r for r in reported if int(r["day"][5:7]) <= 6]
+    assert values["weeks_reported"] == len(block)
+    assert values["open_reported"] == sum(r["arb"] is not None and r["arb"] > 0 for r in block)
+    assert values["first_reported"] == block[0]["day"] and values["last_reported"] == block[-1]["day"]
+    assert sorted(v for k, v in values.items() if k.startswith("hire_")) == sorted({r["hire_usd_day"] for r in block})
+    assert "the share of US exports by vessel going to Asia was" in words
+    assert ("followed the arb" in words) or ("did not follow the arb" in words)
+    months = {m["month"][:7]: m for m in flows["months"]}
+    for field, value in values.items():
+        if field.startswith("share_"):
+            assert value == pytest.approx(100.0 * months[field[len("share_"):]]["share_asia"])
+    assert not any(ch.isdigit() for s in segments if "text" in s for ch in s["text"])
+
+
 def test_the_2020_sentence_names_where_the_notice_test_fails_and_the_marks_carry_the_counts(flows):
     y2020 = flows["page"]["y2020"]
     failing = [m for m in y2020["months"] if m["cancelled"] is not None and m["notice"]["central"] >= 0]
@@ -119,10 +141,13 @@ def test_the_2020_sentence_names_where_the_notice_test_fails_and_the_marks_carry
 def test_the_2020_sentence_names_meti_s_month_and_the_months_below_zero_with_none_reported(flows):
     y2020 = flows["page"]["y2020"]
     words = {s["field"]: s.get("value") for s in y2020["heading_segments"] if "field" in s}
-    june = next(m for m in y2020["months"] if m["month"] == "2020-06-01")
-    assert "March 2020" in words["why_source_2020-06"]
+    # every month the notice test fails in names the month METI's figure is for, and the JKM it took
+    failing = [m for m in y2020["months"] if m["cancelled"] is not None and m["notice"]["central"] >= 0]
+    for m in failing:
+        key = m["month"][:7]
+        assert "2020" in words["why_source_" + key]
+        assert m["notice_jkm"] == words["why_jkm_" + key]
     unreported = [m["label"] for m in y2020["months"]
                   if m["cancelled"] is None and m["notice"]["central"] is not None and m["notice"]["central"] < 0]
     if unreported:
         assert all(label in words["unreported"] for label in unreported)
-    assert june["notice_jkm"] == words["why_jkm_2020-06"]

@@ -2,7 +2,7 @@
  "schema_version": 1,
  "artifact": "method",
  "generated_by": "src/lngarb/export.py",
- "data_date": "2026-10-14",
+ "data_date": "2026-10-21",
  "describes": "the engine as formulas, every parameter of the parameter table with its value, status and source, the units, the limits and the credits",
  "source": "the committed caches in data/cache and data/seed and the manifest, nothing from data/private; no network",
  "conventions": {
@@ -25,12 +25,17 @@
    "usd": 0,
    "bp": 0,
    "share": 2,
+   "tco2_per_t": 3,
+   "slip_percent": 1,
    "boil_off_percent": 3,
    "fill_percent": 1,
    "mmbtu_per_m3": 2,
    "mmbtu_per_t": 2,
    "mmbtu_per_mwh": 6,
-   "r2": 2
+   "r2": 2,
+   "hours": 1,
+   "bcf_day": 1,
+   "feet": 2
   },
   "rounding": "now.json keeps full precision, because the browser engine recomputes from its inputs; history.json and flows.json store floats to 6 places. The page prints the decimals of the format a value names.",
   "segments": "A sentence is a list of segments. A text segment holds words only. A value segment names its field and holds a value with a format, or an ISO date or a word with its label."
@@ -49,7 +54,7 @@
   },
   {
    "field": "parameters",
-   "value": 50,
+   "value": 56,
    "format": "count"
   },
   {
@@ -146,106 +151,309 @@
    ]
   }
  ],
- "k_sensitivity": {
+ "fresh_water": {
+  "segments": [
+   {
+    "text": "The variable part of Panama's fresh water surcharge is a share of the tolls set each day from Gatun Lake's level by the Authority's curve, the maximum of "
+   },
+   {
+    "field": "fws_max",
+    "value": 10.0,
+    "format": "share_percent"
+   },
+   {
+    "text": " percent over one plus e to "
+   },
+   {
+    "field": "fws_slope",
+    "value": 0.6,
+    "format": "pp"
+   },
+   {
+    "text": " times the level less the curve's centre, "
+   },
+   {
+    "field": "fws_centre_first",
+    "value": 82.0,
+    "format": "feet"
+   },
+   {
+    "text": " feet from "
+   },
+   {
+    "field": "fws_from_first",
+    "value": "2020-02-15",
+    "label": "15 February 2020"
+   },
+   {
+    "text": " and "
+   },
+   {
+    "field": "fws_centre_last",
+    "value": 79.0,
+    "format": "feet"
+   },
+   {
+    "text": " feet from "
+   },
+   {
+    "field": "fws_from_last",
+    "value": "2023-10-01",
+    "label": "1 October 2023"
+   },
+   {
+    "text": ". The engine holds the share at "
+   },
+   {
+    "field": "fws_held",
+    "value": 5.0,
+    "format": "share_percent"
+   },
+   {
+    "text": " percent, the curve's value at its centre, because the Authority's daily level sits on a page the study's code cannot reach; the two levels its monthly summaries print, "
+   },
+   {
+    "field": "level_2023-09-08",
+    "value": 79.7,
+    "format": "feet"
+   },
+   {
+    "text": " feet on "
+   },
+   {
+    "field": "level_day_2023-09-08",
+    "value": "2023-09-08",
+    "label": "8 September 2023"
+   },
+   {
+    "text": ", give "
+   },
+   {
+    "field": "share_2023-09-08",
+    "value": 7.989910002494705,
+    "format": "pp"
+   },
+   {
+    "text": " percent"
+   },
+   {
+    "text": " and "
+   },
+   {
+    "field": "level_2024-08-09",
+    "value": 85.02,
+    "format": "feet"
+   },
+   {
+    "text": " feet on "
+   },
+   {
+    "field": "level_day_2024-08-09",
+    "value": "2024-08-09",
+    "label": "9 August 2024"
+   },
+   {
+    "text": ", give "
+   },
+   {
+    "field": "share_2024-08-09",
+    "value": 0.2659699357686587,
+    "format": "pp"
+   },
+   {
+    "text": " percent"
+   },
+   {
+    "text": ". The Authority's annual reports give the fiscal year's average level, "
+   },
+   {
+    "field": "avg_level_2023",
+    "value": 83.65,
+    "format": "feet"
+   },
+   {
+    "text": " feet in fiscal "
+   },
+   {
+    "field": "avg_year_2023",
+    "value": 2023,
+    "format": "year"
+   },
+   {
+    "text": ", "
+   },
+   {
+    "field": "avg_level_2024",
+    "value": 81.98,
+    "format": "feet"
+   },
+   {
+    "text": " feet in fiscal "
+   },
+   {
+    "field": "avg_year_2024",
+    "value": 2024,
+    "format": "year"
+   },
+   {
+    "text": ", "
+   },
+   {
+    "field": "avg_level_2025",
+    "value": 87.028,
+    "format": "feet"
+   },
+   {
+    "text": " feet in fiscal "
+   },
+   {
+    "field": "avg_year_2025",
+    "value": 2025,
+    "format": "year"
+   },
+   {
+    "text": ", at which the curve in force at the year's end gives "
+   },
+   {
+    "field": "avg_share_2023",
+    "value": 2.650274005334809,
+    "format": "pp"
+   },
+   {
+    "text": ", "
+   },
+   {
+    "field": "avg_share_2024",
+    "value": 1.4185106490048782,
+    "format": "pp"
+   },
+   {
+    "text": ", "
+   },
+   {
+    "field": "avg_share_2025",
+    "value": 0.08162571153159898,
+    "format": "pp"
+   },
+   {
+    "text": " percent, a mark and not the year's average surcharge, since the curve bends. The table runs the curve at a few levels under each centre; the Model view types any toll, surcharge included."
+   }
+  ],
   "rows": [
    {
-    "k": 22.0,
-    "best_netback": 25.856110368095123,
-    "routes": {
-     "nea_panama": {
-      "arb": -1.6009596881804313,
-      "s_star": 0.32849117321151056
-     },
-     "nea_cape": {
-      "arb": -2.242673800798247,
-      "s_star": 1.0653646476855378
-     }
+    "level_ft": 72.0,
+    "shares": {
+     "2020-02-15": 9.975273768433654,
+     "2023-10-01": 9.85225968306727
     }
    },
    {
-    "k": 23.0,
-    "best_netback": 25.86926477449625,
-    "routes": {
-     "nea_panama": {
-      "arb": -1.5787284165025532,
-      "s_star": 0.3053221447608543
-     },
-     "nea_cape": {
-      "arb": -2.223775483052478,
-      "s_star": 1.0450953845451636
-     }
+    "level_ft": 75.0,
+    "shares": {
+     "2020-02-15": 9.85225968306727,
+     "2023-10-01": 9.168273035060777
     }
    },
    {
-    "k": 24.0,
-    "best_netback": 25.881322980363954,
-    "routes": {
-     "nea_panama": {
-      "arb": -1.5583497507978272,
-      "s_star": 0.2840838686810869
-     },
-     "nea_cape": {
-      "arb": -2.206452025118857,
-      "s_star": 1.0265152266664899
-     }
+    "level_ft": 79.0,
+    "shares": {
+     "2020-02-15": 8.581489350995124,
+     "2023-10-01": 5.0
+    }
+   },
+   {
+    "level_ft": 82.0,
+    "shares": {
+     "2020-02-15": 5.0,
+     "2023-10-01": 1.4185106490048782
+    }
+   },
+   {
+    "level_ft": 85.0,
+    "shares": {
+     "2020-02-15": 1.4185106490048782,
+     "2023-10-01": 0.2659699357686587
+    }
+   },
+   {
+    "level_ft": 85.5,
+    "shares": {
+     "2020-02-15": 1.0909682119561293,
+     "2023-10-01": 0.1984030573407751
+    }
+   },
+   {
+    "level_ft": 87.0,
+    "shares": {
+     "2020-02-15": 1.0,
+     "2023-10-01": 0.08162571153159898
     }
    }
   ],
-  "routes": [
-   "nea_panama",
-   "nea_cape"
-  ],
-  "route_names": {
-   "nea_panama": "Panama",
-   "nea_cape": "the Cape"
-  },
-  "caption_segments": [
+  "centres": [
    {
-    "text": "The week to "
+    "from": "2020-02-15",
+    "centre_ft": 82.0
    },
    {
-    "field": "as_of",
-    "value": "2026-10-14",
-    "label": "14 October 2026"
-   },
-   {
-    "text": " at each energy content: the best netback, and the arb and S* of each open route east, in $/MMBtu."
-   },
-   {
-    "text": " From the lean end to the rich, S* moves by "
-   },
-   {
-    "field": "k_s_star_range",
-    "value": 0.04440730453042363,
-    "format": "usd_mmbtu"
-   },
-   {
-    "text": " at most."
+    "from": "2023-10-01",
+    "centre_ft": 79.0
    }
-  ]
+  ],
+  "readings": [
+   {
+    "day": "2023-09-08",
+    "level_ft": 79.7,
+    "share_percent": 7.989910002494705
+   },
+   {
+    "day": "2024-08-09",
+    "level_ft": 85.02,
+    "share_percent": 0.2659699357686587
+   }
+  ],
+  "yearly": [
+   {
+    "fiscal_year": 2023,
+    "level_ft": 83.65,
+    "share_percent": 2.650274005334809
+   },
+   {
+    "fiscal_year": 2024,
+    "level_ft": 81.98,
+    "share_percent": 1.4185106490048782
+   },
+   {
+    "fiscal_year": 2025,
+    "level_ft": 87.028,
+    "share_percent": 0.08162571153159898
+   }
+  ],
+  "held_percent": 5.0,
+  "caption": "The variable fresh water surcharge as a share of tolls, in percent, that the Authority's curve gives at a lake level, under the centre in force from each date; the share is held between 1 and 10 percent to September 2023 and 0 and 10 since."
  },
  "conventional": {
   "rows": [
    {
     "route": "nwe_direct",
     "name": "Gate",
-    "exact": 25.86926477449625,
-    "conventional": 25.847343639668033,
-    "difference": 0.02192113482821867
+    "exact": 26.8800981535719,
+    "conventional": 26.855440704185213,
+    "difference": 0.024657449386687347
    },
    {
     "route": "nea_panama",
     "name": "Futtsu via Panama",
-    "exact": 24.290536357993698,
-    "conventional": 24.21252250968898,
-    "difference": 0.07801384830471747
+    "exact": 27.07673706515068,
+    "conventional": 26.986330211142416,
+    "difference": 0.09040685400826476
    },
    {
     "route": "nea_cape",
     "name": "Futtsu via the Cape",
-    "exact": 23.645489291443774,
-    "conventional": 23.464529376720566,
-    "difference": 0.18095991472320705
+    "exact": 26.234524918269187,
+    "conventional": 26.017948852131166,
+    "difference": 0.21657606613802116
    }
   ],
   "caption_segments": [
@@ -254,8 +462,8 @@
    },
    {
     "field": "as_of",
-    "value": "2026-10-14",
-    "label": "14 October 2026"
+    "value": "2026-10-21",
+    "label": "21 October 2026"
    },
    {
     "text": ": the netback per MMBtu loaded, the exact form the study uses, against the conventional one per MMBtu delivered, and the difference, in $/MMBtu."
@@ -288,10 +496,10 @@
    "name": "Boil-off of the two-stroke carrier",
    "value_words": "0.085 percent of the loaded volume per day",
    "status": "published",
-   "source": "Spark LNG Freight Methodology 3.8, page 2, 'Boil Off Rate: 0.085% of cargo tanks at 98.5% capacity'",
-   "url": null,
-   "read_on": "2026-10-01",
-   "note": null
+   "source": "Spark LNG Freight Methodology 3.8, page 2, 'Boil Off Rate: 0.085% of cargo tanks at 98.5% capacity'; GTT, as LNG Prime reports it on 16 April 2021: NO96 Super+ 'offers a guaranteed boil-off rate of 0,085%V/d for the current standard size design of LNG carrier of 174,000 cbm'",
+   "url": "https://lngprime.com/europe/gtts-no96-containment-system-gets-upgrade/17530/",
+   "read_on": "2026-10-15",
+   "note": "Spark's document may not be linked; the address is LNG Prime's report of GTT's figure, which Flex LNG's 173,400 m3 Mark III Flex newbuild of May 2021 also carries."
   },
   {
    "key": "vessel_174k_speed_kn",
@@ -318,10 +526,10 @@
    "name": "Boil-off of the TFDE carrier",
    "value_words": "0.1 percent of the loaded volume per day",
    "status": "published",
-   "source": "Spark LNG Freight Methodology 3.2, 11 November 2022, read from the Internet Archive's capture of 8 December 2022, page 2, 'Boil Off Rate: 0.1% of cargo tanks at 98.5% capacity'",
-   "url": null,
-   "read_on": "2026-10-01",
-   "note": null
+   "source": "Spark LNG Freight Methodology 3.2, 11 November 2022, read from the Internet Archive's capture of 8 December 2022, page 2, 'Boil Off Rate: 0.1% of cargo tanks at 98.5% capacity'; GTT's Mark III Flex, as gCaptain reports it on 10 October 2012, 'reduces the boil-off rate from 0.15% to 0.10% of the cargo volume per day' for the 160,000 to 170,000 m3 generation",
+   "url": "https://gcaptain.com/membrane-containment-system-achieves/",
+   "read_on": "2026-10-15",
+   "note": "Spark's document may not be linked; the address is gCaptain's report of GTT's figure."
   },
   {
    "key": "vessel_160k_speed_kn",
@@ -411,7 +619,67 @@
    "source": "this study: the middle of the Authority's range of 0 to 10 percent",
    "url": null,
    "read_on": "2026-10-07",
-   "note": "Set daily from Gatun Lake's level, which is not collected; 0 and 10 percent are the ends of the range, and the study runs neither. Before 2023 the range was 1 to 10 percent."
+   "note": "Set daily from Gatun Lake's level, which the Authority publishes on a page this study cannot reach by code; 5 percent is what the Authority's curve gives at a lake of 79.0 feet from October 2023 and of 82.0 feet before, the centres of its two curves. The lake stood at 79.7 feet in early September 2023 and 85.02 feet in July 2024, the two readings the Authority's summaries print, which the curve of each day turns into 8.0 and 0.3 percent (docs/methodology.md, section 8, and open question 53)."
+  },
+  {
+   "key": "panama_fresh_water_curve_centre_ft",
+   "name": "Panama fresh water curve, centre, by date",
+   "value_words": "82 feet from 15 February 2020; 79 feet from 1 October 2023",
+   "status": "published",
+   "source": "Panama Canal Authority, advisory ADV-03-2020 ('10%/(1+e^(0.6(x-82)))', from 15 February 2020) and advisory ADV-42-2023 ('changing the Gatun Lake level curve center from 82 feet to 79 feet', from 1 October 2023)",
+   "url": "https://pancanal.com/wp-content/uploads/2023/01/ADV42-2023-Modification-to-the-Fresh-Water-Surcharge-variable-component.pdf",
+   "read_on": "2026-10-15",
+   "note": "The share of tolls is the curve's maximum over one plus e to the slope times the lake's level less the centre, the level in feet at noon the day before the transit, rounded to a tenth; the study runs the curve only to set the two levels the Authority printed and any level a reader types against the 5 percent assumption."
+  },
+  {
+   "key": "panama_fresh_water_curve_slope_per_ft",
+   "name": "Panama fresh water curve, slope",
+   "value_words": "0.6 per foot of lake level",
+   "status": "published",
+   "source": "Panama Canal Authority, advisory ADV-03-2020, the exponent's coefficient; unchanged by ADV-42-2023 and the Notes on Tolls Tariffs of February 2026, page 20",
+   "url": "https://pancanal.com/wp-content/uploads/2020/01/ADV-03-2020.pdf",
+   "read_on": "2026-10-15",
+   "note": null
+  },
+  {
+   "key": "panama_fresh_water_curve_max_share",
+   "name": "Panama fresh water curve, maximum share",
+   "value_words": "10 percent of tolls",
+   "status": "published",
+   "source": "Panama Canal Authority, advisory ADV-03-2020: 'a maximum of 10 percent of the vessel's tolls when Gatun Lake level falls below 72.0 feet'",
+   "url": "https://pancanal.com/wp-content/uploads/2020/01/ADV-03-2020.pdf",
+   "read_on": "2026-10-15",
+   "note": null
+  },
+  {
+   "key": "panama_fresh_water_min_share_to_sep_2023",
+   "name": "Panama fresh water curve, minimum share to September 2023",
+   "value_words": "1 percent of tolls",
+   "status": "published",
+   "source": "Panama Canal Authority, advisory ADV-03-2020: 'from a minimum of 1 percent of the vessel's tolls, when Gatun Lake level is above 85.5 feet'; ADV-42-2023 lets the share run from 0 percent from 1 October 2023",
+   "url": "https://pancanal.com/wp-content/uploads/2020/01/ADV-03-2020.pdf",
+   "read_on": "2026-10-15",
+   "note": null
+  },
+  {
+   "key": "panama_gatun_levels_printed",
+   "name": "Gatun Lake levels the Authority's summaries print",
+   "value_words": "79.7 feet on 8 September 2023; 85.02 feet on 9 August 2024",
+   "status": "published",
+   "source": "Panama Canal Authority, Monthly Canal Operations Summary for August 2023 (advisory A-40-2023 of 8 September 2023: 'Gatun Lake, now at 24.2 meters (79.7 feet)') and for July 2024 (advisory A-27-2024 of 9 August 2024: 'Gatun Lake today is at 85.02 feet (25.91 m)')",
+   "url": "https://pancanal.com/wp-content/uploads/2024/08/ADV27-2024-Monthly-Canal-Operations-Summary-July-2024.pdf",
+   "read_on": "2026-10-16",
+   "note": "The only two readings in the 240 summaries read, July 2006 to September 2026, and in the advisories of 2019 to 2026; the Authority's daily history and projection of the level sit on a host the study's network refuses (evtms-rpts.pancanal.com), and no daily list of the share applied is published anywhere found. The day of the July 2024 reading is the advisory's own date, since the summary says 'today' and prints no date beside it."
+  },
+  {
+   "key": "panama_gatun_level_fiscal_year_average",
+   "name": "Gatun Lake level, average of the fiscal year, from the Authority's annual reports",
+   "value_words": "83.65 feet in fiscal 2023; 81.98 feet in fiscal 2024; 87.028 feet in fiscal 2025",
+   "status": "published",
+   "source": "Panama Canal Authority, annual reports: FY2023, 'the average Gatun reservoir level during the same year was 83.65 feet (25.50 m)'; FY2024, 'The average water level of the Gatun reservoir during FY-2024 was 81.98 feet (25.00 m)'; FY2025, 'The average water level of Gatun reservoir during FY-2025 was 87.028 feet (26.53 m)'",
+   "url": "https://pancanal.com/wp-content/uploads/2026/02/Informe-2025Eng.pdf",
+   "read_on": "2026-10-16",
+   "note": "The reports before FY2023 print no average level. A year's average level does not give the year's average surcharge, since the curve bends; the Method view prints what the curve gives at the average, as a mark."
   },
   {
    "key": "vessel_174k_from",
@@ -578,10 +846,10 @@
    "name": "EU ETS share of verified emissions surrendered, by year",
    "value_words": "40 percent from 2024; 70 percent from 2025; 100 percent from 2026",
    "status": "published",
-   "source": "Directive 2003/87/EC, Article 3gb, inserted by Directive (EU) 2023/959: 40 % of verified emissions reported for 2024, 70 % for 2025, 100 % for 2026 and each year thereafter",
+   "source": "Directive 2003/87/EC, Article 3gb, inserted by Directive (EU) 2023/959: 40 % of verified emissions reported for 2024, 70 % for 2025, 100 % for 2026 and each year thereafter; the Commission's page on shipping emissions says the same, '2025: for 40% of their emissions reported in 2024; 2026: for 70% of their emissions reported in 2025; 2027 onwards: for 100%'",
    "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32023L0959",
-   "read_on": "2026-10-07",
-   "note": "Nothing before 2024."
+   "read_on": "2026-10-15",
+   "note": "Nothing before 2024. The Commission's page: https://climate.ec.europa.eu/areas-action/transport-decarbonisation/reducing-emissions-shipping-sector_en, read on 15 October 2026."
   },
   {
    "key": "tco2_per_t_lng",
@@ -671,7 +939,7 @@
    "source": "IEA and Eurostat, Energy Statistics Manual, 2004, Annex 3, Table A3.9, page 182: LNG, 51,560 Btu per kilogramme, gross calorific value",
    "url": "https://ec.europa.eu/eurostat/documents/3859598/5885369/NRG-2004-EN.PDF.pdf/b3c4b86f-8e88-4ca6-9188-b95320900b3f?t=1414781129000",
    "read_on": "2026-10-07",
-   "note": "GIIGNL's table could not be read by code. Spark's 23 MMBtu per m3 at the manual's 0.45 t per m3 gives 51.11, 0.9 percent less. Used only to turn the gas burnt into tonnes for the EU ETS."
+   "note": "GIIGNL's table could not be read by code: its Custody Transfer Handbook, seventh edition (2026), is served from a storage host this study's network refuses, so it stays a manual step (open question 51). Spark's 23 MMBtu per m3 at the manual's 0.45 t per m3 gives 51.11, 0.9 percent less. EIA's Monthly Energy Review, Table A4, holds the heat content of US gas exports at 1,009 Btu per cubic foot every year since 2007, a convention covering pipeline and LNG together; the ratio of EIA's volume weighted LNG export price in dollars per thousand cubic feet to DOE's in dollars per MMBtu gives 1,036 in 2024 and 1,034 in 2025, this study's derivation. Used only to turn the gas burnt into tonnes for the EU ETS."
   },
   {
    "key": "eua_eur_t_after_published",
@@ -681,7 +949,7 @@
    "source": "this study: the last published monthly auction price, German auctions on EEX, held for every later month; on 8 October 2026 August 2026, 82.31 EUR/t, as DEHSt's report for August 2026 prints it",
    "url": "https://www.dehst.de/EN/Topics/EU-ETS-1/EU-ETS-1-Information/Analyses-and-Reports/analysis-and-reports_node.html",
    "read_on": "2026-10-08",
-   "note": "The Commission's reports stop in June 2025; DEHSt's German auction averages follow, as a proxy, to August 2026 (open question 20). Over the 18 months both cover, January 2024 to June 2025, the German average is 0.10 EUR/t above the Commission's on average, 0.64 in absolute terms and 1.40 at most."
+   "note": "The Commission's reports stop in June 2025; DEHSt's German auction averages follow, as a proxy, to August 2026 (open question 20). Over the 147 months both cover, January 2013 to June 2025, the German average is 0.13 EUR/t above the Commission's on average, 0.37 in absolute terms and 2.41 at most, in August 2022; over February 2019 to June 2025, 0.29, 0.61 and 2.41; over January 2024 to June 2025, 0.10, 0.64 and 1.40."
   },
   {
    "key": "suez_scnt_per_m3",
@@ -706,11 +974,11 @@
   {
    "key": "panama_waits_reported",
    "name": "Waits reported at Panama for LNG",
-   "value_words": "12 days in July 2023; 15 days in December 2023",
+   "value_words": "12 days in July 2023; 17 days in August 2023; 15 days in December 2023",
    "status": "published",
-   "source": "12 days of delay for unbooked vessels in late July 2023 (LNG Prime, 28 July 2023, quoting Spark); 15 days for unreserved slots in mid December 2023 (IEA, Gas Market Report Q1 2024)",
-   "url": "https://lngprime.com/americas/spark-lng-freight-rates-remain-at-about-71000-per-day/87422/",
-   "read_on": "2026-10-07",
+   "source": "12 days of delay for unbooked vessels in late July 2023 (LNG Prime, 28 July 2023, quoting Spark); at least 17 days for neopanamax ships in August 2023, 'in all directions of travel', with more than 160 vessels waiting (EIA, Today in Energy, 31 October 2023); 15 days for unreserved slots in mid December 2023 (IEA, Gas Market Report Q1 2024)",
+   "url": "https://www.eia.gov/todayinenergy/detail.php?id=60842",
+   "read_on": "2026-10-15",
    "note": "Applied only in the month each was reported, to the laden and the ballast transit alike, to set Panama against the Cape; the default everywhere stays no wait (docs/methodology.md, the Panama table)."
   },
   {
@@ -721,7 +989,7 @@
    "source": "Columbia University, Center on Global Energy Policy, blog of 18 April 2025: China's tariff on US LNG from 10 February 2025",
    "url": "https://energypolicy.columbia.edu/?p=23258",
    "read_on": "2026-09-30",
-   "note": "A limit of the flows test, named on the Flows view. Reports differ on the rate, 15 or 25 percent; the Chinese notice was not read (open question 54)."
+   "note": "A limit of the flows test, named on the Flows view. Reports differ on the rate, 15 or 25 percent; the Chinese notice was not read (open question 56)."
   },
   {
    "key": "analysis_monthly_loading_day",
@@ -797,10 +1065,77 @@
  ],
  "delivery_segments": [
   {
-   "text": "JKM futures for a month stop trading in the middle of the month before, and Dutch TTF futures two UK business days before the month begins, so from the middle of a month to TTF's last trading day the two front months name different delivery months, and after it they agree again. A week is aligned when every trading day of it names the same month for both, misaligned when none does, and mixed otherwise; the History view marks the misaligned and the mixed weeks."
+   "text": "JKM futures for a month stop trading in the middle of the month before, and Dutch TTF futures two UK business days before the month begins, so from the middle of a month to TTF's last trading day the two front months name different delivery months, and after it they agree again. A week is aligned when every trading day of it names the same month for both, misaligned when none does, and mixed otherwise; the History view rings the misaligned weeks in full and the mixed ones in half. A JKM price is for a cargo delivered in its month to Japan, Korea, China or Taiwan, and a TTF price for gas delivered through its month at the Dutch hub: the two name arrival periods, not loading days. The engine prices a cargo loading in the week at the week's two averages whatever months they name, as a seller choosing a market that week sees them; the voyage east lands three to seven weeks after loading, so a week whose two front months differ sets two arrival periods against each other, and the Model view says of each preset which months its prices name."
+  }
+ ],
+ "energy_segments": [
+  {
+   "text": "The study holds "
   },
   {
-   "text": " A cargo loading on the first of a month reaches Gate in about two weeks and Futtsu via the Cape in about six, so the right comparison is each basin's price for its own arrival period; with front months only, the study compares the two front months and names them where a price is shown."
+   "field": "k_now",
+   "value": 23.0,
+   "format": "mmbtu_per_m3"
+  },
+  {
+   "text": " MMBtu per cubic metre, a market convention for a lean cargo. For the week to "
+  },
+  {
+   "field": "as_of",
+   "value": "2026-10-21",
+   "label": "21 October 2026"
+  },
+  {
+   "text": ", S* of the cheapest open route east is "
+  },
+  {
+   "field": "s_star_now",
+   "value": 0.4050664899926346,
+   "format": "usd_mmbtu",
+   "signed": true,
+   "missing": "no route open"
+  },
+  {
+   "text": " $/MMBtu at that value"
+  },
+  {
+   "text": ", "
+  },
+  {
+   "field": "s_star_energy_22",
+   "value": 0.43180382512413473,
+   "format": "usd_mmbtu",
+   "signed": true,
+   "missing": "no route open"
+  },
+  {
+   "text": " at "
+  },
+  {
+   "field": "energy_22",
+   "value": 22.0,
+   "format": "mmbtu_per_m3"
+  },
+  {
+   "text": ", "
+  },
+  {
+   "field": "s_star_energy_24",
+   "value": 0.38055726612209284,
+   "format": "usd_mmbtu",
+   "signed": true,
+   "missing": "no route open"
+  },
+  {
+   "text": " at "
+  },
+  {
+   "field": "energy_24",
+   "value": 24.0,
+   "format": "mmbtu_per_m3"
+  },
+  {
+   "text": " MMBtu per cubic metre: a richer cargo carries more energy for the same hire, and every reader can type any value in the Model view."
   }
  ],
  "limits": [
@@ -815,11 +1150,27 @@
    },
    {
     "field": "anchors",
-    "value": 10,
+    "value": 51,
     "format": "count"
    },
    {
-    "text": " that Spark and the trade press reported; the study runs every date at the lowest, the median and the highest of them, and at the one reported nearest it where one lies within "
+    "text": " that Spark and the trade press reported, each of them "
+   },
+   {
+    "field": "assessment",
+    "value": "Spark30S Atlantic",
+    "label": "Spark30S Atlantic"
+   },
+   {
+    "text": ", "
+   },
+   {
+    "field": "assessment_words",
+    "value": "Spark's spot charter rate for a thirty day round trip in the Atlantic basin, 25 days at sea, a day to load, a day to discharge and three flex days, in dollars a day",
+    "label": "Spark's spot charter rate for a thirty day round trip in the Atlantic basin, 25 days at sea, a day to load, a day to discharge and three flex days, in dollars a day"
+   },
+   {
+    "text": "; the study runs every date at the lowest, the median and the highest of them, and at the one reported nearest it where one lies within "
    },
    {
     "field": "hire_window",
@@ -832,7 +1183,7 @@
   ],
   [
    {
-    "text": "Panama's queues enter only the Flows view's comparison of Panama with the Cape, in the two months a wait was reported for LNG, and its slots and auctions never; the slot premium and the waiting days are inputs the reader can type."
+    "text": "Panama's queues enter only the Flows view's comparison of Panama with the Cape, in the three months a wait was reported for LNG, and its slots and auctions never; the slot premium and the waiting days are inputs the reader can type."
    }
   ],
   [
@@ -921,11 +1272,11 @@
   "Weekly JKM and TTF prices, the Henry Hub spot price and US LNG exports: U.S. Energy Information Administration, which credits the weekly prices to Bloomberg Finance L.P. and the Henry Hub spot price to Refinitiv, an LSEG business.",
   "The regasification discount: European Union Agency for the Cooperation of Energy Regulators (ACER).",
   "The Japanese spot price before the weekly series: created by processing the information in the Spot LNG Price Statistics (Ministry of Economy, Trade and Industry of Japan) (https://www.meti.go.jp/english/statistics/sho/slng/index.html).",
-  "TTF before the weekly series: The World Bank, Commodity Price Data (The Pink Sheet), under the Creative Commons Attribution 4.0 International licence (https://creativecommons.org/licenses/by/4.0/). The selection of series and the revisions log are this study's. The World Bank does not endorse this study.",
+  "TTF before the weekly series, and the long view: The World Bank: Commodity Price Data (The Pink Sheet): Bloomberg Finance L.P.; World Gas Intelligence; Thomson Reuters Datastream; The Wall Street Journal; Official Statistics of Japan; World Bank, under the Creative Commons Attribution 4.0 International licence (https://creativecommons.org/licenses/by/4.0/), in the attribution format the World Bank's dataset terms prescribe. The selection of series and the revisions log are this study's. The World Bank does not endorse this study.",
   "EU allowances: European Commission auction reports, under the Creative Commons Attribution 4.0 International licence (https://creativecommons.org/licenses/by/4.0/), the months combined from several reports by this study; after the last month they cover, Source: EEX, DEHSt, under the Creative Commons Attribution NonCommercial NoDerivatives 4.0 International licence (https://creativecommons.org/licenses/by-nc-nd/4.0/), the monthly averages reproduced unchanged, for non-commercial reuse only.",
   "US LNG exports cargo by cargo: U.S. Department of Energy, Office of Fossil Energy and Carbon Management.",
-  "The Secured Overnight Financing Rate (SOFR) and the Effective Federal Funds Rate (EFFR) are subject to the Terms of Use posted at newyorkfed.org. The New York Fed is not responsible for publication of the SOFR or the EFFR by Nathan Couturier, does not sanction or endorse any particular republication, and has no liability for your use.",
-  "Dollars per euro: Board of Governors of the Federal Reserve System, H.10. Dollars per SDR: Source: International Monetary Fund, exchange rate data, SDR valuation (https://www.imf.org/external/np/fin/data/param_rms_mth.aspx), read through the Deutsche Bundesbank.",
+  "The Secured Overnight Financing Rate (SOFR), and the indicative SOFR the New York Fed computed for August 2014 to March 2018, are subject to the Terms of Use posted at newyorkfed.org. The New York Fed is not responsible for publication of the SOFR by Nathan Couturier, does not sanction or endorse any particular republication, and has no liability for your use.",
+  "Dollars per euro: Board of Governors of the Federal Reserve System, H.10. The effective federal funds rate before SOFR: Board of Governors of the Federal Reserve System, H.15, a rate the Federal Reserve Bank of New York calculates. Dollars per SDR: Source: International Monetary Fund, exchange rate data, SDR valuation (https://www.imf.org/external/np/fin/data/param_rms_mth.aspx), read through the Deutsche Bundesbank.",
   "Charter rates: as reported by the publishers each figure names, listed with the history.",
   "Sea distances: this study's computation from the searoute library (Apache License 2.0) over Eurostat's Searoute network (European Union Public Licence 1.2); the route lines are published under the European Union Public Licence 1.2, as a work derived from that network.",
   "Land outlines: Natural Earth, public domain, through the world-atlas package (ISC licence).",

@@ -196,6 +196,21 @@ unsecured where SOFR is secured. The Board's H.15 carries the same figures in
 the public domain and agrees on every day, should the New York Fed's terms ever
 stand in the way.
 
+Revised 15 October 2026: the effective federal funds rate is now read from the
+Board's H.15 release package, series RIFSPFF_N.B, in the public domain and
+from 1 July 1954, so that any loading date can be priced and the rate travels
+under one set of terms with the euro rate. On the 585 days the New York Fed's
+API served for 2016 to April 2018 the two agree on every day. The New York
+Fed's EFFR cache and fixture are withdrawn; its notice now covers SOFR alone.
+The same day the caches of H.10, the SDR rate, the Pink Sheet and EIA's exports
+table were extended to every observation their sources serve: 4 January 1999,
+1 July 1974, January 1960 (Japan from January 1977) and January 1973. The New
+York Fed's indicative SOFR, computed by SOFR's method for 22 August 2014 to 29
+March 2018 and published once as a workbook, is read under the New York Fed's
+terms and stands between the two: a secured rate for every cargo the study
+prices, since its first loads in February 2016, and the unsecured stand-in only
+before August 2014.
+
 ### 13. Third party sources behind the World Bank's gas rows
 
 Raised 30 September 2026. **Decided 8 October 2026.**
@@ -218,9 +233,10 @@ JOGMEC's survey is the only public continuation of METI's after March 2021, and
 its terms require permission for use beyond private use, education and
 quotation, and written permission for a link to its website. Until JOGMEC
 answers, the series is kept in `data/private/`. JOGMEC's contact route is a web
-form, in English at `https://www.jogmec.go.jp/form/?f=inquiry_en.html` or in
-Japanese on the journal site; both require a company name and limit the
-message to 2,000 characters. The closest subject in the English form is
+form, the inquiry form of its English website or its Japanese form on the
+journal site (no address is written here: the terms permit no link without
+written permission); both require a company name and limit the message to
+2,000 characters. The closest subject in the English form is
 "Gathering/Providing Information (Oil and Natural Gas)". Draft:
 
 > Subject: Permission to reuse the monthly spot LNG prices for delivery to Japan
@@ -229,14 +245,14 @@ message to 2,000 characters. The closest subject in the English form is
 >
 > My name is Nathan Couturier. I am an individual building a public,
 > non-commercial study of the US LNG export arbitrage between Europe and
-> Northeast Asia. The code and results will be published in a public GitHub
-> repository (planned address: github.com/nathancouturier/jkm-ttf-arbitrage)
-> and on its GitHub Pages website.
+> Northeast Asia. The code and results are published in a public GitHub
+> repository (github.com/nathancouturier/jkm-ttf-arbitrage) and on its GitHub
+> Pages website; nothing read from JOGMEC is part of them yet.
 >
 > I would like to ask JOGMEC's permission to use the series "Monthly spot LNG
 > prices for delivery to Japan" from April 2021 onwards: the contract-based and
 > arrival-based prices, both preliminary and confirmed values, as published on
-> journal.jogmec.go.jp. The values would be stored as a data file in the
+> JOGMEC's journal website. The values would be stored as a data file in the
 > repository and shown in charts and tables on the website.
 >
 > Every chart, table and data file would carry the credit "Source: JOGMEC,
@@ -256,8 +272,17 @@ message to 2,000 characters. The closest subject in the English form is
 > [email address]
 
 Decision: JOGMEC's series stays private and nothing derived from it is
-published. The letter in this question is ready for the owner to send; until
+published. The letter in this question is ready for the owner to send (its
+second paragraph revised on 23 October 2026, the repository and the site
+being public since 9 October); until
 JOGMEC answers, the series is used only as a private check on the public ones.
+
+Revised 15 October 2026: JOGMEC's terms also forbid a link to its website
+without written permission, and the manifest, the Provenance panel and the
+source registry carried its address. No published file carries it now: the
+source is declared not linkable, the manifest holds no address for it, the
+Provenance panel names JOGMEC without a link and says why, and only the
+adapter that reads the private pages knows where they are.
 
 ### 15. METI's preliminary figures
 
@@ -382,7 +407,15 @@ terms, read in a browser on 8 October 2026, put its texts under CC BY-NC-ND
 4.0, which lets the contents of a database be shared for non-commercial
 purposes, unchanged (`docs/sources.md` 2.23). Over the 18 months both cover,
 the German average is 0.10 EUR/t above the Commission's on average and 1.40 at
-most. After DEHSt's last month, August 2026, 82.31 EUR/t, that month is held,
+most (revised 15 October 2026: DEHSt's reports are now read from 2019, and
+over the 76 months both cover, February 2019 to June 2025, the German average
+is 0.29 EUR/t above the Commission's on average, 0.61 in absolute terms and
+2.41 at most, in August 2022, the month of the European gas crisis's peak;
+revised 16 October 2026: DEHSt's annual reports of 2013 to 2018, found in
+its sitemap, take the German series back to January 2013, and over the 147
+months both cover the German average is 0.13 EUR/t above the Commission's,
+0.37 in absolute terms, 2.41 at most).
+After DEHSt's last month, August 2026, 82.31 EUR/t, that month is held,
 labelled an assumption, and the result is shown at 61 and 86 EUR/t, the range
 of 2025 the Commission's electricity market report for the fourth quarter of
 2025 prints for a secondary market price. Should DEHSt or EEX object, the
@@ -535,6 +568,17 @@ Decision: the route through Suez is closed to a US Gulf cargo from 13 January
 since no source shows a return. Before that it is open. The secondary source
 for March to July 2026 is quoted as corroboration only; nothing rests on it.
 
+Revised 15 October 2026: two public series now stand behind the decision. The
+Suez Canal Authority's own count of LNG ships, read by code from its annual
+reports, falls from 819 in 2023 to 119 in 2024 and 282 in 2025, and EIA's
+chokepoint tables put LNG through Bab el-Mandeb at 0.0 billion cubic feet a
+day in 2024 and the first half of 2025, with the 0.5 to 0.9 through Suez
+"almost entirely for delivery to Egypt or Jordan" in EIA's words; EIA's
+quarterly table then shows Bab el-Mandeb at 1.1 in the fourth quarter of 2025
+and 3.0 in the first of 2026, flows the press attributes to Russian Arctic
+cargoes, and a dash again in the second quarter of 2026. The day of the
+closure stands; the date of a return for a US cargo is still unshown.
+
 ### 29. The canal's monthly transit counts
 
 Raised 3 October 2026. **Decided 7 October 2026.**
@@ -549,6 +593,12 @@ Aqaba are counted and never pass Bab el Mandeb.
 
 Decision: not collected; the yearly counts are enough for the record the study
 shows.
+
+Revised 15 October 2026: the yearly counts are now a series read by code from
+the reports, 2007 to 2025, with the restatements between prints recorded
+(`sca_lng_transits_annual`); the monthly counts by ship type stay unread,
+since the Authority offers them only in an embedded dashboard and the option
+for a monthly table is commented out of its page.
 
 ### 30. Quoting the Suez Canal Authority
 
@@ -698,6 +748,32 @@ Under the 14-day window the first stands for the weeks ending 18 February to
 when LNG Prime put Atlantic rates above 30,000 and 40,000 $/day: those two
 weeks' reported hire overstates it. The second stands for the weeks ending 25
 March to 15 April, in which the arb east was open.
+
+Revised 15 October 2026: LNG Prime's articles quoting Spark were read in full
+for 2021 to 2026, 214 of them, with the gCaptain republications of Reuters
+and Bloomberg wires. Under the rule above, one figure a month at most and the
+first reported in the month, 41 months were added to the ten held: every
+month with a public Atlantic figure from January 2021 to October 2026, 51 in
+all. From August 2024 LNG Prime's articles sit behind its subscription and
+the figure is read from the article's public title or summary, which the row
+says. Each row carries the figure, its day where the article names one and
+the article's date where it does not, the assessment and the vessel, marked
+inferred where the article does not name them, the publisher and the
+address; no sentence is kept. The low, central and high hire become minus
+750, 55,750 and 447,000 $/day; by ship the median is 75,500 over the 23
+figures for the 160,000 m3 TFDE to 2023 and 46,500 over the 28 for the
+174,000 m3 two-stroke since. Decided 16 October 2026: the three levels are
+set by ship. A date is run at the lowest, the median and the highest of the
+figures reported for the ship the engine prices it with, the day of the
+figure deciding its ship, since the TFDE's figures carry the crisis of 2021
+to 2022 and describe a two-stroke date badly, and the two-stroke's figures
+describe a 2022 date no better: minus 750, 75,500 and 447,000 $/day for the
+TFDE over 23 figures, 4,250, 45,500 and 161,750 for the two-stroke over 28.
+The Model view's buttons offer the levels of the preset's ship. The weekly series the same articles would give, 193
+figures, is not built: Spark's assessments stay Spark's, and the rule of one
+figure a month stands. Fridays since July 2023 with no public figure, 57 of
+them, are the gaps the rule leaves; 31 of them appear only in search engine
+summaries, which are not read.
 
 ### 38. Lloyd's List Intelligence's briefs
 
@@ -866,96 +942,249 @@ obtained directly from the IMF or another party". The series is committed,
 read from the Bundesbank, credited to the IMF, and checked against the IMF's
 own tables on 41 days.
 
-### 47. MMBtu per tonne of LNG, GIIGNL's table or the IEA's
+### 47. The events marked on the History view
 
-Raised 7 October 2026. **Decided 7 October 2026.**
+Raised 15 October 2026. **Decided 15 October 2026.**
 
-The brief asks for GIIGNL's published conversion table. Its annual report could
-not be read by code. The study uses 51.56 MMBtu per tonne from the IEA and
-Eurostat's Energy Statistics Manual (2004, table A3.9, page 182), within about
-one percent of the figure Spark's own conversion factors imply.
+The brief asks for dated, sourced markers of what happened to the trade: the
+cancellations of 2020, the Red Sea, Panama's restrictions, China's tariff on
+US LNG, the Strait of Hormuz. The breaks the analysis finds in the data (a
+price's definition, a route, the ship, the EU ETS) were drawn as numbered
+rules; nothing marked an event.
 
-Decision: the IEA and Eurostat's figure stands, labelled with its source.
-GIIGNL's report, saved by hand into `data/private/`, would let its page be cited
-in its place; the owner may do so.
+Decision: `lngarb.events` holds the events, one sentence each, dated to the
+day they took effect or to the first of the month a source dates them to, with
+the source and its address where the publisher may be linked. They are drawn
+as lettered, dotted rules on every chart of the History view and listed under
+the charts; they are never a break and never an input. Seven are held, each
+from a document the study already quotes. China's tariff on US LNG of
+February 2025, the Strait of Hormuz in 2026 and the Freeport outage of June
+2022 are named in the study's words but not yet drawn: each waits for a
+primary or wire-service document read and dated, and is added when one is.
+EIA's quarterly chokepoint table (question 52) puts LNG through Hormuz at
+7.4 billion cubic feet a day in the first quarter of 2026 and 0.8 in the
+second, against 10.5 in the fourth of 2025, which dates the fall to a
+quarter and not to a day. Twenty events were added on 15 October 2026 from
+documents read and dated, so that the three named above are drawn too: the
+2019 drought at Panama (44 feet), the JKM record of January 2021, the TTF
+record of December 2021, Freeport's fire and its restart, the two Nord Stream
+stops of 2022, the Australian strikes of September 2023, the cut of Panama's
+booking slots from 3 November 2023, the first US cargoes turning from Suez to
+the Cape on 24 December 2023, Plaquemines' and Golden Pass's first cargoes,
+China's 15 percent tariff on US LNG from 10 February 2025 (the brief's "10
+percent" was crude oil's rate), its escalation to 84 and 125 percent in April
+and the Geneva step of 14 May, the Houthis' suspension of November 2025, the
+strikes on Iran and the closure of Hormuz on 28 February 2026, QatarEnergy's
+force majeure of 4 March, the damage at Ras Laffan of 18 March, the first
+Qatari cargo through Hormuz on 10 May and the interim agreement of June
+(month dated). Wire stories are cited through gCaptain's republication,
+which may be linked; EIA's pages are public domain; Panama's advisories are
+the Authority's. The first event's address now names the Authority's release
+on the first LNG transit, not the inaugural transit of a month earlier.
 
-### 48. Which events the History view marks
-
-Raised 9 October 2026. **Decided 9 October 2026.**
-
-The brief lists the events that explain the regimes in the sample and asks
-that each have a source before it is shown, and that an event which cannot be
-sourced be left out. Several of them rest on S&P Global's or Lloyd's List's
-figures, which this study does not request, or on documents not read.
-
-Decision: an event is a row of `lngarb.events` only where one readable document
-supports it, with that document's address. The others are listed in the same
-module with the reason, and the History view prints that list under the events
-table: the 2020 low of JKM and the counts of 2020 and 2021 (S&P Global),
-Russia's invasion of Ukraine (no document read), the first Red Sea attacks (no
+Revised 28 October 2026: the rows are written to `data/seed/events.json` and
+checked against their rules (dated, sourced, a period ending after it begins)
+on every refresh; five events read in the parallel line of work of 9 October
+join them (the first shale-era cargo of 24 February 2016, the record 27 Cape
+voyages of March 2024, the first carrier through Bab el Mandeb in five months
+on 8 February 2025, the cargoes to China of June and July 2026, and the
+tariff talks of September 2026), and the events that no readable document
+supports are listed in `lngarb.events.LEFT_OUT` with the reason, printed
+under the events table: the 2020 low of JKM and the counts of 2020 and 2021
+(S&P Global), Russia's invasion of Ukraine and the first Red Sea attacks (no
 dated document read), the canals' rebates and auctions (rules, on the Routes
 view), China's imports from February 2025 (a statement contradicted by EIA's
-table), Hormuz and the jump in charter rates of March 2026 (not read for that
-date; Lloyd's List), the IEA's averages, the US and Iran memorandum and the
-July hostilities, Global LNG Hub's note, Spark's negative and record charter
-rates (drawn as charter rates) and the EU ETS on shipping with Spark's change of
+table), the jump in charter rates of March 2026 (Lloyd's List), the IEA's
+averages, Global LNG Hub's note, Spark's negative and record charter rates
+(drawn as charter rates) and the EU ETS on shipping with Spark's change of
 ship (drawn as breaks). Each can become a row once its document is read.
 
-### 49. How the site says a figure is missing
+### 48. How much the verdict rests on the regas discount and the cargo's energy
 
-Raised 9 October 2026. **Decided 9 October 2026.**
+Raised 15 October 2026. **Decided 15 October 2026.**
 
-The brief asks for "n/a" with the reason one click away. A bare "n/a" says
-neither which figure is missing nor why, and the site's sibling studies print
-specific words.
+Europe's DES spread to TTF is observed from ACER where it publishes and this
+study's assumption elsewhere; the energy of a cubic metre of LNG is held at
+Spark's convention of 23 MMBtu, where a US cargo is quoted at 22 to 24. The
+worked table ran the spread's sensitivities and printed them; the site showed
+none.
 
-Decision: the site prints words that name the missing figure, "no figure" in a
-table cell, "missing for this date" under a calculator field, "no crossing" for
-a breakeven hire that does not exist, and gives the reason beside it or in the
-sentence under the table. The methodology, section 1, says so.
+Decision: the Now view prices the latest week again with the spread at the
+values the study runs (minus 3, the assumption of minus 2, 0, and minus 35
+inside the window of late 2022) and the energy at 22 and 24, and says in one
+sentence whether the arb east stays as it is or which case turns it, with
+the figures in a table. The Method view prints the breakeven at the three
+energies for the same week.
 
-### 50. Named ranges instead of a range brush
+### 49. Where the site departs from the brief's layout, and why
 
-Raised 9 October 2026. **Decided 9 October 2026.**
+Raised 15 October 2026. **Decided 15 October 2026.**
 
-The brief asks for a range brush on the History view. A brush is hard to work
-from a keyboard or a phone, and a range picked by dragging cannot be linked.
+Four departures were made without a note here. They are declared now.
 
-Decision: four named ranges, every week, 2021 to 2023, 2024 on and the last 52
-weeks, each a button kept in the address (`#/history?range=last_52`), with its
-own scales, ticks and sentences computed with the data. The monthly chart shows
-every month.
+* **Figtree for Satoshi.** The portfolio sets Satoshi, whose licence forbids
+  serving it from a repository; Figtree is the openly licensed face closest
+  to it. Said on the Method view, in the README and in `vendor/README.md`.
+* **Words for a missing value.** The brief writes "n/a"; the site writes "no
+  figure", or the words the artifact gives for the cell ("not published",
+  "not priced", "no crossing", "none reported", "no route open"), because a
+  reader should learn why a cell is empty without opening a file.
+* **Named ranges for a range brush.** The History view cuts its weekly panels
+  by four named ranges, buttons the address keeps, rather than a brush: a
+  brush has no keyboard, no address and no place on a phone, and the named
+  ranges carry their own sentences and tables, which a brush could not.
+* **Tariffs and reference ships in `lngarb.config`, not in seed files.** The
+  canal tariffs, the ships and every parameter are dated declarations with a
+  document, an address and the day read; they are code the tests pin, not
+  data fetched or typed into a table. The seed files hold what is computed
+  (the routes) or typed from articles (the charter rates), which the manifest
+  records as series.
 
-### 51. Tariffs, ships and contract terms in the code, not in seed files
+### 50. No waiting days at Panama in the engine
 
-Raised 9 October 2026. **Decided 9 October 2026.**
+Raised 15 October 2026. **Decided 15 October 2026, to be revised.**
 
-The brief's layout has seed files for the canal tariffs, the ships and the
-contract terms. They live in `src/lngarb/config.py` instead: the Panama and Suez
-tariffs as dated tables with the document each comes from, the ships and the
-contract terms as parameters with their source, status and the day they were
-read, all shown on the Method view. A seed file would hold the same figures
-without the types and checks the code gives them; the seeds that are kept are
-those written from rows by code (routes, freight anchors, events).
+The engine adds no wait at Panama on any date; the two waits reported for LNG
+(12 days in late July 2023, 15 in mid December 2023) are applied in the Flows
+view's comparison of Panama with the Cape, in those months only, and any wait
+is an input the reader can type. Added 15 October 2026: EIA's "at least 17
+days" for neopanamax ships in August 2023 is a third reported wait, applied in
+August 2023 the same way. The Panama Canal Authority publishes monthly
+operational statistics; whether they give a waiting time by segment is being
+established.
 
-Decision: kept in the code, each figure with its source. The Method view and
-the methodology are where a reader finds them.
+Decision: no wait by default, stated wherever Panama is priced, until a
+published monthly series of waiting days for LNG carriers, or for neopanamax
+vessels unbooked, is read; the two reported waits stay as the record shows
+them.
 
-### 52. No wait at Panama by default
+Revised 15 October 2026: the Authority's Monthly Canal Operations Summary,
+read by code from July 2006 (the summaries from December 2001 to June 2006
+are scanned images without a text layer), gives Canal Waters Time for every ship, the
+month's daily average, high and low, and never by segment or by booked and
+unbooked ships (`acp_canal_operations_monthly`). The average reached 66.5
+hours in August 2023 and 44.1 in December 2023 against 28.3 in the median
+month since July 2016, below the 12 and 15 days reported for unbooked LNG carriers in those
+months, as an average over mostly booked ships must be. The series is drawn
+on the Flows view with the two reported months marked; the engine's default
+stays no wait, and the reported waits stay in their months.
 
-Raised 9 October 2026. **Decided 9 October 2026.**
+### 51. The energy of a tonne of LNG
 
-Panama was open under restrictions from 2023, with waits reported for LNG in
-two months (12 days in July 2023, 15 in December 2023) and slots auctioned. No
-wait is known for the other months, and a wait is a cargo's choice against
-paying for a slot.
+Raised 15 October 2026. **Decided 15 October 2026, to be revised.**
 
-Decision: the engine adds no wait and no slot premium unless one is typed; the
-Flows view sets the two reported waits against the wait at which Panama stops
-netting more than the Cape, and the Model view takes waiting days and a slot
-premium per route.
+The engine turns the gas burnt into tonnes for the EU ETS at 51.56 MMBtu per
+tonne, the IEA and Eurostat manual's gross calorific value, because GIIGNL's
+conversion table could not be read by code. Spark's 23 MMBtu per cubic metre
+at the manual's density gives 51.11, 0.9 percent less. The factor touches the
+carbon line only, a few cents a MMBtu at most.
 
-### 53. What the private layer may change
+Decision: 51.56 stands, labelled published with its document, until GIIGNL's
+table or a composition of Sabine Pass LNG is read; the Model view types any
+value, and the 22 to 24 MMBtu per cubic metre sensitivity of question 48 runs
+on the energy of the cargo itself.
+
+Revised 15 October 2026: GIIGNL's Custody Transfer Handbook, seventh edition
+(2026), is public at an address on a storage host this study's network
+refuses, so reading it stays a step by hand. Two EIA anchors are recorded
+beside the parameter: EIA's Monthly Energy Review holds the heat content of
+US gas exports at 1,009 Btu per cubic foot every year since 2007, a
+convention for pipeline and LNG together, and the ratio of EIA's volume
+weighted LNG export price per thousand cubic feet to DOE's per MMBtu gives
+1,036 in 2024 and 1,034 in 2025, this study's derivation; neither is a figure
+per tonne, so 51.56 stands.
+
+### 52. The series extended, and what is still short
+
+Raised 15 October 2026. **Decided 15 October 2026.**
+
+Every series is now held from the first observation its publisher serves:
+the euro rate from January 1999, the SDR rate from July 1974, the effective
+federal funds rate from July 1954 (the Board's H.15, public domain, in place
+of the New York Fed's licensed window), the indicative SOFR from August 2014,
+the Pink Sheet from 1960 (Japan from 1977, and the early decades annual
+figures repeated, as 3.4 of the sources says), EIA's exports table from 1973,
+the Commission's allowance price from January 2014 and DEHSt's German
+auctions from February 2019. What is still short: the Commission's 2013
+reports print no monthly table (a text figure per report and the auctions one
+by one in an annex, from which the fourteen months from November 2012 could
+be computed); DEHSt's reports before 2019 sit under other file names and an
+older table; EIA's Weekly Update before September 2021 was to be read in the
+Internet Archive's captures to see from which issue it carried the two
+prices, and the archive could not be reached from the machine that builds
+the site on 15 October 2026, so the study's own count of 7 October 2026
+stands (488 issues saved from 2016, 207 carrying the item, none before 16
+September 2021); and no public weekly JKM exists before that issue.
+
+Decision: the extensions above are committed; the four shortfalls are named
+here and taken up as each source is read.
+
+Revised 16 October 2026: the Commission's reports of December 2013 to
+December 2014 do print a monthly table, an overview from November 2012 that
+the first reading missed; the allowance price now runs from November 2012,
+the first month of the common auction platform, with the months whose
+auctions sold equal volumes marked as the simple averages the reports print
+them as. DEHSt's reports before 2019 are listed in its sitemap, not on its
+reports page; their annual reports' year tables are now read, and the German
+series runs from January 2013, with December 2018 and January 2019 missing,
+the months of the cancelled auctions.
+
+### 53. The fresh water surcharge's curve, and the lake level it needs
+
+Raised 15 October 2026. **Decided 15 October 2026, to be revised.**
+
+The variable part of Panama's fresh water surcharge was held at 5 percent of
+tolls, "the middle of the Authority's range", with no curve behind it. The
+Authority publishes the curve: 10 percent over one plus e to 0.6 times the
+lake's level less 82 feet from 15 February 2020, the centre moved to 79 feet
+from 1 October 2023, the share held between 1 and 10 percent before that
+date and 0 and 10 since (advisories ADV-03-2020 and ADV-42-2023, and the
+Notes on Tolls Tariffs of February 2026). It also publishes the lake's level
+daily, with a sixty day projection, on a page of its reporting host that the
+study's network cannot reach, and no list of the share applied each day was
+found anywhere. The monthly summaries print a level twice: 79.7 feet in the
+summary of August 2023 and 85.02 feet in that of July 2024.
+
+Decision: the curve and its four constants are parameters of the engine,
+published and sourced, and `lngarb.canals.panama_fresh_water_share_at_level`
+runs it; the share stays at 5 percent in the engine, now stated as the
+curve's value at its centre, until the daily level can be read; the Method
+view prints the curve at a few levels under each centre and at the two
+levels printed, 8.0 and 0.3 percent. To be revised when the level page is
+reachable or the owner saves its history by hand into data/private/.
+
+Revised 16 October 2026: the 240 summaries and the advisories of 2019 to 2026
+were searched by code for a printed level; the two above are the only ones.
+The Authority's annual reports give the fiscal year's average level from
+FY2023: 83.65 feet, 81.98 in FY2024 and 87.028 in FY2025, recorded as a
+parameter and printed on the Method view with what the curve gives at each,
+a mark and not the year's average surcharge. The daily level host,
+evtms-rpts.pancanal.com, and the hydrology dashboard host are refused by the
+network policy of the machine that builds the site; allowing them, or saving
+the Authority's CSV of historical levels by hand as a user series (sources
+2.25), is what remains.
+
+### 54. Keeping the Panama Canal Authority's figures
+
+Raised 15 October 2026. **Decided 15 October 2026.**
+
+Question 41 settled on quoting the Authority's tariffs and advisories. Two
+series now keep its figures: the traffic table of every monthly operations
+summary since July 2006, and ten yearly LNG transit counts read by eye in
+its annual reports. The terms of use forbid copying, distribution and
+publication "for commercial or lucrative purposes" and say nothing of any
+other; the summaries' footer says the information is for general purposes
+only and may vary with traffic audits; robots.txt allows every path and asks
+for ten seconds between requests.
+
+Decision: both series are committed for this non-commercial study, the
+figures unchanged, the Authority credited and its disclaimer carried in the
+manifest, the NOTICE and the Flows view; the adapter leaves ten seconds
+between requests and fetches only the months the cache lacks. Should the
+Authority object, both move to data/private/ and the Flows view's canal
+block is withheld, as question 20 provides for DEHSt.
+
+### 55. What the private layer may change
 
 Raised 9 October 2026. **Decided 9 October 2026.**
 
@@ -963,14 +1192,17 @@ The brief asks for an importer of settlements and licensed freight the owner
 exports himself, never fetched, committed or deployed, and that the site publish
 nothing from it but the fact that the comparison was run.
 
-Decision: the importer reads and checks the files and computes, privately, JKM
-over TTF for the same contract month day by day. The site publishes nothing from
-it, not even the fact that it ran: the committed artifacts are rebuilt on every
+Decision: the importer, `lngarb.sources.private_layer` (`docs/sources.md`,
+2.27), reads and checks the files and computes, privately, JKM over TTF for
+the same contract month day by day. The site publishes nothing from it, not
+even the fact that it ran: the committed artifacts are rebuilt on every
 machine and checked byte for byte, and a flag present on one machine only would
 break that check. The lift test keeps EIA's daily Henry Hub as its proxy for the
-settlement on every machine.
+settlement on every machine. A series of one value a date that the owner holds
+under terms that forbid its publication goes through the declared CSV series of
+2.25 instead; the two mechanisms keep their own files under `data/private/user/`.
 
-### 54. China's tariff on US LNG and the cargoes since
+### 56. China's tariff on US LNG and the cargoes since
 
 Raised 9 October 2026. **Open.**
 
@@ -983,14 +1215,16 @@ July and September 2026 give 15 percent. The Chinese Ministry of
 Finance's notice, which would settle the rate, was not read.
 
 What would settle the rate: the ministry's notice, read by hand. Until then the
-study uses the date only, as a limit of the flows test.
+study uses the date only, as a limit of the flows test; the History view's
+event of 10 February 2025 gives the 15 percent as Reuters and Bloomberg
+reported it (question 47).
 
 Decided 9 October 2026 for the cargoes: the History view marks June and July
 2026 as an event, from EIA's table alone (4,576 and 4,555 MMcf declared for
 China at departure, the first since September 2025), and says that whether the
 LNG was used in China or shipped on is not established.
 
-### 55. An empty chart
+### 57. An empty chart
 
 Raised 9 October 2026. **Decided 9 October 2026.**
 
@@ -1003,4 +1237,3 @@ an issue. So no chart of the deployed site can be empty.
 Decision: no empty chart state is drawn; the site already live stays as it was,
 and Provenance names every series with its status and the time of its last
 fetch.
-

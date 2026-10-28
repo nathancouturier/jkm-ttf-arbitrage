@@ -4,16 +4,13 @@ The code in this repository, and the figures this study computes itself, are
 released under the MIT licence in LICENSE. Data published by others keep their
 publishers' terms, which docs/sources.md quotes in full. In particular:
 
-data/cache/nyfed_sofr_daily.csv, and tests/fixtures/nyfed_sofr_2018-01-01_to_2026-09-30.json:
-  The Secured Overnight Financing Rate (SOFR) is subject to the Terms of Use
+data/cache/nyfed_sofr_daily.csv, data/cache/nyfed_sofr_indicative_daily.csv,
+tests/fixtures/nyfed_sofr_2018-01-01_to_2026-09-30.json and
+tests/fixtures/nyfed_sofr_indicative_2014-08-22_to_2018-03-29.xlsx:
+  The Secured Overnight Financing Rate (SOFR), and the indicative SOFR the
+  New York Fed computed for August 2014 to March 2018, are subject to the Terms of Use
   posted at newyorkfed.org. The New York Fed is not responsible for
   publication of the SOFR by Nathan Couturier, does not sanction or endorse
-  any particular republication, and has no liability for your use.
-
-data/cache/nyfed_effr_daily.csv, and tests/fixtures/nyfed_effr_2016-01-01_to_2018-04-30.json:
-  The Effective Federal Funds Rate (EFFR) is subject to the Terms of Use
-  posted at newyorkfed.org. The New York Fed is not responsible for
-  publication of the EFFR by Nathan Couturier, does not sanction or endorse
   any particular republication, and has no liability for your use.
 
 data/cache/imf_usd_per_sdr_daily.csv:
@@ -26,11 +23,13 @@ tests/fixtures/govuk_bank_holidays_2026-10-08.json:
   Licence v3.0 (https://www.gov.uk/bank-holidays.json).
 
 data/cache/worldbank_gas_monthly.csv and data/cache/worldbank_gas_revisions.csv:
-  The World Bank, Commodity Price Data (The Pink Sheet), under the Creative
-  Commons Attribution 4.0 International licence
-  (https://creativecommons.org/licenses/by/4.0/). The selection of series and
-  the revisions log are this study's. The World Bank does not endorse this
-  study.
+  The World Bank: Commodity Price Data (The Pink Sheet): Bloomberg Finance
+  L.P.; World Gas Intelligence; Thomson Reuters Datastream; The Wall Street
+  Journal; Official Statistics of Japan; World Bank, under the Creative Commons
+  Attribution 4.0 International licence
+  (https://creativecommons.org/licenses/by/4.0/), in the attribution format
+  the World Bank's dataset terms prescribe. The selection of series and the
+  revisions log are this study's. The World Bank does not endorse this study.
 
 data/cache/meti_spot_lng_monthly.csv and data/cache/meti_spot_lng_releases.csv:
   Created by processing the information in the Spot LNG Price Statistics
@@ -57,6 +56,27 @@ tests/fixtures/dehst_reports_page_2026-10-07.html:
   4.0 International licence (https://creativecommons.org/licenses/by-nc-nd/4.0/).
   The monthly averages are reproduced unchanged; they may be reused for
   non-commercial purposes only.
+
+data/cache/acp_canal_operations_monthly.csv, data/seed/acp_lng_transits_fiscal_year.json
+and tests/fixtures/acp_ops_summary_2023-12_A-02-2024.pdf:
+  Source: Panama Canal Authority, Monthly Canal Operations Summary and annual
+  reports. The Authority's terms of use forbid copying, distribution and
+  publication of its documents for commercial or lucrative purposes; the
+  figures are kept unchanged for this non-commercial study, and the Authority
+  says the information is for general purposes only and may vary with
+  traffic audits.
+
+data/cache/sca_lng_transits_annual.csv:
+  Source: Suez Canal Authority, annual navigation reports, Table 3; the
+  counts restated with attribution, all rights reserved by the Authority.
+
+data/cache/eia_chokepoint_lng_annual.csv, data/cache/eia_steo_chokepoint_lng_quarterly.csv,
+tests/fixtures/eia_chokepoints_2026-03-03_fetched_2026-10-15.html and
+tests/fixtures/eia_steo_energysecurity_2026-08-12_fetched_2026-10-15.html:
+  Source: U.S. Energy Information Administration, World Oil Transit
+  Chokepoints (March 2026) and Short-Term Energy Outlook, Global Energy
+  Security (August and October 2026), EIA analysis based on Vortexa tanker
+  tracking data. US government publications, in the public domain.
 
 data/cache/acer_lng_daily.csv:
   Source: European Union Agency for the Cooperation of Energy Regulators

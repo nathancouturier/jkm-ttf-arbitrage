@@ -124,6 +124,9 @@ def test_the_bounds_are_the_ones_the_methodology_names():
     assert config.BOUNDS_DES_EUR_MWH == (1.0, 400.0)
     assert config.BOUNDS_EUA_EUR_T == (1.0, 200.0)
     assert config.BOUNDS_SOFR_PERCENT == (-1.0, 15.0)
+    assert config.BOUNDS_EFFR_PERCENT == (-1.0, 30.0)
+    assert config.BOUNDS_USD_PER_SDR == (0.9, 2.0)
+    assert config.BOUNDS_WORLDBANK_GAS_USD_MMBTU == (0.1, 120.0)
     assert config.BOUNDS_EXPORTS_MMCF == (0.0, 2000000.0)
     assert config.BOUNDS_EXPORT_PRICE_USD_MCF == (0.1, 100.0)
 
@@ -187,6 +190,7 @@ def test_a_release_that_slips_a_day_for_a_holiday_is_not_a_weekly_gap():
 def test_monthly_and_annual_gaps():
     assert find_gaps(["2020-01-01", "2020-04-01"], "monthly") == ["2020-02-01", "2020-03-01"]
     assert find_gaps(["2018-06-30", "2021-01-31"], "annual") == ["2019-01-01", "2020-01-01"]
+    assert find_gaps(["2025-01-01", "2025-04-01", "2026-01-01"], "quarterly") == ["2025-07-01", "2025-10-01"]
 
 
 def test_gaps_of_a_short_or_empty_series_are_empty():
@@ -540,13 +544,23 @@ def test_eia_robots_is_read_with_longest_match(url, allowed):
 
 
 def test_the_standard_library_parser_would_have_crawled_the_archive():
-    """The reason this module parses robots.txt itself."""
+    """The reason this module parses robots.txt itself: the standard library's
+    parser long read EIA's file as allowing the archive, because it took the
+    first rule that matched and 'Allow: /' comes first; since CPython 3.13.14
+    and 3.14 it reads the longest match first, as RFC 9309 says, and agrees
+    with this module. The expectation is tied to what this interpreter's parser
+    does, probed on two rules, not to a version number. Whatever the
+    interpreter, this module must refuse the archive."""
     from urllib.robotparser import RobotFileParser
+
+    probe = RobotFileParser()
+    probe.parse(["User-agent: *", "Allow: /", "Disallow: /x"])
+    first_match_wins = probe.can_fetch("*", "https://example.invalid/x")
 
     parser = RobotFileParser()
     parser.parse(EIA_ROBOTS.splitlines())
     archive = "https://www.eia.gov/naturalgas/weekly/archivenew_ngwu/2023/12_07/"
-    assert parser.can_fetch("*", archive) is True
+    assert parser.can_fetch("*", archive) is first_match_wins
     assert base.robots_allows(base.parse_robots(EIA_ROBOTS, "Mozilla"), archive) is False
 
 

@@ -278,7 +278,7 @@ def window(day: pd.Timestamp, frequency: str) -> tuple[date, date]:
 
 
 def _hires(day: date, levels: Mapping[str, float]) -> list[tuple[str, float, str]]:
-    out = [(name, float(value), "%s of the freight anchors" % name) for name, value in levels.items()]
+    out = [(name, float(value), "%s of the freight anchors for the ship of the date" % name) for name, value in levels.items()]
     reported, source = worked.nearest_hire(day)
     if reported is not None:
         out.append(("reported", float(reported), source))
@@ -292,21 +292,22 @@ def work(obs: pd.DataFrame | None = None, *, levels: Mapping[str, float] | None 
     plus "reported" where a charter rate was reported near the date. missing
     lists each observation the data cannot price, with the input it lacks.
     """
-    levels = dict(hire_levels() if levels is None else levels)
     with reading_once():
         obs = observations() if obs is None else obs
         rows, missing = [], []
         for o in obs.itertuples(index=False):
             day = o.day.date()
+            # The three levels are those of the ship the day is priced with, unless given.
+            on_day = dict(hire_levels(when=day) if levels is None else levels)
             try:
                 inputs = worked.inputs_on(
                     day, o.jkm, o.ttf, {"jkm": o.jkm_source, "ttf": o.ttf_source},
-                    hire_usd_day=levels["central"], delta_window=window(o.day, o.frequency),
+                    hire_usd_day=on_day["central"], delta_window=window(o.day, o.frequency),
                 )
             except worked.MissingInput as exc:
                 missing.append({"day": o.day, "frequency": o.frequency, "series": o.series, "reason": str(exc)})
                 continue
-            for level, hire, hire_source in _hires(day, levels):
+            for level, hire, hire_source in _hires(day, on_day):
                 out = evaluate(replace(inputs, hire_usd_day=hire))
                 row = {column: getattr(o, column) for column in OBSERVATION_COLUMNS}
                 row.update({"hire_level": level, "hire_usd_day": hire, "hire_source": hire_source})
@@ -358,8 +359,9 @@ def breaks(obs: pd.DataFrame | None = None) -> pd.DataFrame:
         if previous is not None and r.series.split("_")[0] != previous.series.split("_")[0]:
             gap = (r.day.to_period("M") - previous.day.to_period("M")).n - 1
             rows.append({"day": r.day, "kind": "definition",
-                         "what": "monthly JKM from %s to %s, after %d month(s) with no public JKM"
-                                 % (previous.basis, r.basis, gap),
+                         "what": "the monthly JKM from METI's contract-based spot price for Japan, a proxy, with "
+                                 "the World Bank's TTF, to the mean of each month's weekly averages, after %d "
+                                 "month%s with no public JKM" % (gap, "" if gap == 1 else "s"),
                          "source": "METI ends in March 2021; JOGMEC's continuation stays private"})
         previous = r
     parameters = config.PARAMETERS
@@ -418,9 +420,13 @@ def export_shares() -> pd.DataFrame:
     Trucks to Canada and Mexico and re-exports of foreign LNG are left out. A
     month whose countries do not add up to the total within half an MMcf per
     country, the rounding of the figures, is noted; the shares use the total.
+    Months before the first month of the analysis are left out: EIA's table
+    runs from 1973 and its by vessel block from 2013, when the only cargoes
+    were Kenai's and re-exports, before Sabine Pass shipped.
     """
     frame = base.read_cache("eia_lng_exports_monthly")
-    vessel = frame[frame["block"] == "exports by vessel"]
+    first = pd.Timestamp(_p("analysis_first_month") + "-01")
+    vessel = frame[(frame["block"] == "exports by vessel") & (frame["date"] >= first)]
     rows = []
     for day, group in vessel.groupby("date"):
         total = group.loc[group["code"] == "Z00", "mmcf"]
@@ -623,7 +629,7 @@ def lift_margins_2020(year: int = 2020, *, levels: Mapping[str, float] | None = 
     JKM futures for M stop trading in M-1; METI's price stands in for it. The
     ship, routes, euro rate and overnight rate are those of the loading day.
     """
-    levels = dict(hire_levels() if levels is None else levels)
+    levels = dict(hire_levels(when=date(year, 1, 1)) if levels is None else levels)
     loading_day = int(_p("analysis_monthly_loading_day"))
     rows = []
     with reading_once():

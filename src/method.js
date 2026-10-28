@@ -49,6 +49,7 @@ export function render(root, data) {
   root.appendChild(el("section", { class: "block", attrs: { "aria-labelledby": "method-units" } }, [
     el("h2", { class: "block__heading", id: "method-units", text: "Units and conversions" }),
     sentence("p", method.units_segments, decimals, "prose"),
+    sentence("p", method.energy_segments, decimals, "prose"),
     scrollTable(["The conversions the engine uses."], el("table", { class: "table" }, [
       el("thead", {}, [el("tr", {}, [
         el("th", { text: "Conversion", attrs: { scope: "col" } }),
@@ -57,6 +58,26 @@ export function render(root, data) {
       unitsBody,
     ])),
     ...(method.k_sensitivity ? [sensitivityTable(method.k_sensitivity, decimals)] : []),
+  ]));
+
+  const fresh = method.fresh_water;
+  const freshBody = el("tbody");
+  for (const row of fresh.rows) {
+    freshBody.appendChild(el("tr", {}, [
+      el("th", { text: formatCell(row.level_ft, "feet", decimals) + " feet", attrs: { scope: "row" } }),
+      ...fresh.centres.map((c) => figureCell(formatCell(row.shares[c.from], "pp", decimals), "share_" + c.from)),
+    ]));
+  }
+  root.appendChild(el("section", { class: "block", attrs: { "aria-labelledby": "method-fresh-water" } }, [
+    el("h2", { class: "block__heading", id: "method-fresh-water", text: "Panama's fresh water surcharge" }),
+    sentence("p", fresh.segments, decimals, "prose"),
+    scrollTable([fresh.caption], el("table", { class: "table" }, [
+      el("thead", {}, [el("tr", {}, [
+        el("th", { text: "Gatun Lake level", attrs: { scope: "col" } }),
+        ...fresh.centres.map((c) => el("th", { class: "col-num", text: "Centre " + formatCell(c.centre_ft, "feet", decimals) + " feet, from " + formatDay(c.from), attrs: { scope: "col", "data-short": formatCell(c.centre_ft, "feet", decimals) + " ft" } })),
+      ])]),
+      freshBody,
+    ])),
   ]));
 
   root.appendChild(el("section", { class: "block", attrs: { "aria-labelledby": "method-delivery" } }, [

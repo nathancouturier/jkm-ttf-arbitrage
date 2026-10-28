@@ -7,6 +7,8 @@ and a date. docs/methodology.md, sections 6 and 8, describes both canals.
 
 from __future__ import annotations
 
+import math
+
 from datetime import date
 
 from . import config
@@ -23,7 +25,8 @@ from .config import (
     SuezSchedule,
 )
 
-__all__ = ["panama_period", "panama_toll", "panama_fresh_water_surcharge", "suez_schedule", "suez_rate_on",
+__all__ = ["panama_period", "panama_toll", "panama_fresh_water_surcharge", "panama_fresh_water_share_at_level",
+           "suez_schedule", "suez_rate_on",
            "suez_toll_sdr", "suez_round_trip", "suez_transits"]
 
 
@@ -68,6 +71,28 @@ def panama_toll(when: date | str, capacity_m3: float, *, laden: bool, roundtrip_
         return _banded(capacity_m3, table)
     laden_toll = period.fixed_usd + period.rate_usd_m3 * capacity_m3
     return laden_toll if laden else laden_toll * period.ballast_share
+
+
+def panama_fresh_water_share_at_level(level_ft: float, when: date | str) -> float | None:
+    """The variable share of tolls the Authority's curve gives at a lake level on a day, or None before the surcharge.
+
+    The Authority's curve, max / (1 + e^(slope (level - centre))), with the
+    centre of the day: 82.0 feet from 15 February 2020, 79.0 from 1 October
+    2023, and the share held between 1 and 10 percent to September 2023, 0
+    and 10 since. The level is rounded to a tenth of a foot, as the Authority
+    reads it at noon the day before a transit.
+    """
+    day = _as_date(when)
+    centres = config.PARAMETERS["panama_fresh_water_curve_centre_ft"].value
+    starts = sorted(centres)
+    if day < date.fromisoformat(starts[0]):
+        return None
+    centre = centres[max(s for s in starts if date.fromisoformat(s) <= day)]
+    slope = config.PARAMETERS["panama_fresh_water_curve_slope_per_ft"].value
+    top = config.PARAMETERS["panama_fresh_water_curve_max_share"].value
+    floor = config.PARAMETERS["panama_fresh_water_min_share_to_sep_2023"].value if day < date.fromisoformat(starts[-1]) else 0.0
+    share = top / (1.0 + math.exp(slope * (round(level_ft, 1) - centre)))
+    return min(top, max(floor, share))
 
 
 def panama_fresh_water_surcharge(when: date | str, toll_usd: float, *, variable_share: float | None = None) -> float:

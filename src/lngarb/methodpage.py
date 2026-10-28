@@ -14,9 +14,9 @@ from __future__ import annotations
 
 import math
 from datetime import date
-from typing import Any, Callable, Mapping
+from typing import Any, Mapping
 
-from . import config, freight_anchors, reader, units
+from . import canals, config, freight_anchors, reader, units
 
 __all__ = ["page", "PARAMETER_WORDS", "value_words", "REPOSITORY"]
 
@@ -42,6 +42,12 @@ PARAMETER_WORDS: Mapping[str, str] = {
     "panama_capacity_is_nominal": "Panama tolls on the nominal capacity",
     "panama_fresh_water_fixed_usd": "Panama fresh water surcharge, fixed part",
     "panama_fresh_water_variable_share": "Panama fresh water surcharge, share of tolls",
+    "panama_fresh_water_curve_centre_ft": "Panama fresh water curve, centre, by date",
+    "panama_fresh_water_curve_slope_per_ft": "Panama fresh water curve, slope",
+    "panama_fresh_water_curve_max_share": "Panama fresh water curve, maximum share",
+    "panama_fresh_water_min_share_to_sep_2023": "Panama fresh water curve, minimum share to September 2023",
+    "panama_gatun_levels_printed": "Gatun Lake levels the Authority's summaries print",
+    "panama_gatun_level_fiscal_year_average": "Gatun Lake level, average of the fiscal year, from the Authority's annual reports",
     "vessel_174k_from": "First day of the two-stroke benchmark carrier",
     "port_cost_west_usd": "Port costs, Sabine Pass and Gate",
     "port_cost_east_usd": "Port costs, Sabine Pass and Futtsu",
@@ -100,6 +106,11 @@ def value_words(value: Any, unit: str) -> str:
     if isinstance(value, dict):
         if unit.startswith("share"):
             return "; ".join("%s percent from %s" % (_number(float(v) * 100.0), k) for k, v in sorted(value.items()))
+        if unit.startswith("feet"):
+            # Lake levels, by the day printed or by the fiscal year averaged.
+            joiner = "from " if "applies from" in unit else "on "
+            return "; ".join("%s feet %s" % (_number(float(v)), ("in fiscal " + k) if len(k) == 4 else (joiner + _day(k)))
+                             for k, v in sorted(value.items()))
         return "; ".join("%s days in %s" % (_number(float(v)), _day(k)) for k, v in sorted(value.items()))
     if isinstance(value, (tuple, list)):
         if all(isinstance(v, str) for v in value):
@@ -162,37 +173,93 @@ def _formulas() -> list[dict[str, Any]]:
     ]
 
 
-#: The energy of a cubic metre of LNG the sensitivity runs: the market's range
-#: for a lean to a rich cargo, the study's value in the middle.
-K_SENSITIVITY = (22.0, 23.0, 24.0)
+def _energy_segments(now_document: Mapping[str, Any] | None) -> list[dict[str, Any]]:
+    """The latest week's breakeven at 22, 23 and 24 MMBtu per cubic metre, from the Now document's sensitivities."""
+    k_now = config.PARAMETERS["mmbtu_per_m3_lng"].value
+    if now_document is None:
+        return [reader.T("The study holds "), reader.N("k_now", k_now, "mmbtu_per_m3"),
+                reader.T(" MMBtu per cubic metre, a market convention for a lean cargo, and runs the latest week "
+                         "at the ends of the range quoted for a US cargo as a sensitivity in the Now view's "
+                         "breakeven section.")]
+    rows = {r["id"]: r for r in now_document["breakeven"]["sensitivities"]["rows"]}
+    today = rows["today"]
+    segments = [reader.T("The study holds "), reader.N("k_now", k_now, "mmbtu_per_m3"),
+                reader.T(" MMBtu per cubic metre, a market convention for a lean cargo. For the week to "),
+                reader.D("as_of", now_document["as_of"]),
+                reader.T(", S* of the cheapest open route east is "),
+                reader.N("s_star_now", today["values"]["s_star"], "usd_mmbtu", signed=True, missing="no route open"),
+                reader.T(" $/MMBtu at that value")]
+    for key in sorted(k for k in rows if k.startswith("energy_")):
+        row = rows[key]
+        segments += [reader.T(", "), reader.N("s_star_" + key, row["values"]["s_star"], "usd_mmbtu", signed=True,
+                                                missing="no route open"),
+                     reader.T(" at "), reader.N(key, float(key.split("_")[1]), "mmbtu_per_m3")]
+    segments += [reader.T(" MMBtu per cubic metre: a richer cargo carries more energy for the same hire, "
+                          "and every reader can type any value in the Model view.")]
+    return segments
 
-ROUTE_ORDER = ("nea_panama", "nea_suez", "nea_cape")
+
+#: Lake levels at which the Method view prints the Authority's curve, feet.
+FRESH_WATER_LEVELS = (72.0, 75.0, 79.0, 82.0, 85.0, 85.5, 87.0)
 
 
-def k_sensitivity(day: date, evaluate_at: Callable[[float], Mapping[str, Any]]) -> dict[str, Any]:
-    """The latest week at 22, 23 and 24 MMBtu a cubic metre: the best netback,
-    and the arb and S* of each open route east, so the reader sees how much
-    the convention moves the answer."""
+def _fresh_water() -> dict[str, Any]:
+    """The variable fresh water surcharge the Authority's curve gives, against the 5 percent held."""
+    centres = config.PARAMETERS["panama_fresh_water_curve_centre_ft"].value
+    starts = sorted(centres)
     rows = []
-    for k in K_SENSITIVITY:
-        out = evaluate_at(k)
-        rows.append({
-            "k": k, "best_netback": out["best_netback"],
-            "routes": {r: {"arb": out["east"][r]["arb"], "s_star": out["east"][r]["s_star"]}
-                       for r in ROUTE_ORDER if r in out["east"] and out["east"][r]["open"]},
-        })
-    open_routes = list(rows[0]["routes"])
-    spread_s = [max(abs(rows[-1]["routes"][r]["s_star"] - rows[0]["routes"][r]["s_star"]) for r in open_routes)] \
-        if open_routes else []
-    caption = [reader.T("The week to "), reader.D("as_of", day),
-               reader.T(" at each energy content: the best netback, and the arb and S* of each open route east, "
-                        "in $/MMBtu.")]
-    if spread_s:
-        caption += [reader.T(" From the lean end to the rich, S* moves by "),
-                    reader.N("k_s_star_range", spread_s[0], "usd_mmbtu"), reader.T(" at most.")]
-    return {"rows": rows, "routes": open_routes, "route_names": {r: reader.ROUTE_SHORT[r] for r in open_routes},
-            "caption_segments": caption}
-
+    for level in FRESH_WATER_LEVELS:
+        rows.append({"level_ft": level, "shares": {
+            start: 100.0 * canals.panama_fresh_water_share_at_level(level, start) for start in starts}})
+    printed = config.PARAMETERS["panama_gatun_levels_printed"].value
+    readings = [{"day": day, "level_ft": level,
+                 "share_percent": 100.0 * canals.panama_fresh_water_share_at_level(level, day)}
+                for day, level in sorted(printed.items())]
+    averages = config.PARAMETERS["panama_gatun_level_fiscal_year_average"].value
+    yearly = [{"fiscal_year": int(year), "level_ft": level,
+               "share_percent": 100.0 * canals.panama_fresh_water_share_at_level(level, "%s-09-30" % year)}
+              for year, level in sorted(averages.items())]
+    held = 100.0 * config.PARAMETERS["panama_fresh_water_variable_share"].value
+    segments = [
+        reader.T("The variable part of Panama's fresh water surcharge is a share of the tolls set each day from "
+                 "Gatun Lake's level by the Authority's curve, the maximum of "),
+        reader.N("fws_max", 100.0 * config.PARAMETERS["panama_fresh_water_curve_max_share"].value, "share_percent"),
+        reader.T(" percent over one plus e to "),
+        reader.N("fws_slope", config.PARAMETERS["panama_fresh_water_curve_slope_per_ft"].value, "pp"),
+        reader.T(" times the level less the curve's centre, "),
+        reader.N("fws_centre_first", centres[starts[0]], "feet"), reader.T(" feet from "),
+        reader.D("fws_from_first", starts[0]), reader.T(" and "),
+        reader.N("fws_centre_last", centres[starts[-1]], "feet"), reader.T(" feet from "),
+        reader.D("fws_from_last", starts[-1]),
+        reader.T(". The engine holds the share at "), reader.N("fws_held", held, "share_percent"),
+        reader.T(" percent, the curve's value at its centre, because the Authority's daily level sits on a page "
+                 "the study's code cannot reach; the two levels its monthly summaries print, "),
+    ]
+    for index, r in enumerate(readings):
+        if index:
+            segments.append(reader.T(" and "))
+        segments += [reader.N("level_" + r["day"], r["level_ft"], "feet"), reader.T(" feet on "),
+                     reader.D("level_day_" + r["day"], r["day"]), reader.T(", give "),
+                     reader.N("share_" + r["day"], r["share_percent"], "pp"), reader.T(" percent")]
+    segments.append(reader.T(". The Authority's annual reports give the fiscal year's average level, "))
+    for index, r in enumerate(yearly):
+        if index:
+            segments.append(reader.T(", "))
+        segments += [reader.N("avg_level_%d" % r["fiscal_year"], r["level_ft"], "feet"), reader.T(" feet in fiscal "),
+                     reader.N("avg_year_%d" % r["fiscal_year"], r["fiscal_year"], "year")]
+    segments.append(reader.T(", at which the curve in force at the year's end gives "))
+    for index, r in enumerate(yearly):
+        if index:
+            segments.append(reader.T(", "))
+        segments.append(reader.N("avg_share_%d" % r["fiscal_year"], r["share_percent"], "pp"))
+    segments.append(reader.T(" percent, a mark and not the year's average surcharge, since the curve bends. The table "
+                             "runs the curve at a few levels under each centre; the Model view types any toll, "
+                             "surcharge included."))
+    return {"segments": segments, "rows": rows, "centres": [{"from": s, "centre_ft": centres[s]} for s in starts],
+            "readings": readings, "yearly": yearly, "held_percent": held,
+            "caption": "The variable fresh water surcharge as a share of tolls, in percent, that the Authority's "
+                       "curve gives at a lake level, under the centre in force from each date; the share is held "
+                       "between 1 and 10 percent to September 2023 and 0 and 10 since."}
 
 def conventional(day: date, result: Mapping[str, Any]) -> dict[str, Any]:
     """The exact netback against the conventional one, route by route, for the latest week."""
@@ -210,9 +277,10 @@ def conventional(day: date, result: Mapping[str, Any]) -> dict[str, Any]:
                  "MMBtu delivered, and the difference, in $/MMBtu.")]}
 
 
-def page(latest: Mapping[str, Any] | None = None) -> dict[str, Any]:
-    """The Method view's whole document body. latest, when given, carries the
-    week's tables: the energy content sensitivity and the two netbacks."""
+def page(now_document: Mapping[str, Any] | None = None, latest: Mapping[str, Any] | None = None) -> dict[str, Any]:
+    """The Method view's whole document body. now_document, the Now view's,
+    gives the energy content sentence; latest, when given, the exact against
+    the conventional netback for the week."""
     parameters = []
     for name, parameter in config.PARAMETERS.items():
         parameters.append({
@@ -234,7 +302,8 @@ def page(latest: Mapping[str, Any] | None = None) -> dict[str, Any]:
             reader.T(" of them this study's assumptions, each with its source, and what the study cannot see"),
         ],
         "formulas": _formulas(),
-        **({"k_sensitivity": latest["k_sensitivity"], "conventional": latest["conventional"]} if latest else {}),
+        "fresh_water": _fresh_water(),
+        **({"conventional": latest["conventional"]} if latest else {}),
         "parameters": parameters,
         "parameters_caption": "Every parameter of the engine that is not market data or a canal tariff: its "
                               "value, whether it is published or this study's assumption, the document it is "
@@ -262,21 +331,29 @@ def page(latest: Mapping[str, Any] | None = None) -> dict[str, Any]:
                      "trading day the two front months name different delivery months, and after it they agree "
                      "again. A week is aligned when every trading day of "
                      "it names the same month for both, misaligned when none does, and mixed otherwise; the History "
-                     "view marks the misaligned and the mixed weeks."),
-            reader.T(" A cargo loading on the first of a month reaches Gate in about two weeks and Futtsu via the Cape in "
-                     "about six, so the right comparison is each basin's price for its own arrival period; with front "
-                     "months only, the study compares the two front months and names them where a price is shown."),
+                     "view rings the misaligned weeks in full and the mixed ones in half. A JKM price is for a "
+                     "cargo delivered in its month to Japan, Korea, China or Taiwan, and a TTF price for gas "
+                     "delivered through its month at the Dutch hub: the two name arrival periods, not loading "
+                     "days. The engine prices a cargo loading in the week at the week's two averages whatever "
+                     "months they name, as a seller choosing a market that week sees them; the voyage east "
+                     "lands three to seven weeks after loading, so a week whose two front months differ sets "
+                     "two arrival periods against each other, and the Model view says of each preset which "
+                     "months its prices name."),
         ],
+        "energy_segments": _energy_segments(now_document),
         "limits": [
             [reader.T("A spread is an association, not a decision: long term contracts with Asian buyers move "
                       "their cargoes whatever the spot economics.")],
             [reader.T("Charter rates are the "), reader.N("anchors", len(freight_anchors.ANCHORS), "count"),
-             reader.T(" that Spark and the trade press reported; the study runs every date at the lowest, the "
+             reader.T(" that Spark and the trade press reported, each of them "),
+             reader.W("assessment", "Spark30S Atlantic"), reader.T(", "),
+             reader.W("assessment_words", freight_anchors.ASSESSMENT_WORDS["Spark30S Atlantic"]),
+             reader.T("; the study runs every date at the lowest, the "
                       "median and the highest of them, and at the one reported nearest it where one lies within "),
              reader.N("hire_window", config.PARAMETERS["hire_anchor_max_days"].value, "count"),
              reader.T(" days.")],
             [reader.T("Panama's queues enter only the Flows view's comparison of Panama with the Cape, in the "
-                      "two months a wait was reported for LNG, and its slots and auctions never; the slot premium "
+                      "three months a wait was reported for LNG, and its slots and auctions never; the slot premium "
                       "and the waiting days are inputs the reader can type.")],
             [reader.T("Port costs are Spark's figures of "), reader.D("port_costs", "2022-02-01", "month"),
              reader.T(", held for every year and both ships.")],

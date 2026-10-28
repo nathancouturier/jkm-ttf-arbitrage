@@ -21,16 +21,13 @@ Board corrected the rate for 3 August 2026 on 12 August 2026.
 
 from __future__ import annotations
 
-import io
-import math
 import sys
-import zipfile
-from xml.etree import ElementTree
 
 import pandas as pd
 
 from ..config import BOUNDS_USD_PER_EUR
-from .base import Adapter, SourceError, http_get
+from .base import Adapter, http_get
+from .frb import parse_release_series
 
 __all__ = ["ZIP_URL", "PAGE_URL", "SERIES_NAME", "parse_release_zip", "UsdPerEurDaily"]
 
@@ -38,15 +35,11 @@ ZIP_URL = "https://www.federalreserve.gov/releases/h10/data/FRB_h10_xml.zip"
 PAGE_URL = "https://www.federalreserve.gov/releases/h10/hist/dat00_eu.htm"
 DATA_MEMBER = "H10_data.xml"
 SERIES_NAME = "RXI$US_N.B.EU"
-FIRST_DAY = pd.Timestamp("2015-01-01")
 
-#: OBS_STATUS codes the release's structure file defines: A normal, NA not
-#: available, ND no data, NC not calculable. Only A carries a rate.
-_NOT_A_RATE = {"NA", "ND", "NC"}
-
-
-def _local(tag: str) -> str:
-    return tag.rsplit("}", 1)[-1]
+#: The series' own first day: the euro's first trading day, 4 January 1999.
+#: Nothing before it exists, so the whole series is kept.
+FIRST_DAY = pd.Timestamp("1999-01-04")
+DESCRIPTION = "EMU Members Euro (USD per EUR)"
 
 
 def parse_release_zip(payload: bytes) -> tuple[pd.DataFrame, str]:
@@ -55,65 +48,18 @@ def parse_release_zip(payload: bytes) -> tuple[pd.DataFrame, str]:
     Raises SourceError when the series is missing, appears twice, is not quoted
     as US dollars per euro, or carries a status this module does not know.
     """
-    try:
-        archive = zipfile.ZipFile(io.BytesIO(payload))
-        handle = archive.open(DATA_MEMBER)
-    except (zipfile.BadZipFile, KeyError) as exc:
-        raise SourceError("the download is not the H.10 XML package: %s" % exc) from exc
-
-    prepared = None
-    found = 0
-    in_series = False
-    description = None
-    rows: list[dict] = []
-    with handle:
-        for event, element in ElementTree.iterparse(handle, events=("start", "end")):
-            name = _local(element.tag)
-            if event == "end" and name == "Prepared" and prepared is None:
-                prepared = (element.text or "").strip()
-            if name == "Series":
-                if event == "start":
-                    in_series = element.attrib.get("SERIES_NAME") == SERIES_NAME
-                    if in_series:
-                        found += 1
-                        if element.attrib.get("UNIT_MULT") != "1":
-                            raise SourceError("%s has UNIT_MULT %r" % (SERIES_NAME, element.attrib.get("UNIT_MULT")))
-                else:
-                    in_series = False
-                    element.clear()
-                continue
-            if not in_series or event != "end":
-                continue
-            if name == "AnnotationText" and (element.text or "").startswith("EMU Members Euro"):
-                description = element.text.strip()
-            elif name == "Obs":
-                status = element.attrib.get("OBS_STATUS")
-                day = pd.Timestamp(element.attrib["TIME_PERIOD"])
-                if day >= FIRST_DAY:
-                    if status == "A":
-                        value = float(element.attrib["OBS_VALUE"])
-                    elif status in _NOT_A_RATE:
-                        value = math.nan
-                    else:
-                        raise SourceError("%s on %s has unknown OBS_STATUS %r" % (SERIES_NAME, day.date(), status))
-                    rows.append({"date": day, "usd_per_eur": value, "obs_status": status})
-                element.clear()
-
-    if found != 1:
-        raise SourceError("%s appears %d times in %s" % (SERIES_NAME, found, DATA_MEMBER))
-    if description != "EMU Members Euro (USD per EUR)":
-        raise SourceError(
-            "%s is described as %r, not as US dollars per euro; the direction of the "
-            "quote cannot be assumed" % (SERIES_NAME, description)
-        )
-    if not prepared:
-        raise SourceError("the XML carries no Prepared time")
-    frame = pd.DataFrame(rows).sort_values("date", kind="mergesort").reset_index(drop=True)
-    return frame, prepared
+    return parse_release_series(
+        payload,
+        member=DATA_MEMBER,
+        series_name=SERIES_NAME,
+        description=DESCRIPTION,
+        first_day=FIRST_DAY,
+        value_column="usd_per_eur",
+    )
 
 
 class UsdPerEurDaily(Adapter):
-    """US dollars per euro, daily noon buying rate, H.10, from 2015."""
+    """US dollars per euro, daily noon buying rate, H.10, from the euro's first day in 1999."""
 
     name = "h10_usd_per_eur_daily"
     source = "Board of Governors of the Federal Reserve System, H.10 Foreign Exchange Rates"
@@ -124,7 +70,7 @@ class UsdPerEurDaily(Adapter):
     method = "published"
     required_cols = ("date", "usd_per_eur", "obs_status")
     bounds = {"usd_per_eur": BOUNDS_USD_PER_EUR}
-    min_observations = {"usd_per_eur": 2500}
+    min_observations = {"usd_per_eur": 6500}
     observation_column = "usd_per_eur"
 
     def __init__(self, *, from_file=None, fetched_at: str | None = None):
@@ -142,9 +88,9 @@ class UsdPerEurDaily(Adapter):
         missing = int(frame["usd_per_eur"].isna().sum())
         self.vintage = "prepared %s" % prepared
         self.note = (
-            "%s, series %s, US dollars per euro, noon buying rate in New York. %d "
-            "weekdays from %s carry no rate (status ND) and are kept as rows with "
-            "no value." % (how, SERIES_NAME, missing, FIRST_DAY.date())
+            "%s, series %s, US dollars per euro, noon buying rate in New York, from the "
+            "euro's first trading day. %d weekdays from %s carry no rate (status ND) "
+            "and are kept as rows with no value." % (how, SERIES_NAME, missing, FIRST_DAY.date())
         )
         return frame
 

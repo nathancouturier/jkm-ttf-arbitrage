@@ -1,7 +1,9 @@
-"""The euro rate from the Federal Reserve Board's H.10 and SOFR from the New York Fed.
+"""The euro rate from the Board's H.10, SOFR from the New York Fed, and the effective
+federal funds rate from the Board's H.15.
 
-Fixtures: the H.10 release page XML package prepared on 28 September 2026, and the
-New York Fed's SOFR response for 1 January 2018 to 30 September 2026.
+Fixtures: the H.10 release page XML package prepared on 28 September 2026, the
+New York Fed's SOFR response for 1 January 2018 to 30 September 2026, and the
+H.15 release page XML package prepared on 14 October 2026.
 """
 
 from __future__ import annotations
@@ -13,11 +15,12 @@ import zipfile
 import pandas as pd
 import pytest
 
-from lngarb.sources import base, effr, h10, sofr
+from lngarb.sources import base, h10, h15, sofr, sofr_indicative
 
 FIXTURES = base.REPO_ROOT / "tests" / "fixtures"
 H10_ZIP = (FIXTURES / "h10_release_2026-09-28.zip").read_bytes()
 SOFR_JSON = (FIXTURES / "nyfed_sofr_2018-01-01_to_2026-09-30.json").read_bytes()
+H15_ZIP = (FIXTURES / "h15_release_2026-10-14.zip").read_bytes()
 
 
 # --------------------------------------------------------------------------
@@ -45,12 +48,17 @@ def test_no_data_days_are_missing_and_never_the_sentinel():
     assert set(frame.loc[frame["usd_per_eur"].isna(), "obs_status"]) == {"ND"}
 
 
-def test_every_weekday_from_2015_has_a_row():
+def test_every_weekday_from_the_euros_first_day_has_a_row():
     frame, _ = h10.parse_release_zip(H10_ZIP)
-    assert frame["date"].iloc[0] == pd.Timestamp("2015-01-01")
+    assert frame["date"].iloc[0] == pd.Timestamp("1999-01-04")
+    assert frame["date"].iloc[-1] == pd.Timestamp("2026-09-25")
     weekdays = pd.bdate_range(frame["date"].iloc[0], frame["date"].iloc[-1])
     assert list(frame["date"]) == list(weekdays)
-    assert len(frame) == 3062
+    assert len(frame) == 7235
+    # the first day's rate, and the one the history page prints for 2015
+    rate = frame.set_index("date")["usd_per_eur"]
+    assert rate[pd.Timestamp("1999-01-04")] == 1.1812
+    assert rate[pd.Timestamp("2015-01-02")] == 1.2015
 
 
 def test_a_package_that_lacks_the_euro_series_is_refused():
@@ -71,8 +79,8 @@ def test_the_adapter_writes_the_rate_with_its_no_data_days(sandbox, tmp_path):
     package.write_bytes(H10_ZIP)
     entry = h10.UsdPerEurDaily(from_file=package, fetched_at="2026-09-30T15:54:50Z").run()
     assert entry["status"] == "ok"
-    assert entry["file_rows"] == 3062
-    assert entry["observations"] == 3062 - 129
+    assert entry["file_rows"] == 7235
+    assert entry["observations"] == 7235 - 280
     assert entry["vintage"] == "prepared 2026-09-28T13:35:00"
 
 
@@ -113,43 +121,110 @@ def test_the_sofr_adapter_carries_the_new_york_fed_notice(sandbox, tmp_path):
 
 
 # --------------------------------------------------------------------------
-# EFFR, before SOFR
+# EFFR, before SOFR: the Board's H.15, from 1954
 # --------------------------------------------------------------------------
 
-EFFR_JSON = (FIXTURES / "nyfed_effr_2016-01-01_to_2018-04-30.json").read_bytes()
-
-
-def test_effr_runs_from_the_first_business_day_of_2016_to_april_2018():
-    frame = effr.parse_effr_json(EFFR_JSON)
-    assert len(frame) == 585
-    assert frame["date"].is_monotonic_increasing
-    first, last = frame.iloc[0], frame.iloc[-1]
-    assert (first["date"], first["effr_percent"]) == (pd.Timestamp("2016-01-04"), 0.36)
-    assert (last["date"], last["effr_percent"]) == (pd.Timestamp("2018-04-30"), 1.69)
+def test_effr_runs_from_july_1954_and_agrees_with_the_new_york_fed_on_checked_days():
+    frame, prepared = h15.parse_release_zip(H15_ZIP)
+    assert prepared == "2026-10-14T15:40:02"
+    assert frame["date"].iloc[0] == pd.Timestamp("1954-07-01")
+    assert frame["date"].iloc[-1] == pd.Timestamp("2026-10-13")
+    assert len(frame) == 18859
+    weekdays = pd.bdate_range(frame["date"].iloc[0], frame["date"].iloc[-1])
+    assert list(frame["date"]) == list(weekdays)
     rate = frame.set_index("date")["effr_percent"]
-    # The one row the New York Fed marks revised.
+    assert rate[pd.Timestamp("1954-07-01")] == 1.13
+    # the New York Fed's API served these for 2016 to April 2018, and the two agree on all 585 days
+    assert rate[pd.Timestamp("2016-01-04")] == 0.36
     assert rate[pd.Timestamp("2017-05-31")] == 0.83
-    # Holidays have no row; nothing is filled in.
-    assert pd.Timestamp("2016-07-04") not in rate.index
+    assert rate[pd.Timestamp("2018-04-30")] == 1.69
+    assert rate[pd.Timestamp("2026-10-13")] == 3.88
 
 
-def test_effr_records_the_change_of_source_and_method_on_1_march_2016():
-    frame = effr.parse_effr_json(EFFR_JSON).set_index("date")
-    assert frame.at[pd.Timestamp("2016-02-29"), "method"] == "volume weighted mean of brokered trades"
-    assert frame.at[pd.Timestamp("2016-03-01"), "method"] == "volume weighted median of FR 2420 transactions"
-    assert (frame.index < pd.Timestamp("2016-03-01")).sum() == 39
+def test_effr_holidays_are_missing_and_never_the_sentinel():
+    frame, _ = h15.parse_release_zip(H15_ZIP)
+    rate = frame.set_index("date")["effr_percent"]
+    assert math.isnan(rate[pd.Timestamp("2016-07-04")])
+    assert not (frame["effr_percent"] == -9999).any()
+    assert set(frame.loc[frame["effr_percent"].isna(), "obs_status"]) == {"ND"}
+    assert int(frame["effr_percent"].isna().sum()) == 680
 
 
-def test_an_effr_row_of_another_type_is_refused():
-    with pytest.raises(base.SourceError):
-        effr.parse_effr_json(b'{"refRates": [{"effectiveDate": "2016-01-04", "type": "OBFR", "percentRate": 0.37}]}')
+def test_a_package_that_lacks_the_effr_series_is_refused():
+    buffer = io.BytesIO()
+    with zipfile.ZipFile(buffer, "w") as archive:
+        archive.writestr(
+            "H15_data.xml",
+            '<?xml version="1.0"?><root><Prepared>2026-01-01T00:00:00</Prepared>'
+            '<Series SERIES_NAME="RIFSPFF_N.D" UNIT_MULT="1"></Series></root>',
+        )
+    with pytest.raises(base.SourceError) as caught:
+        h15.parse_release_zip(buffer.getvalue())
+    assert "appears 0 times" in str(caught.value)
 
 
-def test_the_effr_adapter_carries_the_new_york_fed_notice(sandbox, tmp_path):
-    response = tmp_path / "effr.json"
-    response.write_bytes(EFFR_JSON)
-    entry = effr.EffrDaily(from_file=response, fetched_at="2026-10-07T08:31:22Z").run()
+def test_a_series_described_as_something_else_is_refused():
+    buffer = io.BytesIO()
+    with zipfile.ZipFile(buffer, "w") as archive:
+        archive.writestr(
+            "H15_data.xml",
+            '<?xml version="1.0"?><root><Prepared>2026-01-01T00:00:00</Prepared>'
+            '<Series SERIES_NAME="RIFSPFF_N.B" UNIT_MULT="1"><AnnotationText>Something else</AnnotationText>'
+            '<Obs OBS_STATUS="A" OBS_VALUE="1.0" TIME_PERIOD="2000-01-03"/></Series></root>',
+        )
+    with pytest.raises(base.SourceError) as caught:
+        h15.parse_release_zip(buffer.getvalue())
+    assert "not described as" in str(caught.value)
+
+
+def test_the_h15_adapter_writes_the_rate_in_the_public_domain(sandbox, tmp_path):
+    package = tmp_path / "h15.zip"
+    package.write_bytes(H15_ZIP)
+    entry = h15.EffrDaily(from_file=package, fetched_at="2026-10-15T10:54:07Z").run()
     assert entry["status"] == "ok"
-    assert (entry["first_date"], entry["last_date"]) == ("2016-01-04", "2018-04-30")
-    assert "The Effective Federal Funds Rate is subject to the Terms of Use posted at newyorkfed.org" in entry["note"]
+    assert (entry["first_date"], entry["last_date"]) == ("1954-07-01", "2026-10-13")
+    assert entry["file_rows"] == 18859
+    assert entry["observations"] == 18859 - 680
+    assert entry["vintage"] == "prepared 2026-10-14T15:40:02"
+    assert "public domain" in entry["licence_note"]
+    assert "stands in for SOFR" in entry["note"]
+
+
+# --------------------------------------------------------------------------
+# The indicative SOFR, August 2014 to March 2018
+# --------------------------------------------------------------------------
+
+INDICATIVE_XLSX = (FIXTURES / "nyfed_sofr_indicative_2014-08-22_to_2018-03-29.xlsx").read_bytes()
+
+
+def test_the_indicative_sofr_runs_over_its_closed_window_in_percent():
+    frame = sofr_indicative.parse_workbook(INDICATIVE_XLSX)
+    assert len(frame) == 899
+    assert frame["date"].iloc[0] == pd.Timestamp("2014-08-22")
+    assert frame["date"].iloc[-1] == pd.Timestamp("2018-03-29")
+    rate = frame.set_index("date")["sofr_percent"]
+    # 6 and 180 basis points in the workbook
+    assert rate[pd.Timestamp("2014-08-22")] == 0.06
+    assert rate[pd.Timestamp("2018-03-29")] == 1.80
+    assert frame["date"].is_monotonic_increasing and not frame["date"].duplicated().any()
+
+
+def test_a_workbook_without_the_rates_sheet_or_the_units_is_refused(tmp_path):
+    import openpyxl
+
+    book = openpyxl.Workbook()
+    book.active.title = "Other"
+    path = tmp_path / "other.xlsx"
+    book.save(path)
+    with pytest.raises(base.SourceError):
+        sofr_indicative.parse_workbook(path.read_bytes())
+
+
+def test_the_indicative_adapter_carries_the_new_york_fed_notice(sandbox, tmp_path):
+    path = tmp_path / "indicative.xlsx"
+    path.write_bytes(INDICATIVE_XLSX)
+    entry = sofr_indicative.SofrIndicativeDaily(from_file=path, fetched_at="2026-10-15T12:05:40Z").run()
+    assert entry["status"] == "ok"
+    assert (entry["first_date"], entry["last_date"]) == ("2014-08-22", "2018-03-29")
+    assert "subject to the Terms of Use posted at newyorkfed.org" in entry["note"]
     assert "not public domain" in entry["licence_note"]

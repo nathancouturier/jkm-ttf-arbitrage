@@ -25,12 +25,17 @@
    "usd": 0,
    "bp": 0,
    "share": 2,
+   "tco2_per_t": 3,
+   "slip_percent": 1,
    "boil_off_percent": 3,
    "fill_percent": 1,
    "mmbtu_per_m3": 2,
    "mmbtu_per_t": 2,
    "mmbtu_per_mwh": 6,
-   "r2": 2
+   "r2": 2,
+   "hours": 1,
+   "bcf_day": 1,
+   "feet": 2
   },
   "rounding": "now.json keeps full precision, because the browser engine recomputes from its inputs; history.json and flows.json store floats to 6 places. The page prints the decimals of the format a value names.",
   "segments": "A sentence is a list of segments. A text segment holds words only. A value segment names its field and holds a value with a format, or an ISO date or a word with its label."
@@ -118,15 +123,50 @@
   ],
   "source_segments": [
    {
-    "text": "Exports from EIA's US natural gas exports by country, by vessel; the arb from this study's engine at the central hire, "
+    "text": "Exports from EIA's US natural gas exports by country, by vessel; the arb from this study's engine at the central hire of the ship each month is priced with, "
    },
    {
-    "field": "central_hire",
+    "field": "central_hire_tfde_160k",
+    "value": 75500.0,
+    "format": "usd_day"
+   },
+   {
+    "text": " $/day for the "
+   },
+   {
+    "field": "ship_tfde_160k",
+    "value": "160,000 m3 TFDE",
+    "label": "160,000 m3 TFDE"
+   },
+   {
+    "text": " to "
+   },
+   {
+    "field": "ship_change",
+    "value": "2024-01-02",
+    "label": "2 January 2024"
+   },
+   {
+    "text": " and "
+   },
+   {
+    "field": "central_hire_two_stroke_174k",
     "value": 45500.0,
     "format": "usd_day"
    },
    {
-    "text": " $/day. Data to "
+    "text": " $/day for the "
+   },
+   {
+    "field": "ship_two_stroke_174k",
+    "value": "174,000 m3 two-stroke",
+    "label": "174,000 m3 two-stroke"
+   },
+   {
+    "text": " since"
+   },
+   {
+    "text": ". Data to "
    },
    {
     "field": "last_month",
@@ -469,7 +509,7 @@
     },
     {
      "field": "slope",
-     "value": 1.521832,
+     "value": 1.494746,
      "format": "pp"
     },
     {
@@ -477,7 +517,7 @@
     },
     {
      "field": "t",
-     "value": 2.051768,
+     "value": 2.048617,
      "format": "t_stat"
     },
     {
@@ -509,7 +549,7 @@
     },
     {
      "field": "slope_without",
-     "value": 5.19465,
+     "value": 5.267143,
      "format": "pp"
     },
     {
@@ -517,7 +557,7 @@
     },
     {
      "field": "t_without",
-     "value": 2.719933,
+     "value": 2.659076,
      "format": "t_stat"
     },
     {
@@ -533,7 +573,7 @@
     },
     {
      "field": "r2",
-     "value": 0.100823,
+     "value": 0.097202,
      "format": "r2"
     },
     {
@@ -541,7 +581,7 @@
     },
     {
      "field": "r2_without",
-     "value": 0.248604,
+     "value": 0.24702,
      "format": "r2"
     },
     {
@@ -579,9 +619,9 @@
    "share_americas": 1.0,
    "anomaly": null,
    "arb": {
-    "low": 2.776492,
-    "central": 2.098147,
-    "high": -2.290917
+    "low": 2.776459,
+    "central": 1.658105,
+    "high": -3.243109
    }
   },
   {
@@ -613,9 +653,9 @@
    "share_americas": 0.63048,
    "anomaly": null,
    "arb": {
-    "low": 0.66306,
-    "central": -0.015285,
-    "high": -4.421199
+    "low": 0.663028,
+    "central": -0.455326,
+    "high": -5.373389
    }
   },
   {
@@ -630,9 +670,9 @@
    "share_americas": 0.633167,
    "anomaly": null,
    "arb": {
-    "low": 0.220461,
-    "central": -0.457884,
-    "high": -4.861107
+    "low": 0.220494,
+    "central": -0.89786,
+    "high": -5.813241
    }
   },
   {
@@ -664,9 +704,9 @@
    "share_americas": 0.387117,
    "anomaly": null,
    "arb": {
-    "low": 1.445384,
-    "central": 1.174768,
-    "high": -0.747341
+    "low": 1.445375,
+    "central": 0.999223,
+    "high": -1.174486
    }
   },
   {
@@ -698,9 +738,9 @@
    "share_americas": 0.198996,
    "anomaly": null,
    "arb": {
-    "low": 1.769618,
-    "central": 1.499001,
-    "high": -0.423108
+    "low": 1.769598,
+    "central": 1.323446,
+    "high": -0.850263
    }
   },
   {
@@ -715,9 +755,9 @@
    "share_americas": 0.005073,
    "anomaly": null,
    "arb": {
-    "low": 1.074461,
-    "central": 0.803844,
-    "high": -1.118265
+    "low": 1.07449,
+    "central": 0.628339,
+    "high": -1.54537
    }
   },
   {
@@ -732,9 +772,9 @@
    "share_americas": 0.493744,
    "anomaly": null,
    "arb": {
-    "low": 1.576342,
-    "central": 1.305725,
-    "high": -0.616384
+    "low": 1.576401,
+    "central": 1.13025,
+    "high": -1.043459
    }
   },
   {
@@ -749,9 +789,9 @@
    "share_americas": 0.172099,
    "anomaly": null,
    "arb": {
-    "low": 2.770599,
-    "central": 2.499983,
-    "high": 0.577874
+    "low": 2.770791,
+    "central": 2.32464,
+    "high": 0.150931
    }
   },
   {
@@ -766,9 +806,9 @@
    "share_americas": 0.273758,
    "anomaly": null,
    "arb": {
-    "low": 2.46504,
-    "central": 2.194423,
-    "high": 0.272314
+    "low": 2.465161,
+    "central": 2.019009,
+    "high": -0.1547
    }
   },
   {
@@ -783,9 +823,9 @@
    "share_americas": 0.33409,
    "anomaly": null,
    "arb": {
-    "low": 2.646629,
-    "central": 2.376013,
-    "high": 0.453904
+    "low": 2.646734,
+    "central": 2.200582,
+    "high": 0.026873
    }
   },
   {
@@ -800,9 +840,9 @@
    "share_americas": 0.382465,
    "anomaly": null,
    "arb": {
-    "low": 1.385046,
-    "central": 1.11443,
-    "high": -0.807679
+    "low": 1.385171,
+    "central": 0.93902,
+    "high": -1.234689
    }
   },
   {
@@ -817,9 +857,9 @@
    "share_americas": 0.588431,
    "anomaly": null,
    "arb": {
-    "low": 0.993652,
-    "central": 0.723036,
-    "high": -1.199073
+    "low": 0.993704,
+    "central": 0.547552,
+    "high": -1.626157
    }
   },
   {
@@ -834,9 +874,9 @@
    "share_americas": 0.278261,
    "anomaly": null,
    "arb": {
-    "low": 0.965136,
-    "central": 0.694519,
-    "high": -1.22759
+    "low": 0.965251,
+    "central": 0.5191,
+    "high": -1.654609
    }
   },
   {
@@ -868,9 +908,9 @@
    "share_americas": 0.398521,
    "anomaly": null,
    "arb": {
-    "low": 0.955189,
-    "central": 0.684573,
-    "high": -1.237536
+    "low": 0.955329,
+    "central": 0.509177,
+    "high": -1.664532
    }
   },
   {
@@ -885,9 +925,9 @@
    "share_americas": 0.151337,
    "anomaly": null,
    "arb": {
-    "low": 0.694622,
-    "central": 0.424005,
-    "high": -1.498103
+    "low": 0.69467,
+    "central": 0.248519,
+    "high": -1.92519
    }
   },
   {
@@ -902,9 +942,9 @@
    "share_americas": 0.303334,
    "anomaly": null,
    "arb": {
-    "low": 1.275936,
-    "central": 1.00532,
-    "high": -0.916789
+    "low": 1.275996,
+    "central": 0.829845,
+    "high": -1.343864
    }
   },
   {
@@ -919,9 +959,9 @@
    "share_americas": 0.217607,
    "anomaly": null,
    "arb": {
-    "low": 2.278264,
-    "central": 2.007647,
-    "high": 0.085539
+    "low": 2.278398,
+    "central": 1.832247,
+    "high": -0.341462
    }
   },
   {
@@ -937,8 +977,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.541064,
-    "central": 2.270448,
-    "high": 0.348339
+    "central": 2.094913,
+    "high": -0.078796
    }
   },
   {
@@ -953,9 +993,9 @@
    "share_americas": 0.085068,
    "anomaly": null,
    "arb": {
-    "low": 3.244828,
-    "central": 2.974212,
-    "high": 1.052103
+    "low": 3.244885,
+    "central": 2.798733,
+    "high": 0.625024
    }
   },
   {
@@ -970,9 +1010,9 @@
    "share_americas": 0.185094,
    "anomaly": null,
    "arb": {
-    "low": 4.493109,
-    "central": 4.222493,
-    "high": 2.300384
+    "low": 4.493187,
+    "central": 4.047035,
+    "high": 1.873327
    }
   },
   {
@@ -987,9 +1027,9 @@
    "share_americas": 0.24531,
    "anomaly": null,
    "arb": {
-    "low": 4.075004,
-    "central": 3.804387,
-    "high": 1.882278
+    "low": 4.075048,
+    "central": 3.628897,
+    "high": 1.455188
    }
   },
   {
@@ -1004,9 +1044,9 @@
    "share_americas": 0.500273,
    "anomaly": null,
    "arb": {
-    "low": 2.370968,
-    "central": 2.100351,
-    "high": 0.178243
+    "low": 2.370878,
+    "central": 1.924726,
+    "high": -0.248983
    }
   },
   {
@@ -1022,8 +1062,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.432442,
-    "central": 2.161825,
-    "high": 0.239716
+    "central": 1.98629,
+    "high": -0.187419
    }
   },
   {
@@ -1039,8 +1079,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.003878,
-    "central": 0.733262,
-    "high": -1.188847
+    "central": 0.557727,
+    "high": -1.615982
    }
   },
   {
@@ -1056,8 +1096,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.075989,
-    "central": 1.805373,
-    "high": -0.116736
+    "central": 1.629838,
+    "high": -0.543871
    }
   },
   {
@@ -1073,8 +1113,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.599692,
-    "central": 2.329075,
-    "high": 0.406966
+    "central": 2.15354,
+    "high": -0.020169
    }
   },
   {
@@ -1090,8 +1130,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.779692,
-    "central": 2.509076,
-    "high": 0.586967
+    "central": 2.33354,
+    "high": 0.159832
    }
   },
   {
@@ -1107,8 +1147,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.300962,
-    "central": 1.030345,
-    "high": -0.891764
+    "central": 0.85481,
+    "high": -1.318899
    }
   },
   {
@@ -1124,8 +1164,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.102777,
-    "central": 1.83216,
-    "high": -0.089948
+    "central": 1.656625,
+    "high": -0.517084
    }
   },
   {
@@ -1141,8 +1181,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.687768,
-    "central": 2.417152,
-    "high": 0.495043
+    "central": 2.241617,
+    "high": 0.067908
    }
   },
   {
@@ -1158,8 +1198,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.445085,
-    "central": 1.174468,
-    "high": -0.747641
+    "central": 0.998933,
+    "high": -1.174776
    }
   },
   {
@@ -1175,8 +1215,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.199835,
-    "central": 0.929219,
-    "high": -0.99289
+    "central": 0.753684,
+    "high": -1.420025
    }
   },
   {
@@ -1192,8 +1232,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.315088,
-    "central": 2.044472,
-    "high": 0.122363
+    "central": 1.868937,
+    "high": -0.304772
    }
   },
   {
@@ -1209,8 +1249,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.507063,
-    "central": 1.236447,
-    "high": -0.685662
+    "central": 1.060912,
+    "high": -1.112797
    }
   },
   {
@@ -1226,8 +1266,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.653292,
-    "central": 0.345856,
-    "high": -1.576253
+    "central": 0.170321,
+    "high": -2.003388
    }
   },
   {
@@ -1243,8 +1283,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.396587,
-    "central": 1.095539,
-    "high": -0.82657
+    "central": 0.920004,
+    "high": -1.253705
    }
   },
   {
@@ -1260,8 +1300,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.220401,
-    "central": 1.921909,
-    "high": -0.000199
+    "central": 1.746374,
+    "high": -0.427335
    }
   },
   {
@@ -1277,8 +1317,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.457191,
-    "central": 1.133204,
-    "high": -0.788905
+    "central": 0.957669,
+    "high": -1.21604
    }
   },
   {
@@ -1294,8 +1334,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.943246,
-    "central": 1.63783,
-    "high": -0.284279
+    "central": 1.462295,
+    "high": -0.711414
    }
   },
   {
@@ -1311,8 +1351,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.516374,
-    "central": 1.214805,
-    "high": -0.707304
+    "central": 1.03927,
+    "high": -1.134439
    }
   },
   {
@@ -1328,8 +1368,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.779791,
-    "central": 0.480759,
-    "high": -1.44135
+    "central": 0.305224,
+    "high": -1.868485
    }
   },
   {
@@ -1362,8 +1402,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.042977,
-    "central": 1.772001,
-    "high": -0.150108
+    "central": 1.596466,
+    "high": -0.577243
    }
   },
   {
@@ -1379,8 +1419,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.548936,
-    "central": 2.254477,
-    "high": 0.332369
+    "central": 2.078942,
+    "high": -0.094767
    }
   },
   {
@@ -1396,8 +1436,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.930773,
-    "central": 0.547893,
-    "high": -1.374216
+    "central": 0.372358,
+    "high": -1.801351
    }
   },
   {
@@ -1413,8 +1453,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.12975,
-    "central": 0.7388,
-    "high": -1.183309
+    "central": 0.563265,
+    "high": -1.610444
    }
   },
   {
@@ -1430,8 +1470,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.786185,
-    "central": 0.352342,
-    "high": -1.569767
+    "central": 0.176807,
+    "high": -1.996902
    }
   },
   {
@@ -1447,8 +1487,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.122491,
-    "central": 0.682281,
-    "high": -1.239827
+    "central": 0.506746,
+    "high": -1.666963
    }
   },
   {
@@ -1464,8 +1504,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.455669,
-    "central": 2.06653,
-    "high": 0.144421
+    "central": 1.890995,
+    "high": -0.282714
    }
   },
   {
@@ -1481,8 +1521,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.782694,
-    "central": 2.406474,
-    "high": 0.484365
+    "central": 2.230938,
+    "high": 0.05723
    }
   },
   {
@@ -1498,8 +1538,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.038046,
-    "central": 0.636662,
-    "high": -1.285447
+    "central": 0.461126,
+    "high": -1.712582
    }
   },
   {
@@ -1515,8 +1555,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.990533,
-    "central": 0.624004,
-    "high": -1.298104
+    "central": 0.448469,
+    "high": -1.725239
    }
   },
   {
@@ -1532,8 +1572,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.447097,
-    "central": 1.128878,
-    "high": -0.793231
+    "central": 0.953343,
+    "high": -1.220366
    }
   },
   {
@@ -1549,8 +1589,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.238859,
-    "central": 1.946372,
-    "high": 0.024263
+    "central": 1.770837,
+    "high": -0.402872
    }
   },
   {
@@ -1566,8 +1606,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.817162,
-    "central": 1.543818,
-    "high": -0.378291
+    "central": 1.368283,
+    "high": -0.805426
    }
   },
   {
@@ -1583,8 +1623,8 @@
    "anomaly": null,
    "arb": {
     "low": 11.009688,
-    "central": 10.739072,
-    "high": 8.816963
+    "central": 10.563537,
+    "high": 8.389828
    }
   },
   {
@@ -1600,8 +1640,8 @@
    "anomaly": null,
    "arb": {
     "low": 6.566755,
-    "central": 6.296139,
-    "high": 4.37403
+    "central": 6.120604,
+    "high": 3.946895
    }
   },
   {
@@ -1617,8 +1657,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.804316,
-    "central": 0.505336,
-    "high": -1.416773
+    "central": 0.329801,
+    "high": -1.843908
    }
   },
   {
@@ -1719,8 +1759,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.411549,
-    "central": 2.140933,
-    "high": 0.218824
+    "central": 1.965398,
+    "high": -0.208311
    }
   },
   {
@@ -1736,8 +1776,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.645419,
-    "central": 2.374802,
-    "high": 0.452694
+    "central": 2.199267,
+    "high": 0.025558
    }
   },
   {
@@ -1770,8 +1810,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.894618,
-    "central": 1.624002,
-    "high": -0.298107
+    "central": 1.448467,
+    "high": -0.725242
    }
   },
   {
@@ -1787,8 +1827,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.194545,
-    "central": 1.923928,
-    "high": 0.001819
+    "central": 1.748393,
+    "high": -0.425316
    }
   },
   {
@@ -1804,8 +1844,8 @@
    "anomaly": null,
    "arb": {
     "low": -1.069787,
-    "central": -1.340404,
-    "high": -3.262513
+    "central": -1.515939,
+    "high": -3.689648
    }
   },
   {
@@ -1821,8 +1861,8 @@
    "anomaly": null,
    "arb": {
     "low": -5.343827,
-    "central": -5.614444,
-    "high": -7.536552
+    "central": -5.789979,
+    "high": -7.963688
    }
   },
   {
@@ -1838,8 +1878,8 @@
    "anomaly": null,
    "arb": {
     "low": -2.182097,
-    "central": -2.452714,
-    "high": -4.374822
+    "central": -2.628249,
+    "high": -4.801958
    }
   },
   {
@@ -1855,8 +1895,8 @@
    "anomaly": null,
    "arb": {
     "low": -4.978719,
-    "central": -5.249336,
-    "high": -7.171445
+    "central": -5.424871,
+    "high": -7.59858
    }
   },
   {
@@ -1872,8 +1912,8 @@
    "anomaly": null,
    "arb": {
     "low": -3.409867,
-    "central": -3.680483,
-    "high": -5.602592
+    "central": -3.856018,
+    "high": -6.029727
    }
   },
   {
@@ -1889,8 +1929,8 @@
    "anomaly": null,
    "arb": {
     "low": -11.54456,
-    "central": -11.815176,
-    "high": -13.737285
+    "central": -11.990711,
+    "high": -14.16442
    }
   },
   {
@@ -1906,8 +1946,8 @@
    "anomaly": null,
    "arb": {
     "low": -16.892745,
-    "central": -17.163362,
-    "high": -19.08547
+    "central": -17.338897,
+    "high": -19.512606
    }
   },
   {
@@ -1923,8 +1963,8 @@
    "anomaly": null,
    "arb": {
     "low": -11.48555,
-    "central": -11.756167,
-    "high": -13.678276
+    "central": -11.931702,
+    "high": -14.105411
    }
   },
   {
@@ -1940,8 +1980,8 @@
    "anomaly": null,
    "arb": {
     "low": -7.530603,
-    "central": -7.80122,
-    "high": -9.723329
+    "central": -7.976755,
+    "high": -10.150464
    }
   },
   {
@@ -1957,8 +1997,8 @@
    "anomaly": null,
    "arb": {
     "low": -6.836441,
-    "central": -7.107058,
-    "high": -9.029166
+    "central": -7.282593,
+    "high": -9.456302
    }
   },
   {
@@ -1974,8 +2014,8 @@
    "anomaly": null,
    "arb": {
     "low": -6.704589,
-    "central": -6.975206,
-    "high": -8.897315
+    "central": -7.150741,
+    "high": -9.32445
    }
   },
   {
@@ -1991,8 +2031,8 @@
    "anomaly": null,
    "arb": {
     "low": 4.080589,
-    "central": 3.809972,
-    "high": 1.887863
+    "central": 3.634437,
+    "high": 1.460728
    }
   },
   {
@@ -2008,8 +2048,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.639766,
-    "central": 0.369149,
-    "high": -1.552959
+    "central": 0.193614,
+    "high": -1.980095
    }
   },
   {
@@ -2025,8 +2065,8 @@
    "anomaly": null,
    "arb": {
     "low": -0.118425,
-    "central": -0.389042,
-    "high": -2.311151
+    "central": -0.564577,
+    "high": -2.738286
    }
   },
   {
@@ -2042,8 +2082,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.063213,
-    "central": -0.207403,
-    "high": -2.129512
+    "central": -0.382938,
+    "high": -2.556647
    }
   },
   {
@@ -2059,8 +2099,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.595529,
-    "central": 0.324913,
-    "high": -1.597196
+    "central": 0.149378,
+    "high": -2.024331
    }
   },
   {
@@ -2076,8 +2116,8 @@
    "anomaly": null,
    "arb": {
     "low": 0.580937,
-    "central": 0.310321,
-    "high": -1.611788
+    "central": 0.134786,
+    "high": -2.038923
    }
   },
   {
@@ -2093,8 +2133,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.097698,
-    "central": 0.827081,
-    "high": -1.095028
+    "central": 0.651546,
+    "high": -1.522163
    }
   },
   {
@@ -2110,8 +2150,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.158181,
-    "central": 0.887564,
-    "high": -1.034544
+    "central": 0.712029,
+    "high": -1.461679
    }
   },
   {
@@ -2127,8 +2167,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.906955,
-    "central": 1.636339,
-    "high": -0.28577
+    "central": 1.460804,
+    "high": -0.712905
    }
   },
   {
@@ -2144,8 +2184,8 @@
    "anomaly": null,
    "arb": {
     "low": 1.985958,
-    "central": 1.715341,
-    "high": -0.206767
+    "central": 1.539806,
+    "high": -0.633903
    }
   },
   {
@@ -2161,8 +2201,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.638916,
-    "central": 2.368299,
-    "high": 0.446191
+    "central": 2.192764,
+    "high": 0.019055
    }
   },
   {
@@ -2178,8 +2218,8 @@
    "anomaly": null,
    "arb": {
     "low": 2.561775,
-    "central": 2.291158,
-    "high": 0.369049
+    "central": 2.115623,
+    "high": -0.058086
    }
   },
   {
@@ -2194,9 +2234,9 @@
    "share_americas": 0.091556,
    "anomaly": null,
    "arb": {
-    "low": 0.868798,
+    "low": 0.825498,
     "central": 0.603557,
-    "high": -1.1639
+    "high": -0.021913
    }
   },
   {
@@ -2211,9 +2251,9 @@
    "share_americas": 0.065944,
    "anomaly": "the countries add up to 359549 MMcf against a total of 358942",
    "arb": {
-    "low": 0.634416,
+    "low": 0.566982,
     "central": 0.32976,
-    "high": -1.437696
+    "high": -0.29571
    }
   },
   {
@@ -2228,9 +2268,9 @@
    "share_americas": 0.060784,
    "anomaly": null,
    "arb": {
-    "low": 0.593856,
+    "low": 0.526422,
     "central": 0.291653,
-    "high": -1.475803
+    "high": -0.333816
    }
   },
   {
@@ -2245,9 +2285,9 @@
    "share_americas": 0.107653,
    "anomaly": null,
    "arb": {
-    "low": 0.627907,
+    "low": 0.571874,
     "central": 0.349933,
-    "high": -1.417523
+    "high": -0.275537
    }
   },
   {
@@ -2262,9 +2302,9 @@
    "share_americas": 0.109882,
    "anomaly": null,
    "arb": {
-    "low": 0.98271,
+    "low": 0.955645,
     "central": 0.733705,
-    "high": -1.033752
+    "high": 0.108235
    }
   },
   {
@@ -2279,9 +2319,9 @@
    "share_americas": 0.128948,
    "anomaly": null,
    "arb": {
-    "low": 0.727104,
+    "low": 0.700202,
     "central": 0.478261,
-    "high": -1.289195
+    "high": -0.147209
    }
   },
   {
@@ -2296,9 +2336,9 @@
    "share_americas": 0.097288,
    "anomaly": null,
    "arb": {
-    "low": 1.391669,
+    "low": 1.364767,
     "central": 1.142826,
-    "high": -0.624631
+    "high": 0.517356
    }
   },
   {
@@ -2313,9 +2353,9 @@
    "share_americas": 0.116267,
    "anomaly": null,
    "arb": {
-    "low": 0.591178,
+    "low": 0.564276,
     "central": 0.342335,
-    "high": -1.425121
+    "high": -0.283135
    }
   },
   {
@@ -2330,9 +2370,9 @@
    "share_americas": 0.117788,
    "anomaly": null,
    "arb": {
-    "low": 1.388618,
+    "low": 1.361716,
     "central": 1.139775,
-    "high": -0.627681
+    "high": 0.514305
    }
   },
   {
@@ -2347,9 +2387,9 @@
    "share_americas": 0.085829,
    "anomaly": null,
    "arb": {
-    "low": 0.27481,
+    "low": 0.247908,
     "central": 0.025968,
-    "high": -1.741489
+    "high": -0.599502
    }
   },
   {
@@ -2364,9 +2404,9 @@
    "share_americas": 0.066106,
    "anomaly": null,
    "arb": {
-    "low": 0.138157,
+    "low": 0.111255,
     "central": -0.110686,
-    "high": -1.878142
+    "high": -0.736155
    }
   },
   {
@@ -2381,9 +2421,9 @@
    "share_americas": 0.060897,
    "anomaly": null,
    "arb": {
-    "low": 0.133877,
+    "low": 0.106975,
     "central": -0.114966,
-    "high": -1.882422
+    "high": -0.740436
    }
   },
   {
@@ -2398,9 +2438,9 @@
    "share_americas": 0.027095,
    "anomaly": null,
    "arb": {
-    "low": -0.287796,
+    "low": -0.314698,
     "central": -0.536639,
-    "high": -2.304095
+    "high": -1.162109
    }
   },
   {
@@ -2415,9 +2455,9 @@
    "share_americas": 0.06284,
    "anomaly": null,
    "arb": {
-    "low": -1.431129,
+    "low": -1.458031,
     "central": -1.679972,
-    "high": -3.447428
+    "high": -2.305442
    }
   },
   {
@@ -2432,9 +2472,9 @@
    "share_americas": 0.049288,
    "anomaly": null,
    "arb": {
-    "low": 0.320184,
+    "low": 0.293282,
     "central": 0.071341,
-    "high": -1.696115
+    "high": -0.554128
    }
   },
   {
@@ -2449,9 +2489,9 @@
    "share_americas": 0.067103,
    "anomaly": null,
    "arb": {
-    "low": 0.436845,
+    "low": 0.409944,
     "central": 0.188003,
-    "high": -1.579454
+    "high": -0.437467
    }
   },
   {
@@ -2466,9 +2506,9 @@
    "share_americas": 0.056379,
    "anomaly": null,
    "arb": {
-    "low": 0.452157,
+    "low": 0.420674,
     "central": 0.198734,
-    "high": -1.568723
+    "high": -0.426736
    }
   },
   {
@@ -2483,9 +2523,9 @@
    "share_americas": 0.103421,
    "anomaly": null,
    "arb": {
-    "low": 0.48833,
+    "low": 0.461428,
     "central": 0.239487,
-    "high": -1.527969
+    "high": -0.385982
    }
   },
   {
@@ -2500,9 +2540,9 @@
    "share_americas": 0.096925,
    "anomaly": null,
    "arb": {
-    "low": 0.763414,
+    "low": 0.736512,
     "central": 0.514571,
-    "high": -1.252885
+    "high": -0.110899
    }
   },
   {
@@ -2517,9 +2557,9 @@
    "share_americas": 0.06974,
    "anomaly": null,
    "arb": {
-    "low": 0.313865,
+    "low": 0.278187,
     "central": 0.056246,
-    "high": -1.71121
+    "high": -0.569224
    }
   },
   {
@@ -2534,9 +2574,9 @@
    "share_americas": 0.061649,
    "anomaly": null,
    "arb": {
-    "low": 0.303292,
+    "low": 0.258105,
     "central": 0.036165,
-    "high": -1.731292
+    "high": -0.589305
    }
   },
   {
@@ -2551,9 +2591,9 @@
    "share_americas": 0.042488,
    "anomaly": null,
    "arb": {
-    "low": 0.311682,
+    "low": 0.261623,
     "central": 0.039682,
-    "high": -1.727774
+    "high": -0.585788
    }
   },
   {
@@ -2568,9 +2608,9 @@
    "share_americas": 0.057927,
    "anomaly": null,
    "arb": {
-    "low": 0.492268,
+    "low": 0.445413,
     "central": 0.223472,
-    "high": -1.543984
+    "high": -0.401997
    }
   },
   {
@@ -2585,9 +2625,9 @@
    "share_americas": 0.037001,
    "anomaly": null,
    "arb": {
-    "low": 1.103151,
+    "low": 1.043485,
     "central": 0.821544,
-    "high": -0.945913
+    "high": 0.196074
    }
   },
   {
@@ -2602,9 +2642,9 @@
    "share_americas": 0.035625,
    "anomaly": null,
    "arb": {
-    "low": -0.748387,
+    "low": -0.81023,
     "central": -1.032171,
-    "high": -2.799627
+    "high": -1.65764
    }
   },
   {
@@ -2619,9 +2659,9 @@
    "share_americas": 0.041445,
    "anomaly": null,
    "arb": {
-    "low": -0.411323,
+    "low": -0.467712,
     "central": -0.689653,
-    "high": -2.457109
+    "high": -1.315123
    }
   },
   {
@@ -2636,9 +2676,9 @@
    "share_americas": 0.040453,
    "anomaly": null,
    "arb": {
-    "low": 0.63404,
+    "low": 0.607138,
     "central": 0.385197,
-    "high": -1.382259
+    "high": -0.240273
    }
   },
   {
@@ -2653,9 +2693,9 @@
    "share_americas": 0.043288,
    "anomaly": null,
    "arb": {
-    "low": 1.805951,
+    "low": 1.779049,
     "central": 1.557108,
-    "high": -0.210348
+    "high": 0.931639
    }
   },
   {
@@ -2670,9 +2710,9 @@
    "share_americas": 0.053813,
    "anomaly": null,
    "arb": {
-    "low": 1.084496,
+    "low": 1.057594,
     "central": 0.835653,
-    "high": -0.931803
+    "high": 0.210183
    }
   },
   {
@@ -2687,9 +2727,9 @@
    "share_americas": 0.086888,
    "anomaly": null,
    "arb": {
-    "low": 1.401163,
+    "low": 1.374261,
     "central": 1.15232,
-    "high": -0.615136
+    "high": 0.52685
    }
   },
   {
@@ -2704,9 +2744,9 @@
    "share_americas": 0.075305,
    "anomaly": null,
    "arb": {
-    "low": 0.977124,
+    "low": 0.950223,
     "central": 0.728282,
-    "high": -1.039175
+    "high": 0.102812
    }
   }
  ],
@@ -2714,12 +2754,12 @@
   {
    "n": 115,
    "lags": 4,
-   "intercept": 0.25188,
-   "slope": 0.015022,
-   "se_intercept": 0.023727,
-   "se_slope": 0.007329,
-   "t_slope": 2.049568,
-   "r2": 0.098452,
+   "intercept": 0.251962,
+   "slope": 0.015117,
+   "se_intercept": 0.023715,
+   "se_slope": 0.00737,
+   "t_slope": 2.051119,
+   "r2": 0.099748,
    "share": "share_jkm",
    "hire_level": "low",
    "sample": "all months",
@@ -2733,12 +2773,12 @@
   {
    "n": 115,
    "lags": 4,
-   "intercept": 0.25616,
-   "slope": 0.015218,
-   "se_intercept": 0.023722,
-   "se_slope": 0.007417,
-   "t_slope": 2.051768,
-   "r2": 0.100823,
+   "intercept": 0.25829,
+   "slope": 0.014947,
+   "se_intercept": 0.023868,
+   "se_slope": 0.007296,
+   "t_slope": 2.048617,
+   "r2": 0.097202,
    "share": "share_jkm",
    "hire_level": "central",
    "sample": "all months",
@@ -2752,31 +2792,31 @@
   {
    "n": 115,
    "lags": 4,
-   "intercept": 0.28735,
-   "slope": 0.016254,
-   "se_intercept": 0.027573,
-   "se_slope": 0.007859,
-   "t_slope": 2.06822,
-   "r2": 0.11656,
+   "intercept": 0.280845,
+   "slope": 0.011878,
+   "se_intercept": 0.028987,
+   "se_slope": 0.005774,
+   "t_slope": 2.057308,
+   "r2": 0.065836,
    "share": "share_jkm",
    "hire_level": "high",
    "sample": "all months",
    "first_month": "2016-02",
    "last_month": "2026-07",
-   "months_open": 26,
-   "open_above": 21,
-   "closed_below": 53,
+   "months_open": 21,
+   "open_above": 14,
+   "closed_below": 51,
    "median_share": 0.233471
   },
   {
    "n": 115,
    "lags": 4,
-   "intercept": 0.325158,
-   "slope": 0.017011,
-   "se_intercept": 0.025142,
-   "se_slope": 0.007335,
-   "t_slope": 2.319252,
-   "r2": 0.111845,
+   "intercept": 0.325268,
+   "slope": 0.017094,
+   "se_intercept": 0.025126,
+   "se_slope": 0.00737,
+   "t_slope": 2.319408,
+   "r2": 0.112995,
    "share": "share_asia",
    "hire_level": "low",
    "sample": "all months",
@@ -2790,12 +2830,12 @@
   {
    "n": 115,
    "lags": 4,
-   "intercept": 0.329996,
-   "slope": 0.017254,
-   "se_intercept": 0.025095,
-   "se_slope": 0.007433,
-   "t_slope": 2.321361,
-   "r2": 0.114811,
+   "intercept": 0.332365,
+   "slope": 0.017117,
+   "se_intercept": 0.025194,
+   "se_slope": 0.007378,
+   "t_slope": 2.32021,
+   "r2": 0.112925,
    "share": "share_asia",
    "hire_level": "central",
    "sample": "all months",
@@ -2809,31 +2849,31 @@
   {
    "n": 115,
    "lags": 4,
-   "intercept": 0.365929,
-   "slope": 0.0188,
-   "se_intercept": 0.02797,
-   "se_slope": 0.008171,
-   "t_slope": 2.300828,
-   "r2": 0.138138,
+   "intercept": 0.360466,
+   "slope": 0.015066,
+   "se_intercept": 0.029473,
+   "se_slope": 0.006421,
+   "t_slope": 2.346297,
+   "r2": 0.09383,
    "share": "share_asia",
    "hire_level": "high",
    "sample": "all months",
    "first_month": "2016-02",
    "last_month": "2026-07",
-   "months_open": 26,
-   "open_above": 21,
+   "months_open": 21,
+   "open_above": 16,
    "closed_below": 53,
    "median_share": 0.318915
   },
   {
    "n": 84,
    "lags": 3,
-   "intercept": 0.186955,
-   "slope": 0.05074,
-   "se_intercept": 0.029934,
-   "se_slope": 0.018586,
-   "t_slope": 2.729951,
-   "r2": 0.23622,
+   "intercept": 0.187515,
+   "slope": 0.050721,
+   "se_intercept": 0.02957,
+   "se_slope": 0.01848,
+   "t_slope": 2.744662,
+   "r2": 0.238192,
    "share": "share_jkm",
    "hire_level": "low",
    "sample": "without 2020, 2022, 2026",
@@ -2847,12 +2887,12 @@
   {
    "n": 84,
    "lags": 3,
-   "intercept": 0.199875,
-   "slope": 0.051947,
-   "se_intercept": 0.026968,
-   "se_slope": 0.019098,
-   "t_slope": 2.719933,
-   "r2": 0.248604,
+   "intercept": 0.206041,
+   "slope": 0.052671,
+   "se_intercept": 0.026445,
+   "se_slope": 0.019808,
+   "t_slope": 2.659076,
+   "r2": 0.24702,
    "share": "share_jkm",
    "hire_level": "central",
    "sample": "without 2020, 2022, 2026",
@@ -2866,31 +2906,31 @@
   {
    "n": 84,
    "lags": 3,
-   "intercept": 0.303373,
-   "slope": 0.053941,
-   "se_intercept": 0.029948,
-   "se_slope": 0.018279,
-   "t_slope": 2.950942,
-   "r2": 0.296503,
+   "intercept": 0.294543,
+   "slope": 0.041044,
+   "se_intercept": 0.030437,
+   "se_slope": 0.012527,
+   "t_slope": 3.276379,
+   "r2": 0.163615,
    "share": "share_jkm",
    "hire_level": "high",
    "sample": "without 2020, 2022, 2026",
    "first_month": "2016-02",
    "last_month": "2025-12",
-   "months_open": 21,
-   "open_above": 16,
-   "closed_below": 37,
+   "months_open": 16,
+   "open_above": 12,
+   "closed_below": 38,
    "median_share": 0.240683
   },
   {
    "n": 84,
    "lags": 3,
-   "intercept": 0.25517,
-   "slope": 0.05165,
-   "se_intercept": 0.032276,
-   "se_slope": 0.018121,
-   "t_slope": 2.850292,
-   "r2": 0.230414,
+   "intercept": 0.255838,
+   "slope": 0.051568,
+   "se_intercept": 0.031956,
+   "se_slope": 0.018001,
+   "t_slope": 2.864748,
+   "r2": 0.231772,
    "share": "share_asia",
    "hire_level": "low",
    "sample": "without 2020, 2022, 2026",
@@ -2904,12 +2944,12 @@
   {
    "n": 84,
    "lags": 3,
-   "intercept": 0.267816,
-   "slope": 0.053271,
-   "se_intercept": 0.029527,
-   "se_slope": 0.018804,
-   "t_slope": 2.832979,
-   "r2": 0.24611,
+   "intercept": 0.273427,
+   "slope": 0.054631,
+   "se_intercept": 0.028882,
+   "se_slope": 0.019769,
+   "t_slope": 2.763519,
+   "r2": 0.250153,
    "share": "share_asia",
    "hire_level": "central",
    "sample": "without 2020, 2022, 2026",
@@ -2923,19 +2963,19 @@
   {
    "n": 84,
    "lags": 3,
-   "intercept": 0.375518,
-   "slope": 0.05763,
-   "se_intercept": 0.029529,
-   "se_slope": 0.019078,
-   "t_slope": 3.020787,
-   "r2": 0.318593,
+   "intercept": 0.368875,
+   "slope": 0.04799,
+   "se_intercept": 0.030213,
+   "se_slope": 0.01439,
+   "t_slope": 3.334868,
+   "r2": 0.210552,
    "share": "share_asia",
    "hire_level": "high",
    "sample": "without 2020, 2022, 2026",
    "first_month": "2016-02",
    "last_month": "2025-12",
-   "months_open": 21,
-   "open_above": 17,
+   "months_open": 16,
+   "open_above": 12,
    "closed_below": 38,
    "median_share": 0.324905
   }
@@ -3027,15 +3067,50 @@
    ],
    "source_segments": [
     {
-     "text": "Exports from EIA's US natural gas exports by country, by vessel; the arb from this study's engine at the central hire, "
+     "text": "Exports from EIA's US natural gas exports by country, by vessel; the arb from this study's engine at the central hire of the ship each month is priced with, "
     },
     {
-     "field": "central_hire",
+     "field": "central_hire_tfde_160k",
+     "value": 75500.0,
+     "format": "usd_day"
+    },
+    {
+     "text": " $/day for the "
+    },
+    {
+     "field": "ship_tfde_160k",
+     "value": "160,000 m3 TFDE",
+     "label": "160,000 m3 TFDE"
+    },
+    {
+     "text": " to "
+    },
+    {
+     "field": "ship_change",
+     "value": "2024-01-02",
+     "label": "2 January 2024"
+    },
+    {
+     "text": " and "
+    },
+    {
+     "field": "central_hire_two_stroke_174k",
      "value": 45500.0,
      "format": "usd_day"
     },
     {
-     "text": " $/day. Data to "
+     "text": " $/day for the "
+    },
+    {
+     "field": "ship_two_stroke_174k",
+     "value": "174,000 m3 two-stroke",
+     "label": "174,000 m3 two-stroke"
+    },
+    {
+     "text": " since"
+    },
+    {
+     "text": ". Data to "
     },
     {
      "field": "last_month",
@@ -3055,7 +3130,7 @@
      "share_europe": 0.0,
      "share_middle_east_africa": 0.0,
      "share_americas": 100.0,
-     "arb": 2.098147
+     "arb": 1.658105
     },
     {
      "month": "2016-03-01",
@@ -3075,7 +3150,7 @@
      "share_europe": 36.952,
      "share_middle_east_africa": 0.0,
      "share_americas": 63.048,
-     "arb": -0.015285
+     "arb": -0.455326
     },
     {
      "month": "2016-05-01",
@@ -3085,7 +3160,7 @@
      "share_europe": 0.0,
      "share_middle_east_africa": 36.6833,
      "share_americas": 63.3167,
-     "arb": -0.457884
+     "arb": -0.89786
     },
     {
      "month": "2016-06-01",
@@ -3105,7 +3180,7 @@
      "share_europe": 18.6494,
      "share_middle_east_africa": 22.6975,
      "share_americas": 38.7117,
-     "arb": 1.174768
+     "arb": 0.999223
     },
     {
      "month": "2016-08-01",
@@ -3125,7 +3200,7 @@
      "share_europe": 17.5802,
      "share_middle_east_africa": 40.7675,
      "share_americas": 19.8996,
-     "arb": 1.499001
+     "arb": 1.323446
     },
     {
      "month": "2016-10-01",
@@ -3135,7 +3210,7 @@
      "share_europe": 0.0,
      "share_middle_east_africa": 99.4927,
      "share_americas": 0.5073,
-     "arb": 0.803844
+     "arb": 0.628339
     },
     {
      "month": "2016-11-01",
@@ -3145,7 +3220,7 @@
      "share_europe": 18.8715,
      "share_middle_east_africa": 0.0,
      "share_americas": 49.3744,
-     "arb": 1.305725
+     "arb": 1.13025
     },
     {
      "month": "2016-12-01",
@@ -3155,7 +3230,7 @@
      "share_europe": 7.0266,
      "share_middle_east_africa": 8.6301,
      "share_americas": 17.2099,
-     "arb": 2.499983
+     "arb": 2.32464
     },
     {
      "month": "2017-01-01",
@@ -3165,7 +3240,7 @@
      "share_europe": 27.9201,
      "share_middle_east_africa": 10.4727,
      "share_americas": 27.3758,
-     "arb": 2.194423
+     "arb": 2.019009
     },
     {
      "month": "2017-02-01",
@@ -3175,7 +3250,7 @@
      "share_europe": 20.8854,
      "share_middle_east_africa": 12.1601,
      "share_americas": 33.409,
-     "arb": 2.376013
+     "arb": 2.200582
     },
     {
      "month": "2017-03-01",
@@ -3185,7 +3260,7 @@
      "share_europe": 8.0963,
      "share_middle_east_africa": 23.0288,
      "share_americas": 38.2465,
-     "arb": 1.11443
+     "arb": 0.93902
     },
     {
      "month": "2017-04-01",
@@ -3195,7 +3270,7 @@
      "share_europe": 0.0,
      "share_middle_east_africa": 20.0221,
      "share_americas": 58.8431,
-     "arb": 0.723036
+     "arb": 0.547552
     },
     {
      "month": "2017-05-01",
@@ -3205,7 +3280,7 @@
      "share_europe": 16.6354,
      "share_middle_east_africa": 27.645,
      "share_americas": 27.8261,
-     "arb": 0.694519
+     "arb": 0.5191
     },
     {
      "month": "2017-06-01",
@@ -3225,7 +3300,7 @@
      "share_europe": 7.244,
      "share_middle_east_africa": 12.8371,
      "share_americas": 39.8521,
-     "arb": 0.684573
+     "arb": 0.509177
     },
     {
      "month": "2017-08-01",
@@ -3235,7 +3310,7 @@
      "share_europe": 30.624,
      "share_middle_east_africa": 23.5721,
      "share_americas": 15.1337,
-     "arb": 0.424005
+     "arb": 0.248519
     },
     {
      "month": "2017-09-01",
@@ -3245,7 +3320,7 @@
      "share_europe": 19.245,
      "share_middle_east_africa": 0.0,
      "share_americas": 30.3334,
-     "arb": 1.00532
+     "arb": 0.829845
     },
     {
      "month": "2017-10-01",
@@ -3255,7 +3330,7 @@
      "share_europe": 3.7386,
      "share_middle_east_africa": 4.2317,
      "share_americas": 21.7607,
-     "arb": 2.007647
+     "arb": 1.832247
     },
     {
      "month": "2017-11-01",
@@ -3265,7 +3340,7 @@
      "share_europe": 17.9908,
      "share_middle_east_africa": 0.0,
      "share_americas": 17.016,
-     "arb": 2.270448
+     "arb": 2.094913
     },
     {
      "month": "2017-12-01",
@@ -3275,7 +3350,7 @@
      "share_europe": 8.2219,
      "share_middle_east_africa": 8.6486,
      "share_americas": 8.5068,
-     "arb": 2.974212
+     "arb": 2.798733
     },
     {
      "month": "2018-01-01",
@@ -3285,7 +3360,7 @@
      "share_europe": 9.6202,
      "share_middle_east_africa": 9.0577,
      "share_americas": 18.5094,
-     "arb": 4.222493
+     "arb": 4.047035
     },
     {
      "month": "2018-02-01",
@@ -3295,7 +3370,7 @@
      "share_europe": 4.4544,
      "share_middle_east_africa": 4.4829,
      "share_americas": 24.531,
-     "arb": 3.804387
+     "arb": 3.628897
     },
     {
      "month": "2018-03-01",
@@ -3305,7 +3380,7 @@
      "share_europe": 6.8502,
      "share_middle_east_africa": 4.0378,
      "share_americas": 50.0273,
-     "arb": 2.100351
+     "arb": 1.924726
     },
     {
      "month": "2018-04-01",
@@ -3315,7 +3390,7 @@
      "share_europe": 3.7967,
      "share_middle_east_africa": 3.8434,
      "share_americas": 30.5182,
-     "arb": 2.161825
+     "arb": 1.98629
     },
     {
      "month": "2018-05-01",
@@ -3325,7 +3400,7 @@
      "share_europe": 0.0,
      "share_middle_east_africa": 21.4556,
      "share_americas": 24.4549,
-     "arb": 0.733262
+     "arb": 0.557727
     },
     {
      "month": "2018-06-01",
@@ -3335,7 +3410,7 @@
      "share_europe": 0.0,
      "share_middle_east_africa": 4.354,
      "share_americas": 45.6936,
-     "arb": 1.805373
+     "arb": 1.629838
     },
     {
      "month": "2018-07-01",
@@ -3345,7 +3420,7 @@
      "share_europe": 6.269,
      "share_middle_east_africa": 0.0,
      "share_americas": 45.5978,
-     "arb": 2.329075
+     "arb": 2.15354
     },
     {
      "month": "2018-08-01",
@@ -3355,7 +3430,7 @@
      "share_europe": 2.5095,
      "share_middle_east_africa": 7.8279,
      "share_americas": 55.4075,
-     "arb": 2.509076
+     "arb": 2.33354
     },
     {
      "month": "2018-09-01",
@@ -3365,7 +3440,7 @@
      "share_europe": 20.4975,
      "share_middle_east_africa": 4.4714,
      "share_americas": 17.5268,
-     "arb": 1.030345
+     "arb": 0.85481
     },
     {
      "month": "2018-10-01",
@@ -3375,7 +3450,7 @@
      "share_europe": 29.7668,
      "share_middle_east_africa": 4.0799,
      "share_americas": 7.9038,
-     "arb": 1.83216
+     "arb": 1.656625
     },
     {
      "month": "2018-11-01",
@@ -3385,7 +3460,7 @@
      "share_europe": 40.3378,
      "share_middle_east_africa": 6.8763,
      "share_americas": 10.9854,
-     "arb": 2.417152
+     "arb": 2.241617
     },
     {
      "month": "2018-12-01",
@@ -3395,7 +3470,7 @@
      "share_europe": 32.6763,
      "share_middle_east_africa": 0.0,
      "share_americas": 14.0112,
-     "arb": 1.174468
+     "arb": 0.998933
     },
     {
      "month": "2019-01-01",
@@ -3405,7 +3480,7 @@
      "share_europe": 50.9948,
      "share_middle_east_africa": 0.0,
      "share_americas": 13.6157,
-     "arb": 0.929219
+     "arb": 0.753684
     },
     {
      "month": "2019-02-01",
@@ -3415,7 +3490,7 @@
      "share_europe": 30.0534,
      "share_middle_east_africa": 3.5938,
      "share_americas": 18.5641,
-     "arb": 2.044472
+     "arb": 1.868937
     },
     {
      "month": "2019-03-01",
@@ -3425,7 +3500,7 @@
      "share_europe": 45.454,
      "share_middle_east_africa": 0.0,
      "share_americas": 22.026,
-     "arb": 1.236447
+     "arb": 1.060912
     },
     {
      "month": "2019-04-01",
@@ -3435,7 +3510,7 @@
      "share_europe": 39.8486,
      "share_middle_east_africa": 8.2093,
      "share_americas": 20.0623,
-     "arb": 0.345856
+     "arb": 0.170321
     },
     {
      "month": "2019-05-01",
@@ -3445,7 +3520,7 @@
      "share_europe": 28.8165,
      "share_middle_east_africa": 7.4801,
      "share_americas": 29.6879,
-     "arb": 1.095539
+     "arb": 0.920004
     },
     {
      "month": "2019-06-01",
@@ -3455,7 +3530,7 @@
      "share_europe": 18.8885,
      "share_middle_east_africa": 7.6136,
      "share_americas": 44.1507,
-     "arb": 1.921909
+     "arb": 1.746374
     },
     {
      "month": "2019-07-01",
@@ -3465,7 +3540,7 @@
      "share_europe": 17.4364,
      "share_middle_east_africa": 6.5965,
      "share_americas": 34.7484,
-     "arb": 1.133204
+     "arb": 0.957669
     },
     {
      "month": "2019-08-01",
@@ -3475,7 +3550,7 @@
      "share_europe": 30.9125,
      "share_middle_east_africa": 7.352,
      "share_americas": 26.3467,
-     "arb": 1.63783
+     "arb": 1.462295
     },
     {
      "month": "2019-09-01",
@@ -3485,7 +3560,7 @@
      "share_europe": 38.066,
      "share_middle_east_africa": 4.3335,
      "share_americas": 18.2651,
-     "arb": 1.214805
+     "arb": 1.03927
     },
     {
      "month": "2019-10-01",
@@ -3495,7 +3570,7 @@
      "share_europe": 42.0037,
      "share_middle_east_africa": 0.0,
      "share_americas": 10.8845,
-     "arb": 0.480759
+     "arb": 0.305224
     },
     {
      "month": "2019-11-01",
@@ -3515,7 +3590,7 @@
      "share_europe": 54.5106,
      "share_middle_east_africa": 0.0,
      "share_americas": 9.0271,
-     "arb": 1.772001
+     "arb": 1.596466
     },
     {
      "month": "2020-01-01",
@@ -3525,7 +3600,7 @@
      "share_europe": 52.4692,
      "share_middle_east_africa": 0.0,
      "share_americas": 9.1108,
-     "arb": 2.254477
+     "arb": 2.078942
     },
     {
      "month": "2020-02-01",
@@ -3535,7 +3610,7 @@
      "share_europe": 65.3286,
      "share_middle_east_africa": 0.0,
      "share_americas": 14.0479,
-     "arb": 0.547893
+     "arb": 0.372358
     },
     {
      "month": "2020-03-01",
@@ -3545,7 +3620,7 @@
      "share_europe": 46.5727,
      "share_middle_east_africa": 1.3095,
      "share_americas": 8.5933,
-     "arb": 0.7388
+     "arb": 0.563265
     },
     {
      "month": "2020-04-01",
@@ -3555,7 +3630,7 @@
      "share_europe": 43.0288,
      "share_middle_east_africa": 1.5667,
      "share_americas": 10.3363,
-     "arb": 0.352342
+     "arb": 0.176807
     },
     {
      "month": "2020-05-01",
@@ -3565,7 +3640,7 @@
      "share_europe": 40.2116,
      "share_middle_east_africa": 3.7101,
      "share_americas": 13.7671,
-     "arb": 0.682281
+     "arb": 0.506746
     },
     {
      "month": "2020-06-01",
@@ -3575,7 +3650,7 @@
      "share_europe": 33.9799,
      "share_middle_east_africa": 3.0081,
      "share_americas": 5.1285,
-     "arb": 2.06653
+     "arb": 1.890995
     },
     {
      "month": "2020-07-01",
@@ -3585,7 +3660,7 @@
      "share_europe": 37.7944,
      "share_middle_east_africa": 6.8596,
      "share_americas": 3.9229,
-     "arb": 2.406474
+     "arb": 2.230938
     },
     {
      "month": "2020-08-01",
@@ -3595,7 +3670,7 @@
      "share_europe": 9.0328,
      "share_middle_east_africa": 12.0178,
      "share_americas": 18.3869,
-     "arb": 0.636662
+     "arb": 0.461126
     },
     {
      "month": "2020-09-01",
@@ -3605,7 +3680,7 @@
      "share_europe": 30.6776,
      "share_middle_east_africa": 6.7042,
      "share_americas": 9.9235,
-     "arb": 0.624004
+     "arb": 0.448469
     },
     {
      "month": "2020-10-01",
@@ -3615,7 +3690,7 @@
      "share_europe": 25.9367,
      "share_middle_east_africa": 1.6182,
      "share_americas": 20.4662,
-     "arb": 1.128878
+     "arb": 0.953343
     },
     {
      "month": "2020-11-01",
@@ -3625,7 +3700,7 @@
      "share_europe": 28.1695,
      "share_middle_east_africa": 0.0,
      "share_americas": 15.3619,
-     "arb": 1.946372
+     "arb": 1.770837
     },
     {
      "month": "2020-12-01",
@@ -3635,7 +3710,7 @@
      "share_europe": 31.1986,
      "share_middle_east_africa": 0.0,
      "share_americas": 15.5955,
-     "arb": 1.543818
+     "arb": 1.368283
     },
     {
      "month": "2021-01-01",
@@ -3645,7 +3720,7 @@
      "share_europe": 20.5196,
      "share_middle_east_africa": 0.0,
      "share_americas": 13.7955,
-     "arb": 10.739072
+     "arb": 10.563537
     },
     {
      "month": "2021-02-01",
@@ -3655,7 +3730,7 @@
      "share_europe": 54.5603,
      "share_middle_east_africa": 0.0,
      "share_americas": 19.7325,
-     "arb": 6.296139
+     "arb": 6.120604
     },
     {
      "month": "2021-03-01",
@@ -3665,7 +3740,7 @@
      "share_europe": 39.8659,
      "share_middle_east_africa": 2.0707,
      "share_americas": 17.7294,
-     "arb": 0.505336
+     "arb": 0.329801
     },
     {
      "month": "2021-04-01",
@@ -3725,7 +3800,7 @@
      "share_europe": 30.1519,
      "share_middle_east_africa": 4.6331,
      "share_americas": 18.1338,
-     "arb": 2.140933
+     "arb": 1.965398
     },
     {
      "month": "2021-10-01",
@@ -3735,7 +3810,7 @@
      "share_europe": 33.5848,
      "share_middle_east_africa": 2.0787,
      "share_americas": 19.027,
-     "arb": 2.374802
+     "arb": 2.199267
     },
     {
      "month": "2021-11-01",
@@ -3755,7 +3830,7 @@
      "share_europe": 61.9276,
      "share_middle_east_africa": 0.0,
      "share_americas": 10.2609,
-     "arb": 1.624002
+     "arb": 1.448467
     },
     {
      "month": "2022-01-01",
@@ -3765,7 +3840,7 @@
      "share_europe": 74.2788,
      "share_middle_east_africa": 0.0,
      "share_americas": 8.7781,
-     "arb": 1.923928
+     "arb": 1.748393
     },
     {
      "month": "2022-02-01",
@@ -3775,7 +3850,7 @@
      "share_europe": 73.1296,
      "share_middle_east_africa": 1.6667,
      "share_americas": 4.396,
-     "arb": -1.340404
+     "arb": -1.515939
     },
     {
      "month": "2022-03-01",
@@ -3785,7 +3860,7 @@
      "share_europe": 75.4327,
      "share_middle_east_africa": 0.0,
      "share_americas": 3.3412,
-     "arb": -5.614444
+     "arb": -5.789979
     },
     {
      "month": "2022-04-01",
@@ -3795,7 +3870,7 @@
      "share_europe": 71.642,
      "share_middle_east_africa": 2.2093,
      "share_americas": 6.7433,
-     "arb": -2.452714
+     "arb": -2.628249
     },
     {
      "month": "2022-05-01",
@@ -3805,7 +3880,7 @@
      "share_europe": 60.9,
      "share_middle_east_africa": 4.043,
      "share_americas": 14.7186,
-     "arb": -5.249336
+     "arb": -5.424871
     },
     {
      "month": "2022-06-01",
@@ -3815,7 +3890,7 @@
      "share_europe": 56.8306,
      "share_middle_east_africa": 2.6968,
      "share_americas": 13.2689,
-     "arb": -3.680483
+     "arb": -3.856018
     },
     {
      "month": "2022-07-01",
@@ -3825,7 +3900,7 @@
      "share_europe": 61.2135,
      "share_middle_east_africa": 1.792,
      "share_americas": 9.411,
-     "arb": -11.815176
+     "arb": -11.990711
     },
     {
      "month": "2022-08-01",
@@ -3835,7 +3910,7 @@
      "share_europe": 62.1808,
      "share_middle_east_africa": 2.1375,
      "share_americas": 5.6256,
-     "arb": -17.163362
+     "arb": -17.338897
     },
     {
      "month": "2022-09-01",
@@ -3845,7 +3920,7 @@
      "share_europe": 74.4745,
      "share_middle_east_africa": 2.3835,
      "share_americas": 2.3215,
-     "arb": -11.756167
+     "arb": -11.931702
     },
     {
      "month": "2022-10-01",
@@ -3855,7 +3930,7 @@
      "share_europe": 64.6296,
      "share_middle_east_africa": 1.0655,
      "share_americas": 3.4858,
-     "arb": -7.80122
+     "arb": -7.976755
     },
     {
      "month": "2022-11-01",
@@ -3865,7 +3940,7 @@
      "share_europe": 75.5279,
      "share_middle_east_africa": 0.0,
      "share_americas": 1.3252,
-     "arb": -7.107058
+     "arb": -7.282593
     },
     {
      "month": "2022-12-01",
@@ -3875,7 +3950,7 @@
      "share_europe": 74.5553,
      "share_middle_east_africa": 0.0,
      "share_americas": 2.2458,
-     "arb": -6.975206
+     "arb": -7.150741
     },
     {
      "month": "2023-01-01",
@@ -3885,7 +3960,7 @@
      "share_europe": 72.8549,
      "share_middle_east_africa": 0.0,
      "share_americas": 3.8716,
-     "arb": 3.809972
+     "arb": 3.634437
     },
     {
      "month": "2023-02-01",
@@ -3895,7 +3970,7 @@
      "share_europe": 79.2289,
      "share_middle_east_africa": 0.0,
      "share_americas": 1.8402,
-     "arb": 0.369149
+     "arb": 0.193614
     },
     {
      "month": "2023-03-01",
@@ -3905,7 +3980,7 @@
      "share_europe": 78.3005,
      "share_middle_east_africa": 0.0,
      "share_americas": 5.0995,
-     "arb": -0.389042
+     "arb": -0.564577
     },
     {
      "month": "2023-04-01",
@@ -3915,7 +3990,7 @@
      "share_europe": 74.3839,
      "share_middle_east_africa": 0.9865,
      "share_americas": 5.8872,
-     "arb": -0.207403
+     "arb": -0.382938
     },
     {
      "month": "2023-05-01",
@@ -3925,7 +4000,7 @@
      "share_europe": 65.7999,
      "share_middle_east_africa": 1.0367,
      "share_americas": 14.1519,
-     "arb": 0.324913
+     "arb": 0.149378
     },
     {
      "month": "2023-06-01",
@@ -3935,7 +4010,7 @@
      "share_europe": 51.7981,
      "share_middle_east_africa": 3.2548,
      "share_americas": 13.0565,
-     "arb": 0.310321
+     "arb": 0.134786
     },
     {
      "month": "2023-07-01",
@@ -3945,7 +4020,7 @@
      "share_europe": 48.6176,
      "share_middle_east_africa": 2.9671,
      "share_americas": 8.9143,
-     "arb": 0.827081
+     "arb": 0.651546
     },
     {
      "month": "2023-08-01",
@@ -3955,7 +4030,7 @@
      "share_europe": 55.4526,
      "share_middle_east_africa": 0.9316,
      "share_americas": 5.5576,
-     "arb": 0.887564
+     "arb": 0.712029
     },
     {
      "month": "2023-09-01",
@@ -3965,7 +4040,7 @@
      "share_europe": 56.7007,
      "share_middle_east_africa": 1.9149,
      "share_americas": 8.9219,
-     "arb": 1.636339
+     "arb": 1.460804
     },
     {
      "month": "2023-10-01",
@@ -3975,7 +4050,7 @@
      "share_europe": 66.6826,
      "share_middle_east_africa": 0.0,
      "share_americas": 5.9554,
-     "arb": 1.715341
+     "arb": 1.539806
     },
     {
      "month": "2023-11-01",
@@ -3985,7 +4060,7 @@
      "share_europe": 69.1375,
      "share_middle_east_africa": 0.0,
      "share_americas": 4.5962,
-     "arb": 2.368299
+     "arb": 2.192764
     },
     {
      "month": "2023-12-01",
@@ -3995,7 +4070,7 @@
      "share_europe": 69.4716,
      "share_middle_east_africa": 0.0,
      "share_americas": 4.3927,
-     "arb": 2.291158
+     "arb": 2.115623
     },
     {
      "month": "2024-01-01",
@@ -4407,7 +4482,7 @@
      },
      {
       "field": "slope",
-      "value": 1.521832,
+      "value": 1.494746,
       "format": "pp"
      },
      {
@@ -4415,7 +4490,7 @@
      },
      {
       "field": "t",
-      "value": 2.051768,
+      "value": 2.048617,
       "format": "t_stat"
      },
      {
@@ -4447,7 +4522,7 @@
      },
      {
       "field": "slope_without",
-      "value": 5.19465,
+      "value": 5.267143,
       "format": "pp"
      },
      {
@@ -4455,7 +4530,7 @@
      },
      {
       "field": "t_without",
-      "value": 2.719933,
+      "value": 2.659076,
       "format": "t_stat"
      },
      {
@@ -4471,7 +4546,7 @@
      },
      {
       "field": "r2",
-      "value": 0.100823,
+      "value": 0.097202,
       "format": "r2"
      },
      {
@@ -4479,7 +4554,7 @@
      },
      {
       "field": "r2_without",
-      "value": 0.248604,
+      "value": 0.24702,
       "format": "r2"
      },
      {
@@ -4511,7 +4586,7 @@
     },
     {
      "field": "slope",
-     "value": 1.725405,
+     "value": 1.711735,
      "format": "pp"
     },
     {
@@ -4527,7 +4602,7 @@
     },
     {
      "field": "r2",
-     "value": 0.114811,
+     "value": 0.112925,
      "format": "r2"
     },
     {
@@ -4535,7 +4610,7 @@
     },
     {
      "field": "slope_without",
-     "value": 5.327121,
+     "value": 5.463086,
      "format": "pp"
     },
     {
@@ -4551,7 +4626,7 @@
     },
     {
      "field": "r2_without",
-     "value": 0.24611,
+     "value": 0.250153,
      "format": "r2"
     },
     {
@@ -4626,9 +4701,9 @@
      "sample": "all months",
      "hire_level": "low",
      "n": 115,
-     "slope_pp": 1.502177,
-     "t": 2.049568,
-     "r2": 0.098452,
+     "slope_pp": 1.511695,
+     "t": 2.051119,
+     "r2": 0.099748,
      "lags": 4,
      "first_month": "2016-02-01",
      "last_month": "2026-07-01",
@@ -4644,9 +4719,9 @@
      "sample": "all months",
      "hire_level": "central",
      "n": 115,
-     "slope_pp": 1.521832,
-     "t": 2.051768,
-     "r2": 0.100823,
+     "slope_pp": 1.494746,
+     "t": 2.048617,
+     "r2": 0.097202,
      "lags": 4,
      "first_month": "2016-02-01",
      "last_month": "2026-07-01",
@@ -4662,16 +4737,16 @@
      "sample": "all months",
      "hire_level": "high",
      "n": 115,
-     "slope_pp": 1.625401,
-     "t": 2.06822,
-     "r2": 0.11656,
+     "slope_pp": 1.18782,
+     "t": 2.057308,
+     "r2": 0.065836,
      "lags": 4,
      "first_month": "2016-02-01",
      "last_month": "2026-07-01",
-     "open_above": 21,
-     "open_below": 5,
-     "closed_below": 53,
-     "closed_above": 36,
+     "open_above": 14,
+     "open_below": 7,
+     "closed_below": 51,
+     "closed_above": 43,
      "median_share": 23.347078
     },
     {
@@ -4680,9 +4755,9 @@
      "sample": "all months",
      "hire_level": "low",
      "n": 115,
-     "slope_pp": 1.7011,
-     "t": 2.319252,
-     "r2": 0.111845,
+     "slope_pp": 1.709437,
+     "t": 2.319408,
+     "r2": 0.112995,
      "lags": 4,
      "first_month": "2016-02-01",
      "last_month": "2026-07-01",
@@ -4698,9 +4773,9 @@
      "sample": "all months",
      "hire_level": "central",
      "n": 115,
-     "slope_pp": 1.725405,
-     "t": 2.321361,
-     "r2": 0.114811,
+     "slope_pp": 1.711735,
+     "t": 2.32021,
+     "r2": 0.112925,
      "lags": 4,
      "first_month": "2016-02-01",
      "last_month": "2026-07-01",
@@ -4716,16 +4791,16 @@
      "sample": "all months",
      "hire_level": "high",
      "n": 115,
-     "slope_pp": 1.879986,
-     "t": 2.300828,
-     "r2": 0.138138,
+     "slope_pp": 1.50661,
+     "t": 2.346297,
+     "r2": 0.09383,
      "lags": 4,
      "first_month": "2016-02-01",
      "last_month": "2026-07-01",
-     "open_above": 21,
+     "open_above": 16,
      "open_below": 5,
      "closed_below": 53,
-     "closed_above": 36,
+     "closed_above": 41,
      "median_share": 31.89149
     },
     {
@@ -4734,9 +4809,9 @@
      "sample": "without 2020, 2022, 2026",
      "hire_level": "low",
      "n": 84,
-     "slope_pp": 5.073981,
-     "t": 2.729951,
-     "r2": 0.23622,
+     "slope_pp": 5.072118,
+     "t": 2.744662,
+     "r2": 0.238192,
      "lags": 3,
      "first_month": "2016-02-01",
      "last_month": "2025-12-01",
@@ -4752,9 +4827,9 @@
      "sample": "without 2020, 2022, 2026",
      "hire_level": "central",
      "n": 84,
-     "slope_pp": 5.19465,
-     "t": 2.719933,
-     "r2": 0.248604,
+     "slope_pp": 5.267143,
+     "t": 2.659076,
+     "r2": 0.24702,
      "lags": 3,
      "first_month": "2016-02-01",
      "last_month": "2025-12-01",
@@ -4770,16 +4845,16 @@
      "sample": "without 2020, 2022, 2026",
      "hire_level": "high",
      "n": 84,
-     "slope_pp": 5.394063,
-     "t": 2.950942,
-     "r2": 0.296503,
+     "slope_pp": 4.10443,
+     "t": 3.276379,
+     "r2": 0.163615,
      "lags": 3,
      "first_month": "2016-02-01",
      "last_month": "2025-12-01",
-     "open_above": 16,
-     "open_below": 5,
-     "closed_below": 37,
-     "closed_above": 26,
+     "open_above": 12,
+     "open_below": 4,
+     "closed_below": 38,
+     "closed_above": 30,
      "median_share": 24.068277
     },
     {
@@ -4788,9 +4863,9 @@
      "sample": "without 2020, 2022, 2026",
      "hire_level": "low",
      "n": 84,
-     "slope_pp": 5.165005,
-     "t": 2.850292,
-     "r2": 0.230414,
+     "slope_pp": 5.156826,
+     "t": 2.864748,
+     "r2": 0.231772,
      "lags": 3,
      "first_month": "2016-02-01",
      "last_month": "2025-12-01",
@@ -4806,9 +4881,9 @@
      "sample": "without 2020, 2022, 2026",
      "hire_level": "central",
      "n": 84,
-     "slope_pp": 5.327121,
-     "t": 2.832979,
-     "r2": 0.24611,
+     "slope_pp": 5.463086,
+     "t": 2.763519,
+     "r2": 0.250153,
      "lags": 3,
      "first_month": "2016-02-01",
      "last_month": "2025-12-01",
@@ -4824,16 +4899,16 @@
      "sample": "without 2020, 2022, 2026",
      "hire_level": "high",
      "n": 84,
-     "slope_pp": 5.762956,
-     "t": 3.020787,
-     "r2": 0.318593,
+     "slope_pp": 4.798957,
+     "t": 3.334868,
+     "r2": 0.210552,
      "lags": 3,
      "first_month": "2016-02-01",
      "last_month": "2025-12-01",
-     "open_above": 17,
+     "open_above": 12,
      "open_below": 4,
      "closed_below": 38,
-     "closed_above": 25,
+     "closed_above": 30,
      "median_share": 32.490529
     }
    ],
@@ -4846,8 +4921,8 @@
     },
     {
      "field": "below",
-     "value": "July and August",
-     "label": "July and August"
+     "value": "June, July and August",
+     "label": "June, July and August"
     },
     {
      "text": " of the "
@@ -4873,8 +4948,8 @@
     },
     {
      "field": "above",
-     "value": "June and September",
-     "label": "June and September"
+     "value": "September",
+     "label": "September"
     },
     {
      "text": " it was above zero at the central hire"
@@ -4900,49 +4975,6 @@
     },
     {
      "text": " Where it fails: for "
-    },
-    {
-     "field": "why_month",
-     "value": "June",
-     "label": "June"
-    },
-    {
-     "text": ", the notice of "
-    },
-    {
-     "field": "why_notice_2020-06",
-     "value": "2020-04-20",
-     "label": "20 April 2020"
-    },
-    {
-     "text": " took "
-    },
-    {
-     "field": "why_source_2020-06",
-     "value": "METI's contract-based price, the preliminary figure for March 2020, released on 9 April 2020",
-     "label": "METI's contract-based price, the preliminary figure for March 2020, released on 9 April 2020"
-    },
-    {
-     "text": ", "
-    },
-    {
-     "field": "why_jkm_2020-06",
-     "value": 3.4,
-     "format": "usd_mmbtu"
-    },
-    {
-     "text": " $/MMBtu, against TTF's "
-    },
-    {
-     "field": "why_ttf_2020-06",
-     "value": 2.72,
-     "format": "usd_mmbtu"
-    },
-    {
-     "text": "."
-    },
-    {
-     "text": " For "
     },
     {
      "field": "why_month",
@@ -4992,8 +5024,8 @@
     },
     {
      "field": "unreported",
-     "value": "November",
-     "label": "November"
+     "value": "May and November",
+     "label": "May and November"
     },
     {
      "text": ", for which no cancellation was reported in the documents read."
@@ -5003,8 +5035,8 @@
     },
     {
      "field": "loading_below",
-     "value": "April, May and August",
-     "label": "April, May and August"
+     "value": "February, March, April, May and August",
+     "label": "February, March, April, May and August"
     },
     {
      "text": "."
@@ -5019,13 +5051,13 @@
      "label": "January",
      "loading": {
       "low": 3.042326,
-      "central": 2.410922,
-      "high": -1.904416
+      "central": 2.016827,
+      "high": -2.768614
      },
      "notice": {
       "low": 1.887833,
-      "central": 1.244696,
-      "high": -1.629124
+      "central": 0.850601,
+      "high": -2.160953
      },
      "notice_day": "2019-11-20",
      "cancelled": null,
@@ -5041,13 +5073,13 @@
      "label": "February",
      "loading": {
       "low": 0.862849,
-      "central": 0.143021,
-      "high": -2.7981
+      "central": -0.251073,
+      "high": -3.329929
      },
      "notice": {
       "low": 2.353962,
-      "central": 1.701835,
-      "high": -1.145673
+      "central": 1.307741,
+      "high": -1.677502
      },
      "notice_day": "2019-12-20",
      "cancelled": null,
@@ -5063,13 +5095,13 @@
      "label": "March",
      "loading": {
       "low": 1.007644,
-      "central": 0.279748,
-      "high": -2.852281
+      "central": -0.114347,
+      "high": -3.38411
      },
      "notice": {
       "low": 3.439613,
-      "central": 2.807956,
-      "high": -1.331148
+      "central": 2.413861,
+      "high": -1.862977
      },
      "notice_day": "2020-01-20",
      "cancelled": null,
@@ -5085,13 +5117,13 @@
      "label": "April",
      "loading": {
       "low": 0.146801,
-      "central": -0.623989,
-      "high": -3.369559
+      "central": -1.018084,
+      "high": -3.901388
      },
      "notice": {
       "low": 3.157188,
-      "central": 2.498383,
-      "high": -1.816955
+      "central": 2.104288,
+      "high": -2.642139
      },
      "notice_day": "2020-02-20",
      "cancelled": null,
@@ -5107,13 +5139,13 @@
      "label": "May",
      "loading": {
       "low": -0.048218,
-      "central": -0.825374,
-      "high": -3.900884
+      "central": -1.219469,
+      "high": -4.432713
      },
      "notice": {
       "low": 0.971623,
-      "central": 0.232871,
-      "high": -2.690583
+      "central": -0.161224,
+      "high": -3.222411
      },
      "notice_day": "2020-03-20",
      "cancelled": null,
@@ -5129,13 +5161,13 @@
      "label": "June",
      "loading": {
       "low": 1.558798,
-      "central": 0.832713,
-      "high": -3.482625
+      "central": 0.438618,
+      "high": -4.158875
      },
      "notice": {
       "low": 1.104103,
-      "central": 0.365296,
-      "high": -2.769086
+      "central": -0.028799,
+      "high": -3.300914
      },
      "notice_day": "2020-04-20",
      "cancelled": 46.0,
@@ -5151,13 +5183,13 @@
      "label": "July",
      "loading": {
       "low": 1.780779,
-      "central": 1.067612,
-      "high": -3.247725
+      "central": 0.673518,
+      "high": -4.206689
      },
      "notice": {
       "low": 0.137251,
-      "central": -0.633445,
-      "high": -3.407315
+      "central": -1.027539,
+      "high": -3.939143
      },
      "notice_day": "2020-05-20",
      "cancelled": 50.0,
@@ -5173,13 +5205,13 @@
      "label": "August",
      "loading": {
       "low": 0.41811,
-      "central": -0.320221,
-      "high": -3.350111
+      "central": -0.714316,
+      "high": -3.88194
      },
      "notice": {
       "low": 0.074384,
-      "central": -0.702822,
-      "high": -3.836401
+      "central": -1.096916,
+      "high": -4.36823
      },
      "notice_day": "2020-06-20",
      "cancelled": 45.0,
@@ -5195,13 +5227,13 @@
      "label": "September",
      "loading": {
       "low": 1.868332,
-      "central": 1.164857,
-      "high": -1.852376
+      "central": 0.770763,
+      "high": -2.384205
      },
      "notice": {
       "low": 1.424398,
-      "central": 0.698414,
-      "high": -3.616923
+      "central": 0.30432,
+      "high": -4.325976
      },
      "notice_day": "2020-07-20",
      "cancelled": 30.0,
@@ -5217,13 +5249,13 @@
      "label": "October",
      "loading": {
       "low": 2.711297,
-      "central": 2.056132,
-      "high": -1.465975
+      "central": 1.662037,
+      "high": -1.997804
      },
      "notice": {
       "low": 2.172226,
-      "central": 1.491358,
-      "high": -2.823979
+      "central": 1.097264,
+      "high": -3.782943
      },
      "notice_day": "2020-08-20",
      "cancelled": null,
@@ -5239,13 +5271,13 @@
      "label": "November",
      "loading": {
       "low": 3.188928,
-      "central": 2.559495,
-      "high": -1.755843
+      "central": 2.1654,
+      "high": -2.311934
      },
      "notice": {
       "low": 0.700002,
-      "central": -0.038525,
-      "high": -3.068032
+      "central": -0.43262,
+      "high": -3.59986
      },
      "notice_day": "2020-09-20",
      "cancelled": null,
@@ -5261,13 +5293,13 @@
      "label": "December",
      "loading": {
       "low": 3.784703,
-      "central": 3.174413,
-      "high": -0.762634
+      "central": 2.780318,
+      "high": -1.294462
      },
      "notice": {
       "low": 1.756718,
-      "central": 1.053312,
-      "high": -1.981682
+      "central": 0.659217,
+      "high": -2.51351
      },
      "notice_day": "2020-10-20",
      "cancelled": null,
@@ -5277,7 +5309,7 @@
     }
    ],
    "y": {
-    "low": -4.0,
+    "low": -6.0,
     "high": 4.0,
     "step": 2.0
    },
@@ -5408,6 +5440,246 @@
     },
     {
      "text": ", when, by Platts' sources, auctioned slots had made Panama impractical for spot cargoes."
+    }
+   ],
+   "spring_segments": [
+    {
+     "text": "In the first half of the latest year a reported charter rate stands for "
+    },
+    {
+     "field": "weeks_reported",
+     "value": 12,
+     "format": "count"
+    },
+    {
+     "text": " weeks, ending "
+    },
+    {
+     "field": "first_reported",
+     "value": "2026-01-07",
+     "label": "7 January 2026"
+    },
+    {
+     "text": " to "
+    },
+    {
+     "field": "last_reported",
+     "value": "2026-04-15",
+     "label": "15 April 2026"
+    },
+    {
+     "text": ", at "
+    },
+    {
+     "text": ""
+    },
+    {
+     "field": "hire_0",
+     "value": 22500.0,
+     "format": "usd_day"
+    },
+    {
+     "text": " $/day"
+    },
+    {
+     "text": " and "
+    },
+    {
+     "field": "hire_1",
+     "value": 71750.0,
+     "format": "usd_day"
+    },
+    {
+     "text": " $/day"
+    },
+    {
+     "text": " and "
+    },
+    {
+     "field": "hire_2",
+     "value": 92000.0,
+     "format": "usd_day"
+    },
+    {
+     "text": " $/day"
+    },
+    {
+     "text": " and "
+    },
+    {
+     "field": "hire_3",
+     "value": 161750.0,
+     "format": "usd_day"
+    },
+    {
+     "text": " $/day"
+    },
+    {
+     "text": ". At those rates the arb east was open in "
+    },
+    {
+     "field": "open_reported",
+     "value": 5,
+     "format": "count"
+    },
+    {
+     "text": " of them"
+    },
+    {
+     "text": ", first in the week ending "
+    },
+    {
+     "field": "first_open",
+     "value": "2026-03-04",
+     "label": "4 March 2026"
+    },
+    {
+     "text": " and last in the week ending "
+    },
+    {
+     "field": "last_open",
+     "value": "2026-04-15",
+     "label": "15 April 2026"
+    },
+    {
+     "text": ", via "
+    },
+    {
+     "field": "route_open",
+     "value": "Panama",
+     "label": "Panama"
+    },
+    {
+     "text": "; at the central hire, in "
+    },
+    {
+     "field": "open_central",
+     "value": 6,
+     "format": "count"
+    },
+    {
+     "text": "."
+    },
+    {
+     "text": " By EIA's exports by destination, the share of US exports by vessel going to Asia was "
+    },
+    {
+     "text": ""
+    },
+    {
+     "field": "share_2025-12",
+     "value": 11.9781,
+     "format": "share_percent"
+    },
+    {
+     "text": " percent in "
+    },
+    {
+     "field": "month_2025-12",
+     "value": "2025-12-01",
+     "label": "December 2025"
+    },
+    {
+     "text": ", "
+    },
+    {
+     "field": "share_2026-01",
+     "value": 5.7945,
+     "format": "share_percent"
+    },
+    {
+     "text": " percent in "
+    },
+    {
+     "field": "month_2026-01",
+     "value": "2026-01-01",
+     "label": "January 2026"
+    },
+    {
+     "text": ", "
+    },
+    {
+     "field": "share_2026-02",
+     "value": 14.5479,
+     "format": "share_percent"
+    },
+    {
+     "text": " percent in "
+    },
+    {
+     "field": "month_2026-02",
+     "value": "2026-02-01",
+     "label": "February 2026"
+    },
+    {
+     "text": ", "
+    },
+    {
+     "field": "share_2026-03",
+     "value": 25.0521,
+     "format": "share_percent"
+    },
+    {
+     "text": " percent in "
+    },
+    {
+     "field": "month_2026-03",
+     "value": "2026-03-01",
+     "label": "March 2026"
+    },
+    {
+     "text": ", "
+    },
+    {
+     "field": "share_2026-04",
+     "value": 30.3207,
+     "format": "share_percent"
+    },
+    {
+     "text": " percent in "
+    },
+    {
+     "field": "month_2026-04",
+     "value": "2026-04-01",
+     "label": "April 2026"
+    },
+    {
+     "text": " and "
+    },
+    {
+     "field": "share_2026-05",
+     "value": 41.2823,
+     "format": "share_percent"
+    },
+    {
+     "text": " percent in "
+    },
+    {
+     "field": "month_2026-05",
+     "value": "2026-05-01",
+     "label": "May 2026"
+    },
+    {
+     "text": ": the cargoes "
+    },
+    {
+     "field": "followed",
+     "value": "followed",
+     "label": "followed"
+    },
+    {
+     "text": " the arb, the share "
+    },
+    {
+     "field": "direction",
+     "value": "rising",
+     "label": "rising"
+    },
+    {
+     "text": " over the months the open weeks fell in"
+    },
+    {
+     "text": ", with the share's other movers, the contracts, the slots and the tariff, unseparated."
     }
    ],
    "story_segments": [
@@ -5606,8 +5878,8 @@
     },
     {
      "field": "y2026_last",
-     "value": "2026-10-14",
-     "label": "14 October 2026"
+     "value": "2026-10-21",
+     "label": "21 October 2026"
     },
     {
      "text": "."
@@ -5657,7 +5929,8 @@
     "2026-09-23",
     "2026-09-30",
     "2026-10-07",
-    "2026-10-14"
+    "2026-10-14",
+    "2026-10-21"
    ],
    "spread": [
     1.38,
@@ -5703,7 +5976,8 @@
     1.26,
     1.71,
     1.01,
-    -1.34
+    -1.34,
+    0.61
    ],
    "panama": [
     0.6665,
@@ -5749,7 +6023,8 @@
     2.008275,
     1.147523,
     -0.195399,
-    0.383825
+    0.383825,
+    0.405066
    ],
    "cape": [
     1.022963,
@@ -5795,7 +6070,8 @@
     2.851096,
     1.937057,
     0.572852,
-    1.247608
+    1.247608,
+    1.302405
    ],
    "y": {
     "low": -4.0,
@@ -5904,9 +6180,9 @@
      "platts": 0.533,
      "at_anchor": 0.826049,
      "study": {
-      "low": 1.32508,
+      "low": 1.298178,
       "central": 1.076237,
-      "high": -0.691219
+      "high": 0.450768
      },
      "reported": null
     },
@@ -5915,9 +6191,9 @@
      "platts": -0.677,
      "at_anchor": -0.048832,
      "study": {
-      "low": 1.202072,
+      "low": 1.134638,
       "central": 0.578306,
-      "high": -3.85212
+      "high": -0.989539
      },
      "reported": null
     }
@@ -6002,7 +6278,35 @@
     },
     {
      "field": "breakeven_2023-07",
-     "value": 10.209617,
+     "value": 11.668418,
+     "format": "days",
+     "missing": "none"
+    },
+    {
+     "text": " at the central hire"
+    },
+    {
+     "text": "; "
+    },
+    {
+     "field": "reported_2023-08",
+     "value": 17.0,
+     "format": "days"
+    },
+    {
+     "text": " days in "
+    },
+    {
+     "field": "month_2023-08",
+     "value": "2023-08-01",
+     "label": "August 2023"
+    },
+    {
+     "text": " against "
+    },
+    {
+     "field": "breakeven_2023-08",
+     "value": 11.745368,
      "format": "days",
      "missing": "none"
     },
@@ -6030,7 +6334,7 @@
     },
     {
      "field": "breakeven_2023-12",
-     "value": 10.672381,
+     "value": 11.886783,
      "format": "days",
      "missing": "none"
     },
@@ -6056,21 +6360,21 @@
      "month": "2023-07-01",
      "label": "July 2023",
      "hire_level": "central",
-     "hire_usd_day": 45500.0,
+     "hire_usd_day": 75500.0,
      "wait_reported": 12.0,
-     "wait_breakeven": 10.209617,
-     "lead_no_wait": 0.499212,
-     "lead_with_wait": -0.087543
+     "wait_breakeven": 11.668418,
+     "lead_no_wait": 0.763685,
+     "lead_with_wait": -0.021702
     },
     {
      "month": "2023-07-01",
      "label": "July 2023",
      "hire_level": "high",
-     "hire_usd_day": 374000.0,
+     "hire_usd_day": 447000.0,
      "wait_reported": 12.0,
-     "wait_breakeven": 14.752232,
-     "lead_no_wait": 3.395192,
-     "lead_with_wait": 0.63342
+     "wait_breakeven": 14.934757,
+     "lead_no_wait": 4.038743,
+     "lead_with_wait": 0.793634
     },
     {
      "month": "2023-07-01",
@@ -6081,6 +6385,46 @@
      "wait_breakeven": 11.508284,
      "lead_no_wait": 0.726218,
      "lead_with_wait": -0.031029
+    },
+    {
+     "month": "2023-08-01",
+     "label": "August 2023",
+     "hire_level": "low",
+     "hire_usd_day": -750.0,
+     "wait_reported": 17.0,
+     "wait_breakeven": 4.497628,
+     "lead_no_wait": 0.110496,
+     "lead_with_wait": -0.307153
+    },
+    {
+     "month": "2023-08-01",
+     "label": "August 2023",
+     "hire_level": "central",
+     "hire_usd_day": 75500.0,
+     "wait_reported": 17.0,
+     "wait_breakeven": 11.745368,
+     "lead_no_wait": 0.782698,
+     "lead_with_wait": -0.350163
+    },
+    {
+     "month": "2023-08-01",
+     "label": "August 2023",
+     "hire_level": "high",
+     "hire_usd_day": 447000.0,
+     "wait_reported": 17.0,
+     "wait_breakeven": 14.939326,
+     "lead_no_wait": 4.057756,
+     "lead_with_wait": -0.559711
+    },
+    {
+     "month": "2023-08-01",
+     "label": "August 2023",
+     "hire_level": "reported",
+     "hire_usd_day": 75500.0,
+     "wait_reported": 17.0,
+     "wait_breakeven": 11.745368,
+     "lead_no_wait": 0.782698,
+     "lead_with_wait": -0.350163
     },
     {
      "month": "2023-12-01",
@@ -6096,96 +6440,106 @@
      "month": "2023-12-01",
      "label": "December 2023",
      "hire_level": "central",
-     "hire_usd_day": 45500.0,
+     "hire_usd_day": 75500.0,
      "wait_reported": 15.0,
-     "wait_breakeven": 10.672381,
-     "lead_no_wait": 0.595095,
-     "lead_with_wait": -0.241309
+     "wait_breakeven": 11.886783,
+     "lead_no_wait": 0.859568,
+     "lead_with_wait": -0.225126
     },
     {
      "month": "2023-12-01",
      "label": "December 2023",
      "hire_level": "high",
-     "hire_usd_day": 374000.0,
+     "hire_usd_day": 447000.0,
      "wait_reported": 15.0,
-     "wait_breakeven": 14.729547,
-     "lead_no_wait": 3.491075,
-     "lead_with_wait": -0.064101
-    }
-   ],
-   "source": "Waits reported: 12 days of delay for unbooked vessels in late July 2023 (LNG Prime, 28 July 2023, quoting Spark); 15 days for unreserved slots in mid December 2023 (IEA, Gas Market Report Q1 2024)",
-   "months": [
-    {
-     "month": "2023-01-01",
-     "wait": 12.250143,
-     "premium": 3359761.286171,
-     "lead": 0.926882
-    },
-    {
-     "month": "2023-02-01",
-     "wait": 11.357809,
-     "premium": 2513357.880121,
-     "lead": 0.693378
-    },
-    {
-     "month": "2023-03-01",
-     "wait": 10.676885,
-     "premium": 2059175.596727,
-     "lead": 0.56808
-    },
-    {
-     "month": "2023-04-01",
-     "wait": 10.398229,
-     "premium": 1905275.391021,
-     "lead": 0.525622
-    },
-    {
-     "month": "2023-05-01",
-     "wait": 9.917655,
-     "premium": 1673110.198332,
-     "lead": 0.461573
-    },
-    {
-     "month": "2023-06-01",
-     "wait": 9.919512,
-     "premium": 1673936.523074,
-     "lead": 0.461801
-    },
-    {
-     "month": "2023-07-01",
-     "wait": 10.209617,
-     "premium": 1809544.809307,
-     "lead": 0.499212
-    },
-    {
-     "month": "2023-08-01",
-     "wait": 10.346656,
-     "premium": 1878462.401065,
-     "lead": 0.518225
-    },
-    {
-     "month": "2023-09-01",
-     "wait": 10.704374,
-     "premium": 2075238.620204,
-     "lead": 0.572511
-    },
-    {
-     "month": "2023-10-01",
-     "wait": 11.064964,
-     "premium": 2302597.834249,
-     "lead": 0.635234
-    },
-    {
-     "month": "2023-11-01",
-     "wait": 11.292424,
-     "premium": 2464015.621511,
-     "lead": 0.679766
+     "wait_breakeven": 14.910848,
+     "lead_no_wait": 4.134626,
+     "lead_with_wait": -0.024721
     },
     {
      "month": "2023-12-01",
-     "wait": 10.672381,
-     "premium": 2157100.93742,
-     "lead": 0.595095
+     "label": "December 2023",
+     "hire_level": "reported",
+     "hire_usd_day": 155250.0,
+     "wait_reported": 15.0,
+     "wait_breakeven": 13.434387,
+     "lead_no_wait": 1.562626,
+     "lead_with_wait": -0.182105
+    }
+   ],
+   "source": "Waits reported: 12 days of delay for unbooked vessels in late July 2023 (LNG Prime, 28 July 2023, quoting Spark); at least 17 days for neopanamax ships in August 2023, 'in all directions of travel', with more than 160 vessels waiting (EIA, Today in Energy, 31 October 2023); 15 days for unreserved slots in mid December 2023 (IEA, Gas Market Report Q1 2024)",
+   "months": [
+    {
+     "month": "2023-01-01",
+     "wait": 12.919236,
+     "premium": 4318423.050877,
+     "lead": 1.191355
+    },
+    {
+     "month": "2023-02-01",
+     "wait": 12.343249,
+     "premium": 3472019.644827,
+     "lead": 0.957851
+    },
+    {
+     "month": "2023-03-01",
+     "wait": 11.934676,
+     "premium": 3017837.361433,
+     "lead": 0.832553
+    },
+    {
+     "month": "2023-04-01",
+     "wait": 11.774568,
+     "premium": 2863937.155727,
+     "lead": 0.790095
+    },
+    {
+     "month": "2023-05-01",
+     "wait": 11.50752,
+     "premium": 2631771.963037,
+     "lead": 0.726046
+    },
+    {
+     "month": "2023-06-01",
+     "wait": 11.508531,
+     "premium": 2632598.28778,
+     "lead": 0.726274
+    },
+    {
+     "month": "2023-07-01",
+     "wait": 11.668418,
+     "premium": 2768206.574013,
+     "lead": 0.763685
+    },
+    {
+     "month": "2023-08-01",
+     "wait": 11.745368,
+     "premium": 2837124.165771,
+     "lead": 0.782698
+    },
+    {
+     "month": "2023-09-01",
+     "wait": 11.950687,
+     "premium": 3033900.38491,
+     "lead": 0.836984
+    },
+    {
+     "month": "2023-10-01",
+     "wait": 12.164427,
+     "premium": 3261259.598955,
+     "lead": 0.899707
+    },
+    {
+     "month": "2023-11-01",
+     "wait": 12.302904,
+     "premium": 3422677.386217,
+     "lead": 0.944239
+    },
+    {
+     "month": "2023-12-01",
+     "wait": 11.886783,
+     "premium": 3115762.702126,
+     "lead": 0.859568
     },
     {
      "month": "2024-01-01",
@@ -6384,6 +6738,12 @@
      "wait": 11.011901,
      "premium": 2873146.551645,
      "lead": 0.728861
+    },
+    {
+     "month": "2026-10-01",
+     "wait": 11.254887,
+     "premium": 3087628.521369,
+     "lead": 0.78327
     }
    ],
    "reported_points": [
@@ -6392,13 +6752,17 @@
      "value": 12.0
     },
     {
+     "day": "2023-08-01",
+     "value": 17.0
+    },
+    {
      "day": "2023-12-01",
      "value": 15.0
     }
    ],
    "y": {
     "low": 0.0,
-    "high": 15.0,
+    "high": 20.0,
     "step": 5.0
    },
    "ticks": [
@@ -6501,6 +6865,1565 @@
      "text": ", was longer than the model needs in March."
     }
    ]
+  },
+  "canals": {
+   "heading_segments": [
+    {
+     "text": "What the canal authorities count: "
+    },
+    {
+     "field": "suez_latest",
+     "value": 282,
+     "format": "count"
+    },
+    {
+     "text": " LNG carriers through Suez in "
+    },
+    {
+     "field": "suez_latest_year",
+     "value": 2025,
+     "format": "year"
+    },
+    {
+     "text": " after "
+    },
+    {
+     "field": "suez_before",
+     "value": 119,
+     "format": "count"
+    },
+    {
+     "text": " in "
+    },
+    {
+     "field": "suez_before_year",
+     "value": 2024,
+     "format": "year"
+    },
+    {
+     "text": " and "
+    },
+    {
+     "field": "suez_peak",
+     "value": 1083,
+     "format": "count"
+    },
+    {
+     "text": " in "
+    },
+    {
+     "field": "suez_peak_year",
+     "value": 2011,
+     "format": "year"
+    },
+    {
+     "text": ", the most; "
+    },
+    {
+     "field": "panama_latest",
+     "value": 61,
+     "format": "count"
+    },
+    {
+     "text": " through Panama in the fiscal year to September "
+    },
+    {
+     "field": "panama_latest_year",
+     "value": 2025,
+     "format": "year"
+    },
+    {
+     "text": " after "
+    },
+    {
+     "field": "panama_peak",
+     "value": 537,
+     "format": "count"
+    },
+    {
+     "text": " in fiscal "
+    },
+    {
+     "field": "panama_peak_year",
+     "value": 2021,
+     "format": "year"
+    },
+    {
+     "text": ". Both count every LNG carrier in both directions, Suez's deliveries to Egypt and Jordan and ballast legs included, so neither is a count of US cargoes bound for Asia."
+    }
+   ],
+   "years": [
+    {
+     "year": 2007,
+     "suez_ships": 358,
+     "suez_net_ton_thousand": 32776,
+     "panama_transits": null
+    },
+    {
+     "year": 2008,
+     "suez_ships": 429,
+     "suez_net_ton_thousand": 38987,
+     "panama_transits": null
+    },
+    {
+     "year": 2009,
+     "suez_ships": 525,
+     "suez_net_ton_thousand": 52900,
+     "panama_transits": null
+    },
+    {
+     "year": 2010,
+     "suez_ships": 855,
+     "suez_net_ton_thousand": 91040,
+     "panama_transits": null
+    },
+    {
+     "year": 2011,
+     "suez_ships": 1083,
+     "suez_net_ton_thousand": 121831,
+     "panama_transits": null
+    },
+    {
+     "year": 2012,
+     "suez_ships": 800,
+     "suez_net_ton_thousand": 88636,
+     "panama_transits": null
+    },
+    {
+     "year": 2013,
+     "suez_ships": 649,
+     "suez_net_ton_thousand": 70317,
+     "panama_transits": null
+    },
+    {
+     "year": 2014,
+     "suez_ships": 614,
+     "suez_net_ton_thousand": 66894,
+     "panama_transits": null
+    },
+    {
+     "year": 2015,
+     "suez_ships": 670,
+     "suez_net_ton_thousand": 72996,
+     "panama_transits": null
+    },
+    {
+     "year": 2016,
+     "suez_ships": 575,
+     "suez_net_ton_thousand": 61242,
+     "panama_transits": 15
+    },
+    {
+     "year": 2017,
+     "suez_ships": 567,
+     "suez_net_ton_thousand": 59953,
+     "panama_transits": 163
+    },
+    {
+     "year": 2018,
+     "suez_ships": 691,
+     "suez_net_ton_thousand": 73480,
+     "panama_transits": 290
+    },
+    {
+     "year": 2019,
+     "suez_ships": 750,
+     "suez_net_ton_thousand": 84700,
+     "panama_transits": 399
+    },
+    {
+     "year": 2020,
+     "suez_ships": 686,
+     "suez_net_ton_thousand": 77500,
+     "panama_transits": 419
+    },
+    {
+     "year": 2021,
+     "suez_ships": 937,
+     "suez_net_ton_thousand": 100968,
+     "panama_transits": 537
+    },
+    {
+     "year": 2022,
+     "suez_ships": 901,
+     "suez_net_ton_thousand": 100614,
+     "panama_transits": 374
+    },
+    {
+     "year": 2023,
+     "suez_ships": 819,
+     "suez_net_ton_thousand": 91849,
+     "panama_transits": 326
+    },
+    {
+     "year": 2024,
+     "suez_ships": 119,
+     "suez_net_ton_thousand": 13176,
+     "panama_transits": 115
+    },
+    {
+     "year": 2025,
+     "suez_ships": 282,
+     "suez_net_ton_thousand": 30627,
+     "panama_transits": 61
+    }
+   ],
+   "cwt": {
+    "heading_segments": [
+     {
+      "text": "Canal Waters Time at Panama, the hours from a ship's arrival to its departure, waiting included, averaged over every ship in the month: "
+     },
+     {
+      "field": "cwt_median",
+      "value": 28.3,
+      "format": "hours"
+     },
+     {
+      "text": " hours in the median month since the neopanamax locks opened in "
+     },
+     {
+      "field": "neopanamax_from",
+      "value": "2016-07-01",
+      "label": "July 2016"
+     },
+     {
+      "text": ", "
+     },
+     {
+      "field": "cwt_peak",
+      "value": 66.53,
+      "format": "hours"
+     },
+     {
+      "text": " in "
+     },
+     {
+      "field": "cwt_peak_month",
+      "value": "2023-08-01",
+      "label": "August 2023"
+     },
+     {
+      "text": ", the highest month, when the day's high reached "
+     },
+     {
+      "field": "cwt_peak_high",
+      "value": 104.8,
+      "format": "hours"
+     },
+     {
+      "text": " hours. The Authority counts every ship and does not split the figure by segment or by booked and unbooked ships, so a month's average bounds what an LNG carrier without a slot waited rather than measures it."
+     }
+    ],
+    "days": [
+     "2006-07-01",
+     "2006-08-01",
+     "2006-09-01",
+     "2006-10-01",
+     "2006-11-01",
+     "2006-12-01",
+     "2007-01-01",
+     "2007-02-01",
+     "2007-03-01",
+     "2007-04-01",
+     "2007-05-01",
+     "2007-06-01",
+     "2007-07-01",
+     "2007-08-01",
+     "2007-09-01",
+     "2007-10-01",
+     "2007-11-01",
+     "2007-12-01",
+     "2008-01-01",
+     "2008-02-01",
+     "2008-03-01",
+     "2008-04-01",
+     "2008-05-01",
+     "2008-06-01",
+     "2008-07-01",
+     "2008-08-01",
+     "2008-09-01",
+     "2008-10-01",
+     "2008-11-01",
+     "2008-12-01",
+     "2009-01-01",
+     "2009-02-01",
+     "2009-03-01",
+     "2009-04-01",
+     "2009-05-01",
+     "2009-06-01",
+     "2009-07-01",
+     "2009-08-01",
+     "2009-09-01",
+     "2009-10-01",
+     "2009-11-01",
+     "2009-12-01",
+     "2010-01-01",
+     "2010-02-01",
+     "2010-03-01",
+     "2010-04-01",
+     "2010-05-01",
+     "2010-06-01",
+     "2010-07-01",
+     "2010-08-01",
+     "2010-09-01",
+     "2010-10-01",
+     "2010-11-01",
+     "2010-12-01",
+     "2011-01-01",
+     "2011-02-01",
+     "2011-03-01",
+     "2011-04-01",
+     "2011-05-01",
+     "2011-06-01",
+     "2011-07-01",
+     "2011-08-01",
+     "2011-09-01",
+     "2011-10-01",
+     "2011-11-01",
+     "2011-12-01",
+     "2012-01-01",
+     "2012-02-01",
+     "2012-03-01",
+     "2012-04-01",
+     "2012-05-01",
+     "2012-06-01",
+     "2012-07-01",
+     "2012-08-01",
+     "2012-09-01",
+     "2012-10-01",
+     "2012-11-01",
+     "2012-12-01",
+     "2013-01-01",
+     "2013-02-01",
+     "2013-03-01",
+     "2013-04-01",
+     "2013-05-01",
+     "2013-06-01",
+     "2013-07-01",
+     "2013-08-01",
+     "2013-09-01",
+     "2013-10-01",
+     "2013-11-01",
+     "2013-12-01",
+     "2014-01-01",
+     "2014-02-01",
+     "2014-03-01",
+     "2014-04-01",
+     "2014-05-01",
+     "2014-06-01",
+     "2014-07-01",
+     "2014-08-01",
+     "2014-09-01",
+     "2014-10-01",
+     "2014-11-01",
+     "2014-12-01",
+     "2015-01-01",
+     "2015-02-01",
+     "2015-03-01",
+     "2015-04-01",
+     "2015-05-01",
+     "2015-06-01",
+     "2015-07-01",
+     "2015-08-01",
+     "2015-09-01",
+     "2015-10-01",
+     "2015-11-01",
+     "2015-12-01",
+     "2016-01-01",
+     "2016-02-01",
+     "2016-03-01",
+     "2016-04-01",
+     "2016-05-01",
+     "2016-06-01",
+     "2016-07-01",
+     "2016-08-01",
+     "2016-09-01",
+     "2016-10-01",
+     "2016-11-01",
+     "2016-12-01",
+     "2017-01-01",
+     "2017-02-01",
+     "2017-03-01",
+     "2017-04-01",
+     "2017-05-01",
+     "2017-06-01",
+     "2017-07-01",
+     "2017-08-01",
+     "2017-10-01",
+     "2017-11-01",
+     "2017-12-01",
+     "2018-01-01",
+     "2018-02-01",
+     "2018-03-01",
+     "2018-04-01",
+     "2018-05-01",
+     "2018-06-01",
+     "2018-07-01",
+     "2018-08-01",
+     "2018-09-01",
+     "2018-10-01",
+     "2018-11-01",
+     "2018-12-01",
+     "2019-01-01",
+     "2019-02-01",
+     "2019-03-01",
+     "2019-04-01",
+     "2019-05-01",
+     "2019-06-01",
+     "2019-07-01",
+     "2019-08-01",
+     "2019-09-01",
+     "2019-10-01",
+     "2019-11-01",
+     "2019-12-01",
+     "2020-01-01",
+     "2020-02-01",
+     "2020-05-01",
+     "2020-06-01",
+     "2020-07-01",
+     "2020-08-01",
+     "2020-09-01",
+     "2020-10-01",
+     "2020-11-01",
+     "2020-12-01",
+     "2021-01-01",
+     "2021-02-01",
+     "2021-03-01",
+     "2021-04-01",
+     "2021-05-01",
+     "2021-06-01",
+     "2021-07-01",
+     "2021-08-01",
+     "2021-09-01",
+     "2021-10-01",
+     "2021-11-01",
+     "2021-12-01",
+     "2022-01-01",
+     "2022-02-01",
+     "2022-03-01",
+     "2022-04-01",
+     "2022-05-01",
+     "2022-06-01",
+     "2022-07-01",
+     "2022-08-01",
+     "2022-09-01",
+     "2022-10-01",
+     "2022-11-01",
+     "2022-12-01",
+     "2023-01-01",
+     "2023-02-01",
+     "2023-03-01",
+     "2023-04-01",
+     "2023-05-01",
+     "2023-06-01",
+     "2023-07-01",
+     "2023-08-01",
+     "2023-09-01",
+     "2023-10-01",
+     "2023-11-01",
+     "2023-12-01",
+     "2024-01-01",
+     "2024-02-01",
+     "2024-03-01",
+     "2024-04-01",
+     "2024-05-01",
+     "2024-06-01",
+     "2024-07-01",
+     "2024-08-01",
+     "2024-09-01",
+     "2024-10-01",
+     "2024-11-01",
+     "2024-12-01",
+     "2025-01-01",
+     "2025-02-01",
+     "2025-03-01",
+     "2025-04-01",
+     "2025-05-01",
+     "2025-06-01",
+     "2025-07-01",
+     "2025-08-01",
+     "2025-09-01",
+     "2025-10-01",
+     "2025-11-01",
+     "2025-12-01",
+     "2026-01-01",
+     "2026-02-01",
+     "2026-03-01",
+     "2026-04-01",
+     "2026-05-01",
+     "2026-06-01",
+     "2026-07-01",
+     "2026-08-01",
+     "2026-09-01"
+    ],
+    "avg": [
+     32.51,
+     34.42,
+     22.06,
+     26.64,
+     37.58,
+     26.05,
+     32.13,
+     22.33,
+     27.28,
+     24.68,
+     27.43,
+     21.04,
+     28.92,
+     24.84,
+     35.37,
+     22.98,
+     27.22,
+     22.52,
+     24.56,
+     29.79,
+     53.67,
+     44.22,
+     42.96,
+     26.47,
+     31.72,
+     26.26,
+     21.75,
+     26.41,
+     25.89,
+     31.36,
+     22.87,
+     31.89,
+     24.41,
+     22.67,
+     18.75,
+     18.3,
+     18.82,
+     18.09,
+     16.28,
+     20.45,
+     22.26,
+     18.2,
+     20.25,
+     19.09,
+     19.84,
+     19.94,
+     22.48,
+     20.87,
+     21.63,
+     20.47,
+     28.31,
+     33.87,
+     30.03,
+     26.52,
+     26.08,
+     32.32,
+     24.78,
+     24.56,
+     21.2,
+     26.1,
+     21.18,
+     27.72,
+     26.22,
+     23.72,
+     30.58,
+     27.75,
+     31.71,
+     26.3,
+     20.22,
+     22.36,
+     21.39,
+     33.22,
+     21.5,
+     26.49,
+     22.03,
+     24.4,
+     24.62,
+     21.11,
+     23.2,
+     26.29,
+     21.57,
+     24.15,
+     27.47,
+     23.38,
+     23.65,
+     25.24,
+     29.22,
+     33.7,
+     47.53,
+     30.99,
+     28.69,
+     30.98,
+     34.72,
+     27.45,
+     26.5,
+     23.77,
+     24.34,
+     28.61,
+     38.8,
+     32.51,
+     32.33,
+     28.85,
+     27.71,
+     30.8,
+     39.72,
+     30.09,
+     29.02,
+     24.75,
+     23.94,
+     29.87,
+     37.24,
+     62.67,
+     50.85,
+     24.2,
+     26.84,
+     31.76,
+     31.24,
+     23.28,
+     27.65,
+     22.88,
+     25.22,
+     28.26,
+     29.07,
+     27.14,
+     29.86,
+     28.9,
+     38.79,
+     27.86,
+     27.46,
+     26.35,
+     24.87,
+     26.03,
+     29.83,
+     31.53,
+     32.86,
+     25.83,
+     24.53,
+     23.35,
+     26.76,
+     27.66,
+     28.61,
+     24.97,
+     22.03,
+     23.59,
+     25.8,
+     25.51,
+     23.83,
+     24.52,
+     21.87,
+     25.58,
+     25.94,
+     22.27,
+     23.19,
+     25.07,
+     22.14,
+     24.85,
+     34.25,
+     25.64,
+     32.95,
+     33.01,
+     30.62,
+     31.73,
+     36.84,
+     26.21,
+     25.13,
+     28.34,
+     31.35,
+     38.58,
+     47.49,
+     39.53,
+     51.76,
+     51.88,
+     38.68,
+     38.15,
+     35.14,
+     38.46,
+     34.02,
+     51.04,
+     37.99,
+     24.21,
+     38.57,
+     46.42,
+     43.65,
+     41.89,
+     47.45,
+     35.67,
+     33.16,
+     44.78,
+     39.26,
+     34.34,
+     38.33,
+     37.18,
+     38.49,
+     55.79,
+     48.76,
+     38.91,
+     35.18,
+     39.31,
+     43.89,
+     33.16,
+     30.94,
+     46.99,
+     66.53,
+     50.23,
+     53.72,
+     40.71,
+     44.1,
+     32.1,
+     20.9,
+     20.7,
+     20.2,
+     22.9,
+     19.1,
+     18.3,
+     18.3,
+     20.2,
+     20.1,
+     21.1,
+     21.7,
+     20.2,
+     20.8,
+     19.3,
+     20.7,
+     19.1,
+     18.9,
+     20.8,
+     21.6,
+     21.4,
+     20.2,
+     18.4,
+     20.81,
+     20.3,
+     19.1,
+     21.39,
+     32.33,
+     31.2,
+     23.8,
+     25.38,
+     34.9,
+     37.97
+    ],
+    "high": [
+     54.76,
+     61.67,
+     35.41,
+     37.47,
+     58.74,
+     32.88,
+     48.04,
+     26.3,
+     37.21,
+     38.46,
+     46.63,
+     30.7,
+     46.52,
+     35.13,
+     56.49,
+     27.81,
+     45.29,
+     28.95,
+     36.21,
+     51.51,
+     69.47,
+     59.01,
+     61.03,
+     35.21,
+     49.82,
+     33.47,
+     28.18,
+     38.78,
+     35.98,
+     49.74,
+     29.45,
+     49.5,
+     38.29,
+     30.84,
+     27.39,
+     22.77,
+     36.87,
+     23.48,
+     19.67,
+     27.9,
+     29.96,
+     22.71,
+     29.65,
+     23.8,
+     25.7,
+     24.92,
+     30.49,
+     29.02,
+     29.22,
+     26.42,
+     45.96,
+     57.34,
+     48.64,
+     48.57,
+     36.22,
+     41.28,
+     37.77,
+     33.04,
+     28.56,
+     46.85,
+     31.5,
+     38.66,
+     46.22,
+     34.71,
+     43.28,
+     39.24,
+     43.0,
+     38.68,
+     30.06,
+     33.0,
+     27.59,
+     62.32,
+     32.47,
+     42.97,
+     31.03,
+     39.12,
+     34.89,
+     27.56,
+     32.28,
+     39.82,
+     26.42,
+     33.68,
+     47.76,
+     39.76,
+     33.26,
+     37.29,
+     40.55,
+     57.0,
+     64.75,
+     49.58,
+     43.06,
+     52.47,
+     46.89,
+     36.65,
+     44.09,
+     30.28,
+     28.12,
+     39.44,
+     71.63,
+     41.72,
+     42.05,
+     43.67,
+     39.25,
+     40.77,
+     68.94,
+     38.53,
+     47.5,
+     31.78,
+     34.69,
+     40.72,
+     80.78,
+     79.41,
+     80.73,
+     31.83,
+     36.16,
+     42.1,
+     46.62,
+     30.37,
+     47.97,
+     33.87,
+     36.82,
+     54.43,
+     37.91,
+     38.72,
+     48.85,
+     41.2,
+     59.54,
+     35.41,
+     46.75,
+     36.0,
+     41.23,
+     70.17,
+     39.55,
+     49.64,
+     44.14,
+     42.64,
+     38.53,
+     32.08,
+     51.03,
+     47.73,
+     44.38,
+     40.1,
+     29.17,
+     33.98,
+     36.27,
+     34.45,
+     36.58,
+     36.14,
+     27.92,
+     34.72,
+     39.56,
+     29.22,
+     33.53,
+     37.17,
+     33.59,
+     34.92,
+     49.92,
+     34.06,
+     47.78,
+     50.78,
+     40.99,
+     42.89,
+     70.34,
+     45.32,
+     37.05,
+     19.0,
+     61.23,
+     57.06,
+     63.43,
+     59.06,
+     68.51,
+     75.16,
+     71.53,
+     50.88,
+     53.73,
+     56.73,
+     46.9,
+     95.43,
+     64.3,
+     44.26,
+     59.99,
+     66.43,
+     79.71,
+     94.29,
+     72.08,
+     66.4,
+     43.32,
+     68.92,
+     53.82,
+     53.32,
+     60.83,
+     59.72,
+     68.98,
+     86.66,
+     86.28,
+     66.01,
+     56.07,
+     60.08,
+     66.01,
+     44.19,
+     52.44,
+     76.39,
+     104.8,
+     77.85,
+     100.23,
+     61.15,
+     87.06,
+     84.9,
+     33.8,
+     34.5,
+     28.4,
+     38.4,
+     31.4,
+     26.1,
+     26.1,
+     31.3,
+     26.4,
+     33.6,
+     29.3,
+     29.6,
+     28.3,
+     27.6,
+     26.3,
+     22.2,
+     27.6,
+     26.9,
+     32.2,
+     27.0,
+     28.1,
+     23.4,
+     33.63,
+     29.52,
+     23.7,
+     32.02,
+     56.72,
+     61.68,
+     52.06,
+     41.13,
+     69.41,
+     78.15
+    ],
+    "low": [
+     21.73,
+     20.04,
+     15.82,
+     17.4,
+     22.8,
+     18.83,
+     18.67,
+     17.48,
+     21.51,
+     17.97,
+     13.39,
+     15.53,
+     17.8,
+     17.93,
+     15.26,
+     18.28,
+     15.98,
+     17.54,
+     17.46,
+     16.03,
+     39.28,
+     36.29,
+     28.84,
+     20.24,
+     16.83,
+     17.77,
+     12.46,
+     18.94,
+     18.89,
+     15.57,
+     17.11,
+     16.98,
+     16.99,
+     17.05,
+     14.73,
+     13.11,
+     12.43,
+     14.33,
+     12.75,
+     13.72,
+     14.87,
+     14.84,
+     13.39,
+     15.28,
+     16.17,
+     14.18,
+     15.91,
+     15.4,
+     16.78,
+     14.99,
+     17.29,
+     19.11,
+     19.51,
+     17.13,
+     16.61,
+     23.26,
+     17.68,
+     15.92,
+     15.77,
+     15.57,
+     16.48,
+     18.83,
+     15.59,
+     16.88,
+     20.16,
+     21.03,
+     22.0,
+     16.94,
+     14.75,
+     17.31,
+     16.5,
+     19.53,
+     16.39,
+     16.94,
+     16.84,
+     18.09,
+     19.94,
+     16.53,
+     15.86,
+     16.68,
+     16.97,
+     18.67,
+     17.13,
+     14.43,
+     16.86,
+     17.97,
+     20.27,
+     19.29,
+     31.38,
+     20.41,
+     18.29,
+     19.82,
+     27.03,
+     18.23,
+     18.46,
+     17.52,
+     16.06,
+     21.09,
+     20.52,
+     24.87,
+     23.9,
+     18.75,
+     18.26,
+     21.16,
+     25.68,
+     24.12,
+     20.94,
+     16.33,
+     18.03,
+     24.77,
+     19.96,
+     41.05,
+     20.46,
+     17.52,
+     20.41,
+     23.19,
+     19.93,
+     16.63,
+     16.63,
+     16.11,
+     19.21,
+     15.01,
+     20.82,
+     16.97,
+     16.89,
+     17.77,
+     23.46,
+     20.75,
+     17.95,
+     19.23,
+     17.11,
+     17.54,
+     23.01,
+     22.32,
+     21.86,
+     17.64,
+     18.67,
+     15.67,
+     19.19,
+     19.03,
+     19.03,
+     18.53,
+     16.64,
+     16.8,
+     18.56,
+     19.96,
+     15.42,
+     16.33,
+     17.69,
+     15.85,
+     18.17,
+     17.42,
+     15.55,
+     15.62,
+     17.42,
+     18.89,
+     19.71,
+     18.11,
+     23.4,
+     24.16,
+     23.23,
+     25.92,
+     20.71,
+     17.8,
+     15.87,
+     40.38,
+     15.27,
+     22.66,
+     21.8,
+     23.42,
+     31.33,
+     34.47,
+     21.22,
+     25.49,
+     22.19,
+     20.99,
+     18.37,
+     24.36,
+     20.62,
+     16.55,
+     21.27,
+     24.67,
+     25.73,
+     22.79,
+     24.46,
+     21.43,
+     23.25,
+     26.33,
+     29.94,
+     20.28,
+     20.1,
+     21.55,
+     23.41,
+     29.3,
+     25.11,
+     24.47,
+     22.17,
+     22.28,
+     22.71,
+     20.89,
+     18.62,
+     18.65,
+     24.36,
+     25.24,
+     30.96,
+     15.91,
+     17.46,
+     15.8,
+     14.3,
+     14.2,
+     15.5,
+     15.7,
+     15.0,
+     14.8,
+     14.8,
+     14.4,
+     15.9,
+     14.9,
+     17.6,
+     16.2,
+     16.2,
+     16.2,
+     15.9,
+     15.1,
+     15.4,
+     15.7,
+     16.4,
+     15.8,
+     15.9,
+     15.3,
+     14.4,
+     16.13,
+     16.3,
+     15.96,
+     18.92,
+     17.26,
+     16.65,
+     17.42,
+     20.25,
+     17.6
+    ],
+    "y": {
+     "low": 0.0,
+     "high": 150.0,
+     "step": 50.0
+    },
+    "ticks": [
+     {
+      "day": "2007-01-01",
+      "label": "2007"
+     },
+     {
+      "day": "2008-01-01",
+      "label": "2008"
+     },
+     {
+      "day": "2009-01-01",
+      "label": "2009"
+     },
+     {
+      "day": "2010-01-01",
+      "label": "2010"
+     },
+     {
+      "day": "2011-01-01",
+      "label": "2011"
+     },
+     {
+      "day": "2012-01-01",
+      "label": "2012"
+     },
+     {
+      "day": "2013-01-01",
+      "label": "2013"
+     },
+     {
+      "day": "2014-01-01",
+      "label": "2014"
+     },
+     {
+      "day": "2015-01-01",
+      "label": "2015"
+     },
+     {
+      "day": "2016-01-01",
+      "label": "2016"
+     },
+     {
+      "day": "2017-01-01",
+      "label": "2017"
+     },
+     {
+      "day": "2018-01-01",
+      "label": "2018"
+     },
+     {
+      "day": "2019-01-01",
+      "label": "2019"
+     },
+     {
+      "day": "2020-01-01",
+      "label": "2020"
+     },
+     {
+      "day": "2021-01-01",
+      "label": "2021"
+     },
+     {
+      "day": "2022-01-01",
+      "label": "2022"
+     },
+     {
+      "day": "2023-01-01",
+      "label": "2023"
+     },
+     {
+      "day": "2024-01-01",
+      "label": "2024"
+     },
+     {
+      "day": "2025-01-01",
+      "label": "2025"
+     },
+     {
+      "day": "2026-01-01",
+      "label": "2026"
+     }
+    ],
+    "wait_months": [
+     "2023-07-01",
+     "2023-07-01",
+     "2023-07-01",
+     "2023-07-01",
+     "2023-08-01",
+     "2023-08-01",
+     "2023-08-01",
+     "2023-08-01",
+     "2023-12-01",
+     "2023-12-01",
+     "2023-12-01",
+     "2023-12-01"
+    ],
+    "desc": "A line of the month's average Canal Waters Time in hours, between a thin line of the month's highest day and a dotted line of its lowest. The months with a wait reported for LNG carriers are marked in the accent."
+   },
+   "chokepoints": [
+    "Panama Canal",
+    "Suez Canal",
+    "Bab el-Mandeb Strait",
+    "Cape of Good Hope",
+    "Strait of Hormuz",
+    "Strait of Malacca",
+    "Danish Straits",
+    "Turkish Straits"
+   ],
+   "annual": [
+    {
+     "date": "2020-01-01",
+     "label": "2020",
+     "values": {
+      "Bab el-Mandeb Strait": 3.8,
+      "Cape of Good Hope": 3.5,
+      "Danish Straits": 0.5,
+      "Strait of Hormuz": 10.7,
+      "Strait of Malacca": 7.4,
+      "Suez Canal": 3.8,
+      "Turkish Straits": 0.6
+     }
+    },
+    {
+     "date": "2021-01-01",
+     "label": "2021",
+     "values": {
+      "Bab el-Mandeb Strait": 4.7,
+      "Cape of Good Hope": 3.3,
+      "Danish Straits": 0.5,
+      "Strait of Hormuz": 10.8,
+      "Strait of Malacca": 8.9,
+      "Suez Canal": 4.7,
+      "Turkish Straits": 0.6
+     }
+    },
+    {
+     "date": "2022-01-01",
+     "label": "2022",
+     "values": {
+      "Bab el-Mandeb Strait": 4.6,
+      "Cape of Good Hope": 1.5,
+      "Danish Straits": 1.1,
+      "Strait of Hormuz": 11.0,
+      "Strait of Malacca": 8.3,
+      "Suez Canal": 4.6,
+      "Turkish Straits": 0.6
+     }
+    },
+    {
+     "date": "2023-01-01",
+     "label": "2023",
+     "values": {
+      "Bab el-Mandeb Strait": 4.2,
+      "Cape of Good Hope": 2.1,
+      "Danish Straits": 1.4,
+      "Strait of Hormuz": 10.6,
+      "Strait of Malacca": 9.4,
+      "Suez Canal": 4.1,
+      "Turkish Straits": 0.5
+     }
+    },
+    {
+     "date": "2024-01-01",
+     "label": "2024",
+     "values": {
+      "Bab el-Mandeb Strait": 0.0,
+      "Cape of Good Hope": 7.8,
+      "Danish Straits": 1.4,
+      "Strait of Hormuz": 10.5,
+      "Strait of Malacca": 10.1,
+      "Suez Canal": 0.5,
+      "Turkish Straits": 0.5
+     }
+    },
+    {
+     "date": "2025-01-01",
+     "label": "2025 first half",
+     "values": {
+      "Bab el-Mandeb Strait": 0.0,
+      "Cape of Good Hope": 5.7,
+      "Danish Straits": 1.6,
+      "Strait of Hormuz": 11.4,
+      "Strait of Malacca": 9.2,
+      "Suez Canal": 0.9,
+      "Turkish Straits": 0.6
+     }
+    }
+   ],
+   "quarterly": [
+    {
+     "date": "2025-01-01",
+     "label": "Q1 2025",
+     "values": {
+      "Bab el-Mandeb Strait": 0.3,
+      "Cape of Good Hope": 4.2,
+      "Danish Straits": 1.6,
+      "Panama Canal": 0.2,
+      "Strait of Hormuz": 11.7,
+      "Strait of Malacca": 9.1,
+      "Suez Canal": 0.8,
+      "Turkish Straits": 1.1
+     }
+    },
+    {
+     "date": "2025-04-01",
+     "label": "Q2 2025",
+     "values": {
+      "Bab el-Mandeb Strait": null,
+      "Cape of Good Hope": 7.0,
+      "Danish Straits": 1.6,
+      "Panama Canal": 0.3,
+      "Strait of Hormuz": 11.0,
+      "Strait of Malacca": 9.5,
+      "Suez Canal": 0.8,
+      "Turkish Straits": 0.3
+     }
+    },
+    {
+     "date": "2025-07-01",
+     "label": "Q3 2025",
+     "values": {
+      "Bab el-Mandeb Strait": null,
+      "Cape of Good Hope": 6.3,
+      "Danish Straits": 1.5,
+      "Panama Canal": 0.4,
+      "Strait of Hormuz": 10.9,
+      "Strait of Malacca": 8.9,
+      "Suez Canal": 2.1,
+      "Turkish Straits": 0.2
+     }
+    },
+    {
+     "date": "2025-10-01",
+     "label": "Q4 2025",
+     "values": {
+      "Bab el-Mandeb Strait": 1.1,
+      "Cape of Good Hope": 6.0,
+      "Danish Straits": 1.9,
+      "Panama Canal": 0.3,
+      "Strait of Hormuz": 10.5,
+      "Strait of Malacca": 10.1,
+      "Suez Canal": 1.6,
+      "Turkish Straits": 0.8
+     }
+    },
+    {
+     "date": "2026-01-01",
+     "label": "Q1 2026",
+     "values": {
+      "Bab el-Mandeb Strait": 3.0,
+      "Cape of Good Hope": 4.8,
+      "Danish Straits": 1.8,
+      "Panama Canal": 0.3,
+      "Strait of Hormuz": 7.4,
+      "Strait of Malacca": 8.3,
+      "Suez Canal": 1.8,
+      "Turkish Straits": 0.8
+     }
+    },
+    {
+     "date": "2026-04-01",
+     "label": "Q2 2026",
+     "values": {
+      "Bab el-Mandeb Strait": null,
+      "Cape of Good Hope": 9.7,
+      "Danish Straits": 1.4,
+      "Panama Canal": 0.6,
+      "Strait of Hormuz": 0.8,
+      "Strait of Malacca": 5.5,
+      "Suez Canal": 1.5,
+      "Turkish Straits": 0.3
+     }
+    }
+   ],
+   "annual_caption_segments": [
+    {
+     "text": "LNG through each chokepoint in billion cubic feet a day, EIA's analysis of Vortexa's tanker tracking, by calendar year and the first half of "
+    },
+    {
+     "field": "annual_last_year",
+     "value": 2025,
+     "format": "year"
+    },
+    {
+     "text": "; volumes in both directions, not split by origin."
+    }
+   ],
+   "quarterly_caption_segments": [
+    {
+     "text": "The same by quarter, from the Short-Term Energy Outlook's energy security article, the "
+    },
+    {
+     "field": "quarterly_first_quarter",
+     "value": "first",
+     "label": "first"
+    },
+    {
+     "text": " quarter of "
+    },
+    {
+     "field": "quarterly_first_year",
+     "value": 2025,
+     "format": "year"
+    },
+    {
+     "text": " to the "
+    },
+    {
+     "field": "quarterly_last_quarter",
+     "value": "second",
+     "label": "second"
+    },
+    {
+     "text": " quarter of "
+    },
+    {
+     "field": "quarterly_last_year",
+     "value": 2026,
+     "format": "year"
+    },
+    {
+     "text": "; a cell EIA prints as a dash is left empty, since EIA does not say whether it is zero or not available."
+    }
+   ],
+   "years_caption": "LNG carriers through the two canals a year, as their authorities count them: Suez by calendar year with their Suez Canal net tonnage in thousands of tons, Panama by fiscal year ending on 30 September, from the neopanamax locks' first full fiscal year.",
+   "words": {
+    "heading": "The canals, as their authorities count them",
+    "cwt_legend": "Ink: the month's average Canal Waters Time. Thin: the month's highest day. Dotted: its lowest. Accent: the months with a wait reported for LNG carriers. Source: Panama Canal Authority, Monthly Canal Operations Summary, advisories A-22-2006 to A-38-2026; non-commercial use, and the Authority's figures may vary with traffic audits.",
+    "years_source": "Sources: Suez Canal Authority, annual navigation reports, Table 3; Panama Canal Authority, annual reports, read by eye in their charts and text.",
+    "chokepoints_source": "Source: U.S. Energy Information Administration, World Oil Transit Chokepoints and Short-Term Energy Outlook, analysis based on Vortexa tanker tracking data, with the vintages the Provenance view records.",
+    "suez_head": "Suez, LNG carriers",
+    "suez_tons_head": "Suez, net tons, thousands",
+    "panama_head": "Panama, LNG carriers, fiscal year",
+    "year_head": "Year",
+    "chokepoint_head": "Period",
+    "cwt_y_axis": "hours"
+   }
   },
   "limits_segments": [
    {

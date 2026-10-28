@@ -27,18 +27,24 @@ was decided on the strength of it.
 | `doe_lng_export_cargoes` | US LNG exports and re-exports cargo by cargo from January 2016: departure date, exporter, docket, supplier, ship, port of exit, destination, MMcf | read from the year's page on the [report list](https://www.energy.gov/hgeo/listings/natural-gas-imports-and-exports-monthly-reports); the file's path changes | monthly, with DOE's report | **yes** | US public domain |
 | `eia_henry_hub_daily` | Henry Hub spot price, daily, USD/MMBtu, credited by EIA to Refinitiv | [RNGWHHDd.xls](https://www.eia.gov/dnav/ng/hist_xls/RNGWHHDd.xls) | weekly release, daily values | **yes**, with the doubt in 2.1 | US public domain |
 | `acer_lng_daily` | ACER's DES LNG assessments for NWE, SE and the EU, its EU benchmark to TTF, and the NWE spread to TTF this study computes from them, daily, EUR/MWh, from 19 January 2023 | TERMINAL's historical download, saved by hand, with the [correction notice](https://www.acer.europa.eu/sites/default/files/documents/en/Gas/LNG_Price_Assessment/LNGPA_Correction_Notice_20241220.pdf) | each weekday; extended when the download is saved again | **yes** | ACER legal notice, with the doubt in 2.7 |
-| `ec_eua_auction_monthly` | EU allowance price, monthly volume weighted average auction clearing price, EUR/t, January 2023 to June 2025 | quarterly reports linked from the [Commission's auctioning page](https://climate.ec.europa.eu/areas-action/carbon-markets/eu-emissions-trading-system-eu-ets/auctioning-allowances_en) | quarterly, lagging | **yes** | CC BY 4.0, with the doubt in 2.8 |
-| `dehst_eua_german_auction_monthly` | EU allowance price in Germany's auctions on EEX, monthly average, EUR/t, January 2024 to August 2026, the proxy after June 2025 | the latest report of each year linked from [DEHSt's reports page](https://www.dehst.de/EN/Topics/EU-ETS-1/EU-ETS-1-Information/Analyses-and-Reports/analysis-and-reports_node.html) | monthly, about a month after | **yes**, for non-commercial use, with the doubt in 2.23 | CC BY-NC-ND 4.0, figures credited to EEX and DEHSt |
+| `ec_eua_auction_monthly` | EU allowance price, monthly volume weighted average auction clearing price, EUR/t, November 2012 to June 2025 | quarterly reports linked from the [Commission's auctioning page](https://climate.ec.europa.eu/areas-action/carbon-markets/eu-emissions-trading-system-eu-ets/auctioning-allowances_en) | quarterly, lagging | **yes** | CC BY 4.0, with the doubt in 2.8 |
+| `dehst_eua_german_auction_monthly` | EU allowance price in Germany's auctions on EEX, monthly average, EUR/t, January 2013 to August 2026, the proxy after June 2025 | the latest report of each year linked from [DEHSt's reports page](https://www.dehst.de/EN/Topics/EU-ETS-1/EU-ETS-1-Information/Analyses-and-Reports/analysis-and-reports_node.html) | monthly, about a month after | **yes**, for non-commercial use, with the doubt in 2.23 | CC BY-NC-ND 4.0, figures credited to EEX and DEHSt |
 | `meti_spot_lng_monthly` | Japan spot LNG price, DES, contract-based and arrival-based, monthly, March 2014 to March 2021 | [historical-data-e.xlsx](https://www.meti.go.jp/english/statistics/sho/slng/historical-data-e.xlsx), read once | ended | **yes** | METI terms, compatible with CC BY 4.0 |
 | `meti_spot_lng_releases` | Every figure METI's monthly releases printed, preliminary, detailed and fixed, with the day of each release, for the releases of October 2019 to March 2021 | the release PDFs, saved by hand from [METI's page](https://www.meti.go.jp/english/statistics/sho/slng/index.html) | fixed, the survey has ended | **yes** | METI terms of use, compatible with CC BY 4.0 |
 | `jogmec_spot_lng_monthly` | Japan spot LNG price, DES, contract-based and arrival-based, monthly, from April 2021 | one page per month from JOGMEC's English spot price list page | monthly, 9th to 15th | **NO**, `data/private/` until JOGMEC permits | JOGMEC terms, permission not yet requested |
-| `worldbank_gas_monthly` | Europe gas (TTF from April 2015), US gas at Henry Hub, and Japan LNG import price, monthly, USD/MMBtu, from 2015 | read from the [commodity markets page](https://www.worldbank.org/en/research/commodity-markets); the file's path changes | monthly, early in the month | **yes** | CC BY 4.0 |
+| `worldbank_gas_monthly` | Europe gas (TTF from April 2015, border and import prices before), US gas at Henry Hub, and Japan LNG import price, monthly, USD/MMBtu, from 1960, Japan from 1977 | read from the [commodity markets page](https://www.worldbank.org/en/research/commodity-markets); the file's path changes | monthly, early in the month | **yes** | CC BY 4.0 |
 | `worldbank_gas_revisions` | Every value a Pink Sheet release changed, both releases side by side | derived by this study | with each release that changes a value | **yes** | CC BY 4.0 |
-| `h10_usd_per_eur_daily` | US dollars per euro, noon buying rate in New York, daily, from 2015 | [FRB_h10_xml.zip](https://www.federalreserve.gov/releases/h10/data/FRB_h10_xml.zip) | weekly, Mondays | **yes** | US public domain |
+| `h10_usd_per_eur_daily` | US dollars per euro, noon buying rate in New York, daily, from 4 January 1999, the euro's first day | [FRB_h10_xml.zip](https://www.federalreserve.gov/releases/h10/data/FRB_h10_xml.zip) | weekly, Mondays | **yes** | US public domain |
+| `nyfed_sofr_indicative_daily` | Indicative SOFR, daily, percent, 22 August 2014 to 29 March 2018, computed by the New York Fed before it published SOFR | [Data Release.xlsx](https://www.newyorkfed.org/medialibrary/media/markets/Data%20Release.xlsx), linked from the [additional information page](https://www.newyorkfed.org/markets/reference-rates/additional-information-about-reference-rates) | a closed file | **yes**, under the New York Fed's terms with its notice | New York Fed Terms of Use |
 | `nyfed_sofr_daily` | Secured Overnight Financing Rate, daily, percent, from 2 April 2018 | [markets API](https://markets.newyorkfed.org/api/rates/secured/sofr/search.json) | daily, next business day | **yes**, under the New York Fed's terms | New York Fed Terms of Use |
-| `nyfed_effr_daily` | Effective federal funds rate, daily, percent, 4 January 2016 to 30 April 2018, the overnight rate before SOFR | [markets API](https://markets.newyorkfed.org/api/rates/unsecured/effr/search.json) | closed | **yes**, under the New York Fed's terms | New York Fed Terms of Use |
-| `imf_usd_per_sdr_daily` | US dollars per special drawing right, daily, from 2016, the IMF's rate as the Bundesbank republishes it, for the Suez toll | [Bundesbank API](https://api.statistiken.bundesbank.de/rest/download/BBEX3/D.USD.XDR.DA.AC.000?format=csv&lang=en) | daily | **yes**, with the IMF credited (2.20) | IMF terms for its data |
-| `freight_anchors` | Reported LNG carrier charter rates, USD per day, ten figures from February 2022 to October 2026, one per month at most, each from a dated article | written from rows kept in `lngarb.freight_anchors`; nothing fetched | as figures are verified | **yes**, figures only (2.13, 2.14) | individual figures quoted with attribution |
+| `frb_h15_effr_daily` | Effective federal funds rate, daily, percent, from 1 July 1954, the overnight rate before SOFR, read from the Board's H.15 | [FRB_h15_xml.zip](https://www.federalreserve.gov/releases/h15/data/FRB_h15_xml.zip) | daily, next business day | **yes** | US public domain |
+| `imf_usd_per_sdr_daily` | US dollars per special drawing right, daily, from July 1974, the IMF's rate as the Bundesbank republishes it, for the Suez toll | [Bundesbank API](https://api.statistiken.bundesbank.de/rest/download/BBEX3/D.USD.XDR.DA.AC.000?format=csv&lang=en) | daily | **yes**, with the IMF credited (2.20) | IMF terms for its data |
+| `acp_canal_operations_monthly` | Canal Waters Time at Panama, hours from arrival to departure for every ship, the month's daily average, high and low, with the month's transits, the neopanamax locks' share and the neopanamax booking slots, monthly from July 2006, the first summary with a text layer | [advisories to shipping](https://pancanal.com/en/maritime-services/advisory-to-shipping/), one PDF a month | monthly | **yes**, for non-commercial use (2.15) | the Authority's terms of use |
+| `acp_lng_transits_fiscal_year` | LNG carriers through the Panama Canal each fiscal year, October to September, fiscal 2016 to 2025, read by eye in the Authority's annual reports | written from rows kept in `lngarb.panama_transits`; nothing is fetched | yearly | **yes**, a seed | the Authority's terms of use, figures quoted with attribution |
+| `sca_lng_transits_annual` | LNG carriers through the Suez Canal each year, both directions, and their Suez Canal net tonnage, 2007 to 2025 | [annual reports](https://www.suezcanal.gov.eg/English/Downloads/Pages/default.aspx?folder=Navigation%20Reports/Annual%20Reports%E2%80%8B%E2%80%8B%E2%80%8B), one PDF a year | yearly | **yes**, the figures restated (2.10) | all rights reserved; facts quoted with attribution |
+| `eia_chokepoint_lng_annual` | LNG through each maritime chokepoint, billion cubic feet a day, by calendar year from 2020 and the first half of 2025, EIA's analysis of Vortexa's tanker tracking | [World Oil Transit Chokepoints](https://www.eia.gov/international/content/analysis/special_topics/World_Oil_Transit_Chokepoints/) | yearly | **yes** | US public domain, with the third party doubt of 2.1 |
+| `eia_steo_chokepoint_lng_quarterly` | The same by quarter, the latest six, from the Short-Term Energy Outlook's energy security article, the Panama Canal among them | [Global Energy Security](https://www.eia.gov/outlooks/steo/report/energysecurity/article.php) | quarterly | **yes** | US public domain, with the third party doubt of 2.1 |
+| `freight_anchors` | Reported LNG carrier charter rates, USD per day, 51 figures from January 2021 to October 2026, one per month at most, the first reported in the month, each from a dated article | written from rows kept in `lngarb.freight_anchors`; nothing fetched | as figures are verified | **yes**, figures only (2.13, 2.14) | individual figures quoted with attribution |
 | `routes` | The four sea routes from Sabine Pass, distances and lines | computed once by `scripts/routes.py` | fixed | **yes** | distances: this study, MIT; lines: EUPL 1.2; searoute Apache 2.0 |
 
 ---
@@ -146,10 +152,19 @@ sheet names the sources of the gas rows (Bloomberg Finance L.P., World Gas
 Intelligence, Thomson Reuters Datastream, The Wall Street Journal, Official
 Statistics of Japan); the catalogue entry names no extra condition.
 
-**Attribution this project uses:** "The World Bank, Commodity Price Data (The
-Pink Sheet)", with the release's "Updated on" date.
+The dataset terms, read again on 15 October 2026, prescribe the form of the
+attribution:
 
-### 2.3 Federal Reserve Board, H.10, US public domain
+> "You agree to provide attribution to The World Bank and its data providers in
+> the following format: The World Bank: Dataset name: Data source (if known)."
+
+**Attribution this project uses:** "The World Bank: Commodity Price Data (The
+Pink Sheet): Bloomberg Finance L.P.; World Gas Intelligence; Thomson Reuters
+Datastream; The Wall Street Journal; Official Statistics of Japan; World Bank",
+the data sources being those the workbook's Description sheet names for the
+gas rows, with the release's "Updated on" date where a value is shown.
+
+### 2.3 Federal Reserve Board, H.10 and H.15, US public domain
 
 Read at `https://www.federalreserve.gov/disclaimer.htm` on 30 September 2026,
 "Last Update: August 02, 2024":
@@ -167,7 +182,15 @@ What the rate is, from `https://www.federalreserve.gov/releases/h10/about.htm`:
 
 **Redistributable: yes**, citing the Board.
 
-### 2.4 Federal Reserve Bank of New York, SOFR and EFFR, licensed
+The same disclaimer covers the H.15 release, "Selected Interest Rates", whose
+package `FRB_h15_xml.zip` carries the effective federal funds rate from 1 July
+1954 as series RIFSPFF_N.B. The rate is calculated by the Federal Reserve Bank
+of New York, which publishes it under its own terms (2.4); the Board's copy is
+read here, in the public domain, and the New York Fed is named as the rate's
+calculator wherever it is shown. On the 585 days from 4 January 2016 to 30
+April 2018 the two publications agree on every day.
+
+### 2.4 Federal Reserve Bank of New York, SOFR, licensed, and EFFR, read from the Board instead
 
 Read at `https://www.newyorkfed.org/privacy/termsofuse` on 30 September 2026,
 "Last Updated: 6/9/2023". The API's own description says use of the reference
@@ -204,8 +227,14 @@ rates its notice covers; the third party licence sentence names only SOFR and
 BGCR.
 
 **Redistributable: yes, under the New York Fed's terms, not this repository's.**
-The committed SOFR and EFFR caches travel under those terms, not under the MIT
-licence.
+The committed SOFR cache travels under those terms, not under the MIT licence,
+and so does the indicative SOFR of August 2014 to March 2018, the workbook the
+additional information page links as "Daily indicative TGCR, BGCR, and SOFR
+volume and rate data (Aug. 2014 - Mar. 2018)", whose legend credits "Bank of
+New York Mellon, JPMorgan Chase, DTCC Solutions, LLC., Staff Calculations".
+The effective federal funds rate was read from this API until 15 October 2026;
+it is now read from the Board's H.15 (2.3), in the public domain and from 1954,
+and nothing of the New York Fed's EFFR response is committed any more.
 The financing line the study computes from SOFR is this study's derivative and
 is labelled as such. The site shows the completed notice wherever SOFR or the
 financing line appears.
@@ -250,15 +279,16 @@ equals the workbook's.
 
 ### 2.6 JOGMEC, spot LNG prices for delivery to Japan, not redistributable yet
 
-From the "Global Disclaimer" on JOGMEC's English natural gas page,
-`https://journal.jogmec.go.jp/oilgas/nglng-en/index.html`, read on 30 September
-2026:
+From the "Global Disclaimer" on JOGMEC's English natural gas page, on its
+journal site, read on 30 September 2026 (the address is not written here:
+JOGMEC's terms, quoted below, do not permit a link without its written
+permission, and this study carries none in any file it publishes):
 
 > "Use of this material beyond the scope permitted under the Copyright Act of
 > Japan, such as private use, educational use, or quotation, requires prior
 > permission from JOGMEC or the relevant copyright holders."
 
-From JOGMEC's English terms of use, `https://www.jogmec.go.jp/english/terms.html`:
+From JOGMEC's English terms of use, the terms page of its English website:
 
 > "Any transfer or reproduction of this Website in whole or in part, in either
 > its existing form or modified form, is expressly prohibited except for
@@ -400,6 +430,18 @@ each with the instrument or report named beside it. It copies no document and
 commits no file of the Authority's. **Redistributable: quotation only**, until
 the owner decides otherwise (section 4).
 
+Added 15 October 2026: the yearly counts are now a series,
+`sca_lng_transits_annual`, read by code from Table 3 of each annual report,
+2008 to 2025, one row a year from 2007: the number of LNG ships and their net
+tonnage, the facts restated in a CSV with the report named on each row. The
+reports themselves are read and discarded. Each circular and periodical the
+tariff tables name now carries the address of its page on the Authority's
+site (`lngarb.config.SUEZ_CIRCULAR_PAGES`), and the six monthly renewals of
+the 21 June 2023 rebate terms are listed to the one of 21 May 2026, which runs
+to 31 December 2026 (`SUEZ_REBATE_RENEWALS`). The site serves no robots.txt
+(404), so under RFC 9309 no path is closed to code; 1.5 seconds are left
+between requests.
+
 Where things are. Each circular has a page under
 `https://www.suezcanal.gov.eg/English/Navigation/NavigationCirculars/Pages/`,
 but its articles are not in that page: the page's own script fetches them from
@@ -424,6 +466,12 @@ short quotations, each attributed, from these:
   > "This publication may be reproduced in part for educational or non-profit
   > purposes without special permission from the copyright holder, provided
   > acknowledgment of the source is made."
+
+  The Institute's site answers 403 to a request from code (read 15 October
+  2026), so the paper is read in a browser; the date it gives for the last
+  laden LNG transit, 12 January 2024, is corroborated by the Reuters and
+  Bloomberg wire stories of December 2023 and January 2024 that gCaptain
+  republishes, which the History view's events cite.
 
 * International Energy Agency, Gas Market Reports from Q1 2024 to Q3 2026 and
   the Global Gas Security Review 2024, read on 1 October 2026. The last page of
@@ -504,7 +552,8 @@ publishers read so far:
   authorisation. S&P Global, which publishes Platts, refuses automated requests
   even for its robots.txt.
 
-The ten figures verified in readable articles are committed in
+The 51 figures verified in readable articles, or in the public title or summary
+of an article behind LNG Prime's subscription, are committed in
 `data/seed/freight_anchors.json` (question 37): for each, the figure, the day
 it refers to or the article's date, the assessment and the vessel basis,
 marked inferred where the article does not state them, the publisher and the
@@ -533,6 +582,27 @@ non-commercial study, and commits none of them. The terms grant no licence, do
 not address quotation, and may be read as forbidding any "modification or
 alteration" whatever the purpose. **Redistributable: quotation only**, and
 whether that is enough is open (question 41).
+
+Added 15 October 2026: two series are now kept from the Authority's documents,
+both for this non-commercial study and both under the reading of the terms
+above, which forbid copying and publication "for commercial or lucrative
+purposes" and are silent on any other.
+
+* `acp_canal_operations_monthly`, read by code from the Monthly Canal
+  Operations Summary the Authority issues as an advisory each month, July
+  2006 onwards (the summaries from December 2001 to June 2006 are scanned
+  images without a text layer): the figures of its traffic table, unchanged, with the
+  advisory named on each row. The summaries' own footer is carried into the
+  manifest: the information "is for general purpose only" and "may vary"
+  with traffic audits. The December 2023 summary is a test fixture.
+* `acp_lng_transits_fiscal_year`, a seed of ten figures read by eye in the
+  Authority's annual reports, whose charts are drawn and not typed, each with
+  its report's address.
+
+The site's robots.txt, read on 15 October 2026, allows every path to every
+client and asks for ten seconds between requests ("Crawl-delay: 10"); the
+adapter leaves ten. Should the Authority object to either series, both move
+to data/private/ (question 54).
 
 Where things are. The tariff for each year from 2023 is a PDF deck under
 `https://pancanal.com/wp-content/uploads/`, item 1010 for tolls, and a
@@ -783,34 +853,55 @@ sentence. All were read on 8 October 2026.
 
 S&P Global's own pages are never requested (2.14).
 
-### 2.25 Dated events, each from one document
+### 2.25 The owner's own CSV files, declared and never committed
+
+Added 15 October 2026. Some figures the owner may hold but not publish: an
+export from a subscription whose terms forbid redistribution, a table typed
+from a paid report, a page a publisher serves to a browser and not to code.
+For these the pipeline has one mechanism, `lngarb.sources.user_csv`, so that
+such a series is validated and recorded like every other and its bytes still
+never reach a commit.
+
+The owner declares the series once, in `lngarb.config.USER_CSV_SERIES`, as a
+`UserCsvDeclaration`: the series name, a label, the publisher, the page (or
+none, with `linkable=False`, where the publisher's terms forbid a link), the
+frequency, the unit, each value column with its bounds, the observation
+column, the licence named and what it permits in plain words, and how the
+file was made. The file is saved by hand as `data/private/user/<series>.csv`,
+with a `date` column in `yyyy-mm-dd` and the declared value columns, nothing
+else. `python scripts/refresh.py --only user` then reads it, refuses it on the
+same rules as a fetched frame (dates, bounds, counts, gaps at the declared
+frequency), writes it as the series' private cache and records it in the
+manifest with `committable` false and the day the file was saved as its
+vintage; offline, the entry is carried through as for any private series.
+The Provenance view names the series and its terms; the data layer's checks
+refuse any tracked file under `data/private/`.
+
+Nothing is declared in this repository: the mechanism is tested on an example
+declaration in `tests/test_sources_user_csv.py`, a weekly charter rate export
+held under a subscription. The reader of such a declaration should know that
+nothing computed from a private series is published either, as question 14
+settles for JOGMEC.
+
+### 2.26 Dated events, each with its source
 
 `lngarb.events` keeps the dated events that explain the regimes in the sample,
-written to `data/seed/events.json` and drawn as lettered marks on the History
-view. Each row states a fact in this study's own words with the one document it
-was read in, its publisher, its address and the day it was read; no sentence of
-any source is reproduced. The documents and the terms they are read under:
+written to `data/seed/events.json` and drawn as lettered rules on the History
+view. Each row states a fact in this study's own words with the document it
+was read in, its publisher and its address; no sentence of any source is
+reproduced. The documents are those of sections 2.11 (gCaptain's reports of
+Reuters and Bloomberg, the Oxford Institute for Energy Studies), 2.14 (LNG
+Prime), 2.24 (EIA's Today in Energy and its exports by country) and 3.10 (the
+Panama Canal Authority's advisories and press releases), with the US Department
+of Energy's LNG monthly reports (a US government publication) and Platts'
+count of March 2024 as Hellenic Shipping News republished it on 22 April 2024
+(a figure quoted with attribution). An event no readable document supports is
+not a row; the module lists it with the reason, and the History view prints
+that list (question 47).
 
-* the US Department of Energy's LNG monthly reports (the first shale-era cargo,
-  24 February 2016), a US government publication;
-* EIA, Today in Energy of 11 August 2020 (2.24), US public domain;
-* EIA's exports by country, the release of 30 September 2026, for the cargoes
-  to China of June and July 2026, US public domain;
-* LNG Prime of 28 July 2023 (2.14), a figure quoted with attribution;
-* the Oxford Institute for Energy Studies, NG 188 (2.11);
-* Platts, republished by Hellenic Shipping News on 22 April 2024 (2.14, 2.24);
-* gCaptain of 8 February 2025 and of 19 September 2026, the latter reporting
-  Reuters (2.11), facts in this study's words;
-* Columbia University's Center on Global Energy Policy, a blog of 18 April 2025
-  (`https://energypolicy.columbia.edu/?p=23258`), whose terms were not read:
-  only the date and the tariff it reports are used, in this study's words.
+### 2.27 The optional private layer
 
-An event no readable document supports is not a row; the module lists it with
-the reason, and the History view prints that list (question 48).
-
-### 2.26 The optional private layer
-
-`lngarb.sources.user_csv` reads settlements and a freight series the owner
+`lngarb.sources.private_layer` reads settlements and a freight series the owner
 exports himself from a licensed source into `data/private/user/`, as CSV files
 with exactly the columns `date, series, contract_month, value, unit, source`.
 The series it takes are JKM, TTF and Henry Hub settlements by contract month,
@@ -819,7 +910,8 @@ column, a date, a unit, a value out of bounds or missing, a contract month
 missing or out of place, no source) is refused whole, with every problem named.
 It never fetches; nothing it reads is committed or deployed, `data/private/`
 being ignored by git. Nothing the site shows changes when the layer is present
-(question 53).
+(question 55). A series of one value a date goes through the declared CSV
+series of 2.25 instead.
 
 ## 3. Known traps, per source
 
@@ -1047,9 +1139,20 @@ being ignored by git. Nothing the site shows changes when the layer is present
   of 2 July 2026 and 11.79 in that of 2 September 2026.
 * **The "Terms of use for Datasets" link redirects to the general terms**, which
   are narrower. The dataset terms are one level down.
-* **Kept from January 2015.** Earlier values (Europe 0.38 in January 1964, US
-  0.14 in January 1960) would fail the study's validation ranges, and the study's
-  monthly history starts in 2015.
+* **Every month from January 1960 is kept**, with its own validation range,
+  0.1 to 120 USD/MMBtu, because the US series opens at 0.14 in January 1960 and
+  the Europe series at 0.38 in January 1964. The Japan series opens in January
+  1977. The study's monthly history starts in 2016; the earlier decades are the
+  long view, under the definitions the Description sheet gives for each span.
+* **The early decades of the monthly workbook are annual figures repeated**
+  in every month of the year: the US column to 1975, the Europe column to
+  1990 and the Japan column to 1991, which the annual workbook confirms (its
+  values equal the monthly means). Genuine monthly observations begin in
+  January 1976, January 1991 and January 1992. No monthly statistic is
+  computed on the repeated spans; the Description sheet defines the Europe
+  column only from June 2000.
+* **The dataset terms prescribe the form of the attribution** (2.2); the
+  credits in the Now view, the README and the NOTICE follow it.
 
 ### 3.5 Federal Reserve H.10
 
@@ -1067,7 +1170,13 @@ being ignored by git. Nothing the site shows changes when the layer is present
 * **The direction of the quote is not in the data columns.** The series' short
   description, "EMU Members Euro (USD per EUR)", is checked on every parse.
 * **Cross check:** from 2015 the XML agrees with the history page
-  `dat00_eu.htm` on all 3,062 weekdays, no data days included.
+  `dat00_eu.htm` on all 3,062 weekdays, no data days included. The whole series
+  is kept, 7,235 weekdays from 4 January 1999, the euro's first trading day, in
+  the package prepared on 28 September 2026.
+* **The H.15 package is laid out the same way**, 70 MB of XML holding 263
+  series, of which the effective federal funds rate, RIFSPFF_N.B, is read
+  through the same parser: 18,859 business days from 1 July 1954, 680 of them
+  no data days.
 
 ### 3.6 New York Fed SOFR
 
@@ -1078,19 +1187,20 @@ being ignored by git. Nothing the site shows changes when the layer is present
 * **Rows come newest first**, and a day with no publication has no row at all.
 * **Percentiles can be the string "NA"** (31 May 2019, 5 August 2021) and can be
   negative. Only the rate is read.
-* **No SOFR exists before 2 April 2018.** Nothing is filled in. Before then the
-  financing line runs on EFFR (open question 12), a different rate: unsecured
-  where SOFR is secured.
-* **EFFR's source and method change inside its window.** From 1 March 2016 it
-  is a volume weighted median of FR 2420 transactions; before, a volume
-  weighted mean of brokered trades. The cache's method column says which.
-* **EFFR's API rows come in two layouts in one response**: the 39 rows before 1
-  March 2016 carry intraday figures, the rest percentiles and volume. The API's
-  own description names the rate `percent`, where every row carries
-  `percentRate`.
-* **The Board's H.15 carries the same EFFR**, public domain: on all 585 days from
-  4 January 2016 to 30 April 2018 the two agree. The New York Fed's copy is read
-  because it is the rate's publisher and the study already reads its API.
+* **No SOFR exists before 2 April 2018.** Nothing is filled in. From 22 August
+  2014 the financing line runs on the indicative SOFR the New York Fed computed
+  by SOFR's method over the same transactions, published once as a workbook in
+  basis points (sheet "VWM Rates", 899 business days, read into percent), and
+  before that on the effective federal funds rate (open question 12), a
+  different rate: unsecured where SOFR is secured, read from the Board's H.15.
+* **EFFR's source and method changed on 1 March 2016.** From then it is a volume
+  weighted median of FR 2420 transactions; before, a volume weighted mean of
+  brokered trades. The Board's series runs through the change as one series.
+* **The New York Fed's EFFR API, read until 15 October 2026, serves rows in two
+  layouts in one response**: the 39 rows before 1 March 2016 carry intraday
+  figures, the rest percentiles and volume. On all 585 days from 4 January 2016
+  to 30 April 2018 it agrees with the Board's H.15, which is read instead now,
+  in the public domain and from 1954.
 
 ### 3.7 METI spot LNG
 
@@ -1188,8 +1298,28 @@ being ignored by git. Nothing the site shows changes when the layer is present
 ### 3.10 European Commission auction reports
 
 * **Each report's Table 1 covers fifteen months**, so several editions are read
-  and each month is taken from the latest that prints it. Months printed by up
-  to five editions agree exactly.
+  and each month is taken from the latest that prints it. No two editions
+  disagree on any of the 137 months from January 2014 to June 2025, except
+  May 2014, which the 2014 reports print as 5.018 and the report of July 2015
+  as 5.02, a rounding the cache records.
+* **The reports were monthly in 2015 and 2016 and quarterly since**, and the
+  first with a monthly Table 1 is the report for January to March 2015, which
+  reaches back to January 2014. The reports of December 2013 to December 2014
+  carry instead an overview table ("Table 3: overview" or "Table 2: Overview")
+  of the months since November 2012, the first month of the platform, or of
+  the latest twelve: the months listed upwards or downwards, the year printed
+  on the first row of each year only, the price a volume weighted average
+  marked with two asterisks, or a simple average marked with one where every
+  auction of the month sold the same volume, as in May to August 2013. The
+  eleven reports before December 2013 print the period's weighted average in
+  their text and the auctions one by one in an annex, with no monthly table.
+  The series starts in November 2012. Sixty six reports are read for the
+  first build; afterwards only reports newer than the latest the cache holds
+  are fetched, and the committed rows stand for the rest.
+* **Months are spelt three ways across the editions**: "March 2015", "Dec.
+  2014" and "Sept. 2014" in 2015 and 2016, "December 2016" to 2022, and "Mar
+  23" since 2023, with thousands separated by spaces or commas. Every spelling
+  is read; the year may have two or four digits.
 * **The reports lag.** On 8 October 2026 the latest covers April to June 2025;
   after June 2025 the study uses DEHSt's averages of the German auctions, a
   labelled proxy (3.10.1).
@@ -1199,10 +1329,33 @@ being ignored by git. Nothing the site shows changes when the layer is present
 ### 3.10.1 DEHSt's auctioning reports
 
 * **German auctions only, a proxy for the EU price.** Germany auctions its
-  share weekly on EEX, apart from the common auction platform. Over the 18
-  months both cover, January 2024 to June 2025, the German average is 0.10
-  EUR/t above the Commission's on average, 0.64 EUR/t in absolute terms and
-  1.40 EUR/t at most (May 2024). Used only after the Commission's last month.
+  share weekly on EEX, apart from the common auction platform. Over the 147
+  months both cover, January 2013 to June 2025, the German average is 0.13
+  EUR/t above the Commission's on average, 0.37 EUR/t in absolute terms and
+  2.41 EUR/t at most (August 2022); over February 2019 to June 2025, 0.29,
+  0.61 and 2.41; over January 2024 to June 2025, 0.10, 0.64 and 1.40 EUR/t
+  (May 2024). Used only after the Commission's last month.
+* **Reports from 2013 are read.** The reports page links the reports from
+  2019 under the file names read here; those of 2013 to 2018 are listed in
+  the site's sitemap (`Sitemap_Aktuelles.xml`, the one file the sitemap index
+  names), each year's annual report on a landing page that links its PDF, so
+  a first build makes two requests a year for them, thirty seconds apart, and
+  a later build none. Their year tables have the shape of the later ones; the
+  2013 and 2014 tables print no type column and the asterisks before the
+  figures, the 2018 table stops at November, when the year's last auctions
+  were cancelled, and prints its total row's cover ratio and price without
+  their decimal points, so the months are checked against the Total row less
+  the aviation allowances instead. December 2018 and January 2019 are the
+  series' two gaps. 2019's table starts in February, when the German
+  auctions resumed after the cancelled auctions of late 2018. The 2019 to
+  2023 tables print a space after the asterisks that mark an average, a comma
+  for the decimal point now and then (a cover ratio of "2,98"), and once,
+  December 2019, the price as "25,02" followed by two euro signs, which is read
+  as 25.02 and noted in `anomaly`. Their Total rows count the aviation
+  allowances of October with the general ones, so the aviation volume is taken
+  out before the months are checked against the total.
+* **One report a year is fetched, and only when it is newer** than the one
+  the committed cache read for that year; the other years' rows stand.
 * **The average changes kind.** A month marked "*" is a simple average of its
   auctions, "**" a volume weighted one (August and December of each year read);
   the `average` column keeps the mark.
@@ -1360,7 +1513,27 @@ being ignored by git. Nothing the site shows changes when the layer is present
   32.61 m and/or a length over 294.44 m; the 2025 deck also classes by draught.
   The booking fee depended on beam from 2021.
 * **The fresh water surcharge is not in the toll tables.** It is a separate,
-  mandatory item since 15 February 2020, set daily from Gatun Lake's level.
+  mandatory item since 15 February 2020, set daily from Gatun Lake's level by
+  a published curve (advisories ADV-03-2020 and ADV-42-2023); the daily level
+  and its projection sit on a page of the Authority's reporting host that the
+  study's network does not reach, and the monthly summaries print a level
+  only twice in 2023 to 2026.
+* **The summaries before July 2006 are scanned images.** The page lists them
+  from December 2001, but those to June 2006 carry no text layer, so the
+  series starts with the first that does. The page lists no summary for
+  March and April 2020, the first months of the pandemic, and the label for
+  September 2017 links a lane outage notice: three gaps the manifest names.
+* **The monthly summaries are named irregularly** (`a-01-2002.pdf`,
+  `ADV40-2023-Montly-Canal-Operations-Summary-August-2023.pdf`, a `-1` copy of
+  March 2024 that is password protected beside the readable one), the upload
+  folder in the address often differs from the issue date, two months of 2004
+  link the same file, and the February 2026 summary prints January's
+  advisory number in its header. The adapter reads the covered month from
+  each PDF's subject line, never from its name.
+* **Canal Waters Time is for every ship.** The summaries do not split it by
+  segment or by booked and unbooked ships, so a month's average bounds what an
+  LNG carrier without a slot waited rather than measures it; the 12 and 15
+  day waits reported for LNG in 2023 sit above every monthly average.
 * **Advisories date changes by booking date or by transit date**, and some
   were postponed after publication: the booking fees of 70,000 and 85,000 $
   announced for 15 April 2021 took effect for booking dates from 1 June 2021.
@@ -1437,9 +1610,10 @@ the study runs without it, on the labelled position given.
    (question 2).
 3. **The Henry Hub bound** is 0.5 to 50 USD/MMBtu (question 3).
 4. **The euro rate** is read from the H.10 release page package (question 11).
-5. **SOFR** is published under the New York Fed's terms with its notice, and
-   the **effective federal funds rate** stands in before 2 April 2018 on the
-   same terms (question 12).
+5. **SOFR** is published under the New York Fed's terms with its notice; its
+   **indicative SOFR** stands in from 22 August 2014 to 29 March 2018 on the same
+   terms, and the **effective federal funds rate** before that, read from the
+   Board's H.15 in the public domain, from July 1954 (question 12).
 6. **JOGMEC's series** stays private; **owner**: send the permission request
    drafted in question 14.
 7. **METI's monthly PDFs**: the releases of October 2019 to March 2021 were
@@ -1478,13 +1652,13 @@ the study runs without it, on the labelled position given.
 19. **The TTF and JKM expiry rules** are ICE's, with the UK calendar
     (question 44).
 20. **Methane slip** is off by default (question 45), and **MMBtu per tonne** is
-    the IEA and Eurostat's factor; **owner**: GIIGNL's report, saved by hand,
-    could replace it (question 47).
+    the IEA and Eurostat's factor; **owner**: GIIGNL's handbook, saved by hand,
+    could replace it (question 51).
 21. **Figures others reported** (cancellations, route use, Platts'
     assessments) are quoted individually with their source and never used as
     inputs (2.24).
 22. **Events** are rows only where one readable document supports them; the
-    rest are listed with the reason (2.25, question 48).
+    rest are listed with the reason (2.26, question 47).
 
 ---
 
