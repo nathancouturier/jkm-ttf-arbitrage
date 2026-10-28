@@ -163,7 +163,7 @@ def _row(record: dict[str, Any], rolls) -> dict[str, Any]:
     }
 
 
-#: The header of TERMINAL's historical download, as served on 8 October 2026.
+#: The header of TERMINAL's historical download, as served on 8 and 28 October 2026.
 TERMINAL_HEADER = [
     "DATE", "NORTH-WEST EUROPE PRICE (EUR/MWh)", "SOUTH EUROPE PRICE (EUR/MWh)",
     "EU PRICE (EUR/MWh)", "LNG BENCHMARK (EUR/MWh)",

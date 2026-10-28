@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-28T20:50:05Z",
+  "generated_at": "2026-10-28T21:43:13Z",
   "series": [
     {
       "series": "acer_lng_daily",
@@ -9,13 +9,13 @@
       "page_url": "https://www.acer.europa.eu/gas/lng-price-assessment",
       "linkable": true,
       "machine_fetched": true,
-      "fetched_at": "2026-10-08T21:43:56Z",
+      "fetched_at": "2026-10-28T21:40:28Z",
       "checked_at": null,
-      "rows": 852,
-      "observations": 852,
-      "file_rows": 903,
+      "rows": 866,
+      "observations": 866,
+      "file_rows": 917,
       "first_date": "2023-03-31",
-      "last_date": "2026-10-07",
+      "last_date": "2026-10-27",
       "frequency": "daily",
       "gaps": [
         "2023-04-06",
@@ -87,12 +87,12 @@
         "2026-06-26"
       ],
       "provisional_from": null,
-      "vintage": "TERMINAL's historical download of 2026-10-08; correction notice of 20 December 2024",
+      "vintage": "TERMINAL's historical download of 2026-10-28; correction notice of 20 December 2024",
       "method": "parsed",
       "committable": true,
       "licence_note": "ACER's legal notice: 'Information and documents made available on the Agency's webpages are public and may be reproduced and/or distributed, totally or in part, ... for non-commercial and commercial purposes, provided that the Agency is always acknowledged as the source of the material', and ACER's methodology documents say 'Reproduction is authorised provided the source is acknowledged', a line the correction notice itself does not carry. One doubt, recorded: the same notice's first paragraph prohibits reuse of 'this Licensed Material' without saying what that is. The benchmark's TTF leg is ICE data; ACER's prices and spreads are published, a TTF level derived from them never is.",
       "status": "ok",
-      "note": "ACER's daily assessments and EU benchmark from TERMINAL's historical download, saved by hand on 2026-10-08 (the manual step), with the 26 days of the correction notice of 20 December 2024 and the values first published then. The NWE spread to the TTF front month is computed by this study as the EU benchmark plus the NWE assessment less the EU one. 2 row(s) flagged. Source: ACER.",
+      "note": "ACER's daily assessments and EU benchmark from TERMINAL's historical download, saved by hand on 2026-10-28 (the manual step), with the 26 days of the correction notice of 20 December 2024 and the values first published then. The NWE spread to the TTF front month is computed by this study as the EU benchmark plus the NWE assessment less the EU one. 2 row(s) flagged. Source: ACER.",
       "file": "data/cache/acer_lng_daily.csv",
       "unit": "EUR per MWh",
       "licence": "ACER legal notice, reproduction with acknowledgement",
@@ -101,12 +101,12 @@
       "manual_step": [
         {
           "id": "acer_reports_by_hand",
-          "what": "ACER's daily LNG price assessments are on its TERMINAL platform only. TERMINAL's historical download, one CSV file with every day ACER published from 19 January 2023, has to be saved by hand; the download of 8 October 2026 is held.",
+          "what": "ACER's daily LNG price assessments are on its TERMINAL platform only. TERMINAL's historical download, one CSV file with every day ACER published from 19 January 2023, has to be saved by hand; the latest download held is that of 28 October 2026.",
           "why": "This pipeline does not access TERMINAL by code. ACER corrects values in place, so a download kept is also the record of what was published then.",
           "cost_if_skipped": "Without a new download the observed Northwest Europe discount stops at the last day held, and later dates take the labelled assumption.",
           "how": "Open https://aegis.acer.europa.eu/terminal/price_assessments in a browser, download the price assessments history ('PA historical') into data/private/acer/ keeping TERMINAL's file name, then run python scripts/refresh.py --only acer.",
           "cadence": "whenever the history should be extended, ideally each month",
-          "status": "done, 8 October 2026; repeat to extend"
+          "status": "done, 28 October 2026; repeat to extend"
         }
       ]
     },
@@ -180,7 +180,7 @@
       "linkable": true,
       "machine_fetched": false,
       "fetched_at": null,
-      "checked_at": "2026-10-28T20:14:50Z",
+      "checked_at": "2026-10-28T21:43:13Z",
       "rows": 10,
       "observations": 10,
       "file_rows": 10,
@@ -2697,7 +2697,7 @@
       "linkable": true,
       "machine_fetched": false,
       "fetched_at": null,
-      "checked_at": "2026-10-28T20:14:50Z",
+      "checked_at": "2026-10-28T21:43:13Z",
       "rows": 34,
       "observations": 34,
       "file_rows": 34,
@@ -3436,7 +3436,7 @@
       "linkable": true,
       "machine_fetched": false,
       "fetched_at": null,
-      "checked_at": "2026-10-28T20:14:50Z",
+      "checked_at": "2026-10-28T21:43:13Z",
       "rows": 51,
       "observations": 51,
       "file_rows": 51,
@@ -4426,7 +4426,7 @@
       "linkable": true,
       "machine_fetched": false,
       "fetched_at": null,
-      "checked_at": "2026-10-28T20:14:50Z",
+      "checked_at": "2026-10-28T21:43:13Z",
       "rows": 4,
       "observations": 4,
       "file_rows": 4,
@@ -4568,12 +4568,12 @@
       "series": [
         "acer_lng_daily"
       ],
-      "what": "ACER's daily LNG price assessments are on its TERMINAL platform only. TERMINAL's historical download, one CSV file with every day ACER published from 19 January 2023, has to be saved by hand; the download of 8 October 2026 is held.",
+      "what": "ACER's daily LNG price assessments are on its TERMINAL platform only. TERMINAL's historical download, one CSV file with every day ACER published from 19 January 2023, has to be saved by hand; the latest download held is that of 28 October 2026.",
       "why": "This pipeline does not access TERMINAL by code. ACER corrects values in place, so a download kept is also the record of what was published then.",
       "cost_if_skipped": "Without a new download the observed Northwest Europe discount stops at the last day held, and later dates take the labelled assumption.",
       "how": "Open https://aegis.acer.europa.eu/terminal/price_assessments in a browser, download the price assessments history ('PA historical') into data/private/acer/ keeping TERMINAL's file name, then run python scripts/refresh.py --only acer.",
       "cadence": "whenever the history should be extended, ideally each month",
-      "status": "done, 8 October 2026; repeat to extend"
+      "status": "done, 28 October 2026; repeat to extend"
     },
     {
       "id": "meti_monthly_pdfs_by_hand",
@@ -4591,9 +4591,9 @@
   ],
   "manual_steps_note": "Work this pipeline cannot do for itself. Each entry says what it is, why it exists, what it costs to skip it and how to do it. They are repeated against the series they affect in the manual_step field of those entries.",
   "run": {
-    "mode": "online",
-    "started_at": "2026-10-28T20:49:43Z",
-    "finished_at": "2026-10-28T20:50:05Z",
+    "mode": "offline",
+    "started_at": "2026-10-28T21:43:12Z",
+    "finished_at": "2026-10-28T21:43:13Z",
     "script": "scripts/refresh.py"
   }
 }

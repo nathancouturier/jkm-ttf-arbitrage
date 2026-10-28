@@ -96,8 +96,8 @@ MANUAL_STEPS: tuple[dict[str, Any], ...] = (
         "what": (
             "ACER's daily LNG price assessments are on its TERMINAL platform only. "
             "TERMINAL's historical download, one CSV file with every day ACER published "
-            "from 19 January 2023, has to be saved by hand; the download of 8 October "
-            "2026 is held."
+            "from 19 January 2023, has to be saved by hand; the latest download held is "
+            "that of 28 October 2026."
         ),
         "why": (
             "This pipeline does not access TERMINAL by code. ACER corrects values in "
@@ -114,7 +114,7 @@ MANUAL_STEPS: tuple[dict[str, Any], ...] = (
             "scripts/refresh.py --only acer."
         ),
         "cadence": "whenever the history should be extended, ideally each month",
-        "status": "done, 8 October 2026; repeat to extend",
+        "status": "done, 28 October 2026; repeat to extend",
     },
     {
         "id": "meti_monthly_pdfs_by_hand",

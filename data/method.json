@@ -437,9 +437,9 @@
    {
     "route": "nwe_direct",
     "name": "Gate",
-    "exact": 26.87859981245555,
-    "conventional": 26.853942951547815,
-    "difference": 0.024656860907736444
+    "exact": 26.24476743063713,
+    "conventional": 26.220444762626983,
+    "difference": 0.024322668010146486
    },
    {
     "route": "nea_panama",
@@ -1090,7 +1090,7 @@
   },
   {
    "field": "s_star_now",
-   "value": 0.4032849045465987,
+   "value": -0.2572837169916582,
    "format": "usd_mmbtu",
    "signed": true,
    "missing": "no route open"
@@ -1103,7 +1103,7 @@
   },
   {
    "field": "s_star_energy_22",
-   "value": 0.4300222396780953,
+   "value": -0.23054638186015808,
    "format": "usd_mmbtu",
    "signed": true,
    "missing": "no route open"
@@ -1121,7 +1121,7 @@
   },
   {
    "field": "s_star_energy_24",
-   "value": 0.3787756806760534,
+   "value": -0.2817929408622035,
    "format": "usd_mmbtu",
    "signed": true,
    "missing": "no route open"

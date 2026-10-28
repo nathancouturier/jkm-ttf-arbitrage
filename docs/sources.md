@@ -340,7 +340,12 @@ features the "Possibility to download historical data in the CSV format", and
 points to ACER's website. ACER's methodology refers to a legal notice of
 TERMINAL's own, which the page does not show. The study applies ACER's legal
 notice above to the downloaded values, with the same acknowledgement, and
-records the doubt in question 19.
+records the doubt in question 19. Read again on 28 October 2026, when the
+download was saved a second time, neither the price assessments page the file
+is downloaded from nor the home page shows a legal notice, terms, banner or
+footer, at opening or beside the download button; the HELP menu lists a
+two-factor authentication manual, registration guidance for LNG market
+participants, a list of LNG facilities and a support link.
 
 **Redistributable: yes, with acknowledgement, on the reading that the first
 paragraph applies only to material ACER marks as licensed.** The notice does not
@@ -1306,9 +1311,15 @@ series of 2.25 instead.
   the three assessments and the benchmark for every day ACER published, newest
   first, and an empty cell for a value not published. ACER publishes on its
   working days only, its holidays set by a decision TERMINAL links; the
-  benchmark also needs ICE's settlement. The days with no row (68 weekdays to 8
-  October 2026, Christmas and Easter among them) are listed as gaps. The owner saved it by hand on 8 October 2026;
-  the benchmark of that day itself was not yet published. On the 26 days of
+  benchmark also needs ICE's settlement. Of the days with no row (68 weekdays
+  to 28 October 2026, Christmas and Easter among them), the 67 from 31 March
+  2023, when the benchmark starts, are listed as gaps. The
+  owner saved it by hand on 8 October 2026, before that day's benchmark was
+  published, and it was saved again on 28 October 2026 at 22.39 CET: 917 days
+  to 28 October, whose benchmark was not yet out either, although ACER gives
+  21.00 CET as its usual hour. The second download changes no value of the 903
+  days the first holds; it adds the benchmark of 8 October, -4.607, and
+  fourteen weekdays. On the 26 days of
   the correction notice it gives the corrected values exactly on 25 days; on 4
   December 2024 its EU assessment, 47.322, differs from the notice's 47.323 by a
   thousandth, which is noted.
@@ -1662,12 +1673,13 @@ the study runs without it, on the labelled position given.
 7. **METI's monthly PDFs**: the releases of October 2019 to March 2021 were
    saved by hand and their figures are committed; the 67 earlier ones would add
    older preliminary figures (**owner**, optional).
-8. **ACER's history**: TERMINAL's download, saved by hand on 8 October 2026,
-   gives the observed Northwest Europe discount from 31 March 2023; before it
-   the discount is a labelled assumption (question 18). TERMINAL shows no terms
-   of its own, so ACER's legal notice is applied (question 19); **owner**: save
-   the download again to extend it, and record TERMINAL's legal notice should
-   one appear.
+8. **ACER's history**: TERMINAL's download, saved by hand on 8 October 2026 and
+   again on 28 October 2026, gives the observed Northwest Europe discount from
+   31 March 2023 to 27 October 2026; before it the discount is a labelled
+   assumption (question 18). TERMINAL shows no terms of its own, checked again
+   on 28 October 2026, so ACER's legal notice is applied (question 19);
+   **owner**: save the download again to extend it, and record TERMINAL's legal
+   notice should one appear.
 9. **The EU allowance price after June 2025** is the monthly average of
    Germany's auctions DEHSt reports, a labelled proxy, to August 2026, and that
    month held after it, shown at 61 and 86 EUR/t; **owner**: write to EEX and

@@ -45,11 +45,11 @@
   "values": {
    "best_route": "nea_panama",
    "best_netback": 27.076948200551765,
-   "gap": 0.19834838809621402,
+   "gap": 0.8321807699146362,
    "cheapest_route": "nea_panama",
-   "s_star": 0.4032849045465987,
+   "s_star": -0.2572837169916582,
    "dominant_part": "regas",
-   "dominant_value": -0.6699478920266277,
+   "dominant_value": -1.3305165135648829,
    "lift_margin": 23.58034293739387,
    "full_margin": 20.58034293739387
   },
@@ -83,7 +83,7 @@
    },
    {
     "field": "gap_to_gate",
-    "value": 0.19834838809621402,
+    "value": 0.8321807699146362,
     "format": "usd_mmbtu"
    },
    {
@@ -113,7 +113,7 @@
    },
    {
     "field": "s_star",
-    "value": 0.4032849045465987,
+    "value": -0.2572837169916582,
     "format": "usd_mmbtu",
     "signed": true
    },
@@ -130,7 +130,7 @@
    },
    {
     "field": "dominant_value",
-    "value": -0.6699478920266277,
+    "value": -1.3305165135648829,
     "format": "usd_mmbtu",
     "signed": true
    },
@@ -192,7 +192,7 @@
    },
    {
     "field": "s_star",
-    "value": 0.4032849045465987,
+    "value": -0.2572837169916582,
     "format": "usd_mmbtu",
     "signed": true
    },
@@ -209,7 +209,7 @@
    },
    {
     "field": "room",
-    "value": 0.20671509545340072,
+    "value": 0.8672837169916576,
     "format": "usd_mmbtu"
    },
    {
@@ -459,20 +459,37 @@
     },
     {
      "field": "delta_nwe",
-     "value": -0.6575927965483265,
+     "value": -1.3059792939449764,
      "format": "usd_mmbtu",
      "signed": true
     },
     {
-     "text": " $/MMBtu, "
+     "text": " $/MMBtu, or "
     },
     {
-     "field": "regas_status_word",
-     "value": "an assumption",
-     "label": "an assumption"
+     "field": "delta_nwe_eur_mwh",
+     "value": -3.972,
+     "format": "eur_mwh",
+     "signed": true
     },
     {
-     "text": ": ACER published its assessment on too few weekdays from "
+     "text": " EUR/MWh: ACER's DES Northwest Europe assessment less the TTF front month, the mean of "
+    },
+    {
+     "field": "delta_days",
+     "value": 5,
+     "format": "count"
+    },
+    {
+     "text": " of the "
+    },
+    {
+     "field": "delta_weekdays",
+     "value": 5,
+     "format": "count"
+    },
+    {
+     "text": " weekdays from "
     },
     {
      "field": "delta_first",
@@ -594,7 +611,7 @@
     },
     {
      "field": "gap",
-     "value": 0.19834838809621402,
+     "value": 0.8321807699146362,
      "format": "usd_mmbtu"
     },
     {
@@ -633,7 +650,7 @@
     },
     {
      "field": "arb",
-     "value": 0.19834838809621402,
+     "value": 0.8321807699146362,
      "format": "usd_mmbtu",
      "signed": true
     },
@@ -653,7 +670,7 @@
     },
     {
      "field": "largest_gain_value",
-     "value": 0.642832030241805,
+     "value": 1.2766644120602249,
      "format": "usd_mmbtu",
      "signed": true
     },
@@ -708,22 +725,30 @@
     },
     {
      "field": "h_star",
-     "value": 82365.09641676645,
+     "value": 200169.3906289786,
      "format": "usd_day"
     },
     {
      "text": " $/day"
     },
     {
-     "text": "; via "
+     "text": ", via "
     },
     {
-     "field": "routes_never",
+     "field": "route",
      "value": "the Cape",
      "label": "the Cape"
     },
     {
-     "text": " no hire is low enough, not even a free ship"
+     "text": " below "
+    },
+    {
+     "field": "h_star",
+     "value": 44766.29218697891,
+     "format": "usd_day"
+    },
+    {
+     "text": " $/day"
     },
     {
      "text": "."
@@ -851,7 +876,7 @@
    },
    {
     "field": "gap",
-    "value": 0.19834838809621402,
+    "value": 0.8321807699146362,
     "format": "usd_mmbtu"
    },
    {
@@ -923,7 +948,7 @@
     "name": "Gate",
     "open": true,
     "accent": false,
-    "value": 26.87859981245555,
+    "value": 26.24476743063713,
     "detail_segments": [
      {
       "text": "Direct to Northwest Europe, the reference for every gap below."
@@ -939,7 +964,7 @@
     "detail_segments": [
      {
       "field": "gap",
-      "value": 0.19834838809621402,
+      "value": 0.8321807699146362,
       "format": "usd_mmbtu"
      },
      {
@@ -967,7 +992,7 @@
      },
      {
       "field": "gap",
-      "value": -0.5889463208461976,
+      "value": 0.044886060972224584,
       "format": "usd_mmbtu",
       "signed": true
      },
@@ -985,7 +1010,7 @@
     "detail_segments": [
      {
       "field": "gap",
-      "value": 0.6437277793183647,
+      "value": 0.009895397499942504,
       "format": "usd_mmbtu"
      },
      {
@@ -1025,7 +1050,7 @@
    },
    {
     "field": "arb",
-    "value": 0.19834838809621402,
+    "value": 0.8321807699146362,
     "format": "usd_mmbtu",
     "signed": true
    },
@@ -1045,7 +1070,7 @@
    },
    {
     "field": "largest_gain_value",
-    "value": 0.642832030241805,
+    "value": 1.2766644120602249,
     "format": "usd_mmbtu",
     "signed": true
    },
@@ -1076,7 +1101,7 @@
    },
    {
     "field": "start",
-    "value": 26.87859981245555,
+    "value": 26.24476743063713,
     "format": "usd_mmbtu"
    },
    {
@@ -1105,7 +1130,7 @@
    },
    {
     "field": "arb",
-    "value": 0.19834838809621402,
+    "value": 0.8321807699146362,
     "format": "usd_mmbtu"
    },
    {
@@ -1114,7 +1139,7 @@
   ],
   "scale": {
    "low": 0.0,
-   "high": 0.8
+   "high": 1.5
   },
   "rows": [
    {
@@ -1170,21 +1195,21 @@
     "name": "Europe's regasification discount, escaped",
     "detail_segments": [
      {
-      "text": "The parameter table's assumption, "
+      "text": "ACER's DES Northwest Europe less TTF, "
      },
      {
       "field": "delta_nwe",
-      "value": -0.6575927965483265,
+      "value": -1.3059792939449764,
       "format": "usd_mmbtu",
       "signed": true
      },
      {
-      "text": " $/MMBtu, as ACER published on too few days: a cargo sold at Gate bears it."
+      "text": " $/MMBtu: a cargo sold at Gate bears it."
      }
     ],
-    "value": 0.642832030241805,
+    "value": 1.2766644120602249,
     "start": 0.06953180833333206,
-    "end": 0.7123638385751371,
+    "end": 1.346196220393557,
     "accent": false
    },
    {
@@ -1202,8 +1227,8 @@
      }
     ],
     "value": -0.24480748826343277,
-    "start": 0.7123638385751371,
-    "end": 0.4675563503117043,
+    "start": 1.346196220393557,
+    "end": 1.1013887321301241,
     "accent": false
    },
    {
@@ -1224,8 +1249,8 @@
      }
     ],
     "value": -0.32867823702362015,
-    "start": 0.4675563503117043,
-    "end": 0.13887811328808414,
+    "start": 1.1013887321301241,
+    "end": 0.772710495106504,
     "accent": false
    },
    {
@@ -1238,8 +1263,8 @@
      }
     ],
     "value": -0.0,
-    "start": 0.13887811328808414,
-    "end": 0.13887811328808414,
+    "start": 0.772710495106504,
+    "end": 0.772710495106504,
     "accent": false
    },
    {
@@ -1252,8 +1277,8 @@
      }
     ],
     "value": 0.009072367369614686,
-    "start": 0.13887811328808414,
-    "end": 0.14795048065769884,
+    "start": 0.772710495106504,
+    "end": 0.7817828624761187,
     "accent": false
    },
    {
@@ -1266,8 +1291,8 @@
      }
     ],
     "value": 0.05586344192129566,
-    "start": 0.14795048065769884,
-    "end": 0.2038139225789945,
+    "start": 0.7817828624761187,
+    "end": 0.8376463043974144,
     "accent": false
    },
    {
@@ -1280,8 +1305,8 @@
      }
     ],
     "value": -0.005465534482777756,
-    "start": 0.2038139225789945,
-    "end": 0.19834838809621674,
+    "start": 0.8376463043974144,
+    "end": 0.8321807699146366,
     "accent": false
    },
    {
@@ -1289,9 +1314,9 @@
     "kind": "total",
     "name": "The arb, Futtsu via Panama over Gate",
     "detail_segments": null,
-    "value": 0.19834838809621402,
+    "value": 0.8321807699146362,
     "start": 0.0,
-    "end": 0.19834838809621402,
+    "end": 0.8321807699146362,
     "accent": true
    }
   ],
@@ -1352,9 +1377,9 @@
      "kind": "step",
      "name": "Europe's regasification discount, escaped",
      "values": {
-      "nea_panama": 0.642832030241805,
-      "nea_suez": 0.642832030241805,
-      "nea_cape": 0.642832030241805
+      "nea_panama": 1.2766644120602249,
+      "nea_suez": 1.2766644120602249,
+      "nea_cape": 1.2766644120602249
      }
     },
     {
@@ -1422,9 +1447,9 @@
      "kind": "total",
      "name": "The arb over Gate",
      "values": {
-      "nea_panama": 0.19834838809621402,
-      "nea_suez": -0.5889463208461976,
-      "nea_cape": -0.6437277793183647
+      "nea_panama": 0.8321807699146362,
+      "nea_suez": 0.044886060972224584,
+      "nea_cape": -0.009895397499942504
      }
     }
    ]
@@ -1457,22 +1482,30 @@
    },
    {
     "field": "h_star",
-    "value": 82365.09641676645,
+    "value": 200169.3906289786,
     "format": "usd_day"
    },
    {
     "text": " $/day"
    },
    {
-    "text": "; via "
+    "text": ", via "
    },
    {
-    "field": "routes_never",
+    "field": "route",
     "value": "the Cape",
     "label": "the Cape"
    },
    {
-    "text": " no hire is low enough, not even a free ship"
+    "text": " below "
+   },
+   {
+    "field": "h_star",
+    "value": 44766.29218697891,
+    "format": "usd_day"
+   },
+   {
+    "text": " $/day"
    },
    {
     "text": "."
@@ -1512,15 +1545,15 @@
    },
    {
     "field": "route",
-    "value": "the Cape",
-    "label": "the Cape"
+    "value": "Panama",
+    "label": "Panama"
    },
    {
     "text": " it is "
    },
    {
     "field": "h_star",
-    "value": -2230.078670140901,
+    "value": 200169.3906289786,
     "format": "usd_day",
     "signed": true
    },
@@ -1555,8 +1588,8 @@
    "axis": "Hire, thousand $/day"
   },
   "y": {
-   "low": 0.0,
-   "high": 4.0,
+   "low": -1.0,
+   "high": 3.0,
    "step": 1.0,
    "axis": "S*, $/MMBtu"
   },
@@ -1568,14 +1601,14 @@
     "points": [
      [
       0.0,
-      0.14815097686609846
+      -0.5124176446721584
      ],
      [
       200000.0,
-      1.2696187908463088
+      0.6090501693080519
      ]
     ],
-    "h_star": 82365.09641676645,
+    "h_star": 200169.3906289786,
     "label": "Panama"
    },
    {
@@ -1585,14 +1618,14 @@
     "points": [
      [
       0.0,
-      0.6422585690570237
+      -0.0375540738880602
      ],
      [
       200000.0,
-      3.5353017149283303
+      2.8554890719832464
      ]
     ],
-    "h_star": -2230.078670140901,
+    "h_star": 44766.29218697891,
     "label": "The Cape"
    }
   ],
@@ -1649,11 +1682,11 @@
      "route": "nea_panama",
      "name": "Panama",
      "values": {
-      "at_hire": 0.4032849045465987,
-      "low": 0.17198216791317833,
-      "central": 0.4032849045465987,
-      "high": 1.0551380714225935,
-      "h_star": 82365.09641676645
+      "at_hire": -0.2572837169916582,
+      "low": -0.4885864536250786,
+      "central": -0.2572837169916582,
+      "high": 0.3945694498843366,
+      "h_star": 200169.3906289786
      },
      "missing_words": "no crossing"
     },
@@ -1661,11 +1694,11 @@
      "route": "nea_suez",
      "name": "Suez, closed",
      "values": {
-      "at_hire": 1.2382993255171932,
-      "low": 0.7104942246509154,
-      "central": 1.2382993255171932,
-      "high": 2.725750064322156,
-      "h_star": -3604.0104293167146
+      "at_hire": 0.5621146820419014,
+      "low": 0.03430958117562355,
+      "central": 0.5621146820419014,
+      "high": 2.0495654208468608,
+      "h_star": 49242.42189499417
      },
      "missing_words": "no crossing"
     },
@@ -1673,11 +1706,11 @@
      "route": "nea_cape",
      "name": "The Cape",
      "values": {
-      "at_hire": 1.3004258847427472,
-      "low": 0.7037357359067897,
-      "central": 1.3004258847427472,
-      "high": 2.9820072132804434,
-      "h_star": -2230.078670140901
+      "at_hire": 0.6206132417976633,
+      "low": 0.023923092961705805,
+      "central": 0.6206132417976633,
+      "high": 2.3021945703353595,
+      "h_star": 44766.29218697891
      },
      "missing_words": "no crossing"
     }
@@ -1767,7 +1800,7 @@
     },
     {
      "field": "delta_now",
-     "value": -2.0,
+     "value": -3.972,
      "format": "eur_mwh",
      "signed": true
     },
@@ -1836,12 +1869,12 @@
      "name": "As priced, via Panama",
      "route": "nea_panama",
      "values": {
-      "s_star": 0.4032849045465987,
-      "arb": 0.19834838809621402,
+      "s_star": -0.2572837169916582,
+      "arb": 0.8321807699146362,
       "lift_margin": 23.58034293739387
      },
      "open": true,
-     "words": "Europe's DES spread as assumed",
+     "words": "Europe's DES spread as observed",
      "missing_words": "no route open"
     },
     {
@@ -1855,6 +1888,19 @@
      },
      "open": true,
      "words": "the discount this study runs as a sensitivity",
+     "missing_words": "no route open"
+    },
+    {
+     "id": "delta_minus_2_0",
+     "name": "Europe's DES spread at \u22122 EUR/MWh, via Panama",
+     "route": "nea_panama",
+     "values": {
+      "s_star": 0.4032849045465987,
+      "arb": 0.19834838809621402,
+      "lift_margin": 23.58034293739387
+     },
+     "open": true,
+     "words": "the study's assumption where ACER publishes nothing",
      "missing_words": "no route open"
     },
     {
@@ -1875,8 +1921,8 @@
      "name": "Cargo energy at 22 MMBtu per cubic metre, via Panama",
      "route": "nea_panama",
      "values": {
-      "s_star": 0.4300222396780953,
-      "arb": 0.17269323546360482,
+      "s_star": -0.23054638186015808,
+      "arb": 0.8065256172820234,
       "lift_margin": 23.537270283743137
      },
      "open": true,
@@ -1888,8 +1934,8 @@
      "name": "Cargo energy at 24 MMBtu per cubic metre, via Panama",
      "route": "nea_panama",
      "values": {
-      "s_star": 0.3787756806760534,
-      "arb": 0.22186561134277127,
+      "s_star": -0.2817929408622035,
+      "arb": 0.8556979931611934,
       "lift_margin": 23.619826203240375
      },
      "open": true,
@@ -1958,11 +2004,11 @@
    }
   },
   "regas_discount": {
-   "value": -0.6575927965483265,
+   "value": -1.3059792939449764,
    "unit": "USD/MMBtu",
-   "eur_mwh": -2.0,
-   "source": "assumption: -2.0 EUR/MWh, ACER's spread held on too few days from 2026-10-15 to 2026-10-21; -2.0 EUR/MWh at 1.1219 USD per EUR",
-   "observed": false
+   "eur_mwh": -3.972,
+   "source": "ACER, DES North-West Europe less the TTF front month, mean of 5 of the 5 weekdays from 2026-10-15 to 2026-10-21, computed by this study from ACER's assessments and EU benchmark; -3.972 EUR/MWh at 1.1219 USD per EUR",
+   "observed": true
   },
   "usd_per_eur": {
    "value": 1.1219,
@@ -2083,12 +2129,12 @@
    "hire": "given",
    "eua": "assumption: the last published monthly auction price, German auctions on EEX, August 2026, held; no published price for October 2026",
    "vessel": "174,000 m3 two-stroke",
-   "delta_nwe": "assumption: -2.0 EUR/MWh, ACER's spread held on too few days from 2026-10-15 to 2026-10-21; -2.0 EUR/MWh at 1.1219 USD per EUR"
+   "delta_nwe": "ACER, DES North-West Europe less the TTF front month, mean of 5 of the 5 weekdays from 2026-10-15 to 2026-10-21, computed by this study from ACER's assessments and EU benchmark; -3.972 EUR/MWh at 1.1219 USD per EUR"
   },
   "mmbtu_per_m3": 23.0,
   "jkm": 29.22,
   "ttf": 28.61,
-  "delta_nwe": -0.6575927965483265,
+  "delta_nwe": -1.3059792939449764,
   "hire_usd_day": 45500.0,
   "henry_hub": 3.040526315789474,
   "hh_multiple": 1.15,
@@ -2130,10 +2176,10 @@
    "canal_note": "",
    "cost_without_hire_usd": 558016.4386712112,
    "cost_usd": 1759573.3014163093,
-   "p_des": 27.952407203451674,
-   "netback": 26.87859981245555,
-   "freight_conventional": 1.0984642519038592,
-   "netback_conventional": 26.853942951547815
+   "p_des": 27.304020706055024,
+   "netback": 26.24476743063713,
+   "freight_conventional": 1.0835759434280419,
+   "netback_conventional": 26.220444762626983
   },
   "east": {
    "nea_panama": {
@@ -2161,17 +2207,17 @@
     "netback": 27.076948200551765,
     "freight_conventional": 2.233449747368928,
     "netback_conventional": 26.98655025263107,
-    "arb": 0.19834838809621402,
-    "s_star": 0.4032849045465987,
+    "arb": 0.8321807699146362,
+    "s_star": -0.2572837169916582,
     "boil_off": 0.5375352094633609,
-    "regas": -0.6699478920266277,
+    "regas": -1.3305165135648829,
     "voyage": 0.5356975871098641,
-    "h_star_usd_day": 82365.09641676645,
+    "h_star_usd_day": 200169.3906289786,
     "waterfall": {
-     "start": 26.87859981245555,
+     "start": 26.24476743063713,
      "spread": 0.5853105041666661,
      "boil_off": -0.515778695833334,
-     "regas": 0.642832030241805,
+     "regas": 1.2766644120602249,
      "hire": -0.24480748826343277,
      "canals": -0.32867823702362015,
      "slot_premium": -0.0,
@@ -2206,17 +2252,17 @@
     "netback": 26.289653491609354,
     "freight_conventional": 3.126150329130456,
     "netback_conventional": 26.09384967086954,
-    "arb": -0.5889463208461976,
-    "s_star": 1.2382993255171932,
+    "arb": 0.044886060972224584,
+    "s_star": 0.5621146820419014,
     "boil_off": 1.226590872115921,
-    "regas": -0.68578564246987,
+    "regas": -1.3619702859451617,
     "voyage": 0.6974940958711412,
-    "h_star_usd_day": -3604.0104293167146,
+    "h_star_usd_day": 49242.42189499417,
     "waterfall": {
-     "start": 26.87859981245555,
+     "start": 26.24476743063713,
      "spread": 0.5717931583333328,
      "boil_off": -1.1497643750000004,
-     "regas": 0.642832030241805,
+     "regas": 1.2766644120602249,
      "hire": -0.545720346754064,
      "canals": -0.1608389280912843,
      "slot_premium": -0.0,
@@ -2251,17 +2297,17 @@
     "netback": 26.234872033137187,
     "freight_conventional": 3.2016788521600814,
     "netback_conventional": 26.018321147839917,
-    "arb": -0.6437277793183647,
-    "s_star": 1.3004258847427472,
+    "arb": -0.009895397499942504,
+    "s_star": 0.6206132417976633,
     "boil_off": 1.3866760454615343,
-    "regas": -0.6894651551167159,
+    "regas": -1.3692777980617978,
     "voyage": 0.6032149943979308,
-    "h_star_usd_day": -2230.078670140901,
+    "h_star_usd_day": 44766.29218697891,
     "waterfall": {
-     "start": 26.87859981245555,
+     "start": 26.24476743063713,
      "spread": 0.5687416333333328,
      "boil_off": -1.2928858999999984,
-     "regas": 0.642832030241805,
+     "regas": 1.2766644120602249,
      "hire": -0.6136510723437921,
      "canals": -0.0,
      "slot_premium": -0.0,

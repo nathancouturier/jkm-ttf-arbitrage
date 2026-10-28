@@ -368,6 +368,11 @@ one, computed from ACER's figures and averaged over the days each price spans;
 the assumption of -2 EUR/MWh stays for earlier dates. Over April to August 2023
 the observed NWE spread averages -2.33 EUR/MWh, close to the assumption.
 
+Revised 28 October 2026: the download was saved again, 917 days to 28 October
+2026. It revises none of the values the first one held and fills in the
+benchmark of 8 October; the observed discount now runs to 27 October 2026, the
+last day with a benchmark.
+
 ### 19. What ACER's legal notice permits
 
 Raised 30 September 2026. **Decided 7 October 2026.**
@@ -389,6 +394,14 @@ show. The same reading of ACER's legal notice is applied to the download, with
 ACER acknowledged as the source; should a TERMINAL notice turn up that forbids
 it, the series moves to `data/private/` and only what is derived from it is
 shown.
+
+Revised 28 October 2026: when the download was saved again, the price
+assessments page it is made from and TERMINAL's home page were read for a
+notice. Neither shows a legal notice, terms, banner or footer, at opening or
+beside the download button; the HELP menu lists a two-factor authentication
+manual, registration guidance for LNG market participants, a list of LNG
+facilities and a support link. Nothing there forbids reproduction, so the
+reading above stands and the series stays committed.
 
 ### 20. The EU allowance price after June 2025
 
