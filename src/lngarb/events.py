@@ -153,9 +153,9 @@ EVENTS: tuple[Event, ...] = (
     Event("2025-11-11", "The Houthis announce a suspension of their maritime operations; container lines test "
           "the Red Sea again from February 2026.",
           "gCaptain, 11 November 2025", _GCAPTAIN + "houthis-declare-suspension-of-red-sea-attacks-but-maritime-threat-remains/"),
-    Event("2026-02-28", "US and Israeli strikes on Iran; Iran declares the Strait of Hormuz closed to all ships and "
-          "Qatari gas tankers pause.",
-          "Reuters and Bloomberg, in gCaptain, 28 February 2026", _GCAPTAIN + "hormuz-strait-tankers-avoid-iran-ban-us-strikes/"),
+    Event("2026-02-28", "US and Israeli strikes on Iran; a radio broadcast said to come from Iran's navy bans "
+          "transits of the Strait of Hormuz, with no official word from Iran, and Qatari gas tankers pause.",
+          "Bloomberg, in gCaptain, 28 February 2026", _GCAPTAIN + "hormuz-strait-tankers-avoid-iran-ban-us-strikes/"),
     Event("2026-03-04", "QatarEnergy declares force majeure on its LNG exports, two days after halting production "
           "at Ras Laffan; gas prices and freight at multi year highs.",
           "Reuters, in gCaptain, 4 March 2026", _GCAPTAIN + "qatar-lng-force-majeure-iran-war-gas-exports/"),

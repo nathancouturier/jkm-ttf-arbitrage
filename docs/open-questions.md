@@ -441,6 +441,13 @@ of 2025 the Commission's electricity market report for the fourth quarter of
 series moves to `data/private/`. Written requests to EEX and to the Commission
 on reports after June 2025 remain a step for the owner.
 
+Revised 28 October 2026: the Commission's auctioning page still lists the
+report for the second quarter of 2025 as its latest. The routes for the two
+requests were read that day: EEX's page on the EU ETS1 auctions names its
+Market Operations team, auctions@eex.com, for questions on the auctions, and
+the Commission's page sends a reader through DG Climate Action's contact page
+to Europe Direct's contact form. Both requests are drafted; none has been sent.
+
 ### 21. The licence of the route lines
 
 Raised 1 October 2026. **Decided 7 October 2026.**
@@ -1017,6 +1024,58 @@ table), the jump in charter rates of March 2026 (Lloyd's List), the IEA's
 averages, Global LNG Hub's note, Spark's negative and record charter rates
 (drawn as charter rates) and the EU ETS on shipping with Spark's change of
 ship (drawn as breaks). Each can become a row once its document is read.
+
+Revised 28 October 2026: the wire stories the events cite through gCaptain
+were looked for at their first publication, and nine of the twenty were
+found, listed below. reuters.com and bloomberg.com were not opened. Their
+robots.txt files, read on 28 October 2026: reuters.com's prohibits collecting
+its content by automated means without Reuters' prior written consent and
+refuses every automated reader not on its list; bloomberg.com's refuses its
+article pages to a long list of named automated readers, the one used here
+among them. The Bloomberg addresses come from a search engine's results, which
+gave no reuters.com address for any query; the one Reuters address comes from
+the references of an encyclopaedia article. Each was matched to gCaptain's
+republication by a second, independent search, and the date in each address
+is the publisher's own.
+
+* JKM's record of 12 January 2021: Bloomberg, 12 January 2021,
+  https://www.bloomberg.com/news/articles/2021-01-12/asian-lng-breaks-30-barrier-as-cold-makes-traders-scramble-kju7ro0n
+* US cargoes turning from Suez, the event of 24 December 2023: Bloomberg, 22
+  December 2023,
+  https://www.bloomberg.com/news/articles/2023-12-22/us-lng-cargoes-to-asia-embark-on-longer-routes-to-avoid-red-sea;
+  Bloomberg's report came out two days before gCaptain's republication of 24
+  December, the date the event row carries.
+* China's tariff of 10 February 2025: Reuters, 4 February 2025,
+  https://www.reuters.com/world/us-tariffs-chinese-imports-take-effect-after-trump-reprieves-canada-mexico-2025-02-04/
+  (probably one story retitled through the day: the match rests on the
+  address's wording and on reprints, not on the page itself); Bloomberg, 21
+  April 2025,
+  https://www.bloomberg.com/news/articles/2025-04-21/china-stops-imports-of-us-lng-amid-trade-war-custom-data-shows
+* China's 84 percent of 10 April 2025: Bloomberg, 9 April 2025,
+  https://www.bloomberg.com/news/articles/2025-04-09/china-raises-tariffs-on-us-goods-to-84-as-trade-rift-escalates
+* The Geneva step of 14 May 2025: Bloomberg, 12 May 2025,
+  https://www.bloomberg.com/news/articles/2025-05-12/us-and-china-agree-to-major-reductions-in-tariffs-for-90-days
+* Hormuz, 28 February 2026: Bloomberg, 28 February 2026,
+  https://www.bloomberg.com/news/articles/2026-02-28/oil-tankers-avoiding-vital-hormuz-strait-after-us-bombs-iran.
+  The gCaptain page cited, read again that day, is Bloomberg's story alone,
+  Reuters being named only on its photograph, and it reports a radio
+  broadcast said to come from Iran's navy, with no official word from Iran.
+  The event now says so and cites Bloomberg alone, where it said that Iran
+  declared the strait closed and cited Reuters too. The only Reuters story on
+  the strikes found on gCaptain is dated 1 March.
+* Ras Laffan, 18 March 2026: Bloomberg, 18 March 2026,
+  https://www.bloomberg.com/news/articles/2026-03-18/qatar-reports-extensive-damage-at-site-of-ras-laffan-lng-plant;
+  the gCaptain page cited is Reuters' story of 19 March.
+* The first Qatari cargo through Hormuz, 10 May 2026: Bloomberg, 10 May 2026,
+  https://www.bloomberg.com/news/articles/2026-05-10/qatar-sends-first-lng-shipment-through-hormuz-since-war-started
+
+The search engine returned no reuters.com address at all, so the other Reuters
+stories stay cited through gCaptain, at the date each event cites: 21
+December 2021, 11 July 2022, 21 August 2022 (reprints date the Reuters story
+itself to 19 August, the day Gazprom announced the halt of 31 August), 11
+April 2025, 4 March 2026, 19 March and 11 May 2026, 16 June 2026 (the page
+matched less surely) and 5 July 2026, and 19 September 2026 (reporting Reuters
+of 18 September). They can be confirmed by hand on reuters.com.
 
 ### 48. How much the verdict rests on the regas discount and the cargo's energy
 

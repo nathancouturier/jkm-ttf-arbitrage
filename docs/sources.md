@@ -947,7 +947,11 @@ of Energy's LNG monthly reports (a US government publication) and Platts'
 count of March 2024 as Hellenic Shipping News republished it on 22 April 2024
 (a figure quoted with attribution). An event no readable document supports is
 not a row; the module lists it with the reason, and the History view prints
-that list (question 47).
+that list (question 47). Where a gCaptain page republishes a wire story, the
+story's first address on reuters.com or bloomberg.com is listed in question 47
+when it was found, from a search engine's results or another document's
+references; neither site was opened, their robots.txt files, read on 28
+October 2026, refusing their articles to the automated reader used here.
 
 ### 2.27 The optional private layer
 
