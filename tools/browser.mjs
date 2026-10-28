@@ -174,9 +174,14 @@ export async function launch(argv = process.argv) {
     "about:blank",
   ], { stdio: "ignore" });
 
+  // A fresh profile takes a few seconds to write its first files, and a busy
+  // CI runner can take longer; a browser that exits instead (a sandbox
+  // refused, a missing library) is reported as such rather than waited for.
+  let exited = null;
+  child.on("exit", (code, signal) => { exited = signal || code; });
   const portFile = path.join(profile, "DevToolsActivePort");
   let port = null;
-  for (let attempt = 0; attempt < 100 && port === null; attempt += 1) {
+  for (let attempt = 0; attempt < 600 && port === null && exited === null; attempt += 1) {
     if (existsSync(portFile)) {
       const first = readFileSync(portFile, "utf8").split("\n")[0].trim();
       if (first) port = Number(first);
@@ -185,7 +190,9 @@ export async function launch(argv = process.argv) {
   }
   if (port === null) {
     child.kill();
-    throw new Error("the browser at " + executable + " did not open a debugging port");
+    throw new Error(exited === null
+      ? "the browser at " + executable + " did not open a debugging port within a minute"
+      : "the browser at " + executable + " exited (" + String(exited) + ") before opening a debugging port");
   }
 
   const sockets = [];
