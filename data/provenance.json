@@ -43,7 +43,7 @@
  "summary_segments": [
   {
    "field": "series_count",
-   "value": 28,
+   "value": 29,
    "format": "count"
   },
   {
@@ -71,11 +71,11 @@
   },
   {
    "field": "private",
-   "value": 1,
+   "value": 2,
    "format": "count"
   },
   {
-   "text": " is"
+   "text": " are"
   },
   {
    "text": " kept private under its terms"
@@ -172,6 +172,21 @@
    "fetch_words": "28 October 2026 at 20:14 UTC",
    "vintage_words": "advisories A-22-2006 to A-38-2026",
    "terms_words": "Panama Canal Authority's terms of use; non-commercial use with attribution"
+  },
+  {
+   "id": "acp_gatun_lake_level_daily",
+   "label": "Gatun Lake's water level, feet, every day since 1965, Panama Canal Authority, private",
+   "publisher": "Panama Canal Authority, Maritime Services, water level indicators",
+   "page_url": "https://evtms-rpts.pancanal.com/eng/h2o/index.html",
+   "page_words": "",
+   "status": "ok",
+   "status_words": "checked",
+   "range_words": "1 January 1965 to 27 October 2026, daily",
+   "gaps_words": "none",
+   "provisional_words": "none",
+   "fetch_words": "28 October 2026 at 20:50 UTC",
+   "vintage_words": "history file read on 28 October 2026",
+   "terms_words": "kept private: its terms do not allow publishing it"
   },
   {
    "id": "acp_lng_transits_fiscal_year",

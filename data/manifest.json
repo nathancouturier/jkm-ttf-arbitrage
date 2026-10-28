@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-28T20:14:50Z",
+  "generated_at": "2026-10-28T20:50:05Z",
   "series": [
     {
       "series": "acer_lng_daily",
@@ -141,6 +141,35 @@
       "unit": "hours, and counts of ships",
       "licence": "Panama Canal Authority's terms of use; non-commercial use with attribution",
       "observation_column": "cwt_hours_avg",
+      "unique_dates": true
+    },
+    {
+      "series": "acp_gatun_lake_level_daily",
+      "source": "Panama Canal Authority, Maritime Services, Gatun Lake historical water levels",
+      "url": "https://evtms-rpts.pancanal.com/eng/h2o/Download_Gatun_Lake_Water_Level_History.csv",
+      "page_url": "https://evtms-rpts.pancanal.com/eng/h2o/index.html",
+      "linkable": true,
+      "machine_fetched": true,
+      "fetched_at": "2026-10-28T20:50:05Z",
+      "checked_at": null,
+      "rows": 22580,
+      "observations": 22580,
+      "file_rows": 22580,
+      "first_date": "1965-01-01",
+      "last_date": "2026-10-27",
+      "frequency": "daily",
+      "gaps": [],
+      "provisional_from": null,
+      "vintage": "history file read on 2026-10-28",
+      "method": "published",
+      "committable": false,
+      "licence_note": "The Authority's water level indicators page, read on 28 October 2026, carries a notice stricter than the site's terms of use: the content 'is an estimate provided for information purposes only', 'you may access and use the content for information purposes only', and 'you shall not copy, modify, distribute, transmit, display, publish, or create derivative works from the content without the prior written consent of the ACP'. So the levels are kept in data/private/, never committed, and nothing computed from them is published; they serve the owner's private checks (docs/open-questions.md, 53 and 54).",
+      "status": "ok",
+      "note": "22580 daily levels from 1965-01-01 to 2026-10-27, as the Authority's history file serves them, kept privately: the page's notice permits use for information only and forbids copying, publication and derivative works without the Authority's written consent, so nothing computed from this series is published. The Authority's projection file prints the surcharge share of each projected day; the engine's curve reproduces it to the two decimals the Authority prints.",
+      "file": "data/private/acp_gatun_lake_level_daily.csv",
+      "unit": "feet",
+      "licence": "the page's notice: information purposes only, no copying or publication without written consent",
+      "observation_column": "level_ft",
       "unique_dates": true
     },
     {
@@ -4562,9 +4591,9 @@
   ],
   "manual_steps_note": "Work this pipeline cannot do for itself. Each entry says what it is, why it exists, what it costs to skip it and how to do it. They are repeated against the series they affect in the manual_step field of those entries.",
   "run": {
-    "mode": "offline",
-    "started_at": "2026-10-28T20:14:49Z",
-    "finished_at": "2026-10-28T20:14:50Z",
+    "mode": "online",
+    "started_at": "2026-10-28T20:49:43Z",
+    "finished_at": "2026-10-28T20:50:05Z",
     "script": "scripts/refresh.py"
   }
 }

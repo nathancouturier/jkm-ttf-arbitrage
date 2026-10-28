@@ -1094,6 +1094,16 @@ weighted LNG export price per thousand cubic feet to DOE's per MMBtu gives
 1,036 in 2024 and 1,034 in 2025, this study's derivation; neither is a figure
 per tonne, so 51.56 stands.
 
+Revised 28 October 2026, the handbook read: it prints no figure per tonne.
+The gross calorific value is computed from each cargo's composition with ISO
+6976's constants, and the handbook's conversion table (Enclosure 1) converts
+between energy units only. Its worked example, Appendix 11, gives 54.1715
+MJ/kg, 51.35 MMBtu per tonne, for a cargo of 89.2 percent methane and 8.3
+percent ethane, 0.4 percent below the IEA and Eurostat's 51.56; a leaner US
+cargo would sit nearer the manual's figure. Decision: 51.56 stands, with the
+handbook's example recorded beside it (`docs/sources.md`, 2.18); only a
+composition of Sabine Pass cargoes would replace it.
+
 ### 52. The series extended, and what is still short
 
 Raised 15 October 2026. **Decided 15 October 2026.**
@@ -1164,6 +1174,23 @@ network policy of the machine that builds the site; allowing them, or saving
 the Authority's CSV of historical levels by hand as a user series (sources
 2.25), is what remains.
 
+Revised 28 October 2026, the host allowed: the Authority's water level
+indicators page serves the lake's level every day since 1 January 1965 as one
+CSV, without a gap, and a sixty day projection that prints, beside each
+projected level, the fresh water surcharge share the Authority itself
+computes. The series is read by `lngarb.sources.acp_gatun` into
+`data/private/`, not committed: the page's notice permits use for information
+purposes only and forbids copying, publication and derivative works without
+the Authority's written consent (`docs/sources.md`, 2.15), so the site shows
+nothing computed from it and the engine keeps 5 percent. What the projection
+allows is a check: the engine's curve, with its centre at 79 feet since
+October 2023, reproduces the Authority's surcharge for every projected level
+to the two decimals it prints, so the curve and its constants are confirmed
+by the Authority's own computation. Pricing each date at its day's level is
+a private run for the owner's machine, where the file is, until the
+Authority consents; the letter of question 54 would ask for the levels as
+well as the summaries.
+
 ### 54. Keeping the Panama Canal Authority's figures
 
 Raised 15 October 2026. **Decided 15 October 2026.**
@@ -1183,6 +1210,14 @@ manifest, the NOTICE and the Flows view; the adapter leaves ten seconds
 between requests and fetches only the months the cache lacks. Should the
 Authority object, both move to data/private/ and the Flows view's canal
 block is withheld, as question 20 provides for DEHSt.
+
+Revised 28 October 2026: the Authority's water level indicators page carries
+a notice stricter than the site's terms, information use only and no
+publication or derivative work without written consent, so the daily lake
+level is kept private (question 53). A request to the Authority, at the
+address its advisories give for toll questions, would ask for both: consent
+to the reuse of the summaries' traffic tables already committed, and consent
+to price each date at the day's lake level and say so on the site.
 
 ### 55. What the private layer may change
 
