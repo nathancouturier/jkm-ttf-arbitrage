@@ -82,6 +82,7 @@ PARAMETER_WORDS: Mapping[str, str] = {
     "analysis_min_weeks_per_month": "Least weekly averages for a monthly observation",
     "analysis_first_month": "First month of the monthly history",
     "analysis_excluded_years": "Years left out of the second sample",
+    "china_tariff_from": "First day of China's tariff on US LNG",
 }
 
 
@@ -142,7 +143,10 @@ def _formulas() -> list[dict[str, Any]]:
                                "MMBtu a cubic metre.")]},
         {"formula": "G = Q_load x BOR x T_total;  Q_del = Q_load - G",
          "segments": [reader.T("The gas used, boiled off or burnt every day of the round trip at the rate BOR, and the "
-                               "cargo delivered; the heel for the way back stays on board.")]},
+                               "cargo delivered; the heel for the way back stays on board. Spark's rate, the hire "
+                               "below, is what a charterer pays less the ballast fuel over the round trip, an "
+                               "owner's earnings rate, so taking it as hire with the heel in G counts the ballast "
+                               "fuel once, never twice.")]},
         {"formula": "C(d, r) = hire x T_total + port(d) + canal(r) + slot premium(r) + ets(d, r) + financing(r)",
          "segments": [reader.T("The voyage's cost to destination d by route r: hire for the whole round trip, the "
                                "ports, the canal both ways, any slot premium, the EU ETS on a voyage into Northwest "
@@ -257,9 +261,26 @@ def _fresh_water() -> dict[str, Any]:
                        "curve gives at a lake level, under the centre in force from each date; the share is held "
                        "between 1 and 10 percent to September 2023 and 0 and 10 since."}
 
+def conventional(day: date, result: Mapping[str, Any]) -> dict[str, Any]:
+    """The exact netback against the conventional one, route by route, for the latest week."""
+    rows = []
+    lines = {"nwe_direct": result["west"], **result["east"]}
+    for route, line in lines.items():
+        if route != "nwe_direct" and not line["open"]:
+            continue
+        rows.append({"route": route, "name": reader.ROUTE_NAMES[route], "exact": line["netback"],
+                     "conventional": line["netback_conventional"],
+                     "difference": line["netback"] - line["netback_conventional"]})
+    return {"rows": rows, "caption_segments": [
+        reader.T("The week to "), reader.D("as_of", day),
+        reader.T(": the netback per MMBtu loaded, the exact form the study uses, against the conventional one per "
+                 "MMBtu delivered, and the difference, in $/MMBtu.")]}
 
-def page(now_document: Mapping[str, Any] | None = None) -> dict[str, Any]:
-    """The Method view's whole document body."""
+
+def page(now_document: Mapping[str, Any] | None = None, latest: Mapping[str, Any] | None = None) -> dict[str, Any]:
+    """The Method view's whole document body. now_document, the Now view's,
+    gives the energy content sentence; latest, when given, the exact against
+    the conventional netback for the week."""
     parameters = []
     for name, parameter in config.PARAMETERS.items():
         parameters.append({
@@ -282,11 +303,15 @@ def page(now_document: Mapping[str, Any] | None = None) -> dict[str, Any]:
         ],
         "formulas": _formulas(),
         "fresh_water": _fresh_water(),
+        **({"conventional": latest["conventional"]} if latest else {}),
         "parameters": parameters,
         "parameters_caption": "Every parameter of the engine that is not market data or a canal tariff: its "
                               "value, whether it is published or this study's assumption, the document it is "
                               "read in, the day it was read, and its note. The tariffs behind the tolls are set "
-                              "out in the methodology's sections on Suez and Panama.",
+                              "out in the methodology's sections on Suez and Panama. The Model view lets a reader "
+                              "type over every one that is an input of a cargo, methane slip included; the "
+                              "gas factors, the canals' readings and the analysis's settings are rules or choices "
+                              "of the study, not inputs a cargo chooses, and are fixed there.",
         "units": [
             {"words": "MMBtu in a megawatt hour", "value": units.MMBTU_PER_MWH, "format": "mmbtu_per_mwh"},
             {"words": "MMBtu in a cubic metre of LNG", "value": config.PARAMETERS["mmbtu_per_m3_lng"].value,
@@ -337,6 +362,12 @@ def page(now_document: Mapping[str, Any] | None = None) -> dict[str, Any]:
              reader.D("weekly_from", "2021-08-01", "month"), reader.T(" no public JKM is held.")],
             [reader.T("The month of the export data is coarser than the decisions, taken weeks before a cargo "
                       "loads.")],
+            [reader.T("The pilot fuel a dual fuel engine burns with the gas is left out of the voyage's cost and "
+                      "of its emissions.")],
+            [reader.T("Panama's booking fee is not an input of its own: the slot premium a reader types carries it, "
+                      "with the methodology's cited figures as scenarios.")],
+            [reader.T("Futtsu stands for the JKM delivery area and Gate for Northwest Europe; Sabine Pass stands for "
+                      "every US Gulf terminal, and the others are out of scope.")],
         ],
         "documents": [
             {"label": "The full methodology", "href": "docs/methodology.md"},

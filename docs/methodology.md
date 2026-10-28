@@ -9,15 +9,20 @@ layer, the engine, the analysis and the site, each in its section.
 
 1. **Nothing is invented.** A source that fails, or a date a source did not
    publish, is missing. In a CSV cache a missing value is an empty cell; in a
-   JSON file it is `null`; on the site it is "no figure", or the words the artifact gives for it, with the reason one click
-   away. Zero never means missing.
+   JSON file it is `null`; on the site it is a word that says which figure is
+   missing ("no figure" in a cell, "missing for this date" under a field, "no
+   crossing" for a breakeven hire that does not exist), with the reason beside
+   it or in the sentence under the table, never a bare "n/a" (open question
+   49). Zero never means missing.
 2. **Nothing is filled.** No interpolation, no carrying a value forward, no
    substitution from a neighbouring source without a label saying so.
 3. **A failed fetch keeps the previous cache.** The source is marked `failed`
    in `data/manifest.json` with the error, and the refresh exits non zero.
 4. **Every cache is validated before it is written**: dates in order and
    unique, the declared bounds, a row count that did not shrink, and a minimum
-   number of real observations in every value column.
+   number of real observations in every value column. A series that failed
+   or holds nothing stops the build, so no page with an empty chart is ever
+   deployed: the site already live stays as it was until the series is mended.
 5. **Every release is a vintage.** Where a publisher revises figures and keeps
    no old release online (EIA's exports table, the World Bank's Pink Sheet),
    the latest release is cached in full and every value a later release
@@ -486,6 +491,8 @@ typed for either leg instead of computed from the distance.
 The gas used over the round trip is `G = b x T_total`, and the cargo delivered
 is `Q_del = Q_load - G`: the heel for the ballast leg stays on board. Laden and
 ballast routes are set separately; a worked date sends both legs the same way.
+The pilot fuel a dual fuel engine burns with the gas is left out, of the
+voyage's cost and of its emissions: a limitation the Method view lists.
 
 The ship is the benchmark freight rates' own: the 160,000 m3 TFDE, at 0.1
 percent a day, before 2 January 2024, and the 174,000 m3 two-stroke, at 0.085
@@ -667,10 +674,13 @@ the visitor's figures laid over them.
   ACER published too little, and for an allowance price held. Every one can be
   typed over, as can the ship's speed, boil-off, fill and days in port, the
   contract's share of Henry Hub, the two energy conversions and the EU ETS
-  shares of a voyage and a berth stay, each with its source. The canal tariffs
+  shares of a voyage and a berth stay, each with its source. Methane slip is a
+  box to tick, off as in the study, with each ship's default share from the
+  EU's monitoring rules, which can be typed over. The canal tariffs
   behind the tolls (Suez's net tonnage per cubic metre, Panama's fresh water
-  surcharge and its reading of capacity) and the gases counted under the EU
-  ETS (the methane slip of each ship) are fixed there: they are rules or
+  surcharge and its reading of capacity) and the factors of the gases counted
+  under the EU ETS (tonnes of CO2 and N2O per tonne of LNG, their warming
+  potentials, the year methane enters) are fixed there: they are rules or
   readings of a rule, not inputs a cargo chooses, and the tolls and carbon
   cost they give can be typed over, per route or through the shares.
 * **Spark's example** types Spark's 17.5 laden and 12.5 ballast days, read
@@ -787,7 +797,13 @@ result. Nothing is fitted: no parameter is searched and nothing is forecast.
 * **Weekly**: the Weekly Update's East Asia and TTF averages from the week
   ending 15 September 2021, then the Supplement's JKM and TTF from the week
   ending 28 January 2026, each loading on the week's last day, the Wednesday,
-  and tagged aligned, mixed or misaligned by its delivery months (9.9).
+  and tagged aligned, mixed or misaligned by its delivery months (9.9). The
+  aligned weeks are read first: the History view sets the share of them in
+  which the arb east was open, and their mean S*, against those of every week,
+  for each range. Over every week the two differ little (58 against 61
+  percent open, a mean S* of 0.38 against 0.41 $/MMBtu on 9 October 2026);
+  over the last 52 weeks the aligned ones were open less often, which the
+  page's sentence shows for each range.
 * **Monthly**, loading on the 15th: METI's contract-based price, a proxy for
   JKM, with the World Bank's TTF, January 2016 to March 2021; then the mean of
   each month's weekly averages, for a month holding three weeks or more. April
@@ -798,6 +814,10 @@ result. Nothing is fitted: no parameter is searched and nothing is forecast.
   no monthly observation are March, June and August 2016, June 2017 and
   November 2019, when METI published no contract-based price, and November
   2021, which holds two weekly averages (`analysis.months_without_observation`).
+* **Figures others reported**, which the analysis sets its results against and
+  never uses as inputs (the cancellations of 2020, Platts' route counts and its
+  arbitrage of 28 April 2026), are kept in `src/lngarb/reported.py`, each with
+  its publisher, address and the day it was read (docs/sources.md 2.24).
 * **Hire**: each observation at the low, central and high hire of the freight
   anchors (the lowest, median and highest figure reported for the ship the
   observation is priced with, the 160,000 m3 TFDE to 1 January 2024 and the
@@ -819,7 +839,9 @@ price is listed with the input it lacks, never filled.
 ### 12.2 Did the cargoes follow
 
 The share of US LNG exports by vessel going to the JKM markets (Japan, South
-Korea, China, Taiwan) and to Asia as a whole, month by month, from EIA's
+Korea, China, Taiwan) and to Asia as a whole, month by month, with Europe's
+share drawn beside them and the Middle East and Africa's and the Americas' in
+the table, from EIA's
 exports by destination: the block of exports by vessel, its own total row and
 its countries summed by region (trucks to Canada and Mexico and re-exports of
 foreign LNG are left out). The signal is the arb at loading at the best open
@@ -874,7 +896,9 @@ result is set beside the route use Platts reported: a record 27 US cargoes to
 Asia via the Cape in March 2024, against one via Panama in that month to 27
 March, and 31 of 34 round the Cape in data running to 28 April 2026, over a
 period not stated, when auctioned slots had made Panama impractical for spot
-cargoes according to Platts' sources (2.24 of `docs/sources.md`).
+cargoes according to Platts' sources (2.24 of `docs/sources.md`). The Flows
+view draws the breakeven wait month by month from January 2023, with the waits
+reported as points.
 
 ### 12.4.1 What the canal authorities and EIA count
 
@@ -913,6 +937,17 @@ nothing smoothed or fitted (`lngarb.spreadhistory`):
   Gate. The cheapest route is the open route with the lowest S* at each level
   of hire; on 9 October 2026 it was Panama in every week since September
   2021.
+* **One route at a time.** A choice above the weekly chart draws the S* of
+  Panama, the Cape or Suez instead of the cheapest open route's, in the weeks
+  that route was open, with the count of weeks the spread covered it; the
+  address keeps the choice (`#/history?route=cape`).
+* **The netbacks.** What a cargo nets at Sabine Pass sold at Gate, and by the
+  best route east, at the central hire, week by week; where the second runs
+  above the first the arb east was open.
+* **The parts of S\* and Europe's spread.** The three parts of the cheapest
+  route's S\* at the central hire, and Europe's DES spread as the engine took
+  it against the parameter table's assumption, with the weeks whose verdict
+  would change at zero and at the assumption.
 * **The breakeven hire against the charter rates reported.** H*, the hire at
   which the cheapest route nets what Gate does, each week, with every reported
   rate as a point. A rate below the line is a week the arb was open at the

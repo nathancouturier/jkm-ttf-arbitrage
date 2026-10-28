@@ -302,7 +302,12 @@ From JOGMEC's English terms of use, the terms page of its English website:
 requested yet (the draft and the decision are in `docs/open-questions.md`,
 question 14). The series is kept in
 `data/private/`; no value, chart or derived figure from it is published, and
-the public pages carry no link to JOGMEC until JOGMEC allows it.
+the public pages carry no link to JOGMEC until JOGMEC allows it. The
+registry marks the source `linkable=False`: its manifest entry carries no URL,
+the provenance table names JOGMEC in plain text, and the data validator and a
+test fail if its domain reaches the page or any data file the page reads. Its
+addresses appear only as plain text, never as links, in this document, in the
+open questions and in the code that reads the series privately.
 
 ### 2.7 ACER, LNG price assessment and benchmark
 
@@ -878,6 +883,36 @@ held under a subscription. The reader of such a declaration should know that
 nothing computed from a private series is published either, as question 14
 settles for JOGMEC.
 
+### 2.26 Dated events, each with its source
+
+`lngarb.events` keeps the dated events that explain the regimes in the sample,
+written to `data/seed/events.json` and drawn as lettered rules on the History
+view. Each row states a fact in this study's own words with the document it
+was read in, its publisher and its address; no sentence of any source is
+reproduced. The documents are those of sections 2.11 (gCaptain's reports of
+Reuters and Bloomberg, the Oxford Institute for Energy Studies), 2.14 (LNG
+Prime), 2.24 (EIA's Today in Energy and its exports by country) and 3.10 (the
+Panama Canal Authority's advisories and press releases), with the US Department
+of Energy's LNG monthly reports (a US government publication) and Platts'
+count of March 2024 as Hellenic Shipping News republished it on 22 April 2024
+(a figure quoted with attribution). An event no readable document supports is
+not a row; the module lists it with the reason, and the History view prints
+that list (question 47).
+
+### 2.27 The optional private layer
+
+`lngarb.sources.private_layer` reads settlements and a freight series the owner
+exports himself from a licensed source into `data/private/user/`, as CSV files
+with exactly the columns `date, series, contract_month, value, unit, source`.
+The series it takes are JKM, TTF and Henry Hub settlements by contract month,
+in USD/MMBtu, and a freight rate in USD/day; a file that breaks a rule (a
+column, a date, a unit, a value out of bounds or missing, a contract month
+missing or out of place, no source) is refused whole, with every problem named.
+It never fetches; nothing it reads is committed or deployed, `data/private/`
+being ignored by git. Nothing the site shows changes when the layer is present
+(question 55). A series of one value a date goes through the declared CSV
+series of 2.25 instead.
+
 ## 3. Known traps, per source
 
 ### 3.1 EIA Natural Gas Weekly Update and its successor
@@ -1369,7 +1404,13 @@ settles for JOGMEC.
   with them, and its ships are LPG carriers: the test confirms the order of
   the three routes and their rough proportion, not the distances. Platts'
   figure for the Panama route could not be read: its site refuses automated
-  requests, even for robots.txt.
+  requests, even for robots.txt. The IEA, quoted by Oil & Gas Journal on 29
+  January 2024, gives the US Gulf to Japan as "just over 20 days via the Panama
+  Canal", "a little over a month" via Suez and "about 40 days" via the Cape, with
+  no speed or port. On the computed distances at 17 knots the three take 22.8,
+  35.8 and 38.8 days; read as 20 or 21, 31 or 33 and 40 days, the IEA's figures
+  imply about 19, 19 and 16.5 knots, so they fit no single speed. They confirm
+  the order and the rough size, nothing finer.
 
 ### 3.12 Suez Canal Authority
 
@@ -1611,11 +1652,13 @@ the study runs without it, on the labelled position given.
 19. **The TTF and JKM expiry rules** are ICE's, with the UK calendar
     (question 44).
 20. **Methane slip** is off by default (question 45), and **MMBtu per tonne** is
-    the IEA and Eurostat's factor; **owner**: GIIGNL's report, saved by hand,
-    could replace it (question 47).
+    the IEA and Eurostat's factor; **owner**: GIIGNL's handbook, saved by hand,
+    could replace it (question 51).
 21. **Figures others reported** (cancellations, route use, Platts'
     assessments) are quoted individually with their source and never used as
     inputs (2.24).
+22. **Events** are rows only where one readable document supports them; the
+    rest are listed with the reason (2.26, question 47).
 
 ---
 

@@ -21,7 +21,9 @@
  * RANGES. Named ranges cut the two weekly panels; each comes with its own
  * domains, ticks and sentences in data/history.json, and the address keeps
  * it: #/history?range=last_52. The breaks of the data are numbered rules,
- * listed in a table under the charts.
+ * listed in a table under the charts; the events that explain a regime are
+ * lettered marks at the foot of the spread charts, listed in their own table
+ * with what was left out and why.
  *
  * Every figure and every sentence is from data/history.json. Numeric
  * literals: none.
@@ -37,6 +39,15 @@ export const artifacts = Object.freeze(["history"]);
 const VIEW = "history";
 
 let held = null;
+/* Which row of choices the last click came from, so the keyboard stays there. */
+let lastGroup = "range";
+
+/* The route east whose S* the weekly chart draws: the cheapest open one, or
+ * one route, kept in the address as route=panama. */
+function routeFrom(route, range) {
+  const asked = route && route.params ? route.params.route || "" : "";
+  return range.routes.find((r) => r.id === asked) || null;
+}
 
 function rangeFrom(route, page) {
   const asked = route && route.params ? route.params.range || "" : "";
@@ -50,6 +61,12 @@ export function render(root, data, route) {
   const page = history.page;
   const decimals = history.conventions.decimals;
   const { range, unknown } = rangeFrom(route, page);
+  const chosenRoute = routeFrom(route, range);
+  // A route the range does not hold, or no route of that name, is dropped from
+  // the address: the chart shows the cheapest open route.
+  if (route && route.params && route.params.route && !chosenRoute && unknown === null) {
+    router.replaceState(VIEW, { range: range.id });
+  }
   held = { history, root };
 
   const title = sentence("h1", range.heading_segments, decimals, "view-title");
@@ -65,7 +82,8 @@ export function render(root, data, route) {
       attrs: { type: "button", "aria-pressed": option.id === range.id ? "true" : "false", "data-range": option.id },
     });
     button.addEventListener("click", () => {
-      if (option.id !== range.id) router.go(VIEW, { range: option.id });
+      lastGroup = "range";
+      if (option.id !== range.id) router.go(VIEW, chosenRoute ? { range: option.id, route: chosenRoute.id } : { range: option.id });
     });
     choices.appendChild(button);
   }
@@ -75,18 +93,36 @@ export function render(root, data, route) {
     router.replaceState(VIEW, { range: range.id });
   }
 
-  root.appendChild(weeklyFigure(page, range, decimals));
+  const routes = el("div", { class: "choice-row", attrs: { role: "group", "aria-label": "Route east drawn" } });
+  for (const option of [{ id: "", label: page.words.cheapest_route }, ...range.routes]) {
+    const pressed = (chosenRoute ? chosenRoute.id : "") === option.id;
+    const button = el("button", {
+      class: "choice", text: option.label,
+      attrs: { type: "button", "aria-pressed": pressed ? "true" : "false", "data-route": option.id || "cheapest" },
+    });
+    button.addEventListener("click", () => {
+      lastGroup = "route";
+      if (!pressed) router.go(VIEW, option.id ? { range: range.id, route: option.id } : { range: range.id });
+    });
+    routes.appendChild(button);
+  }
+  root.appendChild(weeklyFigure(page, range, decimals, chosenRoute, routes));
+  root.appendChild(netbacksFigure(page, range, decimals));
   root.appendChild(hstarFigure(page, range, decimals));
   root.appendChild(partsFigure(page, range, decimals));
+  root.appendChild(regasFigure(page, range, decimals));
   root.appendChild(monthlyFigure(page, decimals));
+  root.appendChild(el("div", { class: "block" }, [
+    el("h2", { class: "block__heading", text: page.words.events_heading }),
+    sentence("p", page.events_lead_segments, decimals, "lead"),
+    eventsTable(page),
+    el("h3", { class: "block__heading", text: page.words.left_out_heading }),
+    leftOutList(page),
+  ]));
   root.appendChild(el("div", { class: "block" }, [
     el("h2", { class: "block__heading", text: "The breaks in the data" }),
     sentence("p", page.breaks_lead_segments, decimals, "lead"),
     breaksTable(page),
-  ]));
-  root.appendChild(el("div", { class: "block" }, [
-    el("h2", { class: "block__heading", text: "The events marked" }),
-    eventsTable(page),
   ]));
   return title;
 }
@@ -95,7 +131,9 @@ export function update(root, route) {
   if (!held) return;
   clear(root);
   render(root, { history: held.history }, route);
-  const pressed = root.querySelector('.choice[aria-pressed="true"]');
+  // Keep the keyboard on the row of choices just used.
+  const selector = lastGroup === "route" ? '.choice[data-route][aria-pressed="true"]' : '.choice[data-range][aria-pressed="true"]';
+  const pressed = root.querySelector(selector) || root.querySelector('.choice[aria-pressed="true"]');
   if (pressed) pressed.focus();
 }
 
@@ -112,12 +150,8 @@ function slice(weekly, range) {
   return out;
 }
 
-function pick(column, indexes) {
-  return indexes.map((index) => (index === null ? null : column[index]));
-}
-
-/* The latest point of a series, in the accent: the one the reader asks about. */
-function latestPoint(days, values) {
+/* The accent: the latest point drawn, the one a reader asks about first. */
+function lastPoint(days, values) {
   for (let index = values.length - 1; index >= 0; index -= 1) {
     if (days[index] !== null && values[index] !== null && values[index] !== undefined) {
       return [{ day: days[index], value: values[index], accent: true }];
@@ -126,8 +160,14 @@ function latestPoint(days, values) {
   return [];
 }
 
-function weeklyFigure(page, range, decimals) {
+function pick(column, indexes) {
+  return indexes.map((index) => (index === null ? null : column[index]));
+}
+
+function weeklyFigure(page, range, decimals, chosenRoute, routes) {
   const weekly = page.weekly;
+  // The cheapest open route's S*, or the chosen route's own.
+  const column = (level) => (chosenRoute ? weekly[chosenRoute.id + "_s_" + level] : weekly["s_" + level]);
   const indexes = slice(weekly, range);
   const days = pick(weekly.day, indexes);
   const marks = [];
@@ -142,20 +182,26 @@ function weeklyFigure(page, range, decimals) {
       days,
       first: range.first,
       last: range.last,
-      y: range.y,
-      band: { low: pick(weekly.s_low, indexes), high: pick(weekly.s_high, indexes), label: page.words.band },
-      reference: { values: pick(weekly.s_central, indexes), label: page.words.reference },
+      y: chosenRoute ? chosenRoute.y : range.y,
+      band: { low: pick(column("low"), indexes), high: pick(column("high"), indexes), label: page.words.band },
+      reference: { values: pick(column("central"), indexes), label: page.words.reference },
       series: { values: pick(weekly.spread, indexes), label: page.words.spread },
       marks,
+      points: lastPoint(days, pick(weekly.spread, indexes)),
       rules: page.rules,
       events: page.event_rules,
-      points: latestPoint(days, pick(weekly.spread, indexes)),
       ticks: range.ticks,
-      words: { title: segmentsText(range.heading_segments, decimals), desc: segmentsText(range.desc_segments, decimals), yAxis: page.words.y_axis },
+      words: {
+        title: chosenRoute ? segmentsText(chosenRoute.caption_segments, decimals) : segmentsText(range.heading_segments, decimals),
+        desc: segmentsText(range.desc_segments, decimals) + (chosenRoute ? " " + page.words.route_desc : ""),
+        yAxis: page.words.y_axis,
+      },
     }));
   });
   return el("figure", { class: "block", attrs: { "aria-labelledby": "view-title" } }, [
+    routes,
     frame,
+    ...(chosenRoute ? [sentence("p", chosenRoute.caption_segments, decimals, "source-line")] : []),
     el("p", { class: "source-line", text: page.words.legend + " " + page.words.marks_legend }),
     sentence("p", range.caption_segments, decimals, "source-line"),
     sentence("p", page.source_segments, decimals, "source-line"),
@@ -186,7 +232,7 @@ function partsFigure(page, range, decimals) {
       marks: [],
       rules: page.rules,
       events: page.event_rules,
-      points: latestPoint(days, pick(weekly.s_central, indexes)),
+      points: lastPoint(days, pick(weekly.s_central, indexes)),
       ticks: range.ticks,
       words: { title: segmentsText(range.parts_heading_segments, decimals), desc: segmentsText(range.parts_desc_segments, decimals), yAxis: page.words.y_axis },
     }));
@@ -237,6 +283,66 @@ function hstarFigure(page, range, decimals) {
   ]);
 }
 
+/* What a cargo nets at Sabine Pass, sold at Gate and by the best route east. */
+function netbacksFigure(page, range, decimals) {
+  const weekly = page.weekly;
+  const indexes = slice(weekly, range);
+  const frame = el("div", { class: "chart-frame" });
+  charts.onWidthChange(frame, (width) => {
+    frame.replaceChildren(charts.timeChart({
+      width,
+      days: pick(weekly.day, indexes),
+      first: range.first,
+      last: range.last,
+      y: range.netbacks_y,
+      band: null,
+      reference: { values: pick(weekly.east_netback, indexes), label: page.words.netbacks.east },
+      series: { values: pick(weekly.west_netback, indexes), label: page.words.netbacks.west },
+      marks: [],
+      rules: page.rules,
+      events: page.event_rules,
+      ticks: range.ticks,
+      height: width < charts.GEOMETRY.NARROW_WIDTH ? charts.GEOMETRY.HSTAR_HEIGHT_NARROW : charts.GEOMETRY.HSTAR_HEIGHT,
+      words: { title: segmentsText(range.netbacks_heading_segments, decimals), desc: page.words.netbacks_legend, yAxis: page.words.y_axis },
+    }));
+  });
+  return el("figure", { class: "block" }, [
+    sentence("h2", range.netbacks_heading_segments, decimals, "block__heading"),
+    frame,
+    el("p", { class: "source-line", text: page.words.netbacks_legend }),
+  ]);
+}
+
+/* The three parts of S* of the cheapest open route, week by week: which one
+ * dominates changes with the market. */
+function regasFigure(page, range, decimals) {
+  const weekly = page.weekly;
+  const indexes = slice(weekly, range);
+  const frame = el("div", { class: "chart-frame" });
+  charts.onWidthChange(frame, (width) => {
+    frame.replaceChildren(charts.timeChart({
+      width,
+      days: pick(weekly.day, indexes),
+      first: range.first,
+      last: range.last,
+      y: range.regas_y,
+      band: null,
+      reference: { values: pick(weekly.assumed_delta_nwe, indexes), label: page.words.regas.assumed },
+      series: { values: pick(weekly.delta_nwe, indexes), label: page.words.regas.observed },
+      marks: [],
+      rules: page.rules,
+      ticks: range.ticks,
+      height: width < charts.GEOMETRY.NARROW_WIDTH ? charts.GEOMETRY.HSTAR_HEIGHT_NARROW : charts.GEOMETRY.HSTAR_HEIGHT,
+      words: { title: segmentsText(range.regas_heading_segments, decimals), desc: page.words.regas_legend, yAxis: page.words.y_axis },
+    }));
+  });
+  return el("figure", { class: "block" }, [
+    sentence("h2", range.regas_heading_segments, decimals, "block__heading"),
+    frame,
+    el("p", { class: "source-line", text: page.words.regas_legend }),
+  ]);
+}
+
 function monthlyFigure(page, decimals) {
   const monthly = page.monthly;
   const frame = el("div", { class: "chart-frame" });
@@ -251,9 +357,10 @@ function monthlyFigure(page, decimals) {
       reference: { values: monthly.s_central, label: page.words.reference },
       series: { values: monthly.spread, label: page.words.spread },
       marks: [],
+      points: lastPoint(monthly.day, monthly.spread),
       rules: page.rules,
       events: page.event_rules,
-      points: latestPoint(monthly.day, monthly.spread),
+      points: lastPoint(monthly.day, monthly.spread),
       ticks: monthly.ticks,
       words: { title: segmentsText(monthly.heading_segments, decimals), desc: segmentsText(monthly.desc_segments, decimals), yAxis: page.words.y_axis },
     }));
@@ -297,6 +404,7 @@ function anchorsTable(page, decimals) {
       el("th", { text: formatDay(anchor.day), attrs: { scope: "row" } }),
       figureCell(formatCell(anchor.hire_usd_day, "usd_day", decimals), "hire_usd_day"),
       el("td", { class: "words", text: anchor.assessment }),
+      el("td", { class: "words", text: anchor.vessel }),
       el("td", { class: "words", text: anchor.publisher }),
     ]));
   }
@@ -305,6 +413,7 @@ function anchorsTable(page, decimals) {
       el("th", { text: "Day", attrs: { scope: "col" } }),
       el("th", { class: "col-num", text: "Hire, " + UNITS.usd_day, attrs: { scope: "col" } }),
       el("th", { text: "Assessment", attrs: { scope: "col" } }),
+      el("th", { text: "Ship", attrs: { scope: "col" } }),
       el("th", { text: "Reported by", attrs: { scope: "col" } }),
     ])]),
     body,
@@ -320,7 +429,7 @@ function eventsTable(page) {
       : el("span", { text: item.source });
     body.appendChild(el("tr", {}, [
       el("th", { text: item.letter, attrs: { scope: "row" } }),
-      el("td", { class: "nowrap", text: formatDay(item.day) + (item.dated_to === "month" ? ", the month" : "") }),
+      el("td", { class: "nowrap", text: formatDay(item.day) + (item.end ? " to " + formatDay(item.end) : "") + (item.dated_to === "month" ? ", the month" : "") }),
       el("td", { class: "words", text: item.what }),
       el("td", { class: "words" }, [source]),
     ]));
@@ -335,6 +444,14 @@ function eventsTable(page) {
     body,
   ]);
   return scrollTable([page.words.events_caption], table);
+}
+
+function leftOutList(page) {
+  const list = el("ul", { class: "credit-list" });
+  for (const item of page.events_left_out) {
+    list.appendChild(el("li", { class: "prose note", text: item.what + ": " + item.reason + "." }));
+  }
+  return list;
 }
 
 function breaksTable(page) {

@@ -30,7 +30,8 @@ from typing import Any, Mapping, Sequence
 
 import pandas as pd
 
-from . import analysis, config, freight_anchors, panama_transits, reader
+from . import analysis, config, freight_anchors, panama_transits, reader, worked
+from .cases import evaluate
 from .sources import base
 from .spreadhistory import ticks
 from .reported import reported
@@ -44,6 +45,8 @@ LEVEL_WORDS = {"low": "low", "central": "central", "high": "high"}
 #: percent in one
 PERCENT = 100.0
 FROM_2026 = date(2025, 12, 1)
+#: The waits chart starts with Panama's water saving measures of January 2023.
+WAITS_FROM = "2023-01-01"
 
 
 def _finite(value: Any) -> float | None:
@@ -113,6 +116,15 @@ def _test(regressions: Sequence[Mapping[str, Any]], excluded: Sequence[int]) -> 
                        "median."}
 
 
+def _meti_words(label: str | None) -> str:
+    """METI's figure as the notice took it, from the analysis's source label: the
+    month it is for and how it was published, without the file's own terms."""
+    if not label:
+        return "METI's figure"
+    words = label.replace("METI spot LNG, contract-based, ", "METI's contract-based price, the ")
+    return words.split(", the latest published by")[0]
+
+
 def _y2020(levels: Mapping[str, float]) -> dict[str, Any]:
     frame = analysis.lift_margins_2020(levels=levels)
     cancelled = {r.period: r for r in reported("cancellations")}
@@ -127,7 +139,11 @@ def _y2020(levels: Mapping[str, float]) -> dict[str, Any]:
         key = pd.Timestamp(month).strftime("%Y-%m")
         report = cancelled.get(key)
         notice_rows = rows[rows["prices"] == "at the notice date"]
+        notice_central = rows[(rows["prices"] == "at the notice date") & (rows["hire_level"] == "central")]
         months.append({
+            "notice_jkm_source": None if notice_central.empty else notice_central.iloc[0]["jkm_source"],
+            "notice_jkm": None if notice_central.empty else _finite(notice_central.iloc[0]["jkm"]),
+            "notice_ttf": None if notice_central.empty else _finite(notice_central.iloc[0]["ttf"]),
             "month": _iso(month), "label": reader.MONTH_NAMES[pd.Timestamp(month).month - 1],
             "loading": {level: margin("at loading", level) for level in ("low", "central", "high")},
             "notice": {level: margin("at the notice date", level) for level in ("low", "central", "high")},
@@ -146,13 +162,38 @@ def _y2020(levels: Mapping[str, float]) -> dict[str, Any]:
                  "central hire below zero for "), reader.W("below", reader.listed([m["label"] for m in below]) or "no month"),
         reader.T(" of the "), reader.N("reported_months", len(reported_months), "count"),
         reader.T(" months of "), reader.N("year", pd.Timestamp(months[0]["month"]).year, "year"),
-        reader.T(" for which EIA reported cargoes cancelled"),
+        reader.T(" for which EIA estimated, or cited the trade press for, cargoes cancelled"),
     ]
     if above:
         heading += [reader.T("; for "), reader.W("above", reader.listed([m["label"] for m in above])),
                     reader.T(" it was above zero at the central hire")]
     heading += [reader.T(". At the high hire it was below zero in "), reader.N("high_below", len(high_below), "count"),
                 reader.T(" of the "), reader.N("months_2020", len(months), "count"), reader.T(" months.")]
+    # Where the test fails, why: the JKM it had to use at each notice date.
+    why: list[dict[str, Any]] = []
+    for index, m in enumerate(above):
+        why += [reader.T(" For " if index else " Where it fails: for "), reader.W("why_month", m["label"]),
+                reader.T(", the notice of "), reader.D("why_notice_" + m["month"][:7], m["notice_day"]),
+                reader.T(" took "), reader.W("why_source_" + m["month"][:7],
+                                             reader.dates_in_words(_meti_words(m["notice_jkm_source"]))),
+                reader.T(", "), reader.N("why_jkm_" + m["month"][:7], m["notice_jkm"], "usd_mmbtu"),
+                reader.T(" $/MMBtu, against TTF's "), reader.N("why_ttf_" + m["month"][:7], m["notice_ttf"], "usd_mmbtu"),
+                reader.T(".")]
+    if above:
+        why += [reader.T(" METI's figure is the average price of the spot cargoes contracted in a month, and it "
+                         "stands in for JKM, which this study does not hold for that year: the test fails where "
+                         "that average stayed far enough above TTF to pay for the voyage while cargoes were "
+                         "cancelled.")]
+    unreported = [m for m in months if m["cancelled"] is None and m["notice"]["central"] is not None
+                  and m["notice"]["central"] < 0]
+    if unreported:
+        why += [reader.T(" The margin at the notice date was also below zero for "),
+                reader.W("unreported", reader.listed([m["label"] for m in unreported])),
+                reader.T(", for which no cancellation was reported in the documents read.")]
+    at_loading = [m for m in months if m["loading"]["central"] is not None and m["loading"]["central"] < 0]
+    why += [reader.T(" With each loading month's own prices the margin was below zero in "),
+            reader.W("loading_below", reader.listed([m["label"] for m in at_loading]) or "no month"), reader.T(".")]
+    heading += why
     domain_values = [v for m in months for side in ("loading", "notice") for v in m[side].values() if v is not None]
     low, high, step = reader.nice_domain(domain_values, 5)
     return {
@@ -162,7 +203,12 @@ def _y2020(levels: Mapping[str, float]) -> dict[str, Any]:
         "ticks": ticks(date.fromisoformat(months[0]["month"]), date.fromisoformat(months[-1]["month"])),
         "desc": "Two lines over the loading months of 2020: the lift margin at the central hire with the prices "
                 "published by the notice date, in ink over the band from the low to the high hire, and with the "
-                "month's own prices, dashed.",
+                "month's own prices, dashed. Bars at the foot mark the months for which EIA estimated, or cited the "
+                "trade press for, cargoes cancelled, each with the approximate count.",
+        # The months EIA reported cancellations, as bars at the foot, labelled with the count.
+        "cancelled_marks": [{"day": _iso(pd.Timestamp(m["month"]) - pd.Timedelta(days=14)),
+                             "end": _iso(pd.Timestamp(m["month"]) + pd.Timedelta(days=14)),
+                             "letter": format(int(m["cancelled"]), "d")} for m in reported_months],
         "caption_segments": [
             reader.T("The notice date is the day two months before loading that Sabine Pass's agreement with "
                      "Centrica sets; the prices then published are METI's latest month by then, usually the month "
@@ -230,8 +276,8 @@ def _spring_2026(rows: pd.DataFrame, months: Sequence[Mapping[str, Any]]) -> lis
                  reader.T(", with the share's other movers, the contracts, the slots and the tariff, unseparated.")]
     return segments
 
-
-def _y2026(rows: pd.DataFrame, months: Sequence[Mapping[str, Any]] = ()) -> dict[str, Any]:
+def _y2026(rows: pd.DataFrame, months: Sequence[Mapping[str, Any]] = (),
+           regas: pd.DataFrame | None = None) -> dict[str, Any]:
     weekly = rows[(rows["frequency"] == "weekly") & (rows["hire_level"] == "central")
                   & (rows["day"] >= pd.Timestamp(FROM_2026))].sort_values("day")
     points = []
@@ -262,8 +308,18 @@ def _y2026(rows: pd.DataFrame, months: Sequence[Mapping[str, Any]] = ()) -> dict
         reader.D("cape_day", latest_cape.period),
         reader.T(", when, by Platts' sources, auctioned slots had made Panama impractical for spot cargoes."),
     ]
+    # The study at the charter rate reported nearest the assessed week, however
+    # far: the cited hire the comparison asks for, with its distance in days.
+    anchor, gap = worked.nearest_anchor(week.date())
+    week_row = at.loc["central"]
+    inputs = worked.inputs_on(week.date(), float(week_row["jkm"]), float(week_row["ttf"]),
+                              {"jkm": week_row["jkm_source"], "ttf": week_row["ttf_source"]},
+                              hire_usd_day=anchor.hire_usd_day, delta_window=analysis.window(week, "weekly"))
+    at_anchor = evaluate(inputs)
     compare = [
         {"route": route, "platts": assessments[route].figure,
+         "at_anchor": (_finite(at_anchor["east"]["nea_" + route]["arb"]) if at_anchor["east"]["nea_" + route]["open"]
+                       else None),
          "study": {level: _finite(at.loc[level, route + "_arb"]) for level in ("low", "central", "high")
                    if level in at.index},
          "reported": _finite(at.loc["reported", route + "_arb"]) if "reported" in at.index else None}
@@ -274,6 +330,14 @@ def _y2026(rows: pd.DataFrame, months: Sequence[Mapping[str, Any]] = ()) -> dict
     return {
         "heading_segments": heading,
         "spring_segments": _spring_2026(rows, months),
+        "story_segments": _y2026_story(rows, points, _iso(week), months, regas),
+        # The point in the accent: the week the arb east first opened via the cheaper route.
+        "accent": _accent_2026(points, _iso(week)),
+        "source_segments": [
+            reader.T("Prices: EIA's Natural Gas Weekly Update and, from its end, the WNGSR Supplement, each week; S* "
+                     "by the engine at the central hire, as the methodology sets out; data to "),
+            reader.D("y2026_last", points[-1]["day"]), reader.T("."),
+        ],
         "days": [p["day"] for p in points],
         "spread": [p["spread"] for p in points],
         "panama": [p["panama"] for p in points],
@@ -285,10 +349,13 @@ def _y2026(rows: pd.DataFrame, months: Sequence[Mapping[str, Any]] = ()) -> dict
                 "a route's line, that route netted more than Gate.",
         "assessment_day": latest_cape.period,
         "assessment_week": _iso(week),
+        "anchor": {"hire_usd_day": anchor.hire_usd_day, "day": _iso(worked._anchor_day(anchor)), "gap_days": gap},
+        "compare_words_segments": _compare_words(assessments, at_anchor, anchor, gap),
         "compare_caption_segments": [
             reader.T("Platts' arbitrage of US cargoes to North Asia against the Atlantic, in $/MMBtu, on "),
             reader.D("assessment_day", latest_cape.period),
-            reader.T(", beside this study's arb at the three hires for the week ending "),
+            reader.T(", beside this study's arb at the three hires and at the rate reported nearest, for the week "
+                     "ending "),
             reader.D("assessment_week", week), reader.T("."),
         ],
         "compare": compare,
@@ -296,6 +363,145 @@ def _y2026(rows: pd.DataFrame, months: Sequence[Mapping[str, Any]] = ()) -> dict
                       "format": "count" if r.unit == "cargoes" else "usd_mmbtu", "signed": r.unit != "cargoes"}
                      for r in (asia, *cape_counts, *reported("panama_use"), *assessments.values())],
     }
+
+
+def _opening(points: Sequence[Mapping[str, Any]], route: str, last: str) -> Mapping[str, Any] | None:
+    """The first week of the run of weeks, up to the last, in which the spread
+    covered the route's breakeven: the week the arb east opened via that route."""
+    first = None
+    for p in points:
+        if p["day"] > last:
+            break
+        covered = p[route] is not None and p["spread"] is not None and p["spread"] > p[route]
+        first = (first or p) if covered else None
+    return first
+
+
+def _accent_2026(points: Sequence[Mapping[str, Any]], week: str) -> dict[str, Any] | None:
+    found = [o for o in (_opening(points, "panama", week), _opening(points, "cape", week)) if o is not None]
+    if not found:
+        return None
+    first = min(found, key=lambda o: o["day"])
+    return {"day": first["day"], "value": first["spread"]}
+
+
+def _y2026_story(rows: pd.DataFrame, points: Sequence[Mapping[str, Any]], week: str,
+                 months: Sequence[Mapping[str, Any]], regas: pd.DataFrame | None) -> list[dict[str, Any]]:
+    """When the arb east opened in 2026, at what hire, and whether flows followed:
+    sentences computed from the weekly rows, the freight anchors and the
+    monthly shares."""
+    T, N, D, W = reader.T, reader.N, reader.D, reader.W
+    panama, cape = _opening(points, "panama", week), _opening(points, "cape", week)
+    if panama is None and cape is None:
+        return [T("In the week Platts assessed, the spread covered neither route's breakeven at the central hire.")]
+    opened = min((o for o in (panama, cape) if o is not None), key=lambda o: o["day"])
+    out = [T("At the central hire the arb east opened")]
+    if panama is not None:
+        out += [T(" via Panama in the week ending "), D("panama_opened", panama["day"]), T(", JKM over TTF "),
+                N("panama_spread", panama["spread"], "usd_mmbtu", signed=True), T(" $/MMBtu against a breakeven of "),
+                N("panama_s_star", panama["panama"], "usd_mmbtu", signed=True)]
+    if cape is not None:
+        out += [T(", and" if panama is not None else ""), T(" round the Cape in the week ending "),
+                D("cape_opened", cape["day"])]
+    out += [T("; it stayed open to the week Platts assessed.")]
+
+    # How much of that rests on Europe's DES spread: the weeks before the run
+    # that read open only through it, and the week the run begins with it at zero.
+    if regas is not None and not regas.empty:
+        weeks = regas[(regas["day"] >= pd.Timestamp(FROM_2026)) & (regas["day"] <= pd.Timestamp(week))]
+        lagged = weeks[(weeks["day"] < pd.Timestamp(opened["day"])) & weeks["data_open"] & ~weeks["zero_open"]]
+        if not lagged.empty:
+            out += [T(" The weeks ending "), W("lagged", reader.listed([reader.day_label(d) for d in lagged["day"]])),
+                    T(" read open before it only through Europe's DES spread as ACER assessed it; with that spread at "
+                      "zero they were closed.")]
+        zero_first = None
+        for r in weeks.itertuples(index=False):
+            zero_first = (zero_first or r.day) if r.zero_open else None
+        if zero_first is not None and zero_first.date() != date.fromisoformat(opened["day"]):
+            later = zero_first.date() > date.fromisoformat(opened["day"])
+            out += [T(" With that spread at zero, the arb east opened " + ("only" if later else "already")
+                      + " in the week ending "), D("zero_opened", zero_first.date()), T(".")]
+        elif zero_first is None:
+            out += [T(" With that spread at zero, it was closed in the week Platts assessed.")]
+
+    # The breakeven hire, week by week, against the rate reported nearest each week.
+    weekly = rows[(rows["frequency"] == "weekly") & (rows["day"] >= pd.Timestamp(opened["day"]))
+                  & (rows["day"] <= pd.Timestamp(week))]
+    central = weekly[weekly["hire_level"] == "central"].set_index("day")
+    reported = weekly[weekly["hire_level"] == "reported"].set_index("day")
+    first_row = central.loc[pd.Timestamp(opened["day"])] if pd.Timestamp(opened["day"]) in central.index else None
+    if first_row is not None:
+        h_panama, h_cape = _finite(first_row["panama_h_star"]), _finite(first_row["cape_h_star"])
+        if h_panama is not None and h_cape is not None:
+            out += [T(" In the week ending "), D("h_week", opened["day"]),
+                    T(" a ship paid its way east at any hire below "), N("h_panama", h_panama, "usd_day"),
+                    T(" $/day via Panama and "), N("h_cape", h_cape, "usd_day"), T(" $/day round the Cape.")]
+    above = []
+    for day, r in reported.iterrows():
+        if day not in central.index:
+            continue
+        c = central.loc[day]
+        h_open = [h for h, ok in ((c["panama_h_star"], c["panama_open"]), (c["cape_h_star"], c["cape_open"]))
+                  if ok and _finite(h) is not None]
+        if h_open:
+            above.append(r["hire_usd_day"] > max(h_open))
+    if above:
+        out += [T(" In the "), N("reported_weeks", len(above), "count"),
+                T(" weeks from then to the assessment with a charter rate reported within "),
+                N("hire_window", config.PARAMETERS["hire_anchor_max_days"].value, "count"), T(" days, ")]
+        if any(above):
+            out += [T("the rate lay above every open route's breakeven hire in "),
+                    N("reported_above", sum(above), "count"), T(".")]
+        else:
+            out += [T("the rate lay below the breakeven hire of an open route every time: a ship chartered at it "
+                      "paid its way east.")]
+
+    # Did flows follow: the share of the JKM markets month by month.
+    year = int(opened["day"][:4])
+    by_month = [m for m in months if m["month"][:4] == str(year) and m.get("share_jkm") is not None]
+    open_month = opened["day"][:7]
+    before = [m for m in by_month if m["month"][:7] < open_month]
+    after = [m for m in by_month if m["month"][:7] >= open_month]
+    if before and after:
+        peak = max(after, key=lambda m: m["share_jkm"])
+        out += [T(" The JKM markets took "), N("share_first", before[0]["share_jkm"] * 100.0, "share_percent"),
+                T(" percent of US exports by vessel in "), D("share_first_month", before[0]["month"], "month")]
+        if len(before) > 1:
+            out += [T(" and "), N("share_before", before[-1]["share_jkm"] * 100.0, "share_percent"),
+                    T(" in "), D("share_before_month", before[-1]["month"], "month")]
+        out += [T(", "), N("share_open", after[0]["share_jkm"] * 100.0, "share_percent"), T(" in "),
+                D("share_open_month", after[0]["month"], "month"), T(" and "),
+                N("share_peak", peak["share_jkm"] * 100.0, "share_percent"), T(" at the highest, in "),
+                D("share_peak_month", peak["month"], "month"), T(".")]
+        rose_first = len(before) > 1 and before[-1]["share_jkm"] > before[0]["share_jkm"]
+        rose = after[0]["share_jkm"] > before[-1]["share_jkm"]
+        if rose_first:
+            out += [T(" The rise began before the arb opened.")]
+        # The brief's case: exports moving east in weeks the reported spot hire
+        # lay above every open route's breakeven hire.
+        if rose and any(above):
+            out += [T(" Exports moved east in weeks the reported spot hire lay above the breakeven hire: spot hire "
+                      "is not the marginal cost of a cargo on a ship already chartered.")]
+    return out
+
+
+def _compare_words(assessments: Mapping[str, Any], at_anchor: Mapping[str, Any], anchor: Any,
+                   gap: int) -> list[dict[str, Any]]:
+    """Whether the study at the rate reported nearest puts the two routes in Platts' order, and how far apart."""
+    T, N, D = reader.T, reader.N, reader.D
+    ours = {r: (_finite(at_anchor["east"]["nea_" + r]["arb"]) if at_anchor["east"]["nea_" + r]["open"] else None)
+            for r in ("panama", "cape")}
+    if any(v is None for v in ours.values()):
+        return []
+    theirs = {r: assessments[r].figure for r in ("panama", "cape")}
+    same_order = (ours["panama"] > ours["cape"]) == (theirs["panama"] > theirs["cape"])
+    return [T("At "), N("anchor_hire", anchor.hire_usd_day, "usd_day"), T(" $/day, the rate reported nearest, on "),
+            D("anchor_day", worked._anchor_day(anchor)), T(", "), N("anchor_gap", gap, "count"),
+            T(reader.plural(gap, " day", " days") + " from the week, this study puts Panama " + ("ahead of" if ours["panama"] > ours["cape"] else "behind")
+              + " the Cape by "), N("our_gap", abs(ours["panama"] - ours["cape"]), "usd_mmbtu"),
+            T(" $/MMBtu, Platts by "), N("their_gap", abs(theirs["panama"] - theirs["cape"]), "usd_mmbtu"),
+            T(": " + ("the same order" if same_order else "the opposite order") + "; Platts compares forward prices "
+              "for the arrival month and its own discount in Europe, this study the front months.")]
 
 
 def _waits(rows: pd.DataFrame) -> dict[str, Any]:
@@ -321,8 +527,53 @@ def _waits(rows: pd.DataFrame) -> dict[str, Any]:
                     reader.N("breakeven_" + r["month"][:7], r["wait_breakeven"], "days", missing="none"),
                     reader.T(" at the central hire")]
     waits = config.PARAMETERS["panama_waits_reported"]
+    # Month by month from Panama's restrictions: the wait at which the Cape nets
+    # as much, against the waits reported.
+    choice = analysis.route_choice(rows)
+    since = choice[choice["month"] >= pd.Timestamp(WAITS_FROM)].sort_values("month")
+    months = [{"month": _iso(r["month"]), "wait": _finite(r["wait_days_breakeven"]),
+               "premium": _finite(r["slot_premium_breakeven_usd_round_trip"]),
+               "lead": _finite(r["panama_lead_usd_mmbtu"])} for r in since.to_dict("records")]
+    reported_points = [{"day": month + "-01", "value": float(days)} for month, days in sorted(waits.value.items())]
+    found = [m["wait"] for m in months if m["wait"] is not None]
+    low, high, step = reader.nice_domain(found + [p["value"] for p in reported_points], 5)
     return {"heading_segments": heading + [reader.T(".")], "rows": out,
-            "source": reader.dates_in_words("Waits reported: " + waits.source)}
+            "source": reader.dates_in_words("Waits reported: " + waits.source),
+            "months": months, "reported_points": reported_points,
+            "y": {"low": low, "high": high, "step": step},
+            "ticks": ticks(date.fromisoformat(months[0]["month"]), date.fromisoformat(months[-1]["month"])),
+            "march_2024_segments": _march_2024(months)}
+
+
+def _march_2024(months: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
+    """The record month of Cape voyages against the model's choice that month."""
+    T, N, D = reader.T, reader.N, reader.D
+    month = next((m for m in months if m["month"] == "2024-03-01"), None)
+    cape = next((r for r in reported("cape_use") if r.period == "2024-03"), None)
+    panama = next((r for r in reported("panama_use") if r.period == "2024-03"), None)
+    if month is None or month["lead"] is None or cape is None:
+        return []
+    out = [T("In "), D("march_2024", "2024-03-01", "month"), T(" the model picks Panama by "),
+           N("march_lead", month["lead"], "usd_mmbtu"), T(" $/MMBtu at the central hire with no wait; the Cape wins from ")]
+    out += ([N("march_wait", month["wait"], "days"), T(" days of waiting per transit, or a slot premium of "),
+             N("march_premium", month["premium"], "usd"), T(" $ for the round trip")]
+            if month["wait"] is not None and month["premium"] is not None else [T("no wait the study can find")])
+    out += [T(". Platts counted "), N("march_cape", cape.figure, "count"),
+            T(" US cargoes to Asia round the Cape that month, a record")]
+    if panama is not None:
+        out += [T(", and "), N("march_panama", panama.figure, "count"),
+                T(" through Panama in the year to "), D("panama_to", "2024-03-27"), T(", one of them in March")]
+    winter = {month: days for month, days in config.PARAMETERS["panama_waits_reported"].value.items()
+              if "2023-10" <= month <= "2024-03"}
+    if winter and month["wait"] is not None:
+        latest = max(winter)
+        longer = winter[latest] > month["wait"]
+        out += [T(". The wait reported that winter, "), N("winter_wait", winter[latest], "days"), T(" days in "),
+                D("winter_month", latest + "-01", "month"),
+                T(", was " + ("longer" if longer else "no longer") + " than the model needs in March.")]
+    else:
+        out += [T(".")]
+    return out
 
 
 #: Where the neopanamax locks opened: the summaries print their transits from this month.
@@ -475,20 +726,22 @@ def _canals(wait_months: Sequence[str]) -> dict[str, Any]:
 
 
 def page(rows: pd.DataFrame, months: Sequence[Mapping[str, Any]], regressions: Sequence[Mapping[str, Any]],
-         excluded: Sequence[int], levels: Mapping[str, Mapping[str, Any]]) -> dict[str, Any]:
-    """The Flows view's layer of flows.json; levels are the hire levels by ship."""
+         excluded: Sequence[int], levels: Mapping[str, Mapping[str, Any]],
+         regas: pd.DataFrame | None = None) -> dict[str, Any]:
+    """The Flows view's layer of flows.json; levels are the hire levels by ship, regas
+    the weeks of Europe's DES spread, observed or assumed (lngarb.analysis.regas_sensitivity)."""
     return {
         "whole": _whole(months, regressions, excluded, levels),
         "test": _test(regressions, excluded),
         # 2020 is priced with the TFDE, so its three levels are that ship's.
         "y2020": _y2020(freight_anchors.hire_levels(when=date(2020, 1, 1))),
-        "y2026": _y2026(rows, months),
+        "y2026": _y2026(rows, months, regas),
         "waits": _waits(rows),
         "canals": _canals([r["month"] for r in _waits(rows)["rows"]]),
         "limits_segments": [
             reader.T("What the test cannot separate: long term contracts with Asian buyers, whose cargoes move "
                      "whatever the spot economics; the slot constraints at Panama; China's tariff on US LNG from "),
-            reader.D("china_tariff_from", "2025-02-10", "month"),
+            reader.D("china_tariff_from", config.PARAMETERS["china_tariff_from"].value, "month"),
             reader.T("; the gap between spot hire and the cost of a ship already on term charter; the month, "
                      "coarser than the decisions, which are taken weeks before a cargo loads; and, before "),
             reader.D("meti_end", "2021-04-01", "month"),
@@ -504,12 +757,18 @@ def page(rows: pd.DataFrame, months: Sequence[Mapping[str, Any]], regressions: S
             "y_axis": "$/MMBtu",
             "panama_route": "To North Asia via Panama", "cape_route": "To North Asia round the Cape",
             "y2026_legend": "The ink line is JKM over TTF; the thin line, S* via Panama; the dotted line, S* round "
-                            "the Cape; both at the central hire.",
+                            "the Cape; both at the central hire. The dot in the accent is the week the arb east "
+                            "opened on the data, Europe's DES spread as ACER assessed it.",
             "y2020_legend": "The ink line is the lift margin at the notice date at the central hire, over the "
                             "band from the low to the high hire; the dashed line, the margin with the month's own "
-                            "prices.",
+                            "prices; the bars at the foot, the months for which EIA estimated or cited cancellations, with the "
+                            "approximate count.",
             "y2020_caption": "The lift margin of each loading month of the year, at the notice date at each hire "
                              "and at loading at the central hire, and the cargoes reported cancelled.",
+            "waits_legend": "The ink line is, month by month at the central hire, the waiting days per Panama "
+                            "transit at which the Cape nets as much; the dots, the waits reported for LNG.",
+            "waits_axis": "days",
+            "waits_line": "Wait at which the Cape wins",
             "waits_caption": "Panama against the Cape in the months a wait was reported for LNG: the wait "
                              "reported, the wait at which the two routes net the same, and Panama's lead over the "
                              "Cape without and with the wait, in $/MMBtu.",

@@ -219,6 +219,12 @@ def nice_domain(values: Sequence[float], count: int, *, zero: bool = True) -> tu
     return math.floor(low / step) * step, math.ceil(high / step) * step, step
 
 
+def _china_tariff_from() -> str:
+    from .config import PARAMETERS
+
+    return PARAMETERS["china_tariff_from"].value
+
+
 def regas_words(delta: float) -> dict[str, str]:
     """The words for Europe's DES spread to TTF by its sign: a discount a cargo
     sold at Gate bears and one sold east escapes, or, when ACER prices a cargo
@@ -329,6 +335,94 @@ def verdict(result: Mapping[str, Any], day: date, hh_multiple: float, *, delta_n
         segments += [T("The best destination falls short of "), percent, T(" percent of Henry Hub by "),
                      N("lift_margin", -margin, "usd_mmbtu"), T(", so a cargo would not be lifted.")]
     return {"values": values, "segments": segments}
+
+
+def closing(result: Mapping[str, Any], hh_multiple: float) -> dict[str, Any]:
+    """When the arb closes, findable from the landing view: how far JKM's
+    premium over TTF may fall before the cheapest open route east stops paying,
+    and how far the best netback may fall before a cargo is not lifted at all."""
+    cheapest = _cheapest_open(result)
+    spread = result["spread"]
+    segments: list[dict[str, Any]] = []
+    if cheapest:
+        s_star = result["east"][cheapest]["s_star"]
+        room = spread - s_star
+        segments += [
+            T("East, it is open while JKM's premium over TTF, now "), N("spread", spread, "usd_mmbtu", signed=True),
+            T(" $/MMBtu, stays above the breakeven of the cheapest open route, "),
+            N("s_star", s_star, "usd_mmbtu", signed=True), T(" via "), W("cheapest_route", ROUTE_SHORT[cheapest]),
+        ]
+        segments += ([T(": it would close if the premium fell by "), N("room", room, "usd_mmbtu"), T(" $/MMBtu. ")]
+                     if room > 0 else [T(": it is closed now, short by "), N("room", -room, "usd_mmbtu"),
+                                       T(" $/MMBtu. ")])
+    else:
+        segments += [T("East, no route is open to a US cargo. ")]
+    margin = result["lift_margin"]
+    segments += [
+        T("For the cargo itself, it is lifted while the best netback covers "),
+        N("hh_multiple_percent", hh_multiple * 100.0, "count"), T(" percent of Henry Hub; "),
+    ]
+    from .reported import reported
+
+    cancelled = sorted(r.period for r in reported("cancellations"))
+    then = [T(", as US cargoes were from "), D("cancelled_from", cancelled[0] + "-01", "month"), T(" to "),
+            D("cancelled_to", cancelled[-1] + "-01", "month"), T(".")]
+    segments += ([T("the margin is "), N("lift_margin", margin, "usd_mmbtu"), T(" $/MMBtu"),
+                  T(", and below zero the cargo is cancelled")] + then
+                 if margin >= 0 else [T("it falls short by "), N("lift_margin", -margin, "usd_mmbtu"), T(" $/MMBtu"),
+                                      T(", so the cargo would be cancelled")] + then)
+    return {"heading": "When the arb closes", "segments": segments,
+            "link_words": "How the arb closed in 2020: the 2020 chart of the Flows view", "link_view": "flows"}
+
+
+def regas_sensitivity(*, spread: float, delta: float, observed: bool, at_zero: tuple[str | None, float],
+                      at_assumed: tuple[str | None, float], assumed_eur_mwh: float,
+                      weeks: pd.DataFrame) -> dict[str, Any]:
+    """How much the verdict rests on Europe's DES spread to TTF: this week's
+    cheapest open route east and its S* with the spread at zero and at the
+    parameter table's assumption, the range ACER's weekly spread has run over,
+    and the weeks whose verdict either would change. at_zero and at_assumed are
+    (route, S*); weeks is lngarb.analysis.regas_sensitivity's frame."""
+    def state(s_star: float) -> str:
+        return "open" if spread > s_star else "closed"
+
+    seen = weeks[weeks["delta_observed"]] if not weeks.empty else weeks
+    segments = [
+        T("Europe's DES spread to TTF this week is "), N("delta_nwe", delta, "usd_mmbtu", signed=True),
+        T(" $/MMBtu, " + ("ACER's" if observed else "the assumption")),
+    ]
+    if not seen.empty:
+        segments += [
+            T("; observed weekly from "), D("observed_from", seen["day"].min().date()), T(", it has run from "),
+            N("observed_low", float(seen["delta_nwe"].min()), "usd_mmbtu", signed=True), T(" to "),
+            N("observed_high", float(seen["delta_nwe"].max()), "usd_mmbtu", signed=True),
+        ]
+    zero_route, zero_s = at_zero
+    assumed_route, assumed_s = at_assumed
+    if zero_route is not None:
+        segments += [
+            T(". At zero the cheapest open route east, via "), W("zero_route", ROUTE_SHORT[zero_route]),
+            T(", would break even at "), N("zero_s_star", zero_s, "usd_mmbtu", signed=True),
+            T(" and the arb east would be "), W("zero_state", state(zero_s)),
+        ]
+    if assumed_route is not None:
+        segments += [
+            T("; at the "), N("assumed_eur_mwh", assumed_eur_mwh, "eur_mwh", signed=True),
+            T(" EUR/MWh assumed where ACER published nothing, at "),
+            N("assumed_s_star", assumed_s, "usd_mmbtu", signed=True), T(", "), W("assumed_state", state(assumed_s)),
+        ]
+    flips_zero = 0 if weeks.empty else int((weeks["data_open"] != weeks["zero_open"]).sum())
+    flips_assumed = 0 if weeks.empty else int((weeks["data_open"] != weeks["assumed_open"]).sum())
+    if weeks.empty:
+        segments += [T(".")]
+    else:
+        segments += [
+            T(". Of the "), N("weeks", len(weeks), "count"),
+            T(" weeks priced, at the central hire a spread of zero would change whether the arb east was open in "),
+            N("flips_zero", flips_zero, "count"), T(", the assumption in "), N("flips_assumed", flips_assumed, "count"),
+            T("."),
+        ]
+    return {"segments": segments, "values": {"flips_zero": flips_zero, "flips_assumed": flips_assumed}}
 
 
 def _weekly_series_words(series: str) -> str:
@@ -898,6 +992,8 @@ def flows_panel(months: Sequence[Mapping[str, Any]], regressions: Sequence[Mappi
             "month": _iso(m["month"]), "label": short_month_label(m["month"]),
             "share_jkm": None if _missing(m["share_jkm"]) else m["share_jkm"] * 100.0,
             "share_asia": m["share_asia"] * 100.0,
+            **{key: None if _missing(m.get(key)) else m[key] * 100.0
+               for key in ("share_europe", "share_middle_east_africa", "share_americas")},
             "arb": None if _missing(m["arb"]["central"]) else m["arb"]["central"],
         })
     last = latest[-1]["month"]
@@ -962,14 +1058,15 @@ def flows_panel(months: Sequence[Mapping[str, Any]], regressions: Sequence[Mappi
         [
             T("What this cannot separate: long term contracts with Asian buyers, whose cargoes move whatever the spot "
               "economics; the slot constraints at Panama; China's tariff on US LNG from "),
-            D("china_tariff_from", "2025-02-10", "month"),
+            D("china_tariff_from", _china_tariff_from(), "month"),
             T("; the gap between spot hire and the cost of a ship already on term charter; and the month itself, "
               "coarser than the decisions, which are taken weeks before a cargo loads."),
         ],
     ]
     ticks = [i for i, r in enumerate(rows) if r["month"][5:7] in ("01", "07")]
     ticks_narrow = [i for i, r in enumerate(rows) if r["month"][5:7] == "01"]
-    share_low, share_high, share_step = nice_domain([r["share_asia"] for r in rows] + [r["share_jkm"] for r in rows], 5)
+    share_low, share_high, share_step = nice_domain(
+        [r[k] for r in rows for k in ("share_asia", "share_jkm", "share_europe") if r.get(k) is not None], 5)
     arb_low, arb_high, arb_step = nice_domain([r["arb"] for r in rows], 4)
     latest_row = rows[-1]
     return {
@@ -977,7 +1074,8 @@ def flows_panel(months: Sequence[Mapping[str, Any]], regressions: Sequence[Mappi
         "heading_segments": heading,
         "desc_segments": [
             T("Two panels on one month axis: above, the share of US LNG exports by vessel to the JKM markets, Japan, "
-              "South Korea, China and Taiwan, as a solid line and to all Asia as a dashed one; below, the model's arb at "
+              "South Korea, China and Taiwan, as a solid line, to all Asia as a dashed one and to Europe as a dotted "
+              "one; below, the model's arb at "
               "loading at the central hire, as bars from zero, filled when Asia paid more and outlined when Gate did. "
               "The latest month, "), D("last_month", last, "month"),
             T(", is the accent: Asia took "), N("latest_share", latest_row["share_asia"], "share_percent"),
@@ -994,6 +1092,11 @@ def flows_panel(months: Sequence[Mapping[str, Any]], regressions: Sequence[Mappi
         "shares": [
             {"key": "share_jkm", "pattern": "solid", "label": "JKM markets"},
             {"key": "share_asia", "pattern": "dash", "label": "All Asia"},
+            {"key": "share_europe", "pattern": "dot", "label": "Europe"},
+        ],
+        "other_regions": [
+            {"key": "share_middle_east_africa", "head": "To the Middle East and Africa", "short": "ME and Africa"},
+            {"key": "share_americas", "head": "To the Americas", "short": "Americas"},
         ],
         "share_domain": {"low": share_low, "high": share_high, "step": share_step},
         "arb_domain": {"low": arb_low, "high": arb_high, "step": arb_step},
@@ -1004,7 +1107,8 @@ def flows_panel(months: Sequence[Mapping[str, Any]], regressions: Sequence[Mappi
         "notes": notes,
         "missing_words": "not published",
         "arb_missing_words": "not priced",
-        "table_caption": "US LNG exports by vessel: the share to the JKM markets and to Asia, and the arb at loading at the central hire.",
+        "table_caption": "US LNG exports by vessel: the share to the JKM markets, to Asia, to Europe and to the other "
+                         "regions, and the arb at loading at the central hire.",
     }
 
 

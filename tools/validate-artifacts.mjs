@@ -50,6 +50,7 @@ const NOT_READ = Object.freeze({
 const REQUIRED = Object.freeze({
   now: [
     "verdict.segments", "data_dates", "sections",
+    "closing.heading", "closing.segments", "closing.link_words", "closing.link_view",
     "netbacks.scale.low", "netbacks.scale.high", "netbacks.scale_segments", "netbacks.threshold", "netbacks.rows",
     "netbacks.table_caption", "netbacks.source_segments",
     "cost.rows", "cost.heading_segments", "cost.scale.low", "cost.scale.high", "cost.start_segments",
@@ -66,6 +67,8 @@ const REQUIRED = Object.freeze({
   model: [
     "presets", "unavailable", "vessels.tfde_160k", "vessels.two_stroke_174k", "route_names", "route_short", "part_words",
     "part_words_premium", "units.mmbtu_per_mwh", "units.percent_per_one", "limits", "title_segments",
+    "carbon.tco2_per_t_lng", "carbon.tn2o_per_t_lng", "carbon.gwp_ch4", "carbon.gwp_n2o", "carbon.ch4_n2o_from",
+    "carbon.words",
   ],
   routes: [
     "heading_segments", "map.width", "map.height", "map.land", "map.start_x", "map.routes", "map.ports", "map.desc",
@@ -85,6 +88,14 @@ const REQUIRED = Object.freeze({
     "page.monthly.ticks", "page.monthly.heading_segments", "page.monthly.desc_segments",
     "page.monthly.caption_segments", "page.monthly.years",
     "page.breaks", "page.rules", "page.breaks_lead_segments", "page.anchors", "page.divisor", "page.source_segments",
+    "page.weekly.boil_off", "page.weekly.regas", "page.weekly.voyage", "page.weekly.delta_nwe",
+    "page.weekly.assumed_delta_nwe", "page.words.parts.total", "page.words.parts.boil_off",
+    "page.words.parts.regas", "page.words.parts.voyage", "page.words.regas_legend", "page.words.regas.observed",
+    "page.words.regas.assumed", "page.words.events_caption", "page.words.events_heading", "page.words.left_out_heading",
+    "page.events_lead_segments", "page.events_left_out",
+    "page.weekly.west_netback", "page.weekly.east_netback", "page.words.netbacks_legend", "page.words.netbacks.west",
+    "page.words.netbacks.east", "page.words.cheapest_route", "page.words.route_desc", "page.weekly.panama_s_central", "page.weekly.cape_s_central",
+    "page.weekly.suez_s_central",
   ],
   flows: [
     "page.whole.months", "page.whole.heading_segments", "page.whole.ticks", "page.whole.ticks_narrow",
@@ -102,6 +113,8 @@ const REQUIRED = Object.freeze({
     "page.canals.annual_caption_segments", "page.canals.quarterly_caption_segments", "page.canals.years_caption",
     "page.canals.words.heading", "page.canals.words.cwt_legend", "page.canals.words.years_source",
     "page.canals.words.chokepoints_source",
+    "page.waits.months", "page.waits.reported_points", "page.waits.y.low", "page.waits.ticks",
+    "page.waits.march_2024_segments", "page.words.waits_legend", "page.words.waits_axis", "page.words.waits_line",
     "page.words.panama_route", "page.words.cape_route", "page.words.y2026_legend", "page.words.y2020_legend", "page.words.y2020_caption",
     "page.y2026.compare_caption_segments", "page.words.waits_caption",
     "panel.months", "panel.shares", "panel.share_domain.low", "panel.share_domain.high", "panel.share_domain.step",
@@ -113,7 +126,7 @@ const REQUIRED = Object.freeze({
     "title_segments", "formulas", "parameters", "parameters_caption", "units", "units_segments", "delivery_segments",
     "energy_segments", "limits", "documents", "type_words", "credits",
     "fresh_water.segments", "fresh_water.rows", "fresh_water.centres", "fresh_water.readings", "fresh_water.yearly",
-    "fresh_water.caption",
+    "fresh_water.caption", "conventional.rows", "conventional.caption_segments",
   ],
   provenance: [
     "columns", "series", "summary_segments", "table_caption", "manual_heading", "manual_intro", "manual_steps",
@@ -152,7 +165,8 @@ const ROW_FIELDS = Object.freeze({
       "parts_y", "parts_heading_segments", "parts_desc_segments", "parts_caption_segments", "mixed_weeks", "misaligned_weeks"],
     "page.breaks": ["number", "day", "kind", "kind_words", "what", "source"],
     "page.rules": ["day", "numbers"],
-    "page.events": ["letter", "day", "what", "source", "dated_to"],
+    "page.events": ["letter", "day", "what", "source", "url", "dated_to", "end"],
+    "page.events_left_out": ["what", "reason"],
     "page.event_rules": ["day", "letters"],
     "page.anchors": ["day", "hire_usd_day", "publisher", "assessment", "accent"],
     "page.monthly.years": ["year", "open", "count", "ttf_above"],
@@ -162,6 +176,7 @@ const ROW_FIELDS = Object.freeze({
     "page.test.rows": ["share", "share_words", "sample", "hire_level", "n", "slope_pp", "t", "r2", "lags", "open_above",
       "open_below", "closed_above", "closed_below"],
     "page.y2020.months": ["month", "label", "loading", "notice", "cancelled"],
+    "page.y2020.cancelled_marks": ["day", "end", "letter"],
     "page.y2026.compare": ["route", "platts", "study"],
     "page.y2026.reported": ["period", "figure", "what", "publisher", "url", "format", "signed"],
     "page.waits.rows": ["month", "label", "hire_level", "hire_usd_day", "wait_reported", "wait_breakeven", "lead_no_wait", "lead_with_wait"],

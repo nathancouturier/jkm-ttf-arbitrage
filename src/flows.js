@@ -41,7 +41,7 @@ function wholeFigure(panel, decimals) {
   const frame = el("div", { class: "chart-frame" });
   const months = panel.months.map((month) => ({
     label: month.label,
-    values: { share_jkm: month.share_jkm, share_asia: month.share_asia },
+    values: Object.fromEntries(panel.shares.map((share) => [share.key, month[share.key]])),
     arb: month.arb,
   }));
   charts.onWidthChange(frame, (width) => {
@@ -77,6 +77,8 @@ function monthsTable(panel, decimals) {
       el("th", { text: month.label, attrs: { scope: "row" } }),
       figureCell(formatCell(month.share_jkm, "share_percent", decimals), "share_jkm", { missing: panel.missing_words }),
       figureCell(formatCell(month.share_asia, "share_percent", decimals), "share_asia", { missing: panel.missing_words }),
+      figureCell(formatCell(month.share_europe, "share_percent", decimals), "share_europe", { missing: panel.missing_words }),
+      ...panel.other_regions.map((region) => figureCell(formatCell(month[region.key], "share_percent", decimals), region.key, { missing: panel.missing_words })),
       figureCell(formatCell(month.arb, "usd_mmbtu", decimals, true), "arb", { missing: panel.arb_missing_words }),
     ]));
   }
@@ -85,6 +87,8 @@ function monthsTable(panel, decimals) {
       el("th", { text: "Month", attrs: { scope: "col" } }),
       el("th", { class: "col-num", text: "To the JKM markets, " + UNITS.share_percent, attrs: { scope: "col", "data-short": "JKM markets" } }),
       el("th", { class: "col-num", text: "To Asia, " + UNITS.share_percent, attrs: { scope: "col", "data-short": "Asia" } }),
+      el("th", { class: "col-num", text: "To Europe, " + UNITS.share_percent, attrs: { scope: "col", "data-short": "Europe" } }),
+      ...panel.other_regions.map((region) => el("th", { class: "col-num", text: region.head + ", " + UNITS.share_percent, attrs: { scope: "col", "data-short": region.short } })),
       el("th", { class: "col-num", text: "Arb at loading, " + UNITS.usd_mmbtu, attrs: { scope: "col", "data-short": "arb" } }),
     ])]),
     body,
@@ -227,6 +231,7 @@ function y2026Figure(page, decimals) {
       figureCell(formatCell(row.study.low, "usd_mmbtu", decimals, true), "study_low"),
       figureCell(formatCell(row.study.central, "usd_mmbtu", decimals, true), "study_central"),
       figureCell(formatCell(row.study.high, "usd_mmbtu", decimals, true), "study_high"),
+      figureCell(formatCell(row.at_anchor, "usd_mmbtu", decimals, true), "at_anchor"),
     ]));
   }
   const compare = el("table", { class: "table" }, [
@@ -236,6 +241,7 @@ function y2026Figure(page, decimals) {
       el("th", { class: "col-num", text: "This study, low hire", attrs: { scope: "col", "data-short": "low" } }),
       el("th", { class: "col-num", text: "Central hire", attrs: { scope: "col", "data-short": "central" } }),
       el("th", { class: "col-num", text: "High hire", attrs: { scope: "col", "data-short": "high" } }),
+      el("th", { class: "col-num", text: "At the rate reported nearest, " + formatCell(y2026.anchor.hire_usd_day, "usd_day", decimals) + " " + UNITS.usd_day, attrs: { scope: "col", "data-short": "reported" } }),
     ])]),
     body,
   ]);
@@ -249,7 +255,10 @@ function y2026Figure(page, decimals) {
     sentence("p", y2026.spring_segments, decimals, "prose"),
     frame,
     el("p", { class: "source-line", text: page.words.y2026_legend }),
+    sentence("p", y2026.source_segments, decimals, "source-line"),
+    sentence("p", y2026.story_segments, decimals, "prose"),
     scrollTable([sentence("span", y2026.compare_caption_segments, decimals)], compare),
+    sentence("p", y2026.compare_words_segments, decimals, "prose"),
     disclosure("What Platts reported", () => reported),
   ]);
 }
@@ -275,9 +284,32 @@ function waitsBlock(page, decimals) {
     ])]),
     body,
   ]);
+  const waits = page.waits;
+  const frame = el("div", { class: "chart-frame" });
+  charts.onWidthChange(frame, (width) => {
+    frame.replaceChildren(charts.timeChart({
+      width,
+      days: waits.months.map((m) => m.month),
+      first: waits.months[0].month,
+      last: waits.months[waits.months.length - 1].month,
+      y: waits.y,
+      band: null,
+      reference: null,
+      series: { values: waits.months.map((m) => m.wait), label: page.words.waits_line },
+      marks: [],
+      rules: [],
+      points: waits.reported_points.map((p) => ({ day: p.day, value: p.value, accent: true })),
+      ticks: waits.ticks,
+      height: width < charts.GEOMETRY.NARROW_WIDTH ? charts.GEOMETRY.HSTAR_HEIGHT_NARROW : charts.GEOMETRY.HSTAR_HEIGHT,
+      words: { title: segmentsText(waits.heading_segments, decimals), desc: page.words.waits_legend, yAxis: page.words.waits_axis },
+    }));
+  });
   return el("div", { class: "block" }, [
     el("h2", { class: "block__heading", text: page.words.waits_heading }),
     sentence("p", page.waits.heading_segments, decimals, "lead"),
+    frame,
+    el("p", { class: "source-line", text: page.words.waits_legend }),
+    sentence("p", waits.march_2024_segments, decimals, "prose"),
     scrollTable([page.words.waits_caption], table),
     el("p", { class: "source-line", text: page.waits.source }),
   ]);

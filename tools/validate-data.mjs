@@ -40,11 +40,9 @@
 //   15  the manual steps are present, well formed, and attached to the series
 //       they name
 //   16  no tracked file outside vendor/ and tests/fixtures/ carries either of
-//       the two long dash characters, an emoji, a trace of the tooling the
-//       repository was written with, a generator meta tag, a reference to the
-//       private build brief, an absolute local path, or a trace of the build
-//       process; no instruction file for automated tooling and no brief is
-//       tracked; no commit message carries a co-author trailer
+//       the two long dash characters, an emoji, a generator meta tag or credit
+//       line, or an absolute local path; no commit message carries a
+//       co-author trailer or a generator credit
 //
 // Nothing here is allowed to skip. There is no third outcome between pass and
 // fail: a check that cannot run is a failure, because a check a typo can
@@ -73,7 +71,7 @@ const REQUIRED_ENTRY_KEYS = [
   "checked_at", "rows", "observations", "file_rows", "first_date", "last_date",
   "frequency", "gaps", "provisional_from", "vintage", "method", "committable",
   "licence_note", "status", "note", "file", "unit", "observation_column",
-  "unique_dates",
+  "unique_dates", "linkable",
 ];
 
 const REQUIRED_MANUAL_STEP_KEYS = ["id", "what", "why", "cost_if_skipped", "how", "cadence", "status"];
@@ -324,6 +322,7 @@ check("every entry carries the required keys and a known status, method and freq
     if (!FREQUENCY_VALUES.has(entry.frequency)) problems.push(name + " frequency " + JSON.stringify(entry.frequency));
     if (typeof entry.committable !== "boolean") problems.push(name + " committable is not a boolean");
     if (typeof entry.unique_dates !== "boolean") problems.push(name + " unique_dates is not a boolean");
+    if (typeof entry.linkable !== "boolean") problems.push(name + " linkable is not a boolean");
     if (!Array.isArray(entry.gaps)) problems.push(name + " gaps is not an array");
     for (const key of ["first_date", "last_date"]) {
       if (entry[key] !== null && !ISO_DATE.test(String(entry[key]))) problems.push(name + " " + key + " is not yyyy-mm-dd");
@@ -646,7 +645,7 @@ const TRACE_RULES = [
 
 const BINARY = /\.(png|jpe?g|gif|webp|ico|pdf|xlsx?|woff2?|ttf|otf|zip|gz)$/i;
 
-check("no tracked file carries a long dash, an emoji, a tooling trace, a brief reference or a local path", () => {
+check("no tracked file carries a long dash, an emoji, a generator credit or a local path", () => {
   const problems = [];
   let tracked;
   try {

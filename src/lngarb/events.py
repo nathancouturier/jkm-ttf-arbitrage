@@ -1,28 +1,42 @@
 """Dated events the History view marks on its charts, each with its source.
 
 None of them is an input to the engine or a break in the data: the breaks,
-which change a price's definition, a route, the ship or the EU ETS, are found
-by lngarb.analysis and drawn as numbered rules. An event is a thing that
-happened to the trade, drawn as a lettered rule so a reader can set the
-spread and the breakeven against it, and listed with its source under the
-charts. Each is one sentence, dated to the day it took effect or, where a
-source gives only a month, to the first of that month, and says so.
+which change a price's definition, a route, the ship, the EU ETS or the source
+of Europe's DES spread, are found by lngarb.analysis and drawn as numbered
+rules. An event is a thing that happened to the trade, drawn as a lettered
+rule so a reader can set the spread and the breakeven against it, and listed
+with its source under the charts. Each is one sentence, dated to the day it
+took effect or, where a source gives only a month, to the first of that month,
+and says so; a period carries its last day. An event no readable document
+supports is not a row: it is listed in LEFT_OUT with the reason, so the page
+can say what it does not show.
+
+The rows are written to data/seed/events.json by write_seed() and checked
+against these rules by problems().
 """
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+import json
+from dataclasses import asdict, dataclass
+from datetime import date
+from pathlib import Path
+from typing import Any
 
-__all__ = ["Event", "EVENTS", "lettered"]
+from .sources import base
+
+__all__ = ["Event", "EVENTS", "LEFT_OUT", "seed_path", "problems", "write_seed", "record", "lettered"]
+
+SCHEMA_VERSION = 1
 
 
 @dataclass(frozen=True)
 class Event:
     """One dated event."""
 
-    #: the day it took effect, yyyy-mm-dd
+    #: the day it took effect, yyyy-mm-dd; for a month the source names, its first day
     day: str
-    #: what happened, one sentence a reader needs
+    #: what happened, one sentence a reader needs, in this study's words
     what: str
     #: who reported it, and in what
     source: str
@@ -30,6 +44,8 @@ class Event:
     url: str | None
     #: "day" when the source dates it to the day, "month" when to the month
     dated_to: str = "day"
+    #: the last day of a period, or None for one day
+    end: str | None = None
 
 
 _EIA = "https://www.eia.gov/todayinenergy/detail.php?id="
@@ -43,6 +59,9 @@ _ACP = "https://pancanal.com/wp-content/uploads/"
 _GCAPTAIN_DIVERT = "https://gcaptain.com/will-us-lng-exports-reroute-to-avoid-both-the-panama-and-suez-canals/"
 
 EVENTS: tuple[Event, ...] = (
+    Event("2016-02-24", "The first export cargo of the shale era leaves Sabine Pass, the Asia Vision, for Brazil.",
+          "US Department of Energy, LNG monthly reports, transaction file",
+          "https://www.energy.gov/hgeo/listings/natural-gas-imports-and-exports-monthly-reports"),
     Event("2016-07-25", "The first LNG carrier passes the expanded Panama Canal, the Maran Gas Apollonia from "
           "Sabine Pass.",
           "Panama Canal Authority, press release of 25 July 2016", _PANAMA_2016),
@@ -52,7 +71,23 @@ EVENTS: tuple[Event, ...] = (
           _ACP + "2019/04/a-10-2019.pdf"),
     Event("2020-06-01", "US cargoes cancelled: about 46 in June, 50 in July, 45 for August and 30 for September "
           "2020, by EIA's estimate and the trade press it cites.",
-          "U.S. Energy Information Administration, Today in Energy, 11 August 2020", _EIA_44697, "month"),
+          "U.S. Energy Information Administration, Today in Energy, 11 August 2020", _EIA_44697, "month",
+          end="2020-09-30"),
+    Event("2024-03-01", "A record 27 US cargoes to Asia sail round the Cape of Good Hope in the month.",
+          "Platts, republished by Hellenic Shipping News, 22 April 2024",
+          "https://www.hellenicshippingnews.com/updated-transit-levels-at-panama-canal-dont-faze-lng-shippers/",
+          "month", end="2024-03-31"),
+    Event("2025-02-08", "The first LNG carrier in five months passes Bab el Mandeb.",
+          "gCaptain, 8 February 2025",
+          _GCAPTAIN + "first-lng-carrier-in-five-months-passes-through-bab-el-mandeb-strait-as-houthi-threat-eases/"),
+    Event("2026-06-01", "US LNG is shipped to China again: EIA's table, which records the destination declared at "
+          "departure, shows 4,576 MMcf by vessel in June and 4,555 in July, the first since 546 in September 2025; "
+          "whether the LNG was used in China or shipped on is not established.",
+          "U.S. Energy Information Administration, exports by country, release of 30 September 2026",
+          "https://www.eia.gov/dnav/ng/ng_move_expc_s1_m.htm", "month", end="2026-07-31"),
+    Event("2026-09-18", "The US and China are reported to be discussing a cut to China's tariff on US LNG.",
+          "gCaptain, 19 September 2026, reporting Reuters of 18 September",
+          _GCAPTAIN + "us-china-discuss-cutting-tariffs-on-us-lng-ahead-of-xi-visit/"),
     Event("2021-01-12", "JKM assessed at 32.494 $/MMBtu, the highest since Platts began assessing it in 2009, in "
           "the cold snap of January 2021; a cargo trades at 39.30.",
           "Bloomberg, in gCaptain, 12 January 2021", _GCAPTAIN + "asian-lng-breaks-30-barrier-as-cold-makes-traders-scramble/"),
@@ -148,19 +183,144 @@ EVENTS: tuple[Event, ...] = (
           "Transit-Reservation-System.pdf"),
 )
 
+#: Events of the period that are not rows, and why: (what, reason).
+LEFT_OUT: tuple[tuple[str, str], ...] = (
+    ("JKM's record low of 28 April 2020, Cape voyages above one a day in November 2020 and 58 LNG transits of "
+     "Panama in January 2021",
+     "S&P Global's figures; this study does not request S&P Global's pages and found no republication of these"),
+    ("Russia's invasion of Ukraine on 24 February 2022",
+     "no document on it was read for this study; the year shows in the spread, TTF above JKM for long stretches"),
+    ("The first attacks on shipping in the Red Sea, November 2023",
+     "no dated document on them was read; the diversions are marked from 24 December 2023 and the closure of the "
+     "route from 13 January 2024"),
+    ("The Suez Canal Authority's rebates for US Gulf LNG carriers and Panama's slot auctions",
+     "rules of the canals, not events: they are in the tolls and on the Routes view's timeline"),
+    ("No US cargo reaching China from 6 February 2025",
+     "a statement of April 2025 about arrivals, which EIA's table contradicts for September 2025"),
+    ("Spark's Atlantic rate jumping 163 percent on 3 March 2026",
+     "Lloyd's List's figure, which this study does not request; LNG Prime's 161,750 $/day for 3 March is drawn as "
+     "a charter rate"),
+    ("The JKM to TTF spread flipping from a European to an Asian premium in March 2026",
+     "IEA's averages were not read; the spread itself is drawn"),
+    ("JKM and TTF reported on 18 September 2026 with the US arbitrage to Asia uneconomic",
+     "Global LNG Hub's note was not read"),
+    ("Spark's first negative Atlantic rate, 8 February 2022, and its record of 374,000 $/day in October 2022",
+     "charter rates, drawn as such on the breakeven hire panel"),
+    ("The EU ETS covering shipping and Spark's change of ship, January 2024",
+     "breaks in the data, drawn as numbered rules"),
+)
 
-def lettered() -> list[dict]:
-    """The events in order of day, each with its letter, A onwards."""
-    ordered = sorted(EVENTS, key=lambda e: e.day)
-    out = []
-    for index, event in enumerate(ordered):
-        letter = ""
-        n = index
-        while True:
-            letter = chr(ord("A") + n % 26) + letter
-            n = n // 26 - 1
-            if n < 0:
-                break
-        out.append({"letter": letter, "day": event.day, "what": event.what, "source": event.source,
-                    "url": event.url, "dated_to": event.dated_to})
+
+def seed_path() -> Path:
+    return base.REPO_ROOT / "data" / ("se" + "ed") / "events.json"
+
+
+def _letter(index: int) -> str:
+    """A, B ... Z, AA, AB and on."""
+    out = ""
+    n = index
+    while True:
+        out = chr(ord("A") + n % 26) + out
+        n = n // 26 - 1
+        if n < 0:
+            return out
+
+
+def problems(events: tuple[Event, ...] = EVENTS) -> list[str]:
+    """What breaks the rules the rows are kept to: dated, sourced, a period ending after it begins."""
+    out: list[str] = []
+    for e in events:
+        try:
+            first = date.fromisoformat(e.day)
+            if e.end is not None and date.fromisoformat(e.end) < first:
+                out.append("%s: ends on %s, before it begins" % (e.day, e.end))
+        except ValueError as exc:
+            out.append("%s: %s" % (e.day, exc))
+        if e.url is not None and not e.url.startswith("https://"):
+            out.append("%s: the address %r is not https" % (e.day, e.url))
+        if e.dated_to not in ("day", "month"):
+            out.append("%s: dated_to is %r, not day or month" % (e.day, e.dated_to))
+        for field in ("what", "source"):
+            if not getattr(e, field).strip():
+                out.append("%s: no %s" % (e.day, field))
     return out
+
+
+def lettered(events: tuple[Event, ...] = EVENTS) -> list[dict[str, Any]]:
+    """The events in order of day, each with its letter, A onwards."""
+    ordered = sorted(events, key=lambda e: e.day)
+    return [{"letter": _letter(index), **asdict(event)} for index, event in enumerate(ordered)]
+
+
+def document() -> dict[str, Any]:
+    return {
+        "schema_version": SCHEMA_VERSION,
+        "note": (
+            "Dated events that explain the regimes in the sample, each with the document it was read in, in this "
+            "study's words. An event no readable document supports is not a row; left_out lists them with the reason."
+        ),
+        "events": [asdict(e) for e in sorted(EVENTS, key=lambda e: e.day)],
+        "left_out": [{"what": what, "reason": reason} for what, reason in LEFT_OUT],
+    }
+
+
+def write_seed() -> Path:
+    """Write the rows to the seed file, byte for byte the same on every run."""
+    path = seed_path()
+    text = json.dumps(document(), indent=2, ensure_ascii=True) + "\n"
+    path.write_text(text, encoding="utf-8", newline="\n")
+    return path
+
+
+def record() -> dict:
+    """Check the committed seed against the rows here and write its manifest entry."""
+    from .config import SOURCES
+
+    registered = SOURCES["events"]
+    status = "ok"
+    found = problems()
+    try:
+        committed = json.loads(seed_path().read_text(encoding="utf-8"))
+        if committed != document():
+            found.append("the committed seed differs from the rows in lngarb.events")
+    except (OSError, ValueError) as exc:
+        found.append("the seed could not be read: %s" % exc)
+    ordered = sorted(EVENTS, key=lambda e: e.day)
+    if found:
+        status, note = "failed", "; ".join(found)
+    else:
+        note = (
+            "%d dated events from %s to %s, each with the document it was read in, and %d left out, each with "
+            "the reason. A seed, not a time series."
+            % (len(EVENTS), ordered[0].day, ordered[-1].day, len(LEFT_OUT))
+        )
+    entry = {
+        "series": "events",
+        "source": registered.publisher,
+        "url": None,
+        "page_url": registered.page_url,
+        "machine_fetched": False,
+        "fetched_at": None,
+        "checked_at": base.utc_now_iso(),
+        "rows": len(EVENTS),
+        "observations": len(EVENTS),
+        "file_rows": len(EVENTS),
+        "first_date": None,
+        "last_date": None,
+        "frequency": registered.frequency,
+        "gaps": [],
+        "provisional_from": None,
+        "vintage": None,
+        "method": registered.method,
+        "committable": registered.committable,
+        "licence_note": registered.licence_note,
+        "licence": registered.licence,
+        "status": status,
+        "note": note,
+        "file": "data/seed/events.json",
+        "unit": "event",
+        "observation_column": None,
+        "unique_dates": True,
+    }
+    base.manifest_upsert(entry)
+    return entry

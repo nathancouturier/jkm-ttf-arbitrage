@@ -203,6 +203,7 @@ def test_the_named_edits_move_what_they_name(model):
         assert MOVES[check["name"]](check["result"], base_result), check["name"]
     refused = {c["name"]: c["refused"] for c in model["checks"]}
     assert refused["an exchange rate of zero, refused"] == [{"key": "usd_per_eur", "route": None}]
+    assert refused["a slip of twelve percent, refused"] == [{"key": "methane_slip_percent", "route": None}]
 
 
 def test_the_named_edits_reach_the_rules_the_page_applies(model):

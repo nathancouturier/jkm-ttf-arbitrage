@@ -124,3 +124,30 @@ def test_the_spring_of_2026_is_told_from_the_reported_weeks_and_eia_s_shares(flo
         if field.startswith("share_"):
             assert value == pytest.approx(100.0 * months[field[len("share_"):]]["share_asia"])
     assert not any(ch.isdigit() for s in segments if "text" in s for ch in s["text"])
+
+
+def test_the_2020_sentence_names_where_the_notice_test_fails_and_the_marks_carry_the_counts(flows):
+    y2020 = flows["page"]["y2020"]
+    failing = [m for m in y2020["months"] if m["cancelled"] is not None and m["notice"]["central"] >= 0]
+    named = [s["value"] for s in y2020["heading_segments"] if s.get("field") == "why_month"]
+    assert named == [m["label"] for m in failing]
+    for m in failing:
+        jkm = next(s["value"] for s in y2020["heading_segments"] if s.get("field") == "why_jkm_" + m["month"][:7])
+        assert jkm == m["notice_jkm"]
+    reported = [m for m in y2020["months"] if m["cancelled"] is not None]
+    assert [mark["letter"] for mark in y2020["cancelled_marks"]] == [str(int(m["cancelled"])) for m in reported]
+
+
+def test_the_2020_sentence_names_meti_s_month_and_the_months_below_zero_with_none_reported(flows):
+    y2020 = flows["page"]["y2020"]
+    words = {s["field"]: s.get("value") for s in y2020["heading_segments"] if "field" in s}
+    # every month the notice test fails in names the month METI's figure is for, and the JKM it took
+    failing = [m for m in y2020["months"] if m["cancelled"] is not None and m["notice"]["central"] >= 0]
+    for m in failing:
+        key = m["month"][:7]
+        assert "2020" in words["why_source_" + key]
+        assert m["notice_jkm"] == words["why_jkm_" + key]
+    unreported = [m["label"] for m in y2020["months"]
+                  if m["cancelled"] is None and m["notice"]["central"] is not None and m["notice"]["central"] < 0]
+    if unreported:
+        assert all(label in words["unreported"] for label in unreported)

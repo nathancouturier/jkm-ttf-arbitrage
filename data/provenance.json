@@ -43,7 +43,7 @@
  "summary_segments": [
   {
    "field": "series_count",
-   "value": 27,
+   "value": 28,
    "format": "count"
   },
   {
@@ -256,7 +256,7 @@
    "page_words": "",
    "status": "ok",
    "status_words": "checked",
-   "range_words": "7 January 1997 to 6 October 2026, daily",
+   "range_words": "7 January 1997 to 14 October 2026, daily",
    "gaps_words": "2059 dates, from 22 January 1997 to 7 September 2026",
    "provisional_words": "none",
    "fetch_words": "15 October 2026 at 11:09 UTC",
@@ -352,6 +352,21 @@
    "fetch_words": "23 October 2026 at 09:39 UTC",
    "vintage_words": "not recorded",
    "terms_words": "US public domain, with the third party credit doubt"
+  },
+  {
+   "id": "events",
+   "label": "Dated events that explain the regimes in the sample, each from one document read",
+   "publisher": "this study, from documents of EIA, the US Department of Energy, LNG Prime, the Oxford Institute for Energy Studies, Platts through Hellenic Shipping News, gCaptain and Columbia University's Center on Global Energy Policy",
+   "page_url": "https://github.com/nathancouturier/jkm-ttf-arbitrage/blob/main/docs/sources.md",
+   "page_words": "",
+   "status": "ok",
+   "status_words": "checked",
+   "range_words": "34 figures typed from cited articles, not a time series",
+   "gaps_words": "none",
+   "provisional_words": "none",
+   "fetch_words": "typed by hand from cited documents, not fetched",
+   "vintage_words": "not recorded",
+   "terms_words": "facts stated in this study's words, with the source of each"
   },
   {
    "id": "frb_h15_effr_daily",
@@ -466,8 +481,8 @@
    "page_words": "",
    "status": "ok",
    "status_words": "checked",
-   "range_words": "2 April 2018 to 8 October 2026, daily",
-   "gaps_words": "95 dates, from 28 May 2018 to 7 September 2026",
+   "range_words": "2 April 2018 to 15 October 2026, daily",
+   "gaps_words": "96 dates, from 28 May 2018 to 12 October 2026",
    "provisional_words": "none",
    "fetch_words": "15 October 2026 at 12:27 UTC",
    "vintage_words": "not recorded",

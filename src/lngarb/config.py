@@ -264,7 +264,8 @@ class Source:
     label: str
     #: who published it
     publisher: str
-    #: the human readable page, always present, always linkable
+    #: the human readable page, always present. It is linked from the site
+    #: unless linkable is False.
     page_url: str
     #: the machine readable file, or None when it has to be discovered
     machine_url: str | None
@@ -924,6 +925,29 @@ SOURCES: Mapping[str, Source] = _registry(
         committable=True,
     ),
     Source(
+        series="events",
+        label="Dated events that explain the regimes in the sample, each from one document read",
+        publisher="this study, from documents of EIA, the US Department of Energy, LNG Prime, the Oxford Institute for Energy Studies, Platts through Hellenic Shipping News, gCaptain and Columbia University's Center on Global Energy Policy",
+        page_url="https://github.com/nathancouturier/jkm-ttf-arbitrage/blob/main/docs/sources.md",
+        machine_url=None,
+        url_note=(
+            "Written by lngarb.events from rows kept in the code, each read by hand in "
+            "one dated document whose address the row carries; nothing is fetched. An "
+            "event left out is listed with the reason. docs/sources.md, section 2.26, "
+            "names the documents."
+        ),
+        frequency="annual",
+        unit="event",
+        method="seed",
+        licence="facts stated in this study's words, with the source of each",
+        licence_note=(
+            "Each row states a dated fact in this study's own words with the document "
+            "it was read in, its publisher and its address; no sentence of any source "
+            "is reproduced. The publishers' terms are in docs/sources.md."
+        ),
+        committable=True,
+    ),
+    Source(
         series="routes",
         label="The four sea routes from Sabine Pass, their distances and their lines",
         publisher="this study, computed with searoute 1.6.0 over the network it bundles, which its README credits to Eurostat's Searoute",
@@ -1333,8 +1357,8 @@ SUEZ_REBATE_RENEWALS: tuple[tuple[str, str, str], ...] = (
 PARAMETERS: Mapping[str, Parameter] = _parameters(
     Parameter("mmbtu_per_m3_lng", 23.0, "MMBtu per m3 of LNG", "published",
               "Spark LNG Freight Methodology 3.8, page 2, 'LNG Conversion Factor: 23'", _SPARK_38,
-              "2026-10-01", "A market convention for a lean cargo; the study runs no other value, and the reader can type "
-              "any in the Model view."),
+              "2026-10-01", "A market convention for a lean cargo; 22 to 24 covers lean to rich cargoes. The Method "
+              "view shows the latest week at 22, 23 and 24, and the reader can type any value in the Model view."),
     Parameter("vessel_174k_capacity_m3", 174_000.0, "m3", "published",
               "Spark LNG Freight Methodology 3.8, page 2, 'Vessel Type: 174,000 m3 2 Stroke'",
               _SPARK_38, "2026-10-01"),
@@ -1638,6 +1662,12 @@ PARAMETERS: Mapping[str, Parameter] = _parameters(
               "Applied only in the month each was reported, to the laden and the ballast transit "
               "alike, to set Panama against the Cape; the default everywhere stays no wait "
               "(docs/methodology.md, the Panama table)."),
+    Parameter("china_tariff_from", "2025-02-10", "date", "published",
+              "Columbia University, Center on Global Energy Policy, blog of 18 April 2025: China's tariff on "
+              "US LNG from 10 February 2025",
+              "https://energypolicy.columbia.edu/?p=23258", "2026-09-30",
+              "A limit of the flows test, named on the Flows view. Reports differ on the rate, 15 or 25 "
+              "percent; the Chinese notice was not read (open question 56)."),
     # -- The analysis -------------------------------------------------------
     Parameter("analysis_monthly_loading_day", 15, "day of the month", "assumption",
               "this study: a monthly observation loads in the middle of its month", None, "2026-10-08",

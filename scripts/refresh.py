@@ -53,7 +53,7 @@ if str(SRC) not in sys.path:
 
 import pandas as pd  # noqa: E402
 
-from lngarb import config, freight_anchors, manual_steps, panama_transits, sea_routes  # noqa: E402
+from lngarb import config, events, freight_anchors, manual_steps, panama_transits, sea_routes  # noqa: E402
 from lngarb.sources import base  # noqa: E402
 from lngarb.sources.base import Adapter, read_cache, utc_now_iso, validate_frame  # noqa: E402
 from lngarb.sources.eia import HenryHubDaily, LngExportsMonthly, LngExportsRevisions  # noqa: E402
@@ -275,9 +275,9 @@ JOBS: tuple[Job, ...] = (
     ),
     Job(
         name="seeds",
-        what="The committed seed files, checked from their own contents: the sea routes, the freight anchors and Panama's LNG transits by fiscal year",
-        series=("routes", "freight_anchors", "acp_lng_transits_fiscal_year"),
-        seed=lambda: [sea_routes.record_routes(), freight_anchors.record(), panama_transits.record()],
+        what="The committed seed files, checked from their own contents: the sea routes, the freight anchors, the events and Panama's LNG transits by fiscal year",
+        series=("routes", "freight_anchors", "events", "acp_lng_transits_fiscal_year"),
+        seed=lambda: [sea_routes.record_routes(), freight_anchors.record(), events.record(), panama_transits.record()],
     ),
 )
 
@@ -326,7 +326,9 @@ def manifest_is_unchanged(before: bytes | None, payload: Mapping[str, Any]) -> b
         previous = json.loads(before.decode("utf-8"))
     except (ValueError, UnicodeDecodeError):
         return False
-    return _without_volatile(previous) == _without_volatile(payload)
+    # Compared as text, so a change in key order is a change: the bytes are
+    # what is committed.
+    return _serialise(_without_volatile(previous)) == _serialise(_without_volatile(payload))
 
 
 def _write_manifest_bytes(raw: bytes) -> None:
@@ -371,6 +373,10 @@ def finalise_manifest(mode: str, before: bytes | None, started: str) -> tuple[di
     if dropped:
         payload = manual_steps.apply(base.manifest_read())
         print("manifest entries dropped, no longer declared: %s" % ", ".join(dropped))
+    # Entries carried through from the committed manifest (a private cache
+    # absent from this machine) meet the link terms too.
+    for entry in payload["series"]:
+        base.link_terms(entry)
     payload["generated_at"] = utc_now_iso()
     payload["run"] = {
         "mode": mode,

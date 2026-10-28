@@ -298,6 +298,13 @@ preliminary vintages before August 2020.
 Decision: not collected. The workbook carries every month's latest figure; the
 preliminary figures would only show METI's own revisions.
 
+Revised 8 October 2026: the owner saved 19 of the monthly PDFs by hand, the
+releases for October 2019 to March 2021 and the detailed release for March
+2021. They are parsed into `meti_spot_lng_releases`, every figure
+each release printed with the day of the release, and the 2020 notice test on
+the Flows view uses METI's figure as first released by each notice day. The
+other releases are not held.
+
 ### 16. Do METI's and JOGMEC's arrival-based series join?
 
 Raised 30 September 2026. **Decided 7 October 2026.**
@@ -975,6 +982,23 @@ which may be linked; EIA's pages are public domain; Panama's advisories are
 the Authority's. The first event's address now names the Authority's release
 on the first LNG transit, not the inaugural transit of a month earlier.
 
+Revised 28 October 2026: the rows are written to `data/seed/events.json` and
+checked against their rules (dated, sourced, a period ending after it begins)
+on every refresh; five events read in the parallel line of work of 9 October
+join them (the first shale-era cargo of 24 February 2016, the record 27 Cape
+voyages of March 2024, the first carrier through Bab el Mandeb in five months
+on 8 February 2025, the cargoes to China of June and July 2026, and the
+tariff talks of September 2026), and the events that no readable document
+supports are listed in `lngarb.events.LEFT_OUT` with the reason, printed
+under the events table: the 2020 low of JKM and the counts of 2020 and 2021
+(S&P Global), Russia's invasion of Ukraine and the first Red Sea attacks (no
+dated document read), the canals' rebates and auctions (rules, on the Routes
+view), China's imports from February 2025 (a statement contradicted by EIA's
+table), the jump in charter rates of March 2026 (Lloyd's List), the IEA's
+averages, Global LNG Hub's note, Spark's negative and record charter rates
+(drawn as charter rates) and the EU ETS on shipping with Spark's change of
+ship (drawn as breaks). Each can become a row once its document is read.
+
 ### 48. How much the verdict rests on the regas discount and the cargo's energy
 
 Raised 15 October 2026. **Decided 15 October 2026.**
@@ -1159,3 +1183,57 @@ manifest, the NOTICE and the Flows view; the adapter leaves ten seconds
 between requests and fetches only the months the cache lacks. Should the
 Authority object, both move to data/private/ and the Flows view's canal
 block is withheld, as question 20 provides for DEHSt.
+
+### 55. What the private layer may change
+
+Raised 9 October 2026. **Decided 9 October 2026.**
+
+The brief asks for an importer of settlements and licensed freight the owner
+exports himself, never fetched, committed or deployed, and that the site publish
+nothing from it but the fact that the comparison was run.
+
+Decision: the importer, `lngarb.sources.private_layer` (`docs/sources.md`,
+2.27), reads and checks the files and computes, privately, JKM over TTF for
+the same contract month day by day. The site publishes nothing from it, not
+even the fact that it ran: the committed artifacts are rebuilt on every
+machine and checked byte for byte, and a flag present on one machine only would
+break that check. The lift test keeps EIA's daily Henry Hub as its proxy for the
+settlement on every machine. A series of one value a date that the owner holds
+under terms that forbid its publication goes through the declared CSV series of
+2.25 instead; the two mechanisms keep their own files under `data/private/user/`.
+
+### 56. China's tariff on US LNG and the cargoes since
+
+Raised 9 October 2026. **Open.**
+
+Columbia University's Center on Global Energy Policy dates China's tariff on US
+LNG from 10 February 2025 at 15 percent, and says no US cargo had reached China
+since 6 February 2025, a statement of April 2025 about arrivals. EIA's export
+table shows a small volume to China in September 2025 and 4,576 MMcf in June
+2026. Reports differ on the rate: one of May 2026 gives 25 percent, those of
+July and September 2026 give 15 percent. The Chinese Ministry of
+Finance's notice, which would settle the rate, was not read.
+
+What would settle the rate: the ministry's notice, read by hand. Until then the
+study uses the date only, as a limit of the flows test; the History view's
+event of 10 February 2025 gives the 15 percent as Reuters and Bloomberg
+reported it (question 47).
+
+Decided 9 October 2026 for the cargoes: the History view marks June and July
+2026 as an event, from EIA's table alone (4,576 and 4,555 MMcf declared for
+China at departure, the first since September 2025), and says that whether the
+LNG was used in China or shipped on is not established.
+
+### 57. An empty chart
+
+Raised 9 October 2026. **Decided 9 October 2026.**
+
+The brief asks that an empty chart name the missing series and the time of the
+failed fetch. A failed fetch keeps the last good cache, marked failed in the
+manifest and the Provenance table, and the build refuses to deploy a series
+that failed or holds nothing; the weekly refresh commits nothing then and opens
+an issue. So no chart of the deployed site can be empty.
+
+Decision: no empty chart state is drawn; the site already live stays as it was,
+and Provenance names every series with its status and the time of its last
+fetch.

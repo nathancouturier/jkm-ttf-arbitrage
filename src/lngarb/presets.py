@@ -127,9 +127,11 @@ PARAMETER_SOURCES: Mapping[str, str] = {
 #: The ship's own parameters, per ship, by the key the page uses.
 SHIP_SOURCES: Mapping[str, Mapping[str, str]] = {
     "tfde_160k": {"speed_kn": "vessel_160k_speed_kn", "boil_off_percent": "vessel_160k_boil_off_per_day",
-                  "fill_percent": "fill", "load_days": "load_days", "discharge_days": "discharge_days"},
+                  "fill_percent": "fill", "load_days": "load_days", "discharge_days": "discharge_days",
+                  "methane_slip_percent": "methane_slip_160k"},
     "two_stroke_174k": {"speed_kn": "vessel_174k_speed_kn", "boil_off_percent": "vessel_174k_boil_off_per_day",
-                        "fill_percent": "fill", "load_days": "load_days", "discharge_days": "discharge_days"},
+                        "fill_percent": "fill", "load_days": "load_days", "discharge_days": "discharge_days",
+                        "methane_slip_percent": "methane_slip_174k"},
 }
 
 #: How the lead names each assumption.
@@ -565,7 +567,7 @@ def apply_edits(inputs: Inputs, edits: Sequence[Mapping[str, Any]], *, usd_per_e
     eua_typed = False
     for edit in edits:
         if edit["key"] == "ttf_eur_mwh":
-            out = replace(out, ttf=usable(edit) * fx / units.MMBTU_PER_MWH)
+            out = replace(out, ttf=units.eur_mwh_to_usd_mmbtu(usable(edit), fx))
         if edit["key"] == "eua_eur_t":
             out = replace(out, eua_usd_t=usable(edit) * fx)
             eua_typed = True

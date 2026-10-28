@@ -191,5 +191,17 @@ def test_the_events_are_lettered_in_order_of_day_and_each_has_a_source(history):
         assert event["dated_to"] in ("day", "month")
         assert re.fullmatch(r"\d{4}-\d{2}-\d{2}", event["day"])
     rules = history["page"]["event_rules"]
-    assert [r["day"] for r in rules] == [e["day"] for e in events]
-    assert all(r["letters"] == [e["letter"]] for r, e in zip(rules, events))
+    assert [r["day"] for r in rules] == sorted({e["day"] for e in events})
+    assert [letter for r in rules for letter in r["letters"]] == [e["letter"] for e in events]
+
+
+def test_the_regas_panel_counts_weeks_observed_and_the_assumption_equals_the_spread_where_unobserved(history):
+    weekly = history["page"]["weekly"]
+    keys = ("day", "delta_nwe", "assumed_delta_nwe", "delta_observed")
+    points = [dict(zip(keys, values)) for values in zip(*(weekly[k] for k in keys)) if values[0] is not None]
+    for p in points:
+        if p["delta_observed"] is False:
+            assert p["delta_nwe"] == pytest.approx(p["assumed_delta_nwe"], abs=2e-6)
+    every = next(r for r in weekly["ranges"] if r["id"] == "all")
+    observed = next(s["value"] for s in every["regas_heading_segments"] if s.get("field") == "observed_weeks")
+    assert observed == sum(1 for p in points if p["delta_observed"])

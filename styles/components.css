@@ -625,8 +625,6 @@ p.block,
 .model-outputs th[scope="row"],
 .model-routes th[scope="row"] { white-space: nowrap; }
 /* A route's open box: the ink, not the browser's blue, with a 44px target. */
-.model-check { display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; cursor: pointer; }
-.model-check__box { width: 18px; height: 18px; margin: 0; accent-color: var(--text); }
 .model-route-notes { margin-top: 8px; display: grid; gap: 4px; }
 .model-outputs + .model-lift,
 .model-verdict + .block { margin-top: 16px; }

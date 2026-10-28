@@ -20,8 +20,10 @@ Named ranges cut the weekly panels: every week, 2021 to 2023, 2024 on, the
 last 52 weeks; each carries its own domains, ticks and sentences, so the page
 computes nothing. The breaks lngarb.analysis finds (docs/methodology.md,
 section 12.1) that change a price's definition, a route, the ship or the EU
-ETS are numbered rules, listed in a table under the charts. Every sentence is computed from the
-rows: nothing here is typed but words.
+ETS are numbered rules, listed in a table under the charts; the dated events
+of lngarb.events that explain a regime are lettered marks, listed in a second
+table with what was left out. Every sentence is computed from the rows:
+nothing here is typed but words.
 """
 
 from __future__ import annotations
@@ -42,7 +44,7 @@ SHORT_NAMES = {"panama": "Panama", "suez": "Suez", "cape": "the Cape"}
 
 #: The kinds of break drawn as a rule; a naming change is listed, not drawn,
 #: since the price runs on across it (methodology section 5).
-DRAWN = ("definition", "route", "vessel", "carbon")
+DRAWN = ("definition", "route", "vessel", "carbon", "regas")
 
 #: The named ranges of the weekly panels: id, label, first day, last day (None:
 #: the series' own end). "last_52" is the 52 weeks to the last.
@@ -63,13 +65,19 @@ HSTAR_DIVISOR = 1000.0
 #: millions do not flatten every other year.
 HSTAR_TAIL = 0.05
 #: How the table names each kind of break.
-KIND_WORDS = {"definition": "price definition", "route": "route", "vessel": "ship", "carbon": "EU ETS"}
+KIND_WORDS = {"definition": "price definition", "route": "route", "vessel": "ship", "carbon": "EU ETS",
+              "regas": "Europe's DES spread"}
 
 
 def _finite(value: Any) -> float | None:
     if value is None or (isinstance(value, float) and math.isnan(value)):
         return None
     return float(value)
+
+
+def _parts(row: Mapping[str, Any], route: str | None) -> dict[str, float | None]:
+    """The three parts of S* of the route, or None each when no route is open."""
+    return {part: (_finite(row.get(route + "_" + part)) if route else None) for part in ("boil_off", "regas", "voyage")}
 
 
 def _cheapest(row: Mapping[str, Any]) -> tuple[str | None, float | None, float | None]:
@@ -92,7 +100,12 @@ def _points(rows: pd.DataFrame, frequency: str) -> list[dict[str, Any]]:
         if central is None:
             continue
         route, s_central, h_star = _cheapest(central)
+        west = _finite(central.get("west_netback"))
+        best_arb = _finite(central.get("arb"))
         point = {
+            "west_netback": west,
+            "east_netback": None if west is None or best_arb is None else west + best_arb,
+            **_parts(central, route),
             "day": day.date(),
             "spread": _finite(central["spread"]),
             "s_low": _cheapest(by["low"])[1] if "low" in by else None,
@@ -107,6 +120,13 @@ def _points(rows: pd.DataFrame, frequency: str) -> list[dict[str, Any]]:
             "regas": _finite(central[route + "_regas"]) if route else None,
             "voyage": _finite(central[route + "_voyage"]) if route else None,
         }
+        # Each route's own S* at the three hires, where it was open, for the
+        # page's choice of route.
+        for short in SHORT:
+            for level in ("low", "central", "high"):
+                row = by.get(level)
+                point["%s_s_%s" % (short, level)] = (_finite(row.get(short + "_s_star"))
+                                                     if row is not None and row.get(short + "_open") else None)
         reported = by.get("reported")
         if reported is not None:
             point["reported_hire"] = _finite(reported["hire_usd_day"])
@@ -331,23 +351,48 @@ def _weekly_desc(points: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
         reader.T(", over a shaded band of the breakeven spread S* of the cheapest open route east, from the low "
                  "to the high hire, with a dashed line at the central hire. Where the line runs above the dashed "
                  "line the arb east was open. Rings mark the weeks in which, by the futures calendars, the JKM and "
-                 "TTF front months name different delivery months; numbered rules mark the breaks listed under the "
-                 "charts."),
+                 "TTF front months name different delivery months every day, solid dots the weeks in which they "
+                 "differ on some days; lettered marks at the foot are events, and numbered rules mark the breaks "
+                 "listed under the charts."),
     ]
 
 
 def _weekly_caption(points: Sequence[Mapping[str, Any]], levels: Mapping[str, Mapping[str, Any]]) -> list[dict[str, Any]]:
     rings = sum(p["alignment"] == "misaligned" for p in points)
+    mixed = sum(p["alignment"] == "mixed" for p in points)
     return [
         *_routes_words(points),
         reader.T("The hire levels are the lowest, the median and the highest charter rate reported for the ship "
                  "each week is priced with: "),
         *_levels_by_ship_segments(levels), reader.T(". Rings: the "), reader.N("misaligned", rings, "count"),
         reader.T(" weeks in which, by the futures calendars, the JKM and TTF front months name different delivery "
-                 "months; where the prices drawn were swaps, spot or day-ahead, as before the futures of mid "),
+                 "months every day; solid dots: the "), reader.N("mixed", mixed, "count"),
+        reader.T(" weeks in which they differ on some days. Where the prices drawn were swaps, spot or day-ahead, "
+                 "as before the futures of mid "),
         reader.D("futures_from", "2022-07-13", "month"),
-        reader.T(", a ring marks the calendar, not the prices."),
+        reader.T(", a mark shows the calendar, not the prices."),
+        *_aligned_first(points),
     ]
+
+
+def _aligned_first(points: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
+    """The aligned weeks alone against every week: the share open and the mean S*."""
+    def stats(chosen):
+        states = [s for s in (_open(p) for p in chosen) if s is not None]
+        s_stars = [p["s_central"] for p in chosen if p["s_central"] is not None]
+        return (len(states), 100.0 * sum(states) / len(states) if states else None,
+                sum(s_stars) / len(s_stars) if s_stars else None)
+    n_aligned, open_aligned, s_aligned = stats([p for p in points if p["alignment"] == "aligned"])
+    n_all, open_all, s_all = stats(points)
+    if not n_aligned or open_aligned is None or s_aligned is None or s_all is None:
+        return []
+    return [reader.T(" Aligned weeks first: in the "), reader.N("aligned_weeks", n_aligned, "count"),
+            reader.T(" aligned weeks the arb east was open in "),
+            reader.N("aligned_open", open_aligned, "share_percent"), reader.T(" percent, with a mean S* of "),
+            reader.N("aligned_s_star", s_aligned, "usd_mmbtu", signed=True), reader.T("; over all "),
+            reader.N("all_weeks", n_all, "count"), reader.T(" weeks, "),
+            reader.N("all_open", open_all, "share_percent"), reader.T(" percent and "),
+            reader.N("all_s_star", s_all, "usd_mmbtu", signed=True), reader.T(".")]
 
 
 def _hstar_desc(points: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
@@ -408,10 +453,85 @@ def _columns(points: Sequence[Mapping[str, Any] | None], keys: Sequence[str]) ->
     return {key: [None if p is None else p.get(key) for p in points] for key in keys}
 
 
+def _events_lead(items: Sequence[Mapping[str, Any]], left_out: Sequence[tuple[str, str]]) -> list[dict[str, Any]]:
+    return [
+        reader.T("The lettered rules on the charts are events that explain a regime, not breaks in the data: "),
+        reader.N("events", len(items), "count"),
+        reader.T(" events, each dated and sourced, and "),
+        reader.N("left_out", len(left_out), "count"),
+        reader.T(" left out, listed after the table, each with the reason."),
+    ]
+
+
+ROUTE_CHOICE_WORDS = {"panama": "Via Panama", "cape": "Round the Cape", "suez": "Via Suez"}
+
+
+def _route_choices(points: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
+    """For each route east, over the range: its own scale and the weeks the spread covered its S*."""
+    out = []
+    for short in ("panama", "cape", "suez"):
+        weeks = [p for p in points if p.get(short + "_s_central") is not None and p["spread"] is not None]
+        if not weeks:
+            continue
+        covered = sum(1 for p in weeks if p["spread"] > p[short + "_s_central"])
+        values = [v for p in weeks for v in (p["spread"], p.get(short + "_s_low"), p.get(short + "_s_high"))]
+        out.append({
+            "id": short, "label": ROUTE_CHOICE_WORDS[short], "y": _domain(values),
+            "caption_segments": [
+                reader.T(ROUTE_CHOICE_WORDS[short] + ", in the "), reader.N("open_weeks", len(weeks), "count"),
+                reader.T(" weeks the route was open, the spread covered its S* at the central hire in "),
+                reader.N("covered", covered, "count"), reader.T("."),
+            ],
+        })
+    return out
+
+
+def _netbacks_heading(points: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
+    """The netback at Gate over the range, and the weeks the best route east netted more."""
+    gate = [p["west_netback"] for p in points if p.get("west_netback") is not None]
+    both = [p for p in points if p.get("west_netback") is not None and p.get("east_netback") is not None]
+    east = sum(1 for p in both if p["east_netback"] > p["west_netback"])
+    if not gate:
+        return [reader.T("No netback at Gate in the range.")]
+    return [reader.T("At the central hire a cargo netted from "), reader.N("gate_low", min(gate), "usd_mmbtu"),
+            reader.T(" to "), reader.N("gate_high", max(gate), "usd_mmbtu"),
+            reader.T(" $/MMBtu at Gate, and more by the best route east in "), reader.N("east_more", east, "count"),
+            reader.T(" of "), reader.N("both", len(both), "count"), reader.T(" weeks.")]
+
+
+def _regas_heading(points: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
+    """Europe's DES spread over the range: observed where ACER published it, and how many verdicts rest on it."""
+    seen = [p for p in points if p.get("delta_observed") and p.get("delta_nwe") is not None]
+    out = [reader.T("Europe's DES spread to TTF")]
+    if seen:
+        out += [reader.T(", observed by ACER in "), reader.N("observed_weeks", len(seen), "count"),
+                reader.T(" of the "), reader.N("weeks", len(points), "count"), reader.T(" weeks, ran from "),
+                reader.N("low", min(p["delta_nwe"] for p in seen), "usd_mmbtu", signed=True), reader.T(" to "),
+                reader.N("high", max(p["delta_nwe"] for p in seen), "usd_mmbtu", signed=True), reader.T(" $/MMBtu")]
+    else:
+        out += [reader.T(" is the assumption in every week of the range")]
+    flips_zero = sum(1 for p in points if p.get("zero_flip"))
+    flips_assumed = sum(1 for p in points if p.get("assumed_flip"))
+    out += [reader.T("; with it at zero the arb east would change state in "), reader.N("flips_zero", flips_zero, "count"),
+            reader.T(" weeks, at the assumption in "), reader.N("flips_assumed", flips_assumed, "count"), reader.T(".")]
+    return out
+
+
 def page(rows: pd.DataFrame, breaks: pd.DataFrame, anchors: Sequence[Mapping[str, Any]],
-         months_without: pd.DataFrame, levels: Mapping[str, Mapping[str, Any]]) -> dict[str, Any]:
+         months_without: pd.DataFrame, levels: Mapping[str, Mapping[str, Any]],
+         regas: pd.DataFrame | None = None) -> dict[str, Any]:
     """The History view's layer of history.json."""
     weekly = _points(rows, "weekly")
+    if regas is not None and not regas.empty:
+        by_day = {r["day"].date(): r for r in regas.to_dict("records")}
+        for p in weekly:
+            r = by_day.get(p["day"])
+            if r is None:
+                continue
+            p.update({"delta_nwe": _finite(r["delta_nwe"]), "assumed_delta_nwe": _finite(r["assumed_delta_nwe"]),
+                      "delta_observed": bool(r["delta_observed"]),
+                      "zero_flip": bool(r["data_open"] != r["zero_open"]),
+                      "assumed_flip": bool(r["data_open"] != r["assumed_open"])})
     monthly = _points(rows, "monthly")
     last = weekly[-1]["day"]
     drawn = breaks[breaks["kind"].isin(DRAWN)].reset_index(drop=True)
@@ -456,6 +576,11 @@ def page(rows: pd.DataFrame, breaks: pd.DataFrame, anchors: Sequence[Mapping[str
             "parts_caption_segments": _parts_caption(),
             "mixed_weeks": sum(p["alignment"] == "mixed" for p in chosen),
             "misaligned_weeks": sum(p["alignment"] == "misaligned" for p in chosen),
+            "routes": _route_choices(chosen),
+            "netbacks_y": _domain([v for p in chosen for v in (p.get("west_netback"), p.get("east_netback"))]),
+            "netbacks_heading_segments": _netbacks_heading(chosen),
+            "regas_y": _domain([v for p in chosen for v in (p.get("delta_nwe"), p.get("assumed_delta_nwe"))]),
+            "regas_heading_segments": _regas_heading(chosen),
             # The point in the accent: the latest rate reported inside the range.
             "accent_day": max((a["date"] for a in anchors if start <= a["date"] <= stop), default=None),
             "years": _by_year(chosen),
@@ -463,7 +588,9 @@ def page(rows: pd.DataFrame, breaks: pd.DataFrame, anchors: Sequence[Mapping[str
 
     weekly_gaps = _with_gaps(weekly, 7)
     keys = ("day", "spread", "s_low", "s_central", "s_high", "route", "h_star", "alignment", "reported_hire",
-            "reported_open", "boil_off", "regas", "voyage")
+            "reported_open", "boil_off", "regas", "voyage", "delta_nwe", "assumed_delta_nwe", "delta_observed",
+            "west_netback", "east_netback",
+            *("%s_s_%s" % (short, level) for short in SHORT for level in ("low", "central", "high")))
     monthly_full = []
     observed = {p["day"].replace(day=1): p for p in monthly}
     month = monthly[0]["day"].replace(day=1)
@@ -480,7 +607,12 @@ def page(rows: pd.DataFrame, breaks: pd.DataFrame, anchors: Sequence[Mapping[str
     # The events, lettered in order of day, drawn as dotted rules where they
     # fall inside a chart's span, and listed with their sources.
     marked = [{**e, "day": date.fromisoformat(e["day"])} for e in events.lettered()]
-    event_rules = [{"day": e["day"], "letters": [e["letter"]]} for e in marked]
+    event_rules: list[dict[str, Any]] = []
+    for e in marked:
+        if event_rules and event_rules[-1]["day"] == e["day"]:
+            event_rules[-1]["letters"].append(e["letter"])
+        else:
+            event_rules.append({"day": e["day"], "letters": [e["letter"]]})
     return {
         "words": {
             "spread": "JKM over TTF", "reference": "S*, central hire", "band": "S*, low to high hire",
@@ -498,7 +630,7 @@ def page(rows: pd.DataFrame, breaks: pd.DataFrame, anchors: Sequence[Mapping[str
             "events_caption": "Every event marked as a lettered rule: the day it took effect, what happened "
                               "and the source. An event dated to a month is drawn on its first day.",
             "legend": "The ink line is JKM over TTF; the dashed line, S* at the central hire; the shaded band, S* "
-                      "from the low to the high hire.",
+                      "from the low to the high hire; the dot in the accent, the latest observation.",
             "hstar_legend": "The ink line is H* of the cheapest open route east; the rings are the charter rates "
                             "reported.",
             "weeks": {"caption": "Each year's weeks: how many, in how many the arb east was open at the central "
@@ -508,9 +640,24 @@ def page(rows: pd.DataFrame, breaks: pd.DataFrame, anchors: Sequence[Mapping[str
                                   "central hire, and in how many TTF stood above JKM.",
                        "count": "Months", "open": "Arb east open", "ttf_above": "TTF above JKM"},
             "anchors_caption": "Every charter rate reported that the study holds: the day it refers to, the rate, "
-                               "the assessment and who reported it.",
+                               "the assessment, the ship it is for and who reported it. The low, central and "
+                               "high hire are taken across them all, so they mix rates for the TFDE ship of "
+                               "the years before 2024 and for the two-stroke ship after.",
             "breaks_caption": "Every break drawn as a numbered rule: the day it takes effect, its kind, what "
                               "changes and the source.",
+            "regas_legend": "The ink line is Europe's DES spread to TTF as the engine took it each week: ACER's "
+                            "assessment where it published enough, the assumption before; the dashed line, the "
+                            "assumption of the parameter table at each week's exchange rate.",
+            "regas": {"observed": "Europe's spread", "assumed": "Assumption"},
+            "netbacks_legend": "The ink line is the netback at Sabine Pass of a cargo sold at Gate; the dashed "
+                               "line, by the best route east open that week, to Futtsu; both at the central hire, per MMBtu "
+                               "loaded. Where the dashed line runs above, the arb east was open.",
+            "netbacks": {"west": "Gate", "east": "Best route east"},
+            "cheapest_route": "Cheapest open route",
+            "route_desc": "The band and the dashed line here are the chosen route's own S*, drawn in the weeks it "
+                          "was open, not the cheapest route's.",
+            "events_heading": "The events behind the regimes",
+            "left_out_heading": "Left out, and why",
         },
         "weekly": {**_columns(weekly_gaps, keys), "ranges": ranges},
         "monthly": {
@@ -528,12 +675,15 @@ def page(rows: pd.DataFrame, breaks: pd.DataFrame, anchors: Sequence[Mapping[str
         "rules": rules,
         "events": marked,
         "event_rules": event_rules,
+        "events_lead_segments": _events_lead(marked, events.LEFT_OUT),
+        "events_left_out": [{"what": what, "reason": reason} for what, reason in events.LEFT_OUT],
         "breaks_lead_segments": [
-            reader.T("The numbered rules on the charts mark a change of price definition, of route, of ship or "
-                     "of the EU ETS. A change of name alone, where the price runs on across it, is listed in the "
+            reader.T("The numbered rules on the charts mark a change of price definition, of route, of ship, "
+                     "of the EU ETS or of the source of Europe's DES spread. A change of name alone, where the price runs on across it, is listed in the "
                      "methodology and not drawn."),
         ],
         "anchors": [{"day": a["date"], "hire_usd_day": a["hire_usd_day"], "publisher": a["publisher"],
+                     "vessel": a["vessel"],
                      "assessment": a["assessment"], "accent": a["date"] == latest} for a in anchors],
         "divisor": HSTAR_DIVISOR,
         "source_segments": [

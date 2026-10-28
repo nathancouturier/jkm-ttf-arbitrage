@@ -59,6 +59,7 @@ const SHOTS = [
   { name: "history-tablet-dark", ...TABLET, theme: "dark", hash: "#/history?range=from_2024" },
   { name: "history-mobile-light", ...MOBILE, theme: "light", hash: "#/history" },
   { name: "history-narrow-dark", ...NARROW, theme: "dark", hash: "#/history?range=to_2023" },
+  { name: "history-desktop-light-cape", ...DESKTOP, theme: "light", hash: "#/history?range=from_2024&route=cape" },
   { name: "flows-desktop-light", ...DESKTOP, theme: "light", hash: "#/flows" },
   { name: "flows-desktop-dark", ...DESKTOP, theme: "dark", hash: "#/flows" },
   { name: "flows-tablet-light", ...TABLET, theme: "light", hash: "#/flows" },

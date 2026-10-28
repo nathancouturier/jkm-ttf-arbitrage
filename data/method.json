@@ -54,7 +54,7 @@
   },
   {
    "field": "parameters",
-   "value": 55,
+   "value": 56,
    "format": "count"
   },
   {
@@ -82,7 +82,7 @@
    "formula": "G = Q_load x BOR x T_total;  Q_del = Q_load - G",
    "segments": [
     {
-     "text": "The gas used, boiled off or burnt every day of the round trip at the rate BOR, and the cargo delivered; the heel for the way back stays on board."
+     "text": "The gas used, boiled off or burnt every day of the round trip at the rate BOR, and the cargo delivered; the heel for the way back stays on board. Spark's rate, the hire below, is what a charterer pays less the ballast fuel over the round trip, an owner's earnings rate, so taking it as hire with the heel in G counts the ballast fuel once, never twice."
     }
    ]
   },
@@ -432,6 +432,44 @@
   "held_percent": 5.0,
   "caption": "The variable fresh water surcharge as a share of tolls, in percent, that the Authority's curve gives at a lake level, under the centre in force from each date; the share is held between 1 and 10 percent to September 2023 and 0 and 10 since."
  },
+ "conventional": {
+  "rows": [
+   {
+    "route": "nwe_direct",
+    "name": "Gate",
+    "exact": 26.8800981535719,
+    "conventional": 26.855440704185213,
+    "difference": 0.024657449386687347
+   },
+   {
+    "route": "nea_panama",
+    "name": "Futtsu via Panama",
+    "exact": 27.07673706515068,
+    "conventional": 26.986330211142416,
+    "difference": 0.09040685400826476
+   },
+   {
+    "route": "nea_cape",
+    "name": "Futtsu via the Cape",
+    "exact": 26.234524918269187,
+    "conventional": 26.017948852131166,
+    "difference": 0.21657606613802116
+   }
+  ],
+  "caption_segments": [
+   {
+    "text": "The week to "
+   },
+   {
+    "field": "as_of",
+    "value": "2026-10-21",
+    "label": "21 October 2026"
+   },
+   {
+    "text": ": the netback per MMBtu loaded, the exact form the study uses, against the conventional one per MMBtu delivered, and the difference, in $/MMBtu."
+   }
+  ]
+ },
  "parameters": [
   {
    "key": "mmbtu_per_m3_lng",
@@ -441,7 +479,7 @@
    "source": "Spark LNG Freight Methodology 3.8, page 2, 'LNG Conversion Factor: 23'",
    "url": null,
    "read_on": "2026-10-01",
-   "note": "A market convention for a lean cargo; the study runs no other value, and the reader can type any in the Model view."
+   "note": "A market convention for a lean cargo; 22 to 24 covers lean to rich cargoes. The Method view shows the latest week at 22, 23 and 24, and the reader can type any value in the Model view."
   },
   {
    "key": "vessel_174k_capacity_m3",
@@ -944,6 +982,16 @@
    "note": "Applied only in the month each was reported, to the laden and the ballast transit alike, to set Panama against the Cape; the default everywhere stays no wait (docs/methodology.md, the Panama table)."
   },
   {
+   "key": "china_tariff_from",
+   "name": "First day of China's tariff on US LNG",
+   "value_words": "10 February 2025",
+   "status": "published",
+   "source": "Columbia University, Center on Global Energy Policy, blog of 18 April 2025: China's tariff on US LNG from 10 February 2025",
+   "url": "https://energypolicy.columbia.edu/?p=23258",
+   "read_on": "2026-09-30",
+   "note": "A limit of the flows test, named on the Flows view. Reports differ on the rate, 15 or 25 percent; the Chinese notice was not read (open question 56)."
+  },
+  {
    "key": "analysis_monthly_loading_day",
    "name": "Loading day of a monthly observation",
    "value_words": "the 15th of the month",
@@ -984,7 +1032,7 @@
    "note": "A robustness check, never a choice of the sample that suits."
   }
  ],
- "parameters_caption": "Every parameter of the engine that is not market data or a canal tariff: its value, whether it is published or this study's assumption, the document it is read in, the day it was read, and its note. The tariffs behind the tolls are set out in the methodology's sections on Suez and Panama.",
+ "parameters_caption": "Every parameter of the engine that is not market data or a canal tariff: its value, whether it is published or this study's assumption, the document it is read in, the day it was read, and its note. The tariffs behind the tolls are set out in the methodology's sections on Suez and Panama. The Model view lets a reader type over every one that is an input of a cargo, methane slip included; the gas factors, the canals' readings and the analysis's settings are rules or choices of the study, not inputs a cargo chooses, and are fixed there.",
  "units": [
   {
    "words": "MMBtu in a megawatt hour",
@@ -1042,7 +1090,7 @@
   },
   {
    "field": "s_star_now",
-   "value": 0.40483464100119804,
+   "value": 0.4050664899926346,
    "format": "usd_mmbtu",
    "signed": true,
    "missing": "no route open"
@@ -1055,7 +1103,7 @@
   },
   {
    "field": "s_star_energy_22",
-   "value": 0.4315719761327017,
+   "value": 0.43180382512413473,
    "format": "usd_mmbtu",
    "signed": true,
    "missing": "no route open"
@@ -1073,7 +1121,7 @@
   },
   {
    "field": "s_star_energy_24",
-   "value": 0.3803254171306598,
+   "value": 0.38055726612209284,
    "format": "usd_mmbtu",
    "signed": true,
    "missing": "no route open"
@@ -1175,6 +1223,21 @@
   [
    {
     "text": "The month of the export data is coarser than the decisions, taken weeks before a cargo loads."
+   }
+  ],
+  [
+   {
+    "text": "The pilot fuel a dual fuel engine burns with the gas is left out of the voyage's cost and of its emissions."
+   }
+  ],
+  [
+   {
+    "text": "Panama's booking fee is not an input of its own: the slot premium a reader types carries it, with the methodology's cited figures as scenarios."
+   }
+  ],
+  [
+   {
+    "text": "Futtsu stands for the JKM delivery area and Gate for Northwest Europe; Sabine Pass stands for every US Gulf terminal, and the others are out of scope."
    }
   ]
  ],

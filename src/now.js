@@ -66,6 +66,12 @@ export function render(root, data, route) {
   const verdict = el("h1", { class: "verdict", id: "view-title", attrs: { tabindex: "-1" } });
   appendSegments(verdict, now.verdict.segments, decimals);
 
+  // How much the verdict rests on Europe's regasification discount, which
+  // ACER publishes sparsely: one sentence, the counts over every week.
+  const regas = now.regas_sensitivity
+    ? appendSegments(el("p", { class: "lead block" }), now.regas_sensitivity.segments, decimals)
+    : null;
+
   const dates = el("ul", { class: "data-dates", attrs: { "aria-label": "The date of every input" } });
   for (const row of now.data_dates) {
     dates.appendChild(appendSegments(el("li", { attrs: { "data-date": row.id } }), row.segments, decimals));
@@ -79,6 +85,16 @@ export function render(root, data, route) {
   }
 
   root.appendChild(verdict);
+  if (regas) root.appendChild(regas);
+  // When the arb closes, east and for the cargo itself, with the way to 2020.
+  if (now.closing) {
+    const closing = el("p", { class: "lead block", attrs: { id: "now-closing" } }, [el("strong", { text: now.closing.heading + ". " })]);
+    appendSegments(closing, now.closing.segments, decimals);
+    closing.appendChild(document.createTextNode(" "));
+    closing.appendChild(el("a", { class: "text-link", text: now.closing.link_words, attrs: { href: router.href(now.closing.link_view) } }));
+    closing.appendChild(document.createTextNode("."));
+    root.appendChild(closing);
+  }
   root.appendChild(dates);
   root.appendChild(sections);
   applyRoute(route);

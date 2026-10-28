@@ -86,6 +86,8 @@ export const GEOMETRY = Object.freeze({
   /* Room per character of a rule's label, a little over the glyph's width,
    * so a label moved back inside the chart ends inside it. */
   RULE_CHAR: 7.5,
+  /* The events: a short mark up from the foot of the plot, or a bar along it
+   * for a period, its letter above. */
 });
 
 /* The mantissas of decimal notation, a fact about how numbers are written. */
@@ -756,6 +758,8 @@ export function timeChart({ width, days, first, last, y, band, reference, refere
     svg.appendChild(svgEl("circle", { class: point.accent ? "mark-accent-dot" : "mark-printed", cx: px(at), cy: px(cy), r: g.DOT_RADIUS }));
   }
 
+  // The events: a mark, or a bar for a period, at the foot of the plot, its
+  // letter above; letters that would touch join the one before.
   // Labels at the right end of each line, apart.
   const labels = [];
   const lastPresent = (values) => {

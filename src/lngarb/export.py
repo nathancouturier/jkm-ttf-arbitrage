@@ -12,8 +12,9 @@ same bytes.
                   date, the engine's full inputs (so the browser can move the
                   hire or the routes and recompute with src/engine.js) and the
                   engine's full output, at the reported hire nearest the day
-                  or, where none is reported, the central level, with the three
-                  levels beside it.
+                  or, where none is reported, the central level, with the
+                  sentences on the regasification discount and on when the arb
+                  closes.
     history.json  every weekly and monthly observation at each hire level: the
                   spread, S* and its parts and H* per route, the best route
                   east and its arb; the breaks; the freight anchors.
@@ -40,11 +41,11 @@ import sys
 from dataclasses import asdict, replace
 from datetime import date
 from pathlib import Path
-from typing import Any
+from typing import Any, Mapping
 
 import pandas as pd
 
-from . import analysis, config, delivery, flowspage, methodpage, presets, reader, routemap, spreadhistory, units, worked
+from . import analysis, config, delivery, events, flowspage, methodpage, presets, reader, routemap, spreadhistory, units, worked
 from .cases import WATERFALL_STEPS, evaluate
 from .freight_anchors import ANCHORS, hire_levels, hire_levels_by_ship
 from .sources import base
@@ -153,7 +154,7 @@ def inputs_json(inputs) -> dict[str, Any]:
 
 
 def now(obs: pd.DataFrame | None = None, *, flows_document: dict[str, Any] | None = None,
-        provenance_document: dict[str, Any] | None = None) -> dict[str, Any]:
+        provenance_document: dict[str, Any] | None = None, keep: dict[str, Any] | None = None) -> dict[str, Any]:
     """The latest weekly observation, worked at the reported hire nearest it, or the central level.
 
     Besides the engine's inputs and output, the reader's layer of the Now view:
@@ -189,6 +190,9 @@ def now(obs: pd.DataFrame | None = None, *, flows_document: dict[str, Any] | Non
         else:
             raise worked.MissingInput("no weekly observation can be priced")
         result = evaluate(inputs)
+        if keep is not None:
+            # The week's inputs and output, for the Method view's tables.
+            keep.update({"inputs": inputs, "result": result, "day": day})
         usd_per_eur = worked.usd_per_eur_on(day)[0]
         eua_eur = None
         if inputs.eua_usd_t:
@@ -224,6 +228,7 @@ def now(obs: pd.DataFrame | None = None, *, flows_document: dict[str, Any] | Non
             "as_of": day,
             "verdict": reader.verdict(result, day, hh_multiple, delta_nwe=inputs.delta_nwe,
                                       liquefaction_fee=inputs.liquefaction_fee),
+            "closing": reader.closing(result, hh_multiple),
             "data_dates": reader.data_dates(
                 day=day, week={"series": latest["series"], "alignment": latest["alignment"],
                                "aligned_share": latest["aligned_share"]},
@@ -267,17 +272,7 @@ def now(obs: pd.DataFrame | None = None, *, flows_document: dict[str, Any] | Non
             },
             "engine_inputs": inputs_json(inputs),
             "result": result,
-            "at_levels": {},
         }
-        for name, value in levels.items():
-            out = at_hire(value)
-            document["at_levels"][name] = {
-                "hire_usd_day": value, "best_route_east": out["best_route_east"],
-                "best_destination": out["best_destination"], "best_netback": out["best_netback"],
-                "lift_margin": out["lift_margin"],
-                "arb": {r: lines["arb"] for r, lines in out["east"].items()},
-                "s_star": {r: lines["s_star"] for r, lines in out["east"].items()},
-            }
         return _clean(document)
 
 
@@ -287,7 +282,8 @@ def now(obs: pd.DataFrame | None = None, *, flows_document: dict[str, Any] | Non
 ENERGY_SENSITIVITY = (22.0, 24.0)
 
 HISTORY_COLUMNS = [
-    "day", "frequency", "series", "basis", "alignment", "aligned_share", "hire_level", "hire_usd_day",
+    "day", "frequency", "series", "basis", "alignment", "aligned_share", "jkm_month", "ttf_month", "hire_level",
+    "hire_usd_day",
     "jkm", "ttf", "spread", "delta_nwe", "henry_hub", "vessel", "west_netback", "best_route_east", "arb",
     "s_star_best", "lift_margin", "cancel",
 ]
@@ -318,7 +314,8 @@ def history(rows: pd.DataFrame | None = None, obs: pd.DataFrame | None = None) -
         "months_without_observation": without.to_dict("records"),
         "freight_anchors": anchors,
         # The History view's layer: what the page draws and says, computed here.
-        "page": spreadhistory.page(rows, breaks, anchors, without, hire_levels_by_ship()),
+        "page": spreadhistory.page(rows, breaks, anchors, without, hire_levels_by_ship(),
+                                   regas=analysis.regas_sensitivity(obs)),
     }, ROUND_DP)
 
 
@@ -332,6 +329,8 @@ def flows(rows: pd.DataFrame | None = None) -> dict[str, Any]:
     months = [{
         "month": r["month"], "total_mmcf": r["total_mmcf"], "jkm_markets_mmcf": r["jkm_markets_mmcf"],
         "asia_mmcf": r["asia_mmcf"], "share_jkm": r["share_jkm"], "share_asia": r["share_asia"],
+        "share_europe": r["share_europe"], "share_middle_east_africa": r["share_middle_east_africa"],
+        "share_americas": r["share_americas"],
         "anomaly": r["anomaly"], "arb": {"low": r["low"], "central": r["central"], "high": r["high"]},
     } for r in joined.to_dict("records")]
     tests = analysis.flows_test(rows).to_dict("records")
@@ -347,7 +346,8 @@ def flows(rows: pd.DataFrame | None = None) -> dict[str, Any]:
         "regressions": tests,
         "excluded_years": excluded,
         # The Flows view's layer: what the page draws and says, computed here.
-        "page": flowspage.page(rows, clean_months, _clean(tests), excluded, hire_levels_by_ship()),
+        "page": flowspage.page(rows, clean_months, _clean(tests), excluded, hire_levels_by_ship(),
+                               analysis.regas_sensitivity()),
     }, ROUND_DP)
 
 
@@ -403,13 +403,21 @@ def model(now_document: dict[str, Any]) -> dict[str, Any]:
     })
 
 
-def method(data_day: date, now_document: dict[str, Any] | None = None) -> dict[str, Any]:
-    """The Method view: the engine as formulas, every parameter with its source, the limits and the credits."""
+def method(data_day: date, now_document: dict[str, Any] | None = None,
+           latest: Mapping[str, Any] | None = None) -> dict[str, Any]:
+    """The Method view: the engine as formulas, every parameter with its source, the limits and the credits.
+
+    now_document, the Now view's document, gives the energy content sensitivity
+    sentence; latest, the latest week's inputs and output, the exact against the
+    conventional netback."""
+    tables = None
+    if latest is not None:
+        tables = {"conventional": methodpage.conventional(latest["day"], latest["result"])}
     return _clean({
         **reader.header("method", data_day, "the engine as formulas, every parameter of the parameter table with "
                                             "its value, status and source, the units, the limits and the credits"),
         "conventions": reader.conventions(),
-        **methodpage.page(now_document),
+        **methodpage.page(now_document, tables),
         "credits": list(CREDITS),
     })
 
@@ -436,7 +444,8 @@ def write_all() -> list[Path]:
         rows, _ = analysis.work(obs)
         flows_document = flows(rows)
         provenance_document = provenance()
-        now_document = now(obs, flows_document=flows_document, provenance_document=provenance_document)
+        latest: dict[str, Any] = {}
+        now_document = now(obs, flows_document=flows_document, provenance_document=provenance_document, keep=latest)
         documents = {
             "now.json": now_document,
             "model.json": model(now_document),
@@ -444,7 +453,8 @@ def write_all() -> list[Path]:
             "history.json": history(rows, obs),
             "flows.json": flows_document,
             "provenance.json": provenance_document,
-            "method.json": method(date.fromisoformat(now_document["as_of"]), now_document),
+            "method.json": method(date.fromisoformat(now_document["as_of"]), now_document,
+                                  {"day": date.fromisoformat(now_document["as_of"]), "result": now_document["result"]}),
         }
     return [_write(name, document) for name, document in documents.items()]
 
