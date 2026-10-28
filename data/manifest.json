@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-28T20:14:50Z",
+  "generated_at": "2026-10-28T20:22:11Z",
   "series": [
     {
       "series": "acer_lng_daily",
@@ -151,7 +151,7 @@
       "linkable": true,
       "machine_fetched": false,
       "fetched_at": null,
-      "checked_at": "2026-10-28T20:14:50Z",
+      "checked_at": "2026-10-28T20:22:11Z",
       "rows": 10,
       "observations": 10,
       "file_rows": 10,
@@ -163,7 +163,7 @@
       "vintage": "annual reports 2016 to 2025",
       "method": "seed",
       "committable": true,
-      "licence_note": "The Panama Canal Authority's terms of use, read on 15 October 2026: the site's information, documents and reports are the Authority's property, and 'their copying, distribution, transmission, reproduction or publication for commercial or lucrative purposes is prohibited'; the tables add that the information 'is for general purpose only' and 'may vary' with traffic audits. This non-commercial study keeps the figures unchanged, credits the Authority and carries its disclaimer (docs/sources.md, section 2.17).",
+      "licence_note": "The Panama Canal Authority's terms of use, read on 15 October 2026: the site's information, documents and reports are the Authority's property, and 'their copying, distribution, transmission, reproduction or publication for commercial or lucrative purposes is prohibited'; the tables add that the information 'is for general purpose only' and 'may vary' with traffic audits. This non-commercial study keeps the figures unchanged, credits the Authority and carries its disclaimer (docs/sources.md, section 2.15).",
       "status": "ok",
       "note": "10 fiscal years, 2016 to 2025, each read by eye in the Authority's annual report for the year, whose charts are drawn and not typed, and checked against the later reports that repeat it; the fiscal year ends on 30 September. The count is every LNG carrier in both directions. Source: Panama Canal Authority; non-commercial use with attribution.",
       "file": "data/seed/acp_lng_transits_fiscal_year.json",
@@ -2668,7 +2668,7 @@
       "linkable": true,
       "machine_fetched": false,
       "fetched_at": null,
-      "checked_at": "2026-10-28T20:14:50Z",
+      "checked_at": "2026-10-28T20:22:11Z",
       "rows": 34,
       "observations": 34,
       "file_rows": 34,
@@ -3407,7 +3407,7 @@
       "linkable": true,
       "machine_fetched": false,
       "fetched_at": null,
-      "checked_at": "2026-10-28T20:14:50Z",
+      "checked_at": "2026-10-28T20:22:11Z",
       "rows": 51,
       "observations": 51,
       "file_rows": 51,
@@ -4397,7 +4397,7 @@
       "linkable": true,
       "machine_fetched": false,
       "fetched_at": null,
-      "checked_at": "2026-10-28T20:14:50Z",
+      "checked_at": "2026-10-28T20:22:11Z",
       "rows": 4,
       "observations": 4,
       "file_rows": 4,
@@ -4563,8 +4563,8 @@
   "manual_steps_note": "Work this pipeline cannot do for itself. Each entry says what it is, why it exists, what it costs to skip it and how to do it. They are repeated against the series they affect in the manual_step field of those entries.",
   "run": {
     "mode": "offline",
-    "started_at": "2026-10-28T20:14:49Z",
-    "finished_at": "2026-10-28T20:14:50Z",
+    "started_at": "2026-10-28T20:22:10Z",
+    "finished_at": "2026-10-28T20:22:11Z",
     "script": "scripts/refresh.py"
   }
 }

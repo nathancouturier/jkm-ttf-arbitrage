@@ -252,9 +252,12 @@ def _fresh_water() -> dict[str, Any]:
         if index:
             segments.append(reader.T(", "))
         segments.append(reader.N("avg_share_%d" % r["fiscal_year"], r["share_percent"], "pp"))
-    segments.append(reader.T(" percent, a mark and not the year's average surcharge, since the curve bends. The table "
-                             "runs the curve at a few levels under each centre; the Model view types any toll, "
-                             "surcharge included."))
+    segments.append(reader.T(" percent, a mark and not the year's average surcharge, since the curve bends. The engine "
+                             "can run the curve at the level of the day before each transit, from a daily history of "
+                             "the lake saved by hand, and keeps the held share on a day with no level; that history "
+                             "is the Authority's, kept private until the study settles whether a daily series of its "
+                             "may be published, so nothing on this site is priced with it. The table runs the curve "
+                             "at a few levels under each centre; the Model view types any toll, surcharge included."))
     return {"segments": segments, "rows": rows, "centres": [{"from": s, "centre_ft": centres[s]} for s in starts],
             "readings": readings, "yearly": yearly, "held_percent": held,
             "caption": "The variable fresh water surcharge as a share of tolls, in percent, that the Authority's "

@@ -9,7 +9,9 @@ from __future__ import annotations
 
 import math
 
-from datetime import date
+from collections.abc import Iterator, Mapping
+from contextlib import contextmanager
+from datetime import date, timedelta
 
 from . import config
 from .config import (
@@ -26,6 +28,7 @@ from .config import (
 )
 
 __all__ = ["panama_period", "panama_toll", "panama_fresh_water_surcharge", "panama_fresh_water_share_at_level",
+           "gatun_levels", "gatun_levels_held",
            "suez_schedule", "suez_rate_on",
            "suez_toll_sdr", "suez_round_trip", "suez_transits"]
 
@@ -95,15 +98,52 @@ def panama_fresh_water_share_at_level(level_ft: float, when: date | str) -> floa
     return min(top, max(floor, share))
 
 
+#: The owner's daily Gatun Lake levels, day to feet, held only inside gatun_levels().
+_GATUN_LEVELS: dict[date, float] = {}
+
+
+@contextmanager
+def gatun_levels(levels: Mapping[date | str, float]) -> Iterator[None]:
+    """Within the block, price the fresh water surcharge at the lake level of each transit.
+
+    For a private run only: the levels are the owner's series, which stays in
+    data/private/ until open question 54 is settled, and lngarb.export refuses
+    to write the site while levels are held. A transit whose level is missing
+    keeps the 5 percent assumption.
+    """
+    held = {_as_date(day): float(level) for day, level in levels.items() if level == level}
+    if _GATUN_LEVELS:
+        raise RuntimeError("Gatun Lake levels are already held")
+    _GATUN_LEVELS.update(held)
+    try:
+        yield
+    finally:
+        _GATUN_LEVELS.clear()
+
+
+def gatun_levels_held() -> bool:
+    """True inside gatun_levels(), with at least one level held."""
+    return bool(_GATUN_LEVELS)
+
+
 def panama_fresh_water_surcharge(when: date | str, toll_usd: float, *, variable_share: float | None = None) -> float:
     """The fresh water surcharge on one transit, USD: zero before 15 February 2020.
 
-    The fixed part per transit plus a share of the tolls; the share is a
-    parameter, since the daily lake level that sets it is not collected.
+    The fixed part per transit plus a share of the tolls. The share is the
+    parameter, 5 percent, unless a private run holds the lake's levels
+    (gatun_levels): then it is the Authority's curve at the level of the day
+    before the transit, the Authority reading it at noon that day, and the
+    parameter where that day's level is missing.
     """
-    if _as_date(when) < date(2020, 2, 15):
+    day = _as_date(when)
+    if day < date(2020, 2, 15):
         return 0.0
-    share = config.PARAMETERS["panama_fresh_water_variable_share"].value if variable_share is None else variable_share
+    share = variable_share
+    if share is None and _GATUN_LEVELS:
+        level = _GATUN_LEVELS.get(day - timedelta(days=1))
+        share = None if level is None else panama_fresh_water_share_at_level(level, day)
+    if share is None:
+        share = config.PARAMETERS["panama_fresh_water_variable_share"].value
     return config.PARAMETERS["panama_fresh_water_fixed_usd"].value + share * toll_usd
 
 

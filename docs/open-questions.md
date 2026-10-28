@@ -1164,6 +1164,20 @@ network policy of the machine that builds the site; allowing them, or saving
 the Authority's CSV of historical levels by hand as a user series (sources
 2.25), is what remains.
 
+Revised 28 October 2026: the daily level is declared as the owner's series
+`acp_gatun_level_daily` (sources 2.25), saved by hand as
+`data/private/user/acp_gatun_level_daily.csv` with two columns, `date` and
+`level_ft`, and never committed. Inside `lngarb.canals.gatun_levels` the
+engine prices each transit's variable share at the curve's value for the
+level of the day before it, the Authority reading the level at noon that
+day, and keeps 5 percent on a day with no level. Only
+`scripts/gatun_check.py` runs that block: it prices every observation at the
+central hire both ways and writes the difference to
+`data/private/gatun_check.csv`; `lngarb.export` refuses to write the site
+while levels are held. The site stays at 5 percent, and the Method view says
+so, until question 54 settles whether a daily series of the Authority's may
+be published.
+
 ### 54. Keeping the Panama Canal Authority's figures
 
 Raised 15 October 2026. **Decided 15 October 2026.**
@@ -1183,6 +1197,13 @@ manifest, the NOTICE and the Flows view; the adapter leaves ten seconds
 between requests and fetches only the months the cache lacks. Should the
 Authority object, both move to data/private/ and the Flows view's canal
 block is withheld, as question 20 provides for DEHSt.
+
+Revised 28 October 2026: a third series of the Authority's, the daily level
+of Gatun Lake the owner saves by hand (question 53), is not covered by this
+decision. It is a daily history of the Authority's own measurements rather
+than a count it publishes in its summaries, and it stays in data/private/,
+with nothing computed from it published, until this question is decided for
+it.
 
 ### 55. What the private layer may change
 

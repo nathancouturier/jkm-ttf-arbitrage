@@ -101,6 +101,10 @@ BOUNDS_EXPORT_PRICE_USD_MCF = (0.1, 100.0)
 #: guard against a unit error: the largest row of DOE's file to July 2026 is
 #: 5,277.14 MMcf, and a volume read in Mcf would be a thousand times larger.
 BOUNDS_CARGO_MMCF = (0.0, 10000.0)
+#: Gatun Lake's level, feet. Not a range the lake has run, a guard against a
+#: unit error: the Authority's curve tops out below 72.0 feet, its maximum
+#: operating level is 87.5, and a level read in metres would be near 25.
+BOUNDS_GATUN_LEVEL_FT = (60.0, 95.0)
 
 # ---------------------------------------------------------------------------
 # Destination regions for the flow analysis
@@ -467,7 +471,7 @@ _ACP_NOTE = (
     "reports are the Authority's property, and 'their copying, distribution, transmission, reproduction or "
     "publication for commercial or lucrative purposes is prohibited'; the tables add that the information 'is "
     "for general purpose only' and 'may vary' with traffic audits. This non-commercial study keeps the figures "
-    "unchanged, credits the Authority and carries its disclaimer (docs/sources.md, section 2.17)."
+    "unchanged, credits the Authority and carries its disclaimer (docs/sources.md, section 2.15)."
 )
 _EIA_CHOKEPOINT_NOTE = (
     "US government publication in the public domain, acknowledged with its publication date as EIA asks; the "
@@ -523,9 +527,26 @@ class UserCsvDeclaration:
         )
 
 
-#: The owner's own CSV series, none unless declared; an example sits in
-#: tests/test_sources_user_csv.py and the form in docs/sources.md, section 2.25.
-USER_CSV_SERIES: tuple[UserCsvDeclaration, ...] = ()
+#: The owner's own CSV series; an example sits in tests/test_sources_user_csv.py
+#: and the form in docs/sources.md, section 2.25.
+USER_CSV_SERIES: tuple[UserCsvDeclaration, ...] = (
+    UserCsvDeclaration(
+        series="acp_gatun_level_daily",
+        label="Gatun Lake level, daily, feet, as the Panama Canal Authority publishes it",
+        publisher="Panama Canal Authority",
+        page_url="https://evtms-rpts.pancanal.com/eng/h2o/index.html",
+        frequency="daily",
+        unit="feet",
+        columns={"level_ft": BOUNDS_GATUN_LEVEL_FT},
+        observation_column="level_ft",
+        licence="the Panama Canal Authority's terms of use",
+        licence_note=_ACP_NOTE + (
+            " The daily levels are kept private, and nothing computed from them is published, until open "
+            "question 54 settles whether a daily series of the Authority's may be committed."),
+        how=("Saved by the owner from the Authority's water level pages in a browser, two columns, the day "
+             "and the level in feet; the host is one this study's network refuses."),
+    ),
+)
 
 
 SOURCES: Mapping[str, Source] = _registry(

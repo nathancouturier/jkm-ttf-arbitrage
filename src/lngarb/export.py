@@ -45,7 +45,7 @@ from typing import Any, Mapping
 
 import pandas as pd
 
-from . import analysis, config, delivery, events, flowspage, methodpage, presets, reader, routemap, spreadhistory, units, worked
+from . import analysis, canals, config, delivery, events, flowspage, methodpage, presets, reader, routemap, spreadhistory, units, worked
 from .cases import WATERFALL_STEPS, evaluate
 from .freight_anchors import ANCHORS, hire_levels, hire_levels_by_ship
 from .sources import base
@@ -438,7 +438,10 @@ def write_all() -> list[Path]:
 
     Every document is built before any file is written, so a failure in one
     leaves all seven as they were and the site's data always belong to one run.
+    Nothing is written while a private run holds Gatun Lake's levels.
     """
+    if canals.gatun_levels_held():
+        raise RuntimeError("the site is not written from the owner's private Gatun Lake levels (open question 54)")
     with analysis.reading_once():
         obs = analysis.observations()
         rows, _ = analysis.work(obs)

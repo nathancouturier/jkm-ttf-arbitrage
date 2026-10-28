@@ -79,6 +79,9 @@ def test_the_bounds_and_frequency_apply_as_to_a_fetched_series(tmp_path):
     assert any("hire_usd_day" in p for p in problems)
 
 
-def test_nothing_is_declared_in_the_repository_as_committed():
-    assert config.USER_CSV_SERIES == ()
-    assert user_csv.adapters() == []
+def test_every_declared_series_is_private_and_none_is_committed():
+    assert [a.name for a in user_csv.adapters()] == [d.series for d in config.USER_CSV_SERIES]
+    for declaration in config.USER_CSV_SERIES:
+        source = config.SOURCES[declaration.series]
+        assert source.committable is False and source.machine_url is None
+        assert user_csv.UserCsv(declaration).directory() == "private"

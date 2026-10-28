@@ -41,6 +41,7 @@ was decided on the strength of it.
 | `imf_usd_per_sdr_daily` | US dollars per special drawing right, daily, from July 1974, the IMF's rate as the Bundesbank republishes it, for the Suez toll | [Bundesbank API](https://api.statistiken.bundesbank.de/rest/download/BBEX3/D.USD.XDR.DA.AC.000?format=csv&lang=en) | daily | **yes**, with the IMF credited (2.20) | IMF terms for its data |
 | `acp_canal_operations_monthly` | Canal Waters Time at Panama, hours from arrival to departure for every ship, the month's daily average, high and low, with the month's transits, the neopanamax locks' share and the neopanamax booking slots, monthly from July 2006, the first summary with a text layer | [advisories to shipping](https://pancanal.com/en/maritime-services/advisory-to-shipping/), one PDF a month | monthly | **yes**, for non-commercial use (2.15) | the Authority's terms of use |
 | `acp_lng_transits_fiscal_year` | LNG carriers through the Panama Canal each fiscal year, October to September, fiscal 2016 to 2025, read by eye in the Authority's annual reports | written from rows kept in `lngarb.panama_transits`; nothing is fetched | yearly | **yes**, a seed | the Authority's terms of use, figures quoted with attribution |
+| `acp_gatun_level_daily` | Gatun Lake's level, feet, daily, the owner's copy of the Authority's history | saved by hand from the Authority's [water level pages](https://evtms-rpts.pancanal.com/eng/h2o/index.html) as `data/private/user/acp_gatun_level_daily.csv` (2.25) | daily | **NO**, `data/private/` until question 54 is decided for it | the Authority's terms of use (2.15) |
 | `sca_lng_transits_annual` | LNG carriers through the Suez Canal each year, both directions, and their Suez Canal net tonnage, 2007 to 2025 | [annual reports](https://www.suezcanal.gov.eg/English/Downloads/Pages/default.aspx?folder=Navigation%20Reports/Annual%20Reports%E2%80%8B%E2%80%8B%E2%80%8B), one PDF a year | yearly | **yes**, the figures restated (2.10) | all rights reserved; facts quoted with attribution |
 | `eia_chokepoint_lng_annual` | LNG through each maritime chokepoint, billion cubic feet a day, by calendar year from 2020 and the first half of 2025, EIA's analysis of Vortexa's tanker tracking | [World Oil Transit Chokepoints](https://www.eia.gov/international/content/analysis/special_topics/World_Oil_Transit_Chokepoints/) | yearly | **yes** | US public domain, with the third party doubt of 2.1 |
 | `eia_steo_chokepoint_lng_quarterly` | The same by quarter, the latest six, from the Short-Term Energy Outlook's energy security article, the Panama Canal among them | [Global Energy Security](https://www.eia.gov/outlooks/steo/report/energysecurity/article.php) | quarterly | **yes** | US public domain, with the third party doubt of 2.1 |
@@ -877,11 +878,16 @@ vintage; offline, the entry is carried through as for any private series.
 The Provenance view names the series and its terms; the data layer's checks
 refuse any tracked file under `data/private/`.
 
-Nothing is declared in this repository: the mechanism is tested on an example
-declaration in `tests/test_sources_user_csv.py`, a weekly charter rate export
-held under a subscription. The reader of such a declaration should know that
-nothing computed from a private series is published either, as question 14
-settles for JOGMEC.
+The mechanism is tested on an example declaration in
+`tests/test_sources_user_csv.py`, a weekly charter rate export held under a
+subscription. One series is declared, added 28 October 2026:
+`acp_gatun_level_daily`, Gatun Lake's daily level in feet as the Panama Canal
+Authority publishes it, saved from its water level pages in a browser
+(https://evtms-rpts.pancanal.com/eng/h2o/index.html), under the Authority's
+terms of use as section 2.15 and question 54 read them. Nothing computed from
+a private series is published either, as question 14 settles for JOGMEC: the
+level feeds only `scripts/gatun_check.py`, which writes its comparison under
+`data/private/` (question 53).
 
 ### 2.26 Dated events, each with its source
 
@@ -1645,7 +1651,9 @@ the study runs without it, on the labelled position given.
 16. **Lloyd's List and Lloyd's List Intelligence** are dropped (question 38).
 17. **The Panama inputs** are the nominal capacity, the roundtrip ballast table
     before 2023, the fresh water surcharge at 5 percent of tolls, and no booking
-    fee or waiting days by default (questions 39 and 40).
+    fee or waiting days by default (questions 39 and 40); **owner**: save Gatun
+    Lake's daily level to run the surcharge's curve privately (questions 53
+    and 54).
 18. **The contract terms** come from Cheniere's filings as its investor sites
     republish them; **owner**: decide whether EDGAR is to be read with a contact
     address in the user agent (2.21).
