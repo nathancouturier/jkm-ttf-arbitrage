@@ -482,10 +482,10 @@
    "status": "ok",
    "status_words": "checked",
    "range_words": "February 2019 to March 2021, monthly",
-   "gaps_words": "7 months, from March 2019 to November 2019",
+   "gaps_words": "4 months, from March 2019 to November 2019",
    "provisional_words": "none",
-   "fetch_words": "8 October 2026 at 21:14 UTC",
-   "vintage_words": "19 releases saved by hand, 12 November 2019 to 14 May 2021",
+   "fetch_words": "28 October 2026 at 22:10 UTC",
+   "vintage_words": "22 releases saved by hand, 9 August 2019 to 14 May 2021",
    "terms_words": "METI terms of use, compatible with CC BY 4.0"
   },
   {
@@ -603,9 +603,9 @@
   },
   {
    "id": "meti_monthly_pdfs_by_hand",
-   "what": "METI's monthly spot LNG releases, one PDF per month from March 2014 to March 2021, have to be saved from a browser to recover the preliminary figures. Nineteen are held, the releases for October 2019 to March 2021 and the detailed one for March 2021, which cover the cancellation notices of every cargo loading in 2020; the 67 earlier ones are not.",
+   "what": "METI's monthly spot LNG releases, one PDF per month from March 2014 to March 2021, have to be saved from a browser to recover the preliminary figures. Twenty-two are held, the releases for July 2019 to March 2021 and the detailed one for March 2021, which cover the cancellation notices of every cargo loading in 2020; the 64 earlier ones are not.",
    "why": "METI's site answers automated requests with a bot challenge after a few files, and this pipeline does not get around a challenge. The historical workbook, read once, carries every month's latest figure but drops the preliminary ones.",
-   "cost_if_skipped": "None to the monthly series, which is complete from the workbook. The releases series holds only the releases saved: without the earlier PDFs the study cannot show how METI's preliminary figures were revised before October 2019."
+   "cost_if_skipped": "None to the monthly series, which is complete from the workbook. The releases series holds only the releases saved: without the earlier PDFs the study cannot show how METI's preliminary figures were revised before July 2019."
   }
  ],
  "credits_heading": "Credits",

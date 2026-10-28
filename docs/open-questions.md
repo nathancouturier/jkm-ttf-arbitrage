@@ -305,6 +305,12 @@ each release printed with the day of the release, and the 2020 notice test on
 the Flows view uses METI's figure as first released by each notice day. The
 other releases are not held.
 
+Revised 28 October 2026: the releases for July, August and September 2019 were
+saved from a browser, and their detailed figures equal the workbook's. The
+fourth file saved in a row came back as an empty page, METI's challenge, and
+saving stopped there. 22 of the 86 releases are held; the 64 for March 2014 to
+June 2019 are not.
+
 ### 16. Do METI's and JOGMEC's arrival-based series join?
 
 Raised 30 September 2026. **Decided 7 October 2026.**

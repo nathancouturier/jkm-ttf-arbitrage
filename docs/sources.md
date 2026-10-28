@@ -30,7 +30,7 @@ was decided on the strength of it.
 | `ec_eua_auction_monthly` | EU allowance price, monthly volume weighted average auction clearing price, EUR/t, November 2012 to June 2025 | quarterly reports linked from the [Commission's auctioning page](https://climate.ec.europa.eu/areas-action/carbon-markets/eu-emissions-trading-system-eu-ets/auctioning-allowances_en) | quarterly, lagging | **yes** | CC BY 4.0, with the doubt in 2.8 |
 | `dehst_eua_german_auction_monthly` | EU allowance price in Germany's auctions on EEX, monthly average, EUR/t, January 2013 to August 2026, the proxy after June 2025 | the latest report of each year linked from [DEHSt's reports page](https://www.dehst.de/EN/Topics/EU-ETS-1/EU-ETS-1-Information/Analyses-and-Reports/analysis-and-reports_node.html) | monthly, about a month after | **yes**, for non-commercial use, with the doubt in 2.23 | CC BY-NC-ND 4.0, figures credited to EEX and DEHSt |
 | `meti_spot_lng_monthly` | Japan spot LNG price, DES, contract-based and arrival-based, monthly, March 2014 to March 2021 | [historical-data-e.xlsx](https://www.meti.go.jp/english/statistics/sho/slng/historical-data-e.xlsx), read once | ended | **yes** | METI terms, compatible with CC BY 4.0 |
-| `meti_spot_lng_releases` | Every figure METI's monthly releases printed, preliminary, detailed and fixed, with the day of each release, for the releases of October 2019 to March 2021 | the release PDFs, saved by hand from [METI's page](https://www.meti.go.jp/english/statistics/sho/slng/index.html) | fixed, the survey has ended | **yes** | METI terms of use, compatible with CC BY 4.0 |
+| `meti_spot_lng_releases` | Every figure METI's monthly releases printed, preliminary, detailed and fixed, with the day of each release, for the releases of July 2019 to March 2021 | the release PDFs, saved by hand from [METI's page](https://www.meti.go.jp/english/statistics/sho/slng/index.html) | fixed, the survey has ended | **yes** | METI terms of use, compatible with CC BY 4.0 |
 | `jogmec_spot_lng_monthly` | Japan spot LNG price, DES, contract-based and arrival-based, monthly, from April 2021 | one page per month from JOGMEC's English spot price list page | monthly, 9th to 15th | **NO**, `data/private/` until JOGMEC permits | JOGMEC terms, permission not yet requested |
 | `acp_gatun_lake_level_daily` | Gatun Lake's water level, feet, every day since 1 January 1965, as the Authority's history file serves it | the Authority's [water level indicators page](https://evtms-rpts.pancanal.com/eng/h2o/index.html), one CSV | daily | **NO**, `data/private/`: the page's notice permits information use only (2.15) | the Authority's notice, written consent not yet requested |
 | `worldbank_gas_monthly` | Europe gas (TTF from April 2015, border and import prices before), US gas at Henry Hub, and Japan LNG import price, monthly, USD/MMBtu, from 1960, Japan from 1977 | read from the [commodity markets page](https://www.worldbank.org/en/research/commodity-markets); the file's path changes | monthly, early in the month | **yes** | CC BY 4.0 |
@@ -273,7 +273,9 @@ following the pattern METI's terms give.
 The monthly release PDFs carry what the workbook drops: each month's
 preliminary figure as first published, and the day of each release. The
 owner saved the releases for October 2019 to March 2021 from a browser on 8
-October 2026 (the manual step); every figure they print is committed as
+October 2026 (the manual step), and those for July to September 2019 were saved
+the same way on 28 October 2026, when METI's challenge stopped the browser after
+three files (3.7); every figure they print is committed as
 `meti_spot_lng_releases`, with METI's own label, and the PDFs stay private
 except two kept as test fixtures. Every detailed and fixed figure they print
 equals the workbook's.
@@ -1256,7 +1258,9 @@ series of 2.25 instead.
   handful of files: HTTP 202 with an empty body and the header
   `x-amzn-waf-action: challenge`. A script that treats 202 as success writes
   empty files. The survey ended with March 2021, so the pipeline reads the
-  workbook fetched once and never refetches.
+  workbook fetched once and never refetches. A browser is not spared: on 28
+  October 2026 three PDFs saved in a row from the page came through, and the
+  fourth and every later one came back as an empty page.
 * **The workbook drops the preliminary figures.** Each month's PDF revises the
   month before it (December 2020, contract-based: 8.6 preliminary, 7.4
   detailed), and a March issue can fix the year before (February 2019 is the one
@@ -1670,9 +1674,10 @@ the study runs without it, on the labelled position given.
    Board's H.15 in the public domain, from July 1954 (question 12).
 6. **JOGMEC's series** stays private; **owner**: send the permission request
    drafted in question 14.
-7. **METI's monthly PDFs**: the releases of October 2019 to March 2021 were
-   saved by hand and their figures are committed; the 67 earlier ones would add
-   older preliminary figures (**owner**, optional).
+7. **METI's monthly PDFs**: the releases of July 2019 to March 2021 were
+   saved from a browser and their figures are committed; the 64 earlier ones
+   would add older preliminary figures (**owner**, optional, a few files at a
+   time, since METI's challenge stops a browser that saves several in a row).
 8. **ACER's history**: TERMINAL's download, saved by hand on 8 October 2026 and
    again on 28 October 2026, gives the observed Northwest Europe discount from
    31 March 2023 to 27 October 2026; before it the discount is a labelled

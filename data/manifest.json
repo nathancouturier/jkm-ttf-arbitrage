@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-28T21:43:13Z",
+  "generated_at": "2026-10-28T22:12:54Z",
   "series": [
     {
       "series": "acer_lng_daily",
@@ -180,7 +180,7 @@
       "linkable": true,
       "machine_fetched": false,
       "fetched_at": null,
-      "checked_at": "2026-10-28T21:43:13Z",
+      "checked_at": "2026-10-28T22:12:54Z",
       "rows": 10,
       "observations": 10,
       "file_rows": 10,
@@ -2697,7 +2697,7 @@
       "linkable": true,
       "machine_fetched": false,
       "fetched_at": null,
-      "checked_at": "2026-10-28T21:43:13Z",
+      "checked_at": "2026-10-28T22:12:54Z",
       "rows": 34,
       "observations": 34,
       "file_rows": 34,
@@ -3436,7 +3436,7 @@
       "linkable": true,
       "machine_fetched": false,
       "fetched_at": null,
-      "checked_at": "2026-10-28T21:43:13Z",
+      "checked_at": "2026-10-28T22:12:54Z",
       "rows": 51,
       "observations": 51,
       "file_rows": 51,
@@ -4164,12 +4164,12 @@
       "manual_step": [
         {
           "id": "meti_monthly_pdfs_by_hand",
-          "what": "METI's monthly spot LNG releases, one PDF per month from March 2014 to March 2021, have to be saved from a browser to recover the preliminary figures. Nineteen are held, the releases for October 2019 to March 2021 and the detailed one for March 2021, which cover the cancellation notices of every cargo loading in 2020; the 67 earlier ones are not.",
+          "what": "METI's monthly spot LNG releases, one PDF per month from March 2014 to March 2021, have to be saved from a browser to recover the preliminary figures. Twenty-two are held, the releases for July 2019 to March 2021 and the detailed one for March 2021, which cover the cancellation notices of every cargo loading in 2020; the 64 earlier ones are not.",
           "why": "METI's site answers automated requests with a bot challenge after a few files, and this pipeline does not get around a challenge. The historical workbook, read once, carries every month's latest figure but drops the preliminary ones.",
-          "cost_if_skipped": "None to the monthly series, which is complete from the workbook. The releases series holds only the releases saved: without the earlier PDFs the study cannot show how METI's preliminary figures were revised before October 2019.",
-          "how": "Open https://www.meti.go.jp/english/statistics/sho/slng/index.html in a browser and save each monthly PDF into data/private/meti/pdf/ under the name the page links it by, then run python scripts/refresh.py --only meti. The PDFs stay private; the figures they print are committed as meti_spot_lng_releases.",
+          "cost_if_skipped": "None to the monthly series, which is complete from the workbook. The releases series holds only the releases saved: without the earlier PDFs the study cannot show how METI's preliminary figures were revised before July 2019.",
+          "how": "Open https://www.meti.go.jp/english/statistics/sho/slng/index.html in a browser and save each monthly PDF into data/private/meti/pdf/ under the name the page links it by, a few at a time, since the challenge also answers a browser that saves several in a row with an empty page; then run python scripts/refresh.py --only meti. The PDFs stay private; the figures they print are committed as meti_spot_lng_releases.",
           "cadence": "once, the survey has ended",
-          "status": "partly done, 8 October 2026: 19 of 86 releases saved"
+          "status": "partly done, 28 October 2026: 22 of 86 releases saved"
         }
       ]
     },
@@ -4180,11 +4180,11 @@
       "page_url": "https://www.meti.go.jp/english/statistics/sho/slng/index.html",
       "linkable": true,
       "machine_fetched": true,
-      "fetched_at": "2026-10-08T21:14:14Z",
+      "fetched_at": "2026-10-28T22:10:25Z",
       "checked_at": null,
-      "rows": 19,
-      "observations": 19,
-      "file_rows": 38,
+      "rows": 22,
+      "observations": 22,
+      "file_rows": 44,
       "first_date": "2019-02-01",
       "last_date": "2021-03-01",
       "frequency": "monthly",
@@ -4192,18 +4192,15 @@
         "2019-03-01",
         "2019-04-01",
         "2019-05-01",
-        "2019-06-01",
-        "2019-07-01",
-        "2019-08-01",
         "2019-11-01"
       ],
       "provisional_from": null,
-      "vintage": "19 releases saved by hand, 2019-11-12 to 2021-05-14",
+      "vintage": "22 releases saved by hand, 2019-08-09 to 2021-05-14",
       "method": "parsed",
       "committable": true,
       "licence_note": "METI's terms: 'you may use the Content under the terms of use if you comply with the Public Data License (Version 1.0; PDL 1.0)', and 'The Terms of Use are compatible with the Creative Commons Attribution License 4.0'. Cite the source and, because the series is edited into a monthly table here, say so: 'Created by processing the information in the Spot LNG Price Statistics (Ministry of Economy, Trade and Industry of Japan)'. Edited data must not be presented as made by the Government of Japan.",
       "status": "ok",
-      "note": "Every figure printed by the 19 monthly releases saved by hand, from February 2019 to March 2021, each labelled as METI labels it (Preliminary, Detailed, Fixed) with the day the release was published, so that a figure is kept as first published and as corrected. Created by processing the information in the Spot LNG Price Statistics (Ministry of Economy, Trade and Industry of Japan).",
+      "note": "Every figure printed by the 22 monthly releases saved by hand, from February 2019 to March 2021, each labelled as METI labels it (Preliminary, Detailed, Fixed) with the day the release was published, so that a figure is kept as first published and as corrected. Created by processing the information in the Spot LNG Price Statistics (Ministry of Economy, Trade and Industry of Japan).",
       "file": "data/cache/meti_spot_lng_releases.csv",
       "unit": "USD per MMBtu, DES",
       "licence": "METI terms of use, compatible with CC BY 4.0",
@@ -4212,12 +4209,12 @@
       "manual_step": [
         {
           "id": "meti_monthly_pdfs_by_hand",
-          "what": "METI's monthly spot LNG releases, one PDF per month from March 2014 to March 2021, have to be saved from a browser to recover the preliminary figures. Nineteen are held, the releases for October 2019 to March 2021 and the detailed one for March 2021, which cover the cancellation notices of every cargo loading in 2020; the 67 earlier ones are not.",
+          "what": "METI's monthly spot LNG releases, one PDF per month from March 2014 to March 2021, have to be saved from a browser to recover the preliminary figures. Twenty-two are held, the releases for July 2019 to March 2021 and the detailed one for March 2021, which cover the cancellation notices of every cargo loading in 2020; the 64 earlier ones are not.",
           "why": "METI's site answers automated requests with a bot challenge after a few files, and this pipeline does not get around a challenge. The historical workbook, read once, carries every month's latest figure but drops the preliminary ones.",
-          "cost_if_skipped": "None to the monthly series, which is complete from the workbook. The releases series holds only the releases saved: without the earlier PDFs the study cannot show how METI's preliminary figures were revised before October 2019.",
-          "how": "Open https://www.meti.go.jp/english/statistics/sho/slng/index.html in a browser and save each monthly PDF into data/private/meti/pdf/ under the name the page links it by, then run python scripts/refresh.py --only meti. The PDFs stay private; the figures they print are committed as meti_spot_lng_releases.",
+          "cost_if_skipped": "None to the monthly series, which is complete from the workbook. The releases series holds only the releases saved: without the earlier PDFs the study cannot show how METI's preliminary figures were revised before July 2019.",
+          "how": "Open https://www.meti.go.jp/english/statistics/sho/slng/index.html in a browser and save each monthly PDF into data/private/meti/pdf/ under the name the page links it by, a few at a time, since the challenge also answers a browser that saves several in a row with an empty page; then run python scripts/refresh.py --only meti. The PDFs stay private; the figures they print are committed as meti_spot_lng_releases.",
           "cadence": "once, the survey has ended",
-          "status": "partly done, 8 October 2026: 19 of 86 releases saved"
+          "status": "partly done, 28 October 2026: 22 of 86 releases saved"
         }
       ]
     },
@@ -4426,7 +4423,7 @@
       "linkable": true,
       "machine_fetched": false,
       "fetched_at": null,
-      "checked_at": "2026-10-28T21:43:13Z",
+      "checked_at": "2026-10-28T22:12:54Z",
       "rows": 4,
       "observations": 4,
       "file_rows": 4,
@@ -4581,19 +4578,19 @@
         "meti_spot_lng_monthly",
         "meti_spot_lng_releases"
       ],
-      "what": "METI's monthly spot LNG releases, one PDF per month from March 2014 to March 2021, have to be saved from a browser to recover the preliminary figures. Nineteen are held, the releases for October 2019 to March 2021 and the detailed one for March 2021, which cover the cancellation notices of every cargo loading in 2020; the 67 earlier ones are not.",
+      "what": "METI's monthly spot LNG releases, one PDF per month from March 2014 to March 2021, have to be saved from a browser to recover the preliminary figures. Twenty-two are held, the releases for July 2019 to March 2021 and the detailed one for March 2021, which cover the cancellation notices of every cargo loading in 2020; the 64 earlier ones are not.",
       "why": "METI's site answers automated requests with a bot challenge after a few files, and this pipeline does not get around a challenge. The historical workbook, read once, carries every month's latest figure but drops the preliminary ones.",
-      "cost_if_skipped": "None to the monthly series, which is complete from the workbook. The releases series holds only the releases saved: without the earlier PDFs the study cannot show how METI's preliminary figures were revised before October 2019.",
-      "how": "Open https://www.meti.go.jp/english/statistics/sho/slng/index.html in a browser and save each monthly PDF into data/private/meti/pdf/ under the name the page links it by, then run python scripts/refresh.py --only meti. The PDFs stay private; the figures they print are committed as meti_spot_lng_releases.",
+      "cost_if_skipped": "None to the monthly series, which is complete from the workbook. The releases series holds only the releases saved: without the earlier PDFs the study cannot show how METI's preliminary figures were revised before July 2019.",
+      "how": "Open https://www.meti.go.jp/english/statistics/sho/slng/index.html in a browser and save each monthly PDF into data/private/meti/pdf/ under the name the page links it by, a few at a time, since the challenge also answers a browser that saves several in a row with an empty page; then run python scripts/refresh.py --only meti. The PDFs stay private; the figures they print are committed as meti_spot_lng_releases.",
       "cadence": "once, the survey has ended",
-      "status": "partly done, 8 October 2026: 19 of 86 releases saved"
+      "status": "partly done, 28 October 2026: 22 of 86 releases saved"
     }
   ],
   "manual_steps_note": "Work this pipeline cannot do for itself. Each entry says what it is, why it exists, what it costs to skip it and how to do it. They are repeated against the series they affect in the manual_step field of those entries.",
   "run": {
     "mode": "offline",
-    "started_at": "2026-10-28T21:43:12Z",
-    "finished_at": "2026-10-28T21:43:13Z",
+    "started_at": "2026-10-28T22:12:53Z",
+    "finished_at": "2026-10-28T22:12:54Z",
     "script": "scripts/refresh.py"
   }
 }

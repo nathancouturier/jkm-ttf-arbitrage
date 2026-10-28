@@ -122,9 +122,9 @@ MANUAL_STEPS: tuple[dict[str, Any], ...] = (
         "what": (
             "METI's monthly spot LNG releases, one PDF per month from March 2014 to "
             "March 2021, have to be saved from a browser to recover the preliminary "
-            "figures. Nineteen are held, the releases for October 2019 to March 2021 "
+            "figures. Twenty-two are held, the releases for July 2019 to March 2021 "
             "and the detailed one for March 2021, which cover the cancellation notices "
-            "of every cargo loading in 2020; the 67 earlier ones are not."
+            "of every cargo loading in 2020; the 64 earlier ones are not."
         ),
         "why": (
             "METI's site answers automated requests with a bot challenge after a few "
@@ -136,17 +136,19 @@ MANUAL_STEPS: tuple[dict[str, Any], ...] = (
             "None to the monthly series, which is complete from the workbook. The "
             "releases series holds only the releases saved: without the earlier PDFs the "
             "study cannot show how METI's preliminary figures were revised before "
-            "October 2019."
+            "July 2019."
         ),
         "how": (
             "Open https://www.meti.go.jp/english/statistics/sho/slng/index.html in a "
             "browser and save each monthly PDF into data/private/meti/pdf/ under the "
-            "name the page links it by, then run python scripts/refresh.py --only meti. "
+            "name the page links it by, a few at a time, since the challenge also answers "
+            "a browser that saves several in a row with an empty page; then run python "
+            "scripts/refresh.py --only meti. "
             "The PDFs stay private; the figures they print are committed as "
             "meti_spot_lng_releases."
         ),
         "cadence": "once, the survey has ended",
-        "status": "partly done, 8 October 2026: 19 of 86 releases saved",
+        "status": "partly done, 28 October 2026: 22 of 86 releases saved",
     },
 )
 
