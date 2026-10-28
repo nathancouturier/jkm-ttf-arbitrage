@@ -58,6 +58,7 @@ from lngarb.sources import base  # noqa: E402
 from lngarb.sources.base import Adapter, read_cache, utc_now_iso, validate_frame  # noqa: E402
 from lngarb.sources.eia import HenryHubDaily, LngExportsMonthly, LngExportsRevisions  # noqa: E402
 from lngarb.sources.acer import AcerLngDaily  # noqa: E402
+from lngarb.sources.acp_gatun import AcpGatunLakeLevelDaily  # noqa: E402
 from lngarb.sources.acp_ops import AcpCanalOperationsMonthly  # noqa: E402
 from lngarb.sources.sca_annual import ScaLngTransitsAnnual  # noqa: E402
 from lngarb.sources.eia_chokepoints import EiaChokepointLngAnnual, EiaSteoChokepointLngQuarterly  # noqa: E402
@@ -222,6 +223,13 @@ JOBS: tuple[Job, ...] = (
         series=("jogmec_spot_lng_monthly",),
         adapters=lambda: [JogmecSpotLngMonthly()],
         online=_simple(lambda: [JogmecSpotLngMonthly()]),
+    ),
+    Job(
+        name="gatun",
+        what="Gatun Lake's daily water level since 1965, from the Panama Canal Authority's indicators page, NOT committable: information purposes only",
+        series=("acp_gatun_lake_level_daily",),
+        adapters=lambda: [AcpGatunLakeLevelDaily()],
+        online=_simple(lambda: [AcpGatunLakeLevelDaily()]),
     ),
     Job(
         name="h10",

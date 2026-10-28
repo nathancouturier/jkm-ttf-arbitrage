@@ -32,6 +32,7 @@ was decided on the strength of it.
 | `meti_spot_lng_monthly` | Japan spot LNG price, DES, contract-based and arrival-based, monthly, March 2014 to March 2021 | [historical-data-e.xlsx](https://www.meti.go.jp/english/statistics/sho/slng/historical-data-e.xlsx), read once | ended | **yes** | METI terms, compatible with CC BY 4.0 |
 | `meti_spot_lng_releases` | Every figure METI's monthly releases printed, preliminary, detailed and fixed, with the day of each release, for the releases of October 2019 to March 2021 | the release PDFs, saved by hand from [METI's page](https://www.meti.go.jp/english/statistics/sho/slng/index.html) | fixed, the survey has ended | **yes** | METI terms of use, compatible with CC BY 4.0 |
 | `jogmec_spot_lng_monthly` | Japan spot LNG price, DES, contract-based and arrival-based, monthly, from April 2021 | one page per month from JOGMEC's English spot price list page | monthly, 9th to 15th | **NO**, `data/private/` until JOGMEC permits | JOGMEC terms, permission not yet requested |
+| `acp_gatun_lake_level_daily` | Gatun Lake's water level, feet, every day since 1 January 1965, as the Authority's history file serves it | the Authority's [water level indicators page](https://evtms-rpts.pancanal.com/eng/h2o/index.html), one CSV | daily | **NO**, `data/private/`: the page's notice permits information use only (2.15) | the Authority's notice, written consent not yet requested |
 | `worldbank_gas_monthly` | Europe gas (TTF from April 2015, border and import prices before), US gas at Henry Hub, and Japan LNG import price, monthly, USD/MMBtu, from 1960, Japan from 1977 | read from the [commodity markets page](https://www.worldbank.org/en/research/commodity-markets); the file's path changes | monthly, early in the month | **yes** | CC BY 4.0 |
 | `worldbank_gas_revisions` | Every value a Pink Sheet release changed, both releases side by side | derived by this study | with each release that changes a value | **yes** | CC BY 4.0 |
 | `h10_usd_per_eur_daily` | US dollars per euro, noon buying rate in New York, daily, from 4 January 1999, the euro's first day | [FRB_h10_xml.zip](https://www.federalreserve.gov/releases/h10/data/FRB_h10_xml.zip) | weekly, Mondays | **yes** | US public domain |
@@ -613,6 +614,33 @@ histories of tolls of September 2020 and May 2023 reproduce the tables of 2016,
 2017 and 2020. Advisories to shipping are listed on the Authority's advisories
 page, one PDF each.
 
+**The lake level page.** Added 28 October 2026. The Authority's Maritime
+Services site, at `https://evtms-rpts.pancanal.com/eng/h2o/index.html`, links
+Gatun Lake's level every day since 1 January 1965 as one CSV, a sixty day
+projection of the level with the fresh water surcharge share and the maximum
+drafts each projected level gives, a PDF of the indicators and a dashboard.
+The page carries its own notice, read the same day, stricter than the site's
+terms of use:
+
+> "The content displayed on this website and on any link herein is an
+> estimate provided for information purposes only"
+
+> "You may access and use the content for information purposes only and under
+> your own responsibility. You shall not copy, modify, distribute, transmit,
+> display, publish, or create derivative works from the content without the
+> prior written consent of the ACP."
+
+The host's `robots.txt` answers 401, which counts as no rules; the adapter
+leaves ten seconds between its two requests, as `pancanal.com`'s robots file
+asks of that host. **Not redistributable without consent:** the series
+`acp_gatun_lake_level_daily` is written to `data/private/` and nothing
+computed from it is published; the site keeps the surcharge share the
+methodology holds. The projection file prints the Authority's own surcharge
+for each projected level, which the adapter reads only to check the engine's
+curve against it; the manifest note says how close they are and keeps no
+projected value (question 53). The owner may ask the Authority for consent
+(question 54).
+
 ### 2.16 The Internet Archive, for pages a publisher no longer serves to code
 
 Read at `https://archive.org/about/terms` on 7 October 2026, the terms of use
@@ -691,6 +719,21 @@ Eurostat's copyright notice:
 The manual carries an OECD/IEA copyright of 2004 and asks for permission to
 reproduce all or part of it. **Redistributable: the one factor, cited; the
 manual is not committed.**
+
+**GIIGNL's Custody Transfer Handbook.** Read on 28 October 2026, seventh
+edition, version 7.0, September 2026, from
+`https://www.giignl.org/resources/custody-transfer-handbook-7th-edition-2026`
+(the PDF is served from `giignl-documents.s3.fr-par.scw.cloud`). It is a
+reference manual on how the energy of a cargo is measured: the gross calorific
+value is computed from the composition with ISO 6976's constants (section 10
+and Appendix 11), and its Enclosure 1 is a conversion table between energy
+units, not a table of MMBtu per tonne. Its worked example, Appendix 11, Table
+A-29, gives 54.1715 MJ/kg, 0.051345 MMBtu/kg, for a cargo of 89.235 percent
+methane and 8.267 percent ethane, 51.35 MMBtu per tonne. Its page 2 calls it
+a reference manual, "neither a standard nor a specification", with GIIGNL
+disclaiming liability "for any industrial, commercial or other use"; no reuse
+licence is printed in its text. **Redistributable: the example's figure,
+cited as a fact with its page; the handbook is not committed** (question 51).
 
 ### 2.19 The JKM and TTF contract rules: ICE, Platts and the Japan Exchange Group
 

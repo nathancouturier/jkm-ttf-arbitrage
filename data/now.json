@@ -785,7 +785,7 @@
    "summary_segments": [
     {
      "field": "series_count",
-     "value": 28,
+     "value": 29,
      "format": "count"
     },
     {
@@ -813,11 +813,11 @@
     },
     {
      "field": "private",
-     "value": 1,
+     "value": 2,
      "format": "count"
     },
     {
-     "text": " is"
+     "text": " are"
     },
     {
      "text": " kept private under its terms"

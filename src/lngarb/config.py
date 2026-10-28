@@ -91,6 +91,7 @@ BOUNDS_ANNUAL_LNG_TRANSITS = (0.0, 5000.0)
 #: Suez Canal net tonnage of those ships in a year, thousands.
 BOUNDS_ANNUAL_NET_TON_THOUSAND = (0.0, 500000.0)
 #: LNG through a chokepoint, billion cubic feet a day; world trade is near sixty.
+BOUNDS_LAKE_FEET = (60.0, 100.0)
 BOUNDS_LNG_BCF_PER_DAY = (0.0, 100.0)
 #: The price of US LNG exports in one month, USD per thousand cubic feet. Not a
 #: range the market implies, a guard against a unit error: a price read per
@@ -469,6 +470,14 @@ _ACP_NOTE = (
     "for general purpose only' and 'may vary' with traffic audits. This non-commercial study keeps the figures "
     "unchanged, credits the Authority and carries its disclaimer (docs/sources.md, section 2.17)."
 )
+_ACP_HYDROLOGY_NOTE = (
+    "The Authority's water level indicators page, read on 28 October 2026, carries a notice stricter than the "
+    "site's terms of use: the content 'is an estimate provided for information purposes only', 'you may access "
+    "and use the content for information purposes only', and 'you shall not copy, modify, distribute, transmit, "
+    "display, publish, or create derivative works from the content without the prior written consent of the "
+    "ACP'. So the levels are kept in data/private/, never committed, and nothing computed from them is "
+    "published; they serve the owner's private checks (docs/open-questions.md, 53 and 54)."
+)
 _EIA_CHOKEPOINT_NOTE = (
     "US government publication in the public domain, acknowledged with its publication date as EIA asks; the "
     "tables are EIA's analysis based on Vortexa tanker tracking data, which EIA credits and this study credits "
@@ -756,6 +765,25 @@ SOURCES: Mapping[str, Source] = _registry(
         ),
         committable=False,
         linkable=False,
+    ),
+    Source(
+        series="acp_gatun_lake_level_daily",
+        label="Gatun Lake's water level, feet, every day since 1965, Panama Canal Authority, private",
+        publisher="Panama Canal Authority, Maritime Services, water level indicators",
+        page_url="https://evtms-rpts.pancanal.com/eng/h2o/index.html",
+        machine_url="https://evtms-rpts.pancanal.com/eng/h2o/Download_Gatun_Lake_Water_Level_History.csv",
+        url_note=(
+            "The page links the history as one CSV, a sixty day projection with the fresh water surcharge "
+            "share of each projected level, and a PDF of the indicators; the history is read whole, the "
+            "projection only to check the engine's curve. The host's robots file answers 401, which counts "
+            "as no rules; ten seconds are left between requests, as pancanal.com's robots file asks."
+        ),
+        frequency="daily",
+        unit="feet",
+        method="published",
+        licence="the page's notice: information purposes only, no copying or publication without written consent",
+        licence_note=_ACP_HYDROLOGY_NOTE,
+        committable=False,
     ),
     # -- World Bank, Federal Reserve Board, New York Fed -------------------
     Source(
@@ -1619,9 +1647,12 @@ PARAMETERS: Mapping[str, Parameter] = _parameters(
               "51,560 Btu per kilogramme, gross calorific value",
               "https://ec.europa.eu/eurostat/documents/3859598/5885369/NRG-2004-EN.PDF.pdf/b3c4b86f-8e88-4ca6-9188-b95320900b3f?t=1414781129000",
               "2026-10-07",
-              "GIIGNL's table could not be read by code: its Custody Transfer Handbook, seventh edition "
-              "(2026), is served from a storage host this study's network refuses, so it stays a manual "
-              "step (open question 51). Spark's 23 MMBtu per m3 at the manual's 0.45 t per m3 gives 51.11, "
+              "GIIGNL's Custody Transfer Handbook, seventh edition (September 2026), read on 28 October "
+              "2026, prints no figure per tonne: the gross calorific value is computed from the cargo's "
+              "composition with ISO 6976's constants, and its worked example, Appendix 11, gives 54.1715 "
+              "MJ/kg, 51.35 MMBtu per tonne, for a cargo of 89.2 percent methane and 8.3 percent ethane, "
+              "0.4 percent below the figure held (open question 51). Spark's 23 MMBtu per m3 at the "
+              "manual's 0.45 t per m3 gives 51.11, "
               "0.9 percent less. EIA's Monthly Energy Review, Table A4, holds the heat content of US gas "
               "exports at 1,009 Btu per cubic foot every year since 2007, a convention covering pipeline "
               "and LNG together; the ratio of EIA's volume weighted LNG export price in dollars per "
