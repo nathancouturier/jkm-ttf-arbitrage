@@ -202,6 +202,16 @@ def _energy_segments(now_document: Mapping[str, Any] | None) -> list[dict[str, A
 #: Lake levels at which the Method view prints the Authority's curve, feet.
 FRESH_WATER_LEVELS = (72.0, 75.0, 79.0, 82.0, 85.0, 85.5, 87.0)
 
+#: The curve's shares, in percent, are stored to this many places. math.exp can
+#: differ in its last bit from one C library to another, so at full precision
+#: method.json would depend on the machine that built it; nine places are far
+#: below anything the page prints, and the same everywhere.
+FRESH_WATER_DP = 9
+
+
+def _curve_percent(level_ft: float, when: str) -> float:
+    return round(100.0 * canals.panama_fresh_water_share_at_level(level_ft, when), FRESH_WATER_DP)
+
 
 def _fresh_water() -> dict[str, Any]:
     """The variable fresh water surcharge the Authority's curve gives, against the 5 percent held."""
@@ -209,15 +219,13 @@ def _fresh_water() -> dict[str, Any]:
     starts = sorted(centres)
     rows = []
     for level in FRESH_WATER_LEVELS:
-        rows.append({"level_ft": level, "shares": {
-            start: 100.0 * canals.panama_fresh_water_share_at_level(level, start) for start in starts}})
+        rows.append({"level_ft": level, "shares": {start: _curve_percent(level, start) for start in starts}})
     printed = config.PARAMETERS["panama_gatun_levels_printed"].value
-    readings = [{"day": day, "level_ft": level,
-                 "share_percent": 100.0 * canals.panama_fresh_water_share_at_level(level, day)}
+    readings = [{"day": day, "level_ft": level, "share_percent": _curve_percent(level, day)}
                 for day, level in sorted(printed.items())]
     averages = config.PARAMETERS["panama_gatun_level_fiscal_year_average"].value
     yearly = [{"fiscal_year": int(year), "level_ft": level,
-               "share_percent": 100.0 * canals.panama_fresh_water_share_at_level(level, "%s-09-30" % year)}
+               "share_percent": _curve_percent(level, "%s-09-30" % year)}
               for year, level in sorted(averages.items())]
     held = 100.0 * config.PARAMETERS["panama_fresh_water_variable_share"].value
     segments = [
