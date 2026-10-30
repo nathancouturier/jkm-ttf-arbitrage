@@ -2,7 +2,7 @@
  "schema_version": 1,
  "artifact": "history",
  "generated_by": "src/lngarb/export.py",
- "data_date": "2026-10-21",
+ "data_date": "2026-10-28",
  "describes": "every weekly and monthly observation at each hire level, the breaks and the freight anchors",
  "source": "the committed caches in data/cache and data/seed and the manifest, nothing from data/private; no network",
  "conventions": {
@@ -41,7 +41,7 @@
   "segments": "A sentence is a list of segments. A text segment holds words only. A value segment names its field and holds a value with a format, or an ISO date or a word with its label."
  },
  "first": "2016-01-15",
- "last": "2026-10-21",
+ "last": "2026-10-28",
  "hire_levels": {
   "tfde_160k": {
    "low": -750.0,
@@ -997,7 +997,8 @@
     "2026-09-30",
     "2026-10-07",
     "2026-10-14",
-    "2026-10-21"
+    "2026-10-21",
+    "2026-10-28"
    ],
    "spread": [
     0.73,
@@ -1261,7 +1262,8 @@
     1.71,
     1.01,
     -1.34,
-    0.61
+    0.61,
+    0.39
    ],
    "s_low": [
     -0.073526,
@@ -1525,7 +1527,8 @@
     0.91622,
     -0.426785,
     -1.291472,
-    -0.488586
+    -0.488586,
+    -1.683108
    ],
    "s_central": [
     0.394932,
@@ -1789,7 +1792,8 @@
     1.147523,
     -0.195482,
     -1.060169,
-    -0.257284
+    -0.257284,
+    -1.451805
    ],
    "s_high": [
     2.677322,
@@ -2053,7 +2057,8 @@
     1.799376,
     0.456371,
     -0.408316,
-    0.394569
+    0.394569,
+    -0.799952
    ],
    "route": [
     "panama",
@@ -2276,6 +2281,7 @@
     "panama",
     "panama",
     null,
+    "panama",
     "panama",
     "panama",
     "panama",
@@ -2581,7 +2587,8 @@
     145810.92487,
     260482.982932,
     -4404.386345,
-    200169.390629
+    200169.390629,
+    373963.282001
    ],
    "alignment": [
     "aligned",
@@ -2845,7 +2852,8 @@
     "mixed",
     "aligned",
     "aligned",
-    "mixed"
+    "mixed",
+    "misaligned"
    ],
    "reported_hire": [
     null,
@@ -3109,6 +3117,7 @@
     31500.0,
     31500.0,
     31500.0,
+    null,
     null
    ],
    "reported_open": [
@@ -3373,6 +3382,7 @@
     true,
     true,
     false,
+    null,
     null
    ],
    "boil_off": [
@@ -3637,7 +3647,8 @@
     0.454303,
     0.465576,
     0.516304,
-    0.537535
+    0.537535,
+    0.5877
    ],
    "regas": [
     -0.70771,
@@ -3901,7 +3912,8 @@
     0.158325,
     -1.196922,
     -2.112669,
-    -1.330517
+    -1.330517,
+    -2.57537
    ],
    "voyage": [
     0.702677,
@@ -4165,7 +4177,8 @@
     0.534895,
     0.535864,
     0.536196,
-    0.535698
+    0.535698,
+    0.535865
    ],
    "delta_nwe": [
     -0.692292,
@@ -4429,7 +4442,8 @@
     0.155405,
     -1.174848,
     -2.073708,
-    -1.305979
+    -1.305979,
+    -2.527875
    ],
    "assumed_delta_nwe": [
     -0.692292,
@@ -4693,7 +4707,8 @@
     -0.664978,
     -0.655717,
     -0.651966,
-    -0.657593
+    -0.657593,
+    -0.656421
    ],
    "delta_observed": [
     false,
@@ -4930,6 +4945,7 @@
     true,
     true,
     false,
+    true,
     true,
     true,
     true,
@@ -5221,7 +5237,8 @@
     23.342352,
     22.629085,
     24.390115,
-    26.244767
+    26.244767,
+    27.660384
    ],
    "east_netback": [
     16.491964,
@@ -5485,7 +5502,8 @@
     23.882063,
     23.785776,
     24.12161,
-    27.076948
+    27.076948,
+    29.427643
    ],
    "panama_s_low": [
     -0.073526,
@@ -5749,7 +5767,8 @@
     0.91622,
     -0.426785,
     -1.291472,
-    -0.488586
+    -0.488586,
+    -1.683108
    ],
    "panama_s_central": [
     0.394932,
@@ -6013,7 +6032,8 @@
     1.147523,
     -0.195482,
     -1.060169,
-    -0.257284
+    -0.257284,
+    -1.451805
    ],
    "panama_s_high": [
     2.677322,
@@ -6277,7 +6297,8 @@
     1.799376,
     0.456371,
     -0.408316,
-    0.394569
+    0.394569,
+    -0.799952
    ],
    "suez_s_low": [
     0.252963,
@@ -6397,6 +6418,7 @@
     1.40034,
     0.723323,
     0.106877,
+    null,
     null,
     null,
     null,
@@ -6805,6 +6827,7 @@
     null,
     null,
     null,
+    null,
     null
    ],
    "suez_s_high": [
@@ -6925,6 +6948,7 @@
     7.705062,
     7.028045,
     6.411599,
+    null,
     null,
     null,
     null,
@@ -7333,7 +7357,8 @@
     1.340367,
     -0.024053,
     -0.835272,
-    0.023923
+    0.023923,
+    -1.127515
    ],
    "cape_s_central": [
     1.504752,
@@ -7597,7 +7622,8 @@
     1.937057,
     0.572637,
     -0.238582,
-    0.620613
+    0.620613,
+    -0.530825
    ],
    "cape_s_high": [
     7.424574,
@@ -7861,14 +7887,15 @@
     3.618638,
     2.254219,
     1.442999,
-    2.302195
+    2.302195,
+    1.150756
    ],
    "ranges": [
     {
      "id": "all",
      "label": "Every week",
      "first": "2021-09-15",
-     "last": "2026-10-21",
+     "last": "2026-10-28",
      "y": {
       "low": -20.0,
       "high": 10.0,
@@ -7917,15 +7944,15 @@
       },
       {
        "field": "last",
-       "value": "2026-10-21",
-       "label": "21 October 2026"
+       "value": "2026-10-28",
+       "label": "28 October 2026"
       },
       {
        "text": ", JKM's premium over TTF was above what the cheapest route east needs at the central hire, so the arb east was open, in "
       },
       {
        "field": "weeks_open",
-       "value": 146,
+       "value": 147,
        "format": "count"
       },
       {
@@ -7933,7 +7960,7 @@
       },
       {
        "field": "weeks",
-       "value": 244,
+       "value": 245,
        "format": "count"
       },
       {
@@ -7992,8 +8019,8 @@
       },
       {
        "field": "last",
-       "value": "2026-10-21",
-       "label": "21 October 2026"
+       "value": "2026-10-28",
+       "label": "28 October 2026"
       },
       {
        "text": ", over a shaded band of the breakeven spread S* of the cheapest open route east, from the low to the high hire, with a dashed line at the central hire. Where the line runs above the dashed line the arb east was open. Rings mark the weeks in which, by the futures calendars, the JKM and TTF front months name different delivery months every day, solid dots the weeks in which they differ on some days; lettered marks at the foot are events, and numbered rules mark the breaks listed under the charts."
@@ -8125,7 +8152,7 @@
       },
       {
        "field": "misaligned",
-       "value": 63,
+       "value": 64,
        "format": "count"
       },
       {
@@ -8177,7 +8204,7 @@
       },
       {
        "field": "all_weeks",
-       "value": 244,
+       "value": 245,
        "format": "count"
       },
       {
@@ -8185,7 +8212,7 @@
       },
       {
        "field": "all_open",
-       "value": 59.836066,
+       "value": 60.0,
        "format": "share_percent"
       },
       {
@@ -8193,7 +8220,7 @@
       },
       {
        "field": "all_s_star",
-       "value": 0.481576,
+       "value": 0.473685,
        "format": "usd_mmbtu",
        "signed": true
       },
@@ -8244,8 +8271,8 @@
       },
       {
        "field": "last",
-       "value": "2026-10-21",
-       "label": "21 October 2026"
+       "value": "2026-10-28",
+       "label": "28 October 2026"
       },
       {
        "text": ", with each charter rate reported as a point, the latest in the accent. A rate below the line is a week the arb east was open at the market's own freight."
@@ -8317,7 +8344,7 @@
       },
       {
        "field": "weeks_with_parts",
-       "value": 244,
+       "value": 245,
        "format": "count"
       },
       {
@@ -8325,7 +8352,7 @@
       },
       {
        "field": "mean_s",
-       "value": 0.481576,
+       "value": 0.473685,
        "format": "usd_mmbtu",
        "signed": true
       },
@@ -8334,7 +8361,7 @@
       },
       {
        "field": "mean_boil_off",
-       "value": 0.411512,
+       "value": 0.412232,
        "format": "usd_mmbtu",
        "signed": true
       },
@@ -8343,7 +8370,7 @@
       },
       {
        "field": "mean_regas",
-       "value": -0.559207,
+       "value": -0.567436,
        "format": "usd_mmbtu",
        "signed": true
       },
@@ -8352,7 +8379,7 @@
       },
       {
        "field": "mean_voyage",
-       "value": 0.62927,
+       "value": 0.628889,
        "format": "usd_mmbtu",
        "signed": true
       },
@@ -8374,8 +8401,8 @@
       },
       {
        "field": "last",
-       "value": "2026-10-21",
-       "label": "21 October 2026"
+       "value": "2026-10-28",
+       "label": "28 October 2026"
       },
       {
        "text": ": the gas the longer voyage burns, a thin line; Europe's DES spread the cargo escapes, a dashed line; and the voyage's extra cost, a dotted line; with S* itself, their sum, in ink."
@@ -8387,7 +8414,7 @@
       }
      ],
      "mixed_weeks": 94,
-     "misaligned_weeks": 63,
+     "misaligned_weeks": 64,
      "routes": [
       {
        "id": "panama",
@@ -8403,7 +8430,7 @@
         },
         {
          "field": "open_weeks",
-         "value": 244,
+         "value": 245,
          "format": "count"
         },
         {
@@ -8411,7 +8438,7 @@
         },
         {
          "field": "covered",
-         "value": 146,
+         "value": 147,
          "format": "count"
         },
         {
@@ -8433,7 +8460,7 @@
         },
         {
          "field": "open_weeks",
-         "value": 244,
+         "value": 245,
          "format": "count"
         },
         {
@@ -8441,7 +8468,7 @@
         },
         {
          "field": "covered",
-         "value": 90,
+         "value": 91,
          "format": "count"
         },
         {
@@ -8507,7 +8534,7 @@
       },
       {
        "field": "east_more",
-       "value": 146,
+       "value": 147,
        "format": "count"
       },
       {
@@ -8515,7 +8542,7 @@
       },
       {
        "field": "both",
-       "value": 244,
+       "value": 245,
        "format": "count"
       },
       {
@@ -8536,7 +8563,7 @@
       },
       {
        "field": "observed_weeks",
-       "value": 166,
+       "value": 167,
        "format": "count"
       },
       {
@@ -8544,7 +8571,7 @@
       },
       {
        "field": "weeks",
-       "value": 244,
+       "value": 245,
        "format": "count"
       },
       {
@@ -8573,7 +8600,7 @@
       },
       {
        "field": "flips_zero",
-       "value": 54,
+       "value": 55,
        "format": "count"
       },
       {
@@ -8581,7 +8608,7 @@
       },
       {
        "field": "flips_assumed",
-       "value": 28,
+       "value": 29,
        "format": "count"
       },
       {
@@ -8622,8 +8649,8 @@
       },
       {
        "year": 2026,
-       "open": 28,
-       "count": 42,
+       "open": 29,
+       "count": 43,
        "ttf_above": 15
       }
      ]
@@ -9378,7 +9405,7 @@
      "id": "from_2024",
      "label": "2024 on",
      "first": "2024-01-10",
-     "last": "2026-10-21",
+     "last": "2026-10-28",
      "y": {
       "low": -4.0,
       "high": 6.0,
@@ -9427,15 +9454,15 @@
       },
       {
        "field": "last",
-       "value": "2026-10-21",
-       "label": "21 October 2026"
+       "value": "2026-10-28",
+       "label": "28 October 2026"
       },
       {
        "text": ", JKM's premium over TTF was above what the cheapest route east needs at the central hire, so the arb east was open, in "
       },
       {
        "field": "weeks_open",
-       "value": 96,
+       "value": 97,
        "format": "count"
       },
       {
@@ -9443,7 +9470,7 @@
       },
       {
        "field": "weeks",
-       "value": 134,
+       "value": 135,
        "format": "count"
       },
       {
@@ -9454,7 +9481,7 @@
       },
       {
        "field": "worst_year",
-       "value": 2026,
+       "value": 2025,
        "format": "year"
       },
       {
@@ -9462,7 +9489,7 @@
       },
       {
        "field": "worst_open",
-       "value": 28,
+       "value": 31,
        "format": "count"
       },
       {
@@ -9470,7 +9497,7 @@
       },
       {
        "field": "worst_weeks",
-       "value": 42,
+       "value": 46,
        "format": "count"
       },
       {
@@ -9478,7 +9505,7 @@
       },
       {
        "field": "worst_ttf_above",
-       "value": 15,
+       "value": 8,
        "format": "count"
       },
       {
@@ -9502,8 +9529,8 @@
       },
       {
        "field": "last",
-       "value": "2026-10-21",
-       "label": "21 October 2026"
+       "value": "2026-10-28",
+       "label": "28 October 2026"
       },
       {
        "text": ", over a shaded band of the breakeven spread S* of the cheapest open route east, from the low to the high hire, with a dashed line at the central hire. Where the line runs above the dashed line the arb east was open. Rings mark the weeks in which, by the futures calendars, the JKM and TTF front months name different delivery months every day, solid dots the weeks in which they differ on some days; lettered marks at the foot are events, and numbered rules mark the breaks listed under the charts."
@@ -9635,7 +9662,7 @@
       },
       {
        "field": "misaligned",
-       "value": 35,
+       "value": 36,
        "format": "count"
       },
       {
@@ -9687,7 +9714,7 @@
       },
       {
        "field": "all_weeks",
-       "value": 134,
+       "value": 135,
        "format": "count"
       },
       {
@@ -9695,7 +9722,7 @@
       },
       {
        "field": "all_open",
-       "value": 71.641791,
+       "value": 71.851852,
        "format": "share_percent"
       },
       {
@@ -9703,7 +9730,7 @@
       },
       {
        "field": "all_s_star",
-       "value": 0.329255,
+       "value": 0.316062,
        "format": "usd_mmbtu",
        "signed": true
       },
@@ -9754,8 +9781,8 @@
       },
       {
        "field": "last",
-       "value": "2026-10-21",
-       "label": "21 October 2026"
+       "value": "2026-10-28",
+       "label": "28 October 2026"
       },
       {
        "text": ", with each charter rate reported as a point, the latest in the accent. A rate below the line is a week the arb east was open at the market's own freight."
@@ -9816,7 +9843,7 @@
       },
       {
        "field": "weeks_with_parts",
-       "value": 134,
+       "value": 135,
        "format": "count"
       },
       {
@@ -9824,7 +9851,7 @@
       },
       {
        "field": "mean_s",
-       "value": 0.329255,
+       "value": 0.316062,
        "format": "usd_mmbtu",
        "signed": true
       },
@@ -9833,7 +9860,7 @@
       },
       {
        "field": "mean_boil_off",
-       "value": 0.251784,
+       "value": 0.254272,
        "format": "usd_mmbtu",
        "signed": true
       },
@@ -9842,7 +9869,7 @@
       },
       {
        "field": "mean_regas",
-       "value": -0.470021,
+       "value": -0.485616,
        "format": "usd_mmbtu",
        "signed": true
       },
@@ -9851,7 +9878,7 @@
       },
       {
        "field": "mean_voyage",
-       "value": 0.547493,
+       "value": 0.547407,
        "format": "usd_mmbtu",
        "signed": true
       },
@@ -9873,8 +9900,8 @@
       },
       {
        "field": "last",
-       "value": "2026-10-21",
-       "label": "21 October 2026"
+       "value": "2026-10-28",
+       "label": "28 October 2026"
       },
       {
        "text": ": the gas the longer voyage burns, a thin line; Europe's DES spread the cargo escapes, a dashed line; and the voyage's extra cost, a dotted line; with S* itself, their sum, in ink."
@@ -9886,7 +9913,7 @@
       }
      ],
      "mixed_weeks": 51,
-     "misaligned_weeks": 35,
+     "misaligned_weeks": 36,
      "routes": [
       {
        "id": "panama",
@@ -9902,7 +9929,7 @@
         },
         {
          "field": "open_weeks",
-         "value": 134,
+         "value": 135,
          "format": "count"
         },
         {
@@ -9910,7 +9937,7 @@
         },
         {
          "field": "covered",
-         "value": 96,
+         "value": 97,
          "format": "count"
         },
         {
@@ -9932,7 +9959,7 @@
         },
         {
          "field": "open_weeks",
-         "value": 134,
+         "value": 135,
          "format": "count"
         },
         {
@@ -9940,7 +9967,7 @@
         },
         {
          "field": "covered",
-         "value": 55,
+         "value": 56,
          "format": "count"
         },
         {
@@ -9968,7 +9995,7 @@
       },
       {
        "field": "gate_high",
-       "value": 26.244767,
+       "value": 27.660384,
        "format": "usd_mmbtu"
       },
       {
@@ -9976,7 +10003,7 @@
       },
       {
        "field": "east_more",
-       "value": 96,
+       "value": 97,
        "format": "count"
       },
       {
@@ -9984,7 +10011,7 @@
       },
       {
        "field": "both",
-       "value": 134,
+       "value": 135,
        "format": "count"
       },
       {
@@ -10005,7 +10032,7 @@
       },
       {
        "field": "observed_weeks",
-       "value": 131,
+       "value": 132,
        "format": "count"
       },
       {
@@ -10013,7 +10040,7 @@
       },
       {
        "field": "weeks",
-       "value": 134,
+       "value": 135,
        "format": "count"
       },
       {
@@ -10042,7 +10069,7 @@
       },
       {
        "field": "flips_zero",
-       "value": 43,
+       "value": 44,
        "format": "count"
       },
       {
@@ -10050,7 +10077,7 @@
       },
       {
        "field": "flips_assumed",
-       "value": 25,
+       "value": 26,
        "format": "count"
       },
       {
@@ -10073,8 +10100,8 @@
       },
       {
        "year": 2026,
-       "open": 28,
-       "count": 42,
+       "open": 29,
+       "count": 43,
        "ttf_above": 15
       }
      ]
@@ -10082,8 +10109,8 @@
     {
      "id": "last_52",
      "label": "The last 52 weeks",
-     "first": "2025-10-29",
-     "last": "2026-10-21",
+     "first": "2025-11-05",
+     "last": "2026-10-28",
      "y": {
       "low": -4.0,
       "high": 6.0,
@@ -10098,28 +10125,24 @@
      },
      "ticks": [
       {
-       "day": "2025-12-01",
-       "label": "Dec 2025"
+       "day": "2026-01-01",
+       "label": "Jan 2026"
       },
       {
-       "day": "2026-02-01",
-       "label": "Feb 2026"
+       "day": "2026-03-01",
+       "label": "Mar 2026"
       },
       {
-       "day": "2026-04-01",
-       "label": "Apr 2026"
+       "day": "2026-05-01",
+       "label": "May 2026"
       },
       {
-       "day": "2026-06-01",
-       "label": "Jun 2026"
+       "day": "2026-07-01",
+       "label": "Jul 2026"
       },
       {
-       "day": "2026-08-01",
-       "label": "Aug 2026"
-      },
-      {
-       "day": "2026-10-01",
-       "label": "Oct 2026"
+       "day": "2026-09-01",
+       "label": "Sep 2026"
       }
      ],
      "heading_segments": [
@@ -10128,16 +10151,16 @@
       },
       {
        "field": "first",
-       "value": "2025-10-29",
-       "label": "29 October 2025"
+       "value": "2025-11-05",
+       "label": "5 November 2025"
       },
       {
        "text": " to the week ending "
       },
       {
        "field": "last",
-       "value": "2026-10-21",
-       "label": "21 October 2026"
+       "value": "2026-10-28",
+       "label": "28 October 2026"
       },
       {
        "text": ", JKM's premium over TTF was above what the cheapest route east needs at the central hire, so the arb east was open, in "
@@ -10171,7 +10194,7 @@
       },
       {
        "field": "worst_open",
-       "value": 28,
+       "value": 29,
        "format": "count"
       },
       {
@@ -10179,7 +10202,7 @@
       },
       {
        "field": "worst_weeks",
-       "value": 42,
+       "value": 43,
        "format": "count"
       },
       {
@@ -10203,16 +10226,16 @@
       },
       {
        "field": "first",
-       "value": "2025-10-29",
-       "label": "29 October 2025"
+       "value": "2025-11-05",
+       "label": "5 November 2025"
       },
       {
        "text": " to "
       },
       {
        "field": "last",
-       "value": "2026-10-21",
-       "label": "21 October 2026"
+       "value": "2026-10-28",
+       "label": "28 October 2026"
       },
       {
        "text": ", over a shaded band of the breakeven spread S* of the cheapest open route east, from the low to the high hire, with a dashed line at the central hire. Where the line runs above the dashed line the arb east was open. Rings mark the weeks in which, by the futures calendars, the JKM and TTF front months name different delivery months every day, solid dots the weeks in which they differ on some days; lettered marks at the foot are events, and numbered rules mark the breaks listed under the charts."
@@ -10412,7 +10435,7 @@
       },
       {
        "field": "all_s_star",
-       "value": 0.246963,
+       "value": 0.211983,
        "format": "usd_mmbtu",
        "signed": true
       },
@@ -10426,7 +10449,7 @@
       },
       {
        "field": "weeks_near",
-       "value": 27,
+       "value": 26,
        "format": "count"
       },
       {
@@ -10455,16 +10478,16 @@
       },
       {
        "field": "first",
-       "value": "2025-10-29",
-       "label": "29 October 2025"
+       "value": "2025-11-05",
+       "label": "5 November 2025"
       },
       {
        "text": " to "
       },
       {
        "field": "last",
-       "value": "2026-10-21",
-       "label": "21 October 2026"
+       "value": "2026-10-28",
+       "label": "28 October 2026"
       },
       {
        "text": ", with each charter rate reported as a point, the latest in the accent. A rate below the line is a week the arb east was open at the market's own freight."
@@ -10519,7 +10542,7 @@
       },
       {
        "field": "mean_s",
-       "value": 0.246963,
+       "value": 0.211983,
        "format": "usd_mmbtu",
        "signed": true
       },
@@ -10528,7 +10551,7 @@
       },
       {
        "field": "mean_boil_off",
-       "value": 0.312155,
+       "value": 0.319985,
        "format": "usd_mmbtu",
        "signed": true
       },
@@ -10537,7 +10560,7 @@
       },
       {
        "field": "mean_regas",
-       "value": -0.604755,
+       "value": -0.647183,
        "format": "usd_mmbtu",
        "signed": true
       },
@@ -10546,7 +10569,7 @@
       },
       {
        "field": "mean_voyage",
-       "value": 0.539563,
+       "value": 0.53918,
        "format": "usd_mmbtu",
        "signed": true
       },
@@ -10560,16 +10583,16 @@
       },
       {
        "field": "first",
-       "value": "2025-10-29",
-       "label": "29 October 2025"
+       "value": "2025-11-05",
+       "label": "5 November 2025"
       },
       {
        "text": " to "
       },
       {
        "field": "last",
-       "value": "2026-10-21",
-       "label": "21 October 2026"
+       "value": "2026-10-28",
+       "label": "28 October 2026"
       },
       {
        "text": ": the gas the longer voyage burns, a thin line; Europe's DES spread the cargo escapes, a dashed line; and the voyage's extra cost, a dotted line; with S* itself, their sum, in ink."
@@ -10635,7 +10658,7 @@
         },
         {
          "field": "covered",
-         "value": 24,
+         "value": 25,
          "format": "count"
         },
         {
@@ -10663,7 +10686,7 @@
       },
       {
        "field": "gate_high",
-       "value": 26.244767,
+       "value": 27.660384,
        "format": "usd_mmbtu"
       },
       {
@@ -10745,7 +10768,7 @@
       },
       {
        "field": "flips_assumed",
-       "value": 3,
+       "value": 4,
        "format": "count"
       },
       {
@@ -10756,14 +10779,14 @@
      "years": [
       {
        "year": 2025,
-       "open": 7,
-       "count": 7,
+       "open": 6,
+       "count": 6,
        "ttf_above": 0
       },
       {
        "year": 2026,
-       "open": 28,
-       "count": 42,
+       "open": 29,
+       "count": 43,
        "ttf_above": 15
       }
      ]
@@ -11033,7 +11056,7 @@
     0.956,
     1.0975,
     -0.114,
-    0.093333
+    0.1675
    ],
    "s_low": [
     -0.444384,
@@ -11165,7 +11188,7 @@
     -0.034305,
     -0.0516,
     0.338772,
-    -0.95661
+    -0.936303
    ],
    "s_central": [
     0.770653,
@@ -11297,7 +11320,7 @@
     0.196998,
     0.179703,
     0.570075,
-    -0.725308
+    -0.705
    ],
    "s_high": [
     6.068311,
@@ -11429,7 +11452,7 @@
     0.848851,
     0.831556,
     1.221928,
-    -0.073454
+    -0.053147
    ],
    "route": [
     "cape",
@@ -13247,8 +13270,8 @@
    },
    {
     "field": "as_of",
-    "value": "2026-10-21",
-    "label": "21 October 2026"
+    "value": "2026-10-28",
+    "label": "28 October 2026"
    },
    {
     "text": "."
@@ -13655,14 +13678,14 @@
  ["2026-08-15","monthly","weekly_mean_wngsr","mean of the month's weekly averages: Supplement: JKM product not named; TTF product not named","mixed",0.55,null,null,"high",161750.0,21.7725,20.675,1.0975,-0.728154,2.785238,"174,000 m3 two-stroke",18.273097,"panama",0.25518,0.831556,15.325253,false,true,0.831556,0.38845,-0.741835,1.184942,209177.806105,0.25518,false,2.309495,0.886395,-0.759372,2.182472,67027.9374,-1.136083,true,2.519613,1.002081,-0.763447,2.280979,63437.409103,-1.325926],
  ["2026-08-15","monthly","weekly_mean_wngsr","mean of the month's weekly averages: Supplement: JKM product not named; TTF product not named","mixed",0.55,null,null,"low",4250.0,21.7725,20.675,1.0975,-0.728154,2.785238,"174,000 m3 two-stroke",19.328213,"panama",1.10259,-0.0516,17.227779,false,true,-0.0516,0.38845,-0.741835,0.301786,209177.806105,1.10259,false,0.294239,0.886395,-0.759372,0.167216,67027.9374,0.752949,true,0.241341,1.002081,-0.763447,0.002707,63437.409103,0.798251],
  ["2026-08-15","monthly","weekly_mean_wngsr","mean of the month's weekly averages: Supplement: JKM product not named; TTF product not named","mixed",0.55,null,null,"reported",11750.0,21.7725,20.675,1.0975,-0.728154,2.785238,"174,000 m3 two-stroke",19.277969,"panama",1.062237,-0.009545,17.137183,false,true,-0.009545,0.38845,-0.741835,0.343841,209177.806105,1.062237,false,0.390204,0.886395,-0.759372,0.263181,67027.9374,0.662995,true,0.34983,1.002081,-0.763447,0.111196,63437.409103,0.6971],
- ["2026-09-15","monthly","weekly_mean_wngsr","mean of the month's weekly averages: Supplement: JKM product not named; TTF product not named","mixed",0.55,null,null,"central",45500.0,25.074,25.188,-0.114,-0.428717,2.95,"174,000 m3 two-stroke",23.756077,"panama",-0.656387,0.570075,20.363577,false,true,0.570075,0.473241,-0.436772,0.533605,-76496.317946,-0.656387,false,1.327712,1.07988,-0.447097,0.694929,-67175.312731,-1.351411,true,1.371738,1.220818,-0.449496,0.600417,-57211.087021,-1.385248],
- ["2026-09-15","monthly","weekly_mean_wngsr","mean of the month's weekly averages: Supplement: JKM product not named; TTF product not named","mixed",0.55,null,null,"high",161750.0,25.074,25.188,-0.114,-0.428717,2.95,"174,000 m3 two-stroke",22.977301,"panama",-1.281857,1.221928,19.584801,false,true,1.221928,0.473241,-0.436772,1.185458,-76496.317946,-1.281857,false,2.815162,1.07988,-0.447097,2.18238,-67175.312731,-2.745697,true,3.053319,1.220818,-0.449496,2.281998,-57211.087021,-2.953092],
- ["2026-09-15","monthly","weekly_mean_wngsr","mean of the month's weekly averages: Supplement: JKM product not named; TTF product not named","mixed",0.55,null,null,"low",4250.0,25.074,25.188,-0.114,-0.428717,2.95,"174,000 m3 two-stroke",24.032417,"panama",-0.434446,0.338772,20.639917,false,true,0.338772,0.473241,-0.436772,0.302303,-76496.317946,-0.434446,false,0.799907,1.07988,-0.447097,0.167124,-67175.312731,-0.856665,true,0.775048,1.220818,-0.449496,0.003726,-57211.087021,-0.828916],
- ["2026-09-15","monthly","weekly_mean_wngsr","mean of the month's weekly averages: Supplement: JKM product not named; TTF product not named","mixed",0.55,null,null,"reported",25250.0,25.074,25.188,-0.114,-0.428717,2.95,"174,000 m3 two-stroke",23.891735,"panama",-0.547434,0.456526,20.499235,false,true,0.456526,0.473241,-0.436772,0.420057,-76496.317946,-0.547434,false,1.068607,1.07988,-0.447097,0.435825,-67175.312731,-1.108536,true,1.078817,1.220818,-0.449496,0.307496,-57211.087021,-1.112139],
- ["2026-10-15","monthly","weekly_mean_wngsr","mean of the month's weekly averages: Supplement: JKM product not named; TTF product not named","mixed",0.733333,null,null,"central",45500.0,27.05,26.956667,0.093333,-1.734968,3.040526,"174,000 m3 two-stroke",24.209248,"panama",0.785507,-0.725308,21.498149,false,true,-0.725308,0.506472,-1.767565,0.535786,191494.546291,0.785507,false,0.043955,1.155708,-1.809351,0.697598,49359.132657,0.046286,true,0.090805,1.306542,-1.819059,0.603322,45674.764504,0.002357],
- ["2026-10-15","monthly","weekly_mean_wngsr","mean of the month's weekly averages: Supplement: JKM product not named; TTF product not named","mixed",0.733333,null,null,"high",161750.0,27.05,26.956667,0.093333,-1.734968,3.040526,"174,000 m3 two-stroke",23.430471,"panama",0.160037,-0.073454,20.093903,false,true,-0.073454,0.506472,-1.767565,1.187639,191494.546291,0.160037,false,1.531405,1.155708,-1.809351,2.185049,49359.132657,-1.348,true,1.772387,1.306542,-1.819059,2.284904,45674.764504,-1.565488],
- ["2026-10-15","monthly","weekly_mean_wngsr","mean of the month's weekly averages: Supplement: JKM product not named; TTF product not named","mixed",0.733333,null,null,"low",4250.0,27.05,26.956667,0.093333,-1.734968,3.040526,"174,000 m3 two-stroke",24.485587,"panama",1.007448,-0.95661,21.99643,false,true,-0.95661,0.506472,-1.767565,0.304483,191494.546291,1.007448,false,-0.48385,1.155708,-1.809351,0.169793,49359.132657,0.541032,true,-0.505885,1.306542,-1.819059,0.006632,45674.764504,0.558689],
- ["2026-10-15","monthly","weekly_mean_wngsr","mean of the month's weekly averages: Supplement: JKM product not named; TTF product not named","mixed",0.733333,null,null,"reported",31500.0,27.05,26.956667,0.093333,-1.734968,3.040526,"174,000 m3 two-stroke",24.303036,"panama",0.860832,-0.80381,21.667262,false,true,-0.80381,0.506472,-1.767565,0.457283,191494.546291,0.860832,false,-0.135179,1.155708,-1.809351,0.518464,49359.132657,0.2142,true,-0.111708,1.306542,-1.819059,0.400809,45674.764504,0.191173],
+ ["2026-09-15","monthly","weekly_mean_wngsr","mean of the month's weekly averages: Supplement: JKM product not named; TTF product not named","mixed",0.55,null,null,"central",45500.0,25.074,25.188,-0.114,-0.428717,2.95,"174,000 m3 two-stroke",23.756077,"panama",-0.656387,0.570075,20.363577,false,true,0.570075,0.473241,-0.436772,0.533605,-76496.317946,-0.656387,false,1.327663,1.07988,-0.447097,0.69488,-67171.487229,-1.351365,true,1.371738,1.220818,-0.449496,0.600417,-57211.087021,-1.385248],
+ ["2026-09-15","monthly","weekly_mean_wngsr","mean of the month's weekly averages: Supplement: JKM product not named; TTF product not named","mixed",0.55,null,null,"high",161750.0,25.074,25.188,-0.114,-0.428717,2.95,"174,000 m3 two-stroke",22.977301,"panama",-1.281857,1.221928,19.584801,false,true,1.221928,0.473241,-0.436772,1.185458,-76496.317946,-1.281857,false,2.815113,1.07988,-0.447097,2.182331,-67171.487229,-2.745651,true,3.053319,1.220818,-0.449496,2.281998,-57211.087021,-2.953092],
+ ["2026-09-15","monthly","weekly_mean_wngsr","mean of the month's weekly averages: Supplement: JKM product not named; TTF product not named","mixed",0.55,null,null,"low",4250.0,25.074,25.188,-0.114,-0.428717,2.95,"174,000 m3 two-stroke",24.032417,"panama",-0.434446,0.338772,20.639917,false,true,0.338772,0.473241,-0.436772,0.302303,-76496.317946,-0.434446,false,0.799858,1.07988,-0.447097,0.167075,-67171.487229,-0.856619,true,0.775048,1.220818,-0.449496,0.003726,-57211.087021,-0.828916],
+ ["2026-09-15","monthly","weekly_mean_wngsr","mean of the month's weekly averages: Supplement: JKM product not named; TTF product not named","mixed",0.55,null,null,"reported",25250.0,25.074,25.188,-0.114,-0.428717,2.95,"174,000 m3 two-stroke",23.891735,"panama",-0.547434,0.456526,20.499235,false,true,0.456526,0.473241,-0.436772,0.420057,-76496.317946,-0.547434,false,1.068558,1.07988,-0.447097,0.435776,-67171.487229,-1.10849,true,1.078817,1.220818,-0.449496,0.307496,-57211.087021,-1.112139],
+ ["2026-10-15","monthly","weekly_mean_wngsr","mean of the month's weekly averages: Supplement: JKM product not named; TTF product not named","mixed",0.55,null,null,"central",45500.0,28.205,28.0375,0.1675,-1.734968,3.040526,"174,000 m3 two-stroke",25.26582,"panama",0.837186,-0.705,22.606401,false,true,-0.705,0.526779,-1.767565,0.535786,201099.738976,0.837186,false,0.090186,1.202046,-1.809351,0.697491,51542.350322,0.072471,true,0.143191,1.358928,-1.819059,0.603322,47180.486164,0.022664],
+ ["2026-10-15","monthly","weekly_mean_wngsr","mean of the month's weekly averages: Supplement: JKM product not named; TTF product not named","mixed",0.55,null,null,"high",161750.0,28.205,28.0375,0.1675,-1.734968,3.040526,"174,000 m3 two-stroke",24.487044,"panama",0.211717,-0.053147,21.202155,false,true,-0.053147,0.526779,-1.767565,1.187639,201099.738976,0.211717,false,1.577637,1.202046,-1.809351,2.184942,51542.350322,-1.321814,true,1.824773,1.358928,-1.819059,2.284904,47180.486164,-1.54518],
+ ["2026-10-15","monthly","weekly_mean_wngsr","mean of the month's weekly averages: Supplement: JKM product not named; TTF product not named","mixed",0.55,null,null,"low",4250.0,28.205,28.0375,0.1675,-1.734968,3.040526,"174,000 m3 two-stroke",25.54216,"panama",1.059127,-0.936303,23.104682,false,true,-0.936303,0.526779,-1.767565,0.304483,201099.738976,1.059127,false,-0.437619,1.202046,-1.809351,0.169686,51542.350322,0.567218,true,-0.453499,1.358928,-1.819059,0.006632,47180.486164,0.578996],
+ ["2026-10-15","monthly","weekly_mean_wngsr","mean of the month's weekly averages: Supplement: JKM product not named; TTF product not named","mixed",0.55,null,null,"reported",31500.0,28.205,28.0375,0.1675,-1.734968,3.040526,"174,000 m3 two-stroke",25.359608,"panama",0.912512,-0.783503,22.775514,false,true,-0.783503,0.526779,-1.767565,0.457283,201099.738976,0.912512,false,-0.088947,1.202046,-1.809351,0.518358,51542.350322,0.240385,true,-0.059322,1.358928,-1.819059,0.400809,47180.486164,0.21148],
  ["2021-09-15","weekly","ngwu","East Asia swap, delivery month named; TTF spot, product not named","aligned",1.0,"2021-10","2021-10","central",75500.0,18.69,17.96,0.73,-0.692292,5.161429,"160,000 m3 TFDE",16.172851,"panama",0.319113,0.394932,10.556321,false,true,0.394932,0.399964,-0.70771,0.702677,130038.379544,0.319113,true,1.326632,0.916686,-0.727627,1.137573,33128.288719,-0.552668,true,1.504752,1.037386,-0.73228,1.199647,26880.203063,-0.713103],
  ["2021-09-15","weekly","ngwu","East Asia swap, delivery month named; TTF spot, product not named","aligned",1.0,"2021-10","2021-10","high",447000.0,18.69,17.96,0.73,-0.692292,5.161429,"160,000 m3 TFDE",13.466353,"panama",-1.854596,2.677322,7.53071,false,true,2.677322,0.399964,-0.70771,2.985067,130038.379544,-1.854596,true,6.557686,0.916686,-0.727627,6.368627,33128.288719,-5.39826,true,7.424574,1.037386,-0.73228,7.119468,26880.203063,-6.16187],
  ["2021-09-15","weekly","ngwu","East Asia swap, delivery month named; TTF spot, product not named","aligned",1.0,"2021-10","2021-10","low",-750.0,18.69,17.96,0.73,-0.692292,5.161429,"160,000 m3 TFDE",16.728357,"panama",0.765265,-0.073526,11.557979,false,true,-0.073526,0.399964,-0.70771,0.234219,130038.379544,0.765265,true,0.252963,0.916686,-0.727627,0.063904,33128.288719,0.441885,true,0.289715,1.037386,-0.73228,-0.015391,26880.203063,0.40525],
@@ -14524,36 +14547,39 @@
  ["2026-08-26","weekly","wngsr","Supplement: JKM product not named; TTF product not named","misaligned",0.0,"2026-10","2026-09","high",161750.0,23.07,22.7,0.37,-1.294737,2.785238,"174,000 m3 two-stroke",19.698404,"panama",0.074813,0.292031,16.570193,false,true,0.292031,0.426496,-1.319063,1.184598,175654.818448,0.074813,false,1.80551,0.973213,-1.350246,2.182543,49559.400913,-1.345598,true,2.023393,1.100229,-1.357491,2.280655,47448.678194,-1.541563],
  ["2026-08-26","weekly","wngsr","Supplement: JKM product not named; TTF product not named","misaligned",0.0,"2026-10","2026-09","low",4250.0,23.07,22.7,0.37,-1.294737,2.785238,"174,000 m3 two-stroke",20.75352,"panama",0.922224,-0.591125,18.47272,false,true,-0.591125,0.426496,-1.319063,0.301442,175654.818448,0.922224,false,-0.209746,0.973213,-1.350246,0.167287,49559.400913,0.543434,true,-0.254878,1.100229,-1.357491,0.002384,47448.678194,0.582614],
  ["2026-08-26","weekly","wngsr","Supplement: JKM product not named; TTF product not named","misaligned",0.0,"2026-10","2026-09","reported",11750.0,23.07,22.7,0.37,-1.294737,2.785238,"174,000 m3 two-stroke",20.703276,"panama",0.881871,-0.54907,18.382123,false,true,-0.54907,0.426496,-1.319063,0.343497,175654.818448,0.881871,false,-0.113782,0.973213,-1.350246,0.263252,49559.400913,0.45348,true,-0.146389,1.100229,-1.357491,0.110873,47448.678194,0.481462],
- ["2026-09-02","weekly","wngsr","Supplement: JKM product not named; TTF product not named","mixed",0.75,"2026-10","2026-10","central",45500.0,23.33,23.88,-0.55,-1.350554,2.95,"174,000 m3 two-stroke",21.57603,"panama",-0.149775,-0.393907,18.18353,false,true,-0.393907,0.448666,-1.375929,0.533356,17662.711155,-0.149775,false,0.310743,1.023803,-1.408457,0.695397,-21770.394465,-0.806831,true,0.341584,1.157421,-1.416013,0.600176,-16136.400629,-0.83128],
- ["2026-09-02","weekly","wngsr","Supplement: JKM product not named; TTF product not named","mixed",0.75,"2026-10","2026-10","high",161750.0,23.33,23.88,-0.55,-1.350554,2.95,"174,000 m3 two-stroke",20.797254,"panama",-0.775245,0.257946,17.404754,false,true,0.257946,0.448666,-1.375929,1.185209,17662.711155,-0.775245,false,1.798194,1.023803,-1.408457,2.182848,-21770.394465,-2.201117,true,2.023165,1.157421,-1.416013,2.281757,-16136.400629,-2.399125],
- ["2026-09-02","weekly","wngsr","Supplement: JKM product not named; TTF product not named","mixed",0.75,"2026-10","2026-10","low",4250.0,23.33,23.88,-0.55,-1.350554,2.95,"174,000 m3 two-stroke",21.85237,"panama",0.072166,-0.62521,18.532035,false,true,-0.62521,0.448666,-1.375929,0.302053,17662.711155,0.072166,false,-0.217062,1.023803,-1.408457,0.167592,-21770.394465,-0.312085,true,-0.255106,1.157421,-1.416013,0.003486,-16136.400629,-0.274948],
- ["2026-09-02","weekly","wngsr","Supplement: JKM product not named; TTF product not named","mixed",0.75,"2026-10","2026-10","reported",11750.0,23.33,23.88,-0.55,-1.350554,2.95,"174,000 m3 two-stroke",21.802126,"panama",0.031813,-0.583155,18.441439,false,true,-0.583155,0.448666,-1.375929,0.344108,17662.711155,0.031813,false,-0.121097,1.023803,-1.408457,0.263557,-21770.394465,-0.402039,true,-0.146617,1.157421,-1.416013,0.111975,-16136.400629,-0.376099],
- ["2026-09-09","weekly","wngsr","Supplement: JKM product not named; TTF product not named","aligned",1.0,"2026-10","2026-10","central",45500.0,24.3,25.47,-1.17,-1.186641,2.95,"174,000 m3 two-stroke",23.290413,"panama",-0.933396,-0.197232,19.897913,false,true,-0.197232,0.47854,-1.208936,0.533164,-127981.252601,-0.933396,false,0.549344,1.09197,-1.237515,0.694889,-88873.338013,-1.611654,true,0.590293,1.234486,-1.244155,0.599963,-76191.466869,-1.641233],
- ["2026-09-09","weekly","wngsr","Supplement: JKM product not named; TTF product not named","aligned",1.0,"2026-10","2026-10","high",161750.0,24.3,25.47,-1.17,-1.186641,2.95,"174,000 m3 two-stroke",22.511637,"panama",-1.558865,0.454621,19.119137,false,true,0.454621,0.47854,-1.208936,1.185017,-127981.252601,-1.558865,false,2.036795,1.09197,-1.237515,2.18234,-88873.338013,-3.00594,true,2.271875,1.234486,-1.244155,2.281544,-76191.466869,-3.209078],
- ["2026-09-09","weekly","wngsr","Supplement: JKM product not named; TTF product not named","aligned",1.0,"2026-10","2026-10","low",4250.0,24.3,25.47,-1.17,-1.186641,2.95,"174,000 m3 two-stroke",23.566753,"panama",-0.711455,-0.428535,20.174253,false,true,-0.428535,0.47854,-1.208936,0.301861,-127981.252601,-0.711455,false,0.021539,1.09197,-1.237515,0.167084,-88873.338013,-1.116908,true,-0.006397,1.234486,-1.244155,0.003272,-76191.466869,-1.084901],
- ["2026-09-09","weekly","wngsr","Supplement: JKM product not named; TTF product not named","aligned",1.0,"2026-10","2026-10","reported",25250.0,24.3,25.47,-1.17,-1.186641,2.95,"174,000 m3 two-stroke",23.426071,"panama",-0.824443,-0.31078,20.033571,false,true,-0.31078,0.47854,-1.208936,0.419616,-127981.252601,-0.824443,false,0.29024,1.09197,-1.237515,0.435785,-88873.338013,-1.368779,true,0.297373,1.234486,-1.244155,0.307042,-76191.466869,-1.368125],
- ["2026-09-16","weekly","wngsr","Supplement: JKM product not named; TTF product not named","mixed",0.8,"2026-11","2026-10","central",45500.0,25.44,27.26,-1.82,-1.181683,2.95,"174,000 m3 two-stroke",25.04555,"panama",-1.594627,-0.158108,21.65305,false,true,-0.158108,0.512171,-1.203885,0.533605,-250877.962682,-1.594627,false,0.631271,1.168713,-1.232345,0.694903,-146076.262161,-2.297738,true,0.682672,1.321244,-1.238957,0.600385,-127513.109081,-2.3334],
- ["2026-09-16","weekly","wngsr","Supplement: JKM product not named; TTF product not named","mixed",0.8,"2026-11","2026-10","high",161750.0,25.44,27.26,-1.82,-1.181683,2.95,"174,000 m3 two-stroke",24.266774,"panama",-2.220097,0.493745,20.874274,false,true,0.493745,0.512171,-1.203885,1.185459,-250877.962682,-2.220097,false,2.118722,1.168713,-1.232345,2.182354,-146076.262161,-3.692023,true,2.364253,1.321244,-1.238957,2.281966,-127513.109081,-3.901244],
- ["2026-09-16","weekly","wngsr","Supplement: JKM product not named; TTF product not named","mixed",0.8,"2026-11","2026-10","low",4250.0,25.44,27.26,-1.82,-1.181683,2.95,"174,000 m3 two-stroke",25.32189,"panama",-1.372686,-0.389411,21.92939,false,true,-0.389411,0.512171,-1.203885,0.302303,-250877.962682,-1.372686,false,0.103466,1.168713,-1.232345,0.167098,-146076.262161,-1.802991,true,0.085982,1.321244,-1.238957,0.003695,-127513.109081,-1.777068],
- ["2026-09-16","weekly","wngsr","Supplement: JKM product not named; TTF product not named","mixed",0.8,"2026-11","2026-10","reported",25250.0,25.44,27.26,-1.82,-1.181683,2.95,"174,000 m3 two-stroke",25.181207,"panama",-1.485675,-0.271657,21.788707,false,true,-0.271657,0.512171,-1.203885,0.420057,-250877.962682,-1.485675,false,0.372167,1.168713,-1.232345,0.435799,-146076.262161,-2.054862,true,0.389751,1.321244,-1.238957,0.307464,-127513.109081,-2.060291],
- ["2026-09-23","weekly","wngsr","Supplement: JKM product not named; TTF product not named","misaligned",0.0,"2026-11","2026-10","central",45500.0,26.41,25.15,1.26,0.982675,2.95,"174,000 m3 two-stroke",25.099074,"panama",-0.717989,2.008275,21.706574,false,true,2.008275,0.472527,1.001138,0.53461,-87945.612977,-0.717989,false,2.799254,1.078251,1.024805,0.696198,-74798.613206,-1.442844,true,2.851096,1.218976,1.030303,0.601816,-64494.612028,-1.483479],
- ["2026-09-23","weekly","wngsr","Supplement: JKM product not named; TTF product not named","misaligned",0.0,"2026-11","2026-10","high",161750.0,26.41,25.15,1.26,0.982675,2.95,"174,000 m3 two-stroke",24.320298,"panama",-1.343458,2.660128,20.927798,false,true,2.660128,0.472527,1.001138,1.186463,-87945.612977,-1.343458,false,4.286705,1.078251,1.024805,2.183649,-74798.613206,-2.837129,true,4.532677,1.218976,1.030303,2.283398,-64494.612028,-3.051324],
- ["2026-09-23","weekly","wngsr","Supplement: JKM product not named; TTF product not named","misaligned",0.0,"2026-11","2026-10","low",4250.0,26.41,25.15,1.26,0.982675,2.95,"174,000 m3 two-stroke",25.375414,"panama",-0.496048,1.776972,21.982914,false,true,1.776972,0.472527,1.001138,0.303307,-87945.612977,-0.496048,false,2.271449,1.078251,1.024805,0.168393,-74798.613206,-0.948098,true,2.254406,1.218976,1.030303,0.005126,-64494.612028,-0.927147],
- ["2026-09-23","weekly","wngsr","Supplement: JKM product not named; TTF product not named","misaligned",0.0,"2026-11","2026-10","reported",25250.0,26.41,25.15,1.26,0.982675,2.95,"174,000 m3 two-stroke",25.234732,"panama",-0.609036,1.894726,21.842232,false,true,1.894726,0.472527,1.001138,0.421061,-87945.612977,-0.609036,false,2.54015,1.078251,1.024805,0.437094,-74798.613206,-1.199968,true,2.558175,1.218976,1.030303,0.308896,-64494.612028,-1.210371],
- ["2026-09-30","weekly","wngsr","Supplement: JKM product not named; TTF product not named","mixed",0.2,"2026-11","2026-11","central",45500.0,25.89,24.18,1.71,0.155405,2.95,"174,000 m3 two-stroke",23.342352,"panama",0.539711,1.147523,20.489563,false,true,1.147523,0.454303,0.158325,0.534895,145810.92487,0.539711,false,1.89548,1.036664,0.162068,0.696748,31003.988828,-0.173863,true,1.937057,1.171962,0.162938,0.602158,29803.241103,-0.2117],
- ["2026-09-30","weekly","wngsr","Supplement: JKM product not named; TTF product not named","mixed",0.2,"2026-11","2026-11","high",161750.0,25.89,24.18,1.71,0.155405,2.95,"174,000 m3 two-stroke",22.563576,"panama",-0.085758,1.799376,19.171076,false,true,1.799376,0.454303,0.158325,1.186748,145810.92487,-0.085758,false,3.382931,1.036664,0.162068,2.184199,31003.988828,-1.568149,true,3.618638,1.171962,0.162938,2.283739,29803.241103,-1.779544],
- ["2026-09-30","weekly","wngsr","Supplement: JKM product not named; TTF product not named","mixed",0.2,"2026-11","2026-11","low",4250.0,25.89,24.18,1.71,0.155405,2.95,"174,000 m3 two-stroke",23.618692,"panama",0.761652,0.91622,20.987844,false,true,0.91622,0.454303,0.158325,0.303592,145810.92487,0.761652,false,1.367675,1.036664,0.162068,0.168943,31003.988828,0.320883,true,1.340367,1.171962,0.162938,0.005467,29803.241103,0.344632],
- ["2026-09-30","weekly","wngsr","Supplement: JKM product not named; TTF product not named","mixed",0.2,"2026-11","2026-11","reported",31500.0,25.89,24.18,1.71,0.155405,2.95,"174,000 m3 two-stroke",23.43614,"panama",0.615037,1.06902,20.658677,false,true,1.06902,0.454303,0.158325,0.456392,145810.92487,0.615037,false,1.716347,1.036664,0.162068,0.517614,31003.988828,-0.005949,true,1.734544,1.171962,0.162938,0.399645,29803.241103,-0.022884],
- ["2026-10-07","weekly","wngsr","Supplement: JKM product not named; TTF product not named","aligned",1.0,"2026-11","2026-11","central",45500.0,25.79,24.78,1.01,-1.174848,3.040526,"174,000 m3 two-stroke",22.629085,"panama",1.156691,-0.195482,20.289171,false,true,-0.195482,0.465576,-1.196922,0.535864,260482.982932,1.156691,false,0.535024,1.062388,-1.225217,0.697853,82621.205262,0.445226,true,0.572637,1.201043,-1.231791,0.603386,75735.470653,0.407781],
- ["2026-10-07","weekly","wngsr","Supplement: JKM product not named; TTF product not named","aligned",1.0,"2026-11","2026-11","high",161750.0,25.79,24.78,1.01,-1.174848,3.040526,"174,000 m3 two-stroke",21.850309,"panama",0.531221,0.456371,18.884925,false,true,0.456371,0.465576,-1.196922,1.187717,260482.982932,0.531221,false,2.022475,1.062388,-1.225217,2.185304,82621.205262,-0.949059,true,2.254219,1.201043,-1.231791,2.284967,75735.470653,-1.160064],
- ["2026-10-07","weekly","wngsr","Supplement: JKM product not named; TTF product not named","aligned",1.0,"2026-11","2026-11","low",4250.0,25.79,24.78,1.01,-1.174848,3.040526,"174,000 m3 two-stroke",22.905425,"panama",1.378632,-0.426785,20.787451,false,true,-0.426785,0.465576,-1.196922,0.304561,260482.982932,1.378632,false,0.007219,1.062388,-1.225217,0.170048,82621.205262,0.939973,true,-0.024053,1.201043,-1.231791,0.006696,75735.470653,0.964113],
- ["2026-10-07","weekly","wngsr","Supplement: JKM product not named; TTF product not named","aligned",1.0,"2026-11","2026-11","reported",31500.0,25.79,24.78,1.01,-1.174848,3.040526,"174,000 m3 two-stroke",22.722873,"panama",1.232016,-0.273985,20.458284,false,true,-0.273985,0.465576,-1.196922,0.457361,260482.982932,1.232016,false,0.35589,1.062388,-1.225217,0.51872,82621.205262,0.61314,true,0.370124,1.201043,-1.231791,0.400873,75735.470653,0.596597],
- ["2026-10-14","weekly","wngsr","Supplement: JKM product not named; TTF product not named","aligned",1.0,"2026-11","2026-11","central",45500.0,26.14,27.48,-1.34,-2.073708,3.040526,"174,000 m3 two-stroke",24.390115,"panama",-0.268505,-1.060169,20.893509,false,true,-1.060169,0.516304,-2.112669,0.536196,-4404.386345,-0.268505,false,-0.286465,1.178145,-2.162613,0.698004,-36837.836568,-0.987548,true,-0.238582,1.331907,-2.174217,0.603728,-30642.519486,-1.026922],
- ["2026-10-14","weekly","wngsr","Supplement: JKM product not named; TTF product not named","aligned",1.0,"2026-11","2026-11","high",161750.0,26.14,27.48,-1.34,-2.073708,3.040526,"174,000 m3 two-stroke",23.611339,"panama",-0.893974,-0.408316,20.114733,false,true,-0.408316,0.516304,-2.112669,1.188049,-4404.386345,-0.893974,false,1.200986,1.178145,-2.162613,2.185455,-36837.836568,-2.381833,true,1.442999,1.331907,-2.174217,2.285309,-30642.519486,-2.594767],
- ["2026-10-14","weekly","wngsr","Supplement: JKM product not named; TTF product not named","aligned",1.0,"2026-11","2026-11","low",4250.0,26.14,27.48,-1.34,-2.073708,3.040526,"174,000 m3 two-stroke",24.666455,"panama",-0.046564,-1.291472,21.169849,false,true,-1.291472,0.516304,-2.112669,0.304893,-4404.386345,-0.046564,false,-0.81427,1.178145,-2.162613,0.170199,-36837.836568,-0.492802,true,-0.835272,1.331907,-2.174217,0.007038,-30642.519486,-0.47059],
- ["2026-10-14","weekly","wngsr","Supplement: JKM product not named; TTF product not named","aligned",1.0,"2026-11","2026-11","reported",31500.0,26.14,27.48,-1.34,-2.073708,3.040526,"174,000 m3 two-stroke",24.483903,"panama",-0.193179,-1.138672,20.987298,false,true,-1.138672,0.516304,-2.112669,0.457693,-4404.386345,-0.193179,false,-0.465599,1.178145,-2.162613,0.51887,-36837.836568,-0.819634,true,-0.441095,1.331907,-2.174217,0.401215,-30642.519486,-0.838106],
- ["2026-10-21","weekly","wngsr","Supplement: JKM product not named; TTF product not named","mixed",0.2,"2026-12","2026-11","central",45500.0,29.22,28.61,0.61,-1.305979,3.040526,"174,000 m3 two-stroke",26.244767,"panama",0.832181,-0.257284,23.580343,false,true,-0.257284,0.537535,-1.330517,0.535698,200169.390629,0.832181,false,0.562115,1.226591,-1.36197,0.697494,49242.421895,0.044886,true,0.620613,1.386676,-1.369278,0.603215,44766.292187,-0.009895],
- ["2026-10-21","weekly","wngsr","Supplement: JKM product not named; TTF product not named","mixed",0.2,"2026-12","2026-11","high",161750.0,29.22,28.61,0.61,-1.305979,3.040526,"174,000 m3 two-stroke",25.465991,"panama",0.206711,0.394569,22.176097,false,true,0.394569,0.537535,-1.330517,1.187551,200169.390629,0.206711,false,2.049565,1.226591,-1.36197,2.184945,49242.421895,-1.349399,true,2.302195,1.386676,-1.369278,2.284796,44766.292187,-1.57774],
- ["2026-10-21","weekly","wngsr","Supplement: JKM product not named; TTF product not named","mixed",0.2,"2026-12","2026-11","low",4250.0,29.22,28.61,0.61,-1.305979,3.040526,"174,000 m3 two-stroke",26.521107,"panama",1.054122,-0.488586,24.078624,false,true,-0.488586,0.537535,-1.330517,0.304395,200169.390629,1.054122,false,0.03431,1.226591,-1.36197,0.169689,49242.421895,0.539633,true,0.023923,1.386676,-1.369278,0.006525,44766.292187,0.546437]
+ ["2026-09-02","weekly","wngsr","Supplement: JKM product not named; TTF product not named","mixed",0.75,"2026-10","2026-10","central",45500.0,23.33,23.88,-0.55,-1.350554,2.95,"174,000 m3 two-stroke",21.57603,"panama",-0.149775,-0.393907,18.18353,false,true,-0.393907,0.448666,-1.375929,0.533356,17662.711155,-0.149775,false,0.310694,1.023803,-1.408457,0.695348,-21766.568964,-0.806785,true,0.341584,1.157421,-1.416013,0.600176,-16136.400629,-0.83128],
+ ["2026-09-02","weekly","wngsr","Supplement: JKM product not named; TTF product not named","mixed",0.75,"2026-10","2026-10","high",161750.0,23.33,23.88,-0.55,-1.350554,2.95,"174,000 m3 two-stroke",20.797254,"panama",-0.775245,0.257946,17.404754,false,true,0.257946,0.448666,-1.375929,1.185209,17662.711155,-0.775245,false,1.798145,1.023803,-1.408457,2.182799,-21766.568964,-2.201071,true,2.023165,1.157421,-1.416013,2.281757,-16136.400629,-2.399125],
+ ["2026-09-02","weekly","wngsr","Supplement: JKM product not named; TTF product not named","mixed",0.75,"2026-10","2026-10","low",4250.0,23.33,23.88,-0.55,-1.350554,2.95,"174,000 m3 two-stroke",21.85237,"panama",0.072166,-0.62521,18.532035,false,true,-0.62521,0.448666,-1.375929,0.302053,17662.711155,0.072166,false,-0.217111,1.023803,-1.408457,0.167543,-21766.568964,-0.312039,true,-0.255106,1.157421,-1.416013,0.003486,-16136.400629,-0.274948],
+ ["2026-09-02","weekly","wngsr","Supplement: JKM product not named; TTF product not named","mixed",0.75,"2026-10","2026-10","reported",11750.0,23.33,23.88,-0.55,-1.350554,2.95,"174,000 m3 two-stroke",21.802126,"panama",0.031813,-0.583155,18.441439,false,true,-0.583155,0.448666,-1.375929,0.344108,17662.711155,0.031813,false,-0.121146,1.023803,-1.408457,0.263508,-21766.568964,-0.401993,true,-0.146617,1.157421,-1.416013,0.111975,-16136.400629,-0.376099],
+ ["2026-09-09","weekly","wngsr","Supplement: JKM product not named; TTF product not named","aligned",1.0,"2026-10","2026-10","central",45500.0,24.3,25.47,-1.17,-1.186641,2.95,"174,000 m3 two-stroke",23.290413,"panama",-0.933396,-0.197232,19.897913,false,true,-0.197232,0.47854,-1.208936,0.533164,-127981.252601,-0.933396,false,0.549295,1.09197,-1.237515,0.69484,-88869.512511,-1.611608,true,0.590293,1.234486,-1.244155,0.599963,-76191.466869,-1.641233],
+ ["2026-09-09","weekly","wngsr","Supplement: JKM product not named; TTF product not named","aligned",1.0,"2026-10","2026-10","high",161750.0,24.3,25.47,-1.17,-1.186641,2.95,"174,000 m3 two-stroke",22.511637,"panama",-1.558865,0.454621,19.119137,false,true,0.454621,0.47854,-1.208936,1.185017,-127981.252601,-1.558865,false,2.036746,1.09197,-1.237515,2.182291,-88869.512511,-3.005894,true,2.271875,1.234486,-1.244155,2.281544,-76191.466869,-3.209078],
+ ["2026-09-09","weekly","wngsr","Supplement: JKM product not named; TTF product not named","aligned",1.0,"2026-10","2026-10","low",4250.0,24.3,25.47,-1.17,-1.186641,2.95,"174,000 m3 two-stroke",23.566753,"panama",-0.711455,-0.428535,20.174253,false,true,-0.428535,0.47854,-1.208936,0.301861,-127981.252601,-0.711455,false,0.02149,1.09197,-1.237515,0.167035,-88869.512511,-1.116862,true,-0.006397,1.234486,-1.244155,0.003272,-76191.466869,-1.084901],
+ ["2026-09-09","weekly","wngsr","Supplement: JKM product not named; TTF product not named","aligned",1.0,"2026-10","2026-10","reported",25250.0,24.3,25.47,-1.17,-1.186641,2.95,"174,000 m3 two-stroke",23.426071,"panama",-0.824443,-0.31078,20.033571,false,true,-0.31078,0.47854,-1.208936,0.419616,-127981.252601,-0.824443,false,0.290191,1.09197,-1.237515,0.435736,-88869.512511,-1.368733,true,0.297373,1.234486,-1.244155,0.307042,-76191.466869,-1.368125],
+ ["2026-09-16","weekly","wngsr","Supplement: JKM product not named; TTF product not named","mixed",0.8,"2026-11","2026-10","central",45500.0,25.44,27.26,-1.82,-1.181683,2.95,"174,000 m3 two-stroke",25.04555,"panama",-1.594627,-0.158108,21.65305,false,true,-0.158108,0.512171,-1.203885,0.533605,-250877.962682,-1.594627,false,0.631222,1.168713,-1.232345,0.694854,-146072.436659,-2.297692,true,0.682672,1.321244,-1.238957,0.600385,-127513.109081,-2.3334],
+ ["2026-09-16","weekly","wngsr","Supplement: JKM product not named; TTF product not named","mixed",0.8,"2026-11","2026-10","high",161750.0,25.44,27.26,-1.82,-1.181683,2.95,"174,000 m3 two-stroke",24.266774,"panama",-2.220097,0.493745,20.874274,false,true,0.493745,0.512171,-1.203885,1.185459,-250877.962682,-2.220097,false,2.118673,1.168713,-1.232345,2.182305,-146072.436659,-3.691977,true,2.364253,1.321244,-1.238957,2.281966,-127513.109081,-3.901244],
+ ["2026-09-16","weekly","wngsr","Supplement: JKM product not named; TTF product not named","mixed",0.8,"2026-11","2026-10","low",4250.0,25.44,27.26,-1.82,-1.181683,2.95,"174,000 m3 two-stroke",25.32189,"panama",-1.372686,-0.389411,21.92939,false,true,-0.389411,0.512171,-1.203885,0.302303,-250877.962682,-1.372686,false,0.103417,1.168713,-1.232345,0.167049,-146072.436659,-1.802945,true,0.085982,1.321244,-1.238957,0.003695,-127513.109081,-1.777068],
+ ["2026-09-16","weekly","wngsr","Supplement: JKM product not named; TTF product not named","mixed",0.8,"2026-11","2026-10","reported",25250.0,25.44,27.26,-1.82,-1.181683,2.95,"174,000 m3 two-stroke",25.181207,"panama",-1.485675,-0.271657,21.788707,false,true,-0.271657,0.512171,-1.203885,0.420057,-250877.962682,-1.485675,false,0.372118,1.168713,-1.232345,0.43575,-146072.436659,-2.054816,true,0.389751,1.321244,-1.238957,0.307464,-127513.109081,-2.060291],
+ ["2026-09-23","weekly","wngsr","Supplement: JKM product not named; TTF product not named","misaligned",0.0,"2026-11","2026-10","central",45500.0,26.41,25.15,1.26,0.982675,2.95,"174,000 m3 two-stroke",25.099074,"panama",-0.717989,2.008275,21.706574,false,true,2.008275,0.472527,1.001138,0.53461,-87945.612977,-0.717989,false,2.799205,1.078251,1.024805,0.696149,-74794.787705,-1.442798,true,2.851096,1.218976,1.030303,0.601816,-64494.612028,-1.483479],
+ ["2026-09-23","weekly","wngsr","Supplement: JKM product not named; TTF product not named","misaligned",0.0,"2026-11","2026-10","high",161750.0,26.41,25.15,1.26,0.982675,2.95,"174,000 m3 two-stroke",24.320298,"panama",-1.343458,2.660128,20.927798,false,true,2.660128,0.472527,1.001138,1.186463,-87945.612977,-1.343458,false,4.286656,1.078251,1.024805,2.1836,-74794.787705,-2.837084,true,4.532677,1.218976,1.030303,2.283398,-64494.612028,-3.051324],
+ ["2026-09-23","weekly","wngsr","Supplement: JKM product not named; TTF product not named","misaligned",0.0,"2026-11","2026-10","low",4250.0,26.41,25.15,1.26,0.982675,2.95,"174,000 m3 two-stroke",25.375414,"panama",-0.496048,1.776972,21.982914,false,true,1.776972,0.472527,1.001138,0.303307,-87945.612977,-0.496048,false,2.2714,1.078251,1.024805,0.168344,-74794.787705,-0.948052,true,2.254406,1.218976,1.030303,0.005126,-64494.612028,-0.927147],
+ ["2026-09-23","weekly","wngsr","Supplement: JKM product not named; TTF product not named","misaligned",0.0,"2026-11","2026-10","reported",25250.0,26.41,25.15,1.26,0.982675,2.95,"174,000 m3 two-stroke",25.234732,"panama",-0.609036,1.894726,21.842232,false,true,1.894726,0.472527,1.001138,0.421061,-87945.612977,-0.609036,false,2.540101,1.078251,1.024805,0.437045,-74794.787705,-1.199923,true,2.558175,1.218976,1.030303,0.308896,-64494.612028,-1.210371],
+ ["2026-09-30","weekly","wngsr","Supplement: JKM product not named; TTF product not named","mixed",0.2,"2026-11","2026-11","central",45500.0,25.89,24.18,1.71,0.155405,2.95,"174,000 m3 two-stroke",23.342352,"panama",0.539711,1.147523,20.489563,false,true,1.147523,0.454303,0.158325,0.534895,145810.92487,0.539711,false,1.895432,1.036664,0.162068,0.696699,31007.814329,-0.173817,true,1.937057,1.171962,0.162938,0.602158,29803.241103,-0.2117],
+ ["2026-09-30","weekly","wngsr","Supplement: JKM product not named; TTF product not named","mixed",0.2,"2026-11","2026-11","high",161750.0,25.89,24.18,1.71,0.155405,2.95,"174,000 m3 two-stroke",22.563576,"panama",-0.085758,1.799376,19.171076,false,true,1.799376,0.454303,0.158325,1.186748,145810.92487,-0.085758,false,3.382882,1.036664,0.162068,2.18415,31007.814329,-1.568103,true,3.618638,1.171962,0.162938,2.283739,29803.241103,-1.779544],
+ ["2026-09-30","weekly","wngsr","Supplement: JKM product not named; TTF product not named","mixed",0.2,"2026-11","2026-11","low",4250.0,25.89,24.18,1.71,0.155405,2.95,"174,000 m3 two-stroke",23.618692,"panama",0.761652,0.91622,20.987844,false,true,0.91622,0.454303,0.158325,0.303592,145810.92487,0.761652,false,1.367626,1.036664,0.162068,0.168894,31007.814329,0.320929,true,1.340367,1.171962,0.162938,0.005467,29803.241103,0.344632],
+ ["2026-09-30","weekly","wngsr","Supplement: JKM product not named; TTF product not named","mixed",0.2,"2026-11","2026-11","reported",31500.0,25.89,24.18,1.71,0.155405,2.95,"174,000 m3 two-stroke",23.43614,"panama",0.615037,1.06902,20.658677,false,true,1.06902,0.454303,0.158325,0.456392,145810.92487,0.615037,false,1.716298,1.036664,0.162068,0.517565,31007.814329,-0.005903,true,1.734544,1.171962,0.162938,0.399645,29803.241103,-0.022884],
+ ["2026-10-07","weekly","wngsr","Supplement: JKM product not named; TTF product not named","aligned",1.0,"2026-11","2026-11","central",45500.0,25.79,24.78,1.01,-1.174848,3.040526,"174,000 m3 two-stroke",22.629085,"panama",1.156691,-0.195482,20.289171,false,true,-0.195482,0.465576,-1.196922,0.535864,260482.982932,1.156691,false,0.534975,1.062388,-1.225217,0.697804,82625.030763,0.445272,true,0.572637,1.201043,-1.231791,0.603386,75735.470653,0.407781],
+ ["2026-10-07","weekly","wngsr","Supplement: JKM product not named; TTF product not named","aligned",1.0,"2026-11","2026-11","high",161750.0,25.79,24.78,1.01,-1.174848,3.040526,"174,000 m3 two-stroke",21.850309,"panama",0.531221,0.456371,18.884925,false,true,0.456371,0.465576,-1.196922,1.187717,260482.982932,0.531221,false,2.022426,1.062388,-1.225217,2.185255,82625.030763,-0.949013,true,2.254219,1.201043,-1.231791,2.284967,75735.470653,-1.160064],
+ ["2026-10-07","weekly","wngsr","Supplement: JKM product not named; TTF product not named","aligned",1.0,"2026-11","2026-11","low",4250.0,25.79,24.78,1.01,-1.174848,3.040526,"174,000 m3 two-stroke",22.905425,"panama",1.378632,-0.426785,20.787451,false,true,-0.426785,0.465576,-1.196922,0.304561,260482.982932,1.378632,false,0.00717,1.062388,-1.225217,0.169999,82625.030763,0.940019,true,-0.024053,1.201043,-1.231791,0.006696,75735.470653,0.964113],
+ ["2026-10-07","weekly","wngsr","Supplement: JKM product not named; TTF product not named","aligned",1.0,"2026-11","2026-11","reported",31500.0,25.79,24.78,1.01,-1.174848,3.040526,"174,000 m3 two-stroke",22.722873,"panama",1.232016,-0.273985,20.458284,false,true,-0.273985,0.465576,-1.196922,0.457361,260482.982932,1.232016,false,0.355841,1.062388,-1.225217,0.518671,82625.030763,0.613186,true,0.370124,1.201043,-1.231791,0.400873,75735.470653,0.596597],
+ ["2026-10-14","weekly","wngsr","Supplement: JKM product not named; TTF product not named","aligned",1.0,"2026-11","2026-11","central",45500.0,26.14,27.48,-1.34,-2.073708,3.040526,"174,000 m3 two-stroke",24.390115,"panama",-0.268505,-1.060169,20.893509,false,true,-1.060169,0.516304,-2.112669,0.536196,-4404.386345,-0.268505,false,-0.286571,1.178145,-2.162613,0.697897,-36829.508661,-0.987448,true,-0.238582,1.331907,-2.174217,0.603728,-30642.519486,-1.026922],
+ ["2026-10-14","weekly","wngsr","Supplement: JKM product not named; TTF product not named","aligned",1.0,"2026-11","2026-11","high",161750.0,26.14,27.48,-1.34,-2.073708,3.040526,"174,000 m3 two-stroke",23.611339,"panama",-0.893974,-0.408316,20.114733,false,true,-0.408316,0.516304,-2.112669,1.188049,-4404.386345,-0.893974,false,1.200879,1.178145,-2.162613,2.185348,-36829.508661,-2.381734,true,1.442999,1.331907,-2.174217,2.285309,-30642.519486,-2.594767],
+ ["2026-10-14","weekly","wngsr","Supplement: JKM product not named; TTF product not named","aligned",1.0,"2026-11","2026-11","low",4250.0,26.14,27.48,-1.34,-2.073708,3.040526,"174,000 m3 two-stroke",24.666455,"panama",-0.046564,-1.291472,21.169849,false,true,-1.291472,0.516304,-2.112669,0.304893,-4404.386345,-0.046564,false,-0.814376,1.178145,-2.162613,0.170092,-36829.508661,-0.492702,true,-0.835272,1.331907,-2.174217,0.007038,-30642.519486,-0.47059],
+ ["2026-10-14","weekly","wngsr","Supplement: JKM product not named; TTF product not named","aligned",1.0,"2026-11","2026-11","reported",31500.0,26.14,27.48,-1.34,-2.073708,3.040526,"174,000 m3 two-stroke",24.483903,"panama",-0.193179,-1.138672,20.987298,false,true,-1.138672,0.516304,-2.112669,0.457693,-4404.386345,-0.193179,false,-0.465705,1.178145,-2.162613,0.518764,-36829.508661,-0.819534,true,-0.441095,1.331907,-2.174217,0.401215,-30642.519486,-0.838106],
+ ["2026-10-21","weekly","wngsr","Supplement: JKM product not named; TTF product not named","mixed",0.2,"2026-12","2026-11","central",45500.0,29.22,28.61,0.61,-1.305979,3.040526,"174,000 m3 two-stroke",26.244767,"panama",0.832181,-0.257284,23.580343,false,true,-0.257284,0.537535,-1.330517,0.535698,200169.390629,0.832181,false,0.562008,1.226591,-1.36197,0.697388,49250.749803,0.044986,true,0.620613,1.386676,-1.369278,0.603215,44766.292187,-0.009895],
+ ["2026-10-21","weekly","wngsr","Supplement: JKM product not named; TTF product not named","mixed",0.2,"2026-12","2026-11","high",161750.0,29.22,28.61,0.61,-1.305979,3.040526,"174,000 m3 two-stroke",25.465991,"panama",0.206711,0.394569,22.176097,false,true,0.394569,0.537535,-1.330517,1.187551,200169.390629,0.206711,false,2.049459,1.226591,-1.36197,2.184838,49250.749803,-1.3493,true,2.302195,1.386676,-1.369278,2.284796,44766.292187,-1.57774],
+ ["2026-10-21","weekly","wngsr","Supplement: JKM product not named; TTF product not named","mixed",0.2,"2026-12","2026-11","low",4250.0,29.22,28.61,0.61,-1.305979,3.040526,"174,000 m3 two-stroke",26.521107,"panama",1.054122,-0.488586,24.078624,false,true,-0.488586,0.537535,-1.330517,0.304395,200169.390629,1.054122,false,0.034203,1.226591,-1.36197,0.169582,49250.749803,0.539732,true,0.023923,1.386676,-1.369278,0.006525,44766.292187,0.546437],
+ ["2026-10-28","weekly","wngsr","Supplement: JKM product not named; TTF product not named","misaligned",0.0,"2026-12","2026-11","central",45500.0,31.67,31.28,0.39,-2.527875,3.040526,"174,000 m3 two-stroke",27.660384,"panama",1.767259,-1.451805,25.931038,false,true,-1.451805,0.5877,-2.57537,0.535865,373963.282001,1.767259,false,-0.597553,1.341061,-2.636252,0.697639,122681.029052,0.925698,true,-0.530825,1.516086,-2.650397,0.603486,109157.891853,0.858544],
+ ["2026-10-28","weekly","wngsr","Supplement: JKM product not named; TTF product not named","misaligned",0.0,"2026-12","2026-11","high",161750.0,31.67,31.28,0.39,-2.527875,3.040526,"174,000 m3 two-stroke",26.881608,"panama",1.141789,-0.799952,24.526792,false,true,-0.799952,0.5877,-2.57537,1.187718,373963.282001,1.141789,false,0.889898,1.341061,-2.636252,2.185089,122681.029052,-0.468588,true,1.150756,1.516086,-2.650397,2.285067,109157.891853,-0.709301],
+ ["2026-10-28","weekly","wngsr","Supplement: JKM product not named; TTF product not named","misaligned",0.0,"2026-12","2026-11","low",4250.0,31.67,31.28,0.39,-2.527875,3.040526,"174,000 m3 two-stroke",27.936724,"panama",1.9892,-1.683108,26.429318,false,true,-1.683108,0.5877,-2.57537,0.304562,373963.282001,1.9892,false,-1.125358,1.341061,-2.636252,0.169834,122681.029052,1.420444,true,-1.127515,1.516086,-2.650397,0.006796,109157.891853,1.414876]
  ]
 }

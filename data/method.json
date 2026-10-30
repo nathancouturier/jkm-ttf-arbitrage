@@ -2,7 +2,7 @@
  "schema_version": 1,
  "artifact": "method",
  "generated_by": "src/lngarb/export.py",
- "data_date": "2026-10-21",
+ "data_date": "2026-10-28",
  "describes": "the engine as formulas, every parameter of the parameter table with its value, status and source, the units, the limits and the credits",
  "source": "the committed caches in data/cache and data/seed and the manifest, nothing from data/private; no network",
  "conventions": {
@@ -437,23 +437,23 @@
    {
     "route": "nwe_direct",
     "name": "Gate",
-    "exact": 26.24476743063713,
-    "conventional": 26.220444762626983,
-    "difference": 0.024322668010146486
+    "exact": 27.660384171070486,
+    "conventional": 27.63531552999374,
+    "difference": 0.025068641076746445
    },
    {
     "route": "nea_panama",
     "name": "Futtsu via Panama",
-    "exact": 27.076948200551765,
-    "conventional": 26.98655025263107,
-    "difference": 0.090397947920696
+    "exact": 29.427642875539764,
+    "conventional": 29.333056042590254,
+    "difference": 0.09458683294950987
    },
    {
     "route": "nea_cape",
     "name": "Futtsu via the Cape",
-    "exact": 26.234872033137187,
-    "conventional": 26.018321147839917,
-    "difference": 0.21655088529726996
+    "exact": 28.518927766649693,
+    "conventional": 28.29033874489168,
+    "difference": 0.22858902175801177
    }
   ],
   "caption_segments": [
@@ -462,8 +462,8 @@
    },
    {
     "field": "as_of",
-    "value": "2026-10-21",
-    "label": "21 October 2026"
+    "value": "2026-10-28",
+    "label": "28 October 2026"
    },
    {
     "text": ": the netback per MMBtu loaded, the exact form the study uses, against the conventional one per MMBtu delivered, and the difference, in $/MMBtu."
@@ -1082,15 +1082,15 @@
   },
   {
    "field": "as_of",
-   "value": "2026-10-21",
-   "label": "21 October 2026"
+   "value": "2026-10-28",
+   "label": "28 October 2026"
   },
   {
    "text": ", S* of the cheapest open route east is "
   },
   {
    "field": "s_star_now",
-   "value": -0.2572837169916582,
+   "value": -1.4518049941903861,
    "format": "usd_mmbtu",
    "signed": true,
    "missing": "no route open"
@@ -1103,7 +1103,7 @@
   },
   {
    "field": "s_star_energy_22",
-   "value": -0.23054638186015808,
+   "value": -1.4250676590588824,
    "format": "usd_mmbtu",
    "signed": true,
    "missing": "no route open"
@@ -1121,7 +1121,7 @@
   },
   {
    "field": "s_star_energy_24",
-   "value": -0.2817929408622035,
+   "value": -1.4763142180609279,
    "format": "usd_mmbtu",
    "signed": true,
    "missing": "no route open"

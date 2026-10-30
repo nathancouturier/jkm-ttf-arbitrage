@@ -2,7 +2,7 @@
  "schema_version": 1,
  "artifact": "provenance",
  "generated_by": "src/lngarb/export.py",
- "data_date": "2026-10-27",
+ "data_date": "2026-10-28",
  "describes": "the manifest of every series in words, the work done by hand and the credits",
  "source": "the committed caches in data/cache and data/seed and the manifest, nothing from data/private; no network",
  "conventions": {
@@ -169,7 +169,7 @@
    "range_words": "July 2006 to September 2026, monthly",
    "gaps_words": "3 months, from September 2017 to April 2020",
    "provisional_words": "none",
-   "fetch_words": "28 October 2026 at 20:14 UTC",
+   "fetch_words": "30 October 2026 at 02:07 UTC",
    "vintage_words": "advisories A-22-2006 to A-38-2026",
    "terms_words": "Panama Canal Authority's terms of use; non-commercial use with attribution"
   },
@@ -214,7 +214,7 @@
    "range_words": "January 2013 to August 2026, monthly",
    "gaps_words": "2 months, from December 2018 to January 2019",
    "provisional_words": "none",
-   "fetch_words": "28 October 2026 at 20:12 UTC",
+   "fetch_words": "30 October 2026 at 02:06 UTC",
    "vintage_words": "2013 report annual, 2014 report annual, 2015 report annual, 2016 report annual, 2017 report annual, 2018 report annual, the fourth quarter report of 2019, the fourth quarter report of 2020, the fourth quarter report of 2021, the fourth quarter report of 2022, the fourth quarter report of 2023, the fourth quarter report of 2024, the fourth quarter report of 2025, the report of August 2026",
    "terms_words": "CC BY-NC-ND 4.0 for DEHSt's reports, figures credited to EEX and DEHSt; non-commercial use"
   },
@@ -244,7 +244,7 @@
    "range_words": "November 2012 to June 2025, monthly",
    "gaps_words": "1 month, from January 2021 to January 2021",
    "provisional_words": "none",
-   "fetch_words": "28 October 2026 at 20:11 UTC",
+   "fetch_words": "30 October 2026 at 02:05 UTC",
    "vintage_words": "reports December 2013 to June 2025",
    "terms_words": "CC BY 4.0"
   },
@@ -259,7 +259,7 @@
    "range_words": "1 January 2020 to 1 January 2025, yearly",
    "gaps_words": "none",
    "provisional_words": "none",
-   "fetch_words": "28 October 2026 at 20:14 UTC",
+   "fetch_words": "30 October 2026 at 02:07 UTC",
    "vintage_words": "page last updated 3 March 2026",
    "terms_words": "public domain, US government publication; EIA analysis based on Vortexa tanker tracking data"
   },
@@ -274,7 +274,7 @@
    "range_words": "7 January 1997 to 27 October 2026, daily",
    "gaps_words": "2059 dates, from 22 January 1997 to 7 September 2026",
    "provisional_words": "none",
-   "fetch_words": "28 October 2026 at 20:11 UTC",
+   "fetch_words": "30 October 2026 at 02:05 UTC",
    "vintage_words": "release of 28 October 2026, next release 4 November 2026",
    "terms_words": "US public domain, with the third party credit doubt"
   },
@@ -289,7 +289,7 @@
    "range_words": "January 1973 to July 2026, monthly",
    "gaps_words": "none",
    "provisional_words": "none",
-   "fetch_words": "28 October 2026 at 20:11 UTC",
+   "fetch_words": "30 October 2026 at 02:05 UTC",
    "vintage_words": "release of 30 September 2026, next release 30 October 2026",
    "terms_words": "US public domain"
   },
@@ -319,7 +319,7 @@
    "range_words": "15 September 2021 to 21 January 2026, weekly",
    "gaps_words": "23 dates, from 8 November 2021 to 29 December 2025",
    "provisional_words": "none",
-   "fetch_words": "28 October 2026 at 20:11 UTC",
+   "fetch_words": "30 October 2026 at 02:05 UTC",
    "vintage_words": "not recorded",
    "terms_words": "US public domain, with the third party credit doubt"
   },
@@ -334,7 +334,7 @@
    "range_words": "7 January 2016 to 22 January 2026, weekly",
    "gaps_words": "37 dates, from 21 November 2016 to 29 December 2025",
    "provisional_words": "none",
-   "fetch_words": "28 October 2026 at 20:11 UTC",
+   "fetch_words": "30 October 2026 at 02:05 UTC",
    "vintage_words": "not recorded",
    "terms_words": "US public domain"
   },
@@ -349,7 +349,7 @@
    "range_words": "1 January 2025 to 1 April 2026, quarterly",
    "gaps_words": "none",
    "provisional_words": "none",
-   "fetch_words": "28 October 2026 at 20:14 UTC",
+   "fetch_words": "30 October 2026 at 02:07 UTC",
    "vintage_words": "article released 12 August 2026, on the page of the Outlook released 6 October 2026",
    "terms_words": "public domain, US government publication; EIA analysis based on Vortexa tanker tracking data"
   },
@@ -361,10 +361,10 @@
    "page_words": "",
    "status": "ok",
    "status_words": "checked",
-   "range_words": "28 January 2026 to 21 October 2026, weekly",
+   "range_words": "28 January 2026 to 28 October 2026, weekly",
    "gaps_words": "none",
    "provisional_words": "none",
-   "fetch_words": "28 October 2026 at 20:11 UTC",
+   "fetch_words": "30 October 2026 at 02:05 UTC",
    "vintage_words": "not recorded",
    "terms_words": "US public domain, with the third party credit doubt"
   },
@@ -391,11 +391,11 @@
    "page_words": "",
    "status": "ok",
    "status_words": "checked",
-   "range_words": "1 July 1954 to 26 October 2026, daily",
+   "range_words": "1 July 1954 to 28 October 2026, daily",
    "gaps_words": "680 dates, from 16 July 1954 to 12 October 2026",
    "provisional_words": "none",
-   "fetch_words": "28 October 2026 at 20:12 UTC",
-   "vintage_words": "prepared 27 October 2026 at 15:40",
+   "fetch_words": "30 October 2026 at 02:06 UTC",
+   "vintage_words": "prepared 29 October 2026 at 15:40",
    "terms_words": "US public domain"
   },
   {
@@ -424,7 +424,7 @@
    "range_words": "4 January 1999 to 23 October 2026, daily",
    "gaps_words": "281 dates, from 18 January 1999 to 12 October 2026",
    "provisional_words": "none",
-   "fetch_words": "28 October 2026 at 20:12 UTC",
+   "fetch_words": "30 October 2026 at 02:06 UTC",
    "vintage_words": "prepared 26 October 2026 at 15:27",
    "terms_words": "US public domain"
   },
@@ -436,11 +436,11 @@
    "page_words": "",
    "status": "ok",
    "status_words": "checked",
-   "range_words": "1 July 1974 to 27 October 2026, daily",
+   "range_words": "1 July 1974 to 28 October 2026, daily",
    "gaps_words": "276 dates, from 25 December 1974 to 12 October 2026",
    "provisional_words": "none",
-   "fetch_words": "28 October 2026 at 20:12 UTC",
-   "vintage_words": "last update 28 October 2026 at 12:26",
+   "fetch_words": "30 October 2026 at 02:06 UTC",
+   "vintage_words": "last update 29 October 2026 at 11:02",
    "terms_words": "IMF terms for its data, attribution required"
   },
   {
@@ -496,11 +496,11 @@
    "page_words": "",
    "status": "ok",
    "status_words": "checked",
-   "range_words": "2 April 2018 to 27 October 2026, daily",
+   "range_words": "2 April 2018 to 28 October 2026, daily",
    "gaps_words": "96 dates, from 28 May 2018 to 12 October 2026",
    "provisional_words": "none",
-   "fetch_words": "28 October 2026 at 20:12 UTC",
-   "vintage_words": "value dates to 27 October 2026",
+   "fetch_words": "30 October 2026 at 02:06 UTC",
+   "vintage_words": "value dates to 28 October 2026",
    "terms_words": "New York Fed Terms of Use"
   },
   {
@@ -514,7 +514,7 @@
    "range_words": "22 August 2014 to 29 March 2018, daily",
    "gaps_words": "41 dates, from 1 September 2014 to 19 February 2018",
    "provisional_words": "none",
-   "fetch_words": "28 October 2026 at 20:12 UTC",
+   "fetch_words": "30 October 2026 at 02:06 UTC",
    "vintage_words": "value dates 22 August 2014 to 29 March 2018, a closed file",
    "terms_words": "New York Fed Terms of Use"
   },
@@ -544,7 +544,7 @@
    "range_words": "1 January 2007 to 1 January 2025, yearly",
    "gaps_words": "none",
    "provisional_words": "none",
-   "fetch_words": "28 October 2026 at 20:14 UTC",
+   "fetch_words": "30 October 2026 at 02:07 UTC",
    "vintage_words": "reports 2008 to 2025",
    "terms_words": "All rights reserved, Suez Canal Authority; facts restated with attribution"
   },
@@ -559,7 +559,7 @@
    "range_words": "January 1960 to September 2026, monthly",
    "gaps_words": "none",
    "provisional_words": "preliminary from August 2026",
-   "fetch_words": "28 October 2026 at 20:11 UTC",
+   "fetch_words": "30 October 2026 at 02:05 UTC",
    "vintage_words": "updated on 2 October 2026",
    "terms_words": "CC BY 4.0"
   },
