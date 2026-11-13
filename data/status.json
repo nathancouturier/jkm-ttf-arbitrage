@@ -1,0 +1,44 @@
+{
+ "charter_rate": {
+  "checked": "2026-11-13 18:20 UTC",
+  "last": "2026-10-02",
+  "message": "no headline since 2026-10-02 states the rate",
+  "ok": true
+ },
+ "doe_cargoes": {
+  "checked": "2026-11-13 18:20 UTC",
+  "last": "2026-08-31",
+  "message": "no new row",
+  "ok": true
+ },
+ "eia_weekly": {
+  "checked": "2026-11-13 18:20 UTC",
+  "last": "2026-11-11",
+  "message": "added the week to 2026-11-11: JKM 31.41, TTF 28.18",
+  "ok": true
+ },
+ "henry_hub": {
+  "checked": "2026-11-13 18:20 UTC",
+  "last": "2026-11-11",
+  "message": "no new row",
+  "ok": true
+ },
+ "sofr": {
+  "checked": "2026-11-13 18:20 UTC",
+  "last": "2026-10-28",
+  "message": "kept the data held: markets.newyorkfed.org could not be reached",
+  "ok": false
+ },
+ "usd_per_eur": {
+  "checked": "2026-11-13 18:20 UTC",
+  "last": "2026-11-06",
+  "message": "no new row",
+  "ok": true
+ },
+ "usd_per_sdr": {
+  "checked": "2026-11-13 18:20 UTC",
+  "last": "2026-11-12",
+  "message": "no new row",
+  "ok": true
+ }
+}

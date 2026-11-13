@@ -1,0 +1,238 @@
+{
+  "about": "Every number the model uses that is not a market price, with the document it was read in. Dated tables apply from the date given until the next row.",
+
+  "units": {
+    "mmbtu_per_mwh": {"value": 3.412142, "source": "NIST Special Publication 811, appendix B.9: one Btu (International Table) is 1,055.05585262 J", "url": "https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b9"},
+    "mmbtu_per_m3_lng": {"value": 23.0, "source": "Spark LNG Freight Methodology 3.8, page 2, 'LNG Conversion Factor: 23'; 22 to 24 covers lean to rich cargoes", "url": null},
+    "mmbtu_per_tonne_lng": {"value": 51.56, "source": "IEA and Eurostat, Energy Statistics Manual, 2004, Annex 3, Table A3.9: LNG, 51,560 Btu per kilogramme, gross", "url": "https://ec.europa.eu/eurostat/documents/3859598/5885369/NRG-2004-EN.PDF.pdf/b3c4b86f-8e88-4ca6-9188-b95320900b3f?t=1414781129000"},
+    "knots_to_nm_per_day": {"value": 24.0, "source": "one knot is one nautical mile an hour", "url": null}
+  },
+
+  "ships": [
+    {"id": "tfde_160k", "name": "160,000 m3 TFDE", "from": "2016-01-01", "capacity_m3": 160000, "boil_off_per_day": 0.001,
+     "source": "Spark LNG Freight Methodology 3.2 (11 November 2022), page 2: 'Vessel Type: 160,000 m3 TFDE', 'Boil Off Rate: 0.1% of cargo tanks at 98.5% capacity'; GTT's Mark III Flex 'reduces the boil-off rate from 0.15% to 0.10% of the cargo volume per day' (gCaptain, 10 October 2012)",
+     "url": "https://gcaptain.com/membrane-containment-system-achieves/"},
+    {"id": "two_stroke_174k", "name": "174,000 m3 two-stroke", "from": "2024-01-02", "capacity_m3": 174000, "boil_off_per_day": 0.00085,
+     "source": "Spark LNG Freight Methodology 3.8, page 2: 'Vessel Type: 174,000 m3 2 Stroke', 'Boil Off Rate: 0.085% of cargo tanks at 98.5% capacity'; change log, version 3.5 of 2 January 2024, 'Vessel Type updated to 174,000 m3 2 Stroke'; GTT's NO96 Super+ 'offers a guaranteed boil-off rate of 0,085%V/d' for a 174,000 m3 carrier (LNG Prime, 16 April 2021)",
+     "url": "https://lngprime.com/europe/gtts-no96-containment-system-gets-upgrade/17530/"}
+  ],
+
+  "voyage": {
+    "fill": {"value": 0.985, "source": "Spark LNG Freight Methodology: boil-off and discharge volume are stated on '98.5% of Vessel Capacity'", "url": null},
+    "speed_kn": {"value": 17.0, "source": "Spark LNG Freight Methodology 3.8, page 2, 'Speed: 17 knots'", "url": null},
+    "load_days": {"value": 1.0, "source": "Spark LNG Freight Methodology 3.8, page 2, '1 day load'", "url": null},
+    "discharge_days": {"value": 1.0, "source": "Spark LNG Freight Methodology 3.8, page 2, '1 day discharge'", "url": null},
+    "canal_days_per_transit": {"value": 1.0, "status": "assumption", "source": "This study. The Panama Canal Authority's monthly summaries put the average time in canal waters, waiting included, at 20 to 38 hours in 2026 (20.2 hours in October 2026); a Suez transit takes about half a day in convoy", "url": "https://pancanal.com/en/maritime-services/advisory-to-shipping/"}
+  },
+
+  "ports": {
+    "europe_usd": {"value": 308947, "status": "assumption", "source": "Spark Commodities, note on negative freight rates, February 2022: Sabine Pass and Gate together, 'Port costs provided by GAC on an indicative basis', for a 160,000 m3 TFDE. Held for every year and both ships", "url": null},
+    "asia_usd": {"value": 273184, "status": "assumption", "source": "Spark Commodities, the same note: 'Port Cost' for Sabine Pass to Futtsu via Panama on its Routes page, release of 8 February 2022. Held for every route east, every year and both ships", "url": null}
+  },
+
+  "panama": {
+    "open_from": "2016-06-26",
+    "band_sizes_m3": [60000, 30000, 30000],
+    "tolls": [
+      {"from": "2016-04-01", "laden_per_m3": [2.50, 2.15, 2.07, 1.96], "ballast_per_m3": [2.23, 1.88, 1.80, 1.71], "round_trip_ballast_per_m3": [2.00, 1.75, 1.60, 1.50],
+       "source": "Panama Canal Authority, tolls approved for 1 April 2016; Tolls Assessment, May 2023, page 11", "url": "https://pancanal.com/wp-content/uploads/2023/06/Tolls-Assessment_May-2023.pdf"},
+      {"from": "2017-10-01", "laden_per_m3": [2.88, 2.47, 2.38, 2.25], "ballast_per_m3": [2.56, 2.16, 2.07, 1.97], "round_trip_ballast_per_m3": [2.30, 2.01, 1.84, 1.73],
+       "source": "Panama Canal Authority, tolls approved 1 August 2017; Tolls Assessment, May 2023, page 21", "url": "https://pancanal.com/wp-content/uploads/2023/06/Tolls-Assessment_May-2023.pdf"},
+      {"from": "2020-04-01", "laden_per_m3": [3.12, 2.68, 2.58, 2.44], "ballast_per_m3": [2.79, 2.35, 2.26, 2.15], "round_trip_ballast_per_m3": [2.48, 2.17, 1.99, 1.87],
+       "source": "Panama Canal Authority, Tolls, September 2020, page 26", "url": "https://pancanal.com/wp-content/uploads/2022/03/Tolls-202009-Rev.pdf"},
+      {"from": "2023-01-01", "fixed_usd": 300000, "per_m3": 1.35, "ballast_share": 0.85,
+       "source": "Panama Canal Authority, tariff items 1010.FN02, 1010.NN01 and 1010.BA01, 1 January 2023", "url": "https://pancanal.com/wp-content/uploads/2021/08/1010-ingles.pdf"},
+      {"from": "2024-01-01", "fixed_usd": 300000, "per_m3": 1.70, "ballast_share": 0.85,
+       "source": "Panama Canal Authority, tariff item 1010, 1 January 2024", "url": "https://pancanal.com/wp-content/uploads/2024/01/Nuevas-tarifas-serie-1010-INGLES_efectivas-1Ene2024-V2.pdf"},
+      {"from": "2025-01-01", "fixed_usd": 300000, "per_m3": 2.05, "ballast_share": 0.85,
+       "source": "Panama Canal Authority, tariff item 1010, 1 January 2025: 1010.FN02 300,000 USD a transit, 1010.NN01 2.05 USD per m3, 1010.BA01 ballast at 85 percent; unchanged in the tariff list of 15 October 2026", "url": "https://pancanal.com/wp-content/uploads/2026/10/Maritime-service-tariffs-15-Oct-2026.pdf"}
+    ],
+    "fresh_water": {
+      "from": "2020-02-15", "fixed_usd": 10000, "share_of_toll": 0.05, "status": "assumption for the share",
+      "source": "Panama Canal Authority, tariff item 1500.RWA2: 10,000 USD a transit for ships over 300 feet; the variable part runs from 0 to 10 percent of the toll with the level of Gatun Lake (advisories A-03-2020 and A-42-2023), taken here at 5 percent",
+      "url": "https://pancanal.com/wp-content/uploads/2023/01/ADV42-2023-Modification-to-the-Fresh-Water-Surcharge-variable-component.pdf"},
+    "booking_fee": [
+      {"from": "2016-06-26", "usd": 35000, "source": "Panama Canal Authority, neopanamax booking fee at the opening of the expanded locks"},
+      {"from": "2021-06-01", "usd": 85000, "source": "Panama Canal Authority, booking fee for a beam of 42.67 m or more, booking dates from 1 June 2021"},
+      {"from": "2024-01-01", "usd": 80000, "source": "Panama Canal Authority, tariff list of January 2024"},
+      {"from": "2025-01-01", "usd": 100000, "source": "Panama Canal Authority, tariff item 1050.IBN1, 1 January 2025; unchanged in the tariff list of 15 October 2026"}
+    ],
+    "booking_fee_url": "https://pancanal.com/wp-content/uploads/2026/10/Maritime-service-tariffs-15-Oct-2026.pdf",
+    "waits_reported": [
+      {"month": "2023-07", "days": 12, "source": "Spark, in LNG Prime, 28 July 2023: 12 days of delay for unbooked vessels", "url": "https://lngprime.com/americas/spark-lng-freight-rates-remain-at-about-71000-per-day/87422/"},
+      {"month": "2023-08", "days": 17, "source": "EIA, Today in Energy, 31 October 2023: neopanamax ships 'had to wait at least 17 days' in August 2023", "url": "https://www.eia.gov/todayinenergy/detail.php?id=60842"},
+      {"month": "2023-12", "days": 15, "source": "IEA, Gas Market Report Q1 2024: about 15 days for unreserved slots in mid December 2023", "url": "https://www.iea.org/reports/gas-market-report-q1-2024"}
+    ]
+  },
+
+  "suez": {
+    "scnt_per_m3": {"value": 0.5862069, "status": "assumption", "source": "A canal agency's approximation, 'ca 85.000 SCNT (145.000m3)' for a membrane LNG carrier, scaled to the capacity", "url": "https://kadmar.com/calculator-guidelines/"},
+    "band_sizes_scnt": [5000, 5000, 10000, 20000, 30000, 50000],
+    "dues_sdr_per_scnt": [
+      {"from": "2015-05-01", "laden": [7.88, 6.13, 5.30, 4.10, 3.80, 3.63, 3.53], "ballast": [6.70, 5.21, 4.51, 3.49, 3.23, 3.09, 3.00],
+       "source": "Suez Canal Authority, transit dues from 1 May 2015, LNG row unchanged in the schedules of 2020 and 2022", "url": "https://www.suezcanal.gov.eg/English/Navigation/NavigationCirculars/Documents/Transit%20dues%202015.pdf"},
+      {"from": "2023-01-01", "laden": [9.06, 7.05, 6.10, 4.72, 4.37, 4.17, 4.06], "ballast": [7.71, 5.99, 5.19, 4.01, 3.71, 3.55, 3.45],
+       "source": "Suez Canal Authority, circular 14/2022 of 18 September 2022", "url": "https://www.suezcanal.gov.eg/English/Navigation/NavigationCirculars/Documents/Cir_14-2022_tables_EN.pdf"},
+      {"from": "2024-01-15", "laden": [10.42, 8.11, 7.02, 5.43, 5.03, 4.80, 4.67], "ballast": [8.87, 6.89, 5.97, 4.61, 4.27, 4.08, 3.97],
+       "source": "Suez Canal Authority, circular 7/2023 of 16 October 2023", "url": "https://www.suezcanal.gov.eg/Arabic/Navigation/NavigationCirculars/Documents/english72023.pdf"}
+    ],
+    "lng_surcharge": [
+      {"from": "2015-05-01", "share": 0.0, "source": "none before March 2022"},
+      {"from": "2022-03-01", "share": 0.07, "source": "Suez Canal Authority, circular 5/2022"},
+      {"from": "2026-07-15", "share": 0.19, "source": "Suez Canal Authority, periodical 20/2026 of 7 June 2026"}
+    ],
+    "general_lng_reduction": [
+      {"from": "2015-05-01", "share": 0.25, "source": "circular 2/2015"},
+      {"from": "2020-04-01", "share": 0.30, "source": "periodical of 31 March 2020"},
+      {"from": "2020-07-01", "share": 0.25, "source": "periodical of 21 June 2020"},
+      {"from": "2021-11-01", "share": 0.15, "source": "periodical of 26 October 2021"},
+      {"from": "2022-03-15", "share": 0.0, "source": "periodical of 14 March 2022, the reduction cancelled"}
+    ],
+    "us_gulf_to_asia_rebate": [
+      {"from": "2015-05-01", "share": 0.0, "source": "none before October 2017"},
+      {"from": "2017-10-01", "share": 0.50, "source": "circular 7/2017"},
+      {"from": "2018-10-01", "share": 0.65, "source": "periodical of 25 September 2018"},
+      {"from": "2019-10-01", "share": 0.75, "source": "periodical of 12 September 2019"},
+      {"from": "2022-01-01", "share": 0.70, "source": "periodical of 21 December 2021"},
+      {"from": "2023-07-01", "share": 0.75, "source": "periodical of 21 June 2023, renewed every six months to 31 December 2026 (periodical 8/2026)"}
+    ],
+    "rule": "toll = normal dues by band x (1 + surcharge - the larger of the route rebate and the general reduction), in SDR, at the day's dollars per SDR",
+    "circulars_url": "https://www.suezcanal.gov.eg/English/Navigation/NavigationCirculars/Pages/default.aspx"
+  },
+
+  "route_status": [
+    {"route": "panama", "from": "2016-01-01", "status": "closed", "note": "The expanded locks open on 26 June 2016; the old locks are too small for the ship", "source": "Panama Canal Authority, press release of 26 June 2016", "url": "https://pancanal.com/en/inaugural-transit-of-the-expanded-panama-canal-begins/"},
+    {"route": "panama", "from": "2016-06-26", "status": "open", "note": "First LNG carrier through the expanded locks on 25 July 2016, from Sabine Pass", "source": "Panama Canal Authority, press release of 25 July 2016", "url": "https://pancanal.com/en/first-ever-lng-vessel-transits-the-expanded-panama-canal-ushering-in-new-era-for-the-segment-and-global-lng-trade/"},
+    {"route": "panama", "from": "2023-07-30", "status": "restricted", "note": "Drought: daily transits cut to 32 and booking slots to 24 by January 2024; unbooked LNG carriers reported waiting 12 to 17 days; LNG transits fall from 326 in fiscal 2023 to 115 in fiscal 2024", "source": "Panama Canal Authority, advisories A-35-2023, A-48-2023 and A-54-2023", "url": "https://pancanal.com/wp-content/uploads/2023/01/ADV35-2023-Additional-Measures-to-Mitigate-the-Extended-Dry-Season-and-Reduction-in-Precipitation-in-the-Canal-Watershed.pdf"},
+    {"route": "panama", "from": "2024-09-01", "status": "open", "note": "Normal operating conditions since September 2024: 36 booking slots a day, 10 of them Neopanamax, sold by booking, auction and long-term allocation. LNG use stays low (61 transits in fiscal 2025). A dry spell from July 2026 cut the Neopanamax slots to 9 and the draught to 48 feet; on 9 November 2026 the canal went back to 10 Neopanamax slots of 34 and a draught of 50 feet", "source": "Panama Canal Authority, advisories A-28-2024 and A-42-2026", "url": "https://pancanal.com/wp-content/uploads/2026/11/ADV-42-2026-Increase-in-the-Number-of-Booking-Slots-at-the-Panamax-Locks-and-in-the-Maximum-Allowable-Draft-at-the-Neopanamax-Locks-.pdf"},
+    {"route": "suez", "from": "2016-01-01", "status": "open", "note": "Routine use: 130 US cargoes went south through the canal in 2023", "source": "Oxford Institute for Energy Studies, NG 188, February 2024", "url": "https://www.oxfordenergy.org/wpcms/wp-content/uploads/2024/02/NG-188-LNG-Shipping-Chokepoints.pdf"},
+    {"route": "suez", "from": "2024-01-13", "status": "closed", "note": "Red Sea: the last laden LNG carrier passed on 12 January 2024. Since then a handful of crossings a year, none reported for a US cargo to Asia; a Qatari cargo to Europe in October 2026 was reported as rare", "source": "Oxford Institute for Energy Studies, NG 188; gCaptain, October 2026", "url": "https://gcaptain.com/qatar-lng-cargo-makes-rare-red-sea-journey-to-get-gas-to-europe/"},
+    {"route": "cape", "from": "2016-01-01", "status": "open", "note": "No canal, no slot", "source": "", "url": null}
+  ],
+
+  "ets": {
+    "phase_in": [
+      {"year": 2023, "share": 0.0},
+      {"year": 2024, "share": 0.40},
+      {"year": 2025, "share": 0.70},
+      {"year": 2026, "share": 1.00}
+    ],
+    "voyage_share": 0.5,
+    "berth_share": 1.0,
+    "tco2_per_t_lng": 2.75,
+    "tn2o_per_t_lng": 0.00011,
+    "gwp_ch4": 28.0,
+    "gwp_n2o": 265.0,
+    "methane_slip": {"tfde_160k": 0.031, "two_stroke_174k": 0.017},
+    "methane_and_n2o_from_year": 2026,
+    "source": "Directive 2003/87/EC as amended by Directive (EU) 2023/959: Article 3ga, half of the emissions of a voyage between an EU port and a port outside the EU and all emissions at berth in the EU; Article 3gb, 40 percent of 2024 emissions surrendered, 70 percent of 2025, all from 2026; Annex I, methane and nitrous oxide from 1 January 2026. Emission factors and default methane slip (Otto dual fuel, slow speed 1.7 percent, medium speed 3.1 percent): Regulation (EU) 2015/757, Annex I, as replaced by Delegated Regulation (EU) 2023/2776. Warming potentials: Delegated Regulation (EU) 2020/1044",
+    "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32023L0959"
+  },
+
+  "contract": {
+    "henry_hub_multiple": {"value": 1.15, "source": "Sabine Pass Liquefaction and Centrica, LNG sale and purchase agreement of 22 March 2013, section 9.1.1: 'CSP = (1.15 x HH) + X'", "url": "https://cqpir.cheniere.com/sec-filings/all-sec-filings/content/0001383650-13-000038/exhibit101centricaspa.htm"},
+    "liquefaction_fee_usd_mmbtu": {"value": 3.00, "low": 2.25, "high": 3.50, "status": "assumption", "source": "The fixed fee most Sabine Pass contracts carry (Cheniere Energy Partners, Form 10-K for 2015, pages 9 and 88); 2.25 for BG's first volumes, 3.50 in the Corpus Christi contract with Woodside", "url": "https://cqpir.cheniere.com/sec-filings/annual-reports/content/0001383650-16-000087/0001383650-16-000087.pdf"},
+    "cancellation_notice": {"value": "the 20th of the month two months before loading", "source": "The same agreement, section 5.7", "url": "https://cqpir.cheniere.com/sec-filings/all-sec-filings/content/0001383650-13-000038/exhibit101centricaspa.htm"}
+  },
+
+  "finance": {
+    "spread": {"value": 0.015, "status": "assumption", "source": "This study: 150 basis points over SOFR, a trading house's short-term borrowing", "url": null},
+    "day_count": {"value": 360, "source": "The money market convention SOFR is quoted on", "url": null},
+    "financed": "115 percent of Henry Hub on the cargo loaded, from loading to discharge"
+  },
+
+  "des_discount": {
+    "reference": {"weekdays": 10, "decay": 0.6, "status": "assumption", "source": "This study, from ACER's method: the assessment is a time and volume weighted average of the deals of the last ten weekdays, with weights that fall in a geometric progression, and a deal priced off TTF enters at the settlement of the day before it. ACER's published spread to one day's TTF therefore moves with TTF itself. Here the assessment is set against TTF weighted the same way over the ten weekdays before it. ACER does not publish its decay factor: 0.6 is the value at which the daily discount is steadiest (standard deviation 1.5 EUR/MWh against 2.6 for ACER's spread) and no longer follows TTF's move over the week (correlation 0.0 against -0.7), 31 March 2023 to 27 October 2026. Factors of 0.5 to 0.7 put the discount of late October 2026 between 2.7 and 1.8 EUR/MWh, which moves the reroute levels by about 0.15 USD/MMBtu either way", "url": "https://www.acer.europa.eu/sites/default/files/documents/en/Gas/LNG_Price_Assessment/ACER_LNG_price_assessment_and_benchmark_methodology_1.1.pdf"},
+    "window_days": {"value": 20, "status": "assumption", "source": "This study: the mean of the last 20 daily values, because few cargoes trade and one day's assessment can repeat the day before"},
+    "before_acer_eur_mwh": {"value": -1.2, "status": "assumption", "source": "This study: before ACER's assessments a cargo delivered to Northwest Europe is taken to sell 1.2 EUR/MWh under TTF, the median of the daily discount measured as above from 31 March 2023 to 27 October 2026 (between 1.1 and 1.3 EUR/MWh in every quartile of the gas price, so an amount is steadier than a share of TTF). ACER's own reading is higher: 'in recent months, spreads tend to fall in the range between 2 EUR/MWh and 3 EUR/MWh, a price difference closely aligned to the LNG system access tariffs', and it notes that TTF was often below spot LNG in 2021 (European LNG market developments, April 2024, paragraph 86). One EUR/MWh moves every level before 2023 by about 0.33 USD/MMBtu", "url": "https://www.acer.europa.eu/sites/default/files/documents/Publications/ACER_2024_MMR_European_LNG_market_developments.pdf"},
+    "before_acer_periods": [
+      {"from": "2022-02-24", "to": "2022-05-31", "eur_mwh": -1.2, "to_eur_mwh": -35.0, "status": "assumption", "note": "from the invasion of Ukraine to June 2022 the discount is taken to widen in a straight line to the 35 EUR/MWh ACER states for June",
+       "source": "This study: a straight line from 1.2 EUR/MWh on 24 February 2022 to 35 at the start of June 2022; nothing published was found for these months", "url": null},
+      {"from": "2022-06-01", "to": "2022-10-15", "eur_mwh": -35.0, "status": "assumption", "note": "ACER puts the discount at about 35 EUR/MWh from June to mid October 2022, when Northwest Europe's terminals were full",
+       "source": "ACER, Market Correction Mechanism, effects assessment report, 1 March 2023, note 69: the difference between the LNG markers and TTF 'was around 35 EUR/MWh between June and August 2022'; ACER, European LNG market developments, April 2024, paragraph 83: the spread 'exceeded 35 EUR/MWh during most days from end-July to mid-October 2022'",
+       "url": "https://www.acer.europa.eu/sites/default/files/documents/Publications/ACER_FinalReport_MCM.pdf"},
+      {"from": "2022-10-16", "to": "2022-12-31", "eur_mwh": -35.0, "to_eur_mwh": -6.5, "status": "assumption", "note": "between ACER's figures for mid October 2022 and for January 2023 the discount is taken to narrow in a straight line",
+       "source": "This study: a straight line from 35 EUR/MWh in mid October 2022 to 6.5 at the start of January 2023, the two levels ACER states", "url": null},
+      {"from": "2023-01-01", "to": "2023-01-24", "eur_mwh": -6.5, "status": "assumption", "note": "ACER puts the discount between 5 and 8 EUR/MWh in the first weeks of January 2023",
+       "source": "ACER, Market Correction Mechanism, preliminary data report, 23 January 2023: the spread between TTF and the EU LNG import price 'hovering between 5 and 8 EUR/MWh during the first weeks of January 2023'",
+       "url": "https://www.acer.europa.eu/sites/default/files/documents/Publications/ACER_PreliminaryReport_MCM.pdf"}
+    ]
+  },
+
+  "hire": {
+    "scenario_quantiles": {"low": 0.25, "central": 0.5, "high": 0.75},
+    "max_hold_days": {"value": 182, "status": "assumption", "source": "This study: a reported rate stands until the next one, for 26 weeks at most"},
+    "unreported": {"value": "low", "status": "assumption", "source": "This study: from 2020 on, a date with no reported rate in the 26 weeks before it runs at the low scenario of its ship"},
+    "before_reports": [
+      {"from": "2016-01-01", "to": "2017-12-31", "usd_per_day": 26500, "status": "assumption", "note": "DOE's handbook puts spot rates of 2016 and 2017 at a third to a quarter of 80,000 to 100,000 USD a day",
+       "source": "U.S. Department of Energy, Understanding natural gas and LNG options, 2017: spot rates at a third to a quarter of the 80,000 to 100,000 USD a day a new ship needs, that is 20,000 to 33,000; the middle is used",
+       "url": "https://www.energy.gov/sites/prod/files/2017/09/f36/Understanding%20Natural%20Gas%20and%20Lng%20Options_general%20no%20appendix.pdf"},
+      {"from": "2018-01-01", "to": "2018-12-31", "usd_per_day": 86750, "status": "assumption", "note": "the 2019 average of 69,337 USD a day was more than 20 percent below 2018's, which puts 2018 at 86,750 or more",
+       "source": "Bloomberg in gCaptain, 8 April 2020, on GIIGNL's annual report: 'The average spot charter rate for a 160,000 cubic meter vessel fell more than 20% in 2019 to $69,337 a day'; 69,337 over 0.8, rounded to 250",
+       "url": "https://gcaptain.com/after-a-record-year-lng-industry-heads-for-slump-in-deliveries/"},
+      {"from": "2019-01-01", "to": "2019-12-31", "usd_per_day": 69250, "status": "assumption", "note": "GIIGNL's average spot rate of 2019 for a 160,000 m3 ship, 69,337 USD a day",
+       "source": "Bloomberg in gCaptain, 8 April 2020, on GIIGNL's annual report: 'The average spot charter rate for a 160,000 cubic meter vessel fell more than 20% in 2019 to $69,337 a day'; rounded to 250",
+       "url": "https://gcaptain.com/after-a-record-year-lng-industry-heads-for-slump-in-deliveries/"}
+    ],
+    "note": "Low, central and high are the quartiles of the monthly medians of the rates reported for the ship in use, rounded to 250 USD a day as Spark quotes them. Zero is the sunk case: tonnage already on term charter."
+  },
+
+  "flows": {
+    "jkm_markets": ["Japan", "South Korea", "China", "Taiwan"],
+    "regions": {
+      "Europe": ["Belgium", "Croatia", "Finland", "France", "Germany", "Greece", "Italy", "Lithuania", "Malta", "Netherlands", "Poland", "Portugal", "Spain", "United Kingdom", "Turkiye"],
+      "Other Asia": ["Bangladesh", "India", "Indonesia", "Malaysia", "Pakistan", "Philippines", "Singapore", "Thailand", "Vietnam"],
+      "Middle East and Africa": ["Bahrain", "Egypt", "Israel", "Jordan", "Kuwait", "United Arab Emirates", "Mauritania", "Senegal", "South Africa"],
+      "Americas": ["Antigua and Barbuda", "Argentina", "Bahamas", "Barbados", "Brazil", "Canada", "Chile", "Colombia", "Dominican Republic", "El Salvador", "Haiti", "Honduras", "Jamaica", "Mexico", "Nicaragua", "Panama", "Puerto Rico"]
+    },
+    "lag_months": 1,
+    "rule": "Fixed before the result was computed: a month is open when its mean JKM minus TTF is above the breakeven of the cheapest open route at the reported charter rate; its verdict is set against the share of the cargoes that left the following month."
+  },
+
+  "source_notes": {
+    "about": "Traps met in each source, kept for whoever maintains the fetchers.",
+    "eia_weekly": [
+      "The WNGSR Supplement shows only its current issue (content/bullets_lng_2.html, release_dates.json). A week not read while current can only be read by hand from EIA's archive pages, which robots.txt closes to code.",
+      "Read a level only from a sentence that names one market and says what it averaged; other bullets come and go.",
+      "The Natural Gas Weekly Update ended with the week to 21 January 2026. Before July 2022 it printed swaps for East Asia and day-ahead prices for TTF; issues of 2023 reprint the weeks of 2022 on the futures basis.",
+      "Two issues (14 September 2023, 7 March 2024) repeat the previous week; holiday weeks have no issue. The year-later reprints fill 42 of them.",
+      "eia.gov answers 503 to HEAD requests and 200 to GET."
+    ],
+    "henry_hub": ["A legacy .xls, sheet 'Data 1', data from the fourth row. Holidays are omitted. EIA's NYMEX futures series stop on 5 April 2024, hence the spot price on expiry day as the contract price."],
+    "usd_per_eur": ["A day with no rate carries OBS_VALUE -9999 with OBS_STATUS ND. The series is RXI$US_N.B.EU, quoted as USD per EUR; released weekly, so the last value can be ten days old."],
+    "sofr": ["Rows come newest first and a day with no publication has no row. SOFR starts on 2 April 2018; before it the file holds the New York Fed's indicative SOFR."],
+    "doe_cargoes": ["The workbook's address changes every month and its page every year: read both from the listing. A row is a cargo or a part of one; re-exports and ISO containers share the sheet."],
+    "acer": ["The daily assessments are a download from ACER's TERMINAL platform, saved by hand. The published benchmark is the EU assessment less TTF; the Northwest Europe spread is that benchmark plus the NWE assessment less the EU one."],
+    "eua": ["The Commission's reports lag by a year; DEHSt's German auction averages follow them and differ by about 0.1 EUR a tonne. DEHSt asks robots to wait 30 seconds between requests."],
+    "meti": ["A month METI did not publish is a multiplication sign in the workbook. The contract-based price includes cargoes sold for later delivery, so it runs above the prompt price when the curve is steep, as in mid 2020."],
+    "panama": ["From 2023 the toll is a fixed charge plus one rate per m3, ballast at 85 percent; before, rates by band with a lower table for a ship back in ballast within 60 days. The fresh water surcharge and the booking fee are separate items. The site asks robots to wait 10 seconds."],
+    "suez": ["Dues are in SDR per ton of Suez Canal net tonnage, not per m3 and not in dollars. The LNG surcharge and the rebate for US Gulf cargoes to Asia are in circulars, not in the schedules; the rebate is renewed every six months."],
+    "charter_rates": ["LNG Prime's articles are for subscribers since 2024; the headline and the lead sentence stay public and often give Spark's Atlantic rate. Take a figure only when it is stated exactly; a lead sentence is sometimes a copy of the week before."]
+  },
+
+  "cross_checks": {
+    "spark_example": {
+      "source": "Spark Commodities, note on negative freight rates, February 2022, assessment of 8 February 2022, Sabine Pass to Gate and back on a 160,000 m3 TFDE",
+      "hire_usd_day": 24500, "laden_days": 17.5, "ballast_days": 12.5, "round_trip_days": 30, "fuel_price_usd_mmbtu": 26.679,
+      "ballast_fuel_usd": 1208825, "laden_fuel_usd": 1692355, "port_cost_usd": 308947,
+      "full_ballast_bonus": {"charterer_payment_usd": 1943825, "spark_rate_usd_day": 24500},
+      "half_ballast_bonus": {"ballast_bonus_usd": 757538, "charterer_payment_usd": 1186288, "spark_rate_usd_day": -751.23, "spark_rate_rounded": -750, "total_cost_usd": 3187591, "discharge_mmbtu": 3501428, "freight_usd_mmbtu": 0.91},
+      "positioning_fee": {"fee_usd": 500000, "charterer_payment_usd": 2443825, "spark_rate_rounded": 41250}
+    },
+    "platts_arbitrage_2026_04_28": {
+      "source": "Platts, republished by Cyprus Shipping News, 5 May 2026: US arbitrage to North Asia against the Atlantic",
+      "url": "https://cyprusshippingnews.com/2026/05/05/us-lng-arbitrage-to-asia-open-via-panama-canal-laden-flows-limited/",
+      "via_panama_usd_mmbtu": 0.533, "via_cape_usd_mmbtu": -0.677, "cargoes_to_asia": 34, "of_which_via_cape": 31
+    },
+    "cancellations_2020": {
+      "source": "EIA, Today in Energy, 11 August 2020: cargoes cancelled, EIA's estimate for June and July, trade press reports for August and September",
+      "url": "https://www.eia.gov/todayinenergy/detail.php?id=44697",
+      "cargoes": {"2020-06": 46, "2020-07": 50, "2020-08": 45, "2020-09": 30}
+    },
+    "cape_use_2024_03": {
+      "source": "Platts, republished by Hellenic Shipping News, 22 April 2024: a record 27 US cargoes to Asia via the Cape of Good Hope in March 2024, against one via Panama",
+      "url": "https://www.hellenicshippingnews.com/updated-transit-levels-at-panama-canal-dont-faze-lng-shippers/",
+      "via_cape": 27, "via_panama": 1
+    }
+  }
+}
