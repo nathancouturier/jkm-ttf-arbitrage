@@ -1,0 +1,44 @@
+{
+ "charter_rate": {
+  "checked": "2026-11-13 16:22 UTC",
+  "last": "2026-10-02",
+  "message": "no headline since 2026-10-02 states the rate",
+  "ok": true
+ },
+ "doe_cargoes": {
+  "checked": "2026-11-13 16:22 UTC",
+  "last": "2026-08-31",
+  "message": "160 new rows",
+  "ok": true
+ },
+ "eia_weekly": {
+  "checked": "2026-11-13 16:22 UTC",
+  "last": "2026-11-04",
+  "message": "no new week",
+  "ok": true
+ },
+ "henry_hub": {
+  "checked": "2026-11-13 16:22 UTC",
+  "last": "2026-11-11",
+  "message": "11 new rows",
+  "ok": true
+ },
+ "sofr": {
+  "checked": "2026-11-13 16:22 UTC",
+  "last": "2026-10-28",
+  "message": "kept the data held: ProxyError: HTTPSConnectionPool(host='markets.newyorkfed.org', port=443): Max retries exceeded with url: /api/rates/secured/sofr/search.json?startDate=2026-10-28&endDate=20",
+  "ok": false
+ },
+ "usd_per_eur": {
+  "checked": "2026-11-13 16:22 UTC",
+  "last": "2026-11-06",
+  "message": "10 new rows",
+  "ok": true
+ },
+ "usd_per_sdr": {
+  "checked": "2026-11-13 16:22 UTC",
+  "last": "2026-11-12",
+  "message": "11 new rows",
+  "ok": true
+ }
+}
