@@ -128,16 +128,17 @@ export function mount(root, ctx) {
     const narrow = (plot.clientWidth || 900) < 600;
     const c = frame(plot, { height: narrow ? 320 : 400, margin: { top: 26, right: narrow ? 12 : 150, bottom: 46, left: 44 },
       label: "What a Panama slot is worth against the Cape, by charter rate and gas price" });
-    const hires = d3.range(0, 200001, 5000);
+    const top = Math.max(200000, Math.ceil((base.hire * 1.15) / 50000) * 50000);      // the axis always reaches today's charter rate
+    const hires = d3.range(0, top + 1, 5000);
     const levels = [[base.jkm, `JKM ${num(base.jkm)}, this week`, ROUTES.panama.color, 2.4], [20, "JKM 20", "var(--faint)", 1.5], [10, "JKM 10", "var(--faint)", 1.5]];
     const value = (q) => (mode === "wait" ? q.wait_days : q.premium_usd / 1e6);
     const series = levels.map(([jkm, label, color, width]) => ({ label, color, width,
       points: hires.map((hire) => [hire, value(canalQuestion(withChanges(base, { hire, jkm })))]) }));
     const all = series.flatMap((se) => se.points.map((p) => p[1]));
-    const x = d3.scaleLinear([0, 200000], [0, c.w]);
+    const x = d3.scaleLinear([0, top], [0, c.w]);
     const y = d3.scaleLinear([Math.min(0, d3.min(all)), d3.max(all) * 1.05], [c.h, 0]).nice();
     axisY(c, y, { values: y.ticks(6), format: (v) => num(v, mode === "wait" ? 0 : 1), label: mode === "wait" ? "Days of waiting at each transit that cancel Panama's lead" : "Million USD for the two transits, above the tariff" });
-    axisX(c, x, { values: narrow ? [0, 100000, 200000] : [0, 50000, 100000, 150000, 200000], format: int, label: "Charter rate, USD a day" });
+    axisX(c, x, { values: (narrow ? [0, 0.5, 1] : [0, 0.25, 0.5, 0.75, 1]).map((k) => k * top), format: int, label: "Charter rate, USD a day" });
     for (const se of [...series].reverse()) path(c, se.points.map(([hire, v]) => [x(hire), y(v)]), { stroke: se.color, "stroke-width": se.width });
     const today = value(canalQuestion(base));
     s("line", { x1: x(base.hire), x2: x(base.hire), y1: 0, y2: c.h, stroke: "var(--accent)", "stroke-width": 1, "stroke-dasharray": "3 3" }, c.g);

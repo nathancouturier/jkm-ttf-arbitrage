@@ -5,7 +5,7 @@ import { h, b, put, num, int, day, clamp, ROUTES, EAST, panel, table } from "../
 import { frame, axisX, axisY, path, dot, endLabels, showTip, hover, s, d3 } from "../chart.js";
 import { inputsTable, driversTable, methodLink, hireSource, closesAbove } from "./shared.js";
 
-const X_MAX = 200000;
+const X_MIN_TOP = 200000;      // the charter rate axis runs to here, or further when today's rate is higher
 const RANGE = { ttf: [2, 60], des: [-6, 1], wait: [0, 20] };     // the sliders' ends; an address cannot ask for more
 
 export function mount(root, ctx) {
@@ -98,24 +98,25 @@ export function mount(root, ctx) {
       margin: { top: 28, right: narrow ? 10 : 132, bottom: 46, left: 44 },
       label: "Reroute level by route against the charter rate, with this week's spread and charter rate marked",
     });
+    const xMax = Math.max(X_MIN_TOP, Math.ceil((base.hire * 1.15) / 50000) * 50000);
     const values = [res.spread, 0];
-    for (const id of EAST) if (st.open.includes(id) || id !== "suez") values.push(lines[id][0], lines[id][0] + lines[id][1] * X_MAX);
+    for (const id of EAST) if (st.open.includes(id) || id !== "suez") values.push(lines[id][0], lines[id][0] + lines[id][1] * xMax);
     const lo = Math.floor((Math.min(...values) - 0.25) * 2) / 2;
     const hi = Math.ceil((Math.max(...values) + 0.25) * 2) / 2;
-    const x = d3.scaleLinear([0, X_MAX], [0, c.w]);
+    const x = d3.scaleLinear([0, xMax], [0, c.w]);
     const y = d3.scaleLinear([lo, hi], [c.h, 0]);
     axisY(c, y, { values: d3.ticks(lo, hi, 7), format: (v) => num(v, 1), label: "Reroute level, JKM minus TTF, USD/MMBtu" });
-    axisX(c, x, { values: narrow ? [0, 100000, 200000] : [0, 50000, 100000, 150000, 200000], format: int, label: "Charter rate, USD a day" });
+    axisX(c, x, { values: (narrow ? [0, 0.5, 1] : [0, 0.25, 0.5, 0.75, 1]).map((k) => k * xMax), format: int, label: "Charter rate, USD a day" });
 
     const labels = [];
     for (const id of EAST) {
       const [a, slope] = lines[id];
       const isOpen = res.routes[id].open;
-      path(c, [[x(0), y(a)], [x(X_MAX), y(a + slope * X_MAX)]],
+      path(c, [[x(0), y(a)], [x(xMax), y(a + slope * xMax)]],
         { stroke: ROUTES[id].color, "stroke-dasharray": isOpen ? null : "2 5", opacity: isOpen ? 1 : 0.8 });
-      labels.push({ y: y(a + slope * X_MAX), color: ROUTES[id].color, text: ROUTES[id].via, sub: isOpen ? null : "closed" });
+      labels.push({ y: y(a + slope * xMax), color: ROUTES[id].color, text: ROUTES[id].via, sub: isOpen ? null : "closed" });
       const hStar = res.routes[id].breakeven_hire;
-      if (isOpen && hStar > 0 && hStar < X_MAX) {
+      if (isOpen && hStar > 0 && hStar < xMax) {
         s("circle", { cx: x(hStar), cy: y(res.spread), r: 4.5, fill: "var(--paper)", stroke: ROUTES[id].color, "stroke-width": 2 }, c.g);
       }
     }
@@ -153,7 +154,7 @@ export function mount(root, ctx) {
     const cursor = s("line", { class: "cursor", y1: 0, y2: c.h, visibility: "hidden" }, c.g);
     const STEP = 500;
     hover(c, {
-      count: X_MAX / STEP + 1,
+      count: xMax / STEP + 1,
       start: Math.round(base.hire / STEP),
       toIndex: (px) => Math.round(x.invert(px) / STEP),
       leave: () => cursor.setAttribute("visibility", "hidden"),

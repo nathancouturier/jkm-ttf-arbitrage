@@ -38,10 +38,12 @@ def test_each_series_loads_in_order_and_in_range(name):
 
 def test_the_weekly_prices_are_weekly_and_current():
     weeks = pd.to_datetime(pd.read_csv(DATA / "prices_weekly.csv")["week_ending"])
-    assert not weeks.duplicated().any()
-    assert (weeks.dt.dayofweek == 2).all()                     # report weeks end on a Wednesday
-    assert weeks.iloc[-1] >= pd.Timestamp("2026-11-04")
-    assert (weeks.diff().dt.days.dropna() % 7 == 0).all()       # EIA skips holiday weeks: a gap is whole weeks, never a failure
+    assert not weeks.duplicated().any() and weeks.is_monotonic_increasing
+    assert weeks.iloc[-1] >= pd.Timestamp("2026-11-11")
+    # What is pinned is the record as committed: report weeks ending on a Wednesday, whole weeks apart.
+    # Weeks to come are only asked to follow in order, so that nothing EIA does later can stop the refresh.
+    held = weeks[weeks <= pd.Timestamp("2026-11-11")]
+    assert (held.dt.dayofweek == 2).all() and (held.diff().dt.days.dropna() % 7 == 0).all()
 
 
 def test_every_json_file_parses_and_every_event_and_rate_has_a_source():
@@ -104,9 +106,10 @@ def test_the_des_discount_is_measured_against_ttf_over_the_days_the_assessment_c
     """The evidence the parameter note states: steadier than ACER's own spread, and no longer following TTF's move."""
     market = Market()
     acer = market.acer.dropna(subset=["nwe_spread_to_ttf_eur_mwh"])
+    acer = acer[acer["date"] <= "2026-10-27"]                      # the days the note speaks of; later downloads do not move this test
     ttf = acer["nwe_des_eur_mwh"] - acer["nwe_spread_to_ttf_eur_mwh"]
     move = (ttf - ttf.shift(5)).iloc[5:]
-    raw, ours = acer["nwe_spread_to_ttf_eur_mwh"].iloc[5:], market.discount["discount"].iloc[5:]
+    raw, ours = acer["nwe_spread_to_ttf_eur_mwh"].iloc[5:], market.discount["discount"].iloc[:len(acer)].iloc[5:]
     assert ours.std() < 0.7 * raw.std()
     assert abs(np.corrcoef(ours, move)[0, 1]) < 0.2 < 0.5 < abs(np.corrcoef(raw, move)[0, 1])
     assert ours.median() == pytest.approx(market.p["des_discount"]["before_acer_eur_mwh"]["value"], abs=0.1)
@@ -137,7 +140,8 @@ def test_the_refresh_survives_ordinary_events():
 def test_a_failed_fetch_is_reported_in_plain_words():
     request = requests.Request("GET", "https://markets.newyorkfed.org/api/rates").prepare()
     assert fetch._why(requests.ConnectionError("tunnel refused", request=request)) == "markets.newyorkfed.org could not be reached"
-    assert fetch._why(ValueError("2 sentences give an average for JKM")).startswith("ValueError: 2 sentences")
+    assert fetch._why(ValueError("2 sentences give an average for JKM")) == "2 sentences give an average for JKM"
+    assert fetch._why(requests.exceptions.JSONDecodeError("Expecting value", "<html>", 0), "sofr") == "sofr answered with something that is not the data file"
 
 
 def test_the_refresh_reads_the_supplement_as_printed():
@@ -152,6 +156,9 @@ def test_the_refresh_reads_the_supplement_as_printed():
         fetch.parse_supplement(bullets, {"release-date": "November 13, 2026", "data-week-ending": "November 11, 2026"})
     with pytest.raises(ValueError):
         fetch.parse_supplement(bullets.replace("The Japan-Korea Marker (JKM) price averaged $31.99/MMBtu", "JKM rose"), release)
+    with pytest.raises(ValueError, match="no line that begins"):
+        fetch.parse_supplement(bullets.replace("For the week ending November 4", "For the two weeks to November 4"), release)
+    assert fetch.parse_supplement(bullets.replace("$31.99/MMBtu", "$32/MMBtu"), release)["jkm_usd_mmbtu"] == 32.0
 
 
 def test_the_site_json_is_complete_and_its_history_recomputes():

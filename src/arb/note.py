@@ -117,7 +117,7 @@ class Page:
 def chart_reroute(ax, study: dict) -> None:
     inputs = study["now"]["preset"]["inputs"]
     result = study["now"]["result"]
-    top = 200_000
+    top = max(200_000, int(-(-inputs["hire"] * 1.15 // 50_000)) * 50_000)       # the axis always reaches today's charter rate
     for rid in ("panama", "suez", "cape"):
         a, b = engine.breakeven_line(inputs, rid)
         is_open = result["routes"][rid]["open"]
@@ -133,7 +133,8 @@ def chart_reroute(ax, study: dict) -> None:
     ax.annotate("%s a day" % n(hire, 0), (hire, ax.get_ylim()[1]), xytext=(5, -2), textcoords="offset points", fontsize=9, color=ACCENT, va="top")
     ax.axhline(0, color="#8b8d93", linewidth=0.7)
     ax.set_xlim(0, top)
-    ax.set_xticks(range(0, top + 1, 50_000), ["0", "50,000", "100,000", "150,000", "200,000"])
+    ticks = [top * i // 4 for i in range(5)]
+    ax.set_xticks(ticks, [n(t, 0) for t in ticks])
     ax.set_xlabel("Charter rate, USD a day")
     ax.set_ylabel("Reroute level, JKM minus TTF, USD/MMBtu")
 
@@ -163,15 +164,18 @@ def chart_history(ax, study: dict) -> None:
                 ax.plot(dates[seg], [r["breakeven"] for r in rows[seg]], color=COLOUR[rows[first]["route"]], linewidth=1.2)
                 first = i
         ax.plot(dates[a:b], [r["spread"] for r in rows[a:b]], color=INK, linewidth=1.0)
-    ax.plot([dates[-1]], [rows[-1]["spread"]], "o", color=ACCENT, markersize=5, markeredgecolor="white", markeredgewidth=1, zorder=5)
+    ax.plot([dates[-1]], [max(-6, min(8, rows[-1]["spread"]))], "o", color=ACCENT, markersize=5, markeredgecolor="white", markeredgewidth=1, zorder=5, clip_on=False)
     ax.axhline(0, color="#8b8d93", linewidth=0.7)
     ax.set_ylim(-6, 8)
     ax.set_xlim(dates[0], dates[-1])
     ax.set_ylabel("USD/MMBtu")
-    low = min(rows, key=lambda r: r["spread"])
+    low, high = min(rows, key=lambda r: r["spread"]), max(rows, key=lambda r: r["spread"])
     if low["spread"] < -6:
         ax.annotate("off the scale: %s in %s" % (n(low["spread"], 1), month(low["date"])), (date.fromisoformat(low["date"]), -6),
                     xytext=(6, 5), textcoords="offset points", fontsize=8.5, color=MUTED)
+    if high["spread"] > 8:
+        ax.annotate("off the scale: %s in %s" % (n(high["spread"], 1), month(high["date"])), (date.fromisoformat(high["date"]), 8),
+                    xytext=(6, -11), textcoords="offset points", fontsize=8.5, color=MUTED)
     labelled = [e for e in study["events"] if "weekly" in e.get("on", []) and e["date"] >= rows[0]["date"]]
     for i, e in enumerate(sorted(labelled, key=lambda e: e["date"])):
         d = date.fromisoformat(e["date"])
@@ -223,6 +227,13 @@ def facts(study: dict) -> dict:
             "summary": study["history"]["summary"]["weekly"], "best": (best, full[best]), "worst": (worst, full[worst]),
             "flows": study["flows"], "lift": lift,
             "cancelled": sum(r["cancelled"] for r in study["flows"]["lift"]), "canal": now["canal"]}
+
+
+def closes_above(hire: float) -> str:
+    """The charter rate at which a route stops paying, short enough for a table cell."""
+    if hire <= 0:
+        return "shut at any rate"
+    return "%s million USD a day" % n(hire / 1e6) if hire >= 1e6 else "%s USD a day" % n(hire, 0)
 
 
 def listed(items: list[str]) -> str:
@@ -293,12 +304,13 @@ def compose(target, study: dict, scale: tuple[float, float] = (1.0, 1.0)) -> lis
         p.text("When a US Gulf LNG cargo pays to go east", font=BOLD, size=21, leading=1.15, after=0.14)
         p.text("%s At %s USD a day, %s, a cargo loaded at Sabine Pass pays to go to Japan instead of Rotterdam above a spread of %s, so %s."
                % (hl["spread"], hl["hire"], hl["rate"], hl["levels"], hl["verdict"]), font=BOLD, size=12.5, leading=1.3, after=0.10)
+        open_routes = [rid for rid in ("panama", "suez", "cape") if r["routes"][rid]["open"]]
         p.text("%s (ACER, to %s). Each 10,000 USD a day on the charter rate adds %s to the Panama level and %s to the Cape level, because the Cape "
-               "adds %s days to the round trip and Panama %s. With the ship already paid for the levels are %s and %s."
+               "adds %s days to the round trip and Panama %s. With the ship already paid for the level%s %s."
                % (hl["europe"][:-1], day(str(src["des_discount"]["date"])) if src["des_discount"]["date"] else "an assumption",
                   n(pan["spread_slope_per_usd_day"] * 1e4), n(cape["spread_slope_per_usd_day"] * 1e4),
                   n(cape["round_trip_days"] - eur["round_trip_days"], 0), n(pan["round_trip_days"] - eur["round_trip_days"], 0),
-                  n(table["panama"]["sunk"]), n(table["cape"]["sunk"])), after=0.16)
+                  " is" if len(open_routes) == 1 else "s are", listed([n(table[rid]["sunk"]) for rid in open_routes])), after=0.16)
         p.text("Chart 1. The longer the route, the faster its reroute level rises with the charter rate", font=BOLD, size=10, after=0.04)
         chart_reroute(p.axes(2.40 * scale[0], right=RIGHT + 1.05, after=0.52), study)
         sc = study["now"]["preset"]["scenarios"]
@@ -307,8 +319,8 @@ def compose(target, study: dict, scale: tuple[float, float] = (1.0, 1.0)) -> lis
                "high, %s" % n(sc["high"], 0), "arb closes above"], stops, font=ITALIC, size=8.8, colour=MUTED, after=0.02)
         for rid in ("panama", "suez", "cape"):
             row = table[rid]
-            closes = n(row["breakeven_hire"], 0) + " USD a day" if row["breakeven_hire"] > 0 else "shut at any rate"
-            p.row([NAME[rid] + ("" if row["open"] else " (closed)"), n(row["sunk"]), n(row["low"]), n(row["central"]), n(row["high"]), closes], stops)
+            p.row([NAME[rid] + ("" if row["open"] else " (closed)"), n(row["sunk"]), n(row["low"]), n(row["central"]), n(row["high"]),
+                   closes_above(row["breakeven_hire"])], stops)
         p.y += 0.16
         s = f["summary"]
         p.text("Chart 2. The spread cleared the level in %d of %d weeks, most often in %s and least in %s"
@@ -331,9 +343,10 @@ def compose(target, study: dict, scale: tuple[float, float] = (1.0, 1.0)) -> lis
             p.text("When does the arb close on the cargo itself? A buyer lifts a cargo when its best netback covers 115 percent of Henry Hub. "
                    "From %s to %s a cargo sold in Europe did not, and about %d US cargoes were cancelled."
                    % (month(lift[0]["month"]).split()[0], month(lift[-1]["month"]), f["cancelled"]), after=0.06)
-        p.text("What is a Panama slot worth? Through Panama the round trip is %s days shorter than round the Cape. At this week's charter rate and gas "
-               "price a ship can pay %s million USD above the tariff for its two transits, or wait %s days at each, before the Cape is the cheaper way east."
-               % (n(cape["round_trip_days"] - pan["round_trip_days"], 0), n(f["canal"]["premium_usd"] / 1e6), n(f["canal"]["wait_days"], 1)), after=0.14)
+        p.text("What is a Panama slot worth? %sThrough Panama the round trip is %s days shorter than round the Cape. At this week's charter rate and gas "
+               "price a ship %s pay %s million USD above the tariff for its two transits, or wait %s days at each, before the Cape is the cheaper way east."
+               % ("" if pan["open"] else "The canal is not open to this cargo this week; were it, the sum would run as follows. ",
+                  n(cape["round_trip_days"] - pan["round_trip_days"], 0), "can" if pan["open"] else "could", n(f["canal"]["premium_usd"] / 1e6), n(f["canal"]["wait_days"], 1)), after=0.14)
 
         p.text("Method", font=BOLD, size=13, after=0.06)
         box_top = p.y
@@ -412,7 +425,7 @@ def readme_finding(study: dict) -> str:
     paid = "With the ship already paid for the level%s %s." % (
         " is" if len(open_routes) == 1 else "s are", listed([n(table[rid]["sunk"]) for rid in open_routes]))
     clears = [rid for rid in open_routes if r["spread"] > r["routes"][rid]["breakeven_spread"]]
-    closes = " ".join("The arb %s closes above a charter rate of %s USD a day." % (NAME[rid], n(r["routes"][rid]["breakeven_hire"], 0)) for rid in clears[:1])
+    closes = " ".join("The arb %s closes above a charter rate of %s." % (NAME[rid], closes_above(r["routes"][rid]["breakeven_hire"])) for rid in clears[:1])
     return "\n".join([
         "**Week to %s.** %s At %s USD a day, %s, a cargo pays to go east above %s, so %s. %s %s %s"
         % (day(study["data_date"]), hl["spread"], hl["hire"], hl["rate"], hl["levels"], hl["verdict"], hl["europe"], paid, closes),

@@ -78,8 +78,10 @@ def parse_supplement(bullets_html: str, release: dict) -> dict:
     items = [re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", li)).strip()
              for li in re.findall(r"<li>(.*?)</li>", bullets_html, flags=re.S)]
     week = datetime.strptime(release["data-week-ending"], "%B %d, %Y").date()
-    heading = next(i for i in items if i.startswith("For the week ending"))
-    month, day = re.search(r"For the week ending (\w+) (\d+)", heading).groups()
+    heading = next((re.search(r"For the week ending (\w+) (\d+)", i) for i in items if i.startswith("For the week ending")), None)
+    if not heading or heading.group(1) not in MONTHS:
+        raise ValueError("EIA's page has no line that begins 'For the week ending' with a date")
+    month, day = heading.groups()
     if (MONTHS[month], int(day)) != (week.month, week.day):
         raise ValueError("the bullets are for %s %s but the release file says %s" % (month, day, week))
 
@@ -87,7 +89,10 @@ def parse_supplement(bullets_html: str, release: dict) -> dict:
         found = [i for i in items if re.search(names, i) and "averaged $" in i and not re.search(other, i)]
         if len(found) != 1:
             raise ValueError("%d sentences give an average for %s" % (len(found), names))
-        return float(re.search(r"averaged \$(\d+\.\d+)/MMBtu", found[0]).group(1))
+        price = re.search(r"averaged \$(\d+(?:\.\d+)?)/MMBtu", found[0])
+        if not price:
+            raise ValueError("the sentence for %s gives no price in USD/MMBtu" % names)
+        return float(price.group(1))
 
     jkm = _between(averaged(r"Japan-Korea Marker|JKM", r"Title Transfer Facility|TTF"), 0.5, 150, "JKM")
     ttf = _between(averaged(r"Title Transfer Facility|TTF", r"Japan-Korea Marker|JKM"), 0.5, 150, "TTF")
@@ -201,19 +206,25 @@ def doe_cargoes() -> tuple[str, str]:
     header = [str(h).strip() for h in next(rows)]
     col = {name: header.index(name) for name in
            ("Arrival/Departure Date", "Activity", "Mode of Transport", "Tanker", "Point of Entry or Exit", "Country", "Volume (MMCF)")}
-    out = []
+    out, skipped = [], 0
     for r in rows:
         day, volume = r[col["Arrival/Departure Date"]], r[col["Volume (MMCF)"]]
         if r[col["Activity"]] != "Exports" or r[col["Mode of Transport"]] != "Vessel" or not isinstance(day, datetime):
             continue
+        if not isinstance(volume, (int, float)):          # a blank or mistyped volume: leave the row out and say so
+            skipped += 1
+            continue
+        country = str(r[col["Country"]] or "").strip() or "Unknown"
         out.append((str(day.date()), r[col["Tanker"]] or "", r[col["Point of Entry or Exit"]] or "",
-                    str(r[col["Country"]]).strip(), _between(float(volume), 0, 10000, "a cargo in MMcf")))
+                    country, _between(float(volume), 0, 10000, "a cargo in MMcf")))
     out.sort()
     known = set(params.load()["flows"]["jkm_markets"]) | {c for group in params.load()["flows"]["regions"].values() for c in group}
     unknown = sorted({r[3] for r in out} - known)
     last, message = _replace("us_lng_cargoes_doe.csv", ["date", "tanker", "port", "country", "mmcf"], out, shrink_ok=False)
     if unknown:
         message += "; counted under Other until data/params.json names their region: " + ", ".join(unknown)
+    if skipped:
+        message += "; %d rows left out for want of a volume" % skipped
     return last, message
 
 
@@ -229,7 +240,7 @@ def charter_rate() -> tuple[str, str]:
     for block in re.findall(r'<div class="td_module_\w+ td_module_wrap.*?</time>', page, flags=re.S):
         link = re.search(r'<h3 class="entry-title td-module-title">\s*<a href="([^"]+)"[^>]*title="([^"]*)"', block)
         day = re.search(r'datetime="(\d{4}-\d\d-\d\d)', block)
-        if not link or not day or day.group(1) <= last:
+        if not link or not day or day.group(1) <= last or any(a["url"] == link.group(1) for a in added):
             continue
         title = html.unescape(link.group(2))
         figure = re.search(r"^Atlantic (?:spot )?LNG (?:shipping |freight )?rates? [a-z ]*?(?:to|at) (?:just )?\$([\d,]+) per day", title)
@@ -275,20 +286,25 @@ FILES = {"eia_weekly": ("prices_weekly.csv", "week_ending"), "henry_hub": ("henr
 def _problem() -> str | None:
     """None if the study builds, passes its tests and typesets its note on the data now held; otherwise what failed."""
     env = dict(os.environ, PYTHONPATH=str(params.ROOT / "src"))
-    for step in (["-m", "arb.build"], ["-m", "pytest", "-q", "-x", "tests"], ["-m", "arb.note"]):
+    for step, name in ((["-m", "arb.build"], "the build"), (["-m", "pytest", "-q", "-x", "tests"], "a test"), (["-m", "arb.note"], "the note")):
         done = subprocess.run([sys.executable, *step], cwd=params.ROOT, env=env, capture_output=True, text=True)
         if done.returncode:
             lines = [line.strip() for line in (done.stdout + done.stderr).splitlines() if line.strip()]
-            return "%s: %s" % (step[1], lines[-1][:140] if lines else "failed")
+            failed = next((line for line in lines if line.startswith("FAILED ")), lines[-1] if lines else "")
+            return "%s fails: %s" % (name, failed.replace("FAILED ", "")[:150])
     return None
 
 
-def _why(error: Exception) -> str:
+def _why(error: Exception, name: str = "the source") -> str:
     """A failure in a few plain words, without the machine's own network details."""
+    if isinstance(error, requests.exceptions.JSONDecodeError):
+        return "%s answered with something that is not the data file" % name
     if isinstance(error, requests.RequestException):
         request, response = getattr(error, "request", None), getattr(error, "response", None)
-        host = urlparse(request.url).hostname if request is not None and request.url else "the source"
+        host = urlparse(request.url).hostname if request is not None and request.url else name
         return "%s %s" % (host, "answered %s" % response.status_code if response is not None else "could not be reached")
+    if isinstance(error, ValueError):
+        return str(error)[:200]
     return "%s: %s" % (type(error).__name__, str(error)[:160])
 
 
@@ -296,6 +312,10 @@ def run(names: list[str] | None = None, check: bool = False) -> dict:
     """Fetches each source in turn. With check, a source's new data are kept only if the study still stands on them."""
     path = DATA / "status.json"
     status = json.loads(path.read_text()) if path.exists() else {}
+    # If the study already fails on the data held, no source is to blame: its new data are kept, so that no week is lost.
+    before = _problem() if check else None
+    if before:
+        print("the study does not stand on the data held before this run (%s): new data are kept unchecked" % before, flush=True)
     for name in names or list(SOURCES):
         file, column = DATA / FILES[name][0], FILES[name][1]
         held = file.read_bytes()
@@ -303,19 +323,23 @@ def run(names: list[str] | None = None, check: bool = False) -> dict:
         entry["checked"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
         try:
             entry["last"], entry["message"] = SOURCES[name]()
-            if check and file.read_bytes() != held:
+            if check and not before and file.read_bytes() != held:
                 problem = _problem()
                 if problem:
-                    raise ValueError("the study does not stand on the new data (%s)" % problem)
+                    raise ValueError("the study does not stand on the new data: %s" % problem)
             entry["ok"] = True
         except Exception as error:               # one source failing must not stop the others
             file.write_bytes(held)
             entry["ok"] = False
             entry["last"] = str(pd.read_csv(file, dtype=str)[column].max())
-            entry["message"] = "kept the data held: " + _why(error)
+            entry["message"] = "kept the data held: " + _why(error, name)
         status[name] = entry
         print("%-13s %s  %s" % (name, "ok    " if entry["ok"] else "FAILED", entry["message"]), flush=True)
     path.write_text(json.dumps(status, indent=1, sort_keys=True) + "\n", encoding="utf-8")
+    if check:                                    # leave the site's data, the note and the README built on what was kept
+        after = _problem()
+        if after:
+            print("after the refresh %s" % after, flush=True)
     return status
 
 

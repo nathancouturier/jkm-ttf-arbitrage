@@ -37,10 +37,15 @@ jobs:
       - name: Fetch every source, each on its own, keeping only data the study stands on
         run: make refresh
       - name: Rebuild the site's data, test, and write the note
+        id: build
         run: make
+      # The observations are committed even if the study does not build or test on them, so that no week
+      # is lost; what is published is decided by the deploy workflow, which tests before it publishes.
       - name: Commit the new data and start the deploy
+        if: always()
         env:
           GH_TOKEN: ${{ github.token }}
+          BUILT: ${{ steps.build.outcome }}
         run: |
           if git diff --quiet -- data ':!data/status.json'; then
             echo "No new or revised observation: nothing to commit."
@@ -48,7 +53,13 @@ jobs:
           fi
           git config user.name "Nathan Couturier"
           git config user.email "288413586+nathancouturier@users.noreply.github.com"
-          git add -A data site/data tests/fixtures assets README.md JKM-TTF-Arbitrage-Research-Note.pdf
-          git commit -m "Refresh the data to $(python -c "import json; print(json.load(open('site/data/study.json'))['data_date'])")"
-          git push
-          gh workflow run deploy.yml --ref "${{ github.event.repository.default_branch }}"
+          if [ "$BUILT" = "success" ]; then
+            git add -A data site/data tests/fixtures assets README.md JKM-TTF-Arbitrage-Research-Note.pdf
+          else
+            git add -A data
+          fi
+          git commit -m "Refresh the data, prices to $(tail -n 1 data/prices_weekly.csv | cut -d, -f1)"
+          git push || (git pull --rebase --autostash && git push)
+          if [ "$BUILT" = "success" ]; then
+            gh workflow run deploy.yml --ref "${{ github.event.repository.default_branch }}"
+          fi
