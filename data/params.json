@@ -143,7 +143,7 @@
 
   "des_discount": {
     "window_days": {"value": 20, "status": "assumption", "source": "This study: the mean of the last 20 daily values ACER published, because a single day mixes an assessment struck during the day with a futures settlement"},
-    "before_acer_eur_mwh": {"value": -2.0, "status": "assumption", "source": "ACER, Gas market trends and price drivers, October 2023, page 13: 'the average price difference between TTF front-month products and the EU LNG spot reference price was 2 EUR/MWh in 2023 (1 January to 31 August 2023)'", "url": "https://www.acer.europa.eu/sites/default/files/documents/Publications/ACER_MMR_2023_Gas_market_trends_price_drivers.pdf"},
+    "before_acer_share_of_ttf": {"value": -0.038, "status": "assumption", "source": "This study: before ACER's assessments a cargo delivered to Northwest Europe is taken to sell 3.8 percent under TTF, the median of ACER's daily Northwest Europe discount from 31 March 2023 to 27 October 2026. The median lies between 3.5 and 4.4 percent in every quartile of the gas price, so the share is steadier than an amount in EUR/MWh", "url": "https://www.acer.europa.eu/gas/lng-price-assessment"},
     "squeeze_2022": {"from": "2022-07-25", "to": "2022-10-15", "eur_mwh": -35.0, "status": "assumption", "source": "ACER, European LNG market developments, April 2024, paragraph 83: the spread 'exceeded 35 EUR/MWh during most days from end-July to mid-October 2022', when terminals and pipelines into Northwest Europe were congested", "url": "https://www.acer.europa.eu/sites/default/files/documents/Publications/ACER_2024_MMR_European_LNG_market_developments.pdf"}
   },
 
@@ -164,6 +164,27 @@
     },
     "lag_months": 1,
     "rule": "Fixed before the result was computed: a month is open when its mean JKM minus TTF is above the breakeven of the cheapest open route at the reported charter rate; its verdict is set against the share of the cargoes that left the following month."
+  },
+
+  "source_notes": {
+    "about": "Traps met in each source, kept for whoever maintains the fetchers.",
+    "eia_weekly": [
+      "The WNGSR Supplement shows only its current issue (content/bullets_lng_2.html, release_dates.json). A week not read while current can only be read by hand from EIA's archive pages, which robots.txt closes to code.",
+      "Read a level only from a sentence that names one market and says what it averaged; other bullets come and go.",
+      "The Natural Gas Weekly Update ended with the week to 21 January 2026. Before July 2022 it printed swaps for East Asia and day-ahead prices for TTF; issues of 2023 reprint the weeks of 2022 on the futures basis.",
+      "Two issues (14 September 2023, 7 March 2024) repeat the previous week; holiday weeks have no issue. The year-later reprints fill 42 of them.",
+      "eia.gov answers 503 to HEAD requests and 200 to GET."
+    ],
+    "henry_hub": ["A legacy .xls, sheet 'Data 1', data from the fourth row. Holidays are omitted. EIA's NYMEX futures series stop on 5 April 2024, hence the spot price on expiry day as the contract price."],
+    "usd_per_eur": ["A day with no rate carries OBS_VALUE -9999 with OBS_STATUS ND. The series is RXI$US_N.B.EU, quoted as USD per EUR; released weekly, so the last value can be ten days old."],
+    "sofr": ["Rows come newest first and a day with no publication has no row. SOFR starts on 2 April 2018; before it the file holds the New York Fed's indicative SOFR."],
+    "doe_cargoes": ["The workbook's address changes every month and its page every year: read both from the listing. A row is a cargo or a part of one; re-exports and ISO containers share the sheet."],
+    "acer": ["The daily assessments are a download from ACER's TERMINAL platform, saved by hand. The published benchmark is the EU assessment less TTF; the Northwest Europe spread is that benchmark plus the NWE assessment less the EU one."],
+    "eua": ["The Commission's reports lag by a year; DEHSt's German auction averages follow them and differ by about 0.1 EUR a tonne. DEHSt asks robots to wait 30 seconds between requests."],
+    "meti": ["A month METI did not publish is a multiplication sign in the workbook. The contract-based price includes cargoes sold for later delivery, so it runs above the prompt price when the curve is steep, as in mid 2020."],
+    "panama": ["From 2023 the toll is a fixed charge plus one rate per m3, ballast at 85 percent; before, rates by band with a lower table for a ship back in ballast within 60 days. The fresh water surcharge and the booking fee are separate items. The site asks robots to wait 10 seconds."],
+    "suez": ["Dues are in SDR per ton of Suez Canal net tonnage, not per m3 and not in dollars. The LNG surcharge and the rebate for US Gulf cargoes to Asia are in circulars, not in the schedules; the rebate is renewed every six months."],
+    "charter_rates": ["LNG Prime's articles are for subscribers since 2024; the headline and the lead sentence stay public and often give Spark's Atlantic rate. Take a figure only when it is stated exactly; a lead sentence is sometimes a copy of the week before."]
   },
 
   "cross_checks": {

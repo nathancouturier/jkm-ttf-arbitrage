@@ -192,12 +192,12 @@ export function mount(root, ctx) {
       { label: "DES discount", n: true, value: (r) => [num(r.des), tag(r.des_status)] },
       ...EAST.map((id) => ({ label: `Level ${ROUTES[id].via}`, n: true, value: (r) => num(r.levels[id]), cls: (r) => (r.routes[id][2] === "open" ? "" : "no") })),
       { label: "Arb", value: (r) => (r.open ? "open " + ROUTES[r.route].via : "closed"), cls: (r) => (r.open ? "yes" : "no") },
-    ], [...rows].reverse(), { tall: true, caption: "USD/MMBtu; charter rate in USD a day. Grey levels: the route was not open on that date." }));
+    ], [...rows].reverse(), { tall: true, min: 860, caption: "USD/MMBtu; charter rate in USD a day. Grey levels: the route was not open on that date." }));
     put(eventsBody, table([
       { label: "Date", value: (e) => (e.end ? `${day(e.date, true)} to ${day(e.end, true)}` : day(e.date, true)), head: true },
       { label: "Event", value: (e) => e.text },
       { label: "Source", value: (e) => h("a", { href: e.url, rel: "noopener" }, e.source) },
-    ], D.events, { tall: true }));
+    ], D.events, { tall: true, min: 640 }));
   }
 
   return { update };

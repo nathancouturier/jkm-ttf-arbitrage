@@ -13,19 +13,22 @@ export function mount(root, ctx) {
   const head = h("h1");
   const dek = h("p", { class: "dek" });
   const figTitle = h("p", { class: "fig-title" });
+  const figSub = h("p", { class: "fig-sub" }, "Shaded: the arb was open the month before.");
   const plot = h("div");
   const source = h("p", { class: "source" });
   const compare = h("div");
   const limits = h("p", { class: "dek", style: "margin-top:14px" },
     "The comparison cannot separate the arb from term contracts, from China's tariff on US LNG since February 2025, or from ships already on charter, for which the long way costs only fuel. Europe's pull since 2022 moves the spread and the cargoes together.");
   const liftTitle = h("p", { class: "fig-title" });
+  const liftSub = h("p", { class: "fig-sub" }, "Bars: cargoes loaded; outlined, cancelled. ", h("span", { class: "key c-ink" }), "sold in Europe ",
+    h("span", { class: "key c-panama dash", style: "margin-left:10px" }), "sold in Asia");
   const liftPlot = h("div");
   const liftSource = h("p", { class: "source" });
   const liftLead = h("p", { class: "dek" });
   const tableBody = h("div");
   root.append(kicker, head, dek,
-    h("div", { class: "cols" }, h("figure", null, figTitle, plot, source), h("div", null, compare, limits)),
-    h("h2", null, "When no market covers the gas: 2020"), liftLead, h("figure", null, liftTitle, liftPlot, liftSource),
+    h("div", { class: "cols" }, h("figure", null, figTitle, figSub, plot, source), h("div", null, compare, limits)),
+    h("h2", null, "When no market covers the gas: 2020"), liftLead, h("figure", null, liftTitle, liftSub, liftPlot, liftSource),
     h("div", { class: "more" }, panel("The table", tableBody)));
 
   // the arb of the month before decides the shading of a month's cargoes
@@ -49,7 +52,7 @@ export function mount(root, ctx) {
     const y = d3.scaleLinear([0, 0.7], [topH, 0]);
     for (const r of rows) if (r.prior && r.prior.open) s("rect", { x: x(r.t) - half, y: 0, width: half * 2 + 0.6, height: topH, fill: "var(--wash)" }, c.g);
     const top = { ...c, h: topH };
-    axisY(top, y, { values: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7], format: (v) => num(v * 100, 0), label: "Share of US LNG to JKM markets, percent. Shaded: the arb was open the month before" });
+    axisY(top, y, { values: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7], format: (v) => num(v * 100, 0), label: "Share of US LNG to JKM markets, percent" });
     path(c, rows.map((r) => [x(r.t), y(r.share_jkm)]), { stroke: "var(--ink)", "stroke-width": 1.8 });
     const last = rows[rows.length - 1];
     dot(c, x(last.t), y(last.share_jkm), "var(--accent)", 4.5);
@@ -58,7 +61,7 @@ export function mount(root, ctx) {
     const g2 = s("g", { transform: `translate(0,${topH + gap})` }, c.g);
     const bottom = { ...c, g: g2, h: botH };
     const y2 = d3.scaleLinear([-4, 4], [botH, 0]);
-    axisY(bottom, y2, { values: [-4, -2, 0, 2, 4], format: (v) => num(v, 0), label: "Arb margin: JKM minus TTF less the reroute level, USD/MMBtu" });
+    axisY(bottom, y2, { values: [-4, -2, 0, 2, 4], format: (v) => num(v, 0), label: narrow ? "Arb margin, USD/MMBtu" : "Arb margin: JKM minus TTF less the reroute level, USD/MMBtu" });
     for (const r of rows) {
       if (r.margin == null) continue;
       const v = Math.max(-4, Math.min(4, r.margin));
@@ -88,12 +91,12 @@ export function mount(root, ctx) {
   }
 
   function bars() {
-    const row = (label, side) => h("div", { style: "display:grid;grid-template-columns:140px 1fr;gap:10px;align-items:center;margin:5px 0" },
-      h("span", { style: "font-size:13.5px;color:var(--muted)" }, label),
-      h("span", { style: "display:flex;align-items:center;gap:8px" },
-        h("span", { style: `display:inline-block;height:14px;border-radius:0 3px 3px 0;background:var(--ink);opacity:${label.includes("open") ? 1 : 0.42};width:${side.mean_share * 320}px;max-width:60%` }),
-        h("span", { class: "mono", style: "font-size:13.5px;font-weight:600" }, num(side.mean_share * 100, 0) + " percent"),
-        h("span", { style: "font-size:12.5px;color:var(--faint)" }, `${side.months} months`)));
+    const row = (label, side) => h("div", { class: "cmp-row" },
+      h("span", { class: "cmp-label" }, label),
+      h("span", { class: "cmp-bar" },
+        h("span", { class: "bar" + (label.includes("open") ? "" : " shut"), style: `width:${side.mean_share * 100 * 1.25}%` }),
+        h("span", { class: "mono cmp-value" }, num(side.mean_share * 100, 0) + " percent"),
+        h("span", { class: "cmp-n" }, `${side.months} months`)));
     const block = (title, t) => h("div", { class: "compare" }, h("h3", null, title), row("After an open month", t.open), row("After a closed month", t.closed));
     put(compare, h("p", { class: "fig-title" }, "Share of US LNG sent to JKM markets"),
       block(`All months, ${month(months[0].month, true)} to ${month(months[months.length - 1].month, true)}`, F.test),
@@ -113,7 +116,7 @@ export function mount(root, ctx) {
     const x = d3.scaleUtc([rows[0].t, rows[rows.length - 1].t], [14, c.w - 14]);
     const bw = Math.max(3, (c.w - 28) / rows.length - 3);
     const y = d3.scaleLinear([0, 100], [topH, 0]);
-    axisY({ ...c, h: topH }, y, { values: [0, 20, 40, 60, 80, 100], format: int, label: "Cargoes a month: loaded (solid) and cancelled (outlined)" });
+    axisY({ ...c, h: topH }, y, { values: [0, 20, 40, 60, 80, 100], format: int, label: "Cargoes a month" });
     for (const r of rows) {
       s("rect", { x: x(r.t) - bw / 2, width: bw, y: y(r.cargoes), height: topH - y(r.cargoes), fill: "var(--europe)", rx: 1.5 }, c.g);
       if (r.cancelled) s("rect", { x: x(r.t) - bw / 2 + 0.75, width: bw - 1.5, y: y(r.cargoes + r.cancelled), height: y(r.cargoes) - y(r.cargoes + r.cancelled) - 2, fill: "none", stroke: "var(--ink)", "stroke-width": 1.5, rx: 1.5 }, c.g);
@@ -121,7 +124,7 @@ export function mount(root, ctx) {
     const g2 = s("g", { transform: `translate(0,${topH + gap})` }, c.g);
     const bottom = { ...c, g: g2, h: botH };
     const y2 = d3.scaleLinear([-2, 6], [botH, 0]);
-    axisY(bottom, y2, { values: [-2, -1, 0, 1, 2, 3, 4, 5, 6], format: (v) => num(v, 0), label: "Netback less 115 percent of Henry Hub, USD/MMBtu. Solid: sold in Europe. Dashed: sold in Asia" });
+    axisY(bottom, y2, { values: [-2, -1, 0, 1, 2, 3, 4, 5, 6], format: (v) => num(v, 0), label: narrow ? "Margin over 115 percent of Henry Hub" : "Netback less 115 percent of Henry Hub, USD/MMBtu" });
     s("rect", { x: 0, width: c.w, y: y2(0), height: botH - y2(0), fill: "var(--wash)" }, g2);
     path(bottom, rows.map((r) => [x(r.t), r.margin_asia == null ? null : y2(r.margin_asia)]), { stroke: ROUTES.panama.color, "stroke-width": 1.6, "stroke-dasharray": "4 3" });
     path(bottom, rows.map((r) => [x(r.t), r.margin_europe == null ? null : y2(r.margin_europe)]), { stroke: "var(--ink)", "stroke-width": 2 });
@@ -185,14 +188,14 @@ export function mount(root, ctx) {
       { label: "To Europe, percent", n: true, value: (m) => num(m.share_europe * 100, 1) },
       { label: "Arb margin, USD/MMBtu", n: true, value: (m) => (m.margin == null ? "no price" : num(m.margin)) },
       { label: "Arb", value: (m) => (m.open == null ? "" : m.open ? "open" : "closed"), cls: (m) => (m.open ? "yes" : "no") },
-    ], [...months].reverse(), { tall: true }),
+    ], [...months].reverse(), { tall: true, min: 700 }),
     h("h3", { style: "margin-top:16px" }, "The same comparison at other lags"),
     table([
       { label: "Cargoes that left", value: (r) => r[0], head: true },
       { label: "After open months, percent", n: true, value: (r) => `${num(r[1].open.mean_share * 100, 1)} (${r[1].open.months})` },
       { label: "After closed months, percent", n: true, value: (r) => `${num(r[1].closed.mean_share * 100, 1)} (${r[1].closed.months})` },
       { label: "Correlation with the margin", n: true, value: (r) => num(r[1].correlation) },
-    ], [["the same month", F.robustness[0]], ["one month later (the rule)", F.test], ["two months later", F.robustness[1]], ["one month later, since 2022", F.since_2022]]),
+    ], [["the same month", F.robustness[0]], ["one month later (the rule)", F.test], ["two months later", F.robustness[1]], ["one month later, since 2022", F.since_2022]], { min: 560 }),
     h("p", { class: "source" }, F.rule));
   }
 

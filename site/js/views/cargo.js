@@ -166,8 +166,9 @@ export function mount(root, ctx) {
 
   // -- the inputs form --------------------------------------------------------------------
   function form(P, edits, inputs, extra) {
+    const shown = (value, step) => Number(value.toFixed(step >= 1 ? 1 : Math.min(6, Math.ceil(-Math.log10(step)) + 1)));
     const field = (path, label, scale, step, value) => {
-      const input = h("input", { type: "number", step, "data-path": path, value: Number((value * scale).toPrecision(10)), class: path in edits ? "edited" : null,
+      const input = h("input", { type: "number", step, "data-path": path, value: shown(value * scale, step), class: path in edits ? "edited" : null,
         onchange: () => { if (input.value !== "" && !Number.isNaN(Number(input.value))) edit(path, Number(input.value) / scale, P); } });
       const hint = path === "ttf" ? h("span", { class: "hint" }, `${num(usdMmbtuToEurMwh(inputs.ttf, extra.fx))} EUR/MWh`) : null;
       return h("label", null, label, input, hint);
@@ -188,18 +189,18 @@ export function mount(root, ctx) {
       groups.push(field(path, label, scale, step, value));
     }
     const routeRows = ["europe", ...EAST].map((id) => h("tr", null,
-      h("th", { scope: "row" }, h("span", { class: "swatch " + ROUTES[id].cls }), id === "europe" ? "Gate" : ROUTES[id].via,
-        id === "europe" ? null : h("label", { style: "display:block;font-weight:400" },
+      h("th", { scope: "row", style: "white-space:nowrap;min-width:118px;color:var(--ink)" }, h("span", { class: "swatch " + ROUTES[id].cls }), id === "europe" ? "Gate" : ROUTES[id].via,
+        id === "europe" ? null : h("label", { style: "display:block;font-weight:400;margin-top:3px" },
           h("input", { type: "checkbox", "data-path": `routes.${id}.open`, checked: inputs.routes[id].open,
             onchange: (e) => edit(`routes.${id}.open`, e.target.checked === P.inputs.routes[id].open ? null : (e.target.checked ? 1 : 0), P) }), "open")),
       ROUTE_FIELDS.map(([key, label, step]) => {
         const path = `routes.${id}.${key}`;
-        const input = h("input", { type: "number", step, "data-path": path, value: Number(inputs.routes[id][key].toPrecision(10)), "aria-label": `${label}, ${ROUTES[id].via}`,
+        const input = h("input", { type: "number", step, "data-path": path, value: shown(inputs.routes[id][key], step >= 1000 ? 1000 : 0.1), "aria-label": `${label}, ${ROUTES[id].via}`,
           class: path in edits ? "edited" : null, style: "min-width:92px",
           onchange: () => { if (input.value !== "") edit(path, Number(input.value), P); } });
         return h("td", null, input);
       })));
-    const routesTable = h("div", { class: "scroll" }, h("table", null,
+    const routesTable = h("div", { class: "scroll" }, h("table", { style: "min-width:760px" },
       h("thead", null, h("tr", null, h("th", { scope: "col" }, "Route"), ROUTE_FIELDS.map(([, label]) => h("th", { scope: "col" }, label)))),
       h("tbody", null, routeRows)));
     put(formBody,
@@ -228,7 +229,7 @@ export function mount(root, ctx) {
       line("Netback, USD per MMBtu loaded", (r) => r.netback, 3),
     ];
     return table([{ label: "", value: (r) => r.label, head: true },
-      ...ids.map((id) => ({ label: id === "europe" ? "Gate" : ROUTES[id].via + (res.routes[id].open ? "" : " (closed)"), n: true, value: (r) => r[id] }))], rows);
+      ...ids.map((id) => ({ label: id === "europe" ? "Gate" : ROUTES[id].via + (res.routes[id].open ? "" : " (closed)"), n: true, value: (r) => r[id] }))], rows, { min: 640 });
   }
 
   function update() {
@@ -259,7 +260,8 @@ export function mount(root, ctx) {
 
     put(tiles, ["europe", ...EAST].map((id) => {
       const r = res.routes[id];
-      const flags = [id === res.best ? "best" : null, r.open ? null : "closed"].filter(Boolean).join(", ");
+      const status = id === "europe" || edits[`routes.${id}.open`] != null ? "open" : P.route_status[id].status;
+      const flags = [id === res.best ? "best" : null, r.open ? null : (status === "open" ? "closed" : status)].filter(Boolean).join(", ");
       return h("button", { type: "button", class: `tile ${ROUTES[id].cls}${r.open ? "" : " shut"}`, disabled: id === "europe", "data-focus": `tile-${id}`,
         "aria-pressed": id === "europe" ? null : String(id === chosen), onclick: () => ctx.set({ route: id }) },
         h("span", { class: "name" }, id === "europe" ? "Gate, Europe" : `Futtsu ${ROUTES[id].via}`, flags ? ` (${flags})` : ""),
@@ -275,7 +277,7 @@ export function mount(root, ctx) {
     put(figTitle, `${ROUTES[chosen].via.replace(/^v/, "V")} the cargo keeps ${num(Math.abs(arb))} ${arb >= 0 ? "more" : "less"} than at Gate: `,
       `${lower(gain[0])} adds ${num(gain[1])}, ${lower(loss[0])} takes ${num(-loss[1])}`);
     put(source, "Coloured bars add to the netback, grey bars take from it, in USD per MMBtu loaded. Choose a tile to bridge to another route. ",
-      `Prices: EIA${P.period === "month" ? ", " + P.basis : ""}. Charter rate: ${P.sources.hire.status === "assumed" ? "assumed, " + P.sources.hire.note : "Spark30S Atlantic of " + day(String(P.sources.hire.date))}. `,
+      `Prices: EIA${P.period === "month" ? ", " + P.basis : `, week to ${day(P.date)}`}. Charter rate: ${P.sources.hire.status === "assumed" ? "assumed, " + P.sources.hire.note : "Spark30S Atlantic of " + day(String(P.sources.hire.date))}. `,
       `DES discount: ${P.sources.des_discount.status === "assumed" ? "assumed, " + P.sources.des_discount.note : "ACER"}.`);
 
     const lift = res.lift;

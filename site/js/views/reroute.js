@@ -65,7 +65,7 @@ export function mount(root, ctx) {
       { label: "Status", value: (r) => P.route_status[r].status },
       { label: "Why", value: (r) => P.route_status[r].note },
       { label: "Source", value: (r) => (P.route_status[r].url ? h("a", { href: P.route_status[r].url, rel: "noopener" }, P.route_status[r].source) : P.route_status[r].source) },
-    ], EAST)));
+    ], EAST, { min: 640 })));
 
   root.append(kicker, head, dek,
     h("div", { class: "split" },

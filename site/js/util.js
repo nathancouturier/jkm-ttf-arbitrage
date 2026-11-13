@@ -79,7 +79,8 @@ export function table(columns, rows, opts = {}) {
     const cls = [c.n ? "n" : "", c.cls ? c.cls(r) : ""].join(" ").trim();
     return h(c.head ? "th" : "td", { class: cls || null, scope: c.head ? "row" : null }, v);
   })));
-  const t = h("table", null, opts.caption ? h("caption", null, opts.caption) : null, h("thead", null, head), h("tbody", null, body));
+  // a table with many columns keeps a readable width and scrolls sideways on a narrow screen
+  const t = h("table", { style: opts.min ? `min-width:${opts.min}px` : null }, opts.caption ? h("caption", null, opts.caption) : null, h("thead", null, head), h("tbody", null, body));
   return h("div", { class: "scroll" + (opts.tall ? " tall" : "") }, t);
 }
 

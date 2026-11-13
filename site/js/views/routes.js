@@ -42,7 +42,7 @@ export function mount(root, ctx) {
       { label: "Status", value: (r) => r.status },
       { label: "What the record shows", value: (r) => r.note },
       { label: "Source", value: (r) => (r.url ? h("a", { href: r.url, rel: "noopener" }, r.source) : r.source) },
-    ], D.routes.status_history);
+    ], D.routes.status_history, { min: 720 });
   }
 
   function traffic() {
@@ -56,7 +56,7 @@ export function mount(root, ctx) {
       { label: "Year", value: (r) => r.fiscal_year, head: true },
       { label: "Panama, LNG transits (fiscal year to September)", value: (r) => bar(r.transits, "c-panama") },
       { label: "Suez, LNG carriers (calendar year)", value: (r) => bar(suez[r.fiscal_year], "c-suez") },
-    ], pan.rows), h("p", { class: "source" }, "Both directions, all origins. Sources: ", pan.source, "; ", t.suez_lng_ships_by_year.source,
+    ], pan.rows, { min: 480 }), h("p", { class: "source" }, "Both directions, all origins. Sources: ", pan.source, "; ", t.suez_lng_ships_by_year.source,
       ". Unbooked ships at Panama were reported waiting ", D.routes.waits_reported.map((w) => `${w.days} days in ${w.month}`).join(", "), ".")];
   }
 
@@ -92,7 +92,8 @@ export function mount(root, ctx) {
       const t = s("text", { class: "label halo", x: at[0], y: at[1] + LABEL_AT[id][1], "text-anchor": "middle" }, c.g);
       s("tspan", { fill: ROUTES[id].color }, t, "● ");
       s("tspan", null, t, id === "europe" ? "to Gate" : ROUTES[id].via);
-      s("tspan", { class: "label-sub", dx: 6 }, t, `${int(map_distance(id))} nm, ${num(r.round_trip_days, 0)} days${open ? "" : ", closed"}`);
+      const tolls = base.routes[id].toll_laden + base.routes[id].toll_ballast;
+      s("tspan", { class: "label-sub", dx: 6 }, t, `${int(map_distance(id))} nm, ${num(r.round_trip_days, 0)} days${tolls ? `, tolls ${musd(tolls)} M USD` : ""}${open ? "" : ", closed"}`);
     }
     for (const [name, lon, lat, dx, dy, anchor] of PLACES) {
       s("circle", { cx: x(lon), cy: y(lat), r: 3, fill: "var(--paper)", stroke: "var(--ink)", "stroke-width": 1.2 }, c.g);
@@ -154,13 +155,13 @@ export function mount(root, ctx) {
       " above the tariff for its two transits, or wait ", b(`${num(q.wait_days, 1)} days`), " at each, before the Cape is the cheaper way east.");
     put(dek, `Panama is ${P.route_status.panama.status}; Suez is ${P.route_status.suez.status}, by the Red Sea. A day of waiting costs ${int(q.cost_of_a_waiting_day_usd / 2)} USD: the hire, and the cargo that boils off.`);
     put(mapTitle, `Round the Cape a cargo sails ${int(map_distance("cape") - map_distance("panama"))} nautical miles further each way than through Panama`);
-    put(mapSource, "Distances: this study, over Eurostat's SeaRoute network. Days: round trips at 17 knots with a day in each port and at each canal. Japan is drawn at both edges so that every route runs unbroken.");
+    put(mapSource, `Distances: this study, over Eurostat's SeaRoute network. Days: round trips at 17 knots with a day in each port and at each canal. Tolls and fees for the round trip: tariffs in force on ${day(P.date)}. Japan is drawn at both edges so that every route runs unbroken.`);
     put(controls, segmented("Show", [["premium", "Slot premium"], ["wait", "Waiting days"]], mode, (v) => ctx.set({ y: v === "premium" ? null : v })));
     put(figTitle, mode === "wait"
       ? "The dearer the gas, the fewer days a ship can afford to wait for the canal"
       : "A pair of Panama slots is worth more the dearer the ship and the gas");
     put(source, "Each line: the premium, or the wait, at which a cargo nets the same through Panama as round the Cape; below zero the Cape is already cheaper. The tariff already counts tolls, the fresh water surcharge and booking fees of ",
-      int(P.panama.laden + P.panama.ballast), " USD for the round trip. Model: this study.");
+      int(P.panama.laden + P.panama.ballast), ` USD for the round trip. Model: this study, prices to ${day(P.date)}.`);
     drawCanal(mode);
     ctx.map().then(drawMap);
 
@@ -176,7 +177,7 @@ export function mount(root, ctx) {
       row("Port costs, USD", (id) => int(base.routes[id].port_cost)),
       row("Cargo delivered, percent of loaded", (id, r) => num((r.delivered / r.loaded) * 100, 1)),
       row("Status this week", (id) => (id === "europe" ? "open" : P.route_status[id].status)),
-    ]), h("p", { class: "source" }, `Panama for the ${P.ships[P.ship_id].name}: toll ${int(P.panama.toll_laden)} USD laden and ${int(P.panama.toll_ballast)} in ballast, fresh water surcharge ${int(P.panama.fresh_water_laden)} and ${int(P.panama.fresh_water_ballast)}, booking fee ${int(P.panama.booking_fee)} each way. Suez: ${int(P.suez.scnt)} tons of Suez Canal net tonnage, ${num(P.suez.surcharge * 100, 0)} percent surcharge, ${num(P.suez.rebate * 100, 0)} percent rebate.`));
+    ], { min: 640 }), h("p", { class: "source" }, `Panama for the ${P.ships[P.ship_id].name}: toll ${int(P.panama.toll_laden)} USD laden and ${int(P.panama.toll_ballast)} in ballast, fresh water surcharge ${int(P.panama.fresh_water_laden)} and ${int(P.panama.fresh_water_ballast)}, booking fee ${int(P.panama.booking_fee)} each way. Suez: ${int(P.suez.scnt)} tons of Suez Canal net tonnage, ${num(P.suez.surcharge * 100, 0)} percent surcharge, ${num(P.suez.rebate * 100, 0)} percent rebate.`));
   }
 
   return { update };

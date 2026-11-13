@@ -22,10 +22,10 @@ export function inputsTable(P, inputs = P.inputs) {
   ];
   return table([
     { label: "Input", value: (r) => r[0], head: true },
-    { label: "Value", value: (r) => r[1], n: true },
+    { label: "Value", value: (r) => h("span", { class: "mono" }, r[1]) },
     { label: "As of", value: (r) => (r[2] ? [asOf(r[2]), tag(r[2].status)] : "") },
     { label: "Source", value: (r) => r[3] },
-  ], rows);
+  ], rows, { min: 640 });
 }
 
 const DRIVERS = [
@@ -51,7 +51,7 @@ export function driversTable(result, routes = EAST) {
     days[id] = num(result.routes[id].round_trip_days - result.routes.europe.round_trip_days, 1);
     hstar[id] = int(result.routes[id].breakeven_hire);
   }
-  return table([{ label: "USD/MMBtu delivered east", value: (r) => r.label, head: true }, ...routes.map(col)], [...rows, total, days, hstar]);
+  return table([{ label: "USD/MMBtu delivered east", value: (r) => r.label, head: true }, ...routes.map(col)], [...rows, total, days, hstar], { min: 520 });
 }
 
 export const methodLink = () => h("p", { class: "source" }, "Every parameter and its source is on the ", h("a", { href: "#/method" }, "Method"), " view.");

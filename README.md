@@ -15,7 +15,7 @@ When does a US Gulf LNG cargo pay to go to Asia instead of Europe? This study pr
 | via Suez (closed) | -0.24 | 0.12 | 0.34 | 0.63 | 68,492 USD a day |
 | via the Cape | -0.30 | 0.09 | 0.33 | 0.64 | 67,551 USD a day |
 
-Since September 2020 the spread has cleared the level of the cheapest open route in 149 of 288 weeks at the reported charter rate, and in 204 with the ship already paid for. After a month with the arb open, 30 percent of US LNG left for Japan, South Korea, China and Taiwan; after a closed month, 17 percent; since 2022 the gap is 1 point.
+Since September 2020 the spread has cleared the level of the cheapest open route in 143 of 288 weeks at the reported charter rate, and in 203 with the ship already paid for. After a month with the arb open, 30 percent of US LNG left for Japan, South Korea, China and Taiwan; after a closed month, 20 percent; since 2022 the gap is 1 point.
 <!-- finding:end -->
 
 ![Reroute level by route against the charter rate](assets/reroute-levels.png)

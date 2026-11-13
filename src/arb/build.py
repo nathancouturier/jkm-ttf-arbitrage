@@ -203,7 +203,7 @@ def parameter_table(p: dict) -> list[dict]:
     add("Financing", "Rate", "SOFR plus 150 basis points on 115 percent of Henry Hub, loading to discharge, actual over 360", f["spread"]["source"], None, "assumption")
     d = p["des_discount"]
     add("Europe", "DES discount, from 31 March 2023", "ACER's Northwest Europe DES assessment less TTF front month, mean of the last 20 daily values", d["window_days"]["source"], "https://www.acer.europa.eu/gas/lng-price-assessment")
-    add("Europe", "DES discount, before", "2 EUR/MWh under TTF; 35 EUR/MWh from 25 July to 15 October 2022", d["before_acer_eur_mwh"]["source"] + ". " + d["squeeze_2022"]["source"], d["squeeze_2022"]["url"], "assumption")
+    add("Europe", "DES discount, before", "3.8 percent under TTF; 35 EUR/MWh from 25 July to 15 October 2022", d["before_acer_share_of_ttf"]["source"] + ". " + d["squeeze_2022"]["source"], d["squeeze_2022"]["url"], "assumption")
     h = p["hire"]
     add("Charter rate", "Reported rate", "Spark30S Atlantic as LNG Prime and others report it, held until the next report for 26 weeks at most", h["max_hold_days"]["source"], None, "assumption")
     add("Charter rate", "Scenarios", "Quartiles of the monthly medians of the rates reported for the ship; zero for tonnage already on charter", h["unreported"]["source"], h["unreported"]["url"], "assumption")

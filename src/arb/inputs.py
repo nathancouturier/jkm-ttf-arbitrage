@@ -123,8 +123,9 @@ class Market:
         if pd.Timestamp(squeeze["from"]) <= day <= pd.Timestamp(squeeze["to"]):
             return {"value": squeeze["eur_mwh"], "date": None, "status": "assumed",
                     "note": "ACER reports a discount above 35 EUR/MWh on most days from late July to mid October 2022"}
-        return {"value": d["before_acer_eur_mwh"]["value"], "date": None, "status": "assumed",
-                "note": "before ACER's assessments begin: its average for 2023, 2 EUR/MWh"}
+        share = d["before_acer_share_of_ttf"]["value"]
+        return {"value": share * engine.usd_mmbtu_to_eur_mwh(ttf_usd, usd_per_eur), "date": None, "status": "assumed",
+                "note": "before ACER's assessments begin: %.1f percent under TTF, the median ACER has observed since" % (-share * 100)}
 
     def henry_hub(self, day: pd.Timestamp) -> dict:
         """The contract's Henry Hub: the NYMEX final settlement for the loading month.

@@ -80,14 +80,14 @@ export function mount(root, ctx) {
       { label: "How", value: (r) => r.formula },
       { label: "To Gate", n: true, value: (r) => r.e },
       { label: "To Futtsu via Panama", n: true, value: (r) => r.a },
-    ], lines),
+    ], lines, { min: 760 }),
     h("h3", { style: "margin-top:20px" }, "The reroute level via Panama, from the same cargo"),
     table([
       { label: "Driver", value: (r) => r[0], head: true },
       { label: "How", value: (r) => r[1] },
       { label: "USD/MMBtu", n: true, value: (r) => num(r[2], 3) },
     ], [...sLines, ["Reroute level S*", "the sum; JKM minus TTF this week is " + num(res.spread), A.breakeven_spread],
-      ["Check", `at JKM = ${num(x.ttf)} + (${num(A.breakeven_spread, 3)}) the Asian netback is ${num(E.netback, 3)}, the European one`, A.breakeven_spread]]),
+      ["Check", `at JKM = ${num(x.ttf)} + (${num(A.breakeven_spread, 3)}) the Asian netback is ${num(E.netback, 3)}, the European one`, A.breakeven_spread]], { min: 560 }),
 
     h("h2", null, "Which prices are compared"),
     h("p", { class: "prose" }, "EIA's weekly averages of the JKM and TTF front months, Thursday to Wednesday. From the 16th of a month JKM's front month is one delivery month later than TTF's, and a cargo reaches Asia about four weeks after it would reach Europe. ",
@@ -104,7 +104,7 @@ export function mount(root, ctx) {
       [`Platts, 28 April 2026: arb to North Asia via Panama, USD/MMBtu`, num(C.platts.via_panama_usd_mmbtu, 3), num(C.platts.model_via_panama, 3)],
       ["Platts, the same day: via the Cape", num(C.platts.via_cape_usd_mmbtu, 3), num(C.platts.model_via_cape, 3)],
       ["Platts: gap between the two routes", num(C.platts.via_panama_usd_mmbtu - C.platts.via_cape_usd_mmbtu, 3), num(C.platts.model_via_panama - C.platts.model_via_cape, 3)],
-    ]),
+    ], { min: 520 }),
     h("p", { class: "source" }, `The two routes come out in the same order and ${num(C.platts.model_via_panama - C.platts.model_via_cape)} apart against Platts' ${num(C.platts.via_panama_usd_mmbtu - C.platts.via_cape_usd_mmbtu)}. Platts prices one day with its own freight and European netback; the model's line is the week to ${day(C.platts.week)} at the last reported charter rate, ${int(C.platts.hire)} USD a day. Platts counted ${C.platts.of_which_via_cape} of ${C.platts.cargoes_to_asia} US cargoes to Asia going round the Cape. `,
       h("a", { href: C.platts.url, rel: "noopener" }, "Source"), "."),
 
@@ -117,13 +117,13 @@ export function mount(root, ctx) {
         { label: "Parameter", value: (r) => r.name, head: true },
         { label: "Value", value: (r) => [r.value, r.status === "assumption" ? tag("assumed") : null] },
         { label: "Source", value: (r) => (r.url ? h("a", { href: r.url, rel: "noopener" }, r.source) : r.source) },
-      ], D.parameters)),
+      ], D.parameters, { min: 760 })),
       panel("Data, dates and credits", [table([
         { label: "Series", value: (r) => h("a", { href: r.url, rel: "noopener" }, r.series), head: true },
         { label: "Covers", value: (r) => `${r.from.length === 7 ? month(r.from, true) : day(r.from, true)} to ${r.to.length === 7 ? month(r.to, true) : day(r.to, true)}` },
         { label: "Kept up to date", value: (r) => [r.kept, r.ok === false ? h("span", { class: "tag held" }, " last refresh failed, data held") : null] },
         { label: "Credit", value: (r) => r.credit },
-      ], D.credits), h("p", { class: "source" }, "Routes: this study with searoute (Apache License 2.0) over Eurostat's SeaRoute network (EUPL 1.2). Land: Natural Earth, public domain, through world-atlas (ISC). Charts: D3 (ISC). Typefaces: Fraunces, Figtree and JetBrains Mono, SIL Open Font License. Platts' counts are quoted from the publications that republished them.")], openParams)));
+      ], D.credits, { min: 760 }), h("p", { class: "source" }, "Routes: this study with searoute (Apache License 2.0) over Eurostat's SeaRoute network (EUPL 1.2). Land: Natural Earth, public domain, through world-atlas (ISC). Charts: D3 (ISC). Typefaces: Fraunces, Figtree and JetBrains Mono, SIL Open Font License. Platts' counts are quoted from the publications that republished them.")], openParams)));
 
   return { update() {} };
 }
