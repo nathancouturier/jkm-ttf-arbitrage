@@ -168,7 +168,9 @@ export function mount(root, ctx) {
     const where = st.route === "best" ? "the reroute level of the cheapest open route" : `the level ${ROUTES[st.route].via}`;
     const hireWords = { rep: "at the reported charter rate", 0: "with the ship already paid for", low: "at the low charter rate", central: "at the central charter rate", high: "at the high charter rate" }[st.hire];
 
-    put(kicker, `${weekly ? "Weekly" : "Monthly"}, ${month(rows[0].date)} to ${weekly ? day(rows[rows.length - 1].date) : month(rows[rows.length - 1].date)}`);
+    const lastRow = rows[rows.length - 1];
+    const toDateOnly = !weekly && lastRow.date.slice(0, 7) === D.data_date.slice(0, 7);     // the current month, on the weeks published so far
+    put(kicker, `${weekly ? "Weekly" : "Monthly"}, ${month(rows[0].date)} to ${weekly ? day(lastRow.date) : month(lastRow.date)}${toDateOnly ? ", the last month to date" : ""}`);
     put(head, "JKM minus TTF cleared ", where, " in ", b(`${open} of ${counted.length} ${unit}`), " ", hireWords,
       sunkOpen != null ? [", and in ", b(String(sunkOpen)), " with the ship already paid for."] : ".");
 
