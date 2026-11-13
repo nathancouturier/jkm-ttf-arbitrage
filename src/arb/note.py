@@ -257,8 +257,10 @@ def headline(study: dict) -> dict:
         verdict = "the arb is open %s only" % listed([NAME[rid] for rid in clears])
     hire = src["hire"]
     if hire["status"] == "assumed":
-        rate = "the low scenario, no rate having been reported since %s" % day(str(hire["last_reported"]))
-        caveat = "No charter rate has been reported since %s, so the low scenario stands in; a real fixture differs." % day(str(hire["last_reported"]))
+        low = hire["note"].startswith("no rate reported")
+        since = " since %s" % day(str(hire["last_reported"])) if hire.get("last_reported") else ""
+        rate = ("the low scenario" if low else "an assumed rate") + ", no rate having been reported" + since
+        caveat = "No charter rate has been reported%s, so %s stands in; a real fixture differs." % (since, "the low scenario" if low else "a published yearly figure")
     else:
         rate = "the %scharter rate reported, on %s" % ("" if hire["status"] == "reported" else "last ", day(str(hire["date"])))
         caveat = "The charter rate is one published assessment (Spark30S Atlantic), reported on %s%s; a real fixture differs." % (
@@ -276,9 +278,13 @@ def headline(study: dict) -> dict:
     }
 
 
-def flows_sentence(flows: dict) -> str:
+def flows_sentence(flows: dict, short: bool = False) -> str:
     t, before, since = flows["test"], flows["before_2022"], flows["since_2022"]
     pc = lambda side: n(side["mean_share"] * 100, 0)   # noqa: E731
+    if short:
+        return ("After a month with the arb open, %s percent of US LNG left for Japan, South Korea, China and Taiwan, and %s percent after a closed month; "
+                "the gap is one of period (%s percent before 2022, when the arb was nearly always open; %s against %s since)."
+                % (pc(t["open"]), pc(t["closed"]), pc(before["open"]), pc(since["open"]), pc(since["closed"])))
     return ("After a month with the arb open, %s percent of US LNG left for Japan, South Korea, China and Taiwan; after a closed month, %s percent. "
             "The gap belongs to the years before 2022, when the arb was open in %d months of %d and the share was %s percent; since 2022 it is %s percent "
             "after an open month and %s after a closed one."
@@ -301,7 +307,7 @@ def compose(target, study: dict, scale: tuple[float, float] = (1.0, 1.0)) -> lis
                                     "Subject": "US Gulf LNG netbacks to Europe and Asia", "Creator": "arb.note", "Producer": "matplotlib",
                                     "CreationDate": None, "ModDate": None}) as pdf:
         p = Page(pdf)
-        p.text("JKM-TTF ARBITRAGE STUDY  ·  RESEARCH NOTE  ·  WEEK TO %s" % day(study["data_date"]).upper(), size=8.5, colour=MUTED, after=0.12)
+        p.text("JKM-TTF arbitrage study  ·  Research note  ·  Week to %s" % day(study["data_date"]), size=8.5, colour=MUTED, after=0.12)
         p.text("When a US Gulf LNG cargo pays to go east", font=BOLD, size=21, leading=1.15, after=0.14)
         p.text("%s At %s USD a day, %s, a cargo loaded at Sabine Pass pays to go to Japan instead of Rotterdam above a spread of %s, so %s."
                % (hl["spread"], hl["hire"], hl["rate"], hl["levels"], hl["verdict"]), font=BOLD, size=12.5, leading=1.3, after=0.10)
@@ -336,7 +342,7 @@ def compose(target, study: dict, scale: tuple[float, float] = (1.0, 1.0)) -> lis
         p.text("Did cargoes follow?", font=BOLD, size=13, after=0.06)
         p.text(flows_sentence(f["flows"]) + " Europe's pull, term contracts and China's tariff on US LNG have kept Asia's share low whatever the arb "
                "(%d months of the Department of Energy's cargo record; the rule was fixed before the result was computed)." % f["flows"]["test"]["months"], after=0.12)
-        p.text("Chart 3. Cargoes went to Asia when the arb paid, until 2022", font=BOLD, size=10, after=0.03)
+        p.text("Chart 3. Asia's share of US LNG halved after 2021, and within neither period does it follow the arb", font=BOLD, size=10, after=0.03)
         p.text("Share of US LNG sent to JKM markets, by departure month. Shaded: the arb was open the month before.", size=8.8, colour=MUTED, after=0.05)
         chart_flows(p.axes(2.05 * scale[1], after=0.34), study)
         lift = f["lift"]
@@ -367,7 +373,7 @@ def compose(target, study: dict, scale: tuple[float, float] = (1.0, 1.0)) -> lis
         p.y += 0.16
         p.fig.add_artist(plt.Rectangle((LEFT / W, 1 - p.y / H), (W - LEFT - RIGHT) / W, (p.y - box_top) / H, fill=False, edgecolor="#b9b6ae", linewidth=0.7))
         p.y += 0.12
-        p.text("Both prices are delivered ex-ship: Europe's is TTF less the discount ACER assesses, the market's charge for regasification and entry. "
+        p.text("Both prices are delivered ex-ship: Europe's is TTF less a discount this study measures from ACER's assessment, the charge for regasification and entry. "
                "Hire runs for the round trip, as in the Spark30S freight assessment, whose worked example the model reproduces to the dollar. "
                "This week: Gate %s days and a netback of %s; Panama %s days and %s; the Cape %s days and %s, in USD per MMBtu loaded."
                % (n(eur["round_trip_days"], 1), n(eur["netback"]), n(pan["round_trip_days"], 1), n(pan["netback"]),
@@ -376,7 +382,7 @@ def compose(target, study: dict, scale: tuple[float, float] = (1.0, 1.0)) -> lis
         p.text("Caveats", font=BOLD, size=13, after=0.06)
         for line in [
             hl["caveat"],
-            "Europe's DES discount is ACER's assessment against TTF over the same five days, averaged over 20; until January 2023 it is an assumption.",
+            "Europe's DES discount is this study's measure from ACER's assessment, not ACER's own spread; until January 2023 it is an assumption.",
             "Panama is priced at the tariff with a booked slot. Slots are auctioned and their price is not published.",
             "Prices are weekly averages of front months, which can name different delivery months; a cargo is sold further out.",
             "Flows show association, not cause. Nothing here is a forecast or a trading signal.",
@@ -433,8 +439,8 @@ def readme_finding(study: dict) -> str:
         "**Week to %s.** %s At %s USD a day, %s, a cargo pays to go east above %s, so %s. %s %s %s"
         % (day(study["data_date"]), hl["spread"], hl["hire"], hl["rate"], hl["levels"], hl["verdict"], hl["europe"], paid, closes),
         "",
-        "Since %s the spread has cleared the level of the cheapest open route in %d of %d weeks at the reported charter rate, and in %d with the ship already paid for. %s"
-        % (month(s["first"]), s["arb_open"], s["observations"], s["arb_open_sunk"], flows_sentence(f["flows"])),
+        "Since %s the spread has cleared the level of the cheapest open route in %d of %d weeks at the reported charter rate (%d via the Cape alone), and in %d with the ship already paid for. %s"
+        % (month(s["first"]), s["arb_open"], s["observations"], s["by_route"]["cape"]["arb_open"], s["arb_open_sunk"], flows_sentence(f["flows"], short=True)),
     ]).replace(" \n", "\n").rstrip()
 
 

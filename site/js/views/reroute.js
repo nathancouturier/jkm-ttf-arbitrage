@@ -192,7 +192,7 @@ export function mount(root, ctx) {
         h("td", { class: "n" }, closesAbove(res.routes[id].breakeven_hire))))));
     const shut = EAST.some((id) => res.routes[id].breakeven_hire <= 0);
     tableBox.replaceChildren(h("div", { class: "scroll" }, t),
-      h("p", { class: "note" }, `Bold: this week's spread of ${num(res.spread)} clears the level. Low, central and high are the quartiles of the rates reported for the ship since 2024. Closes above: the charter rate at which the route stops paying`,
+      h("p", { class: "note" }, `Bold: the spread of ${num(res.spread)} clears the level. Low, central, high: quartiles of the rates reported since 2024. Closes above: the charter rate at which the route stops paying`,
         shut ? "; shut: it does not pay even with the ship paid for." : "."));
   }
 
@@ -221,7 +221,7 @@ export function mount(root, ctx) {
     fill(st, res, lines);
     const des = P.sources.des_discount;
     put(source, `Prices: EIA, week to ${day(P.date)}. `, hireSource(hire),
-      des.status === "assumed" ? "DES discount: assumed. " : `DES discount: ACER's assessment against TTF over the same days, 20 days to ${day(String(des.date))}${des.status === "held" ? ", held since" : ""}. `,
+      des.status === "assumed" ? "DES discount: assumed. " : `DES discount: this study, from ACER's assessment to ${day(String(des.date))}${des.status === "held" ? ", held since" : ""}. `,
       "Hollow circle: the charter rate at which a route stops paying.");
     whyBody.replaceChildren(driversTable(res), h("p", { class: "source" },
       "Each line is USD per MMBtu delivered east. Extra boil-off is the gas the longer voyage burns, valued at what Europe pays; it grows with the gas price."));

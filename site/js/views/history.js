@@ -189,7 +189,8 @@ export function mount(root, ctx) {
     const rateWords = st.hire !== "rep" ? "" : [count("hire_status", "held") ? ` The charter rate is held from an earlier report in ${count("hire_status", "held")} of these ${unit}` : "",
       count("hire_status", "assumed") ? `${count("hire_status", "held") ? " and" : " The charter rate is"} assumed in ${count("hire_status", "assumed")}` : ""].join("") ;
     const lastAssumed = counted.filter((r) => r.des_status === "assumed").pop();
-    put(dek, "Shaded: the arb east is open.", rateWords ? rateWords + "." : "", desAssumed ? ` Europe's DES discount is an assumption in ${desAssumed}, none after ${month(lastAssumed.date)}.` : "");
+    const capeOnly = st.route === "best" ? rows.map((r) => evaluate(r, { ...st, route: "cape" })).filter((r) => r.open).length : null;
+    put(dek, "Shaded: the arb east is open.", capeOnly != null ? ` Via the Cape alone it cleared in ${capeOnly}.` : "", rateWords ? rateWords + "." : "", desAssumed ? ` Europe's DES discount is an assumption in ${desAssumed}, none after ${month(lastAssumed.date)}.` : "");
     put(figTitle, byYear.length > 1
       ? `Among full years, open most often in ${best[0]} (${best[1][0]} of ${best[1][1]} ${unit}) and least in ${worst[0]} (${worst[1][0]} of ${worst[1][1]})`
       : `Open in ${open} of ${counted.length} ${unit}`);
@@ -212,7 +213,7 @@ export function mount(root, ctx) {
       ? "Prices: EIA weekly averages of front-month futures; before January 2022 swaps for JKM and day-ahead prices for TTF, as EIA then printed them. "
       : "Prices: METI's spot price for Japan as a proxy for JKM and the World Bank's TTF to September 2020, then means of EIA's weekly averages. ",
       "Charter rates: Spark30S Atlantic as reported. DES discount: ACER from 2023. Dotted level: the route was not open. ",
-      holes ? "Breaks in the lines: no price was published. " : "",
+      holes ? "Breaks in the lines: no price held for those weeks. " : "",
       `Data to ${day(weekly ? rows[rows.length - 1].date : D.data_date)}.`);
 
     put(tableBody, table([
@@ -224,7 +225,7 @@ export function mount(root, ctx) {
       { label: "DES discount", n: true, value: (r) => [num(r.des), tag(r.des_status)] },
       ...EAST.map((id) => ({ label: `Level ${ROUTES[id].via}`, n: true, value: (r) => num(r.levels[id]), cls: (r) => (r.routes[id][2] === "open" ? "" : "no") })),
       { label: "Arb", value: (r) => (r.open ? "open " + ROUTES[r.route].via : "closed"), cls: (r) => (r.open ? "yes" : "no") },
-    ], [...rows].reverse(), { tall: true, min: 860, caption: "USD/MMBtu; charter rate in USD a day. Held: reported more than 14 days before. Assumed: nothing reported in the 26 weeks before, or no assessment of the discount yet. Derived: ACER's assessment less the week's TTF, before ACER published the spread. Grey levels: the route was not open on that date." }));
+    ], [...rows].reverse(), { tall: true, min: 860, caption: "USD/MMBtu; charter rate in USD a day. Held: reported more than 14 days before. Assumed: no report in the 26 weeks before (a published yearly figure to 2019, then the ship's low scenario), or no assessment of the discount yet. Derived: ACER's assessment less the week's TTF, before ACER published the spread. Grey levels: the route was not open on that date." }));
     put(eventsBody, table([
       { label: "Date", value: (e) => (e.end ? `${day(e.date, true)} to ${day(e.end, true)}` : day(e.date, true)), head: true },
       { label: "Event", value: (e) => e.text },

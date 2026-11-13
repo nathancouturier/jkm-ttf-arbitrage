@@ -5,9 +5,9 @@ When does a US Gulf LNG cargo pay to go to Asia instead of Europe? One cargo fro
 **Site:** https://nathancouturier.github.io/jkm-ttf-arbitrage/ · **Note:** [two pages, PDF](JKM-TTF-Arbitrage-Research-Note.pdf)
 
 <!-- finding:start -->
-**Week to 11 November 2026.** JKM is 3.23 USD/MMBtu above TTF. At 31,500 USD a day, the last charter rate reported, on 2 October 2026, a cargo pays to go east above 0.19 via Panama and 0.82 via the Cape, so the arb is open on both routes. A cargo delivered to Northwest Europe sells 0.89 under TTF; without that discount the levels would be 1.10 and 1.75. With the ship already paid for the levels are -0.01 and 0.37. The arb via Panama closes above a charter rate of 526,282 USD a day.
+**Week to 11 November 2026.** JKM is 3.23 USD/MMBtu above TTF. At 31,500 USD a day, the last charter rate reported, on 2 October 2026, a cargo pays to go east above 0.32 via Panama and 0.96 via the Cape, so the arb is open on both routes. A cargo delivered to Northwest Europe sells 0.76 under TTF; without that discount the levels would be 1.10 and 1.75. With the ship already paid for the levels are 0.13 and 0.51. The arb via Panama closes above a charter rate of 504,130 USD a day.
 
-Since September 2020 the spread has cleared the level of the cheapest open route in 160 of 289 weeks at the reported charter rate, and in 215 with the ship already paid for. After a month with the arb open, 30 percent of US LNG left for Japan, South Korea, China and Taiwan; after a closed month, 18 percent. The gap belongs to the years before 2022, when the arb was open in 60 months of 65 and the share was 35 percent; since 2022 it is 17 percent after an open month and 18 after a closed one.
+Since September 2020 the spread has cleared the level of the cheapest open route in 168 of 289 weeks at the reported charter rate (115 via the Cape alone), and in 226 with the ship already paid for. After a month with the arb open, 29 percent of US LNG left for Japan, South Korea, China and Taiwan, and 19 percent after a closed month; the gap is one of period (35 percent before 2022, when the arb was nearly always open; 17 against 19 since).
 <!-- finding:end -->
 
 <img src="assets/reroute-levels.png" alt="Reroute level by route against the charter rate" width="720">
@@ -22,7 +22,7 @@ S*(route) = the JKM minus TTF spread at which netback(Asia, route) = netback(Eur
 H*(route) = the charter rate at which the two netbacks are equal at today's prices
 ```
 
-Europe's DES price is TTF less the discount ACER assesses, the market's charge for regasification and entry; JKM is a delivered price. Hire runs for the round trip, as in Spark30S, whose worked example the model reproduces to the dollar. The lift test sets the best netback against 115 percent of Henry Hub, the liquefaction fee being sunk. The model is [`src/arb/engine.py`](src/arb/engine.py), copied line for line into the browser and held to it by a test; every parameter and its source is in [`data/params.json`](data/params.json).
+Europe's DES price is TTF less a discount this study measures from ACER's assessment, the market's charge for regasification and entry; JKM is a delivered price. Hire runs for the round trip, as in Spark30S, whose worked example the model reproduces to the dollar. The lift test sets the best netback against 115 percent of Henry Hub, the liquefaction fee being sunk. The model is [`src/arb/engine.py`](src/arb/engine.py), copied line for line into the browser and held to it by a test; every parameter and its source is in [`data/params.json`](data/params.json).
 
 ## Run it
 
@@ -50,4 +50,4 @@ Python 3.12 or later, and Node for one test. A weekly workflow runs `make refres
 
 Routes: searoute (Apache License 2.0) over Eurostat's SeaRoute network (EUPL 1.2). Land: Natural Earth through world-atlas (ISC). Charts: D3 (ISC). Typefaces: SIL Open Font License. Platts' figures are quoted from the publications that republished them. Code: MIT licence; other publishers' terms are set out in [`NOTICE`](NOTICE).
 
-**Limits.** The charter rate is one published assessment, held between reports. Europe's DES discount is ACER's assessment; until January 2023 it is an assumption. Panama is priced at the tariff with a booked slot. Prices are weekly averages of front months, flows show association and not cause, and nothing here is a forecast or a trading signal.
+**Limits.** The charter rate is one published assessment, held between reports. Europe's DES discount is this study's measure from ACER's assessment, not ACER's own spread; until January 2023 it is an assumption. Panama is priced at the tariff with a booked slot. Prices are weekly averages of front months, flows show association and not cause, and nothing here is a forecast or a trading signal.

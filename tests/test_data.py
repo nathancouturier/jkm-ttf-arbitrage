@@ -106,13 +106,13 @@ def test_the_des_discount_is_measured_against_ttf_over_the_days_the_assessment_c
     """The evidence the parameter note states: steadier than ACER's own spread, and no longer following TTF's move."""
     market = Market()
     acer = market.acer.dropna(subset=["nwe_spread_to_ttf_eur_mwh"])
-    acer = acer[acer["date"] <= "2026-10-27"]                      # the days the note speaks of; later downloads do not move this test
+    acer = acer[acer["date"] <= "2026-10-27"].set_index("date")       # the days the note speaks of; later downloads do not move this test
     ttf = acer["nwe_des_eur_mwh"] - acer["nwe_spread_to_ttf_eur_mwh"]
-    move = (ttf - ttf.shift(5)).iloc[5:]
-    raw, ours = acer["nwe_spread_to_ttf_eur_mwh"].iloc[5:], market.discount["discount"].iloc[:len(acer)].iloc[5:]
-    assert ours.std() < 0.7 * raw.std()
-    assert abs(np.corrcoef(ours, move)[0, 1]) < 0.2 < 0.5 < abs(np.corrcoef(raw, move)[0, 1])
-    assert ours.median() == pytest.approx(market.p["des_discount"]["before_acer_eur_mwh"]["value"], abs=0.1)
+    both = pd.DataFrame({"raw": acer["nwe_spread_to_ttf_eur_mwh"], "move": ttf - ttf.shift(5),
+                         "ours": market.discount.set_index("date")["discount"].reindex(acer.index)}).dropna()
+    assert both["ours"].std() < 0.6 * both["raw"].std()
+    assert abs(both["ours"].corr(both["move"])) < 0.1 < 0.5 < abs(both["raw"].corr(both["move"]))
+    assert both["ours"].median() == pytest.approx(market.p["des_discount"]["before_acer_eur_mwh"]["value"], abs=0.1)
 
 
 def test_the_refresh_survives_ordinary_events():

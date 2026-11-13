@@ -8,7 +8,8 @@ const asOf = (src) => (src && src.date ? day(String(src.date)) : "");
 // Where the charter rate comes from, in a few words, whatever its standing.
 export function hireSource(hire) {
   if (hire.status === "assumed") {
-    return [`Charter rate: the ship's low scenario, no rate having been reported since ${hire.last_reported ? day(String(hire.last_reported)) : "the series began"}. `];
+    const low = hire.note.startsWith("no rate reported");
+    return [`Charter rate: ${low ? "the ship's low scenario" : "assumed, " + hire.note}${hire.last_reported ? `, no rate having been reported since ${day(String(hire.last_reported))}` : ""}. `];
   }
   return [`Charter rate: Spark30S Atlantic as reported on ${day(String(hire.date))}${hire.status === "held" ? " and held since" : ""} (`,
     hire.url ? h("a", { href: hire.url, rel: "noopener" }, "LNG Prime") : "LNG Prime", "). "];

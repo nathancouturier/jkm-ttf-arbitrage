@@ -162,7 +162,8 @@ export function mount(root, ctx) {
     put(head, "After a month with the arb open, ", b(pc(t.open) + " percent"), " of US LNG left for JKM markets; after a closed month, ",
       b(pc(t.closed) + " percent"), ". Since 2022 it is ", b(pc(s22.open)), " against ", b(pc(s22.closed)), ": no gap.");
     put(dek, `DOE's cargo record against the arb of the month before, ${t.months} months. The gap is a matter of period: before 2022 the arb was open in ${b22.open.months} months of ${b22.months}.`);
-    put(figTitle, "Cargoes went to Asia when the arb paid, until 2022; since then Asia's share has stayed low whatever the arb");
+    const mean = (side) => (side.open.mean_share * side.open.months + side.closed.mean_share * side.closed.months) / side.months;
+    put(figTitle, `JKM markets took ${num(mean(b22) * 100, 0)} percent of US LNG before 2022 and ${num(mean(s22) * 100, 0)} since; within neither period does the share follow the arb`);
     put(source, `JKM markets: Japan, South Korea, China and Taiwan. Share of the volume exported by vessel, by departure month: US Department of Energy, to ${month(months[months.length - 1].month)}. `,
       `Arb margin: this study, cheapest open route at the reported charter rate, assumed in ${t.hire_assumed} of the ${t.months} months.`);
     drawShare();

@@ -205,17 +205,20 @@ def parameter_table(p: dict) -> list[dict]:
     f = p["finance"]
     add("Financing", "Rate", "SOFR plus 150 basis points on 115 percent of Henry Hub, loading to discharge, actual over 360", f["spread"]["source"], None, "assumption")
     d = p["des_discount"]
-    add("Europe", "DES discount, from 31 March 2023", "ACER's Northwest Europe DES assessment less the mean TTF front month of the assessment day and the four trading days before, averaged over the last 20 days. It is what the market charges to regasify a cargo and enter the grid",
-        d["reference_days"]["source"], d["reference_days"]["url"], "assumption")
+    add("Europe", "DES discount, from 31 March 2023", "ACER's Northwest Europe DES assessment less TTF weighted as ACER weights the deals behind it (the ten weekdays before, decay 0.6), averaged over the last 20 days. It is what the market charges to regasify a cargo and enter the grid. ACER's own spread to one day's TTF is wider when TTF is rising",
+        d["reference"]["source"], d["reference"]["url"], "assumption")
     add("Europe", "DES discount, 19 January to 30 March 2023", "Derived: ACER's Northwest Europe assessment for the week less the week's TTF. ACER published the assessment from January 2023 and its spread to TTF from 31 March",
         "ACER, LNG price assessment; U.S. Energy Information Administration, weekly TTF", "https://www.acer.europa.eu/gas/lng-price-assessment", "assumption")
-    add("Europe", "DES discount, before", "1.25 EUR/MWh under TTF", d["before_acer_eur_mwh"]["source"], d["before_acer_eur_mwh"]["url"], "assumption")
-    squeeze, easing, january = d["before_acer_periods"]
-    add("Europe", "DES discount, June 2022 to January 2023", "35 EUR/MWh from June to mid October 2022, then narrowing in a straight line to 6.5 for January 2023",
-        squeeze["source"] + ". " + january["source"], squeeze["url"], "assumption")
+    add("Europe", "DES discount, before", "1.2 EUR/MWh under TTF", d["before_acer_eur_mwh"]["source"], d["before_acer_eur_mwh"]["url"], "assumption")
+    ramp, squeeze, easing, january = d["before_acer_periods"]
+    add("Europe", "DES discount, February 2022 to January 2023", "Widening in a straight line from the invasion of Ukraine to 35 EUR/MWh in June 2022, 35 to mid October, then narrowing in a straight line to 6.5 for January 2023",
+        squeeze["source"] + ". " + january["source"] + ". " + ramp["source"], squeeze["url"], "assumption")
     h = p["hire"]
     add("Charter rate", "Reported rate", "Spark30S Atlantic as LNG Prime and others report it, held until the next report for 26 weeks at most", h["max_hold_days"]["source"], None, "assumption")
-    add("Charter rate", "Scenarios", "Quartiles of the monthly medians of the rates reported for the ship; zero for tonnage already on charter", h["unreported"]["source"], h["unreported"]["url"], "assumption")
+    add("Charter rate", "Scenarios", "Quartiles of the monthly medians of the rates reported for the ship; zero for tonnage already on charter", h["unreported"]["source"], None, "assumption")
+    for period in h["before_reports"]:
+        add("Charter rate", "Before Spark's assessment, %s%s" % (period["from"][:4], "" if period["from"][:4] == period["to"][:4] else " to " + period["to"][:4]),
+            "%s USD a day" % format(period["usd_per_day"], ","), period["source"], period["url"], "assumption")
     add("Units", "TTF in dollars", "EUR/MWh x USD per EUR / 3.412142", p["units"]["mmbtu_per_mwh"]["source"], p["units"]["mmbtu_per_mwh"]["url"])
     return rows
 

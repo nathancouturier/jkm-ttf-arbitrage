@@ -17,10 +17,10 @@ const FORMULAS = [
 
 const LIMITS = [
   ["The charter rate is one published assessment,", " held between reports; a real fixture differs, and the zero case stands for tonnage already on term charter."],
-  ["Europe's DES discount is an assessment too:", " ACER's, set against TTF over the same five days; until January 2023 it is an assumption, 35 EUR/MWh in the squeeze of 2022."],
+  ["Europe's DES discount is this study's measure,", " not ACER's own spread: ACER's assessment against TTF over the days it covers. Other weightings move the levels by about 0.15; until January 2023 the discount is an assumption."],
   ["Panama is priced at the tariff", " with a booked slot; an auctioned slot costs more and its price is not published."],
   ["Front-month prices are not the cargo's price:", " a cargo is sold four to eight weeks out, and before October 2020 the JKM series is METI's price of spot cargoes for Japan."],
-  ["Voyage details are a benchmark's:", " 17 knots, the same boil-off laden and in ballast, a day in each port and canal, port costs from one 2022 note."],
+  ["Voyage details are a benchmark's:", " 17 knots, the same boil-off laden and in ballast, a day in each port and canal, port costs from one 2022 note. Financing is on the purchase cost, not on the later sale."],
   ["Flows show association, not cause:", " term contracts, tariffs and ships already paid for move cargoes as well, and nothing here is a forecast."],
 ];
 
@@ -98,7 +98,7 @@ export function mount(root, ctx) {
     ["Platts: gap between the two routes", num(theirs, 3), num(gap, 3)],
   ], { min: 520 }),
   h("p", { class: "source" }, sameSigns ? "The model has the arb open and shut on the same routes as Platts" : "The two routes come out in the same order as Platts'",
-    `, ${num(gap)} apart against Platts' ${num(theirs)}. Platts prices one day with its own freight, European netback and delivery months; the model's line is the week to ${day(C.platts.week)} at the last reported charter rate, ${int(C.platts.hire)} USD a day. Platts counted ${C.platts.of_which_via_cape} of ${C.platts.cargoes_to_asia} US cargoes to Asia going round the Cape. `,
+    `, ${num(gap)} apart against Platts' ${num(theirs)}, about ${num((gap / theirs) * 100, 0)} percent of its gap. Platts prices one day with its own freight, European netback and delivery months; the model's line is the week to ${day(C.platts.week)} at the last reported charter rate, ${int(C.platts.hire)} USD a day. Platts counted ${C.platts.of_which_via_cape} of ${C.platts.cargoes_to_asia} US cargoes to Asia going round the Cape. `,
     h("a", { href: C.platts.url, rel: "noopener" }, "Source"), ".")]);
 
   const rates = panel("Charter rates and their articles", [table([
