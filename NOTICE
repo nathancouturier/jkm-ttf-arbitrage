@@ -58,9 +58,9 @@ data/eua_monthly.csv:
   are reproduced unchanged; they may be reused for non-commercial purposes only.
 
 data/charter_rates.csv:
-  Individual charter rates assessed by Spark Commodities, each quoted as a
-  figure with the article that reported it (LNG Prime; Reuters in gCaptain).
-  No article is reproduced.
+  Individual charter rates assessed by Spark Commodities, and one by
+  Clarksons, each quoted as a figure with the article that reported it (LNG
+  Prime; Reuters in gCaptain). No article is reproduced.
 
 data/panama_canal_monthly.csv, data/canal_lng_traffic.json and the tariffs in
 data/params.json:

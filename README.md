@@ -40,7 +40,7 @@ Python 3.12 or later, and Node for one test. A weekly workflow runs `make refres
 |---|---|
 | Gas&nbsp;prices | U.S. Energy Information Administration (JKM, TTF, Henry Hub), which credits the prices to Bloomberg Finance L.P. and Henry Hub to Refinitiv, an LSEG business |
 | DES&nbsp;LNG | European Union Agency for the Cooperation of Energy Regulators (ACER), Northwest Europe |
-| Charter&nbsp;rates | Spark Commodities, as reported by LNG Prime and by Reuters in gCaptain |
+| Charter&nbsp;rates | Spark Commodities, and Clarksons for one date, as reported by LNG Prime and by Reuters in gCaptain |
 | US&nbsp;LNG&nbsp;cargoes | U.S. Department of Energy |
 | Japan&nbsp;spot&nbsp;LNG | Created by processing the information in the Spot LNG Price Statistics (Ministry of Economy, Trade and Industry of Japan) |
 | TTF,&nbsp;monthly | The World Bank: Commodity Price Data (The Pink Sheet): Bloomberg Finance L.P.; World Gas Intelligence; Thomson Reuters Datastream; The Wall Street Journal; Official Statistics of Japan; World Bank, CC BY 4.0. The World Bank does not endorse this study |

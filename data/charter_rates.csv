@@ -2,9 +2,12 @@ date,usd_per_day,assessment,ship,publisher,url,read_from
 2019-10-10,92000,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark",https://lngprime.com/americas/spark-atlantic-lng-freight-rate-hits-374000-per-day/63423/,"article text of 10 October 2022, the same date in earlier years"
 2020-10-10,65000,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark",https://lngprime.com/americas/spark-atlantic-lng-freight-rate-hits-374000-per-day/63423/,"article text of 10 October 2022, the same date in earlier years"
 2021-01-08,322500,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark",https://lngprime.com/lng-terminals/spot-lng-prices-charter-rates-continue-to-skyrocket/9923/,article text
+2021-03-05,16750,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark Commodities",https://lngprime.com/asia/lng-charter-rates-remain-low-after-january-surge/14237/,article text of 9 March 2021
 2021-03-09,19750,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark",https://lngprime.com/asia/lng-charter-rates-remain-low-after-january-surge/14237/,article text
+2021-07-23,56000,"Clarksons headline spot, TFDE","TFDE, size not stated","LNG Prime, quoting Clarksons in GasLog Partners' results",https://lngprime.com/contracts-and-tenders/gaslog-partners-pens-new-charter-deal-with-totalenergies/25619/,article text
 2021-10-05,67750,Spark30S Atlantic,"160,000 m3 TFDE","gCaptain, a Reuters wire quoting Spark",https://gcaptain.com/lng-ship-rates-climb-due-to-widening-spread-between-europe-and-asia-prices/,article text
 2021-10-10,90750,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark",https://lngprime.com/americas/spark-atlantic-lng-freight-rate-hits-374000-per-day/63423/,"article text of 10 October 2022, the same date in earlier years"
+2021-10-19,138250,Spark30S Atlantic,"160,000 m3 TFDE","Reuters in gCaptain, quoting Spark Commodities",https://gcaptain.com/lng-shipping-rates-more-than-double-in-two-weeks-as-power-crisis-drives-demand/,article text
 2022-01-11,34250,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark",https://lngprime.com/europe/lng-charter-rates-continue-to-fall/38750/,article text
 2022-02-04,2500,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark Commodities",https://lngprime.com/europe/lng-charter-rates-slide-further/41328/,article text
 2022-02-07,-750,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark Commodities",https://lngprime.com/asia/spark-reports-first-ever-negative-spot-lng-freight-rate/41651/,article text

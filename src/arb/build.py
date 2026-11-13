@@ -49,7 +49,7 @@ CREDITS = [
      "European Union Agency for the Cooperation of Energy Regulators (ACER)",
      "https://www.acer.europa.eu/gas/lng-price-assessment", "by hand, from ACER's download", None),
     ("Charter rates, Spark30S Atlantic", "charter_rates.csv", "date",
-     "Spark Commodities, as reported by LNG Prime and by Reuters in gCaptain; each figure links to its article",
+     "Spark Commodities, and Clarksons for one date in 2021, as reported by LNG Prime and by Reuters in gCaptain; each figure links to its article",
      "https://lngprime.com/tag/spark/", "weekly refresh when a headline states the rate, else by hand", "charter_rate"),
     ("US LNG exports, cargo by cargo", "us_lng_cargoes_doe.csv", "date",
      "U.S. Department of Energy, Office of Fossil Energy and Carbon Management",
