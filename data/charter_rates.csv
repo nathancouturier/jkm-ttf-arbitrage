@@ -1,0 +1,133 @@
+date,usd_per_day,assessment,ship,publisher,url,read_from
+2021-01-08,322500,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark",https://lngprime.com/lng-terminals/spot-lng-prices-charter-rates-continue-to-skyrocket/9923/,article text
+2021-03-09,19750,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark",https://lngprime.com/asia/lng-charter-rates-remain-low-after-january-surge/14237/,article text
+2021-10-05,67750,Spark30S Atlantic,"160,000 m3 TFDE","gCaptain, a Reuters wire quoting Spark",https://gcaptain.com/lng-ship-rates-climb-due-to-widening-spread-between-europe-and-asia-prices/,article text
+2022-01-11,34250,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark",https://lngprime.com/europe/lng-charter-rates-continue-to-fall/38750/,article text
+2022-02-04,2500,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark Commodities",https://lngprime.com/europe/lng-charter-rates-slide-further/41328/,article text
+2022-02-07,-750,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark Commodities",https://lngprime.com/asia/spark-reports-first-ever-negative-spot-lng-freight-rate/41651/,article text
+2022-02-08,-750,Spark30S Atlantic,"160,000 m3 TFDE","Spark Commodities, note on negative freight rates",,Spark note on negative freight rates
+2022-03-04,28250,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark",https://lngprime.com/asia/lng-freight-rates-up-spot-prices-surge/44933/,article text
+2022-06-16,77750,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark",https://lngprime.com/americas/lng-freight-rates-drop-on-freeport-shutdown/54678/,article text
+2022-09-12,102750,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark",https://lngprime.com/europe/lng-freight-rates-continue-to-rise/61383/,article text
+2022-09-26,210500,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark Commodities",https://lngprime.com/asia/lng-freight-rates-surge/62372/,article text
+2022-09-29,308750,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark Commodities",https://lngprime.com/americas/spark-atlantic-lng-freight-rates-near-record-high/62634/,article text
+2022-10-10,374000,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark",https://lngprime.com/americas/spark-atlantic-lng-freight-rate-hits-374000-per-day/63423/,article text
+2022-10-20,482250,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark Commodities",https://lngprime.com/americas/spark-says-atlantic-lng-freight-rate-hits-482250-per-day/64296/,article text
+2022-11-22,447000,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark",https://lngprime.com/asia/spark-says-lng-freight-rates-drop-in-both-basins/67048/,article text
+2022-11-28,365250,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark Commodities",https://lngprime.com/americas/lng-freight-rates-continue-to-slide-in-both-basins/67521/,article text
+2022-11-30,299750,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark Commodities",https://lngprime.com/americas/lng-freight-rates-drop-below-300000-per-day/67728/,article text
+2022-12-09,182500,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark",https://lngprime.com/americas/lng-freight-rates-dip-below-200000-per-day/68461/,article text
+2023-01-12,96750,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark",https://lngprime.com/americas/lng-freight-rates-drop-below-100000-per-day/70797/,article text
+2023-01-20,60750,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark Commodities",https://lngprime.com/europe/lng-freight-rates-continue-to-drop-in-both-basins/71525/,article text
+2023-02-03,55750,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark",https://lngprime.com/americas/atlantic-lng-freight-rates-continue-downward-trend/72774/,article text
+2023-02-22,58500,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark Commodities",https://lngprime.com/americas/spark-says-lng-freight-rates-rise-in-both-basins/74339/,article text
+2023-03-17,55250,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark Commodities",https://lngprime.com/asia/spark-atlantic-lng-freight-rates-drop-to-51250-per-day/76806/,article text
+2023-03-21,51250,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark",https://lngprime.com/asia/spark-atlantic-lng-freight-rates-drop-to-51250-per-day/76806/,article text
+2023-04-14,42750,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark",https://lngprime.com/asia/spark-pacific-lng-freight-rates-drop-to-lowest-level-this-year/78857/,article text
+2023-04-20,43500,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark Commodities",https://lngprime.com/americas/pacific-lng-freight-rates-continue-to-fall/79448/,article text
+2023-05-09,41250,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark",https://lngprime.com/asia/spark-pacific-lng-freight-rates-drop-to-46750-per-day/81086/,article text
+2023-05-18,37500,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark Commodities",https://lngprime.com/asia/spark-lng-freight-rates-drop-in-both-basins/81977/,article text
+2023-06-08,45000,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark",https://lngprime.com/asia/lng-freight-rates-rise-in-both-basins/83370/,article text
+2023-06-12,50750,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark Commodities",https://lngprime.com/lng-terminals/lng-freight-rates-rise-above-50000-per-day/83681/,article text
+2023-06-27,72000,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark Commodities",https://lngprime.com/europe/spark-lng-freight-rates-remain-above-70000-per-day/85609/,article text
+2023-07-14,70750,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark Commodities",https://lngprime.com/europe/spark-spot-lng-freight-rates-softened-this-week/86176/,article text
+2023-07-21,71250,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark Commodities",https://lngprime.com/americas/spark-spot-lng-freight-rates-remained-range-bound-this-week/86766/,article text
+2023-07-28,71250,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark",https://lngprime.com/americas/spark-lng-freight-rates-remain-at-about-71000-per-day/87422/,article text
+2023-08-04,75500,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark",https://lngprime.com/europe/spark-atlantic-lng-freight-rate-for-october-rises-above-200000-per-day/88042/,article text
+2023-08-11,90250,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark Commodities",https://lngprime.com/europe/spark-lng-freight-rates-continue-to-rise/88766/,article text
+2023-08-18,101500,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark Commodities",https://lngprime.com/europe/spot-lng-freight-rates-rise-above-100000-per-day/89345/,article text
+2023-08-25,114250,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark Commodities",https://lngprime.com/europe/spot-lng-freight-rates-continued-to-rise-this-week-spark-says/89917/,article text
+2023-09-01,137750,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark",https://lngprime.com/europe/spark-spot-lng-freight-rates-rise-over-10-percent-in-both-basins/90559/,article text
+2023-09-08,160000,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark Commodities",https://lngprime.com/europe/spot-lng-freight-rates-climb-to-160000-per-day-spark-says/91266/,article text
+2023-09-15,182750,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark Commodities",https://lngprime.com/europe/spark-lng-freight-rates-continue-to-rise-2/91938/,article text
+2023-09-22,197750,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark Commodities",https://lngprime.com/europe/spark-spot-lng-shipping-rates-climb-to-almost-200000-per-day/92612/,article text
+2023-09-29,174000,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark Commodities",https://lngprime.com/europe/spark-spot-lng-shipping-rates-ease-this-week/93427/,article text
+2023-10-06,147000,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark",https://lngprime.com/europe/spark-spot-lng-shipping-rates-continue-to-decline/93998/,article text
+2023-10-13,135500,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark Commodities",https://lngprime.com/europe/spot-lng-shipping-rates-down-for-the-third-week-in-a-row-spark-says/94665/,article text
+2023-10-20,132500,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark Commodities",https://lngprime.com/europe/spot-lng-shipping-rates-continue-to-decline/95331/,article text
+2023-10-27,157250,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark Commodities",https://lngprime.com/europe/spot-lng-shipping-rates-rise-for-first-time-in-five-weeks-spark-says/95932/,article text
+2023-11-03,165000,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark",https://lngprime.com/europe/spot-lng-shipping-rates-continue-to-rise/96620/,article text
+2023-11-10,165750,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark Commodities",https://lngprime.com/asia/spot-lng-shipping-rates-rose-slightly-this-week-spark-says/97316/,article text
+2023-11-17,160750,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark Commodities",https://lngprime.com/europe/spot-lng-shipping-rates-down-for-first-time-in-four-weeks-spark-says/98033/,article text
+2023-11-24,160250,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark Commodities",https://lngprime.com/lng-terminals/spot-lng-shipping-rates-nearly-flat-this-week/98591/,article text
+2023-12-01,155250,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark",https://lngprime.com/europe/spot-lng-shipping-rates-european-prices-drop-this-week/99095/,article text
+2023-12-08,142500,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark Commodities",https://lngprime.com/asia/spot-lng-shipping-rates-european-prices-continue-to-decline/99633/,article text
+2023-12-15,133750,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark Commodities",https://lngprime.com/americas/spot-lng-shipping-rates-european-prices-continue-to-drop/100183/,article text
+2023-12-22,96500,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark Commodities",https://lngprime.com/asia/spot-lng-shipping-rates-dip-below-100000-per-day/100773/,article text
+2023-12-29,90500,Spark30S Atlantic,"160,000 m3 TFDE","LNG Prime, quoting Spark Commodities",https://lngprime.com/asia/spot-lng-shipping-rates-european-prices-fall-further-this-week/101168/,article text
+2024-01-05,108500,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark",https://lngprime.com/europe/spot-lng-shipping-rates-continue-to-decline-2/101504/,article text
+2024-01-12,83500,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/europe/lng-freight-rates-european-prices-drop-this-week/102261/,article text
+2024-01-16,63250,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/asia/spark-lng-freight-rates-weaken-further-despite-red-sea-diversions/102519/,article text
+2024-01-19,57000,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/asia/spot-lng-shipping-rates-drop-below-60000-per-day/102749/,article text
+2024-01-26,53250,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/europe/spot-lng-freight-rates-continue-to-slide/103242/,article text
+2024-02-02,52750,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark",https://lngprime.com/europe/spot-lng-freight-rates-continue-to-drop-european-prices-rise/103896/,article text
+2024-02-09,54500,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/europe/spot-lng-shipping-rates-rise-for-first-time-since-november/104460/,article text
+2024-02-16,54500,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/europe/spot-lng-shipping-rates-flat-european-prices-dip/105077/,article text
+2024-02-23,49750,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/europe/atlantic-lng-freight-rates-drop-below-50000-per-day-european-prices-down/105578/,article text
+2024-03-01,47750,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/asia/spot-lng-shipping-rates-down-european-and-asian-prices-up/106347/,article text
+2024-03-08,50250,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/asia/atlantic-lng-shipping-rates-up-european-prices-climb-for-second-week/106982/,article text
+2024-03-15,50250,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/asia/spot-lng-shipping-rates-remain-steady-european-prices-climb-for-third-week/107520/,article text
+2024-03-22,53500,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/asia/atlantic-lng-shipping-rates-up-european-prices-continue-to-climb/108129/,article text
+2024-03-29,46500,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark",https://lngprime.com/asia/spot-lng-shipping-rates-drop-below-50000-per-day/108680/,article text
+2024-04-05,44750,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/europe/spot-lng-shipping-rates-european-prices-drop-this-week-2/109176/,article text
+2024-04-12,43750,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/asia/spot-lng-shipping-rates-continue-to-drop-european-prices-climb/109648/,article text
+2024-04-19,44000,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/asia/spot-lng-shipping-rates-remain-steady-european-prices-jump/110139/,article text
+2024-04-26,43250,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/asia/spot-lng-shipping-rates-european-prices-drop-this-week-3/110756/,article text
+2024-05-03,42500,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark",https://lngprime.com/europe/spot-lng-shipping-rates-steady-european-prices-rise/111296/,article text
+2024-05-10,42000,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/lng-terminals/spot-lng-shipping-rates-remain-steady-this-week/111982/,article text
+2024-05-17,42750,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/lng-terminals/spot-lng-shipping-rates-nearly-flat-european-prices-drop/112594/,article text
+2024-05-24,48250,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/asia/atlantic-lng-shipping-rates-european-and-asian-prices-climb/113061/,article text
+2024-05-31,52500,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/europe/spot-lng-shipping-rates-rise-european-prices-steady/113709/,article text
+2024-06-07,57000,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark",https://lngprime.com/europe/atlantic-lng-shipping-rates-continue-to-climb-european-prices-drop/114236/,article text
+2024-06-14,64250,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/americas/lng-freight-rates-european-prices-climb/114762/,article text
+2024-06-21,75000,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/europe/atlantic-lng-shipping-rates-rise-to-75000-per-day-european-prices-drop/115270/,article text
+2024-06-28,87000,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/europe/atlantic-lng-shipping-rates-climb-to-87000-per-day-european-prices-steady/115868/,article text
+2024-07-05,89500,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark",https://lngprime.com/asia/lng-shipping-rates-slightly-up-european-prices-drop/116451/,article text
+2024-07-12,88250,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/asia/pacific-lng-shipping-rates-climb-european-prices-drop/117147/,article text
+2024-07-19,79250,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/asia/pacific-lng-shipping-rates-continue-to-rise-european-prices-up/117735/,article text
+2024-07-26,75000,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/asia/pacific-lng-shipping-rates-rise-to-73000-per-day-european-prices-down/118361/,article text
+2024-08-02,73750,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark",https://lngprime.com/americas/pacific-lng-shipping-rates-up-european-prices-jump/119938/,article text
+2024-09-06,59250,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark",https://lngprime.com/americas/atlantic-lng-shipping-rates-drop-below-60000-per-day/124272/,article text
+2024-10-04,51500,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark",https://lngprime.com/asia/lng-shipping-rates-continue-to-decline-european-prices-rise/127980/,article text
+2024-10-18,26750,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/americas/atlantic-lng-shipping-rates-dip-to-26750-per-day/129728/,headline
+2024-10-25,20750,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/americas/lng-shipping-rates-continue-to-slide/130520/,lead sentence
+2024-11-01,18250,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark",https://lngprime.com/asia/atlantic-lng-shipping-rates-dip-to-just-18250-per-day/131153/,article text
+2024-11-15,26000,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/asia/atlantic-lng-shipping-rates-rise-to-26000-per-day/132710/,headline
+2024-11-22,15500,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/asia/atlantic-lng-shipping-rates-dip-to-record-low/133595/,lead sentence
+2024-12-13,22750,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark",https://lngprime.com/americas/spot-lng-shipping-rates-remain-low-european-prices-dip/135694/,article text
+2025-01-03,24750,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark",https://lngprime.com/asia/spot-lng-shipping-rates-slightly-up-european-prices-jump/137044/,article text
+2025-01-31,3500,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/asia/atlantic-lng-shipping-rates-dip-to-3500-per-day/139427/,headline
+2025-02-04,4250,Spark30S Atlantic,"174,000 m3 two-stroke","gCaptain, a Reuters wire quoting Spark",https://gcaptain.com/lng-shipping-rates-plunge-on-increasing-vessel-availability/,article text
+2025-03-14,25750,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark",https://lngprime.com/americas/atlantic-lng-shipping-rates-rise-to-four-month-high/145018/,article text
+2025-03-21,31000,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/americas/atlantic-lng-shipping-rates-rise-to-31000-per-day/145801/,headline
+2025-05-23,32000,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark",https://lngprime.com/europe/atlantic-lng-shipping-rates-down-for-third-week-in-a-row/152313/,article text
+2025-06-13,33000,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark",https://lngprime.com/americas/atlantic-lng-shipping-rates-rise-to-33000-per-day/154198/,article text
+2025-06-20,49750,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/americas/atlantic-lng-shipping-rates-jump-to-49750-per-day/154823/,headline
+2025-06-27,48750,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/americas/atlantic-lng-shipping-rates-down-pacific-rates-up/155466/,lead sentence
+2025-08-15,36000,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark",https://lngprime.com/americas/atlantic-lng-rates-remain-at-36000-per-day-european-prices-down/160186/,article text
+2025-10-31,61250,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark",https://lngprime.com/asia/atlantic-lng-shipping-rates-jump-to-61250-per-day/167599/,article text
+2025-11-07,68000,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark",https://lngprime.com/americas/atlantic-lng-shipping-rates-rise-to-68000-per-day/168271/,article text
+2025-11-14,82750,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/asia/atlantic-lng-shipping-rates-climb-to-82750-per-day/168853/,headline
+2025-11-28,146750,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/americas/atlantic-lng-shipping-rates-climb-to-146750-per-day/170283/,headline
+2025-12-19,92000,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark",https://lngprime.com/americas/atlantic-lng-shipping-rates-drop-to-92000-per-day/172588/,article text
+2026-01-02,71750,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark",https://lngprime.com/top-news-of-the-week/atlantic-lng-rates-drop-to-71750-per-day/173283/,article text
+2026-01-09,48000,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/asia/atlantic-lng-rates-dip-to-48000-per-day/173866/,headline
+2026-01-16,26250,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/americas/atlantic-lng-rates-down-to-26250-per-day/174615/,headline
+2026-01-23,16250,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/americas/atlantic-lng-rates-dip-to-16250-per-day/175542/,headline
+2026-01-30,11250,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/americas/atlantic-lng-rates-drop-to-11250-per-day/176223/,headline
+2026-02-13,22500,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark",https://lngprime.com/asia/atlantic-lng-rates-rise-to-22500-per-day/177606/,article text
+2026-03-03,161750,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/europe/atlantic-lng-rates-surge-to-161750-per-day/179110/,article text
+2026-03-04,278250,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/americas/atlantic-lng-rates-jump-to-278250-per-day/179245/,headline
+2026-03-06,264250,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/americas/atlantic-lng-rates-set-a-new-record-this-week-as-markets-experienced-seismic-shocks/179461/,lead sentence
+2026-03-10,210000,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/europe/atlantic-lng-rates-drop-to-210000-per-day/179798/,headline
+2026-03-13,167500,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/americas/atlantic-lng-rates-drop-to-167500-per-day-as-market-volatility-continues/180252/,headline
+2026-03-20,181750,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/americas/atlantic-lng-rates-rise-to-181750-per-day/180874/,headline
+2026-04-03,92000,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities and Fearnley LNG",https://lngprime.com/asia/atlantic-lng-rates-down-to-92000-per-day/182236/,article text
+2026-08-07,51750,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/asia/atlantic-spot-lng-rates-dip-to-51750-per-day/194668/,headline
+2026-08-14,40000,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/asia/atlantic-spot-lng-rates-drop-to-40000-per-day/195150/,headline
+2026-08-21,20000,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/asia/atlantic-spot-lng-rates-dip-to-20000-per-day/195546/,headline
+2026-08-28,11750,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark",https://lngprime.com/asia/atlantic-spot-lng-rates-drop-to-11750-per-day/195938/,article text
+2026-09-04,15500,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/americas/atlantic-spot-lng-rates-rise-for-first-time-in-seven-weeks/196276/,lead sentence
+2026-09-11,20000,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/americas/atlantic-spot-lng-rates-rise-to-20000-per-day/196640/,headline
+2026-09-18,25250,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark",https://lngprime.com/asia/atlantic-lng-rates-continue-to-increase/197077/,article text
+2026-10-02,31500,Spark30S Atlantic,"174,000 m3 two-stroke","LNG Prime, quoting Spark Commodities",https://lngprime.com/asia/atlantic-lng-rates-rise-to-31500-per-day/197834/,article text
