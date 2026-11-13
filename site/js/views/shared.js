@@ -19,10 +19,12 @@ export function inputsTable(P, inputs = P.inputs, changed = {}) {
   const s = P.sources;
   const fx = changed.fx ?? P.usd_per_eur;
   const link = (src) => (src && src.url ? h("a", { href: src.url, rel: "noopener" }, src.note) : (src && src.note) || "");
-  const prices = `${s.prices.publisher}, ${s.prices.note}`;
+  // weekly prices are EIA's front months; before October 2020 the month's prices are METI's and the World Bank's
+  const weeklyPrint = s.prices.publisher === "EIA";
+  const prices = weeklyPrint ? `EIA, ${s.prices.note}` : s.prices.note;
   const rows = [
-    ["jkm", "JKM, front month", `${num(inputs.jkm)} USD/MMBtu`, s.prices, prices],
-    ["ttf", "TTF, front month", `${num(inputs.ttf)} USD/MMBtu, ${num(usdMmbtuToEurMwh(inputs.ttf, fx))} EUR/MWh`, s.prices, prices],
+    ["jkm", weeklyPrint ? "JKM, front month" : "JKM proxy, spot cargoes for Japan", `${num(inputs.jkm)} USD/MMBtu`, s.prices, prices],
+    ["ttf", weeklyPrint ? "TTF, front month" : "TTF, average of the month", `${num(inputs.ttf)} USD/MMBtu, ${num(usdMmbtuToEurMwh(inputs.ttf, fx))} EUR/MWh`, s.prices, prices],
     ["hire", "Charter rate, round trip", `${int(inputs.hire)} USD a day`, s.hire, link(s.hire)],
     ["des_discount", "Europe's DES discount to TTF", `${num(inputs.des_discount)} USD/MMBtu, ${num(usdMmbtuToEurMwh(inputs.des_discount, fx))} EUR/MWh`, s.des_discount, s.des_discount.note],
     ["henry_hub", "Henry Hub", `${num(inputs.henry_hub)} USD/MMBtu`, s.henry_hub, "EIA, " + s.henry_hub.note],
