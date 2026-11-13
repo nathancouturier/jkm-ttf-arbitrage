@@ -255,7 +255,7 @@ export function mount(root, ctx) {
       (id) => ctx.set({ preset: id === D.presets[0].id ? null : id, set: null, route: null })),
       h("button", { type: "button", class: "btn", onclick: () => { formPanel.open = true; formPanel.scrollIntoView({ behavior: "smooth", block: "start" }); } }, "Edit the inputs"));
     put(note, P.note, " JKM ", num(inputs.jkm), ", TTF ", num(inputs.ttf), " (", num(usdMmbtuToEurMwh(inputs.ttf, extra.fx)), " EUR/MWh), Henry Hub ",
-      num(inputs.henry_hub), ", charter rate ", int(inputs.hire), " USD a day, on the ", P.ships[extra.ship].name, ".");
+      num(inputs.henry_hub), ", ", int(inputs.hire), " USD a day.");
 
     put(tiles, ["europe", ...EAST].map((id) => {
       const r = res.routes[id];
@@ -271,16 +271,17 @@ export function mount(root, ctx) {
     const gain = steps.reduce((a, c) => (c[1] > a[1] ? c : a));
     const loss = steps.reduce((a, c) => (c[1] < a[1] ? c : a));
     const arb = res.routes[chosen].arb;
-    put(figTitle, `${ROUTES[chosen].via.replace(/^v/, "V")} the cargo keeps ${num(Math.abs(arb))} ${arb >= 0 ? "more" : "less"} than at Gate. `,
-      `The biggest gain is ${gain[0].toLowerCase().replace("jkm", "JKM").replace("ttf", "TTF").replace("des", "DES").replace("europe", "Europe")} (${signed(gain[1])}), the biggest cost ${loss[0].toLowerCase()} (${signed(loss[1])}).`);
+    const lower = (text) => text.replace("JKM over TTF", "the spread").replace("Europe's DES discount, not paid", "Europe's discount").toLowerCase().replace("europe", "Europe");
+    put(figTitle, `${ROUTES[chosen].via.replace(/^v/, "V")} the cargo keeps ${num(Math.abs(arb))} ${arb >= 0 ? "more" : "less"} than at Gate: `,
+      `${lower(gain[0])} adds ${num(gain[1])}, ${lower(loss[0])} takes ${num(-loss[1])}`);
     put(source, "Coloured bars add to the netback, grey bars take from it, in USD per MMBtu loaded. Choose a tile to bridge to another route. ",
       `Prices: EIA${P.period === "month" ? ", " + P.basis : ""}. Charter rate: ${P.sources.hire.status === "assumed" ? "assumed, " + P.sources.hire.note : "Spark30S Atlantic of " + day(String(P.sources.hire.date))}. `,
       `DES discount: ${P.sources.des_discount.status === "assumed" ? "assumed, " + P.sources.des_discount.note : "ACER"}.`);
 
     const lift = res.lift;
     put(strip, b("Lift test. "), `The best netback, ${num(lift.best_netback)} ${res.best === "europe" ? "at Gate" : ROUTES[res.best].via}, is ${num(Math.abs(lift.margin))} `,
-      lift.lifts ? "above" : "below", ` 115 percent of Henry Hub (${num(lift.threshold)}), so the cargo is ${lift.lifts ? "lifted" : "cancelled"}. `,
-      `The fixed fee of ${num(inputs.contract.fee)} is owed either way; after it the margin is ${num(lift.margin_after_fee)}.`);
+      lift.lifts ? "above" : "below", ` 115 percent of Henry Hub (${num(lift.threshold)}): the cargo is ${lift.lifts ? "lifted" : "cancelled"}. `,
+      `After the fixed fee of ${num(inputs.contract.fee)}, owed either way, ${num(lift.margin_after_fee)}.`);
 
     put(costBody, costs(res));
     form(P, edits, inputs, extra);

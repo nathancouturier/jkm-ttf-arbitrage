@@ -17,7 +17,7 @@ export function mount(root, ctx) {
   const source = h("p", { class: "source" });
   const compare = h("div");
   const limits = h("p", { class: "dek", style: "margin-top:14px" },
-    "The comparison cannot separate the arb from term contracts, which send cargoes to Asia whatever the spread, from China's tariff on US LNG since February 2025, or from ships already on charter, for which the long way costs only fuel. Europe's pull since 2022 also moves the spread and the cargoes together, and DOE records the destination declared at departure.");
+    "The comparison cannot separate the arb from term contracts, from China's tariff on US LNG since February 2025, or from ships already on charter, for which the long way costs only fuel. Europe's pull since 2022 moves the spread and the cargoes together.");
   const liftTitle = h("p", { class: "fig-title" });
   const liftPlot = h("div");
   const liftSource = h("p", { class: "source" });
@@ -98,8 +98,8 @@ export function mount(root, ctx) {
     put(compare, h("p", { class: "fig-title" }, "Share of US LNG sent to JKM markets"),
       block(`All months, ${month(months[0].month, true)} to ${month(months[months.length - 1].month, true)}`, F.test),
       block("Since January 2022", F.since_2022),
-      h("p", { class: "source" }, `Mean share of the volume that left in the month after. Across all months the share moves with the arb margin of the month before with a correlation of ${num(F.test.correlation)}. `,
-        "The split since 2022 was cut after the result was known, to show what the ten-year figure hides."));
+      h("p", { class: "source" }, `Mean share of the volume that left the month after. Correlation of the share with the arb margin: ${num(F.test.correlation)}. `,
+        "The split since 2022 was cut after the result was known."));
   }
 
   function drawLift() {
@@ -152,7 +152,7 @@ export function mount(root, ctx) {
     const s22 = F.since_2022;
     put(head, "After a month with the arb open, ", b(num(t.open.mean_share * 100, 0) + " percent"), " of US LNG left for JKM markets; after a closed month, ",
       b(num(t.closed.mean_share * 100, 0) + " percent"), ". Since 2022 the gap is ", b(num((s22.open.mean_share - s22.closed.mean_share) * 100, 0) + " point" + (Math.round((s22.open.mean_share - s22.closed.mean_share) * 100) === 1 ? "" : "s")), ".");
-    put(dek, `Departures in DOE's cargo record are set against the arb of the month before, over ${t.months} months: the lag and the definition of open were fixed before the result was computed.`);
+    put(dek, `Departures in DOE's cargo record against the arb of the month before, over ${t.months} months. The rule was fixed before the result was computed.`);
     put(figTitle, "Cargoes went to Asia when the arb paid, until 2022; since then Asia's share has stayed low whatever the arb");
     put(source, `JKM markets: Japan, South Korea, China and Taiwan. Share of the volume exported by vessel each departure month: US Department of Energy, to ${month(months[months.length - 1].month)}. `,
       "Arb margin: this study, cheapest open route at the reported charter rate.");
@@ -171,8 +171,8 @@ export function mount(root, ctx) {
     const y2020 = F.lift.filter((r) => r.month.startsWith("2020"));
     const low = y2020.reduce((a, r) => (r.cargoes < a.cargoes ? r : a));
     const high = y2020.slice(0, y2020.indexOf(low) + 1).reduce((a, r) => (r.cargoes > a.cargoes ? r : a));
-    put(liftLead, "A buyer lifts a cargo when its best netback covers 115 percent of Henry Hub; the fixed fee is owed either way. Notice to cancel is due about two months before loading.");
-    put(liftTitle, `From ${month(longest[0].month)} to ${month(longest[longest.length - 1].month)} a cargo sold in Europe did not cover its gas. About ${cancelled} cargoes were cancelled and loadings fell from ${high.cargoes} in ${month(high.month).split(" ")[0]} to ${low.cargoes} in ${month(low.month).split(" ")[0]}`);
+    put(liftLead, "A buyer lifts a cargo when its best netback covers 115 percent of Henry Hub, and must cancel about two months ahead.");
+    put(liftTitle, `From ${month(longest[0].month).split(" ")[0]} to ${month(longest[longest.length - 1].month)} a cargo sold in Europe did not cover its gas: about ${cancelled} cargoes were cancelled and loadings fell from ${high.cargoes} to ${low.cargoes} a month`);
     put(liftSource, "Cargoes loaded: US Department of Energy. Cancelled: ", h("a", { href: F.cancellations_source.url, rel: "noopener" }, "EIA, 11 August 2020"),
       ". Margins: this study, on the World Bank's TTF and, for Asia to September 2020, METI's price of spot cargoes contracted in the month. In mid 2020 that price includes cargoes sold for the winter and overstates what a prompt cargo fetched, so the dashed line flatters Asia.");
     drawLift();

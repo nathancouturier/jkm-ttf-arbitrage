@@ -152,10 +152,9 @@ export function mount(root, ctx) {
     const saved = cape.round_trip_days - pan.round_trip_days;
     put(head, "Panama saves ", b(`${num(saved, 0)} days`), " on the Cape. At ", b(int(base.hire)), " USD a day a ship can pay ", b(`${musd(q.premium_usd)} million USD`),
       " above the tariff for its two transits, or wait ", b(`${num(q.wait_days, 1)} days`), " at each, before the Cape is the cheaper way east.");
-    put(dek, "Panama: ", P.route_status.panama.status, ". ", "Suez: ", P.route_status.suez.status, ", the Red Sea. ",
-      `A day of waiting costs ${int(q.cost_of_a_waiting_day_usd / 2)} USD at each transit: the hire, and the cargo that boils off at ${num(base.jkm)} USD/MMBtu.`);
+    put(dek, `Panama is ${P.route_status.panama.status}; Suez is ${P.route_status.suez.status}, by the Red Sea. A day of waiting costs ${int(q.cost_of_a_waiting_day_usd / 2)} USD: the hire, and the cargo that boils off.`);
     put(mapTitle, `Round the Cape a cargo sails ${int(map_distance("cape") - map_distance("panama"))} nautical miles further each way than through Panama`);
-    put(mapSource, "Distances: this study, computed over Eurostat's SeaRoute network; days are round trips at 17 knots with a day in each port and at each canal. Land: Natural Earth. Japan is drawn at both edges so that every route runs unbroken.");
+    put(mapSource, "Distances: this study, over Eurostat's SeaRoute network. Days: round trips at 17 knots with a day in each port and at each canal. Japan is drawn at both edges so that every route runs unbroken.");
     put(controls, segmented("Show", [["premium", "Slot premium"], ["wait", "Waiting days"]], mode, (v) => ctx.set({ y: v === "premium" ? null : v })));
     put(figTitle, mode === "wait"
       ? "The dearer the gas, the fewer days a ship can afford to wait for the canal"

@@ -2,114 +2,94 @@ NOTICE
 
 The code in this repository, and the figures this study computes itself, are
 released under the MIT licence in LICENSE. Data published by others keep their
-publishers' terms, which docs/sources.md quotes in full. In particular:
+publishers' terms. In particular:
 
-data/cache/nyfed_sofr_daily.csv, data/cache/nyfed_sofr_indicative_daily.csv,
-tests/fixtures/nyfed_sofr_2018-01-01_to_2026-09-30.json and
-tests/fixtures/nyfed_sofr_indicative_2014-08-22_to_2018-03-29.xlsx:
+data/prices_weekly.csv, data/henry_hub_daily.csv and data/usd_per_eur_daily.csv:
+  Source: U.S. Energy Information Administration, and the Board of Governors
+  of the Federal Reserve System (H.10). US government publications, in the
+  public domain. EIA credits the weekly JKM and TTF prices to Bloomberg
+  Finance L.P. and the Henry Hub spot price to Refinitiv, an LSEG business.
+
+data/us_lng_cargoes_doe.csv:
+  U.S. Department of Energy, Office of Fossil Energy and Carbon Management.
+  US government information, in the public domain; the Department asks to be
+  acknowledged in any use.
+
+data/des_nwe_acer_daily.csv:
+  Source: European Union Agency for the Cooperation of Energy Regulators
+  (ACER), LNG price assessment. The spread of the Northwest Europe assessment
+  to TTF is computed by this study from ACER's published figures.
+
+data/sofr_daily.csv:
   The Secured Overnight Financing Rate (SOFR), and the indicative SOFR the
-  New York Fed computed for August 2014 to March 2018, are subject to the Terms of Use
-  posted at newyorkfed.org. The New York Fed is not responsible for
-  publication of the SOFR by Nathan Couturier, does not sanction or endorse
-  any particular republication, and has no liability for your use.
+  New York Fed computed for August 2014 to March 2018, are subject to the
+  Terms of Use posted at newyorkfed.org. The New York Fed is not responsible
+  for publication of the SOFR by Nathan Couturier, does not sanction or
+  endorse any particular republication, and has no liability for your use.
 
-data/cache/imf_usd_per_sdr_daily.csv:
+data/usd_per_sdr_daily.csv:
   Source: International Monetary Fund, exchange rate data, SDR valuation
   (https://www.imf.org/external/np/fin/data/param_rms_mth.aspx), read through
   the Deutsche Bundesbank's statistics API, series BBEX3.D.USD.XDR.DA.AC.000.
 
-tests/fixtures/govuk_bank_holidays_2026-10-08.json:
-  Contains public sector information licensed under the Open Government
-  Licence v3.0 (https://www.gov.uk/bank-holidays.json).
-
-data/cache/worldbank_gas_monthly.csv and data/cache/worldbank_gas_revisions.csv:
+data/ttf_monthly_worldbank.csv:
   The World Bank: Commodity Price Data (The Pink Sheet): Bloomberg Finance
   L.P.; World Gas Intelligence; Thomson Reuters Datastream; The Wall Street
   Journal; Official Statistics of Japan; World Bank, under the Creative Commons
   Attribution 4.0 International licence
   (https://creativecommons.org/licenses/by/4.0/), in the attribution format
-  the World Bank's dataset terms prescribe. The selection of series and the
-  revisions log are this study's. The World Bank does not endorse this study.
+  the World Bank's dataset terms prescribe. The selection of series is this
+  study's. The World Bank does not endorse this study.
 
-data/cache/meti_spot_lng_monthly.csv and data/cache/meti_spot_lng_releases.csv:
+data/japan_spot_lng_meti.csv:
   Created by processing the information in the Spot LNG Price Statistics
   (Ministry of Economy, Trade and Industry of Japan)
   (https://www.meti.go.jp/english/statistics/sho/slng/index.html).
 
-data/cache/ec_eua_auction_monthly.csv:
-  European Commission, auction reports, under the Creative Commons
-  Attribution 4.0 International licence
-  (https://creativecommons.org/licenses/by/4.0/); the months are combined
-  from several reports by this study.
+data/eua_monthly.csv:
+  To June 2025: European Commission, auction reports, under the Creative
+  Commons Attribution 4.0 International licence
+  (https://creativecommons.org/licenses/by/4.0/); the months are combined from
+  several reports by this study. From July 2025: Source: EEX, DEHSt. German
+  Emissions Trading Authority (DEHSt) at the German Environment Agency,
+  auctioning reports, licensed under the Creative Commons Attribution
+  NonCommercial NoDerivatives 4.0 International licence
+  (https://creativecommons.org/licenses/by-nc-nd/4.0/). The monthly averages
+  are reproduced unchanged; they may be reused for non-commercial purposes only.
 
-data/cache/doe_lng_export_cargoes.csv:
-  U.S. Department of Energy, Office of Fossil Energy and Carbon Management.
-  US government information, in the public domain; the Department asks to be
-  acknowledged in any use.
+data/charter_rates.csv:
+  Individual charter rates assessed by Spark Commodities, each quoted as a
+  figure with the article that reported it (LNG Prime; Reuters in gCaptain).
+  No article is reproduced.
 
-data/cache/dehst_eua_german_auction_monthly.csv, and
-tests/fixtures/dehst_reports_page_2026-10-07.html:
-  Source: EEX, DEHSt. German Emissions Trading Authority (DEHSt) at the German
-  Environment Agency, auctioning reports
-  (https://www.dehst.de/EN/Topics/EU-ETS-1/EU-ETS-1-Information/Analyses-and-Reports/analysis-and-reports_node.html),
-  licensed under the Creative Commons Attribution NonCommercial NoDerivatives
-  4.0 International licence (https://creativecommons.org/licenses/by-nc-nd/4.0/).
-  The monthly averages are reproduced unchanged; they may be reused for
-  non-commercial purposes only.
+data/panama_canal_monthly.csv, data/canal_lng_traffic.json and the tariffs in
+data/params.json:
+  Source: Panama Canal Authority, advisories to shipping, tariffs and annual
+  reports; Suez Canal Authority, circulars and annual navigation reports. The
+  Panama Canal Authority's terms of use forbid copying, distribution and
+  publication of its documents for commercial purposes; the figures are kept
+  unchanged for this non-commercial study. The Suez Canal Authority reserves
+  all rights; its counts and rates are restated with attribution.
 
-data/cache/acp_canal_operations_monthly.csv, data/seed/acp_lng_transits_fiscal_year.json
-and tests/fixtures/acp_ops_summary_2023-12_A-02-2024.pdf:
-  Source: Panama Canal Authority, Monthly Canal Operations Summary and annual
-  reports. The Authority's terms of use forbid copying, distribution and
-  publication of its documents for commercial or lucrative purposes; the
-  figures are kept unchanged for this non-commercial study, and the Authority
-  says the information is for general purposes only and may vary with
-  traffic audits.
-
-data/cache/sca_lng_transits_annual.csv:
-  Source: Suez Canal Authority, annual navigation reports, Table 3; the
-  counts restated with attribution, all rights reserved by the Authority.
-
-data/cache/eia_chokepoint_lng_annual.csv, data/cache/eia_steo_chokepoint_lng_quarterly.csv,
-tests/fixtures/eia_chokepoints_2026-03-03_fetched_2026-10-15.html and
-tests/fixtures/eia_steo_energysecurity_2026-08-12_fetched_2026-10-15.html:
-  Source: U.S. Energy Information Administration, World Oil Transit
-  Chokepoints (March 2026) and Short-Term Energy Outlook, Global Energy
-  Security (August and October 2026), EIA analysis based on Vortexa tanker
-  tracking data. US government publications, in the public domain.
-
-data/cache/acer_lng_daily.csv:
-  Source: European Union Agency for the Cooperation of Energy Regulators
-  (ACER).
-
-data/cache/eia_*.csv and data/cache/h10_usd_per_eur_daily.csv:
-  Source: U.S. Energy Information Administration, and the Board of Governors
-  of the Federal Reserve System, with the release date of each file in
-  data/manifest.json. US government publications, in the public domain. EIA
-  credits the weekly JKM and TTF prices to Bloomberg Finance L.P. and the
-  Henry Hub spot price to Refinitiv, an LSEG business.
-
-data/seed/routes.json, data/seed/routes.geojson, and the route lines in data/routes.json:
+data/routes.json and the route lines in site/data/map.json:
   The distances are this study's computation, under the MIT licence. The route
-  lines, and their projection onto the map in data/routes.json, are published
-  under the European Union Public Licence 1.2
+  lines are published under the European Union Public Licence 1.2
   (https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12),
   as a work derived from the maritime network the searoute library bundles
   (searoute, https://github.com/genthalili/searoute-py, Apache License 2.0),
   which its README credits to Eurostat's Searoute
-  (https://github.com/eurostat/searoute, EUPL 1.2), itself based on the Oak
-  Ridge National Laboratory CTA Transportation Network Group's Global Shipping
-  Lane Network, World, 2000.
+  (https://github.com/eurostat/searoute, EUPL 1.2).
 
-vendor/fraunces/, vendor/figtree/ and vendor/jetbrains-mono/:
-  The three typefaces, each under the SIL Open Font License 1.1, its licence
-  beside its file (vendor/README.md).
+site/vendor/fraunces/, site/vendor/figtree/, site/vendor/jetbrains-mono/ and
+vendor/liberation-serif/:
+  The four typefaces, each under the SIL Open Font License 1.1, its licence
+  beside its files.
 
-The land in data/routes.json, and vendor/world-atlas/land-110m.json:
+site/vendor/world-atlas/land-110m.json and the land in site/data/map.json:
   Natural Earth's 1:110m land, in the public domain, as the world-atlas
   package 2.0.2 packs it (https://github.com/topojson/world-atlas, ISC
-  licence, copyright Michael Bostock, in vendor/world-atlas/LICENSE).
+  licence, copyright Michael Bostock, in site/vendor/world-atlas/LICENSE).
 
-tests/fixtures/:
-  Each file is its publisher's own bytes under its publisher's terms; see
-  tests/fixtures/PROVENANCE.md.
+site/vendor/d3/:
+  D3 7.9.0, copyright 2010-2023 Mike Bostock, ISC licence, in
+  site/vendor/d3/LICENSE.

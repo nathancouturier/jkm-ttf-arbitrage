@@ -1,6 +1,6 @@
 {
  "charter_rate": {
-  "checked": "2026-11-13 16:22 UTC",
+  "checked": "2026-11-13 16:43 UTC",
   "last": "2026-10-02",
   "message": "no headline since 2026-10-02 states the rate",
   "ok": true
@@ -12,7 +12,7 @@
   "ok": true
  },
  "eia_weekly": {
-  "checked": "2026-11-13 16:22 UTC",
+  "checked": "2026-11-13 16:43 UTC",
   "last": "2026-11-04",
   "message": "no new week",
   "ok": true
