@@ -46,9 +46,14 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           BUILT: ${{ steps.build.outcome }}
+          CATCH_UP: ${{ github.event_name == 'schedule' && github.event.schedule != '30 22 * * 4' }}
         run: |
           if git diff --quiet -- data ':!data/status.json'; then
             echo "No new or revised observation: nothing to commit."
+            exit 0
+          fi
+          if [ "$CATCH_UP" = "true" ] && git diff --quiet -- data/prices_weekly.csv data/charter_rates.csv; then
+            echo "Catch-up run: no new week and no new charter rate, the rest waits for Thursday."
             exit 0
           fi
           git config user.name "Nathan Couturier"
