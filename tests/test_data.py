@@ -105,3 +105,17 @@ def test_the_refresh_reads_the_supplement_as_printed():
         fetch.parse_supplement(bullets, {"release-date": "November 13, 2026", "data-week-ending": "November 11, 2026"})
     with pytest.raises(ValueError):
         fetch.parse_supplement(bullets.replace("The Japan-Korea Marker (JKM) price averaged $31.99/MMBtu", "JKM rose"), release)
+
+
+def test_the_site_json_is_complete_and_its_history_recomputes():
+    """Nothing blank at default settings, and a level drawn from the stored line is the level the build computed."""
+    study = json.loads((params.ROOT / "site" / "data" / "study.json").read_text())
+    now = study["now"]
+    for row in now["table"]:
+        assert all(isinstance(row[k], float) for k in ("sunk", "low", "central", "high", "today", "breakeven_hire"))
+    assert study["data_date"] == pd.read_csv(DATA / "prices_weekly.csv")["week_ending"].iloc[-1]
+    for series in ("weekly", "monthly"):
+        for row in study["history"][series]:
+            levels = [a + b * row["hire"] / 1e5 for a, b, status in row["routes"].values() if status == "open"]
+            assert row["breakeven"] == pytest.approx(min(levels), abs=1e-4)
+    assert len(study["presets"]) == 5 and all(p["inputs"]["hire"] is not None for p in study["presets"])

@@ -127,15 +127,23 @@ class Market:
                 "note": "before ACER's assessments begin: its average for 2023, 2 EUR/MWh"}
 
     def henry_hub(self, day: pd.Timestamp) -> dict:
-        month = self.hh[self.hh["date"].dt.strftime("%Y-%m") == day.strftime("%Y-%m")]
-        if len(month):
-            complete = self.hh["date"].iloc[-1] > day + pd.offsets.MonthEnd(0)
-            return {"value": float(month["usd_mmbtu"].mean()), "date": month["date"].iloc[-1].date(),
-                    "status": "observed" if complete else "month to date",
-                    "note": "mean of %d daily spot prices in the loading month" % len(month)}
-        last = self.hh[self.hh["date"] <= day].tail(5)
-        return {"value": float(last["usd_mmbtu"].mean()), "date": last["date"].iloc[-1].date(), "status": "held",
-                "note": "mean of the last five daily spot prices published"}
+        """The contract's Henry Hub: the NYMEX final settlement for the loading month.
+
+        The contract for a month expires three business days before the month
+        begins. EIA no longer publishes futures, so the spot price of that
+        expiry day stands in for the settlement: spot and the expiring future
+        converge, and a month's average spot would carry spikes the contract
+        price never saw (February 2021, January 2026).
+        """
+        first = day.replace(day=1)
+        before = self.hh[(self.hh["date"] < first) & (self.hh["date"] >= first - pd.offsets.MonthBegin(1))]
+        if len(before) >= 15 and self.hh["date"].iloc[-1] >= first - pd.Timedelta(days=4):
+            row = before.iloc[-3]
+            return {"value": float(row["usd_mmbtu"]), "date": row["date"].date(), "status": "observed",
+                    "note": "spot price on the day the loading month's NYMEX contract expired"}
+        last = self.hh.iloc[-1]
+        return {"value": float(last["usd_mmbtu"]), "date": last["date"].date(), "status": "held",
+                "note": "the last daily spot price published"}
 
     def eua_eur_t(self, day: pd.Timestamp) -> dict:
         month = day.strftime("%Y-%m")

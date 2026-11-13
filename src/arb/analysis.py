@@ -163,16 +163,23 @@ def flows_test(monthly: list[dict], flows: pd.DataFrame, lag: int) -> dict:
 # The lift test
 # ---------------------------------------------------------------------------
 
-def lift_history(monthly: list[dict], flows: pd.DataFrame, cancelled: dict, first: str = "2019-01", last: str = "2021-12") -> list[dict]:
-    """Best netback against 115 percent of Henry Hub each month, with the cargoes that left and those cancelled."""
+def lift_history(monthly: list[dict], flows: pd.DataFrame, cancelled: dict, first: str = "2019-01", last: str = "2021-03") -> list[dict]:
+    """Each month: the netback sold in Europe and sold in Asia less 115 percent of Henry Hub,
+    with the cargoes that left and those cancelled. A month with no price keeps its cargoes."""
+    priced = {row["date"].strftime("%Y-%m"): row for row in monthly}
     out = []
-    for row in monthly:
-        month = row["date"].strftime("%Y-%m")
-        if first <= month <= last:
-            out.append({"month": month, "best_netback": row["best_netback"], "threshold": row["lift_threshold"],
-                        "margin": row["lift_margin"], "best": row["best"],
-                        "cargoes": int(flows.loc[month, "cargoes"]) if month in flows.index else None,
-                        "cancelled": cancelled.get(month, 0)})
+    for month in pd.period_range(first, last, freq="M").strftime("%Y-%m"):
+        row = priced.get(month)
+        east = [x["netback"] for x in row["routes"].values() if x["status"] == "open"] if row else []
+        out.append({
+            "month": month,
+            "threshold": row["lift_threshold"] if row else None,
+            "margin": row["lift_margin"] if row else None,
+            "margin_europe": row["netback_europe"] - row["lift_threshold"] if row else None,
+            "margin_asia": max(east) - row["lift_threshold"] if east else None,
+            "cargoes": int(flows.loc[month, "cargoes"]) if month in flows.index else 0,
+            "cancelled": cancelled.get(month, 0),
+        })
     return out
 
 

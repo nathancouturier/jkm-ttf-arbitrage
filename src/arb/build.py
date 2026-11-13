@@ -37,6 +37,71 @@ PRESET_NOTES = {
 }
 
 
+# (series, file, date column, credit, address, how it is kept up to date, refresh source)
+CREDITS = [
+    ("JKM and TTF, weekly averages", "prices_weekly.csv", "week_ending",
+     "U.S. Energy Information Administration, Natural Gas Weekly Update and WNGSR Supplement; EIA credits the prices to Bloomberg Finance L.P.",
+     "https://www.eia.gov/naturalgas/weekly/supplement/", "weekly refresh", "eia_weekly"),
+    ("Henry Hub spot, daily", "henry_hub_daily.csv", "date",
+     "U.S. Energy Information Administration; EIA credits the price to Refinitiv, an LSEG business",
+     "https://www.eia.gov/dnav/ng/hist/rngwhhdd.htm", "weekly refresh", "henry_hub"),
+    ("DES LNG assessments, Northwest Europe", "des_nwe_acer_daily.csv", "date",
+     "European Union Agency for the Cooperation of Energy Regulators (ACER)",
+     "https://www.acer.europa.eu/gas/lng-price-assessment", "by hand, from ACER's download", None),
+    ("Charter rates, Spark30S Atlantic", "charter_rates.csv", "date",
+     "Spark Commodities, as reported by LNG Prime and by Reuters in gCaptain; each figure links to its article",
+     "https://lngprime.com/tag/spark/", "weekly refresh when a headline states the rate, else by hand", "charter_rate"),
+    ("US LNG exports, cargo by cargo", "us_lng_cargoes_doe.csv", "date",
+     "U.S. Department of Energy, Office of Fossil Energy and Carbon Management",
+     "https://www.energy.gov/hgeo/listings/natural-gas-imports-and-exports-monthly-reports", "weekly refresh", "doe_cargoes"),
+    ("US dollars per euro, daily", "usd_per_eur_daily.csv", "date",
+     "Board of Governors of the Federal Reserve System, H.10", "https://www.federalreserve.gov/releases/h10/", "weekly refresh", "usd_per_eur"),
+    ("SOFR, daily", "sofr_daily.csv", "date",
+     "Federal Reserve Bank of New York; subject to its Terms of Use, see the NOTICE file", "https://www.newyorkfed.org/markets/reference-rates/sofr", "weekly refresh", "sofr"),
+    ("US dollars per SDR, daily", "usd_per_sdr_daily.csv", "date",
+     "International Monetary Fund, through the Deutsche Bundesbank", "https://www.imf.org/external/np/fin/data/param_rms_mth.aspx", "weekly refresh", "usd_per_sdr"),
+    ("EU allowance price, monthly", "eua_monthly.csv", "month",
+     "European Commission auction reports, CC BY 4.0, to June 2025; then Source: EEX, DEHSt, CC BY-NC-ND 4.0, the monthly averages reproduced unchanged",
+     "https://www.dehst.de/EN/Topics/EU-ETS-1/EU-ETS-1-Information/Analyses-and-Reports/analysis-and-reports_node.html", "by hand, monthly", None),
+    ("Japan spot LNG price, monthly, to March 2021", "japan_spot_lng_meti.csv", "month",
+     "Created by processing the information in the Spot LNG Price Statistics (Ministry of Economy, Trade and Industry of Japan)",
+     "https://www.meti.go.jp/english/statistics/sho/slng/index.html", "closed series", None),
+    ("TTF, monthly", "ttf_monthly_worldbank.csv", "month",
+     "The World Bank: Commodity Price Data (The Pink Sheet): Bloomberg Finance L.P.; World Gas Intelligence; Thomson Reuters Datastream; The Wall Street Journal; Official Statistics of Japan; World Bank, CC BY 4.0. The World Bank does not endorse this study",
+     "https://www.worldbank.org/en/research/commodity-markets", "release of 2 October 2026, used to September 2020", None),
+    ("Panama Canal, monthly operations and LNG transits", "panama_canal_monthly.csv", "month",
+     "Panama Canal Authority, advisories to shipping and annual reports", "https://pancanal.com/en/maritime-services/advisory-to-shipping/", "by hand", None),
+]
+
+
+def credits(status: dict) -> list[dict]:
+    out = []
+    for series, name, column, credit, url, kept, source in CREDITS:
+        frame = pd.read_csv(params.DATA / name, dtype=str)
+        entry = status.get(source, {}) if source else {}
+        out.append({"series": series, "credit": credit, "url": url, "from": frame[column].min(), "to": frame[column].max(),
+                    "kept": kept, "checked": entry.get("checked"), "ok": entry.get("ok"), "message": entry.get("message")})
+    return out
+
+
+def timing_split(weekly: list[dict]) -> dict:
+    """Weeks whose two front months name the same delivery month, against the others.
+
+    JKM's front month rolls on the 16th and TTF's two business days before the
+    month ends, so a week that lies wholly within the 1st to the 15th compares
+    the same delivery month. Counted from the weeks EIA prints as futures.
+    """
+    rows = [r for r in weekly if r["basis"] == "front-month futures"]
+    same = [r for r in rows if 7 <= r["date"].day <= 15]
+    other = [r for r in rows if not 7 <= r["date"].day <= 15]
+
+    def stat(group):
+        return {"weeks": len(group), "open": sum(1 for r in group if r["open"]),
+                "mean_spread": sum(r["spread"] for r in group) / len(group),
+                "mean_abs_spread": sum(abs(r["spread"]) for r in group) / len(group)}
+    return {"same_month": stat(same), "different_months": stat(other)}
+
+
 def rounded(value, digits: int = 5):
     if isinstance(value, float):
         return None if value != value else round(value, digits)   # a missing cell becomes null
@@ -89,7 +154,8 @@ def history_rows(rows: list[dict]) -> list[dict]:
             "date": r["date"], "jkm": r["jkm"], "ttf": r["ttf"], "spread": r["spread"], "basis": r["basis"],
             "hire": r["hire"], "hire_status": r["hire_status"], "des": r["des_discount"], "des_status": r["des_status"],
             "fx": r["usd_per_eur"], "ship": r["ship"],
-            "routes": {rid: [x["at_zero_hire"], x["per_usd_day"], x["status"]] for rid, x in r["routes"].items()},
+            # [level at zero hire, rise per 100,000 USD a day of hire, status]
+            "routes": {rid: [x["at_zero_hire"], x["per_usd_day"] * 1e5, x["status"]] for rid, x in r["routes"].items()},
             "route": r["route"], "breakeven": r["breakeven"], "open": r["open"],
             "netback_europe": r["netback_europe"], "lift_margin": r["lift_margin"],
         })
@@ -130,6 +196,8 @@ def parameter_table(p: dict) -> list[dict]:
     add("EU ETS", "Energy of a tonne of LNG", "51.56 MMBtu", p["units"]["mmbtu_per_tonne_lng"]["source"], p["units"]["mmbtu_per_tonne_lng"]["url"])
     c = p["contract"]
     add("Contract", "Price of the gas lifted", "115 percent of Henry Hub", c["henry_hub_multiple"]["source"], c["henry_hub_multiple"]["url"])
+    add("Contract", "Henry Hub of the loading month", "The spot price on the day the month's NYMEX contract expired, three business days before the month, standing in for the final settlement the contracts name",
+        "U.S. Energy Information Administration, Henry Hub spot price", "https://www.eia.gov/dnav/ng/hist/rngwhhdd.htm", "assumption")
     add("Contract", "Fixed liquefaction fee", "3.00 USD/MMBtu, owed whether or not the cargo is lifted (2.25 to 3.50 in published contracts)", c["liquefaction_fee_usd_mmbtu"]["source"], c["liquefaction_fee_usd_mmbtu"]["url"], "assumption")
     f = p["finance"]
     add("Financing", "Rate", "SOFR plus 150 basis points on 115 percent of Henry Hub, loading to discharge, actual over 360", f["spread"]["source"], None, "assumption")
@@ -164,6 +232,15 @@ def land_rings() -> list[list[list[float]]]:
                 for index in ring:
                     piece = arcs[index] if index >= 0 else arcs[~index][::-1]
                     points.extend(piece if not points else piece[1:])
+                # a ring that crosses the antimeridian is made continuous, so it never draws a line across the map
+                shift, previous = 0.0, points[0][0]
+                for i, (lon, lat) in enumerate(points):
+                    if lon + shift - previous > 180:
+                        shift -= 360
+                    elif lon + shift - previous < -180:
+                        shift += 360
+                    previous = lon + shift
+                    points[i] = [round(previous, 2), lat]
                 rings.append(points)
     return rings
 
@@ -217,13 +294,7 @@ def build() -> dict:
     robustness = [analysis.flows_test(monthly, flows, lag) for lag in (0, 2)]
     since_2022 = analysis.flows_test([r for r in monthly if r["date"].year >= 2022], flows, p["flows"]["lag_months"])
     cancelled = p["cross_checks"]["cancellations_2020"]["cargoes"]
-    europe_margin = {r["date"].strftime("%Y-%m"): r["netback_europe"] - r["lift_threshold"] for r in monthly}
-    asia_margin = {r["date"].strftime("%Y-%m"): max(x["netback"] for x in r["routes"].values() if x["status"] == "open") - r["lift_threshold"]
-                   for r in monthly if any(x["status"] == "open" for x in r["routes"].values())}
     lift = analysis.lift_history(monthly, flows, cancelled)
-    for row in lift:
-        row["margin_europe"] = europe_margin[row["month"]]
-        row["margin_asia"] = asia_margin.get(row["month"])
 
     flow_rows = []
     arb = {r["date"].strftime("%Y-%m"): r for r in monthly}
@@ -239,6 +310,14 @@ def build() -> dict:
     status_file = params.DATA / "status.json"
     status = json.loads(status_file.read_text()) if status_file.exists() else {}
     rates = market.rates.assign(date=market.rates["date"].dt.strftime("%Y-%m-%d"))
+
+    platts_obs = by_date["2026-04-29"]
+    platts_inputs, _ = market.cargo(platts_obs["date"], platts_obs["jkm"], platts_obs["ttf"])
+    platts_model = engine.price_cargo(platts_inputs)["routes"]
+    checks = {"platts": dict(p["cross_checks"]["platts_arbitrage_2026_04_28"], week=platts_obs["date"],
+                             model_via_panama=platts_model["panama"]["arb"], model_via_cape=platts_model["cape"]["arb"],
+                             hire=platts_inputs["hire"]),
+              "spark": p["cross_checks"]["spark_example"]}
 
     study = {
         "data_date": latest["date"],
@@ -262,8 +341,9 @@ def build() -> dict:
                    "waits_reported": p["panama"]["waits_reported"],
                    "status_history": p["route_status"]},
         "parameters": parameter_table(p),
-        "cross_checks": p["cross_checks"],
-        "sources_status": status,
+        "checks": checks,
+        "timing": timing_split(weekly),
+        "credits": credits(status),
     }
     study = rounded(analysis.iso(study), 6)
     # the presets' inputs keep full precision: the browser prices them with its own engine
