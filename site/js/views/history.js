@@ -182,7 +182,8 @@ export function mount(root, ctx) {
     const desAssumed = count("des_status", "assumed");
     const rateWords = st.hire !== "rep" ? "" : [count("hire_status", "held") ? ` The charter rate is held from an earlier report in ${count("hire_status", "held")} of these ${unit}` : "",
       count("hire_status", "assumed") ? `${count("hire_status", "held") ? " and" : " The charter rate is"} assumed in ${count("hire_status", "assumed")}` : ""].join("") ;
-    put(dek, "Shaded: the arb east is open.", rateWords ? rateWords + "." : "", desAssumed ? ` Europe's DES discount is an assumption in ${desAssumed}, all before 2023.` : "");
+    const lastAssumed = rows.filter((r) => r.des_status === "assumed").pop();
+    put(dek, "Shaded: the arb east is open.", rateWords ? rateWords + "." : "", desAssumed ? ` Europe's DES discount is an assumption in ${desAssumed}, none after ${month(lastAssumed.date)}.` : "");
     put(figTitle, byYear.length > 1
       ? `Open most often in ${best[0]} (${best[1][0]} of ${best[1][1]} ${unit}) and least in ${worst[0]} (${worst[1][0]} of ${worst[1][1]})`
       : `Open in ${open} of ${counted.length} ${unit}`);

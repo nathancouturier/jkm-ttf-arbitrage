@@ -17,7 +17,7 @@ const FORMULAS = [
 
 const LIMITS = [
   ["The charter rate is one published assessment,", " held between reports; a real fixture differs, and the zero case stands for tonnage already on term charter."],
-  ["Europe's DES discount is an assessment too:", " ACER's, set against TTF over the same five days; before 2023 it is an assumption."],
+  ["Europe's DES discount is an assessment too:", " ACER's, set against TTF over the same five days; until January 2023 it is an assumption, 35 EUR/MWh in the squeeze of 2022."],
   ["Panama is priced at the tariff", " with a booked slot; an auctioned slot costs more and its price is not published."],
   ["Front-month prices are not the cargo's price:", " a cargo is sold four to eight weeks out, and before October 2020 the JKM series is METI's price of spot cargoes for Japan."],
   ["Voyage details are a benchmark's:", " 17 knots, the same boil-off laden and in ballast, a day in each port and canal, port costs from one 2022 note."],

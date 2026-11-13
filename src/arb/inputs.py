@@ -141,10 +141,12 @@ class Market:
             ttf_eur = engine.usd_mmbtu_to_eur_mwh(ttf_usd, usd_per_eur)
             return {"value": float(week["nwe_des_eur_mwh"].mean()) - ttf_eur, "date": week["date"].iloc[-1].date(),
                     "status": "derived", "note": "ACER's Northwest Europe DES price for the week less the week's TTF"}
-        squeeze = d["squeeze_2022"]
-        if pd.Timestamp(squeeze["from"]) <= day <= pd.Timestamp(squeeze["to"]):
-            return {"value": squeeze["eur_mwh"], "date": None, "status": "assumed",
-                    "note": "ACER reports a discount above 35 EUR/MWh on most days from late July to mid October 2022"}
+        for period in d["before_acer_periods"]:                 # the months ACER has put a figure on
+            start, end = pd.Timestamp(period["from"]), pd.Timestamp(period["to"])
+            if start <= day <= end:
+                share = (day - start) / (end - start) if "to_eur_mwh" in period else 0.0
+                value = period["eur_mwh"] + share * (period.get("to_eur_mwh", period["eur_mwh"]) - period["eur_mwh"])
+                return {"value": float(value), "date": None, "status": "assumed", "note": period["note"]}
         amount = d["before_acer_eur_mwh"]["value"]
         return {"value": amount, "date": None, "status": "assumed",
                 "note": "before ACER's assessments begin: %.2f EUR/MWh under TTF, the median ACER's have shown since" % -amount}

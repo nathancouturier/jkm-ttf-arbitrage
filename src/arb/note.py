@@ -361,7 +361,7 @@ def compose(target, study: dict, scale: tuple[float, float] = (1.0, 1.0)) -> lis
         p.text("Caveats", font=BOLD, size=13, after=0.06)
         for line in [
             hl["caveat"],
-            "Europe's DES discount is ACER's assessment against TTF over the same five days, averaged over 20; before 2023 it is an assumption.",
+            "Europe's DES discount is ACER's assessment against TTF over the same five days, averaged over 20; until January 2023 it is an assumption.",
             "Panama is priced at the tariff with a booked slot. Slots are auctioned and their price is not published.",
             "Prices are weekly averages of front months, which can name different delivery months; a cargo is sold further out.",
             "Flows show association, not cause. Nothing here is a forecast or a trading signal.",
