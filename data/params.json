@@ -149,7 +149,9 @@
 
   "hire": {
     "scenario_quantiles": {"low": 0.25, "central": 0.5, "high": 0.75},
-    "note": "Low, central and high are the quartiles of the rates reported for the ship in use, rounded to 250 USD a day as Spark quotes them. Zero is the sunk case: tonnage already on term charter."
+    "max_hold_days": {"value": 182, "status": "assumption", "source": "This study: a reported rate stands until the next one, for 26 weeks at most"},
+    "unreported": {"value": "low", "status": "assumption", "source": "This study: a date with no reported rate in the 26 weeks before it runs at the low scenario of its ship. For 2016 and 2017 the US Department of Energy's handbook puts spot rates at a third to a quarter of the 80,000 to 100,000 USD a day a new ship needs", "url": "https://www.energy.gov/sites/prod/files/2017/09/f36/Understanding%20Natural%20Gas%20and%20Lng%20Options_general%20no%20appendix.pdf"},
+    "note": "Low, central and high are the quartiles of the monthly medians of the rates reported for the ship in use, rounded to 250 USD a day as Spark quotes them. Zero is the sunk case: tonnage already on term charter."
   },
 
   "flows": {
