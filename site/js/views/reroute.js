@@ -1,11 +1,12 @@
 // Reroute levels: the JKM minus TTF spread a cargo needs to go east, against the charter rate.
 
 import { priceCargo, breakevenLine, usdMmbtuToEurMwh } from "../engine.js";
-import { h, b, put, num, int, day, ROUTES, EAST, panel, table } from "../util.js";
+import { h, b, put, num, int, day, clamp, ROUTES, EAST, panel, table } from "../util.js";
 import { frame, axisX, axisY, path, dot, endLabels, showTip, hover, s, d3 } from "../chart.js";
-import { inputsTable, driversTable, methodLink } from "./shared.js";
+import { inputsTable, driversTable, methodLink, hireSource, closesAbove } from "./shared.js";
 
 const X_MAX = 200000;
+const RANGE = { ttf: [2, 60], des: [-6, 1], wait: [0, 20] };     // the sliders' ends; an address cannot ask for more
 
 export function mount(root, ctx) {
   const P = ctx.D.now.preset;
@@ -17,8 +18,8 @@ export function mount(root, ctx) {
 
   const state = () => {
     const p = ctx.params;
-    const open = (p.routes ?? defaultOpen).split(",").filter(Boolean);
-    const f = (key) => (p[key] != null && !Number.isNaN(Number(p[key])) ? Number(p[key]) : defaults[key]);
+    const open = (p.routes ?? defaultOpen).split(",").filter((id) => EAST.includes(id));
+    const f = (key) => (p[key] != null && p[key] !== "" && !Number.isNaN(Number(p[key])) ? clamp(Number(p[key]), ...RANGE[key]) : defaults[key]);
     return { ttf: f("ttf"), des: f("des"), wait: f("wait"), open };
   };
   const modified = (st) => st.ttf !== defaults.ttf || st.des !== defaults.des || st.wait !== 0 || st.open.join(",") !== defaultOpen;
@@ -50,9 +51,9 @@ export function mount(root, ctx) {
     el.sync = (v) => { input.value = v; const [a, c] = show(v); out.textContent = a; also.textContent = c; };
     return el;
   };
-  const sTtf = slider("ttf", "Gas price, TTF", 2, 60, 0.01, (v) => [`${num(v)} USD/MMBtu`, `${num(usdMmbtuToEurMwh(v, fx))} EUR/MWh`]);
-  const sDes = slider("des", "Europe's DES discount to TTF", -6, 1, 0.01, (v) => [`${num(v)} USD/MMBtu`, `${num(usdMmbtuToEurMwh(v, fx))} EUR/MWh`]);
-  const sWait = slider("wait", "Wait at Panama, each transit", 0, 20, 0.5, (v) => [`${num(v, 1)} days`, "0 with a booked slot"]);
+  const sTtf = slider("ttf", "Gas price, TTF", ...RANGE.ttf, 0.01, (v) => [`${num(v)} USD/MMBtu`, `${num(usdMmbtuToEurMwh(v, fx))} EUR/MWh`]);
+  const sDes = slider("des", "Europe's DES discount to TTF", ...RANGE.des, 0.01, (v) => [`${num(v)} USD/MMBtu`, `${num(usdMmbtuToEurMwh(v, fx))} EUR/MWh`]);
+  const sWait = slider("wait", "Wait at Panama, each transit", ...RANGE.wait, 0.5, (v) => [`${num(v, 1)} days`, "0 with a booked slot"]);
   const reset = h("button", { type: "button", class: "btn quiet", onclick: () => ctx.set({ ttf: null, des: null, wait: null, routes: null }) }, "Reset to this week");
 
   const whyBody = h("div");
@@ -123,7 +124,7 @@ export function mount(root, ctx) {
     s("line", { x1: 0, x2: c.w, y1: ty, y2: ty, stroke: "var(--accent)", "stroke-width": 1.5 }, c.g);
     s("line", { x1: tx, x2: tx, y1: 0, y2: c.h, stroke: "var(--accent)", "stroke-width": 1, "stroke-dasharray": "3 3" }, c.g);
     dot(c, tx, ty, "var(--accent)", 5.5);
-    s("text", { class: "today-text halo", x: narrow ? tx + 8 : c.w - 4, y: ty - 7, "text-anchor": narrow ? "start" : "end" }, c.g, `JKM minus TTF this week, ${num(res.spread)}`);
+    s("text", { class: "today-text halo", x: c.w - 4, y: narrow ? ty + 16 : ty - 7, "text-anchor": "end" }, c.g, `JKM minus TTF this week, ${num(res.spread)}`);
     s("text", { class: "today-text halo", x: tx + 6, y: 10 }, c.g, `${int(base.hire)} a day`);
     if (narrow) {
       for (const l of labels) l.y += l.y > ty ? 13 : -9;
@@ -158,7 +159,7 @@ export function mount(root, ctx) {
     const toggle = (id) => h("input", { type: "checkbox", checked: st.open.includes(id), "aria-label": `Route ${ROUTES[id].via} open`, "data-focus": `open-${id}`,
       onchange: (e) => {
         const next = EAST.filter((r) => (r === id ? e.target.checked : st.open.includes(r))).join(",");
-        ctx.set({ routes: next === defaultOpen ? null : next });
+        ctx.set({ routes: next === defaultOpen ? null : next || "none" });
       } });
     const t = h("table", null,
       h("caption", null, "Reroute level by charter rate in USD a day. Sunk: the ship is already paid for. Untick a route to close it."),
@@ -168,9 +169,11 @@ export function mount(root, ctx) {
       h("tbody", null, EAST.map((id) => h("tr", null,
         h("th", { scope: "row" }, h("label", null, toggle(id), h("span", { class: "swatch " + ROUTES[id].cls }), ROUTES[id].name.replace("the ", ""))),
         cols.map(([, v]) => cell(id, v)),
-        h("td", { class: "n" }, int(res.routes[id].breakeven_hire))))));
+        h("td", { class: "n" }, closesAbove(res.routes[id].breakeven_hire))))));
+    const shut = EAST.some((id) => res.routes[id].breakeven_hire <= 0);
     tableBox.replaceChildren(h("div", { class: "scroll" }, t),
-      h("p", { class: "note" }, `Bold: this week's spread of ${num(res.spread)} clears the level. Low, central and high are the quartiles of the rates reported for the ship since 2024. Closes above: the charter rate at which the route stops paying.`));
+      h("p", { class: "note" }, `Bold: this week's spread of ${num(res.spread)} clears the level. Low, central and high are the quartiles of the rates reported for the ship since 2024. Closes above: the charter rate at which the route stops paying`,
+        shut ? "; shut: it does not pay even with the ship paid for." : "."));
   }
 
   // -- update --------------------------------------------------------------------------
@@ -183,24 +186,29 @@ export function mount(root, ctx) {
     put(kicker, `US Gulf LNG, week to ${day(P.date)}`, modified(st) ? h("span", { class: "flag" }, " · your settings") : null);
     put(head, words(st, res));
     const eur = usdMmbtuToEurMwh(Math.abs(st.des), fx);
+    const bare = priceCargo({ ...inputs, des_discount: 0 }).routes;
+    const open = EAST.filter((id) => res.routes[id].open);
+    const without = open.map((id) => num(bare[id].breakeven_spread));
     put(dek,
-      "Levels are JKM minus TTF in USD/MMBtu for a cargo loaded at Sabine Pass. ",
+      "Levels are JKM minus TTF in USD/MMBtu for a cargo loaded at Sabine Pass. Delivered ex-ship (DES) in Northwest Europe it sells ",
       st.des < 0
-        ? `A cargo delivered to Northwest Europe sells ${num(Math.abs(st.des))} under TTF (${num(eur, 1)} EUR/MWh), which lowers every level by as much.`
-        : `A cargo delivered to Northwest Europe sells ${num(st.des)} over TTF.`);
+        ? [`${num(Math.abs(st.des))} under TTF (${num(eur, 1)} EUR/MWh), the cost of regasification and entry`,
+          open.length ? `; without that discount the level${open.length > 1 ? "s" : ""} would be ${without.length > 1 ? without.slice(0, -1).join(", ") + " and " + without[without.length - 1] : without[0]}.` : "."]
+        : `${num(st.des)} over TTF.`);
     sTtf.sync(st.ttf); sDes.sync(st.des); sWait.sync(st.wait);
     reset.hidden = !modified(st);
     draw(st, res, lines);
     fill(st, res, lines);
-    const held = (src) => (src.status === "held" ? ", held since" : "");
-    put(source,
-      `Prices: EIA, week to ${day(P.date)}. Charter rate: Spark30S Atlantic as reported on ${day(String(hire.date))}${held(hire)} (`,
-      hire.url ? h("a", { href: hire.url, rel: "noopener" }, "LNG Prime") : "LNG Prime",
-      `). DES discount: ACER, 20 days to ${day(String(P.sources.des_discount.date))}${held(P.sources.des_discount)}. `,
+    const des = P.sources.des_discount;
+    put(source, `Prices: EIA, week to ${day(P.date)}. `, hireSource(hire),
+      des.status === "assumed" ? "DES discount: assumed. " : `DES discount: ACER's assessment against TTF over the same days, 20 days to ${day(String(des.date))}${des.status === "held" ? ", held since" : ""}. `,
       "Hollow circle: the charter rate at which a route stops paying.");
     whyBody.replaceChildren(driversTable(res), h("p", { class: "source" },
       "Each line is USD per MMBtu delivered east. Extra boil-off is the gas the longer voyage burns, valued at what Europe pays; it grows with the gas price."));
-    inputsBody.replaceChildren(inputsTable(P, inputs), methodLink());
+    const changed = {};
+    if (st.ttf !== defaults.ttf) Object.assign(changed, { ttf: 1, jkm: 1 });
+    if (st.des !== defaults.des) changed.des_discount = 1;
+    inputsBody.replaceChildren(inputsTable(P, inputs, changed), methodLink());
   }
 
   return { update };

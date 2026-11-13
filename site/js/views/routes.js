@@ -1,7 +1,7 @@
 // Routes: the four ways out of Sabine Pass on one map, and what a Panama slot is worth against the Cape.
 
 import { priceCargo, canalQuestion, withChanges } from "../engine.js";
-import { h, b, put, num, int, musd, day, ROUTES, EAST, panel, table, segmented } from "../util.js";
+import { h, b, put, num, int, musd, day, month, ROUTES, EAST, panel, table, segmented } from "../util.js";
 import { frame, axisX, axisY, path, dot, s, showTip, hover, endLabels, d3 } from "../chart.js";
 
 const LON = [-232, 152];
@@ -33,7 +33,8 @@ export function mount(root, ctx) {
   root.append(kicker, head, dek, h("figure", null, mapTitle, h("p", { class: "fig-sub hint-scroll" }, "Slide the map sideways to follow each route."), mapBox, mapSource),
     h("h2", null, "What a Panama slot is worth"),
     controls, h("figure", null, figTitle, plot, source),
-    h("div", { class: "more" }, panel("Routes in figures", factsBody), panel("Route status since 2016", statusTable()), panel("LNG carriers through the canals", traffic())));
+    h("div", { class: "more" }, panel("Routes in figures", factsBody), panel("Route status since 2016", statusTable()), panel("LNG carriers through the canals", traffic()),
+      panel("Panama, month by month", panamaMonths())));
 
   function statusTable() {
     return table([
@@ -58,6 +59,19 @@ export function mount(root, ctx) {
       { label: "Suez, LNG carriers (calendar year)", value: (r) => bar(suez[r.fiscal_year], "c-suez") },
     ], pan.rows, { min: 480 }), h("p", { class: "source" }, "Both directions, all origins. Sources: ", pan.source, "; ", t.suez_lng_ships_by_year.source,
       ". Unbooked ships at Panama were reported waiting ", D.routes.waits_reported.map((w) => `${w.days} days in ${w.month}`).join(", "), ".")];
+  }
+
+  // The canal's own monthly record: how long a ship spent in canal waters, queue included.
+  function panamaMonths() {
+    const rows = [...D.routes.panama_monthly].reverse();
+    return [table([
+      { label: "Month", value: (r) => month(r.month, true), head: true },
+      { label: "Hours in canal waters, average", n: true, value: (r) => num(r.cwt_hours_avg, 1) },
+      { label: "Highest daily average", n: true, value: (r) => num(r.cwt_hours_high, 1) },
+      { label: "Transits, all ships", n: true, value: (r) => (r.transits_total == null ? "" : int(r.transits_total)) },
+      { label: "Of which through the Neopanamax locks", n: true, value: (r) => (r.neopanamax_transits == null ? "" : int(r.neopanamax_transits)) },
+    ], rows, { tall: true, min: 560 }),
+    h("p", { class: "source" }, "Canal waters time runs from arrival to exit, waiting included, for every kind of ship. Source: Panama Canal Authority, monthly canal operations summaries in its advisories to shipping.")];
   }
 
   function drawMap(map) {
@@ -151,14 +165,17 @@ export function mount(root, ctx) {
     const pan = res.routes.panama;
     const cape = res.routes.cape;
     const saved = cape.round_trip_days - pan.round_trip_days;
-    put(head, "Panama saves ", b(`${num(saved, 0)} days`), " on the Cape. At ", b(int(base.hire)), " USD a day a ship can pay ", b(`${musd(q.premium_usd)} million USD`),
+    put(head, "Through Panama the round trip is ", b(`${num(saved, 0)} days`), " shorter than round the Cape. At ", b(int(base.hire)), " USD a day a ship can pay ", b(`${musd(q.premium_usd)} million USD`),
       " above the tariff for its two transits, or wait ", b(`${num(q.wait_days, 1)} days`), " at each, before the Cape is the cheaper way east.");
-    put(dek, `Panama is ${P.route_status.panama.status}; Suez is ${P.route_status.suez.status}, by the Red Sea. A day of waiting costs ${int(q.cost_of_a_waiting_day_usd / 2)} USD: the hire, and the cargo that boils off.`);
+    const pm = D.routes.panama_monthly[D.routes.panama_monthly.length - 1];
+    const status = (id) => P.route_status[id].status;
+    put(dek, status("panama") === status("suez") ? `This week Panama and Suez are both ${status("panama")}. ` : `This week Panama is ${status("panama")} and Suez is ${status("suez")}. `,
+      `A day of waiting costs ${int(q.cost_of_a_waiting_day_usd / 2)} USD, the hire and the cargo that boils off. In ${month(pm.month)} a ship spent ${num(pm.cwt_hours_avg, 0)} hours in canal waters on average.`);
     put(mapTitle, `Round the Cape a cargo sails ${int(map_distance("cape") - map_distance("panama"))} nautical miles further each way than through Panama`);
     put(mapSource, `Distances: this study, over Eurostat's SeaRoute network. Days: round trips at 17 knots with a day in each port and at each canal. Tolls and fees for the round trip: tariffs in force on ${day(P.date)}. Japan is drawn at both edges so that every route runs unbroken.`);
     put(controls, segmented("Show", [["premium", "Slot premium"], ["wait", "Waiting days"]], mode, (v) => ctx.set({ y: v === "premium" ? null : v })));
     put(figTitle, mode === "wait"
-      ? "The dearer the gas, the fewer days a ship can afford to wait for the canal"
+      ? "The dearer the ship and the gas, the longer a cargo can wait for the canal before the Cape is cheaper"
       : "A pair of Panama slots is worth more the dearer the ship and the gas");
     put(source, "Each line: the premium, or the wait, at which a cargo nets the same through Panama as round the Cape; below zero the Cape is already cheaper. The tariff already counts tolls, the fresh water surcharge and booking fees of ",
       int(P.panama.laden + P.panama.ballast), ` USD for the round trip. Model: this study, prices to ${day(P.date)}.`);

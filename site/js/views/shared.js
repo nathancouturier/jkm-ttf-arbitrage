@@ -5,26 +5,38 @@ import { h, num, int, day, tag, table, ROUTES, EAST } from "../util.js";
 
 const asOf = (src) => (src && src.date ? day(String(src.date)) : "");
 
-export function inputsTable(P, inputs = P.inputs) {
+// Where the charter rate comes from, in a few words, whatever its standing.
+export function hireSource(hire) {
+  if (hire.status === "assumed") {
+    return [`Charter rate: the ship's low scenario, no rate having been reported since ${hire.last_reported ? day(String(hire.last_reported)) : "the series began"}. `];
+  }
+  return [`Charter rate: Spark30S Atlantic as reported on ${day(String(hire.date))}${hire.status === "held" ? " and held since" : ""} (`,
+    hire.url ? h("a", { href: hire.url, rel: "noopener" }, "LNG Prime") : "LNG Prime", "). "];
+}
+
+// The inputs behind a result. Rows the reader has changed say so in place of a date and a source.
+export function inputsTable(P, inputs = P.inputs, changed = {}) {
   const s = P.sources;
-  const fx = P.usd_per_eur;
+  const fx = changed.fx ?? P.usd_per_eur;
   const link = (src) => (src && src.url ? h("a", { href: src.url, rel: "noopener" }, src.note) : (src && src.note) || "");
+  const prices = `${s.prices.publisher}, ${s.prices.note}`;
   const rows = [
-    ["JKM, front month", `${num(inputs.jkm)} USD/MMBtu`, s.prices, "EIA, " + s.prices.note],
-    ["TTF, front month", `${num(inputs.ttf)} USD/MMBtu, ${num(usdMmbtuToEurMwh(inputs.ttf, fx))} EUR/MWh`, s.prices, "EIA, " + s.prices.note],
-    ["Charter rate, round trip", `${int(inputs.hire)} USD a day`, s.hire, link(s.hire)],
-    ["Europe's DES discount to TTF", `${num(inputs.des_discount)} USD/MMBtu, ${num(s.des_discount.value)} EUR/MWh`, s.des_discount, s.des_discount.note],
-    ["Henry Hub", `${num(inputs.henry_hub)} USD/MMBtu`, s.henry_hub, "EIA, " + s.henry_hub.note],
-    ["Dollars per euro", num(fx, 4), s.usd_per_eur, s.usd_per_eur.note],
-    ["SOFR", `${num(inputs.finance.rate * 100)} percent`, s.sofr, s.sofr.note],
-    ["EU allowance", `${num(P.eua_eur_t)} EUR a tonne`, s.eua, s.eua.note],
-    ["Ship", P.ships[P.ship_id].name, null, "The freight benchmark's ship on the loading day"],
+    ["jkm", "JKM, front month", `${num(inputs.jkm)} USD/MMBtu`, s.prices, prices],
+    ["ttf", "TTF, front month", `${num(inputs.ttf)} USD/MMBtu, ${num(usdMmbtuToEurMwh(inputs.ttf, fx))} EUR/MWh`, s.prices, prices],
+    ["hire", "Charter rate, round trip", `${int(inputs.hire)} USD a day`, s.hire, link(s.hire)],
+    ["des_discount", "Europe's DES discount to TTF", `${num(inputs.des_discount)} USD/MMBtu, ${num(usdMmbtuToEurMwh(inputs.des_discount, fx))} EUR/MWh`, s.des_discount, s.des_discount.note],
+    ["henry_hub", "Henry Hub", `${num(inputs.henry_hub)} USD/MMBtu`, s.henry_hub, "EIA, " + s.henry_hub.note],
+    ["fx", "Dollars per euro", num(fx, 4), s.usd_per_eur, s.usd_per_eur.note],
+    ["sofr", "SOFR", `${num(inputs.finance.rate * 100)} percent`, s.sofr, s.sofr.note],
+    ["eua", "EU allowance", `${num(changed.eua ?? P.eua_eur_t)} EUR a tonne`, s.eua, s.eua.note],
+    ["ship", "Ship", P.ships[changed.ship ?? P.ship_id].name, null, "The freight benchmark's ship on the loading day"],
   ];
+  const yours = (r) => r[0] in changed;
   return table([
-    { label: "Input", value: (r) => r[0], head: true },
-    { label: "Value", value: (r) => h("span", { class: "mono" }, r[1]) },
-    { label: "As of", value: (r) => (r[2] ? [asOf(r[2]), tag(r[2].status)] : "") },
-    { label: "Source", value: (r) => r[3] },
+    { label: "Input", value: (r) => r[1], head: true },
+    { label: "Value", value: (r) => h("span", { class: "mono" }, r[2]) },
+    { label: "As of", value: (r) => (yours(r) ? h("span", { class: "tag assumed" }, " your figure") : r[3] ? [asOf(r[3]), tag(r[3].status)] : "") },
+    { label: "Source", value: (r) => (yours(r) ? "" : r[4]) },
   ], rows, { min: 640 });
 }
 
@@ -35,6 +47,9 @@ const DRIVERS = [
   ["des_discount", "Europe's DES discount"],
   ["other", "Ports, carbon and financing"],
 ];
+
+// The charter rate at which a route stops paying; a route that does not pay even with the ship paid for has none.
+export const closesAbove = (hStar) => (hStar > 0 ? int(hStar) : "shut");
 
 export function driversTable(result, routes = EAST) {
   const col = (id) => ({ label: ROUTES[id].via + (result.routes[id].open ? "" : " (closed)"), n: true, value: (r) => r[id] });
@@ -49,7 +64,7 @@ export function driversTable(result, routes = EAST) {
   for (const id of routes) {
     total[id] = h("b", null, num(result.routes[id].breakeven_spread));
     days[id] = num(result.routes[id].round_trip_days - result.routes.europe.round_trip_days, 1);
-    hstar[id] = int(result.routes[id].breakeven_hire);
+    hstar[id] = closesAbove(result.routes[id].breakeven_hire);
   }
   return table([{ label: "USD/MMBtu delivered east", value: (r) => r.label, head: true }, ...routes.map(col)], [...rows, total, days, hstar], { min: 520 });
 }

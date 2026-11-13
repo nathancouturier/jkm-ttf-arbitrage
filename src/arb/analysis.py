@@ -71,21 +71,6 @@ def history(market: Market, period: str) -> list[dict]:
     return rows
 
 
-def spells(rows: list[dict], key: str = "open") -> list[dict]:
-    """Runs of consecutive observations where the arb was open."""
-    out, start, last = [], None, None
-    for row in rows:
-        if row[key]:
-            start = start or row["date"]
-            last = row["date"]
-        elif start:
-            out.append({"from": start, "to": last})
-            start = None
-    if start:
-        out.append({"from": start, "to": last})
-    return out
-
-
 def history_summary(rows: list[dict], market: Market) -> dict:
     """Counts a sentence can state: how often the arb was open, by hire case and by route."""
     n = len(rows)
@@ -119,8 +104,8 @@ def monthly_flows(market: Market) -> pd.DataFrame:
     region = {c: "JKM markets" for c in p["jkm_markets"]}
     for name, countries in p["regions"].items():
         region.update({c: name for c in countries})
-    cargoes = pd.read_csv(params.DATA / "us_lng_cargoes_doe.csv", parse_dates=["date"])
-    cargoes["region"] = cargoes["country"].map(region).fillna("Other")
+    cargoes = market.cargoes.copy()
+    cargoes["region"] = cargoes["country"].map(region).fillna("Other")      # a destination not listed yet is counted, under Other
     cargoes["month"] = cargoes["date"].dt.strftime("%Y-%m")
     table = cargoes.pivot_table(index="month", columns="region", values="mmcf", aggfunc="sum", fill_value=0.0)
     for name in ["JKM markets", "Europe", "Other Asia", "Middle East and Africa", "Americas", "Other"]:

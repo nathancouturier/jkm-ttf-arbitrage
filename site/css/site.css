@@ -90,6 +90,7 @@ a:hover { text-decoration-color: var(--ink); }
   font-weight: 500; font-size: 15px; white-space: nowrap;
 }
 .top nav a:hover { color: var(--ink); }
+.top nav .narrow { display: none; }
 .top nav a[aria-current="page"] { color: var(--ink); box-shadow: inset 0 -2px 0 var(--accent); border-radius: 0; }
 #theme {
   width: 36px; height: 36px; flex: none; border-radius: 50%; border: 1px solid var(--rule);
@@ -168,6 +169,8 @@ svg .cursor { stroke: var(--ink); stroke-width: 1; opacity: 0.55; }
 .btn { border: 1px solid var(--rule); border-radius: 6px; color: var(--ink); }
 .btn:hover { border-color: var(--faint); background: var(--raised); }
 .btn.quiet { border-color: transparent; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; padding: 8px 4px; }
+.tune { display: contents; }
+.tune-toggle { display: none; }
 
 .slider { display: grid; gap: 0; margin-bottom: 8px; }
 .slider label { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-size: 13.5px; color: var(--muted); }
@@ -189,7 +192,7 @@ td { padding: 7px 10px 7px 0; border-bottom: 1px solid var(--grid); vertical-ali
 th.n, td.n { text-align: right; padding-right: 0; padding-left: 10px; white-space: nowrap; }
 td.n { font-size: 13.5px; }
 td.yes { font-weight: 700; } td.no { color: var(--faint); }
-tr:last-child td { border-bottom: 0; }
+tr:last-child td, tbody tr:last-child th { border-bottom: 0; }
 .scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .hint-scroll { display: none; }
 .scroll.tall { max-height: 420px; overflow-y: auto; }
@@ -243,10 +246,18 @@ details.panel > .body table { font-size: 13.5px; }
 .form .hint { font-size: 11.5px; color: var(--faint); }
 
 /* -- method ----------------------------------------------------------------------------------- */
-pre.formula {
-  margin: 8px 0 14px; padding: 14px 16px; background: var(--raised); border-radius: 8px; overflow-x: auto;
-  font: 400 13.5px/1.6 var(--mono); color: var(--ink);
+dl.formula {
+  margin: 8px 0 14px; padding: 12px 16px; background: var(--raised); border-radius: 8px;
+  font: 400 13.5px/1.55 var(--mono); color: var(--ink);
 }
+dl.formula > div { display: grid; grid-template-columns: 7.2em minmax(0, 1fr); gap: 0 10px; padding: 2px 0; }
+dl.formula dt { font-weight: 600; }
+dl.formula dd { margin: 0; }
+dl.formula .why { display: block; color: var(--muted); }
+td.how { color: var(--muted); font-size: 13px; }
+table.stack { table-layout: fixed; }
+table.stack td.n { white-space: normal; }
+table.stack th[scope="row"] { vertical-align: top; color: var(--ink); font-size: 13.5px; padding-top: 7px; }
 .prose { max-width: 46em; }
 .prose li { margin-bottom: 6px; }
 ul, ol { padding-left: 20px; margin: 0 0 12px; }
@@ -288,6 +299,27 @@ footer a { color: var(--ink); }
   .seg button { padding: 8px 9px; }
   .tile .value { font-size: 22px; }
   details.panel > .body { padding: 12px; }
+  .top nav { gap: 0; justify-content: space-between; }
+  .top nav .wide { display: none; }
+  .top nav .narrow { display: inline; }
+  .tune-toggle { display: inline-flex; text-align: left; line-height: 1.3; font-size: 13.5px; color: var(--muted); }
+  .tune-toggle::after { content: "+"; font-family: var(--mono); color: var(--faint); margin-left: 8px; }
+  .tune-toggle[aria-expanded="true"]::after { content: "\2212"; }
+  .tune { display: none; }
+  .tune.open { display: grid; gap: 10px; flex-basis: 100%; }
+  dl.formula { font-size: 12.5px; padding: 10px 12px; }
+  dl.formula > div { grid-template-columns: minmax(0, 1fr); padding: 4px 0; }
+  /* a stacked table: each row a block, each cell under its column's name */
+  table.stack { table-layout: auto; }
+  table.stack colgroup { display: none; }
+  table.stack thead { position: absolute; left: -9999px; }
+  table.stack tr { display: block; padding: 9px 0; border-bottom: 1px solid var(--grid); }
+  table.stack th[scope="row"] { display: block; border: 0; padding: 0 0 2px; color: var(--ink); font-size: 14px; }
+  table.stack td { display: flex; justify-content: space-between; gap: 14px; border: 0; padding: 2px 0; text-align: right; white-space: normal; overflow-wrap: anywhere; }
+  table.stack td::before { content: attr(data-label); flex: none; max-width: 42%; text-align: left; color: var(--muted); font: 400 12.5px var(--sans); }
+  table.stack td.n { padding-left: 0; white-space: normal; font-size: 13px; }
+  table.stack td.how { display: block; text-align: left; font-size: 12.5px; }
+  table.stack td.how::before { content: none; }
 }
 @media (prefers-reduced-motion: no-preference) {
   .seg button, .btn, details.panel > summary, #theme { transition: background 0.12s, color 0.12s, border-color 0.12s; }

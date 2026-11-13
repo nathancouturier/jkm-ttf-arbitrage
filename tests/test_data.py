@@ -1,13 +1,15 @@
-"""The committed data load, are in range and are recent; the refresh reads EIA's page as printed."""
+"""The committed data load, are in range and are recent; the refresh reads EIA's page as printed and survives ordinary events."""
 
+import io
 import json
 from datetime import date
-from pathlib import Path
 
+import numpy as np
 import pandas as pd
 import pytest
+import requests
 
-from arb import analysis, engine, fetch, params
+from arb import analysis, build, engine, fetch, note, params
 from arb.inputs import Market
 
 DATA = params.DATA
@@ -39,7 +41,7 @@ def test_the_weekly_prices_are_weekly_and_current():
     assert not weeks.duplicated().any()
     assert (weeks.dt.dayofweek == 2).all()                     # report weeks end on a Wednesday
     assert weeks.iloc[-1] >= pd.Timestamp("2026-11-04")
-    assert weeks.diff().dt.days.iloc[-40:].max() <= 7           # no week missing in 2026
+    assert (weeks.diff().dt.days.dropna() % 7 == 0).all()       # EIA skips holiday weeks: a gap is whole weeks, never a failure
 
 
 def test_every_json_file_parses_and_every_event_and_rate_has_a_source():
@@ -79,18 +81,63 @@ def test_platts_arbitrage_of_28_april_2026_same_order_similar_gap():
     obs = next(o for o in market.weekly_observations() if o["date"] == date(2026, 4, 29))
     inputs, _ = market.cargo(obs["date"], obs["jkm"], obs["ttf"])
     routes = engine.price_cargo(inputs)["routes"]
-    assert routes["panama"]["arb"] > routes["cape"]["arb"]
-    assert routes["cape"]["arb"] < 0
+    assert routes["panama"]["arb"] > 0 > routes["cape"]["arb"]      # open via Panama, shut via the Cape, as Platts had it
     gap = routes["panama"]["arb"] - routes["cape"]["arb"]
     theirs = platts["via_panama_usd_mmbtu"] - platts["via_cape_usd_mmbtu"]
     assert 0.5 * theirs < gap < 1.5 * theirs
 
 
-def test_unknown_destinations_are_counted_under_other(monkeypatch, tmp_path):
-    flows = analysis.monthly_flows(Market())
-    assert flows["Other"].sum() == 0.0                           # every country in the record has a region today
+def test_unknown_destinations_are_counted_under_other():
+    market = Market()
+    flows = analysis.monthly_flows(market)
     assert (flows["share_jkm"].between(0, 1)).all()
     assert flows.loc["2026-07", "cargoes"] > 100
+    new = pd.DataFrame([{"date": pd.Timestamp("2026-07-20"), "tanker": "Test", "port": "Sabine Pass, LA", "country": "Atlantis", "mmcf": 3500.0}])
+    market.cargoes = pd.concat([market.cargoes, new], ignore_index=True)
+    after = analysis.monthly_flows(market)
+    assert after.loc["2026-07", "Other"] == flows.loc["2026-07", "Other"] + 3500.0
+    assert after.loc["2026-07", "total"] == pytest.approx(flows.loc["2026-07", "total"] + 3500.0)
+    assert after.loc["2026-07", "share_jkm"] < flows.loc["2026-07", "share_jkm"]
+
+
+def test_the_des_discount_is_measured_against_ttf_over_the_days_the_assessment_covers():
+    """The evidence the parameter note states: steadier than ACER's own spread, and no longer following TTF's move."""
+    market = Market()
+    acer = market.acer.dropna(subset=["nwe_spread_to_ttf_eur_mwh"])
+    ttf = acer["nwe_des_eur_mwh"] - acer["nwe_spread_to_ttf_eur_mwh"]
+    move = (ttf - ttf.shift(5)).iloc[5:]
+    raw, ours = acer["nwe_spread_to_ttf_eur_mwh"].iloc[5:], market.discount["discount"].iloc[5:]
+    assert ours.std() < 0.7 * raw.std()
+    assert abs(np.corrcoef(ours, move)[0, 1]) < 0.2 < 0.5 < abs(np.corrcoef(raw, move)[0, 1])
+    assert ours.median() == pytest.approx(market.p["des_discount"]["before_acer_eur_mwh"]["value"], abs=0.1)
+
+
+def test_the_refresh_survives_ordinary_events():
+    """A skipped EIA week, a destination nobody has listed, no charter rate for half a year and a closed canal:
+    the study still builds, and the note and the README still say something true."""
+    market = Market()
+    market.weekly = market.weekly.drop(market.weekly.index[-2]).reset_index(drop=True)
+    new = pd.DataFrame([{"date": market.cargoes["date"].max(), "tanker": "Test", "port": "Sabine Pass, LA", "country": "Atlantis", "mmcf": 3500.0}])
+    market.cargoes = pd.concat([market.cargoes, new], ignore_index=True)
+    market.rates = market.rates[market.rates["date"] < market.weekly["date"].iloc[-1] - pd.Timedelta(days=200)]
+    market.p["route_status"].append({"route": "panama", "from": "2026-09-01", "status": "restricted", "note": "test", "source": "test", "url": None})
+    try:
+        study = build.build(market, write=False)
+    finally:
+        market.p["route_status"].pop()                             # the parameters are shared: leave them as they were
+    assert study["now"]["preset"]["sources"]["hire"]["status"] == "assumed"
+    assert not study["now"]["result"]["routes"]["panama"]["open"]
+    words = note.headline(study)
+    assert "low scenario" in words["rate"] and "via Panama" not in words["levels"] and "via the Cape" in words["levels"]
+    text = note.readme_finding(study)
+    assert "None" not in text and "nan" not in text.lower()
+    assert len(note.compose(io.BytesIO(), study)) == 2
+
+
+def test_a_failed_fetch_is_reported_in_plain_words():
+    request = requests.Request("GET", "https://markets.newyorkfed.org/api/rates").prepare()
+    assert fetch._why(requests.ConnectionError("tunnel refused", request=request)) == "markets.newyorkfed.org could not be reached"
+    assert fetch._why(ValueError("2 sentences give an average for JKM")).startswith("ValueError: 2 sentences")
 
 
 def test_the_refresh_reads_the_supplement_as_printed():

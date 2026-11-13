@@ -1,13 +1,16 @@
-# The weekly refresh. Each source is fetched on its own: one that fails keeps
-# the data it had and says so in data/status.json, and the run goes on. The
-# data are committed only if the tests pass on them; nothing opens an issue.
+# The weekly refresh. Each source is fetched on its own and its new data are
+# kept only if the study still builds, passes its tests and typesets its note
+# on them: a source that fails, or whose data the study cannot take, keeps what
+# it had and says so in data/status.json, and the run goes on. Nothing opens an
+# issue. EIA shows one week at a time, so the run is repeated on two more days.
 
 name: refresh
 
 on:
   schedule:
     - cron: "30 22 * * 4"   # Thursday evening UTC, after EIA's weekly release
-    - cron: "0 18 * * 5"    # Friday, in case the release slipped
+    - cron: "30 22 * * 5"   # Friday evening, for a release moved by a holiday
+    - cron: "30 15 * * 1"   # Monday, in case both runs missed it
   workflow_dispatch:
 
 permissions:
@@ -31,7 +34,7 @@ jobs:
           node-version: "22"
       - name: Install the pinned dependencies
         run: python -m pip install -r requirements.txt
-      - name: Fetch every source, each on its own
+      - name: Fetch every source, each on its own, keeping only data the study stands on
         run: make refresh
       - name: Rebuild the site's data, test, and write the note
         run: make

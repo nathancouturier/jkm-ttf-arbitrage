@@ -18,7 +18,7 @@ export function mount(root, ctx) {
   const source = h("p", { class: "source" });
   const compare = h("div");
   const limits = h("p", { class: "dek", style: "margin-top:14px" },
-    "The comparison cannot separate the arb from term contracts, from China's tariff on US LNG since February 2025, or from ships already on charter, for which the long way costs only fuel. Europe's pull since 2022 moves the spread and the cargoes together.");
+    "The comparison cannot separate the arb from term contracts, from China's tariff on US LNG, or from ships already on charter. Europe's pull since 2022 moves the spread and the cargoes together.");
   const liftTitle = h("p", { class: "fig-title" });
   const liftSub = h("p", { class: "fig-sub" }, "Bars: cargoes loaded; outlined, cancelled. ", h("span", { class: "key c-ink" }), "sold in Europe ",
     h("span", { class: "key c-panama dash", style: "margin-left:10px" }), "sold in Asia");
@@ -100,9 +100,10 @@ export function mount(root, ctx) {
     const block = (title, t) => h("div", { class: "compare" }, h("h3", null, title), row("After an open month", t.open), row("After a closed month", t.closed));
     put(compare, h("p", { class: "fig-title" }, "Share of US LNG sent to JKM markets"),
       block(`All months, ${month(months[0].month, true)} to ${month(months[months.length - 1].month, true)}`, F.test),
+      block("Before 2022", F.before_2022),
       block("Since January 2022", F.since_2022),
-      h("p", { class: "source" }, `Mean share of the volume that left the month after. Correlation of the share with the arb margin: ${num(F.test.correlation)}. `,
-        "The split since 2022 was cut after the result was known."));
+      h("p", { class: "source" }, `Mean share of the volume that left the month after; the rule was fixed before the result was computed. Correlation of the share with the arb margin: ${num(F.test.correlation)}. `,
+        "The split at 2022 was cut after the result was known."));
   }
 
   function drawLift() {
@@ -129,7 +130,8 @@ export function mount(root, ctx) {
     path(bottom, rows.map((r) => [x(r.t), r.margin_asia == null ? null : y2(r.margin_asia)]), { stroke: ROUTES.panama.color, "stroke-width": 1.6, "stroke-dasharray": "4 3" });
     path(bottom, rows.map((r) => [x(r.t), r.margin_europe == null ? null : y2(r.margin_europe)]), { stroke: "var(--ink)", "stroke-width": 2 });
     s("text", { class: "label-sub", x: 6, y: botH - 6 }, g2, "below zero: the cargo does not cover its gas");
-    axisX(bottom, x, { values: d3.utcMonth.every(narrow ? 6 : 3).range(rows[0].t, d3.utcMonth.offset(rows[rows.length - 1].t, 1)), format: (d) => (d.getUTCMonth() === 0 ? d3.utcFormat("%Y")(d) : d3.utcFormat("%b")(d)) });
+    // a tick under the bar of each quarter's first month, the year in place of January
+    axisX(bottom, x, { values: rows.filter((r) => r.t.getUTCMonth() % (narrow ? 6 : 3) === 0).map((r) => r.t), format: (d) => (d.getUTCMonth() === 0 ? d3.utcFormat("%Y")(d) : d3.utcFormat("%b")(d)) });
 
     const cursor = s("line", { class: "cursor", y1: 0, y2: topH + gap + botH, visibility: "hidden" }, c.g);
     const bisect = d3.bisector((r) => r.t).center;
@@ -153,12 +155,15 @@ export function mount(root, ctx) {
   function update() {
     const t = F.test;
     const s22 = F.since_2022;
-    put(head, "After a month with the arb open, ", b(num(t.open.mean_share * 100, 0) + " percent"), " of US LNG left for JKM markets; after a closed month, ",
-      b(num(t.closed.mean_share * 100, 0) + " percent"), ". Since 2022 the gap is ", b(num((s22.open.mean_share - s22.closed.mean_share) * 100, 0) + " point" + (Math.round((s22.open.mean_share - s22.closed.mean_share) * 100) === 1 ? "" : "s")), ".");
-    put(dek, `Departures in DOE's cargo record against the arb of the month before, over ${t.months} months. The rule was fixed before the result was computed.`);
+    const pc = (side) => num(side.mean_share * 100, 0);
+    const b22 = F.before_2022;
+    put(head, "After a month with the arb open, ", b(pc(t.open) + " percent"), " of US LNG left for JKM markets; after a closed month, ",
+      b(pc(t.closed) + " percent"), ". Since 2022 it is ", b(pc(s22.open)), " against ", b(pc(s22.closed)), ": no gap.");
+    put(dek, `DOE's cargo record against the arb of the month before, ${t.months} months. The gap is a matter of period: before 2022 the arb was open in ${b22.open.months} months of ${b22.months}.`);
     put(figTitle, "Cargoes went to Asia when the arb paid, until 2022; since then Asia's share has stayed low whatever the arb");
+    const hs = D.history.summary.monthly;
     put(source, `JKM markets: Japan, South Korea, China and Taiwan. Share of the volume exported by vessel each departure month: US Department of Energy, to ${month(months[months.length - 1].month)}. `,
-      "Arb margin: this study, cheapest open route at the reported charter rate.");
+      `Arb margin: this study, cheapest open route at the reported charter rate; in ${hs.hire_assumed} of the ${hs.observations} months no rate had been reported and the low scenario stands in.`);
     drawShare();
     bars();
 
@@ -174,10 +179,10 @@ export function mount(root, ctx) {
     const y2020 = F.lift.filter((r) => r.month.startsWith("2020"));
     const low = y2020.reduce((a, r) => (r.cargoes < a.cargoes ? r : a));
     const high = y2020.slice(0, y2020.indexOf(low) + 1).reduce((a, r) => (r.cargoes > a.cargoes ? r : a));
-    put(liftLead, "A buyer lifts a cargo when its best netback covers 115 percent of Henry Hub, and must cancel about two months ahead.");
+    put(liftLead, "A buyer lifts a cargo when its best netback covers 115 percent of Henry Hub, and cancels about two months ahead.");
     put(liftTitle, `From ${month(longest[0].month).split(" ")[0]} to ${month(longest[longest.length - 1].month)} a cargo sold in Europe did not cover its gas: about ${cancelled} cargoes were cancelled and loadings fell from ${high.cargoes} to ${low.cargoes} a month`);
     put(liftSource, "Cargoes loaded: US Department of Energy. Cancelled: ", h("a", { href: F.cancellations_source.url, rel: "noopener" }, "EIA, 11 August 2020"),
-      ". Margins: this study, on the World Bank's TTF and, for Asia to September 2020, METI's price of spot cargoes contracted in the month. In mid 2020 that price includes cargoes sold for the winter and overstates what a prompt cargo fetched, so the dashed line flatters Asia.");
+      ". Margins: this study, on the World Bank's TTF and, for Asia, METI's price of spot cargoes contracted in the month, which in mid 2020 includes cargoes sold for the winter and so flatters Asia. A break in the lines: no Japanese price that month.");
     drawLift();
 
     put(tableBody, table([

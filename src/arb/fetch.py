@@ -3,6 +3,9 @@
 Each source is fetched on its own. One that fails keeps the data it had: the
 failure is written to data/status.json with the date of the last value held,
 the site shows that date, and the run goes on. Nothing is ever filled in.
+New data are kept only if the study still builds, passes its tests and
+typesets its note on them; otherwise that one source goes back to what it
+held, and says why.
 
 Fetched here (fixed addresses that each site's robots rules allow):
     eia_weekly     JKM and TTF, EIA's WNGSR Supplement, the current issue only
@@ -34,10 +37,13 @@ import csv
 import html
 import io
 import json
+import os
 import re
+import subprocess
 import sys
 import zipfile
 from datetime import date, datetime, timezone
+from urllib.parse import urlparse
 
 import pandas as pd
 import requests
@@ -266,20 +272,47 @@ FILES = {"eia_weekly": ("prices_weekly.csv", "week_ending"), "henry_hub": ("henr
          "charter_rate": ("charter_rates.csv", "date")}
 
 
-def run(names: list[str] | None = None) -> dict:
+def _problem() -> str | None:
+    """None if the study builds, passes its tests and typesets its note on the data now held; otherwise what failed."""
+    env = dict(os.environ, PYTHONPATH=str(params.ROOT / "src"))
+    for step in (["-m", "arb.build"], ["-m", "pytest", "-q", "-x", "tests"], ["-m", "arb.note"]):
+        done = subprocess.run([sys.executable, *step], cwd=params.ROOT, env=env, capture_output=True, text=True)
+        if done.returncode:
+            lines = [line.strip() for line in (done.stdout + done.stderr).splitlines() if line.strip()]
+            return "%s: %s" % (step[1], lines[-1][:140] if lines else "failed")
+    return None
+
+
+def _why(error: Exception) -> str:
+    """A failure in a few plain words, without the machine's own network details."""
+    if isinstance(error, requests.RequestException):
+        request, response = getattr(error, "request", None), getattr(error, "response", None)
+        host = urlparse(request.url).hostname if request is not None and request.url else "the source"
+        return "%s %s" % (host, "answered %s" % response.status_code if response is not None else "could not be reached")
+    return "%s: %s" % (type(error).__name__, str(error)[:160])
+
+
+def run(names: list[str] | None = None, check: bool = False) -> dict:
+    """Fetches each source in turn. With check, a source's new data are kept only if the study still stands on them."""
     path = DATA / "status.json"
     status = json.loads(path.read_text()) if path.exists() else {}
     for name in names or list(SOURCES):
+        file, column = DATA / FILES[name][0], FILES[name][1]
+        held = file.read_bytes()
         entry = status.get(name, {})
         entry["checked"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
         try:
             entry["last"], entry["message"] = SOURCES[name]()
+            if check and file.read_bytes() != held:
+                problem = _problem()
+                if problem:
+                    raise ValueError("the study does not stand on the new data (%s)" % problem)
             entry["ok"] = True
         except Exception as error:               # one source failing must not stop the others
-            name_, column = FILES[name]
+            file.write_bytes(held)
             entry["ok"] = False
-            entry["last"] = str(pd.read_csv(DATA / name_, dtype=str)[column].max())
-            entry["message"] = "kept the data held: %s: %s" % (type(error).__name__, str(error)[:160])
+            entry["last"] = str(pd.read_csv(file, dtype=str)[column].max())
+            entry["message"] = "kept the data held: " + _why(error)
         status[name] = entry
         print("%-13s %s  %s" % (name, "ok    " if entry["ok"] else "FAILED", entry["message"]), flush=True)
     path.write_text(json.dumps(status, indent=1, sort_keys=True) + "\n", encoding="utf-8")
@@ -287,4 +320,4 @@ def run(names: list[str] | None = None) -> dict:
 
 
 if __name__ == "__main__":
-    run(sys.argv[1:] or None)
+    run([a for a in sys.argv[1:] if a != "--check"] or None, check="--check" in sys.argv)

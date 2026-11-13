@@ -16,6 +16,7 @@ export function num(x, digits = 2) {
   return (x < 0 && Number(s.replace(/,/g, "")) !== 0 ? "-" : "") + s;
 }
 export const signed = (x, digits = 2) => (x > 0 ? "+" : "") + num(x, digits);
+export const clamp = (x, lo, hi) => Math.min(hi, Math.max(lo, x));
 export const int = (x) => num(Math.round(x), 0);
 export const pct = (x, digits = 0) => num(x * 100, digits) + " percent";
 export const musd = (x, digits = 2) => num(x / 1e6, digits);
@@ -77,10 +78,13 @@ export function table(columns, rows, opts = {}) {
   const body = rows.map((r) => h("tr", null, columns.map((c) => {
     const v = c.value(r);
     const cls = [c.n ? "n" : "", c.cls ? c.cls(r) : ""].join(" ").trim();
-    return h(c.head ? "th" : "td", { class: cls || null, scope: c.head ? "row" : null }, v);
+    return h(c.head ? "th" : "td", { class: cls || null, scope: c.head ? "row" : null, "data-label": opts.stack && !c.head ? c.label : null }, v);
   })));
-  // a table with many columns keeps a readable width and scrolls sideways on a narrow screen
-  const t = h("table", { style: opts.min ? `min-width:${opts.min}px` : null }, opts.caption ? h("caption", null, opts.caption) : null, h("thead", null, head), h("tbody", null, body));
+  // A table with many columns keeps a readable width and scrolls sideways on a narrow screen.
+  // A stacked table instead sets each row as a block there, every cell under its column's name.
+  const t = h("table", { class: opts.stack ? "stack" : null, style: opts.min && !opts.stack ? `min-width:${opts.min}px` : null },
+    opts.caption ? h("caption", null, opts.caption) : null,
+    opts.widths ? h("colgroup", null, opts.widths.map((w) => h("col", { style: `width:${w}` }))) : null, h("thead", null, head), h("tbody", null, body));
   return h("div", { class: "scroll" + (opts.tall ? " tall" : "") }, t);
 }
 

@@ -31,9 +31,9 @@ PRESETS = [
 PRESET_NOTES = {
     "latest": "The latest week EIA has published.",
     "2020-04": "Demand collapses in the pandemic. Neither market covers the cost of the gas and US cargoes are cancelled.",
-    "2022-10": "Europe is short of gas, TTF is far above JKM and a ship costs 374,000 USD a day.",
+    "2022-10": "Europe is short of gas, TTF is far above JKM and a ship costs {hire} USD a day.",
     "2024-03": "Panama is short of water and the Red Sea is shut: the only way east is round the Cape.",
-    "2026-03": "The Strait of Hormuz is closed. Asia bids for spot cargoes and freight is at 181,750 USD a day.",
+    "2026-03": "The Strait of Hormuz is closed. Asia bids for spot cargoes and freight is at {hire} USD a day.",
 }
 
 
@@ -132,13 +132,16 @@ def by_ship(market: Market, day: date, sdr: float) -> dict:
 def preset(market: Market, key: str, label: str, obs: dict) -> dict:
     inputs, meta = market.cargo(obs["date"], obs["jkm"], obs["ttf"], obs["period"])
     ships = by_ship(market, obs["date"], meta["usd_per_sdr"]["value"])
+    weekly_print = obs["period"] == "week" or obs["basis"].startswith("mean of")
     return {
-        "id": key, "label": label, "note": PRESET_NOTES[key], "date": obs["date"], "period": obs["period"],
+        "id": key, "label": label, "note": PRESET_NOTES[key].format(hire=format(int(inputs["hire"]), ",")),
+        "date": obs["date"], "period": obs["period"],
         "basis": obs["basis"], "ship_id": meta["ship"]["id"], "inputs": inputs,
         "usd_per_eur": meta["usd_per_eur"]["value"], "eua_eur_t": meta["eua_eur_t"]["value"],
         "ships": ships, "scenarios": ships[meta["ship"]["id"]]["scenarios"],
         "sources": {
-            "prices": {"date": obs["date"], "status": "observed", "note": obs["basis"]},
+            "prices": {"date": obs["date"], "status": "observed", "note": obs["basis"],
+                       "publisher": "EIA" if weekly_print else "METI and the World Bank"},
             "hire": meta["hire"], "des_discount": meta["des_discount_eur_mwh"], "henry_hub": meta["henry_hub"],
             "usd_per_eur": meta["usd_per_eur"], "sofr": meta["sofr"], "eua": meta["eua_eur_t"], "usd_per_sdr": meta["usd_per_sdr"],
         },
@@ -202,8 +205,9 @@ def parameter_table(p: dict) -> list[dict]:
     f = p["finance"]
     add("Financing", "Rate", "SOFR plus 150 basis points on 115 percent of Henry Hub, loading to discharge, actual over 360", f["spread"]["source"], None, "assumption")
     d = p["des_discount"]
-    add("Europe", "DES discount, from 31 March 2023", "ACER's Northwest Europe DES assessment less TTF front month, mean of the last 20 daily values", d["window_days"]["source"], "https://www.acer.europa.eu/gas/lng-price-assessment")
-    add("Europe", "DES discount, before", "3.8 percent under TTF; 35 EUR/MWh from 25 July to 15 October 2022", d["before_acer_share_of_ttf"]["source"] + ". " + d["squeeze_2022"]["source"], d["squeeze_2022"]["url"], "assumption")
+    add("Europe", "DES discount, from 31 March 2023", "ACER's Northwest Europe DES assessment less the mean TTF front month of the assessment day and the four trading days before, averaged over the last 20 days. It is what the market charges to regasify a cargo and enter the grid",
+        d["reference_days"]["source"], d["reference_days"]["url"], "assumption")
+    add("Europe", "DES discount, before", "1.25 EUR/MWh under TTF; 35 EUR/MWh from 25 July to 15 October 2022", d["before_acer_eur_mwh"]["source"] + ". " + d["squeeze_2022"]["source"], d["squeeze_2022"]["url"], "assumption")
     h = p["hire"]
     add("Charter rate", "Reported rate", "Spark30S Atlantic as LNG Prime and others report it, held until the next report for 26 weeks at most", h["max_hold_days"]["source"], None, "assumption")
     add("Charter rate", "Scenarios", "Quartiles of the monthly medians of the rates reported for the ship; zero for tonnage already on charter", h["unreported"]["source"], h["unreported"]["url"], "assumption")
@@ -273,8 +277,9 @@ def fixture_cases(presets: list[dict], seed: int = 20261113) -> list[dict]:
     return cases
 
 
-def build() -> dict:
-    market = Market()
+def build(market: Market | None = None, write: bool = True) -> dict:
+    """The study as one dictionary; written to the site's data folder unless told not to."""
+    market = market or Market()
     p = market.p
     weekly = analysis.history(market, "week")
     monthly = analysis.history(market, "month")
@@ -293,6 +298,7 @@ def build() -> dict:
     test = analysis.flows_test(monthly, flows, p["flows"]["lag_months"])
     robustness = [analysis.flows_test(monthly, flows, lag) for lag in (0, 2)]
     since_2022 = analysis.flows_test([r for r in monthly if r["date"].year >= 2022], flows, p["flows"]["lag_months"])
+    before_2022 = analysis.flows_test([r for r in monthly if r["date"].year < 2022], flows, p["flows"]["lag_months"])
     cancelled = p["cross_checks"]["cancellations_2020"]["cargoes"]
     lift = analysis.lift_history(monthly, flows, cancelled)
 
@@ -319,25 +325,27 @@ def build() -> dict:
                              hire=platts_inputs["hire"]),
               "spark": p["cross_checks"]["spark_example"]}
 
+    no_discount = engine.price_cargo(engine.with_changes(now["inputs"], des_discount=0.0))["routes"]
     study = {
         "data_date": latest["date"],
         "now": {"preset": now, "result": result,
                 "table": analysis.reroute_table(now["inputs"], now["scenarios"]),
+                "without_discount": {rid: no_discount[rid]["breakeven_spread"] for rid in analysis.EAST},
                 "canal": engine.canal_question(now["inputs"])},
         "presets": presets,
         "history": {"weekly": history_rows(weekly), "monthly": history_rows(monthly),
-                    "summary": {"weekly": analysis.history_summary(weekly, market), "monthly": analysis.history_summary(monthly, market)},
-                    "spells": analysis.spells(weekly)},
+                    "summary": {"weekly": analysis.history_summary(weekly, market), "monthly": analysis.history_summary(monthly, market)}},
         "events": events,
-        "charter_rates": rates[["date", "usd_per_day", "ship", "publisher", "url"]].to_dict("records"),
+        "charter_rates": rates[["date", "usd_per_day", "assessment", "ship", "publisher", "url"]].to_dict("records"),
         "flows": {"months": flow_rows, "test": {k: v for k, v in test.items() if k != "pairs"},
                   "robustness": [{k: v for k, v in t.items() if k != "pairs"} for t in robustness],
                   "since_2022": {k: v for k, v in since_2022.items() if k != "pairs"},
+                  "before_2022": {k: v for k, v in before_2022.items() if k != "pairs"},
                   "rule": p["flows"]["rule"], "jkm_markets": p["flows"]["jkm_markets"],
                   "lift": lift, "cancellations_source": p["cross_checks"]["cancellations_2020"]},
         "routes": {"distances": {rid: params.routes()[rid]["distance_nm"] for rid in params.ROUTE_ORDER},
                    "traffic": traffic,
-                   "panama_monthly": canal_ops[["month", "cwt_hours_avg", "cwt_hours_high"]].to_dict("records"),
+                   "panama_monthly": canal_ops[["month", "cwt_hours_avg", "cwt_hours_high", "transits_total", "neopanamax_transits"]].to_dict("records"),
                    "waits_reported": p["panama"]["waits_reported"],
                    "status_history": p["route_status"]},
         "parameters": parameter_table(p),
@@ -351,6 +359,8 @@ def build() -> dict:
         study["presets"][i]["inputs"] = pr["inputs"]
     study["now"]["preset"]["inputs"] = now["inputs"]
 
+    if not write:
+        return study
     route_lines = {rid: r["line"] for rid, r in params.routes().items()}
     ports = json.loads((params.DATA / "routes.json").read_text())["ports"]
     SITE.mkdir(parents=True, exist_ok=True)

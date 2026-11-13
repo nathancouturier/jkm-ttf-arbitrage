@@ -1,13 +1,15 @@
-"""Writes the two-page research note and the README's chart from the built study.
+"""Writes the two-page research note, the README's chart and the README's finding from the built study.
 
     python -m arb.note
 
 JKM-TTF-Arbitrage-Research-Note.pdf   two A4 pages, set in Liberation Serif
 assets/reroute-levels.png             the landing chart, for the README
+README.md                             the block between the two finding markers
 """
 
 from __future__ import annotations
 
+import io
 import json
 from datetime import date
 
@@ -100,11 +102,12 @@ class Page:
         self.fig.add_artist(plt.Line2D([LEFT / W, 1 - RIGHT / W], [1 - self.y / H] * 2, color="#d8d5cd", linewidth=0.7))
         self.y += 0.12
 
-    def close(self, footer: str) -> None:
-        assert self.y < H - 0.62, "the page overflows by %.2f inches" % (self.y - (H - 0.62))
+    def close(self, footer: str) -> float:
+        """Saves the page and returns by how many inches its content runs past the bottom margin (negative: room left)."""
         self.fig.text(LEFT / W, 0.36 / H, footer, fontproperties=REGULAR, fontsize=8, color=MUTED, va="bottom")
         self.pdf.savefig(self.fig)
         plt.close(self.fig)
+        return self.y - (H - 0.62)
 
 
 # ---------------------------------------------------------------------------
@@ -138,28 +141,37 @@ def chart_reroute(ax, study: dict) -> None:
 def chart_history(ax, study: dict) -> None:
     rows = study["history"]["weekly"]
     dates = [date.fromisoformat(r["date"]) for r in rows]
-    run = None
-    for i, r in enumerate(rows + [{"open": False}]):
-        if r["open"] and run is None:
-            run = i
-        if not r["open"] and run is not None:
-            ax.axvspan(dates[run], dates[i - 1], color="#17181c", alpha=0.07, linewidth=0)
-            run = None
-    start = 0
+    # runs of weeks with no hole longer than three weeks: nothing is drawn across missing prices
+    runs, start = [], 0
     for i in range(1, len(rows) + 1):
-        if i == len(rows) or rows[i]["route"] != rows[start]["route"]:
-            seg = slice(start, min(i + 1, len(rows)))
-            ax.plot(dates[seg], [r["breakeven"] for r in rows[seg]], color=COLOUR[rows[start]["route"]], linewidth=1.2)
+        if i == len(rows) or (dates[i] - dates[i - 1]).days > 21:
+            runs.append((start, i))
             start = i
-    ax.plot(dates, [r["spread"] for r in rows], color=INK, linewidth=1.0)
+    for a, b in runs:
+        shade = None
+        for i in range(a, b + 1):
+            is_open = i < b and rows[i]["open"]
+            if is_open and shade is None:
+                shade = i
+            if not is_open and shade is not None:
+                ax.axvspan(dates[shade], dates[i - 1], color="#17181c", alpha=0.07, linewidth=0)
+                shade = None
+        first = a
+        for i in range(a + 1, b + 1):
+            if i == b or rows[i]["route"] != rows[first]["route"]:
+                seg = slice(first, min(i + 1, b))
+                ax.plot(dates[seg], [r["breakeven"] for r in rows[seg]], color=COLOUR[rows[first]["route"]], linewidth=1.2)
+                first = i
+        ax.plot(dates[a:b], [r["spread"] for r in rows[a:b]], color=INK, linewidth=1.0)
     ax.plot([dates[-1]], [rows[-1]["spread"]], "o", color=ACCENT, markersize=5, markeredgecolor="white", markeredgewidth=1, zorder=5)
     ax.axhline(0, color="#8b8d93", linewidth=0.7)
     ax.set_ylim(-6, 8)
     ax.set_xlim(dates[0], dates[-1])
     ax.set_ylabel("USD/MMBtu")
     low = min(rows, key=lambda r: r["spread"])
-    ax.annotate("off the scale: %s in %s" % (n(low["spread"], 1), month(low["date"])), (date.fromisoformat(low["date"]), -6),
-                xytext=(6, 5), textcoords="offset points", fontsize=8.5, color=MUTED)
+    if low["spread"] < -6:
+        ax.annotate("off the scale: %s in %s" % (n(low["spread"], 1), month(low["date"])), (date.fromisoformat(low["date"]), -6),
+                    xytext=(6, 5), textcoords="offset points", fontsize=8.5, color=MUTED)
     labelled = [e for e in study["events"] if "weekly" in e.get("on", []) and e["date"] >= rows[0]["date"]]
     for i, e in enumerate(sorted(labelled, key=lambda e: e["date"])):
         d = date.fromisoformat(e["date"])
@@ -209,48 +221,94 @@ def facts(study: dict) -> dict:
             lift, run = (run if len(run) > len(lift) else lift), []
     return {"now": now, "result": result, "inputs": inputs, "table": table, "weekly": weekly,
             "summary": study["history"]["summary"]["weekly"], "best": (best, full[best]), "worst": (worst, full[worst]),
-            "test": study["flows"]["test"], "since": study["flows"]["since_2022"], "lift": lift,
+            "flows": study["flows"], "lift": lift,
             "cancelled": sum(r["cancelled"] for r in study["flows"]["lift"]), "canal": now["canal"]}
 
 
-def write_note(study: dict) -> None:
-    f = facts(study)
-    r, inputs, table = f["result"], f["inputs"], f["table"]
-    pan, cape = r["routes"]["panama"], r["routes"]["cape"]
-    spread, hire, des = r["spread"], inputs["hire"], inputs["des_discount"]
-    src = study["now"]["preset"]["sources"]
-    open_both = spread > pan["breakeven_spread"] and spread > cape["breakeven_spread"]
-    verdict = ("the arb is open on both routes" if open_both else
-               "the arb is open via Panama only" if spread > pan["breakeven_spread"] else "the arb is closed on both routes")
-    footer = "Nathan Couturier. JKM-TTF arbitrage study: https://nathancouturier.github.io/jkm-ttf-arbitrage/   Data to %s." % day(study["data_date"])
+def listed(items: list[str]) -> str:
+    return items[0] if len(items) == 1 else ", ".join(items[:-1]) + " and " + items[-1]
 
-    with PdfPages(ROOT / "JKM-TTF-Arbitrage-Research-Note.pdf", metadata={"Title": "JKM-TTF arbitrage: research note", "Author": "Nathan Couturier",
-                                                                          "Subject": "US Gulf LNG netbacks to Europe and Asia", "Creator": "arb.note", "Producer": "matplotlib",
-                                                                          "CreationDate": None, "ModDate": None}) as pdf:
+
+def headline(study: dict) -> dict:
+    """The landing sentence in parts, by the site's own rules: only open routes count, and the charter rate says where it comes from."""
+    now = study["now"]
+    r, inputs, src = now["result"], now["preset"]["inputs"], now["preset"]["sources"]
+    spread = r["spread"]
+    open_routes = [rid for rid in ("panama", "suez", "cape") if r["routes"][rid]["open"]]
+    clears = [rid for rid in open_routes if spread > r["routes"][rid]["breakeven_spread"]]
+    count = {1: "", 2: " on both routes", 3: " on all three routes"}[len(open_routes)]
+    if len(clears) == len(open_routes):
+        verdict = "the arb is open" + count
+    elif not clears:
+        verdict = "the arb is closed" + count
+    else:
+        verdict = "the arb is open %s only" % listed([NAME[rid] for rid in clears])
+    hire = src["hire"]
+    if hire["status"] == "assumed":
+        rate = "the low scenario, no rate having been reported since %s" % day(str(hire["last_reported"]))
+        caveat = "No charter rate has been reported since %s, so the low scenario stands in; a real fixture differs." % day(str(hire["last_reported"]))
+    else:
+        rate = "the %scharter rate reported, on %s" % ("" if hire["status"] == "reported" else "last ", day(str(hire["date"])))
+        caveat = "The charter rate is one published assessment (Spark30S Atlantic), reported on %s%s; a real fixture differs." % (
+            day(str(hire["date"])), "" if hire["status"] == "reported" else " and held since")
+    des = inputs["des_discount"]
+    bare = now["without_discount"]
+    europe = ("A cargo delivered to Northwest Europe sells %s under TTF; without that discount the level%s would be %s."
+              % (n(-des), "" if len(open_routes) == 1 else "s", listed([n(bare[rid]) for rid in open_routes]))
+              if des < 0 else "A cargo delivered to Northwest Europe sells %s over TTF." % n(des))
+    return {
+        "spread": "JKM is %s USD/MMBtu %s TTF." % (n(abs(spread)), "above" if spread >= 0 else "below"),
+        "rate": rate, "hire": n(inputs["hire"], 0), "caveat": caveat, "verdict": verdict, "europe": europe,
+        "levels": listed(["%s %s" % (n(r["routes"][rid]["breakeven_spread"]), NAME[rid]) for rid in open_routes]),
+        "shut": [rid for rid in ("panama", "suez", "cape") if rid not in open_routes],
+    }
+
+
+def flows_sentence(flows: dict) -> str:
+    t, before, since = flows["test"], flows["before_2022"], flows["since_2022"]
+    pc = lambda side: n(side["mean_share"] * 100, 0)   # noqa: E731
+    return ("After a month with the arb open, %s percent of US LNG left for Japan, South Korea, China and Taiwan; after a closed month, %s percent. "
+            "The gap belongs to the years before 2022, when the arb was open in %d months of %d and the share was %s percent; since 2022 it is %s percent "
+            "after an open month and %s after a closed one."
+            % (pc(t["open"]), pc(t["closed"]), before["open"]["months"], before["months"], pc(before["open"]), pc(since["open"]), pc(since["closed"])))
+
+
+CHARTS = (2.40 + 2.35, 2.05)     # inches of chart on each page at full height
+
+
+def compose(target, study: dict, scale: tuple[float, float] = (1.0, 1.0)) -> list[float]:
+    """Sets the two pages with each page's charts at a share of their full height; returns each page's overflow in inches."""
+    f = facts(study)
+    hl = headline(study)
+    r, inputs, table = f["result"], f["inputs"], f["table"]
+    pan, cape, eur = r["routes"]["panama"], r["routes"]["cape"], r["routes"]["europe"]
+    src = study["now"]["preset"]["sources"]
+    footer = "Nathan Couturier. JKM-TTF arbitrage study: https://nathancouturier.github.io/jkm-ttf-arbitrage/   Data to %s." % day(study["data_date"])
+    over = []
+    with PdfPages(target, metadata={"Title": "JKM-TTF arbitrage: research note", "Author": "Nathan Couturier",
+                                    "Subject": "US Gulf LNG netbacks to Europe and Asia", "Creator": "arb.note", "Producer": "matplotlib",
+                                    "CreationDate": None, "ModDate": None}) as pdf:
         p = Page(pdf)
         p.text("JKM-TTF ARBITRAGE STUDY  ·  RESEARCH NOTE  ·  WEEK TO %s" % day(study["data_date"]).upper(), size=8.5, colour=MUTED, after=0.12)
         p.text("When a US Gulf LNG cargo pays to go east", font=BOLD, size=21, leading=1.15, after=0.14)
-        p.text("JKM is %s USD/MMBtu %s TTF. At %s USD a day, the last charter rate reported, a cargo loaded at Sabine Pass pays to go to Japan "
-               "instead of Rotterdam above a spread of %s via Panama and %s via the Cape of Good Hope, so %s."
-               % (n(abs(spread)), "above" if spread >= 0 else "below", n(hire, 0), n(pan["breakeven_spread"]), n(cape["breakeven_spread"]), verdict),
-               font=BOLD, size=12.5, leading=1.3, after=0.10)
-        p.text("The levels are this low because a cargo delivered to Northwest Europe sells %s under TTF (ACER, to %s): without that discount "
-               "they would be %s and %s. Each 10,000 USD a day on the charter rate adds %s to the Panama level and %s to the Cape level, because the Cape "
+        p.text("%s At %s USD a day, %s, a cargo loaded at Sabine Pass pays to go to Japan instead of Rotterdam above a spread of %s, so %s."
+               % (hl["spread"], hl["hire"], hl["rate"], hl["levels"], hl["verdict"]), font=BOLD, size=12.5, leading=1.3, after=0.10)
+        p.text("%s (ACER, to %s). Each 10,000 USD a day on the charter rate adds %s to the Panama level and %s to the Cape level, because the Cape "
                "adds %s days to the round trip and Panama %s. With the ship already paid for the levels are %s and %s."
-               % (n(-des), day(str(src["des_discount"]["date"])), n(pan["breakeven_spread"] - des), n(cape["breakeven_spread"] - des),
+               % (hl["europe"][:-1], day(str(src["des_discount"]["date"])) if src["des_discount"]["date"] else "an assumption",
                   n(pan["spread_slope_per_usd_day"] * 1e4), n(cape["spread_slope_per_usd_day"] * 1e4),
-                  n(cape["round_trip_days"] - r["routes"]["europe"]["round_trip_days"], 0), n(pan["round_trip_days"] - r["routes"]["europe"]["round_trip_days"], 0),
+                  n(cape["round_trip_days"] - eur["round_trip_days"], 0), n(pan["round_trip_days"] - eur["round_trip_days"], 0),
                   n(table["panama"]["sunk"]), n(table["cape"]["sunk"])), after=0.16)
         p.text("Chart 1. The longer the route, the faster its reroute level rises with the charter rate", font=BOLD, size=10, after=0.04)
-        chart_reroute(p.axes(2.45, right=RIGHT + 1.05, after=0.52), study)
+        chart_reroute(p.axes(2.40 * scale[0], right=RIGHT + 1.05, after=0.52), study)
         sc = study["now"]["preset"]["scenarios"]
         stops = [0.0, 2.95, 3.80, 4.75, 5.55, 6.67]
         p.row(["Reroute level by charter rate, USD/MMBtu", "ship paid for, 0", "low, %s" % n(sc["low"], 0), "central, %s" % n(sc["central"], 0),
                "high, %s" % n(sc["high"], 0), "arb closes above"], stops, font=ITALIC, size=8.8, colour=MUTED, after=0.02)
         for rid in ("panama", "suez", "cape"):
             row = table[rid]
-            p.row([NAME[rid] + ("" if row["open"] else " (closed)"), n(row["sunk"]), n(row["low"]), n(row["central"]), n(row["high"]),
-                   n(row["breakeven_hire"], 0) + " USD a day"], stops)
+            closes = n(row["breakeven_hire"], 0) + " USD a day" if row["breakeven_hire"] > 0 else "shut at any rate"
+            p.row([NAME[rid] + ("" if row["open"] else " (closed)"), n(row["sunk"]), n(row["low"]), n(row["central"]), n(row["high"]), closes], stops)
         p.y += 0.16
         s = f["summary"]
         p.text("Chart 2. The spread cleared the level in %d of %d weeks, most often in %s and least in %s"
@@ -258,68 +316,85 @@ def write_note(study: dict) -> None:
         p.text("JKM minus TTF (black) and the reroute level of the cheapest open route at the reported charter rate (coloured by route). "
                "Shaded: the arb is open. With the ship already paid for it was open in %d weeks." % s["arb_open_sunk"], size=8.8, colour=MUTED, after=0.05)
         p.y += 0.30
-        chart_history(p.axes(2.4, after=0.3), study)
-        p.close(footer + "   Page 1 of 2")
+        chart_history(p.axes(2.35 * scale[0], after=0.3), study)
+        over.append(p.close(footer + "   Page 1 of 2"))
 
         p = Page(pdf)
-        t, since = f["test"], f["since"]
         p.text("Did cargoes follow?", font=BOLD, size=13, after=0.06)
-        p.text("After a month with the arb open, %s percent of US LNG left for Japan, South Korea, China and Taiwan; after a closed month, %s percent "
-               "(%d months of the Department of Energy's cargo record, the rule fixed before the result was computed). Since 2022 the gap is %s point: "
-               "Europe's pull, term contracts and China's tariff on US LNG have kept Asia's share low whatever the arb."
-               % (n(t["open"]["mean_share"] * 100, 0), n(t["closed"]["mean_share"] * 100, 0), t["months"],
-                  n((since["open"]["mean_share"] - since["closed"]["mean_share"]) * 100, 0)), after=0.12)
-        p.text("Chart 3. Share of US LNG sent to JKM markets by departure month. Shaded: the arb was open the month before", font=BOLD, size=10, after=0.04)
-        chart_flows(p.axes(2.1, after=0.34), study)
+        p.text(flows_sentence(f["flows"]) + " Europe's pull, term contracts and China's tariff on US LNG have kept Asia's share low whatever the arb "
+               "(%d months of the Department of Energy's cargo record; the rule was fixed before the result was computed)." % f["flows"]["test"]["months"], after=0.12)
+        p.text("Chart 3. Share of US LNG sent to JKM markets. Shaded: the arb was open the month before", font=BOLD, size=10, after=0.04)
+        chart_flows(p.axes(2.05 * scale[1], after=0.34), study)
         lift = f["lift"]
         p.text("The same cargo answers two more questions", font=BOLD, size=13, after=0.06)
-        p.text("When does the arb close on the cargo itself? A buyer lifts a cargo when its best netback covers 115 percent of Henry Hub. From %s to %s "
-               "a cargo sold in Europe did not, and about %d US cargoes were cancelled." % (month(lift[0]["month"]).split()[0], month(lift[-1]["month"]), f["cancelled"]), after=0.06)
-        p.text("What is a Panama slot worth? Panama saves %s days on the Cape. At this week's charter rate and gas price a ship can pay %s million USD above "
-               "the tariff for its two transits, or wait %s days at each, before the Cape is the cheaper way east."
+        if lift:
+            p.text("When does the arb close on the cargo itself? A buyer lifts a cargo when its best netback covers 115 percent of Henry Hub. "
+                   "From %s to %s a cargo sold in Europe did not, and about %d US cargoes were cancelled."
+                   % (month(lift[0]["month"]).split()[0], month(lift[-1]["month"]), f["cancelled"]), after=0.06)
+        p.text("What is a Panama slot worth? Through Panama the round trip is %s days shorter than round the Cape. At this week's charter rate and gas "
+               "price a ship can pay %s million USD above the tariff for its two transits, or wait %s days at each, before the Cape is the cheaper way east."
                % (n(cape["round_trip_days"] - pan["round_trip_days"], 0), n(f["canal"]["premium_usd"] / 1e6), n(f["canal"]["wait_days"], 1)), after=0.14)
 
         p.text("Method", font=BOLD, size=13, after=0.06)
         box_top = p.y
         mono = font_manager.FontProperties(family="DejaVu Sans Mono")
-        for ln in ["loaded     = capacity x fill x MMBtu per m3          174,000 m3 x 98.5 percent x 23 = 3,941,970 MMBtu",
-                   "delivered  = loaded - 0.085 percent a day x round trip days",
+        ship = inputs["ship"]
+        for ln in ["loaded     = capacity x fill x MMBtu per m3          %s m3 x %s percent x %s = %s MMBtu"
+                   % (n(ship["capacity_m3"], 0), n(ship["fill"] * 100, 1), n(ship["mmbtu_per_m3"], 0), n(eur["loaded"], 0)),
+                   "delivered  = loaded - %s percent a day x round trip days       the boil-off is the ship's fuel" % n(ship["boil_off"] * 100, 3),
                    "cost       = hire x round trip days + ports + canal tolls and fees + EU ETS (Europe) + financing",
-                   "netback    = (DES price x delivered - cost) / loaded      Europe: TTF + DES discount. Asia: JKM",
+                   "netback    = (DES price x delivered - cost) / loaded      Europe: TTF less the DES discount. Asia: JKM",
                    "S*(route)  = the JKM minus TTF spread at which netback(Asia, route) = netback(Europe)",
-                   "H*(route)  = the charter rate at which the two netbacks are equal at today's prices"]:
+                   "H*(route)  = the charter rate at which the two netbacks are equal at today's prices",
+                   "lift       = best netback - 115 percent of Henry Hub      the fixed liquefaction fee is sunk"]:
             p.fig.text((LEFT + 0.12) / W, 1 - (p.y + 0.10) / H, ln, fontproperties=mono, fontsize=7.6, color=INK, va="top")
             p.y += 0.175
         p.y += 0.16
         p.fig.add_artist(plt.Rectangle((LEFT / W, 1 - p.y / H), (W - LEFT - RIGHT) / W, (p.y - box_top) / H, fill=False, edgecolor="#b9b6ae", linewidth=0.7))
         p.y += 0.12
-        p.text("Hire runs for the round trip, and the gas that boils off on every day of it is the ship's fuel: the convention of the Spark30S freight "
-               "assessment, whose worked example the model reproduces to the dollar. This week: Gate %s days and a netback of %s; Panama %s days and %s; "
-               "the Cape %s days and %s, in USD per MMBtu loaded."
-               % (n(r["routes"]["europe"]["round_trip_days"], 1), n(r["routes"]["europe"]["netback"]), n(pan["round_trip_days"], 1), n(pan["netback"]),
+        p.text("Both prices are delivered ex-ship: Europe's is TTF less the discount ACER assesses, the market's charge for regasification and entry. "
+               "Hire runs for the round trip, as in the Spark30S freight assessment, whose worked example the model reproduces to the dollar. "
+               "This week: Gate %s days and a netback of %s; Panama %s days and %s; the Cape %s days and %s, in USD per MMBtu loaded."
+               % (n(eur["round_trip_days"], 1), n(eur["netback"]), n(pan["round_trip_days"], 1), n(pan["netback"]),
                   n(cape["round_trip_days"], 1), n(cape["netback"])), size=9.6, after=0.14)
 
         p.text("Caveats", font=BOLD, size=13, after=0.06)
         for line in [
-            "The charter rate is one published assessment (Spark30S Atlantic), reported on %s and held since; a real fixture differs." % day(str(src["hire"]["date"])),
-            "Europe's DES discount is ACER's assessment averaged over 20 days; before 2023 it is an assumption.",
+            hl["caveat"],
+            "Europe's DES discount is ACER's assessment against TTF over the same five days, averaged over 20; before 2023 it is an assumption.",
             "Panama is priced at the tariff with a booked slot. Slots are auctioned and their price is not published.",
             "Prices are weekly averages of front months, which can name different delivery months; a cargo is sold further out.",
             "Flows show association, not cause. Nothing here is a forecast or a trading signal.",
         ]:
-            p.text("\u2022  " + line, size=9.4, after=0.01)
+            p.text("•  " + line, size=9.4, after=0.01)
         p.y += 0.06
         p.rule()
-        p.text("Sources: U.S. Energy Information Administration (weekly JKM and TTF, credited to Bloomberg Finance L.P.; Henry Hub), ACER (DES LNG "
-               "assessments), U.S. Department of Energy (cargoes), Spark Commodities as reported by LNG Prime (charter rates), Panama Canal Authority and "
-               "Suez Canal Authority (tariffs), Federal Reserve Board, Federal Reserve Bank of New York, European Commission and DEHSt, METI, World Bank. "
-               "Every figure and its source: the Method view of the site.", size=8.0, colour=MUTED, leading=1.25)
-        p.close(footer + "   Page 2 of 2")
+        p.text("Sources: U.S. Energy Information Administration (JKM and TTF, credited to Bloomberg Finance L.P.; Henry Hub), ACER, U.S. Department of "
+               "Energy, Spark Commodities as reported by LNG Prime, Panama Canal Authority, Suez Canal Authority, Federal Reserve Board, Federal Reserve "
+               "Bank of New York, European Commission and DEHSt, METI, World Bank. Every figure and its source: the site's Method view.",
+               size=8.0, colour=MUTED, leading=1.25)
+        over.append(p.close(footer + "   Page 2 of 2"))
+    return over
+
+
+def write_note(study: dict, path=None) -> tuple[float, float]:
+    """Writes the note with each page's charts as tall as its text allows, so a longer sentence never stops the build."""
+    path = path or ROOT / "JKM-TTF-Arbitrage-Research-Note.pdf"
+    scale = [1.0, 1.0]
+    for _ in range(4):
+        buffer = io.BytesIO()
+        over = compose(buffer, study, tuple(scale))
+        if max(over) <= 0:
+            break
+        # the charts give up exactly what the text needs, and a little more
+        scale = [max(0.45, s - (o + 0.03) / full) if o > 0 else s for s, o, full in zip(scale, over, CHARTS)]
+    path.write_bytes(buffer.getvalue())
+    return tuple(scale)
 
 
 def write_readme_chart(study: dict) -> None:
-    fig = plt.figure(figsize=(9.2, 4.6), facecolor="#fbfaf8")
-    ax = fig.add_axes([0.075, 0.13, 0.76, 0.76], facecolor="#fbfaf8")
+    fig = plt.figure(figsize=(9.2, 3.5), facecolor="#fbfaf8")
+    ax = fig.add_axes([0.075, 0.165, 0.76, 0.70], facecolor="#fbfaf8")
     chart_reroute(ax, study)
     fig.text(0.075, 0.955, "Reroute levels by route, week to %s" % day(study["data_date"]), fontproperties=BOLD, fontsize=12, color=INK, va="top")
     out = ROOT / "assets"
@@ -328,43 +403,38 @@ def write_readme_chart(study: dict) -> None:
     plt.close(fig)
 
 
+def readme_finding(study: dict) -> str:
+    """The README's finding in two paragraphs: the landing sentence with its levels, then the history and the flows."""
+    f = facts(study)
+    hl = headline(study)
+    r, table, s = f["result"], f["table"], f["summary"]
+    open_routes = [rid for rid in ("panama", "suez", "cape") if r["routes"][rid]["open"]]
+    paid = "With the ship already paid for the level%s %s." % (
+        " is" if len(open_routes) == 1 else "s are", listed([n(table[rid]["sunk"]) for rid in open_routes]))
+    clears = [rid for rid in open_routes if r["spread"] > r["routes"][rid]["breakeven_spread"]]
+    closes = " ".join("The arb %s closes above a charter rate of %s USD a day." % (NAME[rid], n(r["routes"][rid]["breakeven_hire"], 0)) for rid in clears[:1])
+    return "\n".join([
+        "**Week to %s.** %s At %s USD a day, %s, a cargo pays to go east above %s, so %s. %s %s %s"
+        % (day(study["data_date"]), hl["spread"], hl["hire"], hl["rate"], hl["levels"], hl["verdict"], hl["europe"], paid, closes),
+        "",
+        "Since %s the spread has cleared the level of the cheapest open route in %d of %d weeks at the reported charter rate, and in %d with the ship already paid for. %s"
+        % (month(s["first"]), s["arb_open"], s["observations"], s["arb_open_sunk"], flows_sentence(f["flows"])),
+    ]).replace(" \n", "\n").rstrip()
+
+
 def write_readme_finding(study: dict) -> None:
     """Keeps the README's finding in step with the data: rewrites the block between its two markers."""
-    f = facts(study)
-    r, inputs, table, s, t, since = f["result"], f["inputs"], f["table"], f["summary"], f["test"], f["since"]
-    pan, cape = r["routes"]["panama"], r["routes"]["cape"]
-    spread = r["spread"]
-    clears = [rid for rid in ("panama", "cape") if spread > r["routes"][rid]["breakeven_spread"]]
-    verdict = {2: "the arb is open on both routes", 0: "the arb is closed on both routes"}.get(len(clears), "the arb is open %s only" % NAME[clears[0]] if clears else "")
-    sc = study["now"]["preset"]["scenarios"]
-    lines = [
-        "**Week to %s.** JKM is %s USD/MMBtu %s TTF. At %s USD a day, the last charter rate reported, a cargo pays to go east above %s via Panama and %s via the Cape, so %s. "
-        "A cargo delivered to Northwest Europe sells %s under TTF, which lowers every level by as much."
-        % (day(study["data_date"]), n(abs(spread)), "above" if spread >= 0 else "below", n(inputs["hire"], 0), n(pan["breakeven_spread"]),
-           n(cape["breakeven_spread"]), verdict, n(-inputs["des_discount"])),
-        "",
-        "| Reroute level, USD/MMBtu | Ship paid for | Low, %s | Central, %s | High, %s | Arb closes above |" % (n(sc["low"], 0), n(sc["central"], 0), n(sc["high"], 0)),
-        "|---|---|---|---|---|---|",
-    ]
-    for rid in ("panama", "suez", "cape"):
-        row = table[rid]
-        lines.append("| %s%s | %s | %s | %s | %s | %s USD a day |" % (NAME[rid], "" if row["open"] else " (closed)", n(row["sunk"]), n(row["low"]),
-                                                                    n(row["central"]), n(row["high"]), n(row["breakeven_hire"], 0)))
-    lines += ["",
-              "Since %s the spread has cleared the level of the cheapest open route in %d of %d weeks at the reported charter rate, and in %d with the ship already paid for. "
-              "After a month with the arb open, %s percent of US LNG left for Japan, South Korea, China and Taiwan; after a closed month, %s percent; since 2022 the gap is %s point."
-              % (month(s["first"]), s["arb_open"], s["observations"], s["arb_open_sunk"], n(t["open"]["mean_share"] * 100, 0), n(t["closed"]["mean_share"] * 100, 0),
-                 n((since["open"]["mean_share"] - since["closed"]["mean_share"]) * 100, 0))]
     path = ROOT / "README.md"
     text = path.read_text(encoding="utf-8")
     start, end = "<!-- finding:start -->", "<!-- finding:end -->"
     head, rest = text.split(start)
-    path.write_text(head + start + "\n" + "\n".join(lines) + "\n" + end + rest.split(end)[1], encoding="utf-8")
+    path.write_text(head + start + "\n" + readme_finding(study) + "\n" + end + rest.split(end)[1], encoding="utf-8")
 
 
 if __name__ == "__main__":
     built = json.loads((ROOT / "site" / "data" / "study.json").read_text())
-    write_note(built)
+    used = write_note(built)
     write_readme_chart(built)
     write_readme_finding(built)
-    print("wrote JKM-TTF-Arbitrage-Research-Note.pdf, assets/reroute-levels.png and the README's finding")
+    print("wrote JKM-TTF-Arbitrage-Research-Note.pdf (charts at %d and %d percent of full height), assets/reroute-levels.png and the README's finding"
+          % (round(used[0] * 100), round(used[1] * 100)))

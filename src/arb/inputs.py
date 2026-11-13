@@ -40,10 +40,28 @@ class Market:
         self.sdr = _read("usd_per_sdr_daily.csv", ["date"])
         self.acer = _read("des_nwe_acer_daily.csv", ["date"])
         self.rates = _read("charter_rates.csv", ["date"])
+        self.cargoes = _read("us_lng_cargoes_doe.csv", ["date"])
         self.eua = pd.read_csv(DATA / "eua_monthly.csv")
         self.meti = pd.read_csv(DATA / "japan_spot_lng_meti.csv")
         self.wb = pd.read_csv(DATA / "ttf_monthly_worldbank.csv")
         self.p = params.load()
+        self.discount = self._discount()
+
+    def _discount(self) -> pd.DataFrame:
+        """Europe's daily DES discount: ACER's assessment less TTF over the days the assessment covers.
+
+        ACER averages the deals of the last ten weekdays and enters a deal
+        priced off TTF at the settlement of the day before it, so its
+        published spread to one day's TTF falls when TTF rises and rises when
+        it falls. The TTF it measures against is its assessment less its
+        spread; the discount here is the assessment less the mean of that TTF
+        over the assessment day and the trading days before it.
+        """
+        rows = self.acer.dropna(subset=["nwe_spread_to_ttf_eur_mwh"]).copy()
+        ttf = rows["nwe_des_eur_mwh"] - rows["nwe_spread_to_ttf_eur_mwh"]
+        days = int(self.p["des_discount"]["reference_days"]["value"])
+        rows["discount"] = rows["nwe_des_eur_mwh"] - ttf.rolling(days, min_periods=1).mean()
+        return rows[["date", "discount"]]
 
     # -- observations ---------------------------------------------------------
 
@@ -87,32 +105,34 @@ class Market:
     def hire(self, day: pd.Timestamp, ship: dict) -> dict:
         """The last reported rate, held for 26 weeks at most; otherwise the stated assumption."""
         h = self.p["hire"]
-        rows = self.rates[(self.rates["date"] <= day) & (self.rates["date"] >= day - pd.Timedelta(days=h["max_hold_days"]["value"]))]
+        before = self.rates[self.rates["date"] <= day]
+        rows = before[before["date"] >= day - pd.Timedelta(days=h["max_hold_days"]["value"])]
         if not len(rows):
             return {"value": self.hire_scenarios(ship["id"])[h["unreported"]["value"]], "date": None, "status": "assumed",
+                    "last_reported": before["date"].iloc[-1].date() if len(before) else None,
                     "note": "no rate reported in the 26 weeks before: the low scenario for the ship"}
         row = rows.iloc[-1]
         age = (day - row["date"]).days
         return {"value": float(row["usd_per_day"]), "date": row["date"].date(), "status": "reported" if age <= 14 else "held",
+                "last_reported": row["date"].date(),
                 "note": "%s, %s" % (row["assessment"], row["publisher"]), "url": row["url"] if isinstance(row["url"], str) else None}
 
     def des_discount_eur_mwh(self, day: pd.Timestamp, period: str, ttf_usd: float, usd_per_eur: float) -> dict:
         d = self.p["des_discount"]
-        spread = self.acer.dropna(subset=["nwe_spread_to_ttf_eur_mwh"])
-        column = "nwe_spread_to_ttf_eur_mwh"
+        daily, column, days = self.discount, "discount", int(d["window_days"]["value"])
         if period == "month":
-            month = spread[spread["date"].dt.strftime("%Y-%m") == day.strftime("%Y-%m")]
+            month = daily[daily["date"].dt.strftime("%Y-%m") == day.strftime("%Y-%m")]
             if len(month) >= 10:
                 return {"value": float(month[column].mean()), "date": month["date"].iloc[-1].date(), "status": "observed",
-                        "note": "ACER, mean of the month's %d daily values" % len(month)}
-        window = spread[(spread["date"] <= day) & (spread["date"] > day - pd.Timedelta(days=45))].tail(int(d["window_days"]["value"]))
+                        "note": "ACER's assessment less TTF over the same days, mean of the month's %d values" % len(month)}
+        window = daily[(daily["date"] <= day) & (daily["date"] > day - pd.Timedelta(days=45))].tail(days)
         if len(window) >= 5 and (day - window["date"].iloc[-1]).days <= 10:
             return {"value": float(window[column].mean()), "date": window["date"].iloc[-1].date(), "status": "observed",
-                    "note": "ACER, mean of the last %d daily values" % len(window)}
-        if day > spread["date"].iloc[-1]:
-            last = spread.tail(int(d["window_days"]["value"]))
+                    "note": "ACER's assessment less TTF over the same days, mean of the last %d values" % len(window)}
+        if day > daily["date"].iloc[-1]:
+            last = daily.tail(days)
             return {"value": float(last[column].mean()), "date": last["date"].iloc[-1].date(), "status": "held",
-                    "note": "ACER, mean of the last %d daily values published" % len(last)}
+                    "note": "ACER's assessment less TTF over the same days, mean of the last %d values published" % len(last)}
         level = self.acer.dropna(subset=["nwe_des_eur_mwh"])
         week = level[(level["date"] <= day) & (level["date"] > day - pd.Timedelta(days=7))]
         if len(week) >= 3:
@@ -123,9 +143,9 @@ class Market:
         if pd.Timestamp(squeeze["from"]) <= day <= pd.Timestamp(squeeze["to"]):
             return {"value": squeeze["eur_mwh"], "date": None, "status": "assumed",
                     "note": "ACER reports a discount above 35 EUR/MWh on most days from late July to mid October 2022"}
-        share = d["before_acer_share_of_ttf"]["value"]
-        return {"value": share * engine.usd_mmbtu_to_eur_mwh(ttf_usd, usd_per_eur), "date": None, "status": "assumed",
-                "note": "before ACER's assessments begin: %.1f percent under TTF, the median ACER has observed since" % (-share * 100)}
+        amount = d["before_acer_eur_mwh"]["value"]
+        return {"value": amount, "date": None, "status": "assumed",
+                "note": "before ACER's assessments begin: %.2f EUR/MWh under TTF, the median ACER's have shown since" % -amount}
 
     def henry_hub(self, day: pd.Timestamp) -> dict:
         """The contract's Henry Hub: the NYMEX final settlement for the loading month.

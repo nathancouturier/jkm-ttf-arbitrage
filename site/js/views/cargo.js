@@ -1,37 +1,41 @@
 // One cargo: netbacks at Sabine Pass by destination and route, and the bridge from Europe's to Asia's.
 
 import { priceCargo, usdMmbtuToEurMwh } from "../engine.js";
-import { h, b, put, num, int, signed, day, month, ROUTES, EAST, panel, table, segmented } from "../util.js";
+import { h, b, put, num, int, signed, day, month, clamp, ROUTES, EAST, panel, table, segmented } from "../util.js";
 import { frame, axisX, s, showTip, d3 } from "../chart.js";
-import { inputsTable, methodLink } from "./shared.js";
+import { inputsTable, methodLink, hireSource } from "./shared.js";
 
-// [group, path, label, scale shown, step]
+// [group, path, label, scale shown, step, least, most]: the last two are what the model will take, in its own units
 const FIELDS = [
-  ["Prices", "jkm", "JKM, USD/MMBtu", 1, 0.01],
-  ["Prices", "ttf", "TTF, USD/MMBtu", 1, 0.01],
-  ["Prices", "des_discount", "Europe's DES discount, USD/MMBtu", 1, 0.01],
-  ["Prices", "henry_hub", "Henry Hub, USD/MMBtu", 1, 0.01],
-  ["Prices", "hire", "Charter rate, USD a day", 1, 250],
-  ["Ship", "ship.capacity_m3", "Capacity, m3", 1, 1000],
-  ["Ship", "ship.fill", "Fill, percent of capacity", 100, 0.1],
-  ["Ship", "ship.boil_off", "Boil-off, percent a day", 100, 0.001],
-  ["Ship", "ship.speed_kn", "Speed, knots", 1, 0.1],
-  ["Ship", "ship.mmbtu_per_m3", "MMBtu per m3 of LNG", 1, 0.1],
-  ["Ship", "port_days.load", "Days to load", 1, 0.5],
-  ["Ship", "port_days.discharge", "Days to discharge", 1, 0.5],
-  ["Carbon, financing and contract", "eua_eur", "EU allowance, EUR a tonne", 1, 0.5],
-  ["Carbon, financing and contract", "fx", "Dollars per euro", 1, 0.0001],
-  ["Carbon, financing and contract", "carbon.phase_in", "Emissions surrendered, percent", 100, 1],
-  ["Carbon, financing and contract", "carbon.tco2e_per_t_lng", "Tonnes CO2e per tonne of LNG burnt", 1, 0.01],
-  ["Carbon, financing and contract", "finance.rate", "SOFR, percent", 100, 0.01],
-  ["Carbon, financing and contract", "finance.spread", "Margin over SOFR, basis points", 10000, 5],
-  ["Carbon, financing and contract", "contract.hh_multiple", "Gas lifted, percent of Henry Hub", 100, 1],
-  ["Carbon, financing and contract", "contract.fee", "Fixed liquefaction fee, USD/MMBtu", 1, 0.05],
+  ["Prices", "jkm", "JKM, USD/MMBtu", 1, 0.01, 0.5, 150],
+  ["Prices", "ttf", "TTF, USD/MMBtu", 1, 0.01, 0.5, 150],
+  ["Prices", "des_discount", "Europe's DES discount, USD/MMBtu", 1, 0.01, -15, 5],
+  ["Prices", "henry_hub", "Henry Hub, USD/MMBtu", 1, 0.01, 0.2, 60],
+  ["Prices", "hire", "Charter rate, USD a day", 1, 250, -50000, 1000000],
+  ["Ship", "ship.capacity_m3", "Capacity, m3", 1, 1000, 100000, 270000],
+  ["Ship", "ship.fill", "Fill, percent of capacity", 100, 0.1, 0.8, 1],
+  ["Ship", "ship.boil_off", "Boil-off, percent a day", 100, 0.001, 0.0002, 0.003],
+  ["Ship", "ship.speed_kn", "Speed, knots", 1, 0.1, 8, 22],
+  ["Ship", "ship.mmbtu_per_m3", "MMBtu per m3 of LNG", 1, 0.1, 20, 26],
+  ["Ship", "port_days.load", "Days to load", 1, 0.5, 0, 10],
+  ["Ship", "port_days.discharge", "Days to discharge", 1, 0.5, 0, 10],
+  ["Carbon, financing and contract", "eua_eur", "EU allowance, EUR a tonne", 1, 0.5, 0, 500],
+  ["Carbon, financing and contract", "fx", "Dollars per euro", 1, 0.0001, 0.5, 2],
+  ["Carbon, financing and contract", "carbon.phase_in", "Emissions surrendered, percent", 100, 1, 0, 1],
+  ["Carbon, financing and contract", "carbon.tco2e_per_t_lng", "Tonnes CO2e per tonne of LNG burnt", 1, 0.01, 0, 6],
+  ["Carbon, financing and contract", "finance.rate", "SOFR, percent", 100, 0.01, 0, 0.25],
+  ["Carbon, financing and contract", "finance.spread", "Margin over SOFR, basis points", 10000, 5, 0, 0.1],
+  ["Carbon, financing and contract", "contract.hh_multiple", "Gas lifted, percent of Henry Hub", 100, 1, 1, 1.5],
+  ["Carbon, financing and contract", "contract.fee", "Fixed liquefaction fee, USD/MMBtu", 1, 0.05, 0, 10],
 ];
 const ROUTE_FIELDS = [
-  ["distance_nm", "Distance, nm", 10], ["canal_days", "Canal days, each way", 0.5], ["wait_days", "Waiting days, each way", 0.5],
-  ["toll_laden", "Tolls and fees laden, USD", 1000], ["toll_ballast", "Tolls and fees in ballast, USD", 1000], ["port_cost", "Port costs, USD", 1000],
+  ["distance_nm", "Distance, nm", 10, 500, 30000], ["canal_days", "Canal days, each way", 0.5, 0, 10], ["wait_days", "Waiting days, each way", 0.5, 0, 60],
+  ["toll_laden", "Tolls and fees laden, USD", 1000, 0, 5000000], ["toll_ballast", "Tolls and fees in ballast, USD", 1000, 0, 5000000], ["port_cost", "Port costs, USD", 1000, 0, 5000000],
 ];
+// every figure an address may set, with its limits: anything else in the address is ignored
+const LIMITS = Object.fromEntries(FIELDS.map(([, path, , , , lo, hi]) => [path, [lo, hi]]));
+for (const id of ["europe", ...EAST]) for (const [key, , , lo, hi] of ROUTE_FIELDS) LIMITS[`routes.${id}.${key}`] = [lo, hi];
+const tidy = (x) => Number(x.toPrecision(12));
 
 const getPath = (obj, path) => path.split(".").reduce((o, k) => o[k], obj);
 function setPath(obj, path, value) {
@@ -74,28 +78,53 @@ export function mount(root, ctx) {
       for (const canal of ["panama", "suez"]) [inputs.routes[canal].toll_laden, inputs.routes[canal].toll_ballast] = alt.tolls[canal];
       inputs.carbon.tco2e_per_t_lng = alt.tco2e_per_t_lng;
     }
+    const used = {};
+    if (extra.ship !== P.ship_id) used.ship = extra.ship;
     for (const [path, raw] of Object.entries(edits)) {
       const value = Number(raw);
-      if (path === "ship" || Number.isNaN(value)) continue;
-      if (path === "fx" || path === "eua_eur") extra[path] = value;
-      else if (path.endsWith(".open")) setPath(inputs, path, value === 1);
-      else setPath(inputs, path, value);
+      if (raw === "" || Number.isNaN(value)) continue;
+      if (/^routes\.(panama|suez|cape)\.open$/.test(path)) { setPath(inputs, path, value === 1); used[path] = value === 1 ? 1 : 0; continue; }
+      if (!LIMITS[path]) continue;
+      const v = clamp(value, ...LIMITS[path]);
+      if (path === "fx" || path === "eua_eur") extra[path] = v;
+      else setPath(inputs, path, v);
+      used[path] = v;
     }
-    if ("fx" in edits || "eua_eur" in edits) inputs.carbon.eua_usd_t = extra.eua_eur * extra.fx;
-    return { P, edits, inputs, extra };
+    if ("fx" in used || "eua_eur" in used) inputs.carbon.eua_usd_t = extra.eua_eur * extra.fx;
+    return { P, edits: used, inputs, extra };
   }
 
-  // An edit recomputes the page after the browser has moved the focus, then puts the focus back.
+  let typing = false;      // while a figure is being typed the form is left alone, so the field keeps its text and its caret
+  function store(path, value, P) {
+    const edits = parseEdits(ctx.params.set);
+    if (value == null) delete edits[path];
+    else edits[path] = value;
+    ctx.set({ set: writeEdits(edits), preset: P.id === D.presets[0].id ? null : P.id });
+  }
+  // A settled edit recomputes the page after the browser has moved the focus, then puts the focus back.
   function edit(path, value, P) {
     setTimeout(() => {
-      const edits = parseEdits(ctx.params.set);
-      if (value == null) delete edits[path];
-      else edits[path] = value;
       const focused = document.activeElement && document.activeElement.dataset ? document.activeElement.dataset.path : null;
-      ctx.set({ set: writeEdits(edits), preset: P.id === D.presets[0].id ? null : P.id });
+      store(path, value, P);
       const again = focused ? formBody.querySelector(`[data-path="${focused}"]`) : null;
       if (again) again.focus();
     }, 0);
+  }
+  // Each keystroke that leaves a figure the model can take recomputes the page at once.
+  function type(input, path, scale, P) {
+    const value = Number(input.value) / scale;
+    const [lo, hi] = LIMITS[path];
+    if (input.value === "" || Number.isNaN(value) || value < lo || value > hi) return;
+    input.classList.add("edited");
+    typing = true;
+    store(path, tidy(value), P);
+    typing = false;
+  }
+  // Leaving the field settles it: a figure out of range is brought to the nearest the model takes.
+  function settle(input, path, scale, P) {
+    const value = Number(input.value) / scale;
+    if (input.value === "" || Number.isNaN(value)) return update();
+    return edit(path, tidy(clamp(value, ...LIMITS[path])), P);
   }
 
   // -- the bridge from Europe's netback to Asia's -------------------------------------
@@ -134,6 +163,7 @@ export function mount(root, ctx) {
     for (const v of x.ticks(narrow ? 4 : 8)) s("line", { class: "grid", x1: x(v), x2: x(v), y1: 0, y2: c.h }, c.g);
 
     running = start;
+    const tips = [];
     rows.forEach(([label, delta], i) => {
       const y = i * rowH + rowH / 2 + (narrow ? 8 : 0);
       if (narrow) s("text", { class: "label", x: 0, y: y - 15 }, c.g, label);
@@ -145,7 +175,8 @@ export function mount(root, ctx) {
         s("line", { x1: x(value), x2: x(value), y1: y - 12, y2: y + 12, stroke: color, "stroke-width": 3 }, c.g);
         s("circle", { cx: x(value), cy: y, r: 6, fill: color, stroke: "var(--paper)", "stroke-width": 2 }, c.g);
         s("text", { class: "label mono", x: x(value) + 12, y: y + 4 }, c.g, num(value));
-        hit.addEventListener("pointermove", () => showTip(c, x(value), y, label, [{ label: "USD/MMBtu loaded", value: num(value, 3) }]));
+        tips.push(() => showTip(c, x(value), y, label, [{ label: "USD/MMBtu loaded", value: num(value, 3) }]));
+        hit.addEventListener("pointermove", tips[i]);
       } else {
         const from = running;
         running += delta;
@@ -155,11 +186,22 @@ export function mount(root, ctx) {
         s("rect", { x: x0, y: y - 7, width, height: 14, rx: 3, fill: delta >= 0 ? ROUTES[id].color : "var(--loss)" }, c.g);
         s("line", { class: "zero", x1: x(to), x2: x(to), y1: y + 7, y2: y + rowH - 7, "stroke-dasharray": "2 2" }, c.g);
         s("text", { class: "mono", x: x(Math.max(from, to)) + 8, y: y + 4, fill: "var(--ink)" }, c.g, signed(delta));
-        hit.addEventListener("pointermove", () => showTip(c, x(Math.max(from, to)), y, label,
+        tips.push(() => showTip(c, x(Math.max(from, to)), y, label,
           [{ label: "Change", value: signed(delta, 3) }, { label: "Running netback", value: num(to, 3) }]));
+        hit.addEventListener("pointermove", tips[i]);
       }
       hit.addEventListener("pointerleave", () => { c.tip.hidden = true; });
     });
+    let at = -1;
+    c.svg.addEventListener("keydown", (event) => {
+      const step = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[event.key];
+      if (event.key === "Escape") { c.tip.hidden = true; at = -1; return; }
+      if (!step) return;
+      event.preventDefault();
+      at = clamp(at + step, 0, tips.length - 1);
+      tips[at]();
+    });
+    c.svg.addEventListener("blur", () => { c.tip.hidden = true; at = -1; });
     if (Math.abs(running - end) > 1e-9) console.error("the bridge does not close", running, end);
     return steps;
   }
@@ -168,8 +210,9 @@ export function mount(root, ctx) {
   function form(P, edits, inputs, extra) {
     const shown = (value, step) => Number(value.toFixed(step >= 1 ? 1 : Math.min(6, Math.ceil(-Math.log10(step)) + 1)));
     const field = (path, label, scale, step, value) => {
-      const input = h("input", { type: "number", step, "data-path": path, value: shown(value * scale, step), class: path in edits ? "edited" : null,
-        onchange: () => { if (input.value !== "" && !Number.isNaN(Number(input.value))) edit(path, Number(input.value) / scale, P); } });
+      const [lo, hi] = LIMITS[path];
+      const input = h("input", { type: "number", step, min: tidy(lo * scale), max: tidy(hi * scale), "data-path": path, value: shown(value * scale, step),
+        class: path in edits ? "edited" : null, oninput: () => type(input, path, scale, P), onchange: () => settle(input, path, scale, P) });
       const hint = path === "ttf" ? h("span", { class: "hint" }, `${num(usdMmbtuToEurMwh(inputs.ttf, extra.fx))} EUR/MWh`) : null;
       return h("label", null, label, input, hint);
     };
@@ -193,18 +236,17 @@ export function mount(root, ctx) {
         id === "europe" ? null : h("label", { style: "display:block;font-weight:400;margin-top:3px" },
           h("input", { type: "checkbox", "data-path": `routes.${id}.open`, checked: inputs.routes[id].open,
             onchange: (e) => edit(`routes.${id}.open`, e.target.checked === P.inputs.routes[id].open ? null : (e.target.checked ? 1 : 0), P) }), "open")),
-      ROUTE_FIELDS.map(([key, label, step]) => {
+      ROUTE_FIELDS.map(([key, label, step, lo, hi]) => {
         const path = `routes.${id}.${key}`;
-        const input = h("input", { type: "number", step, "data-path": path, value: shown(inputs.routes[id][key], step >= 1000 ? 1000 : 0.1), "aria-label": `${label}, ${ROUTES[id].via}`,
-          class: path in edits ? "edited" : null, style: "min-width:92px",
-          onchange: () => { if (input.value !== "") edit(path, Number(input.value), P); } });
+        const input = h("input", { type: "number", step, min: lo, max: hi, "data-path": path, value: shown(inputs.routes[id][key], step >= 1000 ? 1000 : 0.1), "aria-label": `${label}, ${ROUTES[id].via}`,
+          class: path in edits ? "edited" : null, style: "min-width:92px", oninput: () => type(input, path, 1, P), onchange: () => settle(input, path, 1, P) });
         return h("td", null, input);
       })));
     const routesTable = h("div", { class: "scroll" }, h("table", { style: "min-width:760px" },
       h("thead", null, h("tr", null, h("th", { scope: "col" }, "Route"), ROUTE_FIELDS.map(([, label]) => h("th", { scope: "col" }, label)))),
       h("tbody", null, routeRows)));
     put(formBody,
-      h("p", { class: "source" }, "Type over any figure. An edited field is outlined, the page recomputes at once and the address keeps your inputs. ",
+      h("p", { class: "source" }, "Type over any figure. An edited field is outlined, the page recomputes as you type and the address keeps your inputs. ",
         Object.keys(edits).length ? h("button", { type: "button", class: "btn quiet", onclick: () => ctx.set({ set: null }) }, "Put the preset's figures back") : null),
       h("div", { class: "form" }, groups), h("h3", { style: "margin-top:16px" }, "Routes"), routesTable);
   }
@@ -248,7 +290,8 @@ export function mount(root, ctx) {
     if (bestEast) {
       const arb = res.routes[bestEast].arb;
       const name = ROUTES[bestEast].name.replace(/^t/, "T");
-      sentence.push(arb >= 0 ? [name, " beats Gate by ", b(num(arb)), "."] : ["Gate beats ", ROUTES[bestEast].name, " by ", b(num(-arb)), "."]);
+      sentence.push(Math.abs(arb) < 0.005 ? [name, " pays the same as Gate."]
+        : arb > 0 ? [name, " beats Gate by ", b(num(arb)), "."] : ["Gate beats ", ROUTES[bestEast].name, " by ", b(num(-arb)), "."]);
     }
     put(head, sentence);
 
@@ -276,18 +319,26 @@ export function mount(root, ctx) {
     const lower = (text) => text.replace("JKM over TTF", "the spread").replace("Europe's DES discount, not paid", "Europe's discount").toLowerCase().replace("europe", "Europe");
     put(figTitle, `${ROUTES[chosen].via.replace(/^v/, "V")} the cargo keeps ${num(Math.abs(arb))} ${arb >= 0 ? "more" : "less"} than at Gate: `,
       `${lower(gain[0])} adds ${num(gain[1])}, ${lower(loss[0])} takes ${num(-loss[1])}`);
-    put(source, "Coloured bars add to the netback, grey bars take from it, in USD per MMBtu loaded. Choose a tile to bridge to another route. ",
-      `Prices: EIA${P.period === "month" ? ", " + P.basis : `, week to ${day(P.date)}`}. Charter rate: ${P.sources.hire.status === "assumed" ? "assumed, " + P.sources.hire.note : "Spark30S Atlantic of " + day(String(P.sources.hire.date))}. `,
+    const arrives = res.routes[chosen].delivered / res.routes[chosen].loaded;
+    put(source, "Coloured bars add to the netback, grey bars take from it. All in USD per MMBtu loaded, so the spread of ", num(res.spread), " counts for ",
+      num(res.spread * arrives), `: ${num(arrives * 100, 1)} percent of the cargo arrives. Choose a tile to bridge to another route. `,
+      `Prices: ${P.sources.prices.publisher}, ${P.period === "month" ? P.basis : `week to ${day(P.date)}`}. `, hireSource(P.sources.hire),
       `DES discount: ${P.sources.des_discount.status === "assumed" ? "assumed, " + P.sources.des_discount.note : "ACER"}.`);
 
     const lift = res.lift;
     put(strip, b("Lift test. "), `The best netback, ${num(lift.best_netback)} ${res.best === "europe" ? "at Gate" : ROUTES[res.best].via}, is ${num(Math.abs(lift.margin))} `,
-      lift.lifts ? "above" : "below", ` 115 percent of Henry Hub (${num(lift.threshold)}): the cargo is ${lift.lifts ? "lifted" : "cancelled"}. `,
+      lift.lifts ? "above" : "below", ` ${num(inputs.contract.hh_multiple * 100, 0)} percent of Henry Hub (${num(lift.threshold)}): the cargo is ${lift.lifts ? "lifted" : "cancelled"}. `,
       `After the fixed fee of ${num(inputs.contract.fee)}, owed either way, ${num(lift.margin_after_fee)}.`);
 
     put(costBody, costs(res));
-    form(P, edits, inputs, extra);
-    put(inputsBody, inputsTable(P, inputs), methodLink());
+    if (!typing) form(P, edits, inputs, extra);
+    const changed = {};
+    for (const key of ["jkm", "ttf", "des_discount", "henry_hub", "hire"]) if (key in edits) changed[key] = 1;
+    if ("fx" in edits) changed.fx = extra.fx;
+    if ("eua_eur" in edits) changed.eua = extra.eua_eur;
+    if ("finance.rate" in edits) changed.sofr = 1;
+    if ("ship" in edits) changed.ship = extra.ship;
+    put(inputsBody, inputsTable(P, inputs, changed), methodLink());
     if (edited && !formPanel.dataset.seen) { formPanel.open = true; formPanel.dataset.seen = "1"; }
   }
 

@@ -25,6 +25,8 @@ export function mount(root, ctx) {
   root.append(kicker, head, dek, controls, h("figure", null, figTitle, legend, plot, source),
     h("div", { class: "more" }, panel("The table", tableBody), panel("Events and their sources", eventsBody)));
 
+  let tuneOpen = false;    // on a phone the three lesser controls sit behind one button that states them
+
   const state = () => ({
     freq: ctx.params.freq === "m" ? "m" : "w",
     hire: HIRE.some(([k]) => k === ctx.params.hire) ? ctx.params.hire : "rep",
@@ -61,15 +63,25 @@ export function mount(root, ctx) {
     const clipId = "clip-history";
     s("rect", { x: 0, y: 0, width: c.w, height: c.h }, s("clipPath", { id: clipId }, s("defs", null, c.svg)));
 
-    // shaded: the arb open
-    const half = (x(rows[Math.min(1, rows.length - 1)].t) - x(rows[0].t)) / 2 || 3;
-    let run = null;
-    const flush = (end) => { if (run) s("rect", { x: Math.max(0, x(run.t) - half), y: 0, width: Math.min(c.w, x(end.t) + half) - Math.max(0, x(run.t) - half), height: c.h, fill: "var(--wash)" }, c.g); run = null; };
+    // Runs of rows with no hole in the prices longer than three periods: nothing is drawn or shaded across missing prices.
+    const step = weekly ? 7 : 31;
+    const runs = [];
     rows.forEach((r, i) => {
-      if (r.open && !run) run = r;
-      if (!r.open && run) flush(rows[i - 1]);
+      if (!i || (r.t - rows[i - 1].t) / 864e5 > step * 3) runs.push([]);
+      runs[runs.length - 1].push(r);
     });
-    flush(rows[rows.length - 1]);
+
+    // shaded: the arb open
+    const half = ((c.w / Math.max(1, (rows[rows.length - 1].t - rows[0].t) / 864e5)) * step) / 2 || 3;
+    for (const part of runs) {
+      let run = null;
+      const flush = (end) => { if (run) s("rect", { x: Math.max(0, x(run.t) - half), y: 0, width: Math.min(c.w, x(end.t) + half) - Math.max(0, x(run.t) - half), height: c.h, fill: "var(--wash)" }, c.g); run = null; };
+      part.forEach((r, i) => {
+        if (r.open && !run) run = r;
+        if (!r.open && run) flush(part[i - 1]);
+      });
+      flush(part[part.length - 1]);
+    }
 
     axisY(c, y, { values: d3.ticks(lo, hi, 7), format: (v) => num(v, 0), label: "USD/MMBtu" });
     const years = d3.utcYear.range(d3.utcYear.ceil(rows[0].t), rows[rows.length - 1].t);
@@ -79,18 +91,21 @@ export function mount(root, ctx) {
     const plotG = s("g", { "clip-path": `url(#${clipId})` }, c.g);
     const inner = { ...c, g: plotG };
     // the reroute level, coloured by the route that sets it; dashed where the route was not open
-    let seg = [];
-    const emit = () => {
-      if (seg.length > 1) path(inner, seg.map((r) => [x(r.t), y(r.level)]),
-        { stroke: ROUTES[seg[0].route].color, "stroke-width": 1.8, "stroke-dasharray": seg[0].available ? null : "2 4" });
-    };
-    rows.forEach((r, i) => {
-      const prev = rows[i - 1];
-      if (prev && (prev.route !== r.route || prev.available !== r.available)) { seg.push(r); emit(); seg = []; }
-      seg.push(r);
-    });
-    emit();
-    path(inner, rows.map((r) => [x(r.t), y(r.spread)]), { stroke: "var(--ink)", "stroke-width": 1.6 });
+    for (const part of runs) {
+      let seg = [];
+      const emit = () => {
+        if (seg.length > 1) path(inner, seg.map((r) => [x(r.t), y(r.level)]),
+          { stroke: ROUTES[seg[0].route].color, "stroke-width": 1.8, "stroke-dasharray": seg[0].available ? null : "2 4" });
+      };
+      part.forEach((r, i) => {
+        const prev = part[i - 1];
+        if (prev && (prev.route !== r.route || prev.available !== r.available)) { seg.push(r); emit(); seg = []; }
+        seg.push(r);
+      });
+      emit();
+      path(inner, part.map((r) => [x(r.t), y(r.spread)]), { stroke: "var(--ink)", "stroke-width": 1.6 });
+    }
+    const holes = runs.length - 1;
     const last = rows[rows.length - 1];
     dot(inner, x(last.t), y(Math.max(lo, Math.min(hi, last.spread))), "var(--accent)", 4.5);
 
@@ -137,6 +152,7 @@ export function mount(root, ctx) {
         ], [r.open ? "Arb open. " : r.available ? "Arb closed. " : "Route not open. ", near.map((e) => e.text).join(" ")].join(""));
       },
     });
+    return holes;
   }
 
   function update() {
@@ -160,9 +176,11 @@ export function mount(root, ctx) {
     const share = ([, [o, n]]) => o / n;
     const best = byYear.reduce((a, c) => (share(c) > share(a) ? c : a), byYear[0]);
     const worst = byYear.reduce((a, c) => (share(c) < share(a) ? c : a), byYear[0]);
-    const assumed = rows.filter((r) => r.des_status === "assumed").length;
-    put(dek, "Shaded: the arb east is open. The level follows the charter rate, the gas price and what Europe pays for a delivered cargo",
-      assumed ? `; before 2023 that discount is an assumption, as are charter rates before late 2019.` : ".");
+    const count = (key, value) => rows.filter((r) => r[key] === value).length;
+    const desAssumed = count("des_status", "assumed");
+    const rateWords = st.hire !== "rep" ? "" : [count("hire_status", "held") ? ` The charter rate is held from an earlier report in ${count("hire_status", "held")} of these ${unit}` : "",
+      count("hire_status", "assumed") ? `${count("hire_status", "held") ? " and" : " The charter rate is"} assumed in ${count("hire_status", "assumed")}` : ""].join("") ;
+    put(dek, "Shaded: the arb east is open.", rateWords ? rateWords + "." : "", desAssumed ? ` Europe's DES discount is an assumption in ${desAssumed}, all before 2023.` : "");
     put(figTitle, byYear.length > 1
       ? `Open most often in ${best[0]} (${best[1][0]} of ${best[1][1]} ${unit}) and least in ${worst[0]} (${worst[1][0]} of ${worst[1][1]})`
       : `Open in ${open} of ${counted.length} ${unit}`);
@@ -170,17 +188,22 @@ export function mount(root, ctx) {
       (st.route === "best" ? EAST : [st.route]).map((id) => [h("span", { class: "key " + ROUTES[id].cls, style: "margin-left:14px" }), `level ${ROUTES[id].via}`]),
       h("span", { class: "swatch c-accent", style: "margin-left:14px;border-radius:50%" }), "latest");
 
+    const named = (options, key) => options.find(([k]) => k === key)[1].toLowerCase();
     put(controls,
       segmented("Frequency", [["w", "Weekly"], ["m", "Monthly from 2016"]], st.freq, (v) => ctx.set({ freq: v === "w" ? null : v, range: null })),
-      segmented("Charter rate", HIRE, st.hire, (v) => ctx.set({ hire: v === "rep" ? null : v })),
-      segmented("Route", ROUTE, st.route, (v) => ctx.set({ route: v === "best" ? null : v })),
-      segmented("Period", RANGE, st.range, (v) => ctx.set({ range: v === "all" ? null : v })));
+      h("button", { type: "button", class: "btn tune-toggle", "aria-expanded": String(tuneOpen), "data-focus": "tune", onclick: () => { tuneOpen = !tuneOpen; update(); } },
+        `Charter rate ${named(HIRE, st.hire)}, route ${named(ROUTE, st.route)}, period ${named(RANGE, st.range)}`),
+      h("div", { class: "tune" + (tuneOpen ? " open" : "") },
+        segmented("Charter rate", HIRE, st.hire, (v) => ctx.set({ hire: v === "rep" ? null : v })),
+        segmented("Route", ROUTE, st.route, (v) => ctx.set({ route: v === "best" ? null : v })),
+        segmented("Period", RANGE, st.range, (v) => ctx.set({ range: v === "all" ? null : v }))));
 
-    draw(rows, st, weekly);
+    const holes = draw(rows, st, weekly);
     put(source, weekly
       ? "Prices: EIA weekly averages of front-month futures; before January 2022 swaps for JKM and day-ahead prices for TTF, as EIA then printed them. "
       : "Prices: METI's spot price for Japan as a proxy for JKM and the World Bank's TTF to September 2020, then means of EIA's weekly averages. ",
       "Charter rates: Spark30S Atlantic as reported. DES discount: ACER from 2023. Dotted level: the route was not open. ",
+      holes ? "Breaks in the lines: no price was published. " : "",
       `Data to ${day(rows[rows.length - 1].date)}.`);
 
     put(tableBody, table([
