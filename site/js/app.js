@@ -50,6 +50,12 @@ function show() {
   current.view.update();
 }
 
+// "Skip to the content" moves the focus; it must not change the address, which names the view.
+document.querySelector(".skip").addEventListener("click", (event) => {
+  event.preventDefault();
+  main.focus();
+});
+
 document.getElementById("theme").addEventListener("click", () => {
   const dark = document.documentElement.dataset.theme !== "dark";
   document.documentElement.dataset.theme = dark ? "dark" : "light";

@@ -117,6 +117,7 @@ export function mount(root, ctx) {
 
     // events: at most eight labels, in two rows above the plot
     const rowsUsed = [[], []];
+    const placed = [];
     const ordered = [...events].sort((a, e) => (a.date < e.date ? 1 : -1));
     for (const e of ordered) {
       const ex = x(toDate(e.date));
@@ -124,12 +125,17 @@ export function mount(root, ctx) {
       const anchor = ex + width > c.w ? "end" : "start";
       const from = anchor === "end" ? ex - width : ex;
       const level = rowsUsed.findIndex((used) => used.every(([a, z]) => from > z || from + width < a));
-      const g = s("g", { class: "event" }, c.g);
-      if (level < 0 || (narrow && rowsUsed[0].length + rowsUsed[1].length >= 4)) { s("line", { x1: ex, x2: ex, y1: -5, y2: 0 }, g); continue; }
+      if (level < 0 || (narrow && rowsUsed[0].length + rowsUsed[1].length >= 4)) { s("line", { x1: ex, x2: ex, y1: -5, y2: 0 }, s("g", { class: "event" }, c.g)); continue; }
       rowsUsed[level].push([from, from + width]);
-      const ty = -c.margin.top + 14 + level * 15 + (narrow ? 12 : 0);
-      s("line", { x1: ex, x2: ex, y1: ty + 4, y2: c.h, "stroke-dasharray": "1 3" }, g);
-      s("text", { x: anchor === "end" ? ex - 4 : ex + 4, y: ty, "text-anchor": anchor }, g, e.label);
+      placed.push({ e, ex, anchor, level });
+    }
+    const rowY = (level) => -c.margin.top + 14 + level * 15 + (narrow ? 12 : 0);
+    for (const p of placed) {
+      const g = s("g", { class: "event" }, c.g);
+      // the leader starts under its own label, or under the lower row where a label there lies across it
+      const crossed = p.level === 0 && rowsUsed[1].some(([a, z]) => p.ex >= a - 2 && p.ex <= z + 2);
+      s("line", { x1: p.ex, x2: p.ex, y1: rowY(crossed ? 1 : p.level) + 4, y2: c.h, "stroke-dasharray": "1 3" }, g);
+      s("text", { x: p.anchor === "end" ? p.ex - 4 : p.ex + 4, y: rowY(p.level), "text-anchor": p.anchor }, g, p.e.label);
     }
 
     const cursor = s("line", { class: "cursor", y1: 0, y2: c.h, visibility: "hidden" }, c.g);
@@ -178,14 +184,14 @@ export function mount(root, ctx) {
     const share = ([, [o, n]]) => o / n;
     const best = byYear.reduce((a, c) => (share(c) > share(a) ? c : a), byYear[0]);
     const worst = byYear.reduce((a, c) => (share(c) < share(a) ? c : a), byYear[0]);
-    const count = (key, value) => rows.filter((r) => r[key] === value).length;
+    const count = (key, value) => counted.filter((r) => r[key] === value).length;
     const desAssumed = count("des_status", "assumed");
     const rateWords = st.hire !== "rep" ? "" : [count("hire_status", "held") ? ` The charter rate is held from an earlier report in ${count("hire_status", "held")} of these ${unit}` : "",
       count("hire_status", "assumed") ? `${count("hire_status", "held") ? " and" : " The charter rate is"} assumed in ${count("hire_status", "assumed")}` : ""].join("") ;
-    const lastAssumed = rows.filter((r) => r.des_status === "assumed").pop();
+    const lastAssumed = counted.filter((r) => r.des_status === "assumed").pop();
     put(dek, "Shaded: the arb east is open.", rateWords ? rateWords + "." : "", desAssumed ? ` Europe's DES discount is an assumption in ${desAssumed}, none after ${month(lastAssumed.date)}.` : "");
     put(figTitle, byYear.length > 1
-      ? `Open most often in ${best[0]} (${best[1][0]} of ${best[1][1]} ${unit}) and least in ${worst[0]} (${worst[1][0]} of ${worst[1][1]})`
+      ? `Among full years, open most often in ${best[0]} (${best[1][0]} of ${best[1][1]} ${unit}) and least in ${worst[0]} (${worst[1][0]} of ${worst[1][1]})`
       : `Open in ${open} of ${counted.length} ${unit}`);
     put(legend, h("span", { class: "key c-ink" }), "JKM minus TTF   ",
       (st.route === "best" ? EAST : [st.route]).map((id) => [h("span", { class: "key " + ROUTES[id].cls, style: "margin-left:14px" }), `level ${ROUTES[id].via}`]),
@@ -207,7 +213,7 @@ export function mount(root, ctx) {
       : "Prices: METI's spot price for Japan as a proxy for JKM and the World Bank's TTF to September 2020, then means of EIA's weekly averages. ",
       "Charter rates: Spark30S Atlantic as reported. DES discount: ACER from 2023. Dotted level: the route was not open. ",
       holes ? "Breaks in the lines: no price was published. " : "",
-      `Data to ${day(rows[rows.length - 1].date)}.`);
+      `Data to ${day(weekly ? rows[rows.length - 1].date : D.data_date)}.`);
 
     put(tableBody, table([
       { label: weekly ? "Week to" : "Month", value: (r) => (weekly ? day(r.date, true) : month(r.date, true)), head: true },
@@ -218,7 +224,7 @@ export function mount(root, ctx) {
       { label: "DES discount", n: true, value: (r) => [num(r.des), tag(r.des_status)] },
       ...EAST.map((id) => ({ label: `Level ${ROUTES[id].via}`, n: true, value: (r) => num(r.levels[id]), cls: (r) => (r.routes[id][2] === "open" ? "" : "no") })),
       { label: "Arb", value: (r) => (r.open ? "open " + ROUTES[r.route].via : "closed"), cls: (r) => (r.open ? "yes" : "no") },
-    ], [...rows].reverse(), { tall: true, min: 860, caption: "USD/MMBtu; charter rate in USD a day. Grey levels: the route was not open on that date." }));
+    ], [...rows].reverse(), { tall: true, min: 860, caption: "USD/MMBtu; charter rate in USD a day. Held: reported more than 14 days before. Assumed: nothing reported in the 26 weeks before, or no assessment of the discount yet. Derived: ACER's assessment less the week's TTF, before ACER published the spread. Grey levels: the route was not open on that date." }));
     put(eventsBody, table([
       { label: "Date", value: (e) => (e.end ? `${day(e.date, true)} to ${day(e.end, true)}` : day(e.date, true)), head: true },
       { label: "Event", value: (e) => e.text },

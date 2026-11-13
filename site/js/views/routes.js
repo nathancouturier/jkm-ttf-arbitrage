@@ -78,20 +78,21 @@ export function mount(root, ctx) {
     const W = Math.max(mapBox.clientWidth || 900, 700);
     const H = Math.round((W * (merc(LAT[1]) - merc(LAT[0]))) / (((LON[1] - LON[0]) * Math.PI) / 180));
     mapPlot.style.width = W + "px";
-    const c = frame(mapPlot, { height: H, margin: { top: 0, right: 0, bottom: 0, left: 0 },
+    const c = frame(mapPlot, { height: H, margin: { top: 0, right: 0, bottom: 0, left: 0 }, focusable: false,
       label: "Map of the four routes from Sabine Pass: to Gate, and to Futtsu via Panama, via Suez and via the Cape of Good Hope" });
     const x = (lon) => ((lon - LON[0]) / (LON[1] - LON[0])) * W;
     const y = (lat) => ((merc(LAT[1]) - merc(Math.max(-70, Math.min(80, lat)))) / (merc(LAT[1]) - merc(LAT[0]))) * H;
     s("rect", { x: 0, y: 0, width: W, height: H }, s("clipPath", { id: "clip-map" }, s("defs", null, c.svg)));
     const g = s("g", { "clip-path": "url(#clip-map)" }, c.g);
+    // Each ring is drawn wherever a whole turn of the globe brings it into the window; inner rings (the Caspian) are cut out.
     let d = "";
-    for (const shift of [0, -360]) {
+    for (const shift of [-360, 0, 360]) {
       for (const ring of map.land) {
         if (ring.every(([lon]) => lon + shift < LON[0] - 5 || lon + shift > LON[1] + 5)) continue;
         d += "M" + ring.map(([lon, lat]) => `${x(lon + shift).toFixed(1)},${y(lat).toFixed(1)}`).join("L") + "Z";
       }
     }
-    s("path", { d, fill: "var(--rule)", stroke: "none" }, g);
+    s("path", { d, fill: "var(--rule)", "fill-rule": "evenodd", stroke: "none" }, g);
     for (const id of ["cape", "suez", "panama", "europe"]) {
       const pts = map.routes[id].map(([lon, lat]) => [x(lon), y(lat)]);
       const open = res.routes[id].open;
@@ -171,7 +172,7 @@ export function mount(root, ctx) {
     const pm = D.routes.panama_monthly[D.routes.panama_monthly.length - 1];
     const status = (id) => P.route_status[id].status;
     put(dek, status("panama") === status("suez") ? `This week Panama and Suez are both ${status("panama")}. ` : `This week Panama is ${status("panama")} and Suez is ${status("suez")}. `,
-      `A day of waiting costs ${int(q.cost_of_a_waiting_day_usd / 2)} USD, the hire and the cargo that boils off. In ${month(pm.month)} a ship spent ${num(pm.cwt_hours_avg, 0)} hours in canal waters on average.`);
+      `A day of waiting costs ${int(q.cost_of_a_waiting_day_usd / 2)} USD in hire, boil-off and financing; in ${month(pm.month)} ships spent ${num(pm.cwt_hours_avg, 0)} hours in canal waters on average.`);
     put(mapTitle, `Round the Cape a cargo sails ${int(map_distance("cape") - map_distance("panama"))} nautical miles further each way than through Panama`);
     put(mapSource, `Distances: this study, over Eurostat's SeaRoute network. Days: round trips at 17 knots with a day in each port and at each canal. Tolls and fees for the round trip: tariffs in force on ${day(P.date)}. Japan is drawn at both edges so that every route runs unbroken.`);
     put(controls, segmented("Show", [["premium", "Slot premium"], ["wait", "Waiting days"]], mode, (v) => ctx.set({ y: v === "premium" ? null : v })));

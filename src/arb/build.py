@@ -31,9 +31,9 @@ PRESETS = [
 PRESET_NOTES = {
     "latest": "The latest week EIA has published.",
     "2020-04": "Demand collapses in the pandemic. Neither market covers the cost of the gas and US cargoes are cancelled.",
-    "2022-10": "Europe is short of gas, TTF is far above JKM and a ship costs {hire} USD a day.",
+    "2022-10": "Europe is short of gas, TTF is far above JKM and freight is at a record.",
     "2024-03": "Panama is short of water and the Red Sea is shut: the only way east is round the Cape.",
-    "2026-03": "The Strait of Hormuz is closed. Asia bids for spot cargoes and freight is at {hire} USD a day.",
+    "2026-03": "The Strait of Hormuz is closed: Asia bids for spot cargoes and freight soars.",
 }
 
 
@@ -134,7 +134,7 @@ def preset(market: Market, key: str, label: str, obs: dict) -> dict:
     ships = by_ship(market, obs["date"], meta["usd_per_sdr"]["value"])
     weekly_print = obs["period"] == "week" or obs["basis"].startswith("mean of")
     return {
-        "id": key, "label": label, "note": PRESET_NOTES[key].format(hire=format(int(inputs["hire"]), ",")),
+        "id": key, "label": label, "note": PRESET_NOTES[key],
         "date": obs["date"], "period": obs["period"],
         "basis": obs["basis"], "ship_id": meta["ship"]["id"], "inputs": inputs,
         "usd_per_eur": meta["usd_per_eur"]["value"], "eua_eur_t": meta["eua_eur_t"]["value"],
@@ -207,6 +207,8 @@ def parameter_table(p: dict) -> list[dict]:
     d = p["des_discount"]
     add("Europe", "DES discount, from 31 March 2023", "ACER's Northwest Europe DES assessment less the mean TTF front month of the assessment day and the four trading days before, averaged over the last 20 days. It is what the market charges to regasify a cargo and enter the grid",
         d["reference_days"]["source"], d["reference_days"]["url"], "assumption")
+    add("Europe", "DES discount, 19 January to 30 March 2023", "Derived: ACER's Northwest Europe assessment for the week less the week's TTF. ACER published the assessment from January 2023 and its spread to TTF from 31 March",
+        "ACER, LNG price assessment; U.S. Energy Information Administration, weekly TTF", "https://www.acer.europa.eu/gas/lng-price-assessment", "assumption")
     add("Europe", "DES discount, before", "1.25 EUR/MWh under TTF", d["before_acer_eur_mwh"]["source"], d["before_acer_eur_mwh"]["url"], "assumption")
     squeeze, easing, january = d["before_acer_periods"]
     add("Europe", "DES discount, June 2022 to January 2023", "35 EUR/MWh from June to mid October 2022, then narrowing in a straight line to 6.5 for January 2023",
@@ -303,7 +305,7 @@ def build(market: Market | None = None, write: bool = True) -> dict:
     since_2022 = analysis.flows_test([r for r in monthly if r["date"].year >= 2022], flows, p["flows"]["lag_months"])
     before_2022 = analysis.flows_test([r for r in monthly if r["date"].year < 2022], flows, p["flows"]["lag_months"])
     cancelled = p["cross_checks"]["cancellations_2020"]["cargoes"]
-    lift = analysis.lift_history(monthly, flows, cancelled)
+    lift = analysis.lift_history(monthly, flows, cancelled, market)
 
     flow_rows = []
     arb = {r["date"].strftime("%Y-%m"): r for r in monthly}

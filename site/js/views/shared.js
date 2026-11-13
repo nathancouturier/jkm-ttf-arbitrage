@@ -1,7 +1,7 @@
 // Tables several views open behind a button: where each input comes from, and what a reroute level is made of.
 
 import { usdMmbtuToEurMwh } from "../engine.js";
-import { h, num, int, day, tag, table, ROUTES, EAST } from "../util.js";
+import { h, num, int, day, month, tag, table, ROUTES, EAST } from "../util.js";
 
 const asOf = (src) => (src && src.date ? day(String(src.date)) : "");
 
@@ -29,13 +29,14 @@ export function inputsTable(P, inputs = P.inputs, changed = {}) {
     ["fx", "Dollars per euro", num(fx, 4), s.usd_per_eur, s.usd_per_eur.note],
     ["sofr", "SOFR", `${num(inputs.finance.rate * 100)} percent`, s.sofr, s.sofr.note],
     ["eua", "EU allowance", `${num(changed.eua ?? P.eua_eur_t)} EUR a tonne`, s.eua, s.eua.note],
-    ["ship", "Ship", P.ships[changed.ship ?? P.ship_id].name, null, "The freight benchmark's ship on the loading day"],
+    ["ship", "Ship", changed.shipText ?? P.ships[changed.ship ?? P.ship_id].name, null, "The freight benchmark's ship on the loading day"],
   ];
-  const yours = (r) => r[0] in changed;
+  const yours = (r) => r[0] in changed || (r[0] === "ship" && changed.shipText != null);
+  const dated = (r) => (r[3] === s.prices && P.period === "month" ? [month(String(s.prices.date)), tag(s.prices.status)] : [asOf(r[3]), tag(r[3].status)]);
   return table([
     { label: "Input", value: (r) => r[1], head: true },
     { label: "Value", value: (r) => h("span", { class: "mono" }, r[2]) },
-    { label: "As of", value: (r) => (yours(r) ? h("span", { class: "tag assumed" }, " your figure") : r[3] ? [asOf(r[3]), tag(r[3].status)] : "") },
+    { label: "As of", value: (r) => (yours(r) ? h("span", { class: "tag assumed" }, " your figure") : r[3] ? dated(r) : "") },
     { label: "Source", value: (r) => (yours(r) ? "" : r[4]) },
   ], rows, { min: 640 });
 }

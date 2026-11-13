@@ -182,6 +182,7 @@ input[type="number"], select {
   border-radius: 5px; padding: 6px 8px; width: 100%; min-width: 0;
 }
 input[type="number"].edited { border-color: var(--accent); }
+.form select { min-width: 200px; }
 input[type="checkbox"] { accent-color: var(--ink); width: 16px; height: 16px; margin: 0 6px 0 0; vertical-align: -2px; }
 
 /* -- tables ------------------------------------------------------------------------- */

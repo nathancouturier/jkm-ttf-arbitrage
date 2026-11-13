@@ -9,7 +9,7 @@ const FORMULAS = [
   ["round trip", "2 x distance / (speed x 24) + days in port + canal and waiting days, both ways"],
   ["delivered", "loaded - loaded x boil-off a day x round trip days", "the boil-off is the ship's fuel"],
   ["cost", "hire x round trip days + port costs + canal tolls and fees, laden and ballast + EU ETS (the European voyage only) + financing of the cargo"],
-  ["netback", "(DES price x delivered - cost) / loaded", "DES price: TTF + discount in Europe, JKM in Asia"],
+  ["netback", "(DES price x delivered - cost) / loaded", "DES price: TTF + discount in Europe (the discount is negative), JKM in Asia"],
   ["S*(route)", "the JKM minus TTF spread at which netback(Asia, route) = netback(Europe)", "= extra hire + canal tolls + extra boil-off + Europe's DES discount + other, per MMBtu delivered east"],
   ["H*(route)", "the charter rate at which the two netbacks are equal at today's prices"],
   ["lift margin", "best netback - 1.15 x Henry Hub", "the fixed liquefaction fee is owed either way"],
@@ -45,7 +45,7 @@ export function mount(root, ctx) {
     two("Loaded, MMBtu", `${int(ship.capacity_m3)} m3 x ${num(ship.fill, 3)} x ${num(ship.mmbtu_per_m3, 0)}`, int(E.loaded), int(A.loaded)),
     two("Boil-off, MMBtu", `loaded x ${num(ship.boil_off * 100, 3)} percent = ${num(E.boil_off_per_day, 2)} a day, x round trip days`, `${num(E.boil_off_per_day, 2)} x ${num(E.round_trip_days, 2)} = ${int(E.boil_off)}`, `${num(A.boil_off_per_day, 2)} x ${num(A.round_trip_days, 2)} = ${int(A.boil_off)}`),
     two("Delivered, MMBtu", "loaded - boil-off", int(E.delivered), int(A.delivered)),
-    two("DES price, USD/MMBtu", "TTF + Europe's DES discount; JKM", `${num(x.ttf)} + (${num(x.des_discount, 3)}) = ${num(E.price, 3)}`, num(A.price)),
+    two("DES price, USD/MMBtu", "TTF + Europe's DES discount; JKM", `${num(x.ttf)} + (${num(x.des_discount, 4)}) = ${num(E.price, 4)}`, num(A.price)),
     two("Revenue, USD", "DES price x delivered", int(E.price * E.delivered), int(A.price * A.delivered)),
     two("Hire, USD", `${int(x.hire)} USD a day x round trip days`, int(E.cost.hire), int(A.cost.hire)),
     two("Port costs, USD", "both ports", int(E.cost.ports), int(A.cost.ports)),
@@ -62,14 +62,14 @@ export function mount(root, ctx) {
   const sStar = A.breakeven_spread;
   const atLevel = priceCargo({ ...x, jkm: x.ttf + sStar }).routes.panama.netback;
   const sLines = [
-    ["Extra hire", `${int(x.hire)} x ${num(extraDays, 2)} extra days / ${int(A.delivered)} delivered east`, num(dr.hire, 3)],
-    ["Canal tolls and fees", `${int(A.cost.tolls)} / ${int(A.delivered)}`, num(dr.tolls, 3)],
-    ["Extra boil-off", `${num(E.price, 3)} x (${int(E.delivered)} - ${int(A.delivered)}) / ${int(A.delivered)}`, num(dr.boil_off, 3)],
-    ["Europe's DES discount", "as measured", num(dr.des_discount, 3)],
-    ["Ports, carbon and financing", `(${int(A.cost.ports)} - ${int(E.cost.ports)} - ${int(E.cost.carbon)} + ${int(A.cost.financing)} - ${int(E.cost.financing)}) / ${int(A.delivered)}`, num(dr.other, 3)],
-    ["Reroute level S*", `the sum; JKM minus TTF this week is ${num(res.spread)}`, h("b", null, num(sStar, 3))],
-    ["Check", `at JKM = ${num(x.ttf)} + (${num(sStar, 3)}) = ${num(x.ttf + sStar, 3)} the netback via Panama is Gate's`, num(atLevel, 3)],
-    ["Charter rate that closes the arb, H*", `${int(x.hire)} + (${num(res.spread)} - (${num(sStar, 3)})) x ${int(A.delivered)} / ${num(extraDays, 2)} extra days, in USD a day`, int(A.breakeven_hire)],
+    ["Extra hire", `${int(x.hire)} x ${num(extraDays, 3)} extra days / ${int(A.delivered)} delivered east`, num(dr.hire, 4)],
+    ["Canal tolls and fees", `${int(A.cost.tolls)} / ${int(A.delivered)}`, num(dr.tolls, 4)],
+    ["Extra boil-off", `${num(E.price, 4)} x (${int(E.delivered)} - ${int(A.delivered)}) / ${int(A.delivered)}`, num(dr.boil_off, 4)],
+    ["Europe's DES discount", "as measured", num(dr.des_discount, 4)],
+    ["Ports, carbon and financing", `(${int(A.cost.ports)} - ${int(E.cost.ports)} - ${int(E.cost.carbon)} + ${int(A.cost.financing)} - ${int(E.cost.financing)}) / ${int(A.delivered)}`, num(dr.other, 4)],
+    ["Reroute level S*", `the sum; JKM minus TTF this week is ${num(res.spread)}`, h("b", null, num(sStar, 4))],
+    ["Check", `at JKM = ${num(x.ttf)} + (${num(sStar, 4)}) = ${num(x.ttf + sStar, 4)} the netback via Panama is Gate's`, num(atLevel, 3)],
+    ["Charter rate that closes the arb, H*", `${int(x.hire)} + (${num(res.spread)} - (${num(sStar, 4)})) x ${int(A.delivered)} / ${num(extraDays, 3)} extra days, in USD a day`, int(A.breakeven_hire)],
     ["Lift margin", `best netback - ${num(x.contract.hh_multiple, 2)} x Henry Hub = ${num(res.lift.best_netback, 3)} - ${num(x.contract.hh_multiple, 2)} x ${num(x.henry_hub)}; after the fixed fee of ${num(x.contract.fee)}, ${num(res.lift.margin_after_fee)}`, num(res.lift.margin, 3)],
   ];
   const T = D.timing;
@@ -107,13 +107,13 @@ export function mount(root, ctx) {
     { label: "Assessment and ship", value: (r) => `${r.assessment}, ${r.ship}` },
     { label: "Read in", value: (r) => (r.url ? h("a", { href: r.url, rel: "noopener" }, r.publisher) : r.publisher) },
   ], [...D.charter_rates].reverse(), { tall: true, min: 620 }),
-  h("p", { class: "source" }, `${D.charter_rates.length} figures. Between two reports the last one is held, for 26 weeks at most; the History view marks every held or assumed rate.`)]);
+  h("p", { class: "source" }, `${D.charter_rates.length} figures. Between two reports the last one is held, for 26 weeks at most; the History view's table marks a rate as held once it is more than 14 days old, and as assumed where there is none.`)]);
 
   root.append(
     h("p", { class: "kicker" }, "Method"),
     h("h1", null, "One cargo, two markets, four routes. Every number on this site is the arithmetic below."),
     h("p", { class: "dek" }, "The model is ", h("a", { href: "https://github.com/nathancouturier/jkm-ttf-arbitrage/blob/main/src/arb/engine.py" }, "one Python file"),
-      ", copied line for line into the browser and held to it by a test. Both prices are delivered ex-ship: Europe's is TTF less the DES discount, what the market charges for regasification and entry to the grid."),
+      ", copied line for line into the browser and held to it by a test. Both prices are delivered ex-ship: Europe's is TTF plus the DES discount, a negative number, which is what the market charges for regasification and entry to the grid."),
     h("dl", { class: "formula" }, FORMULAS.map(([name, equals, note]) => h("div", null, h("dt", null, name), h("dd", null, "= " + equals, note ? h("span", { class: "why" }, note) : null)))),
 
     h("h2", null, `One cargo, line by line: the week to ${day(P.date)}`),
@@ -130,9 +130,10 @@ export function mount(root, ctx) {
       { label: "How", value: (r) => r[1], cls: () => "how" },
       { label: "USD/MMBtu", n: true, value: (r) => r[2] },
     ], sLines, { stack: true, widths: ["24%", "58%", "18%"] }),
+    h("p", { class: "source" }, "Every line is computed on unrounded figures, so a last digit can differ from what the printed figures give."),
 
     h("p", { class: "prose", style: "margin-top:18px" }, b("Which prices are compared. "), "EIA's weekly averages of the two front months. From the 16th JKM's names a month later than TTF's, and a cargo reaches Asia two to four weeks after it would reach Europe: ",
-      `the arb was open in ${share(T.same_month)} percent of the ${T.same_month.weeks} weeks that compare the same month and in ${share(T.different_months)} percent of the other ${T.different_months.weeks}.`),
+      `since January 2022, when EIA's series became front-month futures, the arb was open in ${share(T.same_month)} percent of the ${T.same_month.weeks} weeks that compare the same month and in ${share(T.different_months)} percent of the other ${T.different_months.weeks}.`),
 
     h("h2", null, "Limits"),
     h("ol", { class: "prose" }, LIMITS.map(([lead, rest]) => h("li", null, b(lead), rest))),

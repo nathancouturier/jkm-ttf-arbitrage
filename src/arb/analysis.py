@@ -131,7 +131,8 @@ def flows_test(monthly: list[dict], flows: pd.DataFrame, lag: int) -> dict:
         key = month.strftime("%Y-%m")
         if key in flows.index and flows.loc[key, "total"] > 0:
             pairs.append({"arb_month": row["date"].strftime("%Y-%m"), "flow_month": key, "open": bool(row["open"]),
-                          "margin": row["spread"] - row["breakeven"], "share": float(flows.loc[key, "share_jkm"])})
+                          "margin": row["spread"] - row["breakeven"], "share": float(flows.loc[key, "share_jkm"]),
+                          "hire_assumed": row["hire_status"] == "assumed"})
     frame = pd.DataFrame(pairs)
     open_, closed = frame[frame["open"]], frame[~frame["open"]]
     return {
@@ -140,6 +141,7 @@ def flows_test(monthly: list[dict], flows: pd.DataFrame, lag: int) -> dict:
         "closed": {"months": len(closed), "mean_share": float(closed["share"].mean()), "median_share": float(closed["share"].median())},
         "difference": float(open_["share"].mean() - closed["share"].mean()),
         "correlation": float(frame["margin"].corr(frame["share"])),
+        "hire_assumed": int(frame["hire_assumed"].sum()),
         "pairs": pairs,
     }
 
@@ -148,19 +150,29 @@ def flows_test(monthly: list[dict], flows: pd.DataFrame, lag: int) -> dict:
 # The lift test
 # ---------------------------------------------------------------------------
 
-def lift_history(monthly: list[dict], flows: pd.DataFrame, cancelled: dict, first: str = "2019-01", last: str = "2021-03") -> list[dict]:
+def lift_history(monthly: list[dict], flows: pd.DataFrame, cancelled: dict, market: Market,
+                 first: str = "2019-01", last: str = "2021-03") -> list[dict]:
     """Each month: the netback sold in Europe and sold in Asia less 115 percent of Henry Hub,
-    with the cargoes that left and those cancelled. A month with no price keeps its cargoes."""
+    with the cargoes that left and those cancelled. A month with no Japanese price still has its
+    European margin, from the World Bank's TTF, and keeps its cargoes."""
     priced = {row["date"].strftime("%Y-%m"): row for row in monthly}
+    ttf = market.wb.set_index("month")["ttf_usd_mmbtu"].dropna()
     out = []
     for month in pd.period_range(first, last, freq="M").strftime("%Y-%m"):
         row = priced.get(month)
         east = [x["netback"] for x in row["routes"].values() if x["status"] == "open"] if row else []
+        europe = threshold = None
+        if row:
+            europe, threshold = row["netback_europe"] - row["lift_threshold"], row["lift_threshold"]
+        elif month in ttf.index:                 # Europe's netback does not need the Asian price
+            inputs, _ = market.cargo(date.fromisoformat(month + "-15"), float(ttf[month]), float(ttf[month]), "month")
+            cargo = engine.price_cargo(inputs)
+            europe, threshold = cargo["routes"]["europe"]["netback"] - cargo["lift"]["threshold"], cargo["lift"]["threshold"]
         out.append({
             "month": month,
-            "threshold": row["lift_threshold"] if row else None,
+            "threshold": threshold,
             "margin": row["lift_margin"] if row else None,
-            "margin_europe": row["netback_europe"] - row["lift_threshold"] if row else None,
+            "margin_europe": europe,
             "margin_asia": max(east) - row["lift_threshold"] if east else None,
             "cargoes": int(flows.loc[month, "cargoes"]) if month in flows.index else 0,
             "cancelled": cancelled.get(month, 0),

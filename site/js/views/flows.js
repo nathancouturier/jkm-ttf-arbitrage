@@ -56,7 +56,9 @@ export function mount(root, ctx) {
     path(c, rows.map((r) => [x(r.t), y(r.share_jkm)]), { stroke: "var(--ink)", "stroke-width": 1.8 });
     const last = rows[rows.length - 1];
     dot(c, x(last.t), y(last.share_jkm), "var(--accent)", 4.5);
-    s("text", { class: "today-text halo", x: x(last.t) - 8, y: y(last.share_jkm) - 10, "text-anchor": "end" }, c.g, `${num(last.share_jkm * 100, 0)} percent in ${month(last.month, true)}`);
+    const words = `${num(last.share_jkm * 100, 0)} percent in ${month(last.month, true)}`;
+    const under = rows.filter((r) => x(r.t) > x(last.t) - words.length * 6.9 - 10);          // the stretch of the line the label spans
+    s("text", { class: "today-text halo", x: x(last.t), y: y(Math.max(...under.map((r) => r.share_jkm))) - 12, "text-anchor": "end" }, c.g, words);
 
     const g2 = s("g", { transform: `translate(0,${topH + gap})` }, c.g);
     const bottom = { ...c, g: g2, h: botH };
@@ -102,8 +104,8 @@ export function mount(root, ctx) {
       block(`All months, ${month(months[0].month, true)} to ${month(months[months.length - 1].month, true)}`, F.test),
       block("Before 2022", F.before_2022),
       block("Since January 2022", F.since_2022),
-      h("p", { class: "source" }, `Mean share of the volume that left the month after; the rule was fixed before the result was computed. Correlation of the share with the arb margin: ${num(F.test.correlation)}. `,
-        "The split at 2022 was cut after the result was known."));
+      h("p", { class: "source" }, `Mean share of the volume that left the month after; the rule was fixed before the result. Correlation with the arb margin: ${num(F.test.correlation)}. `,
+        "The split at 2022 was cut afterwards."));
   }
 
   function drawLift() {
@@ -161,9 +163,8 @@ export function mount(root, ctx) {
       b(pc(t.closed) + " percent"), ". Since 2022 it is ", b(pc(s22.open)), " against ", b(pc(s22.closed)), ": no gap.");
     put(dek, `DOE's cargo record against the arb of the month before, ${t.months} months. The gap is a matter of period: before 2022 the arb was open in ${b22.open.months} months of ${b22.months}.`);
     put(figTitle, "Cargoes went to Asia when the arb paid, until 2022; since then Asia's share has stayed low whatever the arb");
-    const hs = D.history.summary.monthly;
-    put(source, `JKM markets: Japan, South Korea, China and Taiwan. Share of the volume exported by vessel each departure month: US Department of Energy, to ${month(months[months.length - 1].month)}. `,
-      `Arb margin: this study, cheapest open route at the reported charter rate; in ${hs.hire_assumed} of the ${hs.observations} months no rate had been reported and the low scenario stands in.`);
+    put(source, `JKM markets: Japan, South Korea, China and Taiwan. Share of the volume exported by vessel, by departure month: US Department of Energy, to ${month(months[months.length - 1].month)}. `,
+      `Arb margin: this study, cheapest open route at the reported charter rate, assumed in ${t.hire_assumed} of the ${t.months} months.`);
     drawShare();
     bars();
 
@@ -182,7 +183,7 @@ export function mount(root, ctx) {
     put(liftLead, "A buyer lifts a cargo when its best netback covers 115 percent of Henry Hub, and cancels about two months ahead.");
     put(liftTitle, `From ${month(longest[0].month).split(" ")[0]} to ${month(longest[longest.length - 1].month)} a cargo sold in Europe did not cover its gas: about ${cancelled} cargoes were cancelled and loadings fell from ${high.cargoes} to ${low.cargoes} a month`);
     put(liftSource, "Cargoes loaded: US Department of Energy. Cancelled: ", h("a", { href: F.cancellations_source.url, rel: "noopener" }, "EIA, 11 August 2020"),
-      ". Margins: this study, on the World Bank's TTF and, for Asia, METI's price of spot cargoes contracted in the month, which in mid 2020 includes cargoes sold for the winter and so flatters Asia. A break in the lines: no Japanese price that month.");
+      ". Margins: this study, on the World Bank's TTF and, for Asia, METI's price of spot cargoes contracted in the month, which in mid 2020 includes cargoes sold for the winter and so flatters Asia. A break in the dashed line: no Japanese price that month.");
     drawLift();
 
     put(tableBody, table([

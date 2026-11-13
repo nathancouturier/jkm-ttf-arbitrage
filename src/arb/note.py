@@ -128,6 +128,8 @@ def chart_reroute(ax, study: dict) -> None:
     ax.axhline(spread, color=ACCENT, linewidth=1.2)
     ax.axvline(hire, color=ACCENT, linewidth=0.8, linestyle=(0, (3, 3)))
     ax.plot([hire], [spread], "o", color=ACCENT, markersize=6, markeredgecolor="white", markeredgewidth=1.2, zorder=5)
+    low, high = ax.get_ylim()
+    ax.set_ylim(low, max(high, spread + 0.16 * (high - low)))            # room above the spread for the charter rate's label
     ax.annotate("JKM minus TTF this week, %s" % n(spread), (top, spread), xytext=(-4, 5), textcoords="offset points",
                 ha="right", fontsize=9, color=ACCENT)
     ax.annotate("%s a day" % n(hire, 0), (hire, ax.get_ylim()[1]), xytext=(5, -2), textcoords="offset points", fontsize=9, color=ACCENT, va="top")
@@ -171,11 +173,10 @@ def chart_history(ax, study: dict) -> None:
     ax.set_ylabel("USD/MMBtu")
     low, high = min(rows, key=lambda r: r["spread"]), max(rows, key=lambda r: r["spread"])
     if low["spread"] < -6:
-        ax.annotate("off the scale: %s in %s" % (n(low["spread"], 1), month(low["date"])), (date.fromisoformat(low["date"]), -6),
-                    xytext=(6, 5), textcoords="offset points", fontsize=8.5, color=MUTED)
+        ax.annotate("off the scale: %s, %s %s" % (n(low["spread"], 1), month(low["date"])[:3], low["date"][:4]), (0.012, 0.035), xycoords="axes fraction", fontsize=8, color=MUTED)
     if high["spread"] > 8:
-        ax.annotate("off the scale: %s in %s" % (n(high["spread"], 1), month(high["date"])), (date.fromisoformat(high["date"]), 8),
-                    xytext=(6, -11), textcoords="offset points", fontsize=8.5, color=MUTED)
+        ax.annotate("off the scale: %s, %s %s" % (n(high["spread"], 1), month(high["date"])[:3], high["date"][:4]), (date.fromisoformat(high["date"]), 8),
+                    xytext=(5, -10), textcoords="offset points", fontsize=8, color=MUTED)
     labelled = [e for e in study["events"] if "weekly" in e.get("on", []) and e["date"] >= rows[0]["date"]]
     for i, e in enumerate(sorted(labelled, key=lambda e: e["date"])):
         d = date.fromisoformat(e["date"])
@@ -323,7 +324,7 @@ def compose(target, study: dict, scale: tuple[float, float] = (1.0, 1.0)) -> lis
                    closes_above(row["breakeven_hire"])], stops)
         p.y += 0.16
         s = f["summary"]
-        p.text("Chart 2. The spread cleared the level in %d of %d weeks, most often in %s and least in %s"
+        p.text("Chart 2. The spread cleared the level in %d of %d weeks: among full years, most often in %s and least in %s"
                % (s["arb_open"], s["observations"], f["best"][0], f["worst"][0]), font=BOLD, size=10, after=0.03)
         p.text("JKM minus TTF (black) and the reroute level of the cheapest open route at the reported charter rate (coloured by route). "
                "Shaded: the arb is open. With the ship already paid for it was open in %d weeks." % s["arb_open_sunk"], size=8.8, colour=MUTED, after=0.05)
@@ -335,7 +336,8 @@ def compose(target, study: dict, scale: tuple[float, float] = (1.0, 1.0)) -> lis
         p.text("Did cargoes follow?", font=BOLD, size=13, after=0.06)
         p.text(flows_sentence(f["flows"]) + " Europe's pull, term contracts and China's tariff on US LNG have kept Asia's share low whatever the arb "
                "(%d months of the Department of Energy's cargo record; the rule was fixed before the result was computed)." % f["flows"]["test"]["months"], after=0.12)
-        p.text("Chart 3. Share of US LNG sent to JKM markets. Shaded: the arb was open the month before", font=BOLD, size=10, after=0.04)
+        p.text("Chart 3. Cargoes went to Asia when the arb paid, until 2022", font=BOLD, size=10, after=0.03)
+        p.text("Share of US LNG sent to JKM markets, by departure month. Shaded: the arb was open the month before.", size=8.8, colour=MUTED, after=0.05)
         chart_flows(p.axes(2.05 * scale[1], after=0.34), study)
         lift = f["lift"]
         p.text("The same cargo answers two more questions", font=BOLD, size=13, after=0.06)
@@ -409,7 +411,8 @@ def write_readme_chart(study: dict) -> None:
     fig = plt.figure(figsize=(9.2, 3.5), facecolor="#fbfaf8")
     ax = fig.add_axes([0.075, 0.165, 0.76, 0.70], facecolor="#fbfaf8")
     chart_reroute(ax, study)
-    fig.text(0.075, 0.955, "Reroute levels by route, week to %s" % day(study["data_date"]), fontproperties=BOLD, fontsize=12, color=INK, va="top")
+    fig.text(0.075, 0.955, "The longer the route, the faster its reroute level rises with the charter rate (week to %s)" % day(study["data_date"]),
+             fontproperties=BOLD, fontsize=11.5, color=INK, va="top")
     out = ROOT / "assets"
     out.mkdir(exist_ok=True)
     fig.savefig(out / "reroute-levels.png", dpi=160, facecolor=fig.get_facecolor())

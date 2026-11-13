@@ -64,6 +64,7 @@ export function mount(root, ctx) {
   const inputsBody = h("div");
   const formPanel = panel("Edit the inputs", formBody);
   const resetBtn = h("button", { type: "button", class: "btn quiet", onclick: () => ctx.set({ set: null }) }, "Put the preset's figures back");
+  const ttfHint = h("span", { class: "hint" });        // TTF as a desk quotes it, kept in step with every edit
   root.append(kicker, head, controls, note, tiles, h("figure", null, figTitle, plot, source), strip,
     h("div", { class: "more" }, formPanel, panel("Cost lines by route", costBody), panel("Inputs and their dates", inputsBody)));
 
@@ -114,11 +115,10 @@ export function mount(root, ctx) {
   // Each keystroke that leaves a figure the model can take recomputes the page at once.
   function type(input, path, scale, P) {
     const value = Number(input.value) / scale;
-    const [lo, hi] = LIMITS[path];
-    if (input.value === "" || Number.isNaN(value) || value < lo || value > hi) return;
+    if (input.value === "" || Number.isNaN(value)) return;
     input.classList.add("edited");
     typing = true;
-    store(path, tidy(value), P);
+    store(path, tidy(clamp(value, ...LIMITS[path])), P);
     typing = false;
   }
   // Leaving the field settles it: a figure out of range is brought to the nearest the model takes.
@@ -214,10 +214,9 @@ export function mount(root, ctx) {
     const shown = (value, step) => Number(value.toFixed(step >= 1 ? 1 : Math.min(6, Math.ceil(-Math.log10(step)) + 1)));
     const field = (path, label, scale, step, value) => {
       const [lo, hi] = LIMITS[path];
-      const input = h("input", { type: "number", step, min: tidy(lo * scale), max: tidy(hi * scale), "data-path": path, value: shown(value * scale, step),
-        class: path in edits ? "edited" : null, oninput: () => type(input, path, scale, P), onchange: () => settle(input, path, scale, P) });
-      const hint = path === "ttf" ? h("span", { class: "hint" }, `${num(usdMmbtuToEurMwh(inputs.ttf, extra.fx))} EUR/MWh`) : null;
-      return h("label", null, label, input, hint);
+      const input = h("input", { type: "number", step, min: tidy(lo * scale), max: tidy(hi * scale), title: `${tidy(lo * scale)} to ${tidy(hi * scale)}`, "data-path": path,
+        value: shown(value * scale, step), class: path in edits ? "edited" : null, oninput: () => type(input, path, scale, P), onchange: () => settle(input, path, scale, P) });
+      return h("label", null, label, input, path === "ttf" ? ttfHint : null);
     };
     const groups = [];
     let last = null;
@@ -280,12 +279,12 @@ export function mount(root, ctx) {
     const { P, edits, inputs, extra } = current();
     const res = priceCargo(inputs);
     const edited = Object.keys(edits).length > 0;
-    const chosen = EAST.includes(ctx.params.route) ? ctx.params.route : (res.best_east || "cape");
+    const east = EAST.filter((id) => res.routes[id].open);
+    const bestEast = east.length ? east.reduce((a, c) => (res.routes[c].netback > res.routes[a].netback ? c : a)) : null;
+    const chosen = EAST.includes(ctx.params.route) ? ctx.params.route : (bestEast || "cape");
     const when = P.period === "month" ? month(P.date) : `the week to ${day(P.date)}`;
     put(kicker, `One cargo from Sabine Pass, ${when}`, edited ? h("span", { class: "flag" }, " · your inputs") : null);
 
-    const east = EAST.filter((id) => res.routes[id].open);
-    const bestEast = res.best_east;
     const sentence = ["A cargo nets ", b(num(res.routes.europe.netback)), " USD/MMBtu at Gate"];
     east.forEach((id, i) => sentence.push(i === east.length - 1 ? " and " : ", ", b(num(res.routes[id].netback)), " ", ROUTES[id].via));
     sentence.push(". ");
@@ -299,7 +298,12 @@ export function mount(root, ctx) {
 
     put(controls, segmented("Loading date", D.presets.map((p) => [p.id, p.label]), P.id,
       (id) => ctx.set({ preset: id === D.presets[0].id ? null : id, set: null, route: null })),
-      h("button", { type: "button", class: "btn", onclick: () => { formPanel.open = true; formPanel.scrollIntoView({ behavior: "smooth", block: "start" }); } }, "Edit the inputs"));
+      h("button", { type: "button", class: "btn", onclick: () => {
+        formPanel.open = true;
+        formPanel.scrollIntoView({ block: "start" });
+        const first = formBody.querySelector("input, select");
+        if (first) first.focus({ preventScroll: true });
+      } }, "Edit the inputs"));
     put(note, P.note, " JKM ", num(inputs.jkm), ", TTF ", num(inputs.ttf), " (", num(usdMmbtuToEurMwh(inputs.ttf, extra.fx)), " EUR/MWh), Henry Hub ",
       num(inputs.henry_hub), ", ", int(inputs.hire), " USD a day.");
 
@@ -335,12 +339,16 @@ export function mount(root, ctx) {
     put(costBody, costs(res));
     if (!typing) form(P, edits, inputs, extra);
     resetBtn.hidden = !edited;
+    ttfHint.textContent = `${num(usdMmbtuToEurMwh(inputs.ttf, extra.fx))} EUR/MWh`;
     const changed = {};
     for (const key of ["jkm", "ttf", "des_discount", "henry_hub", "hire"]) if (key in edits) changed[key] = 1;
     if ("fx" in edits) changed.fx = extra.fx;
     if ("eua_eur" in edits) changed.eua = extra.eua_eur;
     if ("finance.rate" in edits) changed.sofr = 1;
     if ("ship" in edits) changed.ship = extra.ship;
+    if (Object.keys(edits).some((key) => key.startsWith("ship."))) {
+      changed.shipText = `${int(inputs.ship.capacity_m3)} m3, boil-off ${num(inputs.ship.boil_off * 100, 3)} percent a day, ${num(inputs.ship.speed_kn, 1)} knots`;
+    }
     put(inputsBody, inputsTable(P, inputs, changed), methodLink());
     if (edited && !formPanel.dataset.seen) { formPanel.open = true; formPanel.dataset.seen = "1"; }
   }

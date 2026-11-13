@@ -15,11 +15,11 @@ export function s(name, attrs, parent, text) {
 }
 
 // A plot inside a container: returns the svg, the inner group and the inner size.
-export function frame(container, { height, margin, label }) {
+export function frame(container, { height, margin, label, focusable = true }) {
   container.replaceChildren();
   container.classList.add("plot");
   const W = Math.max(280, Math.round(container.clientWidth || 600));
-  const svg = s("svg", { viewBox: `0 0 ${W} ${height}`, role: "img", "aria-label": label, tabindex: "0" }, container);
+  const svg = s("svg", { viewBox: `0 0 ${W} ${height}`, role: "img", "aria-label": label, tabindex: focusable ? "0" : null }, container);
   const g = s("g", { transform: `translate(${margin.left},${margin.top})` }, svg);
   const tip = h("div", { class: "tip", hidden: true, role: "status" });
   container.append(tip);
