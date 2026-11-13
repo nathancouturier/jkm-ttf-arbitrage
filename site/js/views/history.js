@@ -107,7 +107,7 @@ export function mount(root, ctx) {
     }
     const holes = runs.length - 1;
     const last = rows[rows.length - 1];
-    dot(inner, x(last.t), y(Math.max(lo, Math.min(hi, last.spread))), "var(--accent)", 4.5);
+    dot(c, x(last.t), y(Math.max(lo, Math.min(hi, last.spread))), "var(--accent)", 4.5);     // drawn outside the clip, so the edge does not cut it
 
     // off the scale
     const lowest = rows.reduce((a, r) => (r.spread < a.spread ? r : a));

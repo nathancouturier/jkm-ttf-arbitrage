@@ -98,6 +98,8 @@ class Market:
         """Low, central and high: quartiles of the monthly medians of the rates reported for the ship."""
         name = next(s["name"] for s in self.p["ships"] if s["id"] == ship_id)
         rates = self.rates[self.rates["ship"] == name]
+        if rates.empty:                    # a ship with no reported rate yet takes its scenarios from every rate held
+            rates = self.rates
         monthly = rates.groupby(rates["date"].dt.strftime("%Y-%m"))["usd_per_day"].median()
         q = self.p["hire"]["scenario_quantiles"]
         return {k: float(round(monthly.quantile(v) / 250.0) * 250.0) for k, v in q.items()}

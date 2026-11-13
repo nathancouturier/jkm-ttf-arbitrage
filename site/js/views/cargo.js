@@ -63,6 +63,7 @@ export function mount(root, ctx) {
   const formBody = h("div");
   const inputsBody = h("div");
   const formPanel = panel("Edit the inputs", formBody);
+  const resetBtn = h("button", { type: "button", class: "btn quiet", onclick: () => ctx.set({ set: null }) }, "Put the preset's figures back");
   root.append(kicker, head, controls, note, tiles, h("figure", null, figTitle, plot, source), strip,
     h("div", { class: "more" }, formPanel, panel("Cost lines by route", costBody), panel("Inputs and their dates", inputsBody)));
 
@@ -124,7 +125,9 @@ export function mount(root, ctx) {
   function settle(input, path, scale, P) {
     const value = Number(input.value) / scale;
     if (input.value === "" || Number.isNaN(value)) return update();
-    return edit(path, tidy(clamp(value, ...LIMITS[path])), P);
+    const next = tidy(clamp(value, ...LIMITS[path]));
+    if (next === tidy(value) && Number(parseEdits(ctx.params.set)[path]) === next) return undefined;   // already taken while it was typed
+    return edit(path, next, P);
   }
 
   // -- the bridge from Europe's netback to Asia's -------------------------------------
@@ -246,8 +249,7 @@ export function mount(root, ctx) {
       h("thead", null, h("tr", null, h("th", { scope: "col" }, "Route"), ROUTE_FIELDS.map(([, label]) => h("th", { scope: "col" }, label)))),
       h("tbody", null, routeRows)));
     put(formBody,
-      h("p", { class: "source" }, "Type over any figure. An edited field is outlined, the page recomputes as you type and the address keeps your inputs. ",
-        Object.keys(edits).length ? h("button", { type: "button", class: "btn quiet", onclick: () => ctx.set({ set: null }) }, "Put the preset's figures back") : null),
+      h("p", { class: "source" }, "Type over any figure. An edited field is outlined, the page recomputes as you type and the address keeps your inputs. ", resetBtn),
       h("div", { class: "form" }, groups), h("h3", { style: "margin-top:16px" }, "Routes"), routesTable);
   }
 
@@ -332,6 +334,7 @@ export function mount(root, ctx) {
 
     put(costBody, costs(res));
     if (!typing) form(P, edits, inputs, extra);
+    resetBtn.hidden = !edited;
     const changed = {};
     for (const key of ["jkm", "ttf", "des_discount", "henry_hub", "hire"]) if (key in edits) changed[key] = 1;
     if ("fx" in edits) changed.fx = extra.fx;

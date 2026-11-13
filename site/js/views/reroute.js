@@ -38,6 +38,7 @@ export function mount(root, ctx) {
   const dek = h("p", { class: "dek" });
   const plot = h("div");
   const figTitle = h("p", { class: "fig-title" }, "The longer the route, the faster its reroute level rises with the charter rate");
+  const legend = h("p", { class: "fig-sub" });      // on a narrow screen the routes are named here, not at the ends of their lines
   const source = h("p", { class: "source" });
   const tableBox = h("div", { class: "box" });
   const details = h("div", { class: "more" });
@@ -70,7 +71,7 @@ export function mount(root, ctx) {
 
   root.append(kicker, head, dek,
     h("div", { class: "split" },
-      h("figure", null, figTitle, plot, source),
+      h("figure", null, figTitle, legend, plot, source),
       h("aside", { class: "side", "aria-label": "Controls and table" }, h("div", { class: "box" }, sTtf, sDes, sWait, reset), tableBox)),
     details);
 
@@ -124,11 +125,29 @@ export function mount(root, ctx) {
     s("line", { x1: 0, x2: c.w, y1: ty, y2: ty, stroke: "var(--accent)", "stroke-width": 1.5 }, c.g);
     s("line", { x1: tx, x2: tx, y1: 0, y2: c.h, stroke: "var(--accent)", "stroke-width": 1, "stroke-dasharray": "3 3" }, c.g);
     dot(c, tx, ty, "var(--accent)", 5.5);
-    s("text", { class: "today-text halo", x: c.w - 4, y: narrow ? ty + 16 : ty - 7, "text-anchor": "end" }, c.g, `JKM minus TTF this week, ${num(res.spread)}`);
+    // The spread's label goes where the route lines leave it most room: left or right, above or below its line.
+    const words = `JKM minus TTF this week, ${num(res.spread)}`;
+    const wide = words.length * 6.7;
+    const spots = [];
+    for (const [x0, anchor] of [[Math.min(tx + 10, c.w - wide), "start"], [c.w - 4 - wide, "end"]]) {
+      for (const [top, base_] of [[ty - 19, ty - 7], [ty + 5, ty + 17]]) {
+        if (top < 12 || base_ > c.h - 4) continue;
+        let room = Infinity;
+        for (const id of EAST) {
+          for (const px of [x0, x0 + wide / 2, x0 + wide]) {
+            const ly = y(lines[id][0] + lines[id][1] * x.invert(px));
+            room = Math.min(room, ly < top ? top - ly : ly > base_ + 2 ? ly - base_ - 2 : 0);
+          }
+        }
+        spots.push({ room, x: anchor === "start" ? x0 : x0 + wide, y: base_, anchor });
+      }
+    }
+    const spot = spots.reduce((a, b_) => (b_.room > a.room ? b_ : a), spots[0] || { x: c.w - 4, y: ty - 7, anchor: "end" });
+    s("text", { class: "today-text halo", x: spot.x, y: spot.y, "text-anchor": spot.anchor }, c.g, words);
     s("text", { class: "today-text halo", x: tx + 6, y: 10 }, c.g, `${int(base.hire)} a day`);
+    legend.hidden = !narrow;
     if (narrow) {
-      for (const l of labels) l.y += l.y > ty ? 13 : -9;
-      endLabels(c, labels, { x: c.w - 2, anchor: "end" });
+      put(legend, EAST.map((id, i) => [h("span", { class: `key ${ROUTES[id].cls}${res.routes[id].open ? "" : " dash"}`, style: i ? "margin-left:12px" : null }), ROUTES[id].via + (res.routes[id].open ? "" : ", closed")]));
     } else endLabels(c, labels, { x: c.w + 10 });
 
     const cursor = s("line", { class: "cursor", y1: 0, y2: c.h, visibility: "hidden" }, c.g);
